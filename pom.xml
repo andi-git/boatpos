@@ -35,7 +35,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <!-- plugin -->
         <version.maven-copiler-plugin>2.5.1</version.maven-copiler-plugin>
-        <version.maven-surefire-plugin>2.19</version.maven-surefire-plugin>
+        <version.maven-surefire-plugin>2.18</version.maven-surefire-plugin>
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
         <version.maven-jacoco-plugin>0.7.5.201505241946</version.maven-jacoco-plugin>
         <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
