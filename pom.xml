@@ -35,7 +35,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <!-- plugin -->
         <version.maven-copiler-plugin>2.5.1</version.maven-copiler-plugin>
-        <version.maven-surefire-plugin>2.12.4</version.maven-surefire-plugin>
+        <version.maven-surefire-plugin>2.19</version.maven-surefire-plugin>
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
         <version.maven-jacoco-plugin>0.7.5.201505241946</version.maven-jacoco-plugin>
         <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
@@ -51,6 +51,8 @@
         <version.weld-core-impl>2.2.2.Final</version.weld-core-impl>
         <version.slf4j-simple>1.6.4</version.slf4j-simple>
         <version.arquillian-weld-ee-embedded-1.1>1.0.0.CR3</version.arquillian-weld-ee-embedded-1.1>
+        <version.arquillian-wildfly-embedded>8.2.1.Final</version.arquillian-wildfly-embedded>
+        <version.wildfly-dist>9.0.2.Final</version.wildfly-dist>
         <version.arquillian-suite-extension>1.1.2</version.arquillian-suite-extension>
         <version.arquillian-osgi>2.1.0.Final</version.arquillian-osgi>
         <version.javassist>3.18.2-GA</version.javassist>
@@ -181,47 +183,11 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.jboss.arquillian.container</groupId>
-                <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-                <version>${version.arquillian-weld-ee-embedded-1.1}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld</groupId>
-                <artifactId>weld-core</artifactId>
-                <version>${version.weld-core}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld</groupId>
-                <artifactId>weld-core-impl</artifactId>
-                <version>${version.weld-core-impl}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld.se</groupId>
-                <artifactId>weld-se-core</artifactId>
-                <version>${version.weld-core}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${version.slf4j-simple}</version>
                 <scope>test</scope>
             </dependency>
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.arquillian.testenricher</groupId>-->
-                <!--<artifactId>arquillian-testenricher-osgi</artifactId>-->
-                <!--<version>${version.arquillian-osgi}</version>-->
-                <!--<scope>test</scope>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.arquillian.container</groupId>-->
-                <!--<artifactId>arquillian-container-osgi</artifactId>-->
-                <!--<version>${version.arquillian-osgi}</version>-->
-                <!--<scope>test</scope>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
@@ -263,20 +229,88 @@
                     <exists>src/test/resources/arquillian-test-dependencies.profile</exists>
                 </file>
             </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- create a wildfly in target-folder for tests -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-dist</artifactId>
+                                            <version>${version.wildfly-dist}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <excludes>**/docs/**</excludes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${version.maven-surefire-plugin}</version>
+                        <!-- https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
+                        <configuration>
+                            <forkMode>once</forkMode>
+                            <systemPropertyVariables>
+                                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                                <jboss.home>${project.basedir}/target/wildfly-9.0.2.Final</jboss.home>
+                                <module.path>${project.basedir}/target/wildfly-9.0.2.Final/modules</module.path>
+                            </systemPropertyVariables>
+                            <argLine>-Xverify:none -XX:+UseParallelGC -Xmx1024M -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.socket.binding.port-offset=100</argLine>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.wildfly</groupId>
+                        <artifactId>wildfly-arquillian-container-embedded</artifactId>
+                        <version>${version.arquillian-wildfly-embedded}</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss.arquillian.protocol</groupId>
+                        <artifactId>arquillian-protocol-servlet</artifactId>
+                        <version>${version.arquillian-bom}</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.wildfly</groupId>
+                        <artifactId>wildfly-embedded</artifactId>
+                        <version>${version.wildfly-dist}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-embedded</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
-                    <groupId>org.jboss.weld</groupId>
-                    <artifactId>weld-core</artifactId>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
-                    <groupId>org.jboss.weld.se</groupId>
-                    <artifactId>weld-se-core</artifactId>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-embedded</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
