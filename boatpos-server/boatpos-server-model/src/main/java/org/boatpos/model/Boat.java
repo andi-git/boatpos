@@ -1,8 +1,5 @@
 package org.boatpos.model;
 
-import com.google.common.base.Objects;
-import com.google.gson.GsonBuilder;
-
 import javax.persistence.Entity;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -99,23 +96,5 @@ public class Boat extends AbstractEntity {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Boat boat = (Boat) o;
-        return Objects.equal(name, boat.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(name);
-    }
-
-    @Override
-    public String toString() {
-        return new GsonBuilder().create().toJson(this);
     }
 }

@@ -1,39 +1,47 @@
 package org.boatpos.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import com.google.common.base.Objects;
+import com.google.gson.GsonBuilder;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Version;
 
 /**
  * Basic class for all entities with an {@link #id} and a {@link #version}.
  */
-@MappedSuperclass
 public abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
-    @Min(0)
+    @GeneratedValue
     private Long id;
 
     @Version
-    @NotNull
-    @Min(0)
     private Integer version;
 
-    public Long getId() {
-        return id;
+    public AbstractEntity() {
     }
 
-    public void setId(Long id) {
+    public AbstractEntity(Long id, Integer version) {
         this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractEntity that = (AbstractEntity) o;
+        return Objects.equal(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().create().toJson(this);
     }
 }
