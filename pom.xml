@@ -4,6 +4,9 @@
     <groupId>org.boatpos</groupId>
     <artifactId>boatpos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>boatpos-server</module>
+    </modules>
 
     <packaging>pom</packaging>
 
@@ -40,6 +43,7 @@
         <version.javaee-api>7.0</version.javaee-api>
         <version.slf4j-api>1.6.1</version.slf4j-api>
         <version.guava>18.0</version.guava>
+        <version.gson>2.4</version.gson>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.5.Final</version.arquillian-bom>
@@ -151,6 +155,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${version.guava}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${version.gson}</version>
             </dependency>
             <!-- test -->
             <dependency>
