@@ -120,7 +120,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
+                                            <minimum>0.90</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -269,7 +269,8 @@
                                 <jboss.home>${project.basedir}/target/wildfly-9.0.2.Final</jboss.home>
                                 <module.path>${project.basedir}/target/wildfly-9.0.2.Final/modules</module.path>
                             </systemPropertyVariables>
-                            <argLine>-Xverify:none -XX:+UseParallelGC -Xmx1024M -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.socket.binding.port-offset=100</argLine>
+                            <!--suppress MavenModelInspection --> <!-- we need ${argLine} becauase there are some jacoco-arguments already set -->
+                            <argLine>${argLine} -Xverify:none -XX:+UseParallelGC -Xmx1024M -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.socket.binding.port-offset=100</argLine>
                             <redirectTestOutputToFile>false</redirectTestOutputToFile>
                         </configuration>
                     </plugin>
