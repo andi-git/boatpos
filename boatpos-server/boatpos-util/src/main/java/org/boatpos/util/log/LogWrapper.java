@@ -9,6 +9,10 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * A wrapper for the {@link Logger} to be able to wrap the values of messages within {@link Supplier}s. So for
+ * performance reasons, the values are only calculated when the log-level is active.
+ */
 @Dependent
 @SLF4J
 public class LogWrapper {
