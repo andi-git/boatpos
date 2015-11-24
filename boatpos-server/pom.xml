@@ -12,8 +12,8 @@
     <modules>
         <module>boatpos-server-dao</module>
         <module>boatpos-server-model</module>
-        <module>boatpos-util</module>
-        <module>boatpos-test-util</module>
+        <module>boatpos-server-util</module>
+        <module>boatpos-server-test-util</module>
     </modules>
 
     <artifactId>boatpos-server</artifactId>
