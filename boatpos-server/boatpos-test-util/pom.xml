@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>boatpos-server-model</artifactId>
+    <artifactId>boatpos-test-util</artifactId>
 
     <build>
         <plugins>
@@ -28,7 +28,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson</includeArtifactIds>
+                            <includeArtifactIds>junit</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -37,21 +37,10 @@
     </build>
 
     <dependencies>
-        <!-- production -->
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-
-        <!-- test -->
-        <dependency>
-            <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-test-util</artifactId>
-            <version>${project.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

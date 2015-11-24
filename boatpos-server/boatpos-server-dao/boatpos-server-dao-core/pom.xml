@@ -12,6 +12,7 @@
     <artifactId>boatpos-server-dao-core</artifactId>
 
     <dependencies>
+        <!-- production -->
         <dependency>
             <groupId>org.boatpos</groupId>
             <artifactId>boatpos-server-dao-api</artifactId>
@@ -21,6 +22,14 @@
             <groupId>org.boatpos</groupId>
             <artifactId>boatpos-util</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-test-util</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

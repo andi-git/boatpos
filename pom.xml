@@ -195,7 +195,7 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
                 <file>
-                    <exists>src/test/resources/arquillian-test-dependencies.profile</exists>
+                    <exists>src/test/profiles/arquillian-test-dependencies.profile</exists>
                 </file>
             </activation>
             <build>
