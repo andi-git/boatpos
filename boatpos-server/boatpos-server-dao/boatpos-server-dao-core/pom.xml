@@ -11,6 +11,31 @@
 
     <artifactId>boatpos-server-dao-core</artifactId>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${version.maven-dependency-plugin}</version>
+                <executions>
+                    <!-- copy libs for arquillian-tests -->
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeTransitive>false</excludeTransitive>
+                            <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
+                            <includeArtifactIds>guava,gson</includeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <!-- production -->
         <dependency>
@@ -31,6 +56,30 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
+            <!--<artifactId>arquillian-persistence-api</artifactId>-->
+            <!--<version>1.0.0.Alpha7</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
+            <!--<artifactId>arquillian-persistence-core</artifactId>-->
+            <!--<version>1.0.0.Alpha7</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
+            <!--<artifactId>arquillian-persistence-dbunit</artifactId>-->
+            <!--<version>1.0.0.Alpha7</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
+            <!--<artifactId>arquillian-persistence-spi</artifactId>-->
+            <!--<version>1.0.0.Alpha7</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

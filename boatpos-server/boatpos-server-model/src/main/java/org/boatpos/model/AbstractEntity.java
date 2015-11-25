@@ -5,11 +5,13 @@ import com.google.gson.GsonBuilder;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 /**
  * Basic class for all entities with an {@link #id} and a {@link #version}.
  */
+@MappedSuperclass
 public abstract class AbstractEntity {
 
     @Id
