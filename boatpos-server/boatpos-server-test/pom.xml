@@ -3,18 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>boatpos</artifactId>
+        <artifactId>boatpos-server</artifactId>
         <groupId>org.boatpos</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>boatpos-server-test</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>boatpos-server-dao</module>
-        <module>boatpos-server-model</module>
-        <module>boatpos-server-util</module>
-        <module>boatpos-server-test</module>
-    </modules>
 
-    <artifactId>boatpos-server</artifactId>
+    <modules>
+        <module>boatpos-server-test-util</module>
+    </modules>
 </project>
