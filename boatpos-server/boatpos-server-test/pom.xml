@@ -13,5 +13,6 @@
 
     <modules>
         <module>boatpos-server-test-util</module>
+        <module>boatpos-server-test-model</module>
     </modules>
 </project>

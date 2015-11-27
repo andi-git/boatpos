@@ -53,6 +53,7 @@
         <version.arquillian-suite-extension>1.1.2</version.arquillian-suite-extension>
         <version.arquillian-osgi>2.1.0.Final</version.arquillian-osgi>
         <version.arquillian-jacoco>1.0.0.Alpha8</version.arquillian-jacoco>
+        <version.arquillian-transaction>1.0.2.Final</version.arquillian-transaction>
         <version.jacoco>0.7.5.201505241946</version.jacoco>
         <version.javassist>3.18.2-GA</version.javassist>
     </properties>
@@ -235,7 +236,6 @@
                             <forkMode>once</forkMode>
                         </configuration>
                     </plugin>
-
                 </plugins>
             </build>
             <dependencyManagement>
@@ -247,6 +247,13 @@
                         <version>${version.arquillian-bom}</version>
                         <scope>import</scope>
                         <type>pom</type>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss.arquillian.extension</groupId>
+                        <artifactId>arquillian-transaction-bom</artifactId>
+                        <version>${version.arquillian-transaction}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
                     </dependency>
                     <dependency>
                         <groupId>org.wildfly.arquillian</groupId>
@@ -312,6 +319,14 @@
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-jacoco</artifactId>
                     <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-transaction-impl-base</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-transaction-jta</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>org.jacoco</groupId>

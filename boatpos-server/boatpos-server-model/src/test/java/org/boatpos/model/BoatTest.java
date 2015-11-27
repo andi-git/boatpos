@@ -11,7 +11,7 @@ public class BoatTest extends JavaBeanTest<Boat> {
 
     @Test
     public void testConstructor() {
-        new Boat("boat", "B", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 20);
+        new Boat(-1L, 1, "boat", "B", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 20);
     }
 
     @Override

@@ -41,7 +41,8 @@ public class Boat extends AbstractEntity {
     public Boat() {
     }
 
-    public Boat(String name, String shortName, BigDecimal price, BigDecimal priceHalfOur, BigDecimal priceThreeQuaterHour, Integer count) {
+    public Boat(Long id, Integer version, String name, String shortName, BigDecimal price, BigDecimal priceHalfOur, BigDecimal priceThreeQuaterHour, Integer count) {
+        super(id, version);
         this.name = name;
         this.shortName = shortName;
         this.price = price;
