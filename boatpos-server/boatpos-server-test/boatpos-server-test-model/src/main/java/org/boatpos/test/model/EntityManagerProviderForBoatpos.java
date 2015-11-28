@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 public abstract class EntityManagerProviderForBoatpos implements EntityManagerProvider {
 
     @PersistenceContext(unitName = "boatpos")
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public EntityManager getEntityManager() {

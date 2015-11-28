@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.spi.CDI;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
@@ -27,39 +28,42 @@ public class FillDatabaseExecuter {
 
     private Optional<EntityManagerProvider> entityManagerProvider = Optional.empty();
 
+    private Optional<EntityManager> entityManager = Optional.empty();
+
+    @SuppressWarnings("unused")
     public void beforeTransactionStarted(@Observes BeforeTransactionStarted event) {
-        log.debug("observe event: " + event);
     }
 
+    @SuppressWarnings("unused")
     public void afterTransactionStarted(@Observes AfterTransactionStarted event) {
-        log.debug("observe event: " + event);
     }
 
-    public void beforeTransactionEnded(@Observes BeforeTransactionEnded event) {
+    @SuppressWarnings("unused")
+    public void beforeTransactionEnded(@Observes BeforeTransactionEnded event) throws Exception {
         log.debug("observe event: " + event);
-        if (entityManagerProvider.isPresent()) {
-            log.info("clear database");
-            getSampleDatabaseCreator().clearDatabase(getEntityManager());
+        // before the transaction is over, clear the database
+        if (entityManager.isPresent()) {
+            log.debug("clear database");
+            getSampleDatabaseCreator().clearDatabase(entityManager.get());
         }
     }
 
+    @SuppressWarnings("unused")
     public void afterTransactionEnded(@Observes AfterTransactionEnded event) {
-        log.debug("observe event: " + event);
     }
 
     @SuppressWarnings("unused")
     public void testEvent(@Observes Test event) {
-        log.debug("observe event: " + event);
     }
 
     @SuppressWarnings("unused")
     public void beforeTest(@Observes Before event) {
-        log.debug("observe event: " + event);
     }
 
     @SuppressWarnings("unused")
     public void beforeRules(@Observes BeforeRules event) {
         log.debug("observe event: " + event);
+        // on startup, get the instance of the test-class
         if (event.getTestInstance() instanceof EntityManagerProvider) {
             entityManagerProvider = Optional.of((EntityManagerProvider) event.getTestInstance());
             log.debug("EntityManagerProvider set to " + entityManagerProvider.get());
@@ -68,7 +72,6 @@ public class FillDatabaseExecuter {
 
     @SuppressWarnings("unused")
     public void afterRules(@Observes AfterRules event) {
-        log.debug("observe event: " + event);
     }
 
     @SuppressWarnings("unused")
@@ -88,11 +91,13 @@ public class FillDatabaseExecuter {
     }
 
     @SuppressWarnings("unused")
-    public void afterEnrichment(@Observes(precedence = 5) AfterEnrichment event) throws Exception {
+    public void afterEnrichment(@Observes AfterEnrichment event) throws Exception {
         log.debug("observe event: " + event);
+        // after the test-instance is enriched with resources, get the EntityManager
         if (entityManagerProvider.isPresent()) {
-            log.info("insert data into database");
-            getSampleDatabaseCreator().fillDatabase(getEntityManager());
+            log.debug("set EntityManager");
+            entityManager = Optional.of(entityManagerProvider.get().getEntityManager());
+            insertDataIntoDatabase();
         }
     }
 
@@ -116,7 +121,8 @@ public class FillDatabaseExecuter {
         return CDI.current().select(SampleDatabaseCreator.class).get();
     }
 
-    private EntityManager getEntityManager() {
-        return entityManagerProvider.get().getEntityManager();
+    private void insertDataIntoDatabase() {
+        log.debug("insert data into database");
+        getSampleDatabaseCreator().fillDatabase(entityManager.get());
     }
 }

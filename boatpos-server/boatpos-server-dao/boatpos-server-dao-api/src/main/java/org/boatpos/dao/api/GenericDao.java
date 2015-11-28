@@ -3,6 +3,7 @@ package org.boatpos.dao.api;
 import org.boatpos.model.AbstractEntity;
 
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 
 /**
  * An abstract DAO to get CRUD-functions for the current dao.
@@ -17,7 +18,7 @@ public interface GenericDao<ENTITY extends AbstractEntity> {
      * @param id the unique {@link AbstractEntity#id}
      * @return the {@link AbstractEntity} within the {@link PersistenceContext}
      */
-    ENTITY getById(Long id);
+    Optional<ENTITY> getById(Long id);
 
     /**
      * The {@link AbstractEntity} to persist.

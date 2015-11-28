@@ -28,9 +28,10 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
     private EntityManager entityManager;
 
     @Override
-    public ENTITY getById(final Long id) {
+    public Optional<ENTITY> getById(final Long id) {
         log.debug("search {} via id: ", getType(), id);
-        return getEntityManager().find(getType(), id);
+        ENTITY entity = (ENTITY) getEntityManager().find(getType(), id);
+        return Optional.ofNullable(entity);
     }
 
     public ENTITY save(final ENTITY entity) {
@@ -61,33 +62,24 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
     }
 
     @Override
+    public void delete(final Long id) {
+        log.info("delete {}: {}", getType(), id);
+        checkNotNull(id, "'id' must not be null");
+        Optional<ENTITY> entity = getById(id);
+        if (!entity.isPresent()) {
+            String message = "no entity with id " + id + " available";
+            throw handleException(new RuntimeException(message), message);
+        }
+        delete(entity.get());
+    }
+
+    @Override
     public void delete(final ENTITY entity) {
         log.info("delete {}: {}", getType(), entity);
         checkNotNull(entity, "'entity' must not be null");
         try {
             getEntityManager().remove(entity);
             getEntityManager().flush();
-        } catch (final Exception e) {
-            throw handleException(e, "exception on delete entity: " + entity.getClass().getName());
-        }
-    }
-
-    @Override
-    public void delete(final Long id) {
-        log.info("delete {}: {}", getType(), id);
-        checkNotNull(id, "'id' must not be null");
-        ENTITY entity;
-        try {
-            entity = getById(id);
-        } catch (final Exception e) {
-            throw handleException(e, "exception on delete entity with id: " + id);
-        }
-        if (entity == null) {
-            String message = "no entity with id " + id + " available";
-            throw handleException(new RuntimeException(message), message);
-        }
-        try {
-            delete(entity);
         } catch (final Exception e) {
             throw handleException(e, "exception on delete entity: " + entity.getClass().getName());
         }

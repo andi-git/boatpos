@@ -24,12 +24,12 @@ public class ArquillianWithSampleDatabaseTest extends EntityManagerProviderForBo
     @Test
     @Transactional
     public void testIfArquillianWithSampleDatabaseWorks() {
-        assertEquals(new BigInteger("2"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
+        assertEquals(new BigInteger("2"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
     }
 
     @Test
     @Transactional
     public void testIfArquillianWithSampleDatabaseWorks2() {
-        assertEquals(new BigInteger("2"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
+        assertEquals(new BigInteger("2"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
     }
 }

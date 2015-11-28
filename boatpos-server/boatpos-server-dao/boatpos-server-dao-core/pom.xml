@@ -28,7 +28,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,boatpos-server-test-util,boatpos-server-test-model</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -56,30 +56,11 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
-            <!--<artifactId>arquillian-persistence-api</artifactId>-->
-            <!--<version>1.0.0.Alpha7</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
-            <!--<artifactId>arquillian-persistence-core</artifactId>-->
-            <!--<version>1.0.0.Alpha7</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
-            <!--<artifactId>arquillian-persistence-dbunit</artifactId>-->
-            <!--<version>1.0.0.Alpha7</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.arquillian.extension</groupId>-->
-            <!--<artifactId>arquillian-persistence-spi</artifactId>-->
-            <!--<version>1.0.0.Alpha7</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-server-test-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

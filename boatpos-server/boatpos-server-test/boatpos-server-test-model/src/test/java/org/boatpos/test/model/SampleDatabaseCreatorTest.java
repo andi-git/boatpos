@@ -1,19 +1,18 @@
 package org.boatpos.test.model;
 
 import org.jboss.arquillian.junit.Arquillian;
-//import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-
 import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
+
+//import org.jboss.arquillian.transaction.api.annotation.Transactional;
 
 @RunWith(Arquillian.class)
 public class SampleDatabaseCreatorTest {

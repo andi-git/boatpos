@@ -1,15 +1,24 @@
 package org.boatpos.dao.core;
 
-//@RunWith(Arquillian.class)
-//public class BoatDaoTest {
-//
-//    @Inject
-//    private BoatDao boatDao;
-//
-//    @Test
-//    @Transactional
-//    @UsingDataSet("datasets/db.json")
-//    public void testGetById() {
-//        boatDao.getById(-1l);
-//    }
-//}
+import org.boatpos.test.model.EntityManagerProviderForBoatpos;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import javax.inject.Inject;
+
+import static org.junit.Assert.assertEquals;
+
+@RunWith(Arquillian.class)
+public class BoatDaoTest extends EntityManagerProviderForBoatpos {
+
+    @Inject
+    private BoatDao boatDao;
+
+    @Test
+    @Transactional
+    public void testGetById() {
+        assertEquals("E-Boot", boatDao.getById(1l).get().getName());
+    }
+}
