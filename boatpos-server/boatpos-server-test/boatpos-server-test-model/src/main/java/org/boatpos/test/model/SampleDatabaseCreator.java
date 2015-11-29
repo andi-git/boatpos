@@ -25,10 +25,12 @@ public class SampleDatabaseCreator {
     public void fillDatabase(EntityManager em) {
         // clear cache and reset sequence for ids
         log.info("clear database and fill it with data");
+        log.info("boat-count: " + String.valueOf(em.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult()));
         em.flush();
         em.clear();
         em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();
         fillBoats(em);
+        log.info("boat-count: " + String.valueOf(em.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult()));
     }
 
     private void fillBoats(EntityManager em) {
@@ -44,6 +46,7 @@ public class SampleDatabaseCreator {
 
     public void clearDatabase(EntityManager em) throws Exception {
         if (Status.STATUS_ACTIVE == userTransaction.getStatus()) {
+            log.info("boat-count: " + String.valueOf(em.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult()));
             log.info("clear database (status: " + userTransaction.getStatus() + ")");
             // clear all tables
             em.createNativeQuery("DELETE FROM boat").executeUpdate();
@@ -51,6 +54,7 @@ public class SampleDatabaseCreator {
             em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();
             em.flush();
             em.clear();
+            log.info("boat-count: " + String.valueOf(em.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult()));
         }
     }
 }

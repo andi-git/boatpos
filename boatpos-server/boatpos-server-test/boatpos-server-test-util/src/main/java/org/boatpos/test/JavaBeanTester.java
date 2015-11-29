@@ -74,7 +74,6 @@ public class JavaBeanTester {
         assertFalse(baseType.getName() + " must not be abstract", Modifier.isAbstract(baseType.getModifiers()));
         Object object = baseType.newInstance();
         for (Field field : currentType.getDeclaredFields()) {
-            System.out.println("field: " + field);
             if (!isJacocoField(field)) {
                 SimpleType simpleType = SimpleType.get(field.getType());
                 Object testValue;

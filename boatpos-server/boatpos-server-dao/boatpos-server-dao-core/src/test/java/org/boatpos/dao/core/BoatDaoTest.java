@@ -19,6 +19,6 @@ public class BoatDaoTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testGetById() {
-        assertEquals("E-Boot", boatDao.getById(1l).get().getName());
+        assertEquals("E-Boot", boatDao.getById(1L).get().getName());
     }
 }
