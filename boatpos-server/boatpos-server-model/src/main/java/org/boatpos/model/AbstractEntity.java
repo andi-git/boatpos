@@ -3,10 +3,7 @@ package org.boatpos.model;
 import com.google.common.base.Objects;
 import com.google.gson.GsonBuilder;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 /**
  * Basic class for all entities with an {@link #id} and a {@link #version}.
@@ -15,7 +12,7 @@ import javax.persistence.Version;
 public abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Version
