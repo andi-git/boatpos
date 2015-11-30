@@ -1,9 +1,7 @@
 package org.boatpos.dao.core;
 
-import org.boatpos.dao.api.BoatDao;
 import org.boatpos.dao.api.PromotionDao;
 import org.boatpos.dao.api.RentalDao;
-import org.boatpos.model.Boat;
 import org.boatpos.model.Promotion;
 import org.boatpos.model.Rental;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
@@ -17,16 +15,15 @@ import javax.inject.Inject;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class BoatDaoTest extends EntityManagerProviderForBoatpos {
+public class PromotionDaoTest extends EntityManagerProviderForBoatpos {
 
     @Inject
-    private BoatDao boatDao;
+    private PromotionDao promotionDao;
 
     @Test
     @Transactional
     public void testGetById() {
-        Boat boat = boatDao.getById(1L).get();
-        assertEquals("E-Boot", boat.getName());
-        assertEquals(1, boat.getRentals().size());
+        Promotion promotion = promotionDao.getById(3L).get();
+        assertEquals("Fahr 3 zahl 2", promotion.getName());
     }
 }

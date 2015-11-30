@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -128,6 +130,8 @@ public class JavaBeanTester {
         List(List.class, new ArrayList(), false),
         Set(Set.class, new HashSet(), false),
         Map(Map.class, new HashMap(), false),
+        LocalDateType(LocalDate.class, LocalDate.now(), false),
+        LocalDateTimeType(LocalDateTime.class, LocalDateTime.now(), false),
         NoSimpleType(Object.class, new Object(), true);
 
         private final Class<?> type;

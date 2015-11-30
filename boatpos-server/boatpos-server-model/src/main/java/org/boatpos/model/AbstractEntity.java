@@ -2,8 +2,11 @@ package org.boatpos.model;
 
 import com.google.common.base.Objects;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * Basic class for all entities with an {@link #id} and a {@link #version}.
@@ -13,9 +16,15 @@ public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @NotNull
+    @Min(0)
+    @Expose
     private Long id;
 
     @Version
+    @NotNull
+    @Min(0)
+    @Expose
     private Integer version;
 
     public AbstractEntity() {
@@ -57,6 +66,9 @@ public abstract class AbstractEntity {
 
     @Override
     public String toString() {
-        return new GsonBuilder().create().toJson(this);
+        return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create()
+                .toJson(this);
     }
 }
