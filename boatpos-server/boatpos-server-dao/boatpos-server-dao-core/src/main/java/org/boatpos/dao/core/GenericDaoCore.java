@@ -30,7 +30,7 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
     @Override
     public Optional<ENTITY> getById(final Long id) {
         log.debug("search {} via id: ", getType(), id);
-        ENTITY entity = (ENTITY) getEntityManager().find(getType(), id);
+        ENTITY entity = getEntityManager().find(getType(), id);
         return Optional.ofNullable(entity);
     }
 
@@ -87,6 +87,10 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     protected EntityManager getEntityManager() {
         return entityManager;
+    }
+
+    protected Optional<ENTITY> getSingleResult(final TypedQuery<ENTITY> typedQuery) {
+        return getSingleResult(typedQuery.getResultList());
     }
 
     protected Optional<ENTITY> getSingleResult(final Collection<ENTITY> collection) {

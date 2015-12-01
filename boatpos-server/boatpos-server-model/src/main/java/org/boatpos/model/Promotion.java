@@ -2,18 +2,17 @@ package org.boatpos.model;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"JpaDataSourceORMInspection", "unused"})
 @Entity
-public class Promotion extends AbstractEntity {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "promotionType", discriminatorType = DiscriminatorType.STRING, length = 1)
+public abstract class Promotion extends AbstractEntity {
 
     /**
      * The name for this promotion.
@@ -22,14 +21,6 @@ public class Promotion extends AbstractEntity {
     @Size(min = 3)
     @Expose
     private String name;
-
-    /**
-     * The time-credit of this promotion in minutes.
-     */
-    @NotNull
-    @Min(0)
-    @Expose
-    private Integer timeCredit;
 
     /**
      * A formula how to calculate the price.
@@ -49,10 +40,9 @@ public class Promotion extends AbstractEntity {
     public Promotion() {
     }
 
-    public Promotion(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Set<Rental> rentals) {
+    public Promotion(Long id, Integer version, String name, String priceCalculation, Set<Rental> rentals) {
         super(id, version);
         this.name = name;
-        this.timeCredit = timeCredit;
         this.priceCalculation = priceCalculation;
         this.rentals = rentals;
     }
@@ -65,12 +55,8 @@ public class Promotion extends AbstractEntity {
         this.name = name;
     }
 
-    public Integer getTimeCredit() {
-        return timeCredit;
-    }
-
-    public void setTimeCredit(Integer timeCredit) {
-        this.timeCredit = timeCredit;
+    public Set<Rental> getRentals() {
+        return rentals;
     }
 
     public String getPriceCalculation() {
@@ -79,10 +65,6 @@ public class Promotion extends AbstractEntity {
 
     public void setPriceCalculation(String priceCalculation) {
         this.priceCalculation = priceCalculation;
-    }
-
-    public Set<Rental> getRentals() {
-        return rentals;
     }
 
     public void setRentals(Set<Rental> rentals) {

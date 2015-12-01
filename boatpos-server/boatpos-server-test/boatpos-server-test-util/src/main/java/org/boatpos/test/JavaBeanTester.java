@@ -1,8 +1,5 @@
 package org.boatpos.test;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,8 +20,6 @@ import static org.junit.Assert.*;
  */
 public class JavaBeanTester {
 
-    private static final Logger log = LoggerFactory.getLogger(JavaBeanTester.class);
-
     public void test(Class<?> type) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         test(type, type);
     }
@@ -36,7 +31,6 @@ public class JavaBeanTester {
             test(baseType, currentType.getSuperclass());
         }
         if (isBeanOfThisProject(currentType)) {
-            log.info("check for bean: " + currentType.getName());
             checkNoArgConstructor(currentType);
             checkGetterAndSetter(currentType);
             checkValuesOfGetterAndSetter(baseType, currentType);
@@ -73,10 +67,10 @@ public class JavaBeanTester {
     }
 
     private void checkValuesOfGetterAndSetter(Class<?> baseType, Class<?> currentType) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        assertFalse(baseType.getName() + " must not be abstract", Modifier.isAbstract(baseType.getModifiers()));
+        assertFalse(baseType.getName() + " must not be abstract", isAbstract(baseType));
         Object object = baseType.newInstance();
         for (Field field : currentType.getDeclaredFields()) {
-            if (!isJacocoField(field)) {
+            if (!isJacocoField(field) && !isAbstract(field.getType())) {
                 SimpleType simpleType = SimpleType.get(field.getType());
                 Object testValue;
                 if (simpleType == SimpleType.NoSimpleType && isBeanOfThisProject(field.getType())) {
@@ -91,6 +85,10 @@ public class JavaBeanTester {
                 }
             }
         }
+    }
+
+    private boolean isAbstract(Class<?> type) {
+        return !type.isPrimitive() && Modifier.isAbstract(type.getModifiers());
     }
 
     private Method getterFor(Field field) throws NoSuchMethodException {

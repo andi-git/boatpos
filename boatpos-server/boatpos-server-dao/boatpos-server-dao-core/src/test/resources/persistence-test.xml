@@ -3,11 +3,15 @@
              version="1.0">
     <persistence-unit name="boatpos" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <mapping-file>META-INF/query/boat.xml</mapping-file>
+        <mapping-file>META-INF/query/promotion.xml</mapping-file>
         <class>org.boatpos.model.Boat</class>
+        <class>org.boatpos.model.Rental</class>
+        <class>org.boatpos.model.Promotion</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
             <property name="hibernate.hbm2ddl.auto" value="create-drop" />
         </properties>
     </persistence-unit>

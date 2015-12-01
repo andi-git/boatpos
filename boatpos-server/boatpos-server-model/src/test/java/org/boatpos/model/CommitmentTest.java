@@ -4,18 +4,19 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 
 @RunWith(Arquillian.class)
-public class PromotionTest extends JavaBeanTest<Promotion> {
+public class CommitmentTest extends JavaBeanTest<Commitment> {
 
     @Test
     public void testConstructor() {
-        new Promotion(null, 1, "Fahr 3 zahl 2", 180, "pricePerHour * 2", new HashSet<>());
+        new Commitment(null, 1, "commitment", false, new HashSet<>());
     }
 
     @Override
-    protected Class<Promotion> getType() {
-        return Promotion.class;
+    protected Class<Commitment> getType() {
+        return Commitment.class;
     }
 }

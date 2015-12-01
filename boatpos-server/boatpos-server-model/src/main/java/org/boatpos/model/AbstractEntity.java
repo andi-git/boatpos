@@ -14,6 +14,9 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+    /**
+     * The technical id / primary key.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @NotNull
@@ -21,6 +24,9 @@ public abstract class AbstractEntity {
     @Expose
     private Long id;
 
+    /**
+     * The version for optimistic locking.
+     */
     @Version
     @NotNull
     @Min(0)

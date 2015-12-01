@@ -8,7 +8,7 @@ import javax.inject.Inject;
 public abstract class JavaBeanTest<T> {
 
     @Inject
-    private JavaBeanTester javaBeanTester;
+    protected JavaBeanTester javaBeanTester;
 
     @Test
     public void testBean() throws Exception {

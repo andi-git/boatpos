@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
@@ -28,5 +30,26 @@ public class BoatDaoTest extends EntityManagerProviderForBoatpos {
         Boat boat = boatDao.getById(1L).get();
         assertEquals("E-Boot", boat.getName());
         assertEquals(1, boat.getRentals().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetByName() {
+        assertEquals("E", boatDao.getByName("E-Boot").get().getShortName());
+    }
+
+    @Test
+    @Transactional
+    public void testGetByShortName() {
+        assertEquals("E-Boot", boatDao.getByShortName("E").get().getName());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAll() {
+        List<Boat> boats = boatDao.getAll();
+        assertEquals(5, boats.size());
+        assertEquals("E", boats.get(0).getShortName());
+        assertEquals("L", boats.get(4).getShortName());
     }
 }

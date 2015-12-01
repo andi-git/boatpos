@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 //import org.jboss.arquillian.transaction.api.annotation.Transactional;
 
+@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
 @RunWith(Arquillian.class)
 public class SampleDatabaseCreatorTest {
 
@@ -27,7 +28,7 @@ public class SampleDatabaseCreatorTest {
     @Transactional
     public void testFillDatabase() throws Exception {
         sampleDatabaseCreator.fillDatabase(entityManager);
-        assertEquals(new BigInteger("2"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
+        assertEquals(new BigInteger("5"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
         sampleDatabaseCreator.clearDatabase(entityManager);
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
     }

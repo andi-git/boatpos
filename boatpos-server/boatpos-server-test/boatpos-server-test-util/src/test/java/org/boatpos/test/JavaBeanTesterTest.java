@@ -17,8 +17,11 @@ public class JavaBeanTesterTest {
     @Test
     public void testBeanCheck() throws Exception {
         javaBeanTester.test(BeanA.class);
+        javaBeanTester.test(BeanE.class);
+        javaBeanTester.test(BeanF.class);
     }
 
+    @SuppressWarnings("unused")
     public static class BeanA {
 
         private int i;
@@ -62,6 +65,7 @@ public class JavaBeanTesterTest {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class BeanB {
 
         private List<String> list;
@@ -79,6 +83,62 @@ public class JavaBeanTesterTest {
 
         public void setList(List<String> list) {
             this.list = list;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static abstract class BeanC {
+
+        private int i;
+
+        public int getI() {
+            return i;
+        }
+
+        public void setI(int i) {
+            this.i = i;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static abstract class BeanD extends BeanC {
+
+        private String s;
+
+        public String getS() {
+            return s;
+        }
+
+        public void setS(String s) {
+            this.s = s;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static class BeanE extends BeanD {
+
+        private String s;
+
+        public String getS() {
+            return s;
+        }
+
+        public void setS(String s) {
+            this.s = s;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static class BeanF {
+
+        private BeanC beanC;
+
+        public BeanC getBeanC() {
+            return beanC;
+        }
+
+        public void setBeanC(BeanC beanC) {
+            this.beanC = beanC;
         }
     }
 }

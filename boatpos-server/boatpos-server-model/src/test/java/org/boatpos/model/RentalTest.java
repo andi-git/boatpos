@@ -7,14 +7,12 @@ import org.junit.runner.RunWith;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
-
 @RunWith(Arquillian.class)
 public class RentalTest extends JavaBeanTest<Rental> {
 
     @Test
     public void testConstructor() {
-        new Rental(null, 1, 1, LocalDate.now(), null, LocalDateTime.now(), null, null, false, false, false, null, null, false);
+        new Rental(null, 1, 1, LocalDate.now(), null, LocalDateTime.now(), null, null, false, false, false, null, null);
     }
 
     @Override

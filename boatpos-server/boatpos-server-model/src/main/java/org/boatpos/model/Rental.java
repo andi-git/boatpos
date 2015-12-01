@@ -12,61 +12,96 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Representation of a boat-rental.
+ */
 @SuppressWarnings("unused")
 @Entity
 public class Rental extends AbstractEntity {
 
+    /**
+     * The id of the day. Every day this id starts with 0.
+     */
     @NotNull
     @Min(0)
     @Expose
     private Integer dayId;
 
+    /**
+     * The date of the {@link Rental}.
+     */
     @NotNull
     @Expose
     private LocalDate date;
 
+    /**
+     * The {@link Boat} of the {@link Rental}.
+     */
     @NotNull
     @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     @Expose
     private Boat boat;
 
+    /**
+     * The time where the {@link Rental} starts.
+     */
     @NotNull
     @Expose
     private LocalDateTime departure;
 
+    /**
+     * The time where the {@link Rental} ends.
+     */
     @Expose
     private LocalDateTime arrival;
 
+    /**
+     * The paid price of the {@link Rental}.
+     */
     @Min(0)
     @Expose
     private BigDecimal price;
 
+    /**
+     * Check if the {@link Rental} is finished.
+     */
     @Expose
     private boolean finished;
 
+    /**
+     * Check if the {@link Rental} is deleted.
+     */
     @Expose
     private boolean deleted;
 
+    /**
+     * Check if a coupon was used for the {@link Rental}.
+     */
     @Expose
     private boolean coupon;
 
+    /**
+     * The {@link Promotion} used for the {@link Rental}.
+     */
     @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     @Expose
     private Promotion promotion;
 
+    /**
+     * The {@link Commitment} used for the {@link Rental}.
+     */
+    @Valid
+    @ManyToOne(cascade = CascadeType.ALL)
     @Expose
-    private BigDecimal pricePromotion;
-
-    @Expose
-    private boolean holliknolli;
+    private Commitment commitment;
 
     public Rental() {
 
     }
 
-    public Rental(Long id, Integer version, Integer dayId, LocalDate date, Boat boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, Promotion promotion, BigDecimal pricePromotion, boolean holliknolli) {
+    public Rental(Long id, Integer version, Integer dayId, LocalDate date, Boat boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, Promotion promotion, Commitment commitment) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
@@ -78,8 +113,7 @@ public class Rental extends AbstractEntity {
         this.deleted = deleted;
         this.coupon = coupon;
         this.promotion = promotion;
-        this.pricePromotion = pricePromotion;
-        this.holliknolli = holliknolli;
+        this.commitment = commitment;
     }
 
     public Integer getDayId() {
@@ -162,19 +196,11 @@ public class Rental extends AbstractEntity {
         this.promotion = promotion;
     }
 
-    public BigDecimal getPricePromotion() {
-        return pricePromotion;
+    public Commitment getCommitment() {
+        return commitment;
     }
 
-    public void setPricePromotion(BigDecimal pricePromotion) {
-        this.pricePromotion = pricePromotion;
-    }
-
-    public boolean isHolliknolli() {
-        return holliknolli;
-    }
-
-    public void setHolliknolli(boolean holliknolli) {
-        this.holliknolli = holliknolli;
+    public void setCommitment(Commitment commitment) {
+        this.commitment = commitment;
     }
 }
