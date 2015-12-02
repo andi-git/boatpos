@@ -63,7 +63,7 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public void delete(final Long id) {
-        log.info("delete {}: {}", getType(), id);
+        log.debug("delete {}: {}", getType(), id);
         checkNotNull(id, "'id' must not be null");
         Optional<ENTITY> entity = getById(id);
         if (!entity.isPresent()) {
@@ -75,7 +75,7 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public void delete(final ENTITY entity) {
-        log.info("delete {}: {}", getType(), entity);
+        log.debug("delete {}: {}", getType(), entity);
         checkNotNull(entity, "'entity' must not be null");
         try {
             getEntityManager().remove(entity);

@@ -21,14 +21,14 @@
                     <!-- copy libs for arquillian-tests -->
                     <execution>
                         <id>copy-dependencies</id>
-                        <phase>process-test-classes</phase>
+                        <phase>generate-test-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,boatpos-server-test-util,boatpos-server-test-model</includeArtifactIds>
+                            <includeArtifactIds>guava,gson</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>

@@ -21,7 +21,7 @@
                     <!-- copy libs for arquillian-tests -->
                     <execution>
                         <id>copy-dependencies</id>
-                        <phase>process-test-classes</phase>
+                        <phase>generate-test-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
