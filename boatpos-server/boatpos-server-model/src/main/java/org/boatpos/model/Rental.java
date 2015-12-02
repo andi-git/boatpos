@@ -2,20 +2,19 @@ package org.boatpos.model;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Representation of a boat-rental.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
 public class Rental extends AbstractEntity {
 
@@ -93,15 +92,18 @@ public class Rental extends AbstractEntity {
      * The {@link Commitment} used for the {@link Rental}.
      */
     @Valid
-    @ManyToOne(cascade = CascadeType.ALL)
-    @Expose
-    private Commitment commitment;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Rental_Commitment", joinColumns = {
+            @JoinColumn(name = "rental_id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "commitment_id")
+    })
+    private Set<Commitment> commitments;
 
     public Rental() {
-
     }
 
-    public Rental(Long id, Integer version, Integer dayId, LocalDate date, Boat boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, Promotion promotion, Commitment commitment) {
+    public Rental(Long id, Integer version, Integer dayId, LocalDate date, Boat boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, Promotion promotion, Set<Commitment> commitments) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
@@ -113,7 +115,7 @@ public class Rental extends AbstractEntity {
         this.deleted = deleted;
         this.coupon = coupon;
         this.promotion = promotion;
-        this.commitment = commitment;
+        this.commitments = commitments;
     }
 
     public Integer getDayId() {
@@ -196,11 +198,11 @@ public class Rental extends AbstractEntity {
         this.promotion = promotion;
     }
 
-    public Commitment getCommitment() {
-        return commitment;
+    public Set<Commitment> getCommitments() {
+        return commitments;
     }
 
-    public void setCommitment(Commitment commitment) {
-        this.commitment = commitment;
+    public void setCommitments(Set<Commitment> commitments) {
+        this.commitments = commitments;
     }
 }

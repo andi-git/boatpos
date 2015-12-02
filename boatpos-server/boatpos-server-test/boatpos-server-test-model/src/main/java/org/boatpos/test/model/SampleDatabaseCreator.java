@@ -1,5 +1,6 @@
 package org.boatpos.test.model;
 
+import com.google.common.collect.Sets;
 import org.boatpos.model.*;
 
 import javax.annotation.Resource;
@@ -41,7 +42,7 @@ public class SampleDatabaseCreator {
         Commitment commitment3 = new Commitment(null, 1, "EUR 100,-", false, new HashSet<>());
         Commitment commitment4 = new Commitment(null, 1, "Schlüssel", true, new HashSet<>());
         Commitment commitment5 = new Commitment(null, 1, "Diverses", true, new HashSet<>());
-        Rental rental = new Rental(null, 1, 1, LocalDate.now(), boat1, LocalDateTime.now(), null, null, false, false, false, promotion1, commitment1);
+        Rental rental = new Rental(null, 1, 1, LocalDate.now(), boat1, LocalDateTime.now(), null, null, false, false, false, promotion1, Sets.newHashSet(commitment1, commitment2));
 
         boat1.getRentals().add(rental);
         promotion1.getRentals().add(rental);
@@ -74,7 +75,7 @@ public class SampleDatabaseCreator {
             em.createNativeQuery("DELETE FROM promotion").executeUpdate();
             em.createNativeQuery("DELETE FROM commitment").executeUpdate();
             em.createNativeQuery("DELETE FROM boat_rental").executeUpdate();
-            em.createNativeQuery("DELETE FROM commitment_rental").executeUpdate();
+            em.createNativeQuery("DELETE FROM rental_commitment").executeUpdate();
             em.createNativeQuery("DELETE FROM promotion_rental").executeUpdate();
             em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
             // reset sequence for ids and clear cache

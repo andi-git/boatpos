@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -35,7 +36,7 @@ public class Commitment extends AbstractEntity {
      * All {@link Rental}s where this {@link Commitment} is used.
      */
     @Valid
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "commitments")
     private Set<Rental> rentals;
 
 
