@@ -1,21 +1,18 @@
-package org.boatpos.model;
+package org.boatpos.api.dto;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Set;
 
 /**
- * Representation of a boat.
+ * Representation of a b boat.
  */
 @SuppressWarnings("unused")
-@Entity
-public class Boat extends AbstractEntity {
+public class Boat extends AbstractDtoBasedOnEntity {
 
     /**
      * The name of the {@link Boat}.
@@ -38,7 +35,6 @@ public class Boat extends AbstractEntity {
      */
     @NotNull
     @Min(0)
-    @Digits(integer = 5, fraction = 2)
     @Expose
     private BigDecimal price;
 
@@ -47,7 +43,6 @@ public class Boat extends AbstractEntity {
      */
     @NotNull
     @Min(0)
-    @Digits(integer = 5, fraction = 2)
     @Expose
     private BigDecimal priceHalfHour;
 
@@ -56,7 +51,6 @@ public class Boat extends AbstractEntity {
      */
     @NotNull
     @Min(0)
-    @Digits(integer = 5, fraction = 2)
     @Expose
     private BigDecimal priceThreeQuaterHour;
 
@@ -70,31 +64,22 @@ public class Boat extends AbstractEntity {
     private Integer count;
 
     /**
-     * All {@link Rental}s where the {@link Boat} is used.
-     */
-    @Valid
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Rental> rentals;
-
-    /**
-     * The priority of the {@link Boat}.
+     * The priority of this {@link Boat}.
      */
     @NotNull
     @Min(0)
     private Integer priority;
 
-    public Boat() {
-    }
+    public Boat() { }
 
-    public Boat(Long id, Integer version, String name, String shortName, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority, Set<Rental> rentals) {
+    public Boat(Long id, Integer version, String shortName, String name, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority) {
         super(id, version);
-        this.name = name;
         this.shortName = shortName;
+        this.name = name;
         this.price = price;
         this.priceHalfHour = priceHalfHour;
         this.priceThreeQuaterHour = priceThreeQuaterHour;
         this.count = count;
-        this.rentals = rentals;
         this.priority = priority;
     }
 
@@ -126,8 +111,8 @@ public class Boat extends AbstractEntity {
         return priceHalfHour;
     }
 
-    public void setPriceHalfHour(BigDecimal priceHalfOur) {
-        this.priceHalfHour = priceHalfOur;
+    public void setPriceHalfHour(BigDecimal priceHalfHour) {
+        this.priceHalfHour = priceHalfHour;
     }
 
     public BigDecimal getPriceThreeQuaterHour() {
@@ -144,14 +129,6 @@ public class Boat extends AbstractEntity {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public Set<Rental> getRentals() {
-        return rentals;
-    }
-
-    public void setRentals(Set<Rental> rentals) {
-        this.rentals = rentals;
     }
 
     public Integer getPriority() {

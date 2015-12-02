@@ -1,19 +1,13 @@
-package org.boatpos.model;
+package org.boatpos.api.dto;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
-@SuppressWarnings({"JpaDataSourceORMInspection", "unused"})
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "promotionType", discriminatorType = DiscriminatorType.STRING, length = 1)
-public abstract class Promotion extends AbstractEntity {
+@SuppressWarnings("unused")
+public abstract class Promotion extends AbstractDtoBasedOnEntity {
 
     /**
      * The name for this promotion.
@@ -32,14 +26,7 @@ public abstract class Promotion extends AbstractEntity {
     private String priceCalculation;
 
     /**
-     * The rentals where this promotion is used.
-     */
-    @Valid
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Rental> rentals;
-
-    /**
-     * The priority of the {@link Commitment}.
+     * The priority of this {@link Promotion}.
      */
     @NotNull
     @Min(0)
@@ -48,11 +35,10 @@ public abstract class Promotion extends AbstractEntity {
     public Promotion() {
     }
 
-    public Promotion(Long id, Integer version, String name, String priceCalculation, Set<Rental> rentals, Integer priority) {
+    public Promotion(Long id, Integer version, String name, String priceCalculation, Integer priority) {
         super(id, version);
         this.name = name;
         this.priceCalculation = priceCalculation;
-        this.rentals = rentals;
         this.priority = priority;
     }
 
@@ -64,20 +50,12 @@ public abstract class Promotion extends AbstractEntity {
         this.name = name;
     }
 
-    public Set<Rental> getRentals() {
-        return rentals;
-    }
-
     public String getPriceCalculation() {
         return priceCalculation;
     }
 
     public void setPriceCalculation(String priceCalculation) {
         this.priceCalculation = priceCalculation;
-    }
-
-    public void setRentals(Set<Rental> rentals) {
-        this.rentals = rentals;
     }
 
     public Integer getPriority() {

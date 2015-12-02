@@ -1,19 +1,14 @@
-package org.boatpos.model;
+package org.boatpos.api.dto;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 /**
- * A {@link Promotion} that is handled before the {@link Rental}.
+ * A {@link Promotion} that is handled before the rental.
  */
 @SuppressWarnings("unused")
-@Entity
-@DiscriminatorValue("B")
 public class PromotionBefore extends Promotion {
 
     /**
@@ -27,8 +22,8 @@ public class PromotionBefore extends Promotion {
     public PromotionBefore() {
     }
 
-    public PromotionBefore(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Set<Rental> rentals, Integer priority) {
-        super(id, version, name, priceCalculation, rentals, priority);
+    public PromotionBefore(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Integer priority) {
+        super(id, version, name, priceCalculation, priority);
         this.timeCredit = timeCredit;
     }
 

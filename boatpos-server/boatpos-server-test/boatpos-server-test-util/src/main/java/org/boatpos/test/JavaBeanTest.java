@@ -1,14 +1,10 @@
-package org.boatpos.model;
+package org.boatpos.test;
 
-import org.boatpos.test.JavaBeanTester;
 import org.junit.Test;
-
-import javax.inject.Inject;
 
 public abstract class JavaBeanTest<T> {
 
-    @Inject
-    protected JavaBeanTester javaBeanTester;
+    protected JavaBeanTester javaBeanTester = new JavaBeanTester();
 
     @Test
     public void testBean() throws Exception {

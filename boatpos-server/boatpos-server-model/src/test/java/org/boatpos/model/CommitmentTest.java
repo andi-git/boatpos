@@ -1,5 +1,6 @@
 package org.boatpos.model;
 
+import org.boatpos.test.JavaBeanTest;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ public class CommitmentTest extends JavaBeanTest<Commitment> {
 
     @Test
     public void testConstructor() {
-        new Commitment(null, 1, "commitment", false, new HashSet<>());
+        new Commitment(null, 1, "commitment", false, new HashSet<>(), 1);
     }
 
     @Override

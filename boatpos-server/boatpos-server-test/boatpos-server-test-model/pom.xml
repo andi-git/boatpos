@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-test-util</artifactId>
+            <artifactId>boatpos-server-test-util</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

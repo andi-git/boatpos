@@ -45,14 +45,14 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-util</artifactId>
+            <artifactId>boatpos-server-util</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <!-- test -->
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-test-util</artifactId>
+            <artifactId>boatpos-server-test-util</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

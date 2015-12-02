@@ -34,14 +34,14 @@ public class SampleDatabaseCreator {
         Boat boat3 = new Boat(null, 1, "Tretboot groß", "T4", new BigDecimal("12.8"), new BigDecimal("7.5"), new BigDecimal("11.3"), 9, 3, new HashSet<>());
         Boat boat4 = new Boat(null, 1, "Tretboot Rutsche", "TR", new BigDecimal("13.8"), new BigDecimal("7.8"), new BigDecimal("11.7"), 3, 4, new HashSet<>());
         Boat boat5 = new Boat(null, 1, "Liegeboot", "L", new BigDecimal("9.8"), new BigDecimal("9.8"), new BigDecimal("9.8"), 5, 5, new HashSet<>());
-        Promotion promotion1 = new PromotionBefore(null, 1, "Fahr 3 zahl 2", 180, "pricePerHour * 2", new HashSet<>());
-        Promotion promotion2 = new PromotionBefore(null, 1, "Fahr 5 zahl 3", 300, "pricePerHour * 3", new HashSet<>());
-        Promotion promotion3 = new PromotionAfter(null, 1, "HolliKnolli", "price / 3", new HashSet<>());
-        Commitment commitment1 = new Commitment(null, 1, "Ausweis", true, new HashSet<>());
-        Commitment commitment2 = new Commitment(null, 1, "EUR 50,-", false, new HashSet<>());
-        Commitment commitment3 = new Commitment(null, 1, "EUR 100,-", false, new HashSet<>());
-        Commitment commitment4 = new Commitment(null, 1, "Schlüssel", true, new HashSet<>());
-        Commitment commitment5 = new Commitment(null, 1, "Diverses", true, new HashSet<>());
+        Promotion promotion1 = new PromotionBefore(null, 1, "Fahr 3 zahl 2", 180, "pricePerHour * 2", new HashSet<>(), 1);
+        Promotion promotion2 = new PromotionBefore(null, 1, "Fahr 5 zahl 3", 300, "pricePerHour * 3", new HashSet<>(), 2);
+        Promotion promotion3 = new PromotionAfter(null, 1, "HolliKnolli", "price / 3", new HashSet<>(), 100);
+        Commitment commitment1 = new Commitment(null, 1, "Ausweis", true, new HashSet<>(), 1);
+        Commitment commitment2 = new Commitment(null, 1, "EUR 50,-", false, new HashSet<>(), 2);
+        Commitment commitment3 = new Commitment(null, 1, "EUR 100,-", false, new HashSet<>(), 3);
+        Commitment commitment4 = new Commitment(null, 1, "Schlüssel", true, new HashSet<>(), 4);
+        Commitment commitment5 = new Commitment(null, 1, "Diverses", true, new HashSet<>(), 5);
         Rental rental = new Rental(null, 1, 1, LocalDate.now(), boat1, LocalDateTime.now(), null, null, false, false, false, promotion1, Sets.newHashSet(commitment1, commitment2));
 
         boat1.getRentals().add(rental);

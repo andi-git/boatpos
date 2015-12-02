@@ -1,23 +1,16 @@
-package org.boatpos.model;
+package org.boatpos.api.dto;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 /**
  * Representation of a commitment.
  */
 @SuppressWarnings("unused")
-@Entity
-public class Commitment extends AbstractEntity {
+public class Commitment extends AbstractDtoBasedOnEntity {
 
     /**
      * The name of the commitment.
@@ -28,20 +21,13 @@ public class Commitment extends AbstractEntity {
     private String name;
 
     /**
-     * Check if a paper is needed when used for a {@link Rental}.
+     * Check if a paper is needed.
      */
     @Expose
     private boolean paper;
 
     /**
-     * All {@link Rental}s where this {@link Commitment} is used.
-     */
-    @Valid
-    @ManyToMany(mappedBy = "commitments")
-    private Set<Rental> rentals;
-
-    /**
-     * The priority of the {@link Commitment}.
+     * The priority of this {@link Commitment}.
      */
     @NotNull
     @Min(0)
@@ -50,11 +36,10 @@ public class Commitment extends AbstractEntity {
     public Commitment() {
     }
 
-    public Commitment(Long id, Integer version, String name, boolean paper, Set<Rental> rentals, Integer priority) {
+    public Commitment(Long id, Integer version, String name, boolean paper, Integer priority) {
         super(id, version);
         this.name = name;
         this.paper = paper;
-        this.rentals = rentals;
         this.priority = priority;
     }
 
@@ -72,14 +57,6 @@ public class Commitment extends AbstractEntity {
 
     public void setPaper(boolean paper) {
         this.paper = paper;
-    }
-
-    public Set<Rental> getRentals() {
-        return rentals;
-    }
-
-    public void setRentals(Set<Rental> rentals) {
-        this.rentals = rentals;
     }
 
     public Integer getPriority() {
