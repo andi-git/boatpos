@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<!--<mapping wildcard="true">-->
+		<!--<class-a>at.itsv.sea.bookstore.entity.Buch</class-a>-->
+		<!--<class-b>at.itsv.sea.bookstore.dto.BuchDto</class-b>-->
+		<!--<field>-->
+			<!--<a>metadaten.seitenzahl</a>-->
+			<!--<b>seitenzahl</b>-->
+		<!--</field>-->
+		<!--<field>-->
+			<!--<a>autoren</a>-->
+			<!--<b>autoren</b>-->
+			<!--<b-hint>at.itsv.sea.bookstore.dto.AutorDto</b-hint>-->
+		<!--</field>-->
+	<!--</mapping>-->
+
+	<!--<mapping wildcard="true">-->
+		<!--<class-a>at.itsv.sea.bookstore.entity.Ausleihe</class-a>-->
+		<!--<class-b>at.itsv.sea.bookstore.dto.AusleiheDto</class-b>-->
+		<!--<field>-->
+			<!--<a>buch</a>-->
+			<!--<b>buch</b>-->
+			<!--<b-hint>at.itsv.sea.bookstore.dto.BuchDto</b-hint>-->
+		<!--</field>-->
+		<!--<field>-->
+			<!--<a>benutzer</a>-->
+			<!--<b>benutzer</b>-->
+			<!--<b-hint>at.itsv.sea.bookstore.dto.BenutzerDto</b-hint>-->
+		<!--</field>-->
+	<!--</mapping>-->
+
+</mappings>

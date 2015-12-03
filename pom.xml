@@ -44,6 +44,7 @@
         <version.slf4j-api>1.6.1</version.slf4j-api>
         <version.guava>18.0</version.guava>
         <version.gson>2.4</version.gson>
+        <version.dozer>5.5.1</version.dozer>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.9.Final</version.arquillian-bom>
@@ -161,6 +162,11 @@
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${version.gson}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${version.dozer}</version>
             </dependency>
             <!-- test -->
             <dependency>
