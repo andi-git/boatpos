@@ -3,8 +3,6 @@ package org.boatpos.api.dto;
 import org.boatpos.test.JavaBeanTest;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-
 public class PromotionAfterTest extends JavaBeanTest<PromotionAfter> {
 
     @Override

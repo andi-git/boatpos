@@ -1,7 +1,6 @@
 package org.boatpos.api.dto;
 
 import com.google.common.base.Objects;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;

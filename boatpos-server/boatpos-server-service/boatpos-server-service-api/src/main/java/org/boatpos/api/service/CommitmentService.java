@@ -1,6 +1,5 @@
 package org.boatpos.api.service;
 
-import org.boatpos.api.dto.Boat;
 import org.boatpos.api.dto.Commitment;
 
 import java.util.List;
