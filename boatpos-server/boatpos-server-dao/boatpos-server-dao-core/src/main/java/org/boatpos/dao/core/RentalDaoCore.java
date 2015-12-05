@@ -1,8 +1,6 @@
 package org.boatpos.dao.core;
 
-import org.boatpos.dao.api.BoatDao;
 import org.boatpos.dao.api.RentalDao;
-import org.boatpos.model.Boat;
 import org.boatpos.model.Rental;
 
 import javax.enterprise.context.Dependent;

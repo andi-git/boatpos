@@ -16,10 +16,10 @@ public class DepartureBeanTest extends JavaBeanTest<DepartureBean> {
 
     @Test
     public void testEqualsAndHashCode() {
-        DepartureBean departureBean1 = new DepartureBean(BoatBeanTest.createBoatE(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis(), CommitmentBeanTest.createCommitment50Euro()), PromotionBeanAfterBeanTest.createPromotionAfter());
-        DepartureBean departureBean2 = new DepartureBean(BoatBeanTest.createBoatE(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis(), CommitmentBeanTest.createCommitment50Euro()), PromotionBeanAfterBeanTest.createPromotionAfter());
-        DepartureBean departureBean3 = new DepartureBean(BoatBeanTest.createBoatT(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis(), CommitmentBeanTest.createCommitment50Euro()), PromotionBeanAfterBeanTest.createPromotionAfter());
-        DepartureBean departureBean4 = new DepartureBean(BoatBeanTest.createBoatE(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis()), PromotionBeanAfterBeanTest.createPromotionAfter());
+        DepartureBean departureBean1 = new DepartureBean(BoatBeanTest.createBoatE(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis(), CommitmentBeanTest.createCommitment50Euro()), PromotionAfterBeanTest.createPromotionAfter());
+        DepartureBean departureBean2 = new DepartureBean(BoatBeanTest.createBoatE(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis(), CommitmentBeanTest.createCommitment50Euro()), PromotionAfterBeanTest.createPromotionAfter());
+        DepartureBean departureBean3 = new DepartureBean(BoatBeanTest.createBoatT(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis(), CommitmentBeanTest.createCommitment50Euro()), PromotionAfterBeanTest.createPromotionAfter());
+        DepartureBean departureBean4 = new DepartureBean(BoatBeanTest.createBoatE(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis()), PromotionAfterBeanTest.createPromotionAfter());
         assertEquals(departureBean1, departureBean2);
         assertNotEquals(departureBean1, departureBean3);
         assertNotEquals(departureBean1, departureBean4);

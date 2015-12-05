@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
  * A {@link PromotionBean} that is handled before the rental.
  */
 @SuppressWarnings("unused")
-public class PromotionBeanBeforeBean extends PromotionBean {
+public class PromotionBeforeBean extends PromotionBean {
 
     /**
      * The time-credit of this promotion in minutes.
@@ -19,10 +19,10 @@ public class PromotionBeanBeforeBean extends PromotionBean {
     @Expose
     private Integer timeCredit;
 
-    public PromotionBeanBeforeBean() {
+    public PromotionBeforeBean() {
     }
 
-    public PromotionBeanBeforeBean(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Integer priority) {
+    public PromotionBeforeBean(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Integer priority) {
         super(id, version, name, priceCalculation, priority);
         this.timeCredit = timeCredit;
     }

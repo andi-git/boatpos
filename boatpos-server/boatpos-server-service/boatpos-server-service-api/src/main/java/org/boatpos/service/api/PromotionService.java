@@ -1,6 +1,8 @@
 package org.boatpos.service.api;
 
+import org.boatpos.service.api.bean.PromotionAfterBean;
 import org.boatpos.service.api.bean.PromotionBean;
+import org.boatpos.service.api.bean.PromotionBeforeBean;
 
 import java.util.List;
 
@@ -17,18 +19,18 @@ public interface PromotionService {
     List<PromotionBean> getAll();
 
     /**
-     * Get a {@link List} of all {@link PromotionBean}s which are relevant <u>before</u> the rental.
+     * Get a {@link List} of all {@link PromotionBeforeBean}s which are relevant <u>before</u> the rental.
      *
-     * @return a {@link List} of all {@link PromotionBean}s which are relevant <u>before</u> the rental
+     * @return a {@link List} of all {@link PromotionBeforeBean}s which are relevant <u>before</u> the rental
      */
-    List<PromotionBean> getAllBeforeRental();
+    List<PromotionBeforeBean> getAllBeforeRental();
 
     /**
-     * Get a {@link List} of all {@link PromotionBean}s which are relevant <u>after</u> the rental.
+     * Get a {@link List} of all {@link PromotionAfterBean}s which are relevant <u>after</u> the rental.
      *
-     * @return a {@link List} of all {@link PromotionBean}s which are relevant <u>after</u> the rental
+     * @return a {@link List} of all {@link PromotionAfterBean}s which are relevant <u>after</u> the rental
      */
-    List<PromotionBean> getAllAfterRental();
+    List<PromotionAfterBean> getAllAfterRental();
 
     /**
      * Get a {@link PromotionBean} by it's id.
@@ -66,7 +68,6 @@ public interface PromotionService {
      * Delete an existing {@link PromotionBean} via the (valid) id.
      *
      * @param id the id of the {@link PromotionBean} to delete
-     * @return {@code true} if the operation was successful
      */
-    boolean delete(Long id);
+    void delete(Long id);
 }

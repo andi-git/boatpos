@@ -6,4 +6,7 @@
     <named-query name="promotion.getByName">
         <query>FROM Promotion p WHERE p.name = :name</query>
     </named-query>
+    <named-query name="promotion.getAll">
+        <query>FROM Promotion p ORDER BY p.priority</query>
+    </named-query>
 </entity-mappings>

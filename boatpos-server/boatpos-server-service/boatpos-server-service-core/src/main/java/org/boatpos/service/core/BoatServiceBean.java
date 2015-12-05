@@ -42,17 +42,17 @@ public class BoatServiceBean implements BoatService {
 
     @Override
     public BoatBean getById(Long id) {
-        return crudHelper.getOrNull(boatDao.getById(id), boatMapping, () -> log.error("no boat available with id {}", id));
+        return crudHelper.getOrNull(boatDao.getById(id), boatMapping, () -> log.error("no {} available with id {}", Boat.class.getName(), id));
     }
 
     @Override
     public BoatBean getByName(String name) {
-        return crudHelper.getOrNull(boatDao.getByName(name), boatMapping, () -> log.error("no boat available with name {}", name));
+        return crudHelper.getOrNull(boatDao.getByName(name), boatMapping, () -> log.error("no {} available with name {}", Boat.class.getName(), name));
     }
 
     @Override
     public BoatBean getByShortName(String shortName) {
-        return crudHelper.getOrNull(boatDao.getByShortName(shortName), boatMapping, () -> log.error("no boat available with shortName {}", shortName));
+        return crudHelper.getOrNull(boatDao.getByShortName(shortName), boatMapping, () -> log.error("no {} available with shortName {}", Boat.class.getName(), shortName));
     }
 
     @Override
@@ -62,8 +62,8 @@ public class BoatServiceBean implements BoatService {
 
     @Override
     public BoatBean update(BoatBean boatBean) {
-        Optional<BoatBean> updatedDto = crudHelper.update(boatBean, boatDao, boatMapping, () -> log.error("unable to update boat {}", boatBean));
-        return crudHelper.getOrNull(updatedDto, () -> log.error(""));
+        Optional<BoatBean> updatedDto = crudHelper.update(boatBean, boatDao, boatMapping, () -> log.error("unable to update {} {}", Boat.class.getName(), boatBean));
+        return crudHelper.getOrNull(updatedDto, () -> {});
     }
 
     @Override
