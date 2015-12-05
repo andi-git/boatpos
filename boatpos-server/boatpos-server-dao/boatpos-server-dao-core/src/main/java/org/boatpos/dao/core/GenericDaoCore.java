@@ -49,7 +49,7 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public ENTITY update(final ENTITY entity) {
-        log.debug("update {}: {}", getType(), entity);
+        log.info("update {}: {}", getType(), entity);
         checkNotNull(entity, "'entity' must not be null");
         try {
             final ENTITY result = getEntityManager().merge(entity);

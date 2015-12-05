@@ -57,18 +57,9 @@ public interface BoatService {
     BoatBean update(BoatBean boatBean);
 
     /**
-     * Delete an existing {@link BoatBean}. The {@link BoatBean#id} must be set and valid.
-     *
-     * @param boatBean the {@link BoatBean} to delete
-     * @return {@code true} if the operation was successful
-     */
-    boolean delete(BoatBean boatBean);
-
-    /**
      * Delete an existing {@link BoatBean} via the (valid) id.
      *
      * @param id the id of the {@link BoatBean} to delete
-     * @return {@code true} if the operation was successful
      */
-    boolean deleteById(Long id);
+    void delete(Long id);
 }

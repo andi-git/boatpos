@@ -15,13 +15,18 @@ public class MappingHelperDozer implements MappingHelper {
 
     @PostConstruct
     private void postConstruct() {
-        List<String> mappingFiles = new ArrayList<String>();
+        List<String> mappingFiles = new ArrayList<>();
         mappingFiles.add("dozerBeanMapping.xml");
         mapper = new DozerBeanMapper(mappingFiles);
     }
 
     @Override
-    public <T> T map(Object object, Class<T> clazz) {
-        return mapper.map(object, clazz);
+    public <T> T map(Object source, Class<T> targetType) {
+        return mapper.map(source, targetType);
+    }
+
+    @Override
+    public void map(Object source, Object target) {
+        mapper.map(source, target);
     }
 }

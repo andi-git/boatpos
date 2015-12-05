@@ -63,18 +63,10 @@ public interface PromotionService {
     PromotionBean update(PromotionBean promotionBean);
 
     /**
-     * Delete an existing {@link PromotionBean}. The {@link PromotionBean#id} must be set and valid.
-     *
-     * @param promotionBean the {@link PromotionBean} to delete
-     * @return {@code true} if the operation was successful
-     */
-    boolean delete(PromotionBean promotionBean);
-
-    /**
      * Delete an existing {@link PromotionBean} via the (valid) id.
      *
      * @param id the id of the {@link PromotionBean} to delete
      * @return {@code true} if the operation was successful
      */
-    boolean deleteById(Long id);
+    boolean delete(Long id);
 }

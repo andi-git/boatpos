@@ -49,18 +49,10 @@ public interface CommitmentService {
     CommitmentBean update(CommitmentBean commitmentBean);
 
     /**
-     * Delete an existing {@link CommitmentBean}. The {@link CommitmentBean#id} must be set and valid.
-     *
-     * @param commitmentBean the {@link CommitmentBean} to delete
-     * @return {@code true} if the operation was successful
-     */
-    boolean delete(CommitmentBean commitmentBean);
-
-    /**
      * Delete an existing {@link CommitmentBean} via the (valid) id.
      *
      * @param id the id of the {@link CommitmentBean} to delete
      * @return {@code true} if the operation was successful
      */
-    boolean deleteById(Long id);
+    boolean delete(Long id);
 }
