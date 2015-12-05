@@ -5,9 +5,11 @@
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <mapping-file>META-INF/query/boat.xml</mapping-file>
         <mapping-file>META-INF/query/promotion.xml</mapping-file>
+        <mapping-file>META-INF/query/commitment.xml</mapping-file>
         <class>org.boatpos.model.Boat</class>
         <class>org.boatpos.model.Rental</class>
         <class>org.boatpos.model.Promotion</class>
+        <class>org.boatpos.model.Commitment</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
             <property name="hibernate.show_sql" value="false" />

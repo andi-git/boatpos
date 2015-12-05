@@ -37,7 +37,7 @@ public class Commitment extends AbstractEntity {
      * All {@link Rental}s where this {@link Commitment} is used.
      */
     @Valid
-    @ManyToMany(mappedBy = "commitments")
+    @ManyToMany(mappedBy = "commitments", cascade = CascadeType.ALL)
     private Set<Rental> rentals;
 
     /**

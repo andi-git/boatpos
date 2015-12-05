@@ -49,6 +49,6 @@ public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends Abstrac
     }
 
     public Set<ENTITY> mapDtos(Set<DTO> dtos) {
-        return new HashSet<ENTITY>(mapDtos(new ArrayList<>(dtos)));
+        return new HashSet<>(mapDtos(new ArrayList<>(dtos)));
     }
 }

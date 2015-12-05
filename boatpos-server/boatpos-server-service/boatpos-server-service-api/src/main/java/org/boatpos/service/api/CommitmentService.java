@@ -52,7 +52,6 @@ public interface CommitmentService {
      * Delete an existing {@link CommitmentBean} via the (valid) id.
      *
      * @param id the id of the {@link CommitmentBean} to delete
-     * @return {@code true} if the operation was successful
      */
-    boolean delete(Long id);
+    void delete(Long id);
 }
