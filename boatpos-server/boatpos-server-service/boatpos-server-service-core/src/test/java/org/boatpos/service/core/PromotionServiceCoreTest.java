@@ -10,14 +10,14 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class PromotionServiceBeanTest extends AbstractMasterDataServiceTest<PromotionBean> {
+public class PromotionServiceCoreTest extends AbstractMasterDataServiceTest<PromotionBean> {
 
-    @EJB
+    @Inject
     private PromotionService promotionService;
 
     @Test
@@ -39,13 +39,13 @@ public class PromotionServiceBeanTest extends AbstractMasterDataServiceTest<Prom
     @Test
     @Transactional
     public void testGetById() throws Exception {
-        assertEquals("Fahr 3 zahl 2", promotionService.getById(3L).getName());
+        assertEquals("Fahr 3 zahl 2", promotionService.getById(3L).get().getName());
     }
 
     @Test
     @Transactional
     public void testGetByName() throws Exception {
-        assertEquals(3L, promotionService.getByName("Fahr 3 zahl 2").getId().longValue());
+        assertEquals(3L, promotionService.getByName("Fahr 3 zahl 2").get().getId().longValue());
     }
 
     @Test
@@ -58,10 +58,10 @@ public class PromotionServiceBeanTest extends AbstractMasterDataServiceTest<Prom
     @Test
     @Transactional
     public void testUpdate() throws Exception {
-        PromotionBean promotionBean = promotionService.getByName("Fahr 3 zahl 2");
+        PromotionBean promotionBean = promotionService.getByName("Fahr 3 zahl 2").get();
         promotionBean.setName("F3Z2");
         promotionService.update(promotionBean);
-        assertEquals(2, promotionService.getByName("F3Z2").getVersion().intValue());
+        assertEquals(2, promotionService.getByName("F3Z2").get().getVersion().intValue());
         assertEquals(5, promotionService.getAll(EnabledState.All).size());
     }
 
@@ -87,11 +87,11 @@ public class PromotionServiceBeanTest extends AbstractMasterDataServiceTest<Prom
 
     @Override
     protected Long idToEnable() {
-        return promotionService.getByName("Sommerferien").getId();
+        return promotionService.getByName("Sommerferien").get().getId();
     }
 
     @Override
     protected Long idToDisable() {
-        return promotionService.getByName("Fahr 3 zahl 2").getId();
+        return promotionService.getByName("Fahr 3 zahl 2").get().getId();
     }
 }

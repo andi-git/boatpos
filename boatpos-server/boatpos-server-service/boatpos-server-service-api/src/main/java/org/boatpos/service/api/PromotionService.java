@@ -5,6 +5,7 @@ import org.boatpos.service.api.bean.PromotionBean;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for {@link PromotionBean}.
@@ -41,7 +42,7 @@ public interface PromotionService extends MasterDataService<PromotionBean> {
      * @param name the name of the {@link PromotionBean}
      * @return the {@link PromotionBean} or {@code null} if it is not available
      */
-    PromotionBean getByName(String name);
+    Optional<PromotionBean> getByName(String name);
 
     /**
      * Save a new {@link PromotionBean}. The {@link PromotionBean#id} must no be set.

@@ -11,13 +11,13 @@ import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.LogWrapper;
 import org.boatpos.util.log.SLF4J;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-@Stateless
-public class BoatServiceBean implements BoatService {
+@RequestScoped
+public class BoatServiceCore implements BoatService {
 
     @Inject
     @SLF4J
@@ -46,18 +46,18 @@ public class BoatServiceBean implements BoatService {
     }
 
     @Override
-    public BoatBean getById(Long id) {
-        return crudHelper.getOrNull(boatDao.getById(id), boatMapping, () -> log.error("no {} available with id {}", Boat.class.getName(), id));
+    public Optional<BoatBean> getById(Long id) {
+        return boatMapping.mapEntity(boatDao.getById(id));
     }
 
     @Override
-    public BoatBean getByName(String name) {
-        return crudHelper.getOrNull(boatDao.getByName(name), boatMapping, () -> log.error("no {} available with name {}", Boat.class.getName(), name));
+    public Optional<BoatBean> getByName(String name) {
+        return boatMapping.mapEntity(boatDao.getByName(name));
     }
 
     @Override
-    public BoatBean getByShortName(String shortName) {
-        return crudHelper.getOrNull(boatDao.getByShortName(shortName), boatMapping, () -> log.error("no {} available with shortName {}", Boat.class.getName(), shortName));
+    public Optional<BoatBean> getByShortName(String shortName) {
+        return boatMapping.mapEntity(boatDao.getByShortName(shortName));
     }
 
     @Override

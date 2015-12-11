@@ -4,10 +4,7 @@ import org.boatpos.model.AbstractEntity;
 import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> {
@@ -19,12 +16,20 @@ public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends Abstrac
         return mappingHelper.map(entity, getMappedDtoClass());
     }
 
+    public Optional<DTO> mapEntity(Optional<ENTITY> entity) {
+        return entity.isPresent() ? Optional.of(mapEntity(entity.get())) : Optional.empty();
+    }
+
     public void mapEntity(ENTITY entity, DTO dto) {
         mappingHelper.map(entity, dto);
     }
 
     public ENTITY mapDto(DTO dto) {
         return mappingHelper.map(dto, getMappedEntityClass());
+    }
+
+    public Optional<ENTITY> mapDto(Optional<DTO> dto) {
+        return dto.isPresent() ? Optional.of(mapDto(dto.get())) : Optional.empty();
     }
 
     public void mapDto(DTO dto, ENTITY entity) {

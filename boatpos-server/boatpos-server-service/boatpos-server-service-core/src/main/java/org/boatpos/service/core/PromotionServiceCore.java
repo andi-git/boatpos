@@ -17,13 +17,13 @@ import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.SLF4J;
 import org.slf4j.Logger;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-@Stateless
-public class PromotionServiceBean implements PromotionService {
+@RequestScoped
+public class PromotionServiceCore implements PromotionService {
 
     @Inject
     @SLF4J
@@ -84,13 +84,13 @@ public class PromotionServiceBean implements PromotionService {
     }
 
     @Override
-    public PromotionBean getById(Long id) {
-        return crudHelper.getOrNull(promotionDao.getById(id), promotionMapping, () -> log.error("no {} available with id {}", Promotion.class.getName(), id));
+    public Optional<PromotionBean> getById(Long id) {
+        return promotionMapping.mapEntity(promotionDao.getById(id));
     }
 
     @Override
-    public PromotionBean getByName(String name) {
-        return crudHelper.getOrNull(promotionDao.getByName(name), promotionMapping, () -> log.error("no {} available with name {}", Promotion.class.getName(), name));
+    public Optional<PromotionBean> getByName(String name) {
+        return promotionMapping.mapEntity(promotionDao.getByName(name));
     }
 
     @Override

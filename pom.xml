@@ -39,6 +39,7 @@
         <version.maven-dependency-plugin>2.10</version.maven-dependency-plugin>
         <version.maven-jacoco-plugin>0.7.5.201505241946</version.maven-jacoco-plugin>
         <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
+        <version.maven-war-plugin>2.6</version.maven-war-plugin>
         <!-- runtime -->
         <version.javaee-api>7.0</version.javaee-api>
         <version.slf4j-api>1.6.1</version.slf4j-api>
@@ -330,10 +331,12 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-transaction-impl-base</artifactId>
+                    <scope>test</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-transaction-jta</artifactId>
+                    <scope>test</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.jacoco</groupId>

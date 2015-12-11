@@ -15,26 +15,6 @@ import java.util.Optional;
 public class CrudHelper {
 
     /**
-     * Map the {@link ENTITY} of the {@link Optional} to the {@link DTO} of return null.
-     *
-     * @param entity   the {@link ENTITY}
-     * @param mapping  the mapping-component between {@link ENTITY} and {@link DTO}
-     * @param logError the error-strategy if the {@link Optional} is not set (e.g. log a messages)
-     * @param <ENTITY> the type of the entity
-     * @param <DTO>    the type of the dto
-     * @return the {@link DTO} (mapped from the {@link ENTITY}) or {@code null}
-     */
-    public <ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> DTO getOrNull(Optional<ENTITY> entity, Mapping<ENTITY, DTO> mapping, Runnable logError) {
-        DTO dto = null;
-        if (entity.isPresent()) {
-            dto = mapping.mapEntity(entity.get());
-        } else {
-            logError.run();
-        }
-        return dto;
-    }
-
-    /**
      * Get the {@link DTO} of the {@link Optional} or {@code null}.
      *
      * @param dtoOptional the {@link Optional} containing the {@link DTO}

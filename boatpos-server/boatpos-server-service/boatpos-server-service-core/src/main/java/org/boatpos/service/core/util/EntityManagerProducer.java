@@ -1,4 +1,4 @@
-package org.boatpos.service.core;
+package org.boatpos.service.core.util;
 
 import org.boatpos.dao.api.BoatPosDB;
 

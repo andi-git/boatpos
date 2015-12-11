@@ -3,15 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>boatpos-server-test</artifactId>
+        <artifactId>boatpos-server-service</artifactId>
         <groupId>org.boatpos</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>boatpos-server-test-model</artifactId>
+    <artifactId>boatpos-server-service-rest</artifactId>
+    <packaging>war</packaging>
 
     <build>
+        <finalName>boatpos-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -28,50 +30,43 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,dozer,commons-beanutils,commons-lang3</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.maven-war-plugin}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
+        <!-- production -->
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-model</artifactId>
+            <artifactId>boatpos-server-service-core</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
+
+        <!-- test -->
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-test-util</artifactId>
+            <artifactId>boatpos-server-test-model</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-container-spi</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-container-test-spi</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-transaction-spi</artifactId>
-            <scope>provided</scope>
+            <artifactId>arquillian-rest-client-api</artifactId>
+            <version>1.0.0.Alpha4</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

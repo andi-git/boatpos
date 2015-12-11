@@ -9,14 +9,14 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class CommitmentServiceBeanTest extends AbstractMasterDataServiceTest<CommitmentBean> {
+public class CommitmentServiceCoreTest extends AbstractMasterDataServiceTest<CommitmentBean> {
 
-    @EJB
+    @Inject
     private CommitmentService commitmentService;
 
     @Override
@@ -41,24 +41,24 @@ public class CommitmentServiceBeanTest extends AbstractMasterDataServiceTest<Com
 
     @Override
     protected Long idToEnable() {
-        return commitmentService.getByName("Kinderwagen").getId();
+        return commitmentService.getByName("Kinderwagen").get().getId();
     }
 
     @Override
     protected Long idToDisable() {
-        return commitmentService.getByName("Ausweis").getId();
+        return commitmentService.getByName("Ausweis").get().getId();
     }
 
     @Test
     @Transactional
     public void testGetById() throws Exception {
-        assertEquals("Ausweis", commitmentService.getById(4L).getName());
+        assertEquals("Ausweis", commitmentService.getById(4L).get().getName());
     }
 
     @Test
     @Transactional
     public void testGetByName() throws Exception {
-        assertEquals(4L, commitmentService.getByName("Ausweis").getId().longValue());
+        assertEquals(4L, commitmentService.getByName("Ausweis").get().getId().longValue());
     }
 
     @Test
@@ -72,9 +72,9 @@ public class CommitmentServiceBeanTest extends AbstractMasterDataServiceTest<Com
     @Test
     @Transactional
     public void testUpdate() throws Exception {
-        CommitmentBean commitmentBean = commitmentService.getByName("Ausweis");
+        CommitmentBean commitmentBean = commitmentService.getByName("Ausweis").get();
         commitmentBean.setName("AUSWEIS!");
         commitmentService.update(commitmentBean);
-        assertEquals(2, commitmentService.getByName("AUSWEIS!").getVersion().intValue());
+        assertEquals(2, commitmentService.getByName("AUSWEIS!").get().getVersion().intValue());
     }
 }

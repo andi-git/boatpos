@@ -2,6 +2,8 @@ package org.boatpos.service.api;
 
 import org.boatpos.service.api.bean.BoatBean;
 
+import java.util.Optional;
+
 /**
  * Service for {@link BoatBean}s.
  */
@@ -13,7 +15,7 @@ public interface BoatService extends MasterDataService<BoatBean> {
      * @param name the name of the {@link BoatBean}
      * @return the {@link BoatBean} or {@code null} if it is not available
      */
-    BoatBean getByName(String name);
+    Optional<BoatBean> getByName(String name);
 
     /**
      * Get a {@link BoatBean} by it's short-name.
@@ -21,7 +23,7 @@ public interface BoatService extends MasterDataService<BoatBean> {
      * @param shortName the short-name of the {@link BoatBean}
      * @return the {@link BoatBean} or {@code null} if it is not available
      */
-    BoatBean getByShortName(String shortName);
+    Optional<BoatBean> getByShortName(String shortName);
 
     /**
      * Save a new {@link BoatBean}. The {@link BoatBean#id} must no be set.

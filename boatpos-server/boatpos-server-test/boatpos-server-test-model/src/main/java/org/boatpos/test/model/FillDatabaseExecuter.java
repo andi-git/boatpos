@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.spi.CDI;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import java.util.Optional;
 

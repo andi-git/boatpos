@@ -23,19 +23,19 @@ public abstract class AbstractMasterDataServiceTest<DTO extends AbstractMasterDa
     @Test
     @Transactional
     public void testEnable() {
-        DTO dto = service().getById(idToEnable());
+        DTO dto = service().getById(idToEnable()).get();
         assertFalse(dto.isEnabled());
         service().enable(idToEnable());
-        assertTrue(service().getById(idToEnable()).isEnabled());
+        assertTrue(service().getById(idToEnable()).get().isEnabled());
     }
 
     @Test
     @Transactional
     public void testDisable() {
-        DTO dto = service().getById(idToDisable());
+        DTO dto = service().getById(idToDisable()).get();
         assertTrue(dto.isEnabled());
         service().disable(idToDisable());
-        assertFalse(service().getById(idToDisable()).isEnabled());
+        assertFalse(service().getById(idToDisable()).get().isEnabled());
     }
 
     protected abstract MasterDataService<DTO> service();

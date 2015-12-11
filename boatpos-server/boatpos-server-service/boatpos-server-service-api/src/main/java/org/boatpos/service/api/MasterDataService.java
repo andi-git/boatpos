@@ -3,6 +3,7 @@ package org.boatpos.service.api;
 import org.boatpos.service.api.bean.AbstractMasterDataBean;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The enable- / disable-state of the bean.
@@ -17,7 +18,7 @@ public interface MasterDataService<DTO extends AbstractMasterDataBean> {
      * @param id the id of the {@link DTO}
      * @return the {@link DTO} or {@code null} if the id is not available
      */
-    DTO getById(Long id);
+    Optional<DTO> getById(Long id);
 
 
     /**
@@ -48,5 +49,4 @@ public interface MasterDataService<DTO extends AbstractMasterDataBean> {
      * @param id the id of the bean to disable
      */
     void disable(Long id);
-
 }

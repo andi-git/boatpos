@@ -11,13 +11,13 @@ import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.SLF4J;
 import org.slf4j.Logger;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-@Stateless
-public class CommitmentServiceBean implements CommitmentService {
+@RequestScoped
+public class CommitmentServiceCore implements CommitmentService {
 
     @Inject
     @SLF4J
@@ -46,13 +46,13 @@ public class CommitmentServiceBean implements CommitmentService {
     }
 
     @Override
-    public CommitmentBean getById(Long id) {
-        return crudHelper.getOrNull(commitmentDao.getById(id), commitmentMapping, () -> log.error("no {} available with id {}", Commitment.class.getName(), id));
+    public Optional<CommitmentBean> getById(Long id) {
+        return commitmentMapping.mapEntity(commitmentDao.getById(id));
     }
 
     @Override
-    public CommitmentBean getByName(String name) {
-        return crudHelper.getOrNull(commitmentDao.getByName(name), commitmentMapping, () -> log.error("no {} available with name {}", Commitment.class.getName(), name));
+    public Optional<CommitmentBean> getByName(String name) {
+        return commitmentMapping.mapEntity(commitmentDao.getByName(name));
     }
 
     @Override

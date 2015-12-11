@@ -1,6 +1,5 @@
 package org.boatpos.service.core;
 
-import org.boatpos.model.Boat;
 import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
@@ -10,39 +9,38 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
-public class BoatServiceBeanTest extends AbstractMasterDataServiceTest<BoatBean> {
+public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean> {
 
-    @EJB
+    @Inject
     private BoatService boatService;
 
     @Test
     @Transactional
     public void testGetById() throws Exception {
-        Long id = boatService.getByShortName("E").getId();
-        assertEquals("E", boatService.getById(id).getShortName());
-        assertNull(boatService.getById(999L));
+        Long id = boatService.getByShortName("E").get().getId();
+        assertEquals("E", boatService.getById(id).get().getShortName());
+        assertFalse(boatService.getById(999L).isPresent());
     }
 
     @Test
     @Transactional
     public void testGetByName() throws Exception {
-        assertEquals("E", boatService.getByName("E-Boot").getShortName());
-        assertNull(boatService.getByName("xxx"));
+        assertEquals("E", boatService.getByName("E-Boot").get().getShortName());
+        assertFalse(boatService.getByName("xxx").isPresent());
     }
 
     @Test
     @Transactional
     public void testGetByShortName() throws Exception {
-        assertEquals("E-Boot", boatService.getByShortName("E").getName());
-        assertNull(boatService.getByShortName("xxx"));
+        assertEquals("E-Boot", boatService.getByShortName("E").get().getName());
+        assertFalse(boatService.getByShortName("xxx").isPresent());
     }
 
     @Test
@@ -59,20 +57,16 @@ public class BoatServiceBeanTest extends AbstractMasterDataServiceTest<BoatBean>
     public void testSaveWithException() throws Throwable {
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
         BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true);
-        try {
-            boatService.save(boatBean);
-        } catch (Exception e) {
-            throw e.getCause();
-        }
+        boatService.save(boatBean);
     }
 
     @Test
     @Transactional
     public void testUpdate() throws Exception {
-        BoatBean boatBean = boatService.getByShortName("E");
+        BoatBean boatBean = boatService.getByShortName("E").get();
         boatBean.setName("EBOOT");
         boatService.update(boatBean);
-        assertEquals(2, boatService.getByName("EBOOT").getVersion().intValue());
+        assertEquals(2, boatService.getByName("EBOOT").get().getVersion().intValue());
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
 
         boatBean = new BoatBean();
@@ -102,11 +96,11 @@ public class BoatServiceBeanTest extends AbstractMasterDataServiceTest<BoatBean>
 
     @Override
     protected Long idToEnable() {
-        return boatService.getByShortName("P").getId();
+        return boatService.getByShortName("P").get().getId();
     }
 
     @Override
     protected Long idToDisable() {
-        return boatService.getByShortName("E").getId();
+        return boatService.getByShortName("E").get().getId();
     }
 }
