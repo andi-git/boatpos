@@ -58,21 +58,4 @@ public interface PromotionService extends MasterDataService<PromotionBean> {
      * @return the updated {@link PromotionBean}
      */
     PromotionBean update(PromotionBean promotionBean);
-
-
-    /**
-     * Enable a {@link PromotionBean} (set {@link PromotionBean#enabled} to {@code true}).
-     *
-     * @param id the id of the {@link PromotionBean} to enable.
-     */
-    @Override
-    void enable(Long id);
-
-    /**
-     * Disable a {@link PromotionBean} (set {@link PromotionBean#enabled} to {@code false}).
-     *
-     * @param id the id of the {@link PromotionBean} to enable.
-     */
-    @Override
-    void disable(Long id);
 }

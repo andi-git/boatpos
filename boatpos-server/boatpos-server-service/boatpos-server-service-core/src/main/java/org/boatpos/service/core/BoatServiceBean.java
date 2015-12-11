@@ -36,7 +36,7 @@ public class BoatServiceBean implements BoatService {
     private MasterDataHelper masterDataHelper;
 
     @Override
-    public List getAll() {
+    public List<BoatBean> getAll() {
         return getAll(EnabledState.All);
     }
 

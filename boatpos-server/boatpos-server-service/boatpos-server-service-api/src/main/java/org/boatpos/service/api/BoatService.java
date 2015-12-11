@@ -2,8 +2,6 @@ package org.boatpos.service.api;
 
 import org.boatpos.service.api.bean.BoatBean;
 
-import java.util.List;
-
 /**
  * Service for {@link BoatBean}s.
  */

@@ -22,6 +22,16 @@ public abstract class GenericMasterDataDaoCore<ENTITY extends AbstractMasterData
         return createNamedQuery(nameForGetAllDisabled()).getResultList();
     }
 
+    @Override
+    public void delete(Long id) {
+        // delete not supported
+    }
+
+    @Override
+    public void delete(ENTITY entity) {
+        // delete not supported
+    }
+
     protected abstract String nameForGetAll();
 
     protected abstract String nameForGetAllEnabled();

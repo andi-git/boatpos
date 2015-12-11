@@ -48,7 +48,7 @@ public class PromotionServiceBean implements PromotionService {
     private MasterDataHelper masterDataHelper;
 
     @Override
-    public List getAll() {
+    public List<PromotionBean> getAll() {
         return getAll(EnabledState.All);
     }
 

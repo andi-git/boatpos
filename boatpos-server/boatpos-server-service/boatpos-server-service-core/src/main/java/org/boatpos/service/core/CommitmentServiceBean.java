@@ -36,7 +36,7 @@ public class CommitmentServiceBean implements CommitmentService {
     private MasterDataHelper masterDataHelper;
 
     @Override
-    public List getAll() {
+    public List<CommitmentBean> getAll() {
         return getAll(EnabledState.All);
     }
 

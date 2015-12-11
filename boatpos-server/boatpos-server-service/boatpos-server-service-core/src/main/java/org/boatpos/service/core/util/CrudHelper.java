@@ -2,8 +2,6 @@ package org.boatpos.service.core.util;
 
 import org.boatpos.dao.api.GenericDao;
 import org.boatpos.model.AbstractEntity;
-import org.boatpos.model.AbstractMasterDataEntity;
-import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 import org.boatpos.service.core.mapping.Mapping;
 
