@@ -15,7 +15,7 @@ import java.util.Set;
  */
 @SuppressWarnings("unused")
 @Entity
-public class Boat extends AbstractEntity {
+public class Boat extends AbstractMasterDataEntity {
 
     /**
      * The name of the {@link Boat}.
@@ -76,18 +76,11 @@ public class Boat extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rental> rentals;
 
-    /**
-     * The priority of the {@link Boat}.
-     */
-    @NotNull
-    @Min(0)
-    private Integer priority;
-
     public Boat() {
     }
 
-    public Boat(Long id, Integer version, String name, String shortName, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority, Set<Rental> rentals) {
-        super(id, version);
+    public Boat(Long id, Integer version, String name, String shortName, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority, Set<Rental> rentals, boolean enabled) {
+        super(id, version, enabled, priority);
         this.name = name;
         this.shortName = shortName;
         this.price = price;
@@ -95,7 +88,6 @@ public class Boat extends AbstractEntity {
         this.priceThreeQuaterHour = priceThreeQuaterHour;
         this.count = count;
         this.rentals = rentals;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -152,13 +144,5 @@ public class Boat extends AbstractEntity {
 
     public void setRentals(Set<Rental> rentals) {
         this.rentals = rentals;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 }

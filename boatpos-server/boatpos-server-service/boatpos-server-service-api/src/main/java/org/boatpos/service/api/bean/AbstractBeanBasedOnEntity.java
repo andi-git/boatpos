@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * Basic class for DTOs based on entities with an {@link #id} and a {@link #version}.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractDtoBasedOnEntity extends AbstractDto {
+public abstract class AbstractBeanBasedOnEntity extends AbstractBean {
 
     /**
      * The technical id / primary key.
@@ -30,10 +30,10 @@ public abstract class AbstractDtoBasedOnEntity extends AbstractDto {
     @Expose
     private Integer version;
 
-    public AbstractDtoBasedOnEntity() {
+    public AbstractBeanBasedOnEntity() {
     }
 
-    public AbstractDtoBasedOnEntity(Long id, Integer version) {
+    public AbstractBeanBasedOnEntity(Long id, Integer version) {
         this.id = id;
         this.version = version;
     }
@@ -58,7 +58,7 @@ public abstract class AbstractDtoBasedOnEntity extends AbstractDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractDtoBasedOnEntity that = (AbstractDtoBasedOnEntity) o;
+        AbstractBeanBasedOnEntity that = (AbstractBeanBasedOnEntity) o;
         return Objects.equal(id, that.id);
     }
 

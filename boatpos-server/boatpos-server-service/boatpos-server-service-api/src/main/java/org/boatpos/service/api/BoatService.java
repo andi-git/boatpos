@@ -7,22 +7,7 @@ import java.util.List;
 /**
  * Service for {@link BoatBean}s.
  */
-public interface BoatService {
-
-    /**
-     * Get a {@link List} of all {@link BoatBean}s ordered by {@link BoatBean#priority}.
-     *
-     * @return a {@link List} of all {@link BoatBean}s ordered by {@link BoatBean#priority}
-     */
-    List<BoatBean> getAll();
-
-    /**
-     * Get a {@link BoatBean} by it's id.
-     *
-     * @param id the id of the {@link BoatBean}
-     * @return the {@link BoatBean} or {@code null} if the id is not available
-     */
-    BoatBean getById(Long id);
+public interface BoatService extends MasterDataService<BoatBean> {
 
     /**
      * Get a {@link BoatBean} by it's name.
@@ -55,11 +40,4 @@ public interface BoatService {
      * @return the updated {@link BoatBean}
      */
     BoatBean update(BoatBean boatBean);
-
-    /**
-     * Delete an existing {@link BoatBean} via the (valid) id.
-     *
-     * @param id the id of the {@link BoatBean} to delete
-     */
-    void delete(Long id);
 }

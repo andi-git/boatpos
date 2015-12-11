@@ -7,22 +7,15 @@ import java.util.List;
 /**
  * Service for {@link CommitmentBean}s.
  */
-public interface CommitmentService {
+public interface CommitmentService extends MasterDataService<CommitmentBean> {
 
     /**
      * Get a {@link List} of all {@link CommitmentBean}s ordered by {@link CommitmentBean#priority}.
      *
+     * @param enabledState the {@link EnabledState} of the beans to search
      * @return a {@link List} of all {@link CommitmentBean}s ordered by {@link CommitmentBean#priority}
      */
-    List<CommitmentBean> getAll();
-
-    /**
-     * Get a {@link CommitmentBean} by it's id.
-     *
-     * @param id the id of the {@link CommitmentBean}
-     * @return the {@link CommitmentBean} or {@code null} if the id is not available
-     */
-    CommitmentBean getById(Long id);
+    List<CommitmentBean> getAll(EnabledState enabledState);
 
     /**
      * Get a {@link CommitmentBean} by it's name.
@@ -49,9 +42,19 @@ public interface CommitmentService {
     CommitmentBean update(CommitmentBean commitmentBean);
 
     /**
-     * Delete an existing {@link CommitmentBean} via the (valid) id.
+     * Enable a {@link CommitmentBean} (set {@link CommitmentBean#enabled} to {@code true}).
      *
-     * @param id the id of the {@link CommitmentBean} to delete
+     * @param id the id of the {@link CommitmentBean} to enable
      */
-    void delete(Long id);
+    @Override
+    void enable(Long id);
+
+    /**
+     * Disable a {@link CommitmentBean} (set {@link CommitmentBean#enabled} to {@code false}).
+     *
+     * @param id the id of the {@link CommitmentService} to disable
+     */
+    @Override
+    void disable(Long id);
+
 }

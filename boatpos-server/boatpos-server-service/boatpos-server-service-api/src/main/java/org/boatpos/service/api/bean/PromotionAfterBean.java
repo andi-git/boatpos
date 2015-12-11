@@ -9,7 +9,7 @@ public class PromotionAfterBean extends PromotionBean {
     public PromotionAfterBean() {
     }
 
-    public PromotionAfterBean(Long id, Integer version, String name, String priceCalculation, Integer priority) {
-        super(id, version, name, priceCalculation, priority);
+    public PromotionAfterBean(Long id, Integer version, String name, String priceCalculation, Integer priority, boolean enabled) {
+        super(id, version, name, priceCalculation, priority, enabled);
     }
 }

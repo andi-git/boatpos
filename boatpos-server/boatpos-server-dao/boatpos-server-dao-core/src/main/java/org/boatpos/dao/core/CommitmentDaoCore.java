@@ -4,11 +4,10 @@ import org.boatpos.dao.api.CommitmentDao;
 import org.boatpos.model.Commitment;
 
 import javax.enterprise.context.Dependent;
-import java.util.List;
 import java.util.Optional;
 
 @Dependent
-public class CommitmentDaoCore extends GenericDaoCore<Commitment> implements CommitmentDao {
+public class CommitmentDaoCore extends GenericMasterDataDaoCore<Commitment> implements CommitmentDao {
 
     @Override
     public Class<Commitment> getType() {
@@ -22,7 +21,17 @@ public class CommitmentDaoCore extends GenericDaoCore<Commitment> implements Com
     }
 
     @Override
-    public List<Commitment> getAll() {
-        return createNamedQuery("commitment.getAll").getResultList();
+    protected String nameForGetAll() {
+        return "commitment.getAll";
+    }
+
+    @Override
+    protected String nameForGetAllEnabled() {
+        return "commitment.getAllEnabled";
+    }
+
+    @Override
+    protected String nameForGetAllDisabled() {
+        return "commitment.getAllDisabled";
     }
 }

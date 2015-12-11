@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * The DAO for {@link Commitment}.
  */
-public interface CommitmentDao extends GenericDao<Commitment> {
+public interface CommitmentDao extends GenericMasterDataDao<Commitment> {
 
     /**
      * Get a {@link Commitment} by it's {@link Commitment#name}.
@@ -24,4 +24,20 @@ public interface CommitmentDao extends GenericDao<Commitment> {
      * @return a {@link List} of all {@link Commitment}s ordered by {@link Commitment#priority}
      */
     List<Commitment> getAll();
+
+    /**
+     * Get a {@link List} of all enabled ({@link Commitment#enabled}) {@link Commitment}s ordered by {@link
+     * Commitment#priority}.
+     *
+     * @return a {@link List} of all enabled {@link Commitment}s ordered by {@link Commitment#priority}
+     */
+    List<Commitment> getAllEnabled();
+
+    /**
+     * Get a {@link List} of all disabled ({@link Commitment#enabled}) {@link Commitment}s ordered by {@link
+     * Commitment#priority}.
+     *
+     * @return a {@link List} of all disabled {@link Commitment}s ordered by {@link Commitment#priority}
+     */
+    List<Commitment> getAllDisabled();
 }

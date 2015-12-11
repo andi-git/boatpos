@@ -25,7 +25,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
 
     @Before
     public void before() {
-        assertBoatCount(5);
+        assertBoatCount(6);
     }
 
     @Test
@@ -33,23 +33,23 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     public void testGetById() throws Exception {
         assertEquals("E-Boot", dao.getById(1L).get().getName());
         assertEquals("Tretboot klein", dao.getById(5L).get().getName());
-        assertBoatCount(5);
+        assertBoatCount(6);
     }
 
     @Test
     @Transactional
     public void testSave() throws Exception {
-        Boat boat = new Boat(null, 1, "Tretboot groß", "T4", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 0, new HashSet<>());
+        Boat boat = new Boat(null, 1, "Tretboot groß", "T4", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 0, new HashSet<>(), true);
         dao.save(boat);
         assertEquals("Tretboot groß", dao.getById(boat.getId()).get().getName());
-        assertBoatCount(6);
+        assertBoatCount(7);
     }
 
     @Test
     @Transactional
     public void testSaveWithException() throws Exception {
         try {
-            Boat boat = new Boat(null, 1, "", "T4", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 0, new HashSet<>());
+            Boat boat = new Boat(null, 1, "", "T4", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 0, new HashSet<>(), true);
             dao.save(boat);
             fail("exception must be thrown");
         } catch (PersistenceException e) {
@@ -64,7 +64,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
         boat.setName("Elektroboot");
         dao.update(boat);
         assertEquals("Elektroboot", dao.getById(1L).get().getName());
-        assertBoatCount(5);
+        assertBoatCount(6);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testDeleteById() throws Exception {
         dao.delete(1L);
-        assertBoatCount(4);
+        assertBoatCount(5);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testDeleteByEntity() throws Exception {
         dao.delete(dao.getById(1L).get());
-        assertBoatCount(4);
+        assertBoatCount(5);
     }
 
 
@@ -110,7 +110,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testDeleteByEntityDetached() throws Exception {
         try {
-            Boat boat = new Boat(3L, 1, "", "T4", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 0, new HashSet<>());
+            Boat boat = new Boat(3L, 1, "", "T4", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 0, new HashSet<>(), true);
             dao.delete(boat);
             fail("exception must be thrown");
         } catch (PersistenceException e) {

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * Representation of a b boat.
  */
 @SuppressWarnings("unused")
-public class BoatBean extends AbstractDtoBasedOnEntity {
+public class BoatBean extends AbstractMasterDataBean {
 
     /**
      * The name of the {@link BoatBean}.
@@ -63,24 +63,17 @@ public class BoatBean extends AbstractDtoBasedOnEntity {
     @Expose
     private Integer count;
 
-    /**
-     * The priority of this {@link BoatBean}.
-     */
-    @NotNull
-    @Min(0)
-    private Integer priority;
+    public BoatBean() {
+    }
 
-    public BoatBean() { }
-
-    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority) {
-        super(id, version);
+    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority, boolean enabled) {
+        super(id, version, enabled, priority);
         this.shortName = shortName;
         this.name = name;
         this.price = price;
         this.priceHalfHour = priceHalfHour;
         this.priceThreeQuaterHour = priceThreeQuaterHour;
         this.count = count;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -129,13 +122,5 @@ public class BoatBean extends AbstractDtoBasedOnEntity {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 }

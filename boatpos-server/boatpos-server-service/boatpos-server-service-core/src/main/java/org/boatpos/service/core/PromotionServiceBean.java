@@ -2,6 +2,9 @@ package org.boatpos.service.core;
 
 import org.boatpos.dao.api.PromotionDao;
 import org.boatpos.model.Promotion;
+import org.boatpos.model.PromotionAfter;
+import org.boatpos.model.PromotionBefore;
+import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.PromotionService;
 import org.boatpos.service.api.bean.PromotionAfterBean;
 import org.boatpos.service.api.bean.PromotionBean;
@@ -9,7 +12,8 @@ import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.service.core.mapping.PromotionAfterMapping;
 import org.boatpos.service.core.mapping.PromotionBeforeMapping;
 import org.boatpos.service.core.mapping.PromotionMapping;
-import org.boatpos.service.core.util.GenericCrudHelper;
+import org.boatpos.service.core.util.CrudHelper;
+import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.SLF4J;
 import org.slf4j.Logger;
 
@@ -38,21 +42,45 @@ public class PromotionServiceBean implements PromotionService {
     private PromotionAfterMapping promotionAfterMapping;
 
     @Inject
-    private GenericCrudHelper crudHelper;
+    private CrudHelper crudHelper;
+
+    @Inject
+    private MasterDataHelper masterDataHelper;
 
     @Override
-    public List<PromotionBean> getAll() {
-        return promotionMapping.mapEntities(promotionDao.getAll());
+    public List getAll() {
+        return getAll(EnabledState.All);
     }
 
     @Override
-    public List<PromotionBeforeBean> getAllBeforeRental() {
-        return promotionBeforeMapping.mapEntities(promotionDao.getAllBeforeRental());
+    public List<PromotionBean> getAll(EnabledState enabledState) {
+        return masterDataHelper.getAll(promotionDao, promotionMapping, enabledState);
     }
 
     @Override
-    public List<PromotionAfterBean> getAllAfterRental() {
-        return promotionAfterMapping.mapEntities(promotionDao.getAllAfterRental());
+    public List<PromotionBeforeBean> getAllBeforeRental(EnabledState enabledState) {
+        List<PromotionBefore> entities;
+        if (EnabledState.Enabled == enabledState) {
+            entities = promotionDao.getAllBeforeRentalEnabled();
+        } else if (EnabledState.Disabled == enabledState) {
+            entities = promotionDao.getAllBeforeRentalDisabled();
+        } else {
+            entities = promotionDao.getAllBeforeRental();
+        }
+        return promotionBeforeMapping.mapEntities(entities);
+    }
+
+    @Override
+    public List<PromotionAfterBean> getAllAfterRental(EnabledState enabledState) {
+        List<PromotionAfter> entities;
+        if (EnabledState.Enabled == enabledState) {
+            entities = promotionDao.getAllAfterRentalEnabled();
+        } else if (EnabledState.Disabled == enabledState) {
+            entities = promotionDao.getAllAfterRentalDisabled();
+        } else {
+            entities = promotionDao.getAllAfterRental();
+        }
+        return promotionAfterMapping.mapEntities(entities);
     }
 
     @Override
@@ -77,8 +105,15 @@ public class PromotionServiceBean implements PromotionService {
         });
     }
 
+
     @Override
-    public void delete(Long id) {
-        promotionDao.delete(id);
+    public void enable(Long id) {
+        masterDataHelper.enable(id, promotionDao);
     }
+
+    @Override
+    public void disable(Long id) {
+        masterDataHelper.disable(id, promotionDao);
+    }
+
 }

@@ -6,9 +6,9 @@ import com.google.gson.GsonBuilder;
  * Basic class for DTOs to have the method {@link #toString()}.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractDto {
+public abstract class AbstractBean {
 
-    public AbstractDto() {
+    public AbstractBean() {
     }
 
     @Override

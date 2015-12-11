@@ -27,8 +27,8 @@ public class PromotionBefore extends Promotion {
     public PromotionBefore() {
     }
 
-    public PromotionBefore(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Set<Rental> rentals, Integer priority) {
-        super(id, version, name, priceCalculation, rentals, priority);
+    public PromotionBefore(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Set<Rental> rentals, Integer priority, boolean enabled) {
+        super(id, version, name, priceCalculation, rentals, priority, enabled);
         this.timeCredit = timeCredit;
     }
 

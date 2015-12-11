@@ -9,36 +9,31 @@ import java.util.List;
 /**
  * Service for {@link PromotionBean}.
  */
-public interface PromotionService {
+public interface PromotionService extends MasterDataService<PromotionBean> {
 
     /**
      * Get a {@link List} of all {@link PromotionBean}s ordered by {@link PromotionBean#priority}.
      *
+     * @param enabledState the {@link EnabledState} of the beans to search
      * @return a {@link List} of all {@link PromotionBean}s ordered by {@link PromotionBean#priority}
      */
-    List<PromotionBean> getAll();
+    List<PromotionBean> getAll(EnabledState enabledState);
 
     /**
      * Get a {@link List} of all {@link PromotionBeforeBean}s which are relevant <u>before</u> the rental.
      *
+     * @param enabledState the {@link EnabledState} of the beans to search
      * @return a {@link List} of all {@link PromotionBeforeBean}s which are relevant <u>before</u> the rental
      */
-    List<PromotionBeforeBean> getAllBeforeRental();
+    List<PromotionBeforeBean> getAllBeforeRental(EnabledState enabledState);
 
     /**
      * Get a {@link List} of all {@link PromotionAfterBean}s which are relevant <u>after</u> the rental.
      *
+     * @param enabledState the {@link EnabledState} of the beans to search
      * @return a {@link List} of all {@link PromotionAfterBean}s which are relevant <u>after</u> the rental
      */
-    List<PromotionAfterBean> getAllAfterRental();
-
-    /**
-     * Get a {@link PromotionBean} by it's id.
-     *
-     * @param id the id of the {@link PromotionBean}
-     * @return the {@link PromotionBean} or {@code null} if the id is not available
-     */
-    PromotionBean getById(Long id);
+    List<PromotionAfterBean> getAllAfterRental(EnabledState enabledState);
 
     /**
      * Get a {@link PromotionBean} by it's name.
@@ -64,10 +59,20 @@ public interface PromotionService {
      */
     PromotionBean update(PromotionBean promotionBean);
 
+
     /**
-     * Delete an existing {@link PromotionBean} via the (valid) id.
+     * Enable a {@link PromotionBean} (set {@link PromotionBean#enabled} to {@code true}).
      *
-     * @param id the id of the {@link PromotionBean} to delete
+     * @param id the id of the {@link PromotionBean} to enable.
      */
-    void delete(Long id);
+    @Override
+    void enable(Long id);
+
+    /**
+     * Disable a {@link PromotionBean} (set {@link PromotionBean#enabled} to {@code false}).
+     *
+     * @param id the id of the {@link PromotionBean} to enable.
+     */
+    @Override
+    void disable(Long id);
 }

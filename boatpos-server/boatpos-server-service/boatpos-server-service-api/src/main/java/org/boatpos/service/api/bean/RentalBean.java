@@ -15,7 +15,7 @@ import java.util.Set;
  * Representation of a boat-rental.
  */
 @SuppressWarnings("unused")
-public class RentalBean extends AbstractDtoBasedOnEntity {
+public class RentalBean extends AbstractBeanBasedOnEntity {
 
     /**
      * The id of the day. Every day this id starts with 0.

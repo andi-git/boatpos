@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Dependent
-public class BoatDaoCore extends GenericDaoCore<Boat> implements BoatDao {
+public class BoatDaoCore extends GenericMasterDataDaoCore<Boat> implements BoatDao {
 
     @Override
     public Class<Boat> getType() {
@@ -30,5 +30,30 @@ public class BoatDaoCore extends GenericDaoCore<Boat> implements BoatDao {
     @Override
     public List<Boat> getAll() {
         return createNamedQuery("boat.getAll").getResultList();
+    }
+
+    @Override
+    public List<Boat> getAllEnabled() {
+        return createNamedQuery("boat.getAllEnabled").getResultList();
+    }
+
+    @Override
+    public List<Boat> getAllDisabled() {
+        return createNamedQuery("boat.getAllDisabled").getResultList();
+    }
+
+    @Override
+    protected String nameForGetAll() {
+        return "boat.getAll";
+    }
+
+    @Override
+    protected String nameForGetAllEnabled() {
+        return "boat.getAllEnabled";
+    }
+
+    @Override
+    protected String nameForGetAllDisabled() {
+        return "boat.getAllDisabled";
     }
 }

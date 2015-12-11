@@ -2,7 +2,6 @@ package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,7 +9,7 @@ import javax.validation.constraints.Size;
  * Representation of a commitment.
  */
 @SuppressWarnings("unused")
-public class CommitmentBean extends AbstractDtoBasedOnEntity {
+public class CommitmentBean extends AbstractMasterDataBean {
 
     /**
      * The name of the commitment.
@@ -26,21 +25,13 @@ public class CommitmentBean extends AbstractDtoBasedOnEntity {
     @Expose
     private boolean paper;
 
-    /**
-     * The priority of this {@link CommitmentBean}.
-     */
-    @NotNull
-    @Min(0)
-    private Integer priority;
-
     public CommitmentBean() {
     }
 
-    public CommitmentBean(Long id, Integer version, String name, boolean paper, Integer priority) {
-        super(id, version);
+    public CommitmentBean(Long id, Integer version, String name, boolean paper, Integer priority, boolean enabled) {
+        super(id, version, enabled, priority);
         this.name = name;
         this.paper = paper;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -57,13 +48,5 @@ public class CommitmentBean extends AbstractDtoBasedOnEntity {
 
     public void setPaper(boolean paper) {
         this.paper = paper;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 }

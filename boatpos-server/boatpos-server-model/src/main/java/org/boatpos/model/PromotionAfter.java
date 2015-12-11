@@ -15,7 +15,7 @@ public class PromotionAfter extends Promotion {
     public PromotionAfter() {
     }
 
-    public PromotionAfter(Long id, Integer version, String name, String priceCalculation, Set<Rental> rentals, Integer priority) {
-        super(id, version, name, priceCalculation, rentals, priority);
+    public PromotionAfter(Long id, Integer version, String name, String priceCalculation, Set<Rental> rentals, Integer priority, boolean enabled) {
+        super(id, version, name, priceCalculation, rentals, priority, enabled);
     }
 }

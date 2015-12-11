@@ -9,4 +9,10 @@
     <named-query name="promotion.getAll">
         <query>FROM Promotion p ORDER BY p.priority</query>
     </named-query>
+    <named-query name="promotion.getAllEnabled">
+        <query>FROM Promotion p WHERE enabled = true ORDER BY p.priority</query>
+    </named-query>
+    <named-query name="promotion.getAllDisabled">
+        <query>FROM Promotion p WHERE enabled = false ORDER BY p.priority</query>
+    </named-query>
 </entity-mappings>

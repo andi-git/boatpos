@@ -1,8 +1,7 @@
 package org.boatpos.service.core.mapping;
 
 import org.boatpos.model.AbstractEntity;
-import org.boatpos.service.api.bean.AbstractDto;
-import org.boatpos.service.api.bean.AbstractDtoBasedOnEntity;
+import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends AbstractDtoBasedOnEntity> {
+public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> {
 
     @Inject
     private MappingHelper mappingHelper;

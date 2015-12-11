@@ -22,8 +22,8 @@ public class PromotionBeforeBean extends PromotionBean {
     public PromotionBeforeBean() {
     }
 
-    public PromotionBeforeBean(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Integer priority) {
-        super(id, version, name, priceCalculation, priority);
+    public PromotionBeforeBean(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Integer priority, boolean enabled) {
+        super(id, version, name, priceCalculation, priority, enabled);
         this.timeCredit = timeCredit;
     }
 

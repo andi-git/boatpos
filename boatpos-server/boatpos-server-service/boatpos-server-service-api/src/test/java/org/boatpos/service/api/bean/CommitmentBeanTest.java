@@ -19,11 +19,11 @@ public class CommitmentBeanTest extends JavaBeanTest<CommitmentBean> {
     }
 
     public static CommitmentBean createCommitmentAusweis() {
-        return new CommitmentBean(1L, 1, "Ausweis", true, 1);
+        return new CommitmentBean(1L, 1, "Ausweis", true, 1, true);
     }
 
     public static CommitmentBean createCommitment50Euro() {
-        return new CommitmentBean(2L, 1, "EUR 50,-", false, 2);
+        return new CommitmentBean(2L, 1, "EUR 50,-", false, 2, true);
     }
 
     @Test
@@ -51,6 +51,6 @@ public class CommitmentBeanTest extends JavaBeanTest<CommitmentBean> {
 
     @Test
     public void testToStringOfAbstractDto() {
-        assertEquals("{\"name\":\"Ausweis\",\"paper\":true,\"id\":1,\"version\":1}", createCommitmentAusweis().toString());
+        assertEquals("{\"name\":\"Ausweis\",\"paper\":true,\"enabled\":true,\"priority\":1,\"id\":1,\"version\":1}", createCommitmentAusweis().toString());
     }
 }

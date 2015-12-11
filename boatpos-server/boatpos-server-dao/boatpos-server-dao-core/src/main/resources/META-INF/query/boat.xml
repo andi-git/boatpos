@@ -12,4 +12,10 @@
     <named-query name="boat.getAll">
         <query>FROM Boat b ORDER BY b.priority</query>
     </named-query>
+    <named-query name="boat.getAllEnabled">
+        <query>FROM Boat b WHERE enabled = true ORDER BY b.priority</query>
+    </named-query>
+    <named-query name="boat.getAllDisabled">
+        <query>FROM Boat b WHERE enabled = false ORDER BY b.priority</query>
+    </named-query>
 </entity-mappings>

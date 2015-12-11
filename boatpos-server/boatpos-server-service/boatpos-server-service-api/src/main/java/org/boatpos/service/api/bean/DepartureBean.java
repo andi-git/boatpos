@@ -11,7 +11,7 @@ import java.util.Set;
  * The departure of a boat.
  */
 @SuppressWarnings("unused")
-public class DepartureBean extends AbstractDto {
+public class DepartureBean extends AbstractBean {
 
     /**
      * The {@link BoatBean} of the rental.

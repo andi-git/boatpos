@@ -1,11 +1,7 @@
 package org.boatpos.dao.core;
 
 import org.boatpos.dao.api.BoatDao;
-import org.boatpos.dao.api.PromotionDao;
-import org.boatpos.dao.api.RentalDao;
 import org.boatpos.model.Boat;
-import org.boatpos.model.Promotion;
-import org.boatpos.model.Rental;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -46,10 +42,22 @@ public class BoatDaoTest extends EntityManagerProviderForBoatpos {
 
     @Test
     @Transactional
-    public void testGetAll() {
-        List<Boat> boats = boatDao.getAll();
+    public void testGetAllEnabled() {
+        List<Boat> boats = boatDao.getAllEnabled();
         assertEquals(5, boats.size());
         assertEquals("E", boats.get(0).getShortName());
         assertEquals("L", boats.get(4).getShortName());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAll() {
+        assertEquals(6, boatDao.getAll().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllDisabled() {
+        assertEquals(1, boatDao.getAllDisabled().size());
     }
 }

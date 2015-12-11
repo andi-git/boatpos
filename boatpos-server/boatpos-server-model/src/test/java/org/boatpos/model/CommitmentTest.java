@@ -13,7 +13,7 @@ public class CommitmentTest extends JavaBeanTest<Commitment> {
 
     @Test
     public void testConstructor() {
-        new Commitment(null, 1, "commitment", false, new HashSet<>(), 1);
+        new Commitment(null, 1, "commitment", false, new HashSet<>(), 1, true);
     }
 
     @Override

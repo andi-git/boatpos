@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
  * The arrival of a rental.
  */
 @SuppressWarnings("unused")
-public class ArrivalBean extends AbstractDto {
+public class ArrivalBean extends AbstractBean {
 
     @NotNull
     @Min(0)

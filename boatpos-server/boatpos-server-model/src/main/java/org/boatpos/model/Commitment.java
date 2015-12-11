@@ -5,9 +5,7 @@ import com.google.gson.annotations.Expose;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -17,7 +15,7 @@ import java.util.Set;
  */
 @SuppressWarnings("unused")
 @Entity
-public class Commitment extends AbstractEntity {
+public class Commitment extends AbstractMasterDataEntity {
 
     /**
      * The name of the commitment.
@@ -40,22 +38,14 @@ public class Commitment extends AbstractEntity {
     @ManyToMany(mappedBy = "commitments", cascade = CascadeType.ALL)
     private Set<Rental> rentals;
 
-    /**
-     * The priority of the {@link Commitment}.
-     */
-    @NotNull
-    @Min(0)
-    private Integer priority;
-
     public Commitment() {
     }
 
-    public Commitment(Long id, Integer version, String name, boolean paper, Set<Rental> rentals, Integer priority) {
-        super(id, version);
+    public Commitment(Long id, Integer version, String name, boolean paper, Set<Rental> rentals, Integer priority, boolean enabled) {
+        super(id, version, enabled, priority);
         this.name = name;
         this.paper = paper;
         this.rentals = rentals;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -80,13 +70,5 @@ public class Commitment extends AbstractEntity {
 
     public void setRentals(Set<Rental> rentals) {
         this.rentals = rentals;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 }

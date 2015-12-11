@@ -25,22 +25,22 @@ public class BoatMappingTest {
 
     @Test
     public void testBoatToBoatBean() {
-        Boat boat = new Boat(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, new HashSet<>());
+        Boat boat = new Boat(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, new HashSet<>(), true);
         BoatBean boatBean = boatMapping.mapEntity(boat);
         assertEquals(1L, boatBean.getId().longValue());
     }
 
     @Test
     public void testBoatBeanToBoat() {
-        BoatBean boatBean = new BoatBean(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1);
+        BoatBean boatBean = new BoatBean(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, true);
         Boat boat = boatMapping.mapDto(boatBean);
         assertEquals(1L, boat.getId().longValue());
     }
 
     @Test
     public void testBoatCollectionToBoatBeanCollection() {
-        Boat boat1 = new Boat(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, new HashSet<>());
-        Boat boat2 = new Boat(2L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, new HashSet<>());
+        Boat boat1 = new Boat(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, new HashSet<>(), true);
+        Boat boat2 = new Boat(2L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, new HashSet<>(), true);
 
         List<BoatBean> boatList = boatMapping.mapEntities(Lists.newArrayList(boat1, boat2));
         assertEquals(2, boatList.size());
@@ -54,8 +54,8 @@ public class BoatMappingTest {
 
     @Test
     public void testBoatBeanCollectionToBoatCollection() {
-        BoatBean boatBean1 = new BoatBean(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1);
-        BoatBean boatBean2 = new BoatBean(2L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1);
+        BoatBean boatBean1 = new BoatBean(1L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, true);
+        BoatBean boatBean2 = new BoatBean(2L, 1, "E-Boot", "E", new BigDecimal("16.8"), new BigDecimal("9.5"), new BigDecimal("14.3"), 22, 1, true);
 
         List<Boat> boatList = boatMapping.mapDtos(Lists.newArrayList(boatBean1, boatBean2));
         assertEquals(2, boatList.size());

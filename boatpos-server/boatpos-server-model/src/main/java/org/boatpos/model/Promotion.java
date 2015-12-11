@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -13,7 +12,7 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "promotionType", discriminatorType = DiscriminatorType.STRING, length = 1)
-public abstract class Promotion extends AbstractEntity {
+public abstract class Promotion extends AbstractMasterDataEntity {
 
     /**
      * The name for this promotion.
@@ -38,22 +37,14 @@ public abstract class Promotion extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rental> rentals;
 
-    /**
-     * The priority of the {@link Commitment}.
-     */
-    @NotNull
-    @Min(0)
-    private Integer priority;
-
     public Promotion() {
     }
 
-    public Promotion(Long id, Integer version, String name, String priceCalculation, Set<Rental> rentals, Integer priority) {
-        super(id, version);
+    public Promotion(Long id, Integer version, String name, String priceCalculation, Set<Rental> rentals, Integer priority, boolean enabled) {
+        super(id, version, enabled, priority);
         this.name = name;
         this.priceCalculation = priceCalculation;
         this.rentals = rentals;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -78,13 +69,5 @@ public abstract class Promotion extends AbstractEntity {
 
     public void setRentals(Set<Rental> rentals) {
         this.rentals = rentals;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 }

@@ -1,7 +1,6 @@
 package org.boatpos.dao.core;
 
 import org.boatpos.dao.api.PromotionDao;
-import org.boatpos.dao.api.RentalDao;
 import org.boatpos.model.*;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
@@ -31,21 +30,54 @@ public class PromotionDaoTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testGetAll() {
-        List<Promotion> promotions = promotionDao.getAll();
-        assertEquals(3, promotions.size());
+        assertEquals(5, promotionDao.getAll().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllEnabled() {
+        assertEquals(3, promotionDao.getAllEnabled().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllDisabled() {
+        assertEquals(2, promotionDao.getAllDisabled().size());
     }
 
     @Test
     @Transactional
     public void testGetAllBeforeRental() {
-        List<PromotionBefore> promotions = promotionDao.getAllBeforeRental();
-        assertEquals(2, promotions.size());
+        assertEquals(3, promotionDao.getAllBeforeRental().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllBeforeRentalEnabled() {
+        assertEquals(2, promotionDao.getAllBeforeRentalEnabled().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllBeforeRentalDisabled() {
+        assertEquals(1, promotionDao.getAllBeforeRentalDisabled().size());
     }
 
     @Test
     @Transactional
     public void testGetAllAfterRental() {
-        List<PromotionAfter> promotions = promotionDao.getAllAfterRental();
-        assertEquals(1, promotions.size());
+        assertEquals(2, promotionDao.getAllAfterRental().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllAfterRentalEnabled() {
+        assertEquals(1, promotionDao.getAllAfterRentalEnabled().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllAfterRentalDisabled() {
+        assertEquals(1, promotionDao.getAllAfterRentalDisabled().size());
     }
 }

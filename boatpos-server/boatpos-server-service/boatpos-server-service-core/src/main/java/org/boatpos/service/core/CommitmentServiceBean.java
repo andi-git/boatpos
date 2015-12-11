@@ -3,9 +3,11 @@ package org.boatpos.service.core;
 import org.boatpos.dao.api.CommitmentDao;
 import org.boatpos.model.Commitment;
 import org.boatpos.service.api.CommitmentService;
+import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.CommitmentBean;
 import org.boatpos.service.core.mapping.CommitmentMapping;
-import org.boatpos.service.core.util.GenericCrudHelper;
+import org.boatpos.service.core.util.CrudHelper;
+import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.SLF4J;
 import org.slf4j.Logger;
 
@@ -28,11 +30,19 @@ public class CommitmentServiceBean implements CommitmentService {
     private CommitmentMapping commitmentMapping;
 
     @Inject
-    private GenericCrudHelper crudHelper;
+    private CrudHelper crudHelper;
+
+    @Inject
+    private MasterDataHelper masterDataHelper;
 
     @Override
-    public List<CommitmentBean> getAll() {
-        return commitmentMapping.mapEntities(commitmentDao.getAll());
+    public List getAll() {
+        return getAll(EnabledState.All);
+    }
+
+    @Override
+    public List<CommitmentBean> getAll(EnabledState enabledState) {
+        return masterDataHelper.getAll(commitmentDao, commitmentMapping, enabledState);
     }
 
     @Override
@@ -53,11 +63,19 @@ public class CommitmentServiceBean implements CommitmentService {
     @Override
     public CommitmentBean update(CommitmentBean commitmentBean) {
         Optional<CommitmentBean> updatedDto = crudHelper.update(commitmentBean, commitmentDao, commitmentMapping, () -> log.error("unable to update {} {}", Commitment.class.getName(), commitmentBean));
-        return crudHelper.getOrNull(updatedDto, () -> {});
+        return crudHelper.getOrNull(updatedDto, () -> {
+        });
+    }
+
+
+    @Override
+    public void enable(Long id) {
+        masterDataHelper.enable(id, commitmentDao);
     }
 
     @Override
-    public void delete(Long id) {
-        commitmentDao.delete(id);
+    public void disable(Long id) {
+        masterDataHelper.disable(id, commitmentDao);
     }
+
 }

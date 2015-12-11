@@ -30,10 +30,10 @@ public class PromotionMappingTest {
 
     @Before
     public void before() {
-        promotionBefore = new PromotionBefore(1L, 1, "PromoB", 60, "calcPrice", new HashSet<>(), 1);
-        promotionBeforeBean = new PromotionBeforeBean(1L, 1, "PromoB", 60, "calcPrice", 1);
-        promotionAfter = new PromotionAfter(2L, 1, "PromoA", "calcPrice", new HashSet<>(), 1);
-        promotionAfterBean = new PromotionAfterBean(2L, 1, "PromoA", "calcPrice", 1);
+        promotionBefore = new PromotionBefore(1L, 1, "PromoB", 60, "calcPrice", new HashSet<>(), 1, true);
+        promotionBeforeBean = new PromotionBeforeBean(1L, 1, "PromoB", 60, "calcPrice", 1, true);
+        promotionAfter = new PromotionAfter(2L, 1, "PromoA", "calcPrice", new HashSet<>(), 1, true);
+        promotionAfterBean = new PromotionAfterBean(2L, 1, "PromoA", "calcPrice", 1, true);
     }
 
     @Test

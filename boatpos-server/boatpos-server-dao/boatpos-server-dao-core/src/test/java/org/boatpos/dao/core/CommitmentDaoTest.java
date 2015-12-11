@@ -1,10 +1,6 @@
 package org.boatpos.dao.core;
 
 import org.boatpos.dao.api.CommitmentDao;
-import org.boatpos.dao.api.PromotionDao;
-import org.boatpos.model.Promotion;
-import org.boatpos.model.PromotionAfter;
-import org.boatpos.model.PromotionBefore;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -12,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,7 +25,21 @@ public class CommitmentDaoTest extends EntityManagerProviderForBoatpos {
 
     @Test
     @Transactional
-    public void testGetAll() {
-        assertEquals(5, commitmentDao.getAll().size());
+    public void testGetAllEnabled() {
+        assertEquals(5, commitmentDao.getAllEnabled().size());
     }
+
+
+    @Test
+    @Transactional
+    public void testGetAll() {
+        assertEquals(6, commitmentDao.getAll().size());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllDisabled() {
+        assertEquals(1, commitmentDao.getAllDisabled().size());
+    }
+
 }

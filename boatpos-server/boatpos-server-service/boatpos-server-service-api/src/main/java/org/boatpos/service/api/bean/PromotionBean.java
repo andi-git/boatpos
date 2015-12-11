@@ -2,12 +2,11 @@ package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @SuppressWarnings("unused")
-public abstract class PromotionBean extends AbstractDtoBasedOnEntity {
+public abstract class PromotionBean extends AbstractMasterDataBean {
 
     /**
      * The name for this promotion.
@@ -25,21 +24,13 @@ public abstract class PromotionBean extends AbstractDtoBasedOnEntity {
     @Expose
     private String priceCalculation;
 
-    /**
-     * The priority of this {@link PromotionBean}.
-     */
-    @NotNull
-    @Min(0)
-    private Integer priority;
-
     public PromotionBean() {
     }
 
-    public PromotionBean(Long id, Integer version, String name, String priceCalculation, Integer priority) {
-        super(id, version);
+    public PromotionBean(Long id, Integer version, String name, String priceCalculation, Integer priority, boolean enabled) {
+        super(id, version, enabled, priority);
         this.name = name;
         this.priceCalculation = priceCalculation;
-        this.priority = priority;
     }
 
     public String getName() {
@@ -56,13 +47,5 @@ public abstract class PromotionBean extends AbstractDtoBasedOnEntity {
 
     public void setPriceCalculation(String priceCalculation) {
         this.priceCalculation = priceCalculation;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
     }
 }

@@ -1,8 +1,10 @@
 package org.boatpos.service.core;
 
+import org.boatpos.model.Boat;
 import org.boatpos.service.api.BoatService;
+import org.boatpos.service.api.EnabledState;
+import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.bean.BoatBean;
-import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
@@ -12,24 +14,20 @@ import javax.ejb.EJB;
 import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(Arquillian.class)
-public class BoatServiceBeanTest extends EntityManagerProviderForBoatpos {
+public class BoatServiceBeanTest extends AbstractMasterDataServiceTest<BoatBean> {
 
     @EJB
     private BoatService boatService;
 
     @Test
     @Transactional
-    public void testGetAll() throws Exception {
-        assertEquals(5, boatService.getAll().size());
-    }
-
-    @Test
-    @Transactional
     public void testGetById() throws Exception {
-        assertEquals("E", boatService.getById(1L).getShortName());
+        Long id = boatService.getByShortName("E").getId();
+        assertEquals("E", boatService.getById(id).getShortName());
         assertNull(boatService.getById(999L));
     }
 
@@ -50,17 +48,17 @@ public class BoatServiceBeanTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testSave() throws Throwable {
-        assertEquals(5, boatService.getAll().size());
-        BoatBean boatBean = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5);
+        assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
+        BoatBean boatBean = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true);
         boatService.save(boatBean);
-        assertEquals(6, boatService.getAll().size());
+        assertEquals(6, boatService.getAll(EnabledState.Enabled).size());
     }
 
     @Test(expected = PersistenceException.class)
     @Transactional
     public void testSaveWithException() throws Throwable {
-        assertEquals(5, boatService.getAll().size());
-        BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5);
+        assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
+        BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true);
         try {
             boatService.save(boatBean);
         } catch (Exception e) {
@@ -75,14 +73,40 @@ public class BoatServiceBeanTest extends EntityManagerProviderForBoatpos {
         boatBean.setName("EBOOT");
         boatService.update(boatBean);
         assertEquals(2, boatService.getByName("EBOOT").getVersion().intValue());
-        assertEquals(5, boatService.getAll().size());
+        assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
+
+        boatBean = new BoatBean();
+        boatBean.setId(999L);
+        assertNull(boatService.update(boatBean));
     }
 
-    @Test
-    @Transactional
-    public void testDelete() throws Exception {
-        assertEquals(5, boatService.getAll().size());
-        boatService.delete(1L);
-        assertEquals(4, boatService.getAll().size());
+    @Override
+    protected MasterDataService<BoatBean> service() {
+        return boatService;
+    }
+
+    @Override
+    protected int countAll() {
+        return 6;
+    }
+
+    @Override
+    protected int countAllEnabled() {
+        return 5;
+    }
+
+    @Override
+    protected int countAllDisabled() {
+        return 1;
+    }
+
+    @Override
+    protected Long idToEnable() {
+        return boatService.getByShortName("P").getId();
+    }
+
+    @Override
+    protected Long idToDisable() {
+        return boatService.getByShortName("E").getId();
     }
 }

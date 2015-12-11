@@ -1,8 +1,9 @@
 package org.boatpos.service.core;
 
 import org.boatpos.service.api.CommitmentService;
+import org.boatpos.service.api.EnabledState;
+import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.bean.CommitmentBean;
-import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
@@ -10,18 +11,42 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class CommitmentServiceBeanTest extends EntityManagerProviderForBoatpos {
+public class CommitmentServiceBeanTest extends AbstractMasterDataServiceTest<CommitmentBean> {
 
     @EJB
     private CommitmentService commitmentService;
 
-    @Test
-    @Transactional
-    public void testGetAll() throws Exception {
-        assertEquals(5, commitmentService.getAll().size());
+    @Override
+    protected MasterDataService<CommitmentBean> service() {
+        return commitmentService;
+    }
+
+    @Override
+    protected int countAll() {
+        return 6;
+    }
+
+    @Override
+    protected int countAllEnabled() {
+        return 5;
+    }
+
+    @Override
+    protected int countAllDisabled() {
+        return 1;
+    }
+
+    @Override
+    protected Long idToEnable() {
+        return commitmentService.getByName("Kinderwagen").getId();
+    }
+
+    @Override
+    protected Long idToDisable() {
+        return commitmentService.getByName("Ausweis").getId();
     }
 
     @Test
@@ -39,9 +64,9 @@ public class CommitmentServiceBeanTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testSave() throws Exception {
-        assertEquals(5, commitmentService.getAll().size());
-        commitmentService.save(new CommitmentBean(null, null, "Pass", true, 10));
-        assertEquals(6, commitmentService.getAll().size());
+        assertEquals(5, commitmentService.getAll(EnabledState.Enabled).size());
+        commitmentService.save(new CommitmentBean(null, null, "Pass", true, 10, true));
+        assertEquals(6, commitmentService.getAll(EnabledState.Enabled).size());
     }
 
     @Test
@@ -51,17 +76,5 @@ public class CommitmentServiceBeanTest extends EntityManagerProviderForBoatpos {
         commitmentBean.setName("AUSWEIS!");
         commitmentService.update(commitmentBean);
         assertEquals(2, commitmentService.getByName("AUSWEIS!").getVersion().intValue());
-    }
-
-    @Test
-    @Transactional
-    public void testDelete() throws Exception {
-        assertEquals(5, commitmentService.getAll().size());
-        System.out.println(commitmentService.getAll().size());
-        System.out.println(commitmentService.getAll());
-        commitmentService.delete(4L);
-        System.out.println(commitmentService.getAll().size());
-        System.out.println(commitmentService.getAll());
-        assertEquals(4, commitmentService.getAll().size());
     }
 }

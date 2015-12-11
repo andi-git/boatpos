@@ -28,7 +28,7 @@ public class SampleDatabaseCreatorTest {
     @Transactional
     public void testFillDatabase() throws Exception {
         sampleDatabaseCreator.fillDatabase(entityManager);
-        assertEquals(new BigInteger("5"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
+        assertEquals(new BigInteger("6"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
         sampleDatabaseCreator.clearDatabase(entityManager);
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM boat").getSingleResult());
     }

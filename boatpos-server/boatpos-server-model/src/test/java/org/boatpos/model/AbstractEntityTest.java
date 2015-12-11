@@ -48,6 +48,6 @@ public class AbstractEntityTest {
     @Test
     public void testToString() throws Exception {
         boat1.setName("boot");
-        assertEquals("{\"name\":\"boot\",\"id\":1}", boat1.toString());
+        assertEquals("{\"name\":\"boot\",\"enabled\":false,\"id\":1}", boat1.toString());
     }
 }

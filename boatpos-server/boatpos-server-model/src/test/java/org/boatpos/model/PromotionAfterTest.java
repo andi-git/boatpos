@@ -12,7 +12,7 @@ public class PromotionAfterTest extends JavaBeanTest<PromotionAfter> {
 
     @Test
     public void testConstructor() {
-        new PromotionAfter(null, 1, "Fahr 3 zahl 2", "pricePerHour * 2", new HashSet<>(), 100);
+        new PromotionAfter(null, 1, "Fahr 3 zahl 2", "pricePerHour * 2", new HashSet<>(), 100, true);
     }
 
     @Override

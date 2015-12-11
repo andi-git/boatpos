@@ -9,4 +9,10 @@
     <named-query name="commitment.getAll">
         <query>FROM Commitment c ORDER BY c.priority</query>
     </named-query>
+    <named-query name="commitment.getAllEnabled">
+        <query>FROM Commitment c WHERE enabled = true ORDER BY c.priority</query>
+    </named-query>
+    <named-query name="commitment.getAllDisabled">
+        <query>FROM Commitment c WHERE enabled = false ORDER BY c.priority</query>
+    </named-query>
 </entity-mappings>
