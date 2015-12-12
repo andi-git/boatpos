@@ -29,13 +29,13 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public Optional<ENTITY> getById(final Long id) {
-        log.debug("search {} via id: ", getType(), id);
+        log.debug("search {} via id: ", getType().getName(), id);
         ENTITY entity = getEntityManager().find(getType(), id);
         return Optional.ofNullable(entity);
     }
 
     public ENTITY save(final ENTITY entity) {
-        log.debug("save {}: {}", getType(), entity);
+        log.debug("save {}: {}", getType().getName(), entity);
         checkNotNull(entity, "'entity' must not be null");
         getEntityManager().persist(entity);
         try {
@@ -49,11 +49,12 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public ENTITY update(final ENTITY entity) {
-        log.info("update {}: {}", getType(), entity);
+        log.debug("update {}: {}", getType().getName(), entity);
         checkNotNull(entity, "'entity' must not be null");
         try {
             final ENTITY result = getEntityManager().merge(entity);
             getEntityManager().flush();
+            log.debug("updated {}: {}", getType().getName(), entity);
             return result;
         } catch (Exception e) {
             log.error("exception on update", e);
@@ -63,7 +64,7 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public void delete(final Long id) {
-        log.debug("delete {}: {}", getType(), id);
+        log.debug("delete {}: {}", getType().getName(), id);
         checkNotNull(id, "'id' must not be null");
         Optional<ENTITY> entity = getById(id);
         if (!entity.isPresent()) {
@@ -75,7 +76,7 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
 
     @Override
     public void delete(final ENTITY entity) {
-        log.debug("delete {}: {}", getType(), entity);
+        log.debug("delete {}: {}", getType().getName(), entity);
         checkNotNull(entity, "'entity' must not be null");
         try {
             getEntityManager().remove(entity);
