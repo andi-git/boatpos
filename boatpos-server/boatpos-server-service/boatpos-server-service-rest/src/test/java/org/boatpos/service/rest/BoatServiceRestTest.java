@@ -33,7 +33,7 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("E-Boot", response.readEntity(BoatBean.class).getName());
 
-        response = helper.createRestCall(url, (wt) -> wt.path("boat/id/-1")).get();
+        response = helper.createRestCall(url, (wt) -> wt.path("boat/id/999")).get();
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
@@ -63,7 +63,7 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testSave() throws Exception {
-        helper.assertCount(url, "boat", 6, null);
+        helper.assertCount(url, "boat", 6);
 
         BoatBean boat = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true);
         Response response = helper.createRestCall(url, (wt) -> wt.path("boat")).post(Entity.json(boat));
@@ -71,18 +71,18 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         BoatBean result = response.readEntity(BoatBean.class);
         assertNotNull(result.getId());
         assertEquals(0, result.getVersion().intValue());
-        helper.assertCount(url, "boat", 7, null);
+        helper.assertCount(url, "boat", 7);
 
         boat = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true);
         response = helper.createRestCall(url, (wt) -> wt.path("boat")).post(Entity.json(boat));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 
-        helper.assertCount(url, "boat", 7, null);
+        helper.assertCount(url, "boat", 7);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        helper.assertCount(url, "boat", 6, null);
+        helper.assertCount(url, "boat", 6);
 
         Response response = helper.createRestCall(url, (wt) -> wt.path("boat/name/E")).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -103,7 +103,7 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals("EBOOT", boat.getName());
         assertEquals(2, boat.getVersion().intValue());
 
-        helper.assertCount(url, "boat", 6, null);
+        helper.assertCount(url, "boat", 6);
     }
 
     @Test

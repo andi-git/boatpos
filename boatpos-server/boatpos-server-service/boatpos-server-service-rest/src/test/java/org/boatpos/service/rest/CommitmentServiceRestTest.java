@@ -32,7 +32,7 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("Ausweis", response.readEntity(CommitmentBean.class).getName());
 
-        response = helper.createRestCall(url, (wt) -> wt.path("commitment/id/-1")).get();
+        response = helper.createRestCall(url, (wt) -> wt.path("commitment/id/999")).get();
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
     }
 
@@ -58,7 +58,7 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
 
     @Test
     public void testSave() throws Exception {
-        helper.assertCount(url, "commitment", 6, null);
+        helper.assertCount(url, "commitment", 6);
 
         CommitmentBean commitment = new CommitmentBean(null, null, "Pass", true, 10, true);
         Response response = helper.createRestCall(url, (wt) -> wt.path("commitment")).post(Entity.json(commitment));
@@ -66,18 +66,18 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         CommitmentBean result = response.readEntity(CommitmentBean.class);
         assertNotNull(result.getId());
         assertEquals(0, result.getVersion().intValue());
-        helper.assertCount(url, "commitment", 7, null);
+        helper.assertCount(url, "commitment", 7);
 
         commitment = new CommitmentBean(-1L, null, null, true, 10, true);
         response = helper.createRestCall(url, (wt) -> wt.path("commitment")).post(Entity.json(commitment));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 
-        helper.assertCount(url, "commitment", 7, null);
+        helper.assertCount(url, "commitment", 7);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        helper.assertCount(url, "commitment", 6, null);
+        helper.assertCount(url, "commitment", 6);
 
         Response response = helper.createRestCall(url, (wt) -> wt.path("commitment/name/Ausweis")).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -98,7 +98,7 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         assertEquals("AUSWEIS", commitment.getName());
         assertEquals(2, commitment.getVersion().intValue());
 
-        helper.assertCount(url, "commitment", 6, null);
+        helper.assertCount(url, "commitment", 6);
     }
 
     @Test

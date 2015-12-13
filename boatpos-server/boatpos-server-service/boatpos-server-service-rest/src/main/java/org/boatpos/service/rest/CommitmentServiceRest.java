@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Optional;
 
 @Stateless
 @Path("/commitment")
@@ -20,26 +19,19 @@ public class CommitmentServiceRest {
     @Inject
     private CommitmentService commitmentService;
 
+    @Inject
+    private RestHelper restHelper;
+
     @GET
     @Path("id/{id:[0-9]*}")
     public Response getById(@PathParam("id") Long id) {
-        Optional<CommitmentBean> commitment = commitmentService.getById(id);
-        if (commitment.isPresent()) {
-            return Response.ok(commitment.get()).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        return restHelper.responseOkOrNotFound(commitmentService.getById(id));
     }
 
     @GET
-    @Path("/name/{name:[a-zA-ZäöüÄÖÜß_\\-]*}")
+    @Path("/name/{name}")
     public Response getByName(@PathParam("name") String name) {
-        Optional<CommitmentBean> commitment = commitmentService.getByName(name);
-        if (commitment.isPresent()) {
-            return Response.ok(commitment.get()).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        return restHelper.responseOkOrNotFound(commitmentService.getByName(name));
     }
 
     @GET
@@ -63,21 +55,13 @@ public class CommitmentServiceRest {
     @POST
     @Path("/")
     public Response save(CommitmentBean commitment) {
-        CommitmentBean updatedCommitment = commitmentService.save(commitment);
-        return Response
-                .status(Response.Status.CREATED)
-                .entity(updatedCommitment)
-                .build();
+        return restHelper.responseCreated(commitmentService.save(commitment));
     }
 
     @PUT
     @Path("/")
     public Response update(CommitmentBean commitment) {
-        CommitmentBean updatedCommitment = commitmentService.update(commitment);
-        return Response
-                .status(Response.Status.CREATED)
-                .entity(updatedCommitment)
-                .build();
+        return restHelper.responseCreated(commitmentService.update(commitment));
     }
 
     @PUT

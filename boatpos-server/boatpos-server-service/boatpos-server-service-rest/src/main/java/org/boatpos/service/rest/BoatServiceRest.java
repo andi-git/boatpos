@@ -20,29 +20,23 @@ public class BoatServiceRest {
     @Inject
     private BoatService boatService;
 
+    @Inject
+    private RestHelper restHelper;
+
     @GET
     @Path("id/{id:[0-9]*}")
     public Response getById(@PathParam("id") Long id) {
-        Optional<BoatBean> boat = boatService.getById(id);
-        if (boat.isPresent()) {
-            return Response.ok(boat.get()).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        return restHelper.responseOkOrNotFound(boatService.getById(id));
     }
 
     @GET
-    @Path("/name/{name:[a-zA-ZäöüÄÖÜß_\\-]*}")
+    @Path("/name/{name}")
     public Response getByName(@PathParam("name") String name) {
         Optional<BoatBean> boat = boatService.getByName(name);
         if (!boat.isPresent()) {
             boat = boatService.getByShortName(name);
         }
-        if (boat.isPresent()) {
-            return Response.ok(boat.get()).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        return restHelper.responseOkOrNotFound(boat);
     }
 
     @GET
@@ -66,21 +60,13 @@ public class BoatServiceRest {
     @POST
     @Path("/")
     public Response save(BoatBean boat) {
-        BoatBean savedBoat = boatService.save(boat);
-        return Response
-                .status(Response.Status.CREATED)
-                .entity(savedBoat)
-                .build();
+        return restHelper.responseCreated(boatService.save(boat));
     }
 
     @PUT
     @Path("/")
     public Response update(BoatBean boat) {
-        BoatBean updatedBoat = boatService.update(boat);
-        return Response
-                .status(Response.Status.CREATED)
-                .entity(updatedBoat)
-                .build();
+        return restHelper.responseCreated(boatService.update(boat));
     }
 
     @PUT

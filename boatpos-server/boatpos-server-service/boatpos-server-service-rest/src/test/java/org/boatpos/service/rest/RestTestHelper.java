@@ -25,6 +25,10 @@ public class RestTestHelper {
         return webTarget.request().accept(MediaType.APPLICATION_JSON);
     }
 
+    public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count) throws Exception {
+            assertCount(url, subPath, count, EnabledState.All);
+    }
+
     public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count, EnabledState enabledState) throws Exception {
         String state = "";
         if (EnabledState.Enabled == enabledState) {
