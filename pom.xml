@@ -56,6 +56,7 @@
         <version.arquillian-osgi>2.1.0.Final</version.arquillian-osgi>
         <version.arquillian-jacoco>1.0.0.Alpha8</version.arquillian-jacoco>
         <version.arquillian-transaction>1.0.2.Final</version.arquillian-transaction>
+        <version.arquillian-rest-extension>1.0.0.Alpha4</version.arquillian-rest-extension>
         <version.jacoco>0.7.5.201505241946</version.jacoco>
         <version.javassist>3.18.2-GA</version.javassist>
     </properties>
@@ -294,6 +295,12 @@
                         <scope>test</scope>
                     </dependency>
                     <dependency>
+                        <groupId>org.jboss.arquillian.extension</groupId>
+                        <artifactId>arquillian-rest-client-api</artifactId>
+                        <version>${version.arquillian-rest-extension}</version>
+                        <scope>test</scope>
+                    </dependency>
+                    <dependency>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-simple</artifactId>
                         <version>${version.slf4j-simple}</version>
@@ -336,6 +343,11 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-transaction-jta</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-rest-client-api</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>

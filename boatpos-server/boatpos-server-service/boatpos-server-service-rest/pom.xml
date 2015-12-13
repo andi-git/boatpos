@@ -52,8 +52,16 @@
         <!-- production -->
         <dependency>
             <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-server-service-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- test and packaging -->
+        <dependency>
+            <groupId>org.boatpos</groupId>
             <artifactId>boatpos-server-service-core</artifactId>
             <version>${project.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- test -->
@@ -61,11 +69,12 @@
             <groupId>org.boatpos</groupId>
             <artifactId>boatpos-server-test-model</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-rest-client-api</artifactId>
-            <version>1.0.0.Alpha4</version>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-server-test-util</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
