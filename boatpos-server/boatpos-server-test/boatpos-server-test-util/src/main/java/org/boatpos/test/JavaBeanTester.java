@@ -30,13 +30,12 @@ public class JavaBeanTester {
         if (currentType.getSuperclass() != null && currentType.getSuperclass() != Object.class) {
             test(baseType, currentType.getSuperclass());
         }
-        if (isBeanOfThisProject(currentType)) {
+        if (isBeanOfThisProject(currentType) && !currentType.isEnum()) {
             checkNoArgConstructor(currentType);
             checkGetterAndSetter(currentType);
             checkValuesOfGetterAndSetter(baseType, currentType);
         }
     }
-
 
     private boolean isBeanOfThisProject(Class<?> type) {
         return type.getName().startsWith("org.boatpos");
@@ -70,7 +69,7 @@ public class JavaBeanTester {
         assertFalse(baseType.getName() + " must not be abstract", isAbstract(baseType));
         Object object = baseType.newInstance();
         for (Field field : currentType.getDeclaredFields()) {
-            if (!isJacocoField(field) && !isAbstract(field.getType())) {
+            if (!isJacocoField(field) && !isAbstract(field.getType()) && !field.getType().isEnum()) {
                 SimpleType simpleType = SimpleType.get(field.getType());
                 Object testValue;
                 if (simpleType == SimpleType.NoSimpleType && isBeanOfThisProject(field.getType())) {

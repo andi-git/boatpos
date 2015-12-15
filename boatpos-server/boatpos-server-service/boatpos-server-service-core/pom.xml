@@ -28,7 +28,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,dozer,commons-beanutils,commons-lang3</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -61,6 +61,10 @@
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.craftsman</groupId>
+            <artifactId>dozer-jdk8-support</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

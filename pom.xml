@@ -46,6 +46,7 @@
         <version.guava>18.0</version.guava>
         <version.gson>2.4</version.gson>
         <version.dozer>5.5.1</version.dozer>
+        <version.dozer.jdk8>1.0.0</version.dozer.jdk8>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.9.Final</version.arquillian-bom>
@@ -169,6 +170,11 @@
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${version.dozer}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.craftsman</groupId>
+                <artifactId>dozer-jdk8-support</artifactId>
+                <version>${version.dozer.jdk8}</version>
             </dependency>
             <!-- test -->
             <dependency>

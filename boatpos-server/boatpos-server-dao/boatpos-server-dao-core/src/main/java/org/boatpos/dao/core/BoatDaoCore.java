@@ -17,29 +17,29 @@ public class BoatDaoCore extends GenericMasterDataDaoCore<Boat> implements BoatD
 
     @Override
     public Optional<Boat> getByName(String name) {
-        return getSingleResult(createNamedQuery("boat.getByName")
+        return getSingleResult(createTypedNamedQuery("boat.getByName")
                 .setParameter("name", name));
     }
 
     @Override
     public Optional<Boat> getByShortName(String shortName) {
-        return getSingleResult(createNamedQuery("boat.getByShortName")
+        return getSingleResult(createTypedNamedQuery("boat.getByShortName")
                 .setParameter("shortName", shortName));
     }
 
     @Override
     public List<Boat> getAll() {
-        return createNamedQuery("boat.getAll").getResultList();
+        return createTypedNamedQuery("boat.getAll").getResultList();
     }
 
     @Override
     public List<Boat> getAllEnabled() {
-        return createNamedQuery("boat.getAllEnabled").getResultList();
+        return createTypedNamedQuery("boat.getAllEnabled").getResultList();
     }
 
     @Override
     public List<Boat> getAllDisabled() {
-        return createNamedQuery("boat.getAllDisabled").getResultList();
+        return createTypedNamedQuery("boat.getAllDisabled").getResultList();
     }
 
     @Override

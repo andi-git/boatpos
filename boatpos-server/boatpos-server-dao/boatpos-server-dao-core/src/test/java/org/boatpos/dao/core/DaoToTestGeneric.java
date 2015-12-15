@@ -16,12 +16,12 @@ public class DaoToTestGeneric extends GenericDaoCore<Boat> {
     }
 
     @Override
-    public Optional<Boat> getSingleResult(Collection<Boat> collection) {
+    protected <T> Optional<T> getSingleResult(Collection<T> collection) {
         return super.getSingleResult(collection);
     }
 
     @Override
-    public TypedQuery<Boat> createNamedQuery(String queryName) {
-        return super.createNamedQuery(queryName);
+    public TypedQuery<Boat> createTypedNamedQuery(String queryName) {
+        return super.createTypedNamedQuery(queryName);
     }
 }

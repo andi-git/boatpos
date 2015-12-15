@@ -20,7 +20,7 @@ public class PromotionDaoCore extends GenericMasterDataDaoCore<Promotion> implem
 
     @Override
     public Optional<Promotion> getByName(String name) {
-        return getSingleResult(createNamedQuery("promotion.getByName")
+        return getSingleResult(createTypedNamedQuery("promotion.getByName")
                 .setParameter("name", name));
     }
 

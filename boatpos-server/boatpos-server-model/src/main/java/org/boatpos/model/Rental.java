@@ -9,7 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Representation of a boat-rental.
@@ -80,6 +84,10 @@ public class Rental extends AbstractEntity {
     @Expose
     private boolean coupon;
 
+    @Expose
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     /**
      * The {@link Promotion} used for the {@link Rental}.
      */
@@ -103,7 +111,7 @@ public class Rental extends AbstractEntity {
     public Rental() {
     }
 
-    public Rental(Long id, Integer version, Integer dayId, LocalDate date, Boat boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, Promotion promotion, Set<Commitment> commitments) {
+    public Rental(Long id, Integer version, Integer dayId, LocalDate date, Boat boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, PaymentMethod paymentMethod, Promotion promotion, Set<Commitment> commitments) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
@@ -114,6 +122,7 @@ public class Rental extends AbstractEntity {
         this.finished = finished;
         this.deleted = deleted;
         this.coupon = coupon;
+        this.paymentMethod = paymentMethod;
         this.promotion = promotion;
         this.commitments = commitments;
     }
@@ -190,6 +199,14 @@ public class Rental extends AbstractEntity {
         this.coupon = coupon;
     }
 
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
     public Promotion getPromotion() {
         return promotion;
     }
@@ -204,5 +221,62 @@ public class Rental extends AbstractEntity {
 
     public void setCommitments(Set<Commitment> commitments) {
         this.commitments = commitments;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private Boat boat = null;
+        private Promotion promotion = null;
+        private Set<Commitment> commitments = new HashSet<>();
+        private LocalDateTime departTime;
+        private Integer dayId;
+
+        private Builder() {
+        }
+
+        public Builder setBoat(Boat boat) {
+            checkNotNull(boat, "boat must not be null");
+            this.boat = boat;
+            return this;
+        }
+
+        public Builder setPromotion(Optional<Promotion> promotion) {
+            checkNotNull(promotion, "promotion must not be null");
+            if (promotion.isPresent()) {
+                this.promotion = promotion.get();
+            }
+            return this;
+        }
+
+        public Builder setCommitments(Set<Commitment> commitments) {
+            checkNotNull(commitments, "commitments must not be null");
+            this.commitments.clear();
+            this.commitments.addAll(commitments);
+            return this;
+        }
+
+        public Builder setDayId(Integer dayId) {
+            checkNotNull(dayId, "dayId must not be null");
+            this.dayId = dayId;
+            return this;
+        }
+
+        public Builder setDepartTime(LocalDateTime departTime) {
+            checkNotNull(departTime, "departTime must not be null");
+            this.departTime = departTime;
+            return this;
+        }
+
+        public Rental build() {
+            checkNotNull(boat, "boat must not be null");
+            checkNotNull(dayId, "dayId must not be null");
+            checkNotNull(departTime, "departTime must not be null");
+            return new Rental(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, false, false, false, null, promotion, commitments);
+        }
+
     }
 }

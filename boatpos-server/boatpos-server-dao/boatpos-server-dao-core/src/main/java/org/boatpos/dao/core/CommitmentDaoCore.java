@@ -16,7 +16,7 @@ public class CommitmentDaoCore extends GenericMasterDataDaoCore<Commitment> impl
 
     @Override
     public Optional<Commitment> getByName(String name) {
-        return getSingleResult(createNamedQuery("commitment.getByName")
+        return getSingleResult(createTypedNamedQuery("commitment.getByName")
                 .setParameter("name", name));
     }
 

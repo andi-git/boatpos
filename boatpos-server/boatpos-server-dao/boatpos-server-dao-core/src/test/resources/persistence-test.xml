@@ -6,6 +6,7 @@
         <mapping-file>META-INF/query/boat.xml</mapping-file>
         <mapping-file>META-INF/query/promotion.xml</mapping-file>
         <mapping-file>META-INF/query/commitment.xml</mapping-file>
+        <mapping-file>META-INF/query/rental.xml</mapping-file>
         <class>org.boatpos.model.Boat</class>
         <class>org.boatpos.model.Rental</class>
         <class>org.boatpos.model.Promotion</class>

@@ -7,10 +7,7 @@ import org.boatpos.util.log.LogWrapper;
 import org.boatpos.util.log.SLF4J;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.validation.ConstraintViolationException;
 import java.util.Collection;
 import java.util.Optional;
@@ -90,22 +87,30 @@ public abstract class GenericDaoCore<ENTITY extends AbstractEntity> implements G
         return entityManager;
     }
 
-    protected Optional<ENTITY> getSingleResult(final TypedQuery<ENTITY> typedQuery) {
+    protected <T> Optional<T> getSingleResult(final TypedQuery<T> typedQuery) {
         return getSingleResult(typedQuery.getResultList());
     }
 
-    protected Optional<ENTITY> getSingleResult(final Collection<ENTITY> collection) {
+    protected <T> Optional<T> getSingleResult(final Collection<T> collection) {
         if (collection.size() == 0) {
             return Optional.empty();
         } else if (collection.size() == 1) {
-            return Optional.of(collection.iterator().next());
+            return Optional.ofNullable(collection.iterator().next());
         } else {
             throw new NonUniqueResultException("multiple entities of " + collection.iterator().next().getClass().getName() + " available");
         }
     }
 
-    protected TypedQuery<ENTITY> createNamedQuery(final String queryName) {
+    protected Query createNamedQuery(final String queryName) {
+        return getEntityManager().createNamedQuery(queryName);
+    }
+
+    protected TypedQuery<ENTITY> createTypedNamedQuery(final String queryName) {
         return getEntityManager().createNamedQuery(queryName, getType());
+    }
+
+    protected <T> TypedQuery<T> createTypedNamedQuery(final String queryName, final Class<T> type) {
+        return getEntityManager().createNamedQuery(queryName, type);
     }
 
     private RuntimeException handleException(final Exception e, String message) {

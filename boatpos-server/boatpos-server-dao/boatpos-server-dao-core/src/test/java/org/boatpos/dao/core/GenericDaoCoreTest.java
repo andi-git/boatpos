@@ -84,7 +84,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testDeleteById() throws Exception {
         dao.delete(1L);
-        assertBoatCount(5);
+        assertBoatCount(6);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testDeleteByEntity() throws Exception {
         dao.delete(dao.getById(1L).get());
-        assertBoatCount(5);
+        assertBoatCount(6);
     }
 
 
@@ -130,7 +130,7 @@ public class GenericDaoCoreTest extends EntityManagerProviderForBoatpos {
     @Test(expected = IllegalArgumentException.class)
     @Transactional
     public void createNamedQueryTest() {
-        dao.createNamedQuery("test");
+        dao.createTypedNamedQuery("test");
     }
 
     private void assertBoatCount(int count) {

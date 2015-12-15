@@ -9,17 +9,17 @@ public abstract class GenericMasterDataDaoCore<ENTITY extends AbstractMasterData
 
     @Override
     public List<ENTITY> getAll() {
-        return createNamedQuery(nameForGetAll()).getResultList();
+        return createTypedNamedQuery(nameForGetAll()).getResultList();
     }
 
     @Override
     public List<ENTITY> getAllEnabled() {
-        return createNamedQuery(nameForGetAllEnabled()).getResultList();
+        return createTypedNamedQuery(nameForGetAllEnabled()).getResultList();
     }
 
     @Override
     public List<ENTITY> getAllDisabled() {
-        return createNamedQuery(nameForGetAllDisabled()).getResultList();
+        return createTypedNamedQuery(nameForGetAllDisabled()).getResultList();
     }
 
     @Override
