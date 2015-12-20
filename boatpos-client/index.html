@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootsvermietung EPPEL - POS MOCK</title>
+    <link rel="stylesheet" href="boatpos.css"/>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+<body>
+
+<div class="container">
+    <div class="menucontainer">
+        <fieldset class="menuarea">
+            <legend>Menü</legend>
+            <button class="menubutton"></button>
+        </fieldset>
+    </div>
+    <div class="non-menucontainer">
+        <div class="row1">
+            <div class="boatcontainer">
+                <fieldset class="boatarea">
+                    <legend>Boote</legend>
+                    <div class="boatcontainer-text">
+                        <p>
+                            <label>
+                                <input type="radio" name="boat">E-Boot
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="boat">Tretboot klein
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="boat">Tretboot groß
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="boat">Tretboot Rutsche
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="boat">Ruderboot
+                            </label>
+                        </p>
+                    </div>
+                    <div class="boatcontainer-picture">
+                        <img class="boatimage" src="boat.jpg"/>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="countcontainer">
+                <fieldset class="countarea">
+                    <legend>Zähler</legend>
+                    <p class="attention">N&auml;chste Nummer: 051</p>
+                    <table>
+                        <tr>
+                            <td>E-Boot:</td>
+                            <td>5 / 20</td>
+                        </tr>
+                        <tr>
+                            <td>Tretboot klein:</td>
+                            <td>2 / 6</td>
+                        </tr>
+                        <tr>
+                            <td>Tretboot groß:</td>
+                            <td>2 / 6</td>
+                        </tr>
+                        <tr>
+                            <td>Tretboot Rutsche:</td>
+                            <td>0 / 3</td>
+                        </tr>
+                        <tr>
+                            <td>Ruderboot:</td>
+                            <td>0 / 5</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="commitmentcontainer">
+                <fieldset class="commitmentarea">
+                    <legend>Einsatz</legend>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="commitment1">Ausweis
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="commitment2">€ 50,-
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="commitment3">€ 100,-
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="commitment4">Schl&uuml;ssel
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="commitment5">Diverses
+                        </label>
+                    </p>
+                </fieldset>
+            </div>
+            <div class="promotioncontainer">
+                <fieldset class="promotionarea">
+                    <legend>Aktionen</legend>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="promotion1">Fahr 3 zahl 2
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" name="promotion2">Fahr 5 zahl 3
+                        </label>
+                    </p>
+                </fieldset>
+            </div>
+            <div class="billcontainer">
+                <fieldset class="billarea">
+                    <legend>Abrechnung</legend>
+                    <p>
+                        <label>
+                            <input type="text" name="number" class="numberinput"/>
+                        </label>
+                    </p>
+                    <p>
+                        <button class="action">Verrechnung</button>
+                    </p>
+                    <p>
+                        <button class="action">Info</button>
+                    </p>
+                    <p>
+                        <button class="action">L&ouml;schen</button>
+                    </p>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row3">
+            <div class="statuscontainer">
+                <fieldset class="statusarea">
+                    <legend>Status</legend>
+                    <p class="status">Hier steht eine Statustext...</p>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
