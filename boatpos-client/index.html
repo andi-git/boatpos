@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Bootsvermietung EPPEL - POS MOCK</title>
     <link rel="stylesheet" href="boatpos.css"/>
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 </head>
 <body>
 
@@ -22,29 +22,24 @@
                     <legend>Boote</legend>
                     <div class="boatcontainer-text">
                         <p>
-                            <label>
-                                <input type="radio" name="boat">E-Boot
-                            </label>
+                            <input type="radio" id="boat1" name="boat">
+                            <label for="boat1">E-Boot</label>
                         </p>
                         <p>
-                            <label>
-                                <input type="radio" name="boat">Tretboot klein
-                            </label>
+                            <input type="radio" id="boat2" name="boat">
+                            <label for="boat2">Tretboot klein</label>
                         </p>
                         <p>
-                            <label>
-                                <input type="radio" name="boat">Tretboot groß
-                            </label>
+                            <input type="radio" id="boat3" name="boat">
+                            <label for="boat3">Tretboot groß</label>
                         </p>
                         <p>
-                            <label>
-                                <input type="radio" name="boat">Tretboot Rutsche
-                            </label>
+                            <input type="radio" id="boat4" name="boat">
+                            <label for="boat4">Tretboot Rutsche</label>
                         </p>
                         <p>
-                            <label>
-                                <input type="radio" name="boat">Ruderboot
-                            </label>
+                            <input type="radio" id="boat5" name="boat">
+                            <label for="boat5">Liegeboot/P&ouml;nt</label>
                         </p>
                     </div>
                     <div class="boatcontainer-picture">
@@ -85,47 +80,57 @@
             <div class="commitmentcontainer">
                 <fieldset class="commitmentarea">
                     <legend>Einsatz</legend>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="commitment1">Ausweis
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="commitment2">€ 50,-
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="commitment3">€ 100,-
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="commitment4">Schl&uuml;ssel
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="commitment5">Diverses
-                        </label>
-                    </p>
+                    <div class="checkboxescontainer">
+                        <p>
+                            <input type="checkbox" id="commitment1" name="commitment1">
+                            <label for="commitment1">Ausweis</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="commitment2" name="commitment2">
+                            <label for="commitment2">€ 50,-</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="commitment3" name="commitment3">
+                            <label for="commitment3">€ 100,-</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="commitment4" name="commitment4">
+                            <label for="commitment4">Schl&uuml;ssel</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" id="commitment5" name="commitment5">
+                            <label for="commitment5">Diverses</label>
+                        </p>
+                    </div>
                 </fieldset>
             </div>
-            <div class="promotioncontainer">
-                <fieldset class="promotionarea">
-                    <legend>Aktionen</legend>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="promotion1">Fahr 3 zahl 2
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="checkbox" name="promotion2">Fahr 5 zahl 3
-                        </label>
-                    </p>
-                </fieldset>
+            <div class="row2-1">
+                <div class="promotioncontainer">
+                    <fieldset class="promotionarea">
+                        <legend>Aktionen</legend>
+                        <div class="promotioncontainer-radio">
+                            <p>
+                                <input type="radio" id="promotion1" name="promotion">
+                                <label for="promotion1">Fahr 3 zahl 2</label>
+                            </p>
+                            <p>
+                                <input type="radio" id="promotion2" name="promotion">
+                                <label for="promotion2">Fahr 3 zahl 2</label>
+                            </p>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="departecontainer">
+                    <fieldset class="departearea">
+                        <legend>Vermietung</legend>
+                        <p>
+                            <button class="button-departe">Vermieten</button>
+                        </p>
+                        <p>
+                            <button class="button-cancel">Abbrechen</button>
+                        </p>
+                    </fieldset>
+                </div>
             </div>
             <div class="billcontainer">
                 <fieldset class="billarea">
@@ -136,13 +141,13 @@
                         </label>
                     </p>
                     <p>
-                        <button class="action">Verrechnung</button>
+                        <button class="button">Verrechnung</button>
                     </p>
                     <p>
-                        <button class="action">Info</button>
+                        <button class="button">Info</button>
                     </p>
                     <p>
-                        <button class="action">L&ouml;schen</button>
+                        <button class="button">L&ouml;schen</button>
                     </p>
                 </fieldset>
             </div>
