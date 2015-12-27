@@ -1,11 +1,10 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.dao.api.GenericDao;
-import org.boatpos.dao.api.GenericMasterDataDao;
-import org.boatpos.model.AbstractMasterDataEntity;
+import org.boatpos.repository.api.model.MasterData;
+import org.boatpos.repository.api.repository.MasterDataRepository;
+import org.boatpos.repository.api.values.DomainId;
+import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.service.api.EnabledState;
-import org.boatpos.service.api.bean.AbstractMasterDataBean;
-import org.boatpos.service.core.mapping.Mapping;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -21,60 +20,53 @@ public class MasterDataHelper {
     @Inject
     private CrudHelper crudHelper;
 
-    public <ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> List<DTO> getAll(GenericMasterDataDao<ENTITY> dao, Mapping<ENTITY, DTO> mapping, EnabledState enabledState) {
-        List<ENTITY> entities;
+    /**
+     * Load all/enabled/disabled {@link MasterData}s from the repository ordered by {@code priority}.
+     *
+     * @param repository   the {@link MasterDataRepository} to load from
+     * @param enabledState the state of the {@link MODEL}s to load: {@link EnabledState#All} / {@link
+     *                     EnabledState#Enabled} / {@link EnabledState#Disabled}
+     * @param <MODEL>      the concrete type of the {@link MasterData}
+     * @return an ordered {@link List} of all {@link MODEL}s from the repository with the specified {@link EnabledState}
+     */
+    public <MODEL extends MasterData> List<MODEL> loadAll(MasterDataRepository<MODEL> repository, EnabledState enabledState) {
+        List<MODEL> entities;
         if (EnabledState.Enabled == enabledState) {
-            entities = dao.getAllEnabled();
+            entities = repository.loadAll(Enabled.TRUE);
         } else if (EnabledState.Disabled == enabledState) {
-            entities = dao.getAllDisabled();
+            entities = repository.loadAll(Enabled.FALSE);
         } else {
-            entities = dao.getAll();
+            entities = repository.loadAll();
         }
-        return mapping.mapEntities(entities);
+        return entities;
     }
 
     /**
-     * Set {@link AbstractMasterDataEntity#enabled} to {@code true}.
+     * Set the {@link MODEL} to {@code enabled}.
      *
-     * @param id       the {@link org.boatpos.model.AbstractEntity#id} of the entity
-     * @param dao      the dao to perform the database-operations
-     * @param <ENTITY> the type of the entity
+     * @param repository the {@link MasterDataRepository} to load from
+     * @param id         the {@link DomainId} of the {@link MODEL}
+     * @param <MODEL>    the concrete type of the {@link MasterData}
      */
-    public <ENTITY extends AbstractMasterDataEntity> void enable(Long id, GenericDao<ENTITY> dao) {
-        changeEnabledState(id, dao, EnabledState.Enabled);
-    }
-
-    /**
-     * Set {@link AbstractMasterDataEntity#enabled} to {@code false}.
-     *
-     * @param id       the {@link org.boatpos.model.AbstractEntity#id} of the entity
-     * @param dao      the dao to perform the database-operations
-     * @param <ENTITY> the type of the entity
-     */
-    public <ENTITY extends AbstractMasterDataEntity> void disable(Long id, GenericDao<ENTITY> dao) {
-        changeEnabledState(id, dao, EnabledState.Disabled);
-    }
-
-    /**
-     * Change the enabled- / disabled-state of the {@link ENTITY}.
-     *
-     * @param id           the id of the {@link ENTITY} to change
-     * @param dao          the {@link GenericDao} to perform the search- and update-operation
-     * @param enabledState the state to change to
-     * @param <ENTITY>     the type of the entity
-     */
-    protected <ENTITY extends AbstractMasterDataEntity> void changeEnabledState(Long id, GenericDao<ENTITY> dao, EnabledState enabledState) {
-        Optional<ENTITY> optional = dao.getById(id);
-        if (optional.isPresent()) {
-            ENTITY entity = optional.get();
-            if (enabledState == EnabledState.Enabled) {
-                entity.setEnabled(true);
-                dao.update(entity);
-            } else if (enabledState == EnabledState.Disabled) {
-                entity.setEnabled(false);
-                dao.update(entity);
-            }
+    public <MODEL extends MasterData> void enable(MasterDataRepository<MODEL> repository, DomainId id) {
+        Optional<MODEL> model = repository.loadBy(id);
+        if (model.isPresent()) {
+            model.get().enable();
         }
     }
 
+
+    /**
+     * Set the {@link MODEL} to {@code disabled}.
+     *
+     * @param repository the {@link MasterDataRepository} to load from
+     * @param id         the {@link DomainId} of the {@link MODEL}
+     * @param <MODEL>    the concrete type of the {@link MasterData}
+     */
+    public <MODEL extends MasterData> void disable(MasterDataRepository<MODEL> repository, DomainId id) {
+        Optional<MODEL> model = repository.loadBy(id);
+        if (model.isPresent()) {
+            model.get().disable();
+        }
+    }
 }

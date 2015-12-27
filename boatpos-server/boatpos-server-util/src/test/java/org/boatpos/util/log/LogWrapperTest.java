@@ -14,6 +14,8 @@ public class LogWrapperTest {
     @SLF4J
     private LogWrapper logWrapper;
 
+    private LogWrapper logWrapper2 = new LogWrapper(this.getClass());
+
     @Test
     public void testLog() throws Exception {
         logWrapper.log().info("test");

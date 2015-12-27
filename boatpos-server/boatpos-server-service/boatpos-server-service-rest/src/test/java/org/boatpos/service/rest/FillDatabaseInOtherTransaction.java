@@ -1,6 +1,6 @@
 package org.boatpos.service.rest;
 
-import org.boatpos.dao.api.BoatPosDB;
+import org.boatpos.repository.api.BoatPosDB;
 import org.boatpos.test.model.SampleDatabaseCreator;
 
 import javax.annotation.Resource;

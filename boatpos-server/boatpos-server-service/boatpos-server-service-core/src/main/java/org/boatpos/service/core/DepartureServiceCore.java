@@ -1,20 +1,21 @@
 package org.boatpos.service.core;
 
-import org.boatpos.dao.api.BoatDao;
-import org.boatpos.dao.api.CommitmentDao;
-import org.boatpos.dao.api.PromotionDao;
-import org.boatpos.dao.api.RentalDao;
-import org.boatpos.model.Boat;
-import org.boatpos.model.Commitment;
-import org.boatpos.model.Promotion;
-import org.boatpos.model.Rental;
+import org.boatpos.repository.api.model.Boat;
+import org.boatpos.repository.api.model.Commitment;
+import org.boatpos.repository.api.model.PromotionBefore;
+import org.boatpos.repository.api.repository.BoatRepository;
+import org.boatpos.repository.api.repository.CommitmentRepository;
+import org.boatpos.repository.api.repository.PromotionBeforeRepository;
+import org.boatpos.repository.api.repository.RentalRepository;
+import org.boatpos.repository.api.values.Day;
+import org.boatpos.repository.api.values.DepartureTime;
+import org.boatpos.repository.api.values.DomainId;
+import org.boatpos.repository.api.values.SimpleValueObject;
 import org.boatpos.service.api.DepartureService;
 import org.boatpos.service.api.bean.DepartureBean;
 import org.boatpos.service.api.bean.RentalBean;
-import org.boatpos.service.core.mapping.RentalMapping;
 import org.boatpos.util.datetime.DateTimeHelper;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -25,40 +26,49 @@ import java.util.Set;
 public class DepartureServiceCore implements DepartureService {
 
     @Inject
-    private BoatDao boatDao;
+    private BoatRepository boatRepository;
 
     @Inject
-    private CommitmentDao commitmentDao;
+    private CommitmentRepository commitmentRepository;
 
     @Inject
-    private PromotionDao promotionDao;
+    private PromotionBeforeRepository promotionBeforeRepository;
 
     @Inject
-    private RentalDao rentalDao;
-
-    @Inject
-    private RentalMapping rentalMapping;
+    private RentalRepository rentalRepository;
 
     @Inject
     private DateTimeHelper dateTimeHelper;
 
     @Override
     public RentalBean depart(DepartureBean departureBean) {
-        Long boatId = departureBean.getBoatBean().getId();
-        Boat boat = getOrThrowException(boatDao.getById(boatId), createExceptionMessage(Boat.class, boatId));
+        return rentalRepository
+                .depart(
+                        new Day(dateTimeHelper.currentDate()),
+                        new DepartureTime(dateTimeHelper.currentTime()),
+                        getBoat(departureBean),
+                        getCommitments(departureBean),
+                        getPromotionBefore(departureBean))
+                .asDto();
+    }
+
+    private Optional<PromotionBefore> getPromotionBefore(DepartureBean departureBean) {
+        return promotionBeforeRepository.loadBy(new DomainId(departureBean.getPromotionId()));
+    }
+
+    private Set<Commitment> getCommitments(DepartureBean departureBean) {
         Set<Commitment> commitments = new HashSet<>();
-        if (!departureBean.getCommitmentBeans().isEmpty()) {
-            departureBean.getCommitmentBeans().forEach(cb -> commitments.add(getOrThrowException(commitmentDao.getById(cb.getId()), createExceptionMessage(Commitment.class, cb.getId()))));
+        if (!departureBean.getCommitmentIds().isEmpty()) {
+            departureBean.getCommitmentIds().forEach(
+                    cb -> commitments.add(getOrThrowException(commitmentRepository.loadBy(new DomainId(cb)), createExceptionMessage(Commitment.class, new DomainId(cb))))
+            );
         }
-        Optional<Promotion> promotion = null;
-        if (departureBean.getPromotionBean() != null) {
-            Long promotionId = departureBean.getPromotionBean().getId();
-            promotion = promotionDao.getById(promotionId);
-            if (!promotion.isPresent()) {
-                throw new RuntimeException(createExceptionMessage(Promotion.class, promotionId));
-            }
-        }
-        return rentalMapping.mapEntity(rentalDao.depart(boat, commitments, promotion, dateTimeHelper.currentTime()));
+        return commitments;
+    }
+
+    private Boat getBoat(DepartureBean departureBean) {
+        DomainId boatId = new DomainId(departureBean.getBoatId());
+        return getOrThrowException(boatRepository.loadBy(boatId), createExceptionMessage(Boat.class, boatId));
     }
 
     private <T> T getOrThrowException(Optional<T> optional, String message) {
@@ -67,7 +77,7 @@ public class DepartureServiceCore implements DepartureService {
         });
     }
 
-    private String createExceptionMessage(Class<?> type, Long id) {
-        return "no " + type.getName() + " available with id " + id;
+    private String createExceptionMessage(Class<?> type, SimpleValueObject simpleValueObject) {
+        return "no " + type.getName() + " available with fot " + simpleValueObject;
     }
 }

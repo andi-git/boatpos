@@ -13,8 +13,8 @@
         <module>boatpos-server-test</module>
         <module>boatpos-server-util</module>
         <module>boatpos-server-model</module>
-        <module>boatpos-server-dao</module>
         <module>boatpos-server-service</module>
+        <module>boatpos-server-repository</module>
     </modules>
 
     <artifactId>boatpos-server</artifactId>

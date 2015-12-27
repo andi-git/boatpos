@@ -3,9 +3,9 @@
              version="1.0">
     <persistence-unit name="boatpos" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-        <class>org.boatpos.model.Boat</class>
-        <class>org.boatpos.model.Rental</class>
-        <class>org.boatpos.model.Promotion</class>
+        <class>org.boatpos.model.BoatEntity</class>
+        <class>org.boatpos.model.RentalEntity</class>
+        <class>org.boatpos.model.PromotionEntity</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
             <property name="hibernate.show_sql" value="false" />

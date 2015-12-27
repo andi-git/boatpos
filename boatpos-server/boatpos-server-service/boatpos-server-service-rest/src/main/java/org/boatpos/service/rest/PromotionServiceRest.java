@@ -1,7 +1,8 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.service.api.EnabledState;
-import org.boatpos.service.api.PromotionService;
+import org.boatpos.service.api.PromotionAfterService;
+import org.boatpos.service.api.PromotionBeforeService;
 import org.boatpos.service.api.bean.PromotionAfterBean;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
 
@@ -18,63 +19,64 @@ import javax.ws.rs.core.Response;
 public class PromotionServiceRest {
 
     @Inject
-    private PromotionService promotionService;
+    private PromotionBeforeService promotionBeforeService;
+
+    @Inject
+    private PromotionAfterService promotionAfterService;
 
     @Inject
     private RestHelper restHelper;
 
     @GET
-    @Path("id/{id:[0-9]*}")
-    public Response getById(@PathParam("id") Long id) {
-        return restHelper.responseOkOrNotFound(promotionService.getById(id));
+    @Path("/before/id/{id:[0-9]*}")
+    public Response beforeGetById(@PathParam("id") Long id) {
+        return restHelper.responseOkOrNotFound(promotionBeforeService.getById(id));
     }
 
     @GET
-    @Path("/name/{name}")
-    public Response getByName(@PathParam("name") String name) {
-        return restHelper.responseOkOrNotFound(promotionService.getByName(name));
+    @Path("/after/id/{id:[0-9]*}")
+    public Response afterGetById(@PathParam("id") Long id) {
+        return restHelper.responseOkOrNotFound(promotionAfterService.getById(id));
     }
 
     @GET
-    @Path("/")
-    public Response getAll() {
-        return Response.ok(promotionService.getAll()).build();
+    @Path("/before/name/{name}")
+    public Response beforeGetByName(@PathParam("name") String name) {
+        return restHelper.responseOkOrNotFound(promotionBeforeService.getByName(name));
     }
 
     @GET
-    @Path("/enabled")
-    public Response getAllEnabled() {
-        return Response.ok(promotionService.getAll(EnabledState.Enabled)).build();
-    }
-
-    @GET
-    @Path("/disabled")
-    public Response getAllDisabled() {
-        return Response.ok(promotionService.getAll(EnabledState.Disabled)).build();
+    @Path("/after/name/{name}")
+    public Response afterGetByName(@PathParam("name") String name) {
+        return restHelper.responseOkOrNotFound(promotionAfterService.getByName(name));
     }
 
     @GET
     @Path("/before")
-    public Response getAllBefore() {
-        return Response.ok(promotionService.getAllBeforeRental(EnabledState.All)).build();
+    public Response beforeGetAll() {
+        System.out.println("beforeGetAll");
+        return Response.ok(promotionBeforeService.getAll(EnabledState.All)).build();
     }
 
     @GET
     @Path("/before/{state:[a-z]*}")
-    public Response getAllBefore(@PathParam("state") String state) {
-        return Response.ok(promotionService.getAllBeforeRental(mapInputToEnabledState(state))).build();
+    public Response beforeGetAll(@PathParam("state") String state) {
+        System.out.println("beforeGetAll/state");
+        return Response.ok(promotionBeforeService.getAll(mapInputToEnabledState(state))).build();
     }
 
     @GET
     @Path("/after")
-    public Response getAllAfter() {
-        return Response.ok(promotionService.getAllAfterRental(EnabledState.All)).build();
+    public Response afterGetAll() {
+        System.out.println("afterGetAll");
+        return Response.ok(promotionAfterService.getAll(EnabledState.All)).build();
     }
 
     @GET
     @Path("/after/{state:[a-z]*}")
-    public Response getAllAfter(@PathParam("state") String state) {
-        return Response.ok(promotionService.getAllAfterRental(mapInputToEnabledState(state))).build();
+    public Response afterGetAll(@PathParam("state") String state) {
+        System.out.println("afterGetAll/state");
+        return Response.ok(promotionAfterService.getAll(mapInputToEnabledState(state))).build();
     }
 
     private EnabledState mapInputToEnabledState(@PathParam("state") String state) {
@@ -89,39 +91,53 @@ public class PromotionServiceRest {
 
     @POST
     @Path("/after")
-    public Response savePromotionAfter(PromotionAfterBean promotion) {
-        return restHelper.responseCreated(promotionService.save(promotion));
+    public Response afterSavePromotion(PromotionAfterBean promotion) {
+        return restHelper.responseCreated(promotionAfterService.save(promotion));
     }
 
     @POST
     @Path("/before")
-    public Response savePromotionBefore(PromotionBeforeBean promotion) {
-        return restHelper.responseCreated(promotionService.save(promotion));
+    public Response beforeSavePromotion(PromotionBeforeBean promotion) {
+        return restHelper.responseCreated(promotionBeforeService.save(promotion));
     }
 
     @PUT
     @Path("/after")
-    public Response updatePromotionAfter(PromotionAfterBean promotion) {
-        return restHelper.responseCreated(promotionService.update(promotion));
+    public Response afterUpdatePromotion(PromotionAfterBean promotion) {
+        return restHelper.responseCreated(promotionAfterService.update(promotion));
     }
 
     @PUT
     @Path("/before")
-    public Response updatePromotionBefore(PromotionBeforeBean promotion) {
-        return restHelper.responseCreated(promotionService.update(promotion));
+    public Response beforeUpdatePromotion(PromotionBeforeBean promotion) {
+        return restHelper.responseCreated(promotionBeforeService.update(promotion));
     }
 
     @PUT
-    @Path("/enable/{id:[0-9]*}")
-    public Response enable(@PathParam("id") Long id) {
-        promotionService.enable(id);
+    @Path("/before/enable/{id:[0-9]*}")
+    public Response beforeEnable(@PathParam("id") Long id) {
+        promotionBeforeService.enable(id);
         return Response.ok().build();
     }
 
     @PUT
-    @Path("/disable/{id:[0-9]*}")
-    public Response disable(@PathParam("id") Long id) {
-        promotionService.disable(id);
+    @Path("/before/disable/{id:[0-9]*}")
+    public Response beforeDisable(@PathParam("id") Long id) {
+        promotionBeforeService.disable(id);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/after/enable/{id:[0-9]*}")
+    public Response afterEnable(@PathParam("id") Long id) {
+        promotionAfterService.enable(id);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/after/disable/{id:[0-9]*}")
+    public Response afterDisable(@PathParam("id") Long id) {
+        promotionAfterService.disable(id);
         return Response.ok().build();
     }
 }

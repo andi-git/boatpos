@@ -49,4 +49,20 @@ public interface MasterDataService<DTO extends AbstractMasterDataBean> {
      * @param id the id of the bean to disable
      */
     void disable(Long id);
+
+    /**
+     * Save a new {@link DTO}. The {@code id} must no be set.
+     *
+     * @param bean the {@link DTO} to save
+     * @return the saved {@link DTO} extended with the id
+     */
+    DTO save(DTO bean);
+
+    /**
+     * Update an existing {@link DTO}. The {@code id} must be set and valid.
+     *
+     * @param bean the {@link DTO} to update
+     * @return the updated {@link DTO}
+     */
+    DTO update(DTO bean);
 }

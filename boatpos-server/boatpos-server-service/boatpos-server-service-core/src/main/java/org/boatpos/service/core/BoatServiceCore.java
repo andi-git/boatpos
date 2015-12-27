@@ -1,11 +1,12 @@
 package org.boatpos.service.core;
 
-import org.boatpos.dao.api.BoatDao;
-import org.boatpos.model.Boat;
+import org.boatpos.repository.api.repository.BoatRepository;
+import org.boatpos.repository.api.values.DomainId;
+import org.boatpos.repository.api.values.Name;
+import org.boatpos.repository.api.values.ShortName;
 import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
-import org.boatpos.service.core.mapping.BoatMapping;
 import org.boatpos.service.core.util.CrudHelper;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.LogWrapper;
@@ -24,10 +25,7 @@ public class BoatServiceCore implements BoatService {
     private LogWrapper log;
 
     @Inject
-    private BoatDao boatDao;
-
-    @Inject
-    private BoatMapping boatMapping;
+    private BoatRepository boatRepository;
 
     @Inject
     private CrudHelper crudHelper;
@@ -37,48 +35,46 @@ public class BoatServiceCore implements BoatService {
 
     @Override
     public List<BoatBean> getAll() {
-        return getAll(EnabledState.All);
+        return crudHelper.convert(boatRepository.loadAll());
     }
 
     @Override
     public List<BoatBean> getAll(EnabledState enabledState) {
-        return masterDataHelper.getAll(boatDao, boatMapping, enabledState);
+        return crudHelper.convert(masterDataHelper.loadAll(boatRepository, enabledState));
     }
 
     @Override
     public Optional<BoatBean> getById(Long id) {
-        return boatMapping.mapEntity(boatDao.getById(id));
+        return crudHelper.convert(boatRepository.loadBy(new DomainId(id)));
     }
 
     @Override
     public Optional<BoatBean> getByName(String name) {
-        return boatMapping.mapEntity(boatDao.getByName(name));
+        return crudHelper.convert(boatRepository.loadBy(new Name(name)));
     }
 
     @Override
     public Optional<BoatBean> getByShortName(String shortName) {
-        return boatMapping.mapEntity(boatDao.getByShortName(shortName));
+        return crudHelper.convert(boatRepository.loadBy(new ShortName(shortName)));
     }
 
     @Override
     public BoatBean save(BoatBean boatBean) {
-        return boatMapping.mapEntity(boatDao.save(boatMapping.mapDto(boatBean)));
+        return boatRepository.builder().from(boatBean).persist().asDto();
     }
 
     @Override
     public BoatBean update(BoatBean boatBean) {
-        Optional<BoatBean> updatedDto = crudHelper.update(boatBean, boatDao, boatMapping, () -> log.error("unable to update {} {}", Boat.class.getName(), boatBean));
-        return crudHelper.getOrNull(updatedDto, () -> {
-        });
+        return boatRepository.builder().from(boatBean).persist().asDto();
     }
 
     @Override
     public void enable(Long id) {
-        masterDataHelper.enable(id, boatDao);
+        masterDataHelper.enable(boatRepository, new DomainId(id));
     }
 
     @Override
     public void disable(Long id) {
-        masterDataHelper.disable(id, boatDao);
+        masterDataHelper.disable(boatRepository, new DomainId(id));
     }
 }

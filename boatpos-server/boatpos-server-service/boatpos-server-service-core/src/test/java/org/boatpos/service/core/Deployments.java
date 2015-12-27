@@ -13,9 +13,9 @@ import java.io.IOException;
 @ArquillianSuiteDeployment
 public class Deployments {
 
-    private static final String FILE_PERSISTENCE_XML_SOURCE = "../../boatpos-server-dao/boatpos-server-dao-core/src/test/resources/persistence-test.xml";
+    private static final String FILE_PERSISTENCE_XML_SOURCE = "../../boatpos-server-repository/boatpos-server-repository-core/src/test/resources/persistence-test.xml";
     private static final String FILE_PERSISTENCE_XML_TARGET = "META-INF/persistence.xml";
-    private static final String FOLDER_ORM_XML_SOURCE = "../../boatpos-server-dao/boatpos-server-dao-core/src/main/resources/META-INF/query";
+    private static final String FOLDER_ORM_XML_SOURCE = "../../boatpos-server-repository/boatpos-server-repository-core/src/main/resources/META-INF/query";
     private static final String FOLDER_ORM_XML_TARGET = "META-INF/query/";
     private static final String FILE_ARQUILLIAN_EXTENSION_SOURCE = "../../boatpos-server-test/boatpos-server-test-model/src/main/resources/META-INF/services/org.jboss.arquillian.container.test.spi.RemoteLoadableExtension";
     private static final String FILE_ARQUILLIAN_EXTENSION_TARGET = "META-INF/services/org.jboss.arquillian.container.test.spi.RemoteLoadableExtension";
@@ -35,10 +35,10 @@ public class Deployments {
                 .addAsResource(new File(FILE_ARQUILLIAN_EXTENSION_SOURCE), FILE_ARQUILLIAN_EXTENSION_TARGET)
                 .addPackages(true, "org.boatpos.util")
                 .addPackages(true, "org.boatpos.model")
-                .addPackages(true, "org.boatpos.dao.api")
-                .addPackages(true, "org.boatpos.dao.core")
                 .addPackages(true, "org.boatpos.test.model")
                 .addPackages(true, "org.boatpos.test.util")
+                .addPackages(true, "org.boatpos.repository.api")
+                .addPackages(true, "org.boatpos.repository.core")
                 .addPackages(true, "org.boatpos.service.api")
                 .addPackages(true, "org.boatpos.service.core");
     }

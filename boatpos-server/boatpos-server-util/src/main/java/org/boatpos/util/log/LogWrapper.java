@@ -19,6 +19,10 @@ public class LogWrapper {
 
     private final Logger log;
 
+    public LogWrapper(Class<?> type) {
+        this.log = LoggerFactory.getLogger(type);
+    }
+
     @Inject
     public LogWrapper(InjectionPoint injectionPoint) {
         this.log = LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());

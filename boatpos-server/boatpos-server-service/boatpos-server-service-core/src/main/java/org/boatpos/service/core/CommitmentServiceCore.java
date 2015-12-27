@@ -1,11 +1,11 @@
 package org.boatpos.service.core;
 
-import org.boatpos.dao.api.CommitmentDao;
-import org.boatpos.model.Commitment;
+import org.boatpos.repository.api.repository.CommitmentRepository;
+import org.boatpos.repository.api.values.DomainId;
+import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.CommitmentService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.CommitmentBean;
-import org.boatpos.service.core.mapping.CommitmentMapping;
 import org.boatpos.service.core.util.CrudHelper;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.SLF4J;
@@ -24,10 +24,7 @@ public class CommitmentServiceCore implements CommitmentService {
     private Logger log;
 
     @Inject
-    private CommitmentDao commitmentDao;
-
-    @Inject
-    private CommitmentMapping commitmentMapping;
+    private CommitmentRepository commitmentRepository;
 
     @Inject
     private CrudHelper crudHelper;
@@ -37,45 +34,42 @@ public class CommitmentServiceCore implements CommitmentService {
 
     @Override
     public List<CommitmentBean> getAll() {
-        return getAll(EnabledState.All);
+        return crudHelper.convert(commitmentRepository.loadAll());
     }
 
     @Override
     public List<CommitmentBean> getAll(EnabledState enabledState) {
-        return masterDataHelper.getAll(commitmentDao, commitmentMapping, enabledState);
+        return crudHelper.convert(masterDataHelper.loadAll(commitmentRepository, enabledState));
     }
 
     @Override
     public Optional<CommitmentBean> getById(Long id) {
-        return commitmentMapping.mapEntity(commitmentDao.getById(id));
+        return crudHelper.convert(commitmentRepository.loadBy(new DomainId(id)));
     }
 
     @Override
     public Optional<CommitmentBean> getByName(String name) {
-        return commitmentMapping.mapEntity(commitmentDao.getByName(name));
+        return crudHelper.convert(commitmentRepository.loadBy(new Name(name)));
     }
 
     @Override
     public CommitmentBean save(CommitmentBean commitmentBean) {
-        return commitmentMapping.mapEntity(commitmentDao.save(commitmentMapping.mapDto(commitmentBean)));
+        return commitmentRepository.builder().from(commitmentBean).persist().asDto();
     }
 
     @Override
     public CommitmentBean update(CommitmentBean commitmentBean) {
-        Optional<CommitmentBean> updatedDto = crudHelper.update(commitmentBean, commitmentDao, commitmentMapping, () -> log.error("unable to update {} {}", Commitment.class.getName(), commitmentBean));
-        return crudHelper.getOrNull(updatedDto, () -> {
-        });
+        return commitmentRepository.builder().from(commitmentBean).persist().asDto();
     }
 
 
     @Override
     public void enable(Long id) {
-        masterDataHelper.enable(id, commitmentDao);
+        masterDataHelper.enable(commitmentRepository, new DomainId(id));
     }
 
     @Override
     public void disable(Long id) {
-        masterDataHelper.disable(id, commitmentDao);
+        masterDataHelper.disable(commitmentRepository, new DomainId(id));
     }
-
 }

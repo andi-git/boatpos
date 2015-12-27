@@ -22,15 +22,15 @@ public abstract class PromotionBean extends AbstractMasterDataBean {
     @NotNull
     @Size(min = 3)
     @Expose
-    private String priceCalculation;
+    private String formulaPrice;
 
     public PromotionBean() {
     }
 
-    public PromotionBean(Long id, Integer version, String name, String priceCalculation, Integer priority, boolean enabled) {
+    public PromotionBean(Long id, Integer version, String name, String formulaPrice, Integer priority, boolean enabled) {
         super(id, version, enabled, priority);
         this.name = name;
-        this.priceCalculation = priceCalculation;
+        this.formulaPrice = formulaPrice;
     }
 
     public String getName() {
@@ -41,11 +41,11 @@ public abstract class PromotionBean extends AbstractMasterDataBean {
         this.name = name;
     }
 
-    public String getPriceCalculation() {
-        return priceCalculation;
+    public String getFormulaPrice() {
+        return formulaPrice;
     }
 
-    public void setPriceCalculation(String priceCalculation) {
-        this.priceCalculation = priceCalculation;
+    public void setFormulaPrice(String formulaPrice) {
+        this.formulaPrice = formulaPrice;
     }
 }

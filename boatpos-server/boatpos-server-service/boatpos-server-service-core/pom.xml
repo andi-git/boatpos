@@ -45,26 +45,13 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-dao-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-model</artifactId>
+            <artifactId>boatpos-server-repository-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
             <artifactId>boatpos-server-util</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.craftsman</groupId>
-            <artifactId>dozer-jdk8-support</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -78,8 +65,15 @@
         <!-- test -->
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-dao-core</artifactId>
+            <artifactId>boatpos-server-repository-core</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-server-test-model</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -13,13 +13,13 @@ import javax.validation.constraints.NotNull;
 public class AbstractMasterDataEntity extends AbstractEntity {
 
     /**
-     * Flag if this {@link Boat} is enabled or disabled.
+     * Flag if this {@link BoatEntity} is enabled or disabled.
      */
     @Expose
     private boolean enabled;
 
     /**
-     * The priority of the {@link Boat}.
+     * The priority of the {@link BoatEntity}.
      */
     @NotNull
     @Min(0)

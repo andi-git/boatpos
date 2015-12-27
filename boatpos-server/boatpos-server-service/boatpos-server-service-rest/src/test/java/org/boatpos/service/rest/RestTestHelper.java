@@ -26,7 +26,7 @@ public class RestTestHelper {
     }
 
     public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count) throws Exception {
-            assertCount(url, subPath, count, EnabledState.All);
+        assertCount(url, subPath, count, EnabledState.All);
     }
 
     public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count, EnabledState enabledState) throws Exception {

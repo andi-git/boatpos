@@ -4,7 +4,9 @@ import com.google.common.base.Objects;
 import com.google.gson.annotations.Expose;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,72 +16,72 @@ import java.util.Set;
 public class DepartureBean extends AbstractBean {
 
     /**
-     * The {@link BoatBean} of the rental.
+     * The id of the {@link BoatBean}.
      */
     @NotNull
-    @Valid
+    @Min(0)
     @Expose
-    private BoatBean boatBean;
+    private Long boatId;
 
     /**
-     * All {@link CommitmentBean}s of the rental.
+     * All ids of the {@link CommitmentBean}s.
      */
     @Valid
     @Expose
-    private Set<CommitmentBean> commitmentBeans;
+    private Set<Long> commitmentIds = new HashSet<>();
 
     /**
-     * The {@link PromotionBean} of the rental.
+     * The id of the {@link PromotionBean}.
      */
-    @Valid
+    @Min(0)
     @Expose
-    private PromotionBean promotionBean;
+    private Long promotionId;
 
     public DepartureBean() {
     }
 
-    public DepartureBean(BoatBean boatBean, Set<CommitmentBean> commitmentBeans, PromotionBean promotionBean) {
-        this.boatBean = boatBean;
-        this.commitmentBeans = commitmentBeans;
-        this.promotionBean = promotionBean;
+    public DepartureBean(Long boatId, Set<Long> commitmentIds, Long promotionId) {
+        this.boatId = boatId;
+        this.commitmentIds = commitmentIds;
+        this.promotionId = promotionId;
     }
 
-    public BoatBean getBoatBean() {
-        return boatBean;
+    public Long getBoatId() {
+        return boatId;
     }
 
-    public void setBoatBean(BoatBean boatBean) {
-        this.boatBean = boatBean;
+    public void setBoatId(Long boatId) {
+        this.boatId = boatId;
     }
 
-    public Set<CommitmentBean> getCommitmentBeans() {
-        return commitmentBeans;
+    public Set<Long> getCommitmentIds() {
+        return commitmentIds;
     }
 
-    public void setCommitmentBeans(Set<CommitmentBean> commitmentBeans) {
-        this.commitmentBeans = commitmentBeans;
+    public void setCommitmentIds(Set<Long> commitmentIds) {
+        this.commitmentIds = commitmentIds;
     }
 
-    public PromotionBean getPromotionBean() {
-        return promotionBean;
+    public Long getPromotionId() {
+        return promotionId;
     }
 
-    public void setPromotionBean(PromotionBean promotionBean) {
-        this.promotionBean = promotionBean;
+    public void setPromotionId(Long promotionId) {
+        this.promotionId = promotionId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DepartureBean departureBean = (DepartureBean) o;
-        return Objects.equal(boatBean, departureBean.boatBean) &&
-                Objects.equal(commitmentBeans, departureBean.commitmentBeans) &&
-                Objects.equal(promotionBean, departureBean.promotionBean);
+        DepartureBean that = (DepartureBean) o;
+        return Objects.equal(boatId, that.boatId) &&
+                Objects.equal(commitmentIds, that.commitmentIds) &&
+                Objects.equal(promotionId, that.promotionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(boatBean, commitmentBeans, promotionBean);
+        return Objects.hashCode(boatId, commitmentIds, promotionId);
     }
 }

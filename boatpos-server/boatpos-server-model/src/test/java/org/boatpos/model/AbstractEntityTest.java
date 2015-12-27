@@ -7,17 +7,17 @@ import static org.junit.Assert.*;
 
 public class AbstractEntityTest {
 
-    private Boat boat1;
-    private Boat boat2;
-    private Boat boat3;
+    private BoatEntity boat1;
+    private BoatEntity boat2;
+    private BoatEntity boat3;
 
     @Before
     public void before() {
-        boat1 = new Boat();
+        boat1 = new BoatEntity();
         boat1.setId(1L);
-        boat2 = new Boat();
+        boat2 = new BoatEntity();
         boat2.setId(2L);
-        boat3 = new Boat();
+        boat3 = new BoatEntity();
         boat3.setId(1L);
     }
 

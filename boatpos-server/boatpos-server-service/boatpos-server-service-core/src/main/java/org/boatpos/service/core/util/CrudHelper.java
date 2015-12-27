@@ -1,18 +1,44 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.dao.api.GenericDao;
-import org.boatpos.model.AbstractEntity;
+import org.boatpos.repository.api.model.DomainModel;
 import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
-import org.boatpos.service.core.mapping.Mapping;
 
 import javax.enterprise.context.Dependent;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Helper for CRUD-operation with some generic methods.
  */
 @Dependent
 public class CrudHelper {
+
+    /**
+     * Convert a {@link List} of {@link MODEL}s to a {@link List} of {@link DTO}s.
+     *
+     * @param models  the {@link MODEL}s to convert
+     * @param <MODEL> the concrete type of the {@link DomainModel}
+     * @param <DTO>   the concrete type of te {@link AbstractBeanBasedOnEntity}
+     * @return a {@link List} of {@link DTO}s converted from the {@link List} of {@link MODEL}s
+     */
+    public <MODEL extends DomainModel, DTO extends AbstractBeanBasedOnEntity> List<DTO> convert(List<MODEL> models) {
+        checkNotNull(models, "'model-list' must not be null");
+        //noinspection unchecked
+        return models.stream().map(model -> (DTO) model.asDto()).collect(Collectors.toList());
+    }
+
+    public <MODEL extends DomainModel, DTO extends AbstractBeanBasedOnEntity> Optional<DTO> convert(Optional<MODEL> model) {
+        checkNotNull(model, "'model' must not be null");
+        if (model.isPresent()) {
+            //noinspection unchecked
+            return Optional.of((DTO) model.get().asDto());
+        } else {
+            return Optional.empty();
+        }
+    }
 
     /**
      * Get the {@link DTO} of the {@link Optional} or {@code null}.
@@ -43,16 +69,16 @@ public class CrudHelper {
      * @param <DTO>    the type of the dto
      * @return an {@link Optional} of the {@link DTO}. If the update was not successful, the {@link Optional} is empty
      */
-    public <ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> Optional<DTO> update(DTO dto, GenericDao<ENTITY> dao, Mapping<ENTITY, DTO> mapping, Runnable logError) {
-        Optional<ENTITY> entityOptional = dao.getById(dto.getId());
-        if (entityOptional.isPresent()) {
-            ENTITY entity = entityOptional.get();
-            mapping.mapDto(dto, entity);
-            entity = dao.update(entity);
-            return Optional.of(mapping.mapEntity(entity));
-        } else {
-            logError.run();
-            return Optional.empty();
-        }
-    }
+//    public <ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> Optional<DTO> update(DTO dto, GenericDao<ENTITY> dao, Mapping<ENTITY, DTO> mapping, Runnable logError) {
+//        Optional<ENTITY> entityOptional = dao.getById(dto.getId());
+//        if (entityOptional.isPresent()) {
+//            ENTITY entity = entityOptional.get();
+//            mapping.mapDto(dto, entity);
+//            entity = dao.update(entity);
+//            return Optional.of(mapping.mapEntity(entity));
+//        } else {
+//            logError.run();
+//            return Optional.empty();
+//        }
+//    }
 }

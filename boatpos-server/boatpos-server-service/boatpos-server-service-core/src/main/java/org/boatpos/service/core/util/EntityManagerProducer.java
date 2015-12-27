@@ -1,6 +1,6 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.dao.api.BoatPosDB;
+import org.boatpos.repository.api.BoatPosDB;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

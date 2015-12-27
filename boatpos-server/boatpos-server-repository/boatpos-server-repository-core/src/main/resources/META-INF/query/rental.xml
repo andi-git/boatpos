@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
+                 version="2.1">
+    <named-query name="rental.maxDayId">
+        <query>SELECT MAX (r.dayId) FROM RentalEntity r WHERE r.date = :date</query>
+    </named-query>
+    <named-query name="rental.getByDayId">
+        <query>FROM RentalEntity r WHERE r.dayId = :dayId AND r.date = :day</query>
+    </named-query>
+    <named-query name="rental.getBetweenDate">
+        <query>FROM RentalEntity r WHERE r.date BETWEEN :start AND :end ORDER BY r.id</query>
+    </named-query>
+</entity-mappings>

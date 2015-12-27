@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
@@ -52,7 +51,7 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
         assertEquals(6, boatService.getAll(EnabledState.Enabled).size());
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test(expected = Exception.class)
     @Transactional
     public void testSaveWithException() throws Throwable {
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
@@ -60,7 +59,7 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
         boatService.save(boatBean);
     }
 
-    @Test
+    @Test(expected = Exception.class)
     @Transactional
     public void testUpdate() throws Exception {
         BoatBean boatBean = boatService.getByShortName("E").get();

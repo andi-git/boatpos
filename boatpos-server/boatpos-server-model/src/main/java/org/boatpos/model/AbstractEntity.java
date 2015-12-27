@@ -62,12 +62,17 @@ public abstract class AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractEntity that = (AbstractEntity) o;
-        return Objects.equal(id, that.id);
+        return getId() != null && Objects.equal(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        // super.hashCode is needed when id is null (on persisting a new entity)
+        if (id != null) {
+            return Objects.hashCode(id);
+        } else {
+            return super.hashCode();
+        }
     }
 
     @Override

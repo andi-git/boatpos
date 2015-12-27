@@ -52,13 +52,14 @@ public class CommitmentServiceCoreTest extends AbstractMasterDataServiceTest<Com
     @Test
     @Transactional
     public void testGetById() throws Exception {
-        assertEquals("Ausweis", commitmentService.getById(4L).get().getName());
+        Long id = commitmentService.getByName("Ausweis").get().getId();
+        assertEquals("Ausweis", commitmentService.getById(id).get().getName());
     }
 
     @Test
     @Transactional
     public void testGetByName() throws Exception {
-        assertEquals(4L, commitmentService.getByName("Ausweis").get().getId().longValue());
+        assertEquals("Ausweis", commitmentService.getByName("Ausweis").get().getName());
     }
 
     @Test

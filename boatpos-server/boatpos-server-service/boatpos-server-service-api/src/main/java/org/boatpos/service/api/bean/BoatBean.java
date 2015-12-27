@@ -31,28 +31,28 @@ public class BoatBean extends AbstractMasterDataBean {
     private String shortName;
 
     /**
-     * The price of the {@link BoatBean} for 1 hour.
+     * The priceOneHour of the {@link BoatBean} for 1 hour.
      */
     @NotNull
     @Min(0)
     @Expose
-    private BigDecimal price;
+    private BigDecimal priceOneHour;
 
     /**
-     * The price of the {@link BoatBean} for 1/2 hour.
+     * The priceOneHour of the {@link BoatBean} for 1/2 hour.
      */
     @NotNull
     @Min(0)
     @Expose
-    private BigDecimal priceHalfHour;
+    private BigDecimal priceThirtyMinutes;
 
     /**
-     * The price of the {@link BoatBean} for 3/4 hour.
+     * The priceOneHour of the {@link BoatBean} for 3/4 hour.
      */
     @NotNull
     @Min(0)
     @Expose
-    private BigDecimal priceThreeQuaterHour;
+    private BigDecimal priceFortyFiveMinutes;
 
     /**
      * The number of available {@link BoatBean}s.
@@ -66,13 +66,13 @@ public class BoatBean extends AbstractMasterDataBean {
     public BoatBean() {
     }
 
-    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal price, BigDecimal priceHalfHour, BigDecimal priceThreeQuaterHour, Integer count, Integer priority, boolean enabled) {
+    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, boolean enabled) {
         super(id, version, enabled, priority);
         this.shortName = shortName;
         this.name = name;
-        this.price = price;
-        this.priceHalfHour = priceHalfHour;
-        this.priceThreeQuaterHour = priceThreeQuaterHour;
+        this.priceOneHour = priceOneHour;
+        this.priceThirtyMinutes = priceThirtyMinutes;
+        this.priceFortyFiveMinutes = priceFortyFiveMinutes;
         this.count = count;
     }
 
@@ -92,28 +92,28 @@ public class BoatBean extends AbstractMasterDataBean {
         this.shortName = shortName;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getPriceOneHour() {
+        return priceOneHour;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPriceOneHour(BigDecimal priceOneHour) {
+        this.priceOneHour = priceOneHour;
     }
 
-    public BigDecimal getPriceHalfHour() {
-        return priceHalfHour;
+    public BigDecimal getPriceThirtyMinutes() {
+        return priceThirtyMinutes;
     }
 
-    public void setPriceHalfHour(BigDecimal priceHalfHour) {
-        this.priceHalfHour = priceHalfHour;
+    public void setPriceThirtyMinutes(BigDecimal priceThirtyMinutes) {
+        this.priceThirtyMinutes = priceThirtyMinutes;
     }
 
-    public BigDecimal getPriceThreeQuaterHour() {
-        return priceThreeQuaterHour;
+    public BigDecimal getPriceFortyFiveMinutes() {
+        return priceFortyFiveMinutes;
     }
 
-    public void setPriceThreeQuaterHour(BigDecimal priceThreeQuaterHour) {
-        this.priceThreeQuaterHour = priceThreeQuaterHour;
+    public void setPriceFortyFiveMinutes(BigDecimal priceFortyFiveMinutes) {
+        this.priceFortyFiveMinutes = priceFortyFiveMinutes;
     }
 
     public Integer getCount() {

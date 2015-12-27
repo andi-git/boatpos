@@ -29,7 +29,10 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testGetById() throws Exception {
-        Response response = helper.createRestCall(url, (wt) -> wt.path("boat/id/1")).get();
+        Response response = helper.createRestCall(url, (wt) -> wt.path("boat/name/E")).get();
+        Long id = response.readEntity(BoatBean.class).getId();
+
+        response = helper.createRestCall(url, (wt) -> wt.path("boat/id/" + id)).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("E-Boot", response.readEntity(BoatBean.class).getName());
 

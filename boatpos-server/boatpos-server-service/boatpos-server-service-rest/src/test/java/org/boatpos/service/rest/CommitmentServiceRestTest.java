@@ -28,7 +28,10 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
 
     @Test
     public void testGetById() throws Exception {
-        Response response = helper.createRestCall(url, (wt) -> wt.path("commitment/id/4")).get();
+        Response response = helper.createRestCall(url, (wt) -> wt.path("commitment/name/Ausweis")).get();
+        Long id = response.readEntity(CommitmentBean.class).getId();
+
+        response = helper.createRestCall(url, (wt) -> wt.path("commitment/id/" + id)).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("Ausweis", response.readEntity(CommitmentBean.class).getName());
 
