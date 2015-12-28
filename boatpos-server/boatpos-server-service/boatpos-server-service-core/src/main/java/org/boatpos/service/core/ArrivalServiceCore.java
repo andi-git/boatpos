@@ -1,9 +1,11 @@
 package org.boatpos.service.core;
 
+import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.ArrivalTime;
 import org.boatpos.repository.api.values.Day;
 import org.boatpos.repository.api.values.DayId;
+import org.boatpos.repository.api.values.PriceCalculated;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.RentalBean;
@@ -21,12 +23,16 @@ public class ArrivalServiceCore implements ArrivalService {
     @Inject
     private DateTimeHelper dateTimeHelper;
 
+    @Inject
+    private PriceCalculator priceCalculator;
+
     @Override
     public RentalBean arrive(ArrivalBean arrivalBean) {
-        return rentalRepository.arrive(
+        Rental rental = rentalRepository.arrive(
                 new Day(dateTimeHelper.currentDate()),
                 new DayId(arrivalBean.getDayNumber()),
-                new ArrivalTime(dateTimeHelper.currentTime())
-        ).asDto();
+                new ArrivalTime(dateTimeHelper.currentTime()));
+        PriceCalculated priceCalculated = priceCalculator.calculate(rental.getDepartureTime(), rental.getArrivalTime(), rental.getBoat(), rental.getPromotion());
+        return rental.setPriceCalculated(priceCalculated).persist().asDto();
     }
 }

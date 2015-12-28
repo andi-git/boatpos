@@ -59,7 +59,15 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
      */
     @Min(0)
     @Expose
-    private BigDecimal price;
+    private BigDecimal pricePaid;
+
+    /**
+     * The calculated price of the {@link RentalBean}.
+     */
+    @Min(0)
+    @Expose
+    private BigDecimal priceCalculated;
+
 
     /**
      * Check if the {@link RentalBean} is finished.
@@ -95,14 +103,15 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal price, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculated, BigDecimal pricePaid, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
         this.boatBean = boatBean;
         this.departure = departure;
         this.arrival = arrival;
-        this.price = price;
+        this.priceCalculated = priceCalculated;
+        this.pricePaid = pricePaid;
         this.finished = finished;
         this.deleted = deleted;
         this.coupon = coupon;
@@ -150,12 +159,20 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.arrival = arrival;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getPricePaid() {
+        return pricePaid;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPricePaid(BigDecimal pricePaid) {
+        this.pricePaid = pricePaid;
+    }
+
+    public BigDecimal getPriceCalculated() {
+        return priceCalculated;
+    }
+
+    public void setPriceCalculated(BigDecimal priceCalculated) {
+        this.priceCalculated = priceCalculated;
     }
 
     public boolean isFinished() {

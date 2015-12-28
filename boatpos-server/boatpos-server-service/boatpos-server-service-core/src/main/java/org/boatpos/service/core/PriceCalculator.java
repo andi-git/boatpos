@@ -57,6 +57,8 @@ public class PriceCalculator {
         PriceCalculated priceCalculated = calculate(minutes, boat.getPriceOneHour(), boat.getPriceThirtyMinutes(), boat.getPriceFortyFiveMinutes(), promotion);
         // handle promotionAfter
         priceCalculated = handlePromotionAfter(priceCalculated, promotion);
+        // round to 0.00 or 0.05
+        priceCalculated = round(priceCalculated);
         // return the calculated price
         return priceCalculated;
     }
@@ -76,7 +78,7 @@ public class PriceCalculator {
             JEP parser = new JEP();
             parser.addVariable("price", priceCalculated.get());
             parser.parseExpression(promotionAfter.getFormulaPrice().get());
-            return new PriceCalculated(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION)));
+            return round(new PriceCalculated(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
         } else {
             return priceCalculated;
         }
@@ -97,7 +99,7 @@ public class PriceCalculator {
             JEP parser = new JEP();
             parser.addVariable("priceOneHour", priceOneHour.get());
             parser.parseExpression(promotionBefore.getFormulaPrice().get());
-            return new PriceCalculated(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION)));
+            return round(new PriceCalculated(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
         } else {
             throw new RuntimeException("Promotion " + promotionBefore + " is not active!");
         }
@@ -146,11 +148,59 @@ public class PriceCalculator {
         return new PriceCalculated(scalePrice(priceCalculated));
     }
 
+    private PriceCalculated round(PriceCalculated priceCalculated) {
+        return CentAmount.get(priceCalculated).round(priceCalculated);
+    }
+
     private BigDecimal scalePrice(BigDecimal price) {
         return price.setScale(SCALE_PRICE, BigDecimal.ROUND_HALF_UP);
     }
 
     private long notMinus(long value) {
         return value < 0 ? 0 : value;
+    }
+
+    public enum CentAmount {
+        C_0K00(new BigDecimal("0.00"), new BigDecimal("0.00")),
+        C_0K01(new BigDecimal("0.01"), new BigDecimal("-0.01")),
+        C_0K02(new BigDecimal("0.02"), new BigDecimal("-0.02")),
+        C_0K03(new BigDecimal("0.03"), new BigDecimal("0.02")),
+        C_0K04(new BigDecimal("0.04"), new BigDecimal("0.01")),
+        C_0K05(new BigDecimal("0.05"), new BigDecimal("0.00")),
+        C_0K06(new BigDecimal("0.06"), new BigDecimal("-0.01")),
+        C_0K07(new BigDecimal("0.07"), new BigDecimal("-0.02")),
+        C_0K08(new BigDecimal("0.08"), new BigDecimal("0.02")),
+        C_0K09(new BigDecimal("0.09"), new BigDecimal("0.01"));
+
+        private final BigDecimal centAmount;
+
+        private final BigDecimal amountToRound;
+
+        CentAmount(BigDecimal centAmount, BigDecimal amountToRound) {
+            this.centAmount = centAmount;
+            this.amountToRound = amountToRound;
+        }
+
+        public BigDecimal getCentAmount() {
+            return centAmount;
+        }
+
+        public static CentAmount get(PriceCalculated priceCalculated) {
+            checkNotNull(priceCalculated, "'priceCalculated' must not be null");
+            checkNotNull(priceCalculated.get(), "'priceCalculated-value' must not be null");
+            CentAmount result = C_0K00;
+            BigDecimal assignedCentAmount = priceCalculated.get().subtract(priceCalculated.get().setScale(1, RoundingMode.DOWN)).setScale(2, BigDecimal.ROUND_HALF_UP);
+            for (CentAmount centAmount : values()) {
+                if (centAmount.getCentAmount().equals(assignedCentAmount)) {
+                    result = centAmount;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        public PriceCalculated round(PriceCalculated priceCalculated) {
+            return new PriceCalculated(priceCalculated.get().add(amountToRound, MATH_CONTEXT_CALCULATION).setScale(SCALE_PRICE, BigDecimal.ROUND_HALF_UP));
+        }
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
@@ -33,6 +34,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         RentalBean rental = arrivalService.arrive(new ArrivalBean(2));
         assertEquals(dateTimeHelper.currentTime(), rental.getArrival());
         assertTrue(rental.isFinished());
+        assertEquals(new BigDecimal("34.15"), rental.getPriceCalculated());
         assertEquals(new BigInteger("11"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM rental").getSingleResult());
     }
 }

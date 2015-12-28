@@ -11,6 +11,7 @@ import org.boatpos.service.api.bean.RentalBean;
 
 import javax.enterprise.inject.spi.CDI;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -171,12 +172,14 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
     }
 
     @Override
-    public Promotion getPromotion() {
+    public Optional<Promotion> getPromotion() {
+        Optional<Promotion> promotion = Optional.empty();
         if (getEntity().getPromotion() instanceof PromotionBeforeEntity) {
-            return new PromotionBeforeCore((PromotionBeforeEntity) getEntity().getPromotion());
-        } else {
-            return new PromotionAfterCore((PromotionAfterEntity) getEntity().getPromotion());
+            promotion = Optional.of(new PromotionBeforeCore((PromotionBeforeEntity) getEntity().getPromotion()));
+        } else if (getEntity().getPromotion() instanceof PromotionAfterEntity) {
+            promotion = Optional.of(new PromotionAfterCore((PromotionAfterEntity) getEntity().getPromotion()));
         }
+        return promotion;
     }
 
     @Override

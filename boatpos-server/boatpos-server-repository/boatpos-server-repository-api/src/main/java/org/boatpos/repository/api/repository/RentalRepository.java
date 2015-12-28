@@ -73,9 +73,9 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
     /**
      * A {@link Boat} arrives.
      *
-     * @param day         the {@link Day} of the dayId
-     * @param dayId       the {@link DayId} that arrives
-     * @param arrivalTime the time of the arrival
+     * @param day             the {@link Day} of the dayId
+     * @param dayId           the {@link DayId} that arrives
+     * @param arrivalTime     the time of the arrival
      * @return the finished {@link Rental}
      */
     Rental arrive(Day day, DayId dayId, ArrivalTime arrivalTime);

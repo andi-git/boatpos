@@ -5,6 +5,7 @@ import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.RentalBean;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -57,7 +58,7 @@ public interface Rental extends DomainModel<Rental, RentalEntity, RentalBean> {
 
     Rental setPaymentMethod(PaymentMethod paymentMethod);
 
-    Promotion getPromotion();
+    Optional<Promotion> getPromotion();
 
     Rental setPromotion(Promotion promotion);
 

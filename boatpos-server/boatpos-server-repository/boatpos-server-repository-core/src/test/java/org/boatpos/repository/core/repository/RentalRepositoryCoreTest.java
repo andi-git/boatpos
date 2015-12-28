@@ -83,7 +83,7 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
         assertNotNull(rental.getId());
         assertEquals(dateTimeHelper.currentDate(), rental.getDay().get());
         assertEquals("E-Boot", rental.getBoat().getName().get());
-        assertEquals("Fahr 3 zahl 2", rental.getPromotion().getName().get());
+        assertEquals("Fahr 3 zahl 2", rental.getPromotion().get().getName().get());
         assertEquals(1, rental.getCommitments().size());
         assertEquals(6, rental.getDayId().get().intValue());
         assertEquals(dateTimeHelper.currentTime(), rental.getDepartureTime().get());
