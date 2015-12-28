@@ -6,7 +6,7 @@ import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.CommitmentService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.CommitmentBean;
-import org.boatpos.service.core.util.CrudHelper;
+import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.SLF4J;
 import org.slf4j.Logger;
@@ -27,29 +27,29 @@ public class CommitmentServiceCore implements CommitmentService {
     private CommitmentRepository commitmentRepository;
 
     @Inject
-    private CrudHelper crudHelper;
+    private ModelDtoConverter modelDtoConverter;
 
     @Inject
     private MasterDataHelper masterDataHelper;
 
     @Override
     public List<CommitmentBean> getAll() {
-        return crudHelper.convert(commitmentRepository.loadAll());
+        return modelDtoConverter.convert(commitmentRepository.loadAll());
     }
 
     @Override
     public List<CommitmentBean> getAll(EnabledState enabledState) {
-        return crudHelper.convert(masterDataHelper.loadAll(commitmentRepository, enabledState));
+        return modelDtoConverter.convert(masterDataHelper.loadAll(commitmentRepository, enabledState));
     }
 
     @Override
     public Optional<CommitmentBean> getById(Long id) {
-        return crudHelper.convert(commitmentRepository.loadBy(new DomainId(id)));
+        return modelDtoConverter.convert(commitmentRepository.loadBy(new DomainId(id)));
     }
 
     @Override
     public Optional<CommitmentBean> getByName(String name) {
-        return crudHelper.convert(commitmentRepository.loadBy(new Name(name)));
+        return modelDtoConverter.convert(commitmentRepository.loadBy(new Name(name)));
     }
 
     @Override

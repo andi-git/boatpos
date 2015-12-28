@@ -139,7 +139,7 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public Finished isFinished() {
-        return new Finished(getEntity().isFinished());
+        return new Finished(getEntity().getFinished());
     }
 
     @Override
@@ -150,7 +150,7 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public Deleted isDeleted() {
-        return new Deleted(getEntity().isDeleted());
+        return new Deleted(getEntity().getDeleted());
     }
 
     @Override
@@ -226,6 +226,9 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public RentalBean asDto() {
-        return CDI.current().select(RentalMapping.class).get().mapEntity(getEntity());
+        System.out.println("entity: " + getEntity().getFinished());
+        RentalBean rentalBean = CDI.current().select(RentalMapping.class).get().mapEntity(getEntity());
+        System.out.println("dto   : " + rentalBean.isFinished());
+        return rentalBean;
     }
 }

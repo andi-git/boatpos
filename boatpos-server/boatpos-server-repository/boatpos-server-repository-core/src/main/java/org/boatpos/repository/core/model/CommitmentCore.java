@@ -50,7 +50,7 @@ public class CommitmentCore extends MasterDataCore<Commitment, CommitmentEntity,
 
     @Override
     public Paper needPaper() {
-        return new Paper(getEntity().isPaper());
+        return new Paper(getEntity().getPaper());
     }
 
     @Override

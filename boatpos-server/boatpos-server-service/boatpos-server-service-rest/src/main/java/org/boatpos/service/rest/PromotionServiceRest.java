@@ -54,28 +54,24 @@ public class PromotionServiceRest {
     @GET
     @Path("/before")
     public Response beforeGetAll() {
-        System.out.println("beforeGetAll");
         return Response.ok(promotionBeforeService.getAll(EnabledState.All)).build();
     }
 
     @GET
     @Path("/before/{state:[a-z]*}")
     public Response beforeGetAll(@PathParam("state") String state) {
-        System.out.println("beforeGetAll/state");
         return Response.ok(promotionBeforeService.getAll(mapInputToEnabledState(state))).build();
     }
 
     @GET
     @Path("/after")
     public Response afterGetAll() {
-        System.out.println("afterGetAll");
         return Response.ok(promotionAfterService.getAll(EnabledState.All)).build();
     }
 
     @GET
     @Path("/after/{state:[a-z]*}")
     public Response afterGetAll(@PathParam("state") String state) {
-        System.out.println("afterGetAll/state");
         return Response.ok(promotionAfterService.getAll(mapInputToEnabledState(state))).build();
     }
 

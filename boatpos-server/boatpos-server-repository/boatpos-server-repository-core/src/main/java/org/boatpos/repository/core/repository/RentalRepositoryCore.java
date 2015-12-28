@@ -84,9 +84,10 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
         checkNotNull(dayId, "'dayId' must not be null");
         checkNotNull(day, "'day' must not be null");
         checkNotNull(arrivalTime, "'arrivalTime' must not be null");
-        Rental rental = loadRentalByDayIdOrThrowException(day, dayId);
-        rental.setArrivalTime(arrivalTime);
-        return rental.persist();
+        return loadRentalByDayIdOrThrowException(day, dayId)
+                .setArrivalTime(arrivalTime)
+                .setFinished(Finished.TRUE)
+                .persist();
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.boatpos.repository.api.values.ShortName;
 import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
-import org.boatpos.service.core.util.CrudHelper;
+import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.LogWrapper;
 import org.boatpos.util.log.SLF4J;
@@ -28,34 +28,34 @@ public class BoatServiceCore implements BoatService {
     private BoatRepository boatRepository;
 
     @Inject
-    private CrudHelper crudHelper;
+    private ModelDtoConverter modelDtoConverter;
 
     @Inject
     private MasterDataHelper masterDataHelper;
 
     @Override
     public List<BoatBean> getAll() {
-        return crudHelper.convert(boatRepository.loadAll());
+        return modelDtoConverter.convert(boatRepository.loadAll());
     }
 
     @Override
     public List<BoatBean> getAll(EnabledState enabledState) {
-        return crudHelper.convert(masterDataHelper.loadAll(boatRepository, enabledState));
+        return modelDtoConverter.convert(masterDataHelper.loadAll(boatRepository, enabledState));
     }
 
     @Override
     public Optional<BoatBean> getById(Long id) {
-        return crudHelper.convert(boatRepository.loadBy(new DomainId(id)));
+        return modelDtoConverter.convert(boatRepository.loadBy(new DomainId(id)));
     }
 
     @Override
     public Optional<BoatBean> getByName(String name) {
-        return crudHelper.convert(boatRepository.loadBy(new Name(name)));
+        return modelDtoConverter.convert(boatRepository.loadBy(new Name(name)));
     }
 
     @Override
     public Optional<BoatBean> getByShortName(String shortName) {
-        return crudHelper.convert(boatRepository.loadBy(new ShortName(shortName)));
+        return modelDtoConverter.convert(boatRepository.loadBy(new ShortName(shortName)));
     }
 
     @Override

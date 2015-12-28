@@ -195,7 +195,7 @@ public class RentalEntity extends AbstractEntity {
         this.priceCalculated = priceCalculated;
     }
 
-    public Boolean isFinished() {
+    public Boolean getFinished() {
         return finished;
     }
 
@@ -203,7 +203,7 @@ public class RentalEntity extends AbstractEntity {
         this.finished = finished;
     }
 
-    public Boolean isDeleted() {
+    public Boolean getDeleted() {
         return deleted;
     }
 
@@ -211,7 +211,7 @@ public class RentalEntity extends AbstractEntity {
         this.deleted = deleted;
     }
 
-    public Boolean isCoupon() {
+    public Boolean getCoupon() {
         return coupon;
     }
 

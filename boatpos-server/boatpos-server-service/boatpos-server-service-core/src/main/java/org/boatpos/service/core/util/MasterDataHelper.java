@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MasterDataHelper {
 
     @Inject
-    private CrudHelper crudHelper;
+    private ModelDtoConverter modelDtoConverter;
 
     /**
      * Load all/enabled/disabled {@link MasterData}s from the repository ordered by {@code priority}.

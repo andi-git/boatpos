@@ -6,7 +6,7 @@ import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.PromotionBeforeService;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
-import org.boatpos.service.core.util.CrudHelper;
+import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.util.log.LogWrapper;
 import org.boatpos.util.log.SLF4J;
@@ -27,7 +27,7 @@ public class PromotionBeforeServiceCore implements PromotionBeforeService {
     private PromotionBeforeRepository promotionBeforeRepository;
 
     @Inject
-    private CrudHelper crudHelper;
+    private ModelDtoConverter modelDtoConverter;
 
     @Inject
     private MasterDataHelper masterDataHelper;
@@ -39,17 +39,17 @@ public class PromotionBeforeServiceCore implements PromotionBeforeService {
 
     @Override
     public List<PromotionBeforeBean> getAll(EnabledState enabledState) {
-        return crudHelper.convert(masterDataHelper.loadAll(promotionBeforeRepository, enabledState));
+        return modelDtoConverter.convert(masterDataHelper.loadAll(promotionBeforeRepository, enabledState));
     }
 
     @Override
     public Optional<PromotionBeforeBean> getById(Long id) {
-        return crudHelper.convert(promotionBeforeRepository.loadBy(new DomainId(id)));
+        return modelDtoConverter.convert(promotionBeforeRepository.loadBy(new DomainId(id)));
     }
 
     @Override
     public Optional<PromotionBeforeBean> getByName(String name) {
-        return crudHelper.convert(promotionBeforeRepository.loadBy(new Name(name)));
+        return modelDtoConverter.convert(promotionBeforeRepository.loadBy(new Name(name)));
     }
 
     @Override

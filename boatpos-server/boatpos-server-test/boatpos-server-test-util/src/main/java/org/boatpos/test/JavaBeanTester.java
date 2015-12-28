@@ -95,7 +95,7 @@ public class JavaBeanTester {
     }
 
     private String getterNameFor(Field field) {
-        if (field.getType() == Boolean.class || field.getType() == boolean.class) {
+        if (field.getType() == boolean.class) {
             return "is" + firstCharToUpperCase(field.getName());
         } else {
             return "get" + firstCharToUpperCase(field.getName());

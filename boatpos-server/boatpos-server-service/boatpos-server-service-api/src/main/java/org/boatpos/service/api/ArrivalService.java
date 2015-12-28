@@ -14,5 +14,5 @@ public interface ArrivalService {
      * @param arrivalBean the {@link ArrivalBean}
      * @return the ended {@link RentalBean}
      */
-    RentalBean depart(ArrivalBean arrivalBean);
+    RentalBean arrive(ArrivalBean arrivalBean);
 }

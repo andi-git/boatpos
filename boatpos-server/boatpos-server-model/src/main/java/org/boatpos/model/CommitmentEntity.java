@@ -31,7 +31,7 @@ public class CommitmentEntity extends AbstractMasterDataEntity implements Contai
      * Check if a paper is needed when used for a {@link RentalEntity}.
      */
     @Expose
-    private boolean paper;
+    private Boolean paper;
 
     /**
      * All {@link RentalEntity}s where this {@link CommitmentEntity} is used.
@@ -43,7 +43,7 @@ public class CommitmentEntity extends AbstractMasterDataEntity implements Contai
     public CommitmentEntity() {
     }
 
-    public CommitmentEntity(Long id, Integer version, String name, boolean paper, Set<RentalEntity> rentals, Integer priority, boolean enabled) {
+    public CommitmentEntity(Long id, Integer version, String name, Boolean paper, Set<RentalEntity> rentals, Integer priority, boolean enabled) {
         super(id, version, enabled, priority);
         this.name = name;
         this.paper = paper;
@@ -58,11 +58,11 @@ public class CommitmentEntity extends AbstractMasterDataEntity implements Contai
         this.name = name;
     }
 
-    public boolean isPaper() {
+    public Boolean getPaper() {
         return paper;
     }
 
-    public void setPaper(boolean paper) {
+    public void setPaper(Boolean paper) {
         this.paper = paper;
     }
 
