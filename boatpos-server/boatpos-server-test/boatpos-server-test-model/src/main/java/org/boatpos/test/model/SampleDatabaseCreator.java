@@ -36,9 +36,9 @@ public class SampleDatabaseCreator {
         BoatEntity boat4 = new BoatEntity(null, 1, "Tretboot Rutsche", "TR", new BigDecimal("13.8"), new BigDecimal("7.8"), new BigDecimal("11.7"), 3, 4, new HashSet<>(), true);
         BoatEntity boat5 = new BoatEntity(null, 1, "Liegeboot", "L", new BigDecimal("9.8"), new BigDecimal("9.8"), new BigDecimal("9.8"), 5, 5, new HashSet<>(), true);
         BoatEntity boat6 = new BoatEntity(null, 1, "Pönt", "P", new BigDecimal("9.8"), new BigDecimal("9.8"), new BigDecimal("9.8"), 5, 5, new HashSet<>(), false);
-        PromotionEntity promotion1 = new PromotionBeforeEntity(null, 1, "Fahr 3 zahl 2", 180, "pricePerHour * 2", new HashSet<>(), 1, true);
-        PromotionEntity promotion2 = new PromotionBeforeEntity(null, 1, "Fahr 5 zahl 3", 300, "pricePerHour * 3", new HashSet<>(), 2, true);
-        PromotionEntity promotion3 = new PromotionBeforeEntity(null, 1, "Tageskarte", 480, "pricePerHour * 5", new HashSet<>(), 3, false);
+        PromotionEntity promotion1 = new PromotionBeforeEntity(null, 1, "Fahr 3 zahl 2", 180, "priceOneHour * 2", new HashSet<>(), 1, true);
+        PromotionEntity promotion2 = new PromotionBeforeEntity(null, 1, "Fahr 5 zahl 3", 300, "priceOneHour * 3", new HashSet<>(), 2, true);
+        PromotionEntity promotion3 = new PromotionBeforeEntity(null, 1, "Tageskarte", 480, "priceOneHour * 5", new HashSet<>(), 3, false);
         PromotionEntity promotion4 = new PromotionAfterEntity(null, 1, "HolliKnolli", "price / 2", new HashSet<>(), 100, true);
         PromotionEntity promotion5 = new PromotionAfterEntity(null, 1, "Sommerferien", "price / 3", new HashSet<>(), 101, false);
         CommitmentEntity commitment1 = new CommitmentEntity(null, 1, "Ausweis", true, new HashSet<>(), 1, true);

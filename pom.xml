@@ -48,6 +48,7 @@
         <version.gson>2.4</version.gson>
         <version.dozer>5.5.1</version.dozer>
         <version.dozer.jdk8>1.0.0</version.dozer.jdk8>
+        <version.jep>2.4.2</version.jep>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.9.Final</version.arquillian-bom>
@@ -176,6 +177,11 @@
                 <groupId>io.craftsman</groupId>
                 <artifactId>dozer-jdk8-support</artifactId>
                 <version>${version.dozer.jdk8}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scijava</groupId>
+                <artifactId>jep</artifactId>
+                <version>${version.jep}</version>
             </dependency>
             <!-- test -->
             <dependency>
