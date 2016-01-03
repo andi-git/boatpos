@@ -70,9 +70,9 @@ public class PriceCalculatorTest {
         assertEquals(new BigDecimal("20.00"), priceCalculated.get());
 
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 13, 06)), boat, Optional.empty());
-        assertEquals(new BigDecimal("20.35"), priceCalculated.get());
+        assertEquals(new BigDecimal("20.30"), priceCalculated.get());
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 13, 27)), boat, Optional.empty());
-        assertEquals(new BigDecimal("27.35"), priceCalculated.get());
+        assertEquals(new BigDecimal("27.30"), priceCalculated.get());
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 14, 05)), boat, Optional.empty());
         assertEquals(new BigDecimal("40.00"), priceCalculated.get());
     }
@@ -112,7 +112,7 @@ public class PriceCalculatorTest {
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 15, 05)), boat, promotionBefore);
         assertEquals(new BigDecimal("0.00"), priceCalculated.get());
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 15, 06)), boat, promotionBefore);
-        assertEquals(new BigDecimal("0.35"), priceCalculated.get());
+        assertEquals(new BigDecimal("0.30"), priceCalculated.get());
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 16, 05)), boat, promotionBefore);
         assertEquals(new BigDecimal("20.00"), priceCalculated.get());
     }
@@ -132,7 +132,7 @@ public class PriceCalculatorTest {
         PriceCalculated priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 13, 05)), boat, promotionAfter);
         assertEquals(new BigDecimal("10.00"), priceCalculated.get());
         priceCalculated = priceCalculator.calculate(departureTime, new ArrivalTime(LocalDateTime.of(2015, 7, 1, 13, 28)), boat, promotionAfter);
-        assertEquals(new BigDecimal("13.85"), priceCalculated.get());
+        assertEquals(new BigDecimal("13.80"), priceCalculated.get());
     }
 
     @Test
@@ -154,16 +154,16 @@ public class PriceCalculatorTest {
         assertCentRound(new PriceCalculated("3.00"), new PriceCalculated("3.00"));
         assertCentRound(new PriceCalculated("3.11"), new PriceCalculated("3.10"));
         assertCentRound(new PriceCalculated("3.22"), new PriceCalculated("3.20"));
-        assertCentRound(new PriceCalculated("3.33"), new PriceCalculated("3.35"));
-        assertCentRound(new PriceCalculated("3.44"), new PriceCalculated("3.45"));
-        assertCentRound(new PriceCalculated("3.55"), new PriceCalculated("3.55"));
-        assertCentRound(new PriceCalculated("3.66"), new PriceCalculated("3.65"));
-        assertCentRound(new PriceCalculated("3.77"), new PriceCalculated("3.75"));
+        assertCentRound(new PriceCalculated("3.33"), new PriceCalculated("3.30"));
+        assertCentRound(new PriceCalculated("3.44"), new PriceCalculated("3.40"));
+        assertCentRound(new PriceCalculated("3.55"), new PriceCalculated("3.60"));
+        assertCentRound(new PriceCalculated("3.66"), new PriceCalculated("3.70"));
+        assertCentRound(new PriceCalculated("3.77"), new PriceCalculated("3.80"));
         assertCentRound(new PriceCalculated("3.88"), new PriceCalculated("3.90"));
         assertCentRound(new PriceCalculated("3.99"), new PriceCalculated("4.00"));
     }
 
     private void assertCentRound(PriceCalculated priceCalculated, PriceCalculated expected) {
-        assertEquals(expected, PriceCalculator.CentAmount.get(priceCalculated).round(priceCalculated));
+        assertEquals(expected, priceCalculator.round(priceCalculated));
     }
 }
