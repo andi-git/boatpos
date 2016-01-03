@@ -38,6 +38,10 @@ public interface Rental extends DomainModel<Rental, RentalEntity, RentalBean> {
 
     Rental setArrivalTime(ArrivalTime arrivalTime);
 
+    PriceCalculatedBefore getPriceCalculatedBefore();
+
+    Rental setPriceCalculatedBefore(PriceCalculatedBefore priceCalculatedBefore);
+
     PriceCalculatedAfter getPriceCalculatedAfter();
 
     Rental setPriceCalculatedAfter(PriceCalculatedAfter priceCalculatedAfter);

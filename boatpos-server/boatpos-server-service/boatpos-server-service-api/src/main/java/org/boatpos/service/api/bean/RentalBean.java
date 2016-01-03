@@ -70,11 +70,18 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     private BigDecimal pricePaidBefore;
 
     /**
-     * The calculated price of the {@link RentalBean}.
+     * The calculated price after the rental.
      */
     @Min(0)
     @Expose
     private BigDecimal priceCalculatedAfter;
+
+    /**
+     * The calculated price before the rental.
+     */
+    @Min(0)
+    @Expose
+    private BigDecimal priceCalculatedBefore;
 
     /**
      * Check if the {@link RentalBean} is finished.
@@ -110,13 +117,14 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
         this.boatBean = boatBean;
         this.departure = departure;
         this.arrival = arrival;
+        this.priceCalculatedBefore = priceCalculatedBefore;
         this.priceCalculatedAfter = priceCalculatedAfter;
         this.pricePaidBefore = pricePaidBefore;
         this.pricePaidAfter = pricePaidAfter;
@@ -181,6 +189,14 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
 
     public void setPricePaidAfter(BigDecimal pricePaidAfter) {
         this.pricePaidAfter = pricePaidAfter;
+    }
+
+    public BigDecimal getPriceCalculatedBefore() {
+        return priceCalculatedBefore;
+    }
+
+    public void setPriceCalculatedBefore(BigDecimal priceCalculatedBefore) {
+        this.priceCalculatedBefore = priceCalculatedBefore;
     }
 
     public BigDecimal getPriceCalculatedAfter() {

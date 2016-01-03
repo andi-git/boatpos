@@ -17,6 +17,8 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -85,5 +87,20 @@ public class RentalCoreTest extends EntityManagerProviderForBoatpos {
         rental.undoDelete();
         assertFalse(rentalRepository.loadBy(new Day(dateTimeHelper.currentDate()), new DayId(1)).get().isDeleted().get());
         rentalUtil.assertDatabaseRentalCount(11);
+    }
+
+    @Test
+    @Transactional
+    public void testSomeGetterAndSetterForCodeCoverage() {
+        Rental rental = new RentalCore(rentalUtil.createDummyRental().asEntity());
+        rental.setPriceCalculatedBefore(new PriceCalculatedBefore(new BigDecimal("20.0")));
+        rental.setPriceCalculatedAfter(new PriceCalculatedAfter(new BigDecimal("10.0")));
+        rental.setPricePaidBefore(new PricePaidBefore(new BigDecimal("20.0")));
+        rental.setPricePaidAfter(new PricePaidAfter(new BigDecimal("10.0")));
+        assertEquals(new BigDecimal("20.0"), rental.getPriceCalculatedBefore().get());
+        assertEquals(new BigDecimal("10.0"), rental.getPriceCalculatedAfter().get());
+        assertEquals(new BigDecimal("20.0"), rental.getPricePaidBefore().get());
+        assertEquals(new BigDecimal("10.0"), rental.getPricePaidAfter().get());
+
     }
 }

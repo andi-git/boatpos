@@ -117,6 +117,17 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
     }
 
     @Override
+    public PriceCalculatedBefore getPriceCalculatedBefore() {
+        return new PriceCalculatedBefore(getEntity().getPriceCalculatedBefore());
+    }
+
+    @Override
+    public Rental setPriceCalculatedBefore(PriceCalculatedBefore priceCalculatedBefore) {
+        getEntity().setPriceCalculatedBefore(SimpleValueObject.nullSafe(priceCalculatedBefore));
+        return this;
+    }
+
+    @Override
     public PriceCalculatedAfter getPriceCalculatedAfter() {
         return new PriceCalculatedAfter(getEntity().getPriceCalculatedAfter());
     }
