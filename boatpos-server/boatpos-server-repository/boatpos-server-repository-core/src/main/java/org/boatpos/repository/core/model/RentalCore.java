@@ -26,8 +26,8 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
                       Boat boat,
                       DepartureTime departureTime,
                       ArrivalTime arrivalTime,
-                      PriceCalculated priceCalculated,
-                      PricePaid pricePaid,
+                      PriceCalculatedAfter priceCalculatedAfter,
+                      PricePaidAfter pricePaidAfter,
                       Finished finished,
                       Deleted deleted,
                       PaymentMethod paymentMethod,
@@ -43,8 +43,8 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
         setBoat(boat);
         setDepartureTime(departureTime);
         setArrivalTime(arrivalTime);
-        setPriceCalculated(priceCalculated);
-        setPricePaid(pricePaid);
+        setPriceCalculatedAfter(priceCalculatedAfter);
+        setPricePaidAfter(pricePaidAfter);
         setFinished(finished);
         setDeleted(deleted);
         setPaymentMethod(paymentMethod);
@@ -117,24 +117,35 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
     }
 
     @Override
-    public PriceCalculated getPriceCalculated() {
-        return new PriceCalculated(getEntity().getPriceCalculated());
+    public PriceCalculatedAfter getPriceCalculatedAfter() {
+        return new PriceCalculatedAfter(getEntity().getPriceCalculatedAfter());
     }
 
     @Override
-    public Rental setPriceCalculated(PriceCalculated priceCalculated) {
-        getEntity().setPriceCalculated(SimpleValueObject.nullSafe(priceCalculated));
+    public Rental setPriceCalculatedAfter(PriceCalculatedAfter priceCalculatedAfter) {
+        getEntity().setPriceCalculatedAfter(SimpleValueObject.nullSafe(priceCalculatedAfter));
         return this;
     }
 
     @Override
-    public PricePaid getPricePaid() {
-        return new PricePaid(getEntity().getPricePaid());
+    public PricePaidAfter getPricePaidAfter() {
+        return new PricePaidAfter(getEntity().getPricePaidAfter());
     }
 
     @Override
-    public Rental setPricePaid(PricePaid price) {
-        getEntity().setPricePaid(SimpleValueObject.nullSafe(price));
+    public Rental setPricePaidAfter(PricePaidAfter pricePaidAfter) {
+        getEntity().setPricePaidAfter(SimpleValueObject.nullSafe(pricePaidAfter));
+        return this;
+    }
+
+    @Override
+    public PricePaidBefore getPricePaidBefore() {
+        return new PricePaidBefore(getEntity().getPricePaidBefore());
+    }
+
+    @Override
+    public Rental setPricePaidBefore(PricePaidBefore pricePaidBefore) {
+        getEntity().setPricePaidBefore(SimpleValueObject.nullSafe(pricePaidBefore));
         return this;
     }
 
@@ -216,6 +227,11 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
     }
 
     @Override
+    public PricePaidComplete getPricePaidComplete() {
+        return new PricePaidComplete(getPricePaidBefore(), getPricePaidAfter());
+    }
+
+    @Override
     public void delete() {
         setDeleted(Deleted.TRUE);
         persist();
@@ -229,7 +245,6 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public RentalBean asDto() {
-        RentalBean rentalBean = CDI.current().select(RentalMapping.class).get().mapEntity(getEntity());
-        return rentalBean;
+        return CDI.current().select(RentalMapping.class).get().mapEntity(getEntity());
     }
 }

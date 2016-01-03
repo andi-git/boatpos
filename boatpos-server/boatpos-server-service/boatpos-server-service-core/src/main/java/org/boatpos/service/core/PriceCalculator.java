@@ -41,7 +41,7 @@ public class PriceCalculator {
      * @param promotion     a possible {@link Promotion}
      * @return the calculated price
      */
-    public PriceCalculated calculate(DepartureTime departureTime, ArrivalTime arrivalTime, Boat boat, Optional<Promotion> promotion) {
+    public PriceCalculatedAfter calculate(DepartureTime departureTime, ArrivalTime arrivalTime, Boat boat, Optional<Promotion> promotion) {
         checkNotNull(departureTime, "'departureTime' must not be null");
         checkNotNull(departureTime.get(), "'departureTime-value' must not be null");
         checkNotNull(arrivalTime, "'arrivalTime' must not be null");
@@ -54,33 +54,33 @@ public class PriceCalculator {
         // handle promotionBefore
         minutes = handlePromotionBefore(minutes, promotion);
         // calculate the price
-        PriceCalculated priceCalculated = calculate(minutes, boat.getPriceOneHour(), boat.getPriceThirtyMinutes(), boat.getPriceFortyFiveMinutes(), promotion);
+        PriceCalculatedAfter priceCalculatedAfter = calculate(minutes, boat.getPriceOneHour(), boat.getPriceThirtyMinutes(), boat.getPriceFortyFiveMinutes(), promotion);
         // handle promotionAfter
-        priceCalculated = handlePromotionAfter(priceCalculated, promotion);
+        priceCalculatedAfter = handlePromotionAfter(priceCalculatedAfter, promotion);
         // round to 0.00 or 0.05
-        priceCalculated = round(priceCalculated);
+        priceCalculatedAfter = round(priceCalculatedAfter);
         // return the calculated price
-        return priceCalculated;
+        return priceCalculatedAfter;
     }
 
     /**
-     * Perform the {@link PromotionAfter} on a {@link PriceCalculated} to produce a new {@link PriceCalculated}.
+     * Perform the {@link PromotionAfter} on a {@link PriceCalculatedAfter} to produce a new {@link PriceCalculatedAfter}.
      *
-     * @param priceCalculated the price calculated before the {@link PromotionAfter}
+     * @param priceCalculatedAfter the price calculated before the {@link PromotionAfter}
      * @param promotionAfter  the {@link PromotionAfter} to perform
      * @return the new calculated price
      */
-    public PriceCalculated calculate(PriceCalculated priceCalculated, PromotionAfter promotionAfter) {
-        checkNotNull(priceCalculated, "'priceCalculated' must not be null");
-        checkNotNull(priceCalculated.get(), "'priceCalculated-value' must not be null");
+    public PriceCalculatedAfter calculate(PriceCalculatedAfter priceCalculatedAfter, PromotionAfter promotionAfter) {
+        checkNotNull(priceCalculatedAfter, "'priceCalculated' must not be null");
+        checkNotNull(priceCalculatedAfter.get(), "'priceCalculated-value' must not be null");
         checkNotNull(promotionAfter, "'promotionAfter' must not be null");
         if (promotionChecker.active(promotionAfter)) {
             JEP parser = new JEP();
-            parser.addVariable("price", priceCalculated.get());
+            parser.addVariable("price", priceCalculatedAfter.get());
             parser.parseExpression(promotionAfter.getFormulaPrice().get());
-            return round(new PriceCalculated(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
+            return round(new PriceCalculatedAfter(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
         } else {
-            return priceCalculated;
+            return priceCalculatedAfter;
         }
     }
 
@@ -91,7 +91,7 @@ public class PriceCalculator {
      * @param promotionBefore the {@link PromotionBefore} to perform
      * @return the price to pay for the {@link PromotionBefore}
      */
-    public PriceCalculated calculate(PriceOneHour priceOneHour, PromotionBefore promotionBefore) {
+    public PriceCalculatedAfter calculate(PriceOneHour priceOneHour, PromotionBefore promotionBefore) {
         checkNotNull(priceOneHour, "'priceOneHour' must not be null");
         checkNotNull(priceOneHour.get(), "'priceOneHour-value' must not be null");
         checkNotNull(promotionBefore, "'promotionBefore' must not be null");
@@ -99,7 +99,7 @@ public class PriceCalculator {
             JEP parser = new JEP();
             parser.addVariable("priceOneHour", priceOneHour.get());
             parser.parseExpression(promotionBefore.getFormulaPrice().get());
-            return round(new PriceCalculated(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
+            return round(new PriceCalculatedAfter(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
         } else {
             throw new RuntimeException("Promotion " + promotionBefore + " is not active!");
         }
@@ -114,11 +114,11 @@ public class PriceCalculator {
         return minutesCalculated;
     }
 
-    private PriceCalculated handlePromotionAfter(PriceCalculated priceCalculated, Optional<Promotion> promotion) {
+    private PriceCalculatedAfter handlePromotionAfter(PriceCalculatedAfter priceCalculatedAfter, Optional<Promotion> promotion) {
         if (promotion.isPresent() && promotionChecker.active(promotion.get()) && promotion.get() instanceof PromotionAfter) {
-            return calculate(priceCalculated, (PromotionAfter) promotion.get());
+            return calculate(priceCalculatedAfter, (PromotionAfter) promotion.get());
         } else {
-            return priceCalculated;
+            return priceCalculatedAfter;
         }
     }
 
@@ -130,7 +130,7 @@ public class PriceCalculator {
         return notMinus(minutes - TIME_BONUS_IN_MINUTES);
     }
 
-    private PriceCalculated calculate(long minutes, PriceOneHour priceOneHour, PriceThirtyMinutes priceThirtyMinutes, PriceFortyFiveMinutes priceFortyFiveMinutes, Optional<Promotion> promotion) {
+    private PriceCalculatedAfter calculate(long minutes, PriceOneHour priceOneHour, PriceThirtyMinutes priceThirtyMinutes, PriceFortyFiveMinutes priceFortyFiveMinutes, Optional<Promotion> promotion) {
         BigDecimal priceCalculated;
         boolean promotionBefore = promotion.isPresent() && promotion.get() instanceof PromotionBefore;
         if (!promotionBefore && minutes <= 0) {
@@ -145,17 +145,17 @@ public class PriceCalculator {
             BigDecimal priceOneMinute = priceOneHour.get().divide(new BigDecimal("60"), SCALE_CALCULATION, BigDecimal.ROUND_HALF_UP);
             priceCalculated = priceOneMinute.multiply(new BigDecimal(minutes, MATH_CONTEXT_PRICE), MATH_CONTEXT_CALCULATION);
         }
-        return new PriceCalculated(scalePrice(priceCalculated));
+        return new PriceCalculatedAfter(scalePrice(priceCalculated));
     }
 
     /**
      * Round to 10-cents.
      *
-     * @param priceCalculated the calculated price
+     * @param priceCalculatedAfter the calculated price
      * @return the rounded calculated price
      */
-    public PriceCalculated round(PriceCalculated priceCalculated) {
-        return new PriceCalculated(scalePrice(priceCalculated.get().setScale(1, BigDecimal.ROUND_HALF_UP)));
+    public PriceCalculatedAfter round(PriceCalculatedAfter priceCalculatedAfter) {
+        return new PriceCalculatedAfter(scalePrice(priceCalculatedAfter.get().setScale(1, BigDecimal.ROUND_HALF_UP)));
     }
 
     private BigDecimal scalePrice(BigDecimal price) {

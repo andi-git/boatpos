@@ -5,7 +5,7 @@ import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.ArrivalTime;
 import org.boatpos.repository.api.values.Day;
 import org.boatpos.repository.api.values.DayId;
-import org.boatpos.repository.api.values.PriceCalculated;
+import org.boatpos.repository.api.values.PriceCalculatedAfter;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.RentalBean;
@@ -32,7 +32,7 @@ public class ArrivalServiceCore implements ArrivalService {
                 new Day(dateTimeHelper.currentDate()),
                 new DayId(arrivalBean.getDayNumber()),
                 new ArrivalTime(dateTimeHelper.currentTime()));
-        PriceCalculated priceCalculated = priceCalculator.calculate(rental.getDepartureTime(), rental.getArrivalTime(), rental.getBoat(), rental.getPromotion());
-        return rental.setPriceCalculated(priceCalculated).persist().asDto();
+        PriceCalculatedAfter priceCalculatedAfter = priceCalculator.calculate(rental.getDepartureTime(), rental.getArrivalTime(), rental.getBoat(), rental.getPromotion());
+        return rental.setPriceCalculatedAfter(priceCalculatedAfter).persist().asDto();
     }
 }

@@ -61,18 +61,25 @@ public class RentalEntity extends AbstractEntity {
     private LocalDateTime arrival;
 
     /**
-     * The paid price of the {@link RentalEntity}.
+     * The paid price after the rental.
      */
     @Min(0)
     @Expose
-    private BigDecimal pricePaid;
+    private BigDecimal pricePaidAfter;
+
+    /**
+     * The paid price before the rental (e.g. for promotions).
+     */
+    @Min(0)
+    @Expose
+    private BigDecimal pricePaidBefore;
 
     /**
      * The calculated price of the {@link RentalEntity}.
      */
     @Min(0)
     @Expose
-    private BigDecimal priceCalculated;
+    private BigDecimal priceCalculatedAfter;
 
     /**
      * Check if the {@link RentalEntity} is finished.
@@ -122,15 +129,16 @@ public class RentalEntity extends AbstractEntity {
     public RentalEntity() {
     }
 
-    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate date, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculated, BigDecimal pricePaid, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethod, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
+    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate date, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethod, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
         this.boat = boat;
         this.departure = departure;
         this.arrival = arrival;
-        this.priceCalculated = priceCalculated;
-        this.pricePaid = pricePaid;
+        this.priceCalculatedAfter = priceCalculatedAfter;
+        this.pricePaidBefore = pricePaidBefore;
+        this.pricePaidAfter = pricePaidAfter;
         this.finished = finished;
         this.deleted = deleted;
         this.coupon = coupon;
@@ -179,20 +187,28 @@ public class RentalEntity extends AbstractEntity {
         this.arrival = arrival;
     }
 
-    public BigDecimal getPricePaid() {
-        return pricePaid;
+    public BigDecimal getPricePaidBefore() {
+        return pricePaidBefore;
     }
 
-    public void setPricePaid(BigDecimal pricePayed) {
-        this.pricePaid = pricePayed;
+    public void setPricePaidBefore(BigDecimal pricePaidBefore) {
+        this.pricePaidBefore = pricePaidBefore;
     }
 
-    public BigDecimal getPriceCalculated() {
-        return priceCalculated;
+    public BigDecimal getPricePaidAfter() {
+        return pricePaidAfter;
     }
 
-    public void setPriceCalculated(BigDecimal priceCalculated) {
-        this.priceCalculated = priceCalculated;
+    public void setPricePaidAfter(BigDecimal pricePayed) {
+        this.pricePaidAfter = pricePayed;
+    }
+
+    public BigDecimal getPriceCalculatedAfter() {
+        return priceCalculatedAfter;
+    }
+
+    public void setPriceCalculatedAfter(BigDecimal priceCalculated) {
+        this.priceCalculatedAfter = priceCalculated;
     }
 
     public Boolean getFinished() {
@@ -295,7 +311,7 @@ public class RentalEntity extends AbstractEntity {
             checkNotNull(boat, "boat must not be null");
             checkNotNull(dayId, "dayId must not be null");
             checkNotNull(departTime, "departTime must not be null");
-            return new RentalEntity(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, null, false, false, false, null, promotion, commitments);
+            return new RentalEntity(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, null, null, false, false, false, null, promotion, commitments);
         }
 
     }

@@ -86,8 +86,8 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
      * @param day       the {@link Day} of the dayId
      * @param dayId     the {@link DayId} that arrives
      * @param promotion the {@link PromotionAfter} of the {@link Rental}
-     * @param pricePaid the {@link PricePaid} to be paid
+     * @param pricePaidAfter the {@link PricePaidAfter} to be paid
      * @return the finished {@link Rental} including the price
      */
-    Rental pay(Day day, DayId dayId, PricePaid pricePaid, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod);
+    Rental pay(Day day, DayId dayId, PricePaidAfter pricePaidAfter, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod);
 }

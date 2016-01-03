@@ -34,7 +34,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         RentalBean rental = arrivalService.arrive(new ArrivalBean(2));
         assertEquals(dateTimeHelper.currentTime(), rental.getArrival());
         assertTrue(rental.isFinished());
-        assertEquals(new BigDecimal("34.10"), rental.getPriceCalculated());
+        assertEquals(new BigDecimal("34.10"), rental.getPriceCalculatedAfter());
         assertEquals(new BigInteger("11"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM rental").getSingleResult());
     }
 }

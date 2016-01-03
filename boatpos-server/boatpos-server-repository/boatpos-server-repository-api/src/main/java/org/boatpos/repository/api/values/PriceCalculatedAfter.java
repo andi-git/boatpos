@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 /**
  * The calculated price to pay for a {@link Rental}.
  */
-public class PriceCalculated extends SimpleValueObject<PriceCalculated, BigDecimal> {
+public class PriceCalculatedAfter extends SimpleValueObject<PriceCalculatedAfter, BigDecimal> {
 
-    public PriceCalculated(BigDecimal value) {
+    public PriceCalculatedAfter(BigDecimal value) {
         super(value);
     }
 
-    public PriceCalculated(String value) {
+    public PriceCalculatedAfter(String value) {
         this(new BigDecimal(value));
     }
 }

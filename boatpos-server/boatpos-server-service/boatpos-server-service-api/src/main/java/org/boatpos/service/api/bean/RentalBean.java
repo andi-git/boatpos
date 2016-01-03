@@ -2,7 +2,8 @@ package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -55,19 +56,25 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     private LocalDateTime arrival;
 
     /**
-     * The paid price of the {@link RentalBean}.
+     * The paid price after the rental.
      */
     @Min(0)
     @Expose
-    private BigDecimal pricePaid;
+    private BigDecimal pricePaidAfter;
+
+    /**
+     * The paid price before the rental.
+     */
+    @Min(0)
+    @Expose
+    private BigDecimal pricePaidBefore;
 
     /**
      * The calculated price of the {@link RentalBean}.
      */
     @Min(0)
     @Expose
-    private BigDecimal priceCalculated;
-
+    private BigDecimal priceCalculatedAfter;
 
     /**
      * Check if the {@link RentalBean} is finished.
@@ -103,15 +110,16 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculated, BigDecimal pricePaid, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
         this.boatBean = boatBean;
         this.departure = departure;
         this.arrival = arrival;
-        this.priceCalculated = priceCalculated;
-        this.pricePaid = pricePaid;
+        this.priceCalculatedAfter = priceCalculatedAfter;
+        this.pricePaidBefore = pricePaidBefore;
+        this.pricePaidAfter = pricePaidAfter;
         this.finished = finished;
         this.deleted = deleted;
         this.coupon = coupon;
@@ -159,20 +167,28 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.arrival = arrival;
     }
 
-    public BigDecimal getPricePaid() {
-        return pricePaid;
+    public BigDecimal getPricePaidBefore() {
+        return pricePaidBefore;
     }
 
-    public void setPricePaid(BigDecimal pricePaid) {
-        this.pricePaid = pricePaid;
+    public void setPricePaidBefore(BigDecimal pricePaidBefore) {
+        this.pricePaidBefore = pricePaidBefore;
     }
 
-    public BigDecimal getPriceCalculated() {
-        return priceCalculated;
+    public BigDecimal getPricePaidAfter() {
+        return pricePaidAfter;
     }
 
-    public void setPriceCalculated(BigDecimal priceCalculated) {
-        this.priceCalculated = priceCalculated;
+    public void setPricePaidAfter(BigDecimal pricePaidAfter) {
+        this.pricePaidAfter = pricePaidAfter;
+    }
+
+    public BigDecimal getPriceCalculatedAfter() {
+        return priceCalculatedAfter;
+    }
+
+    public void setPriceCalculatedAfter(BigDecimal priceCalculatedAfter) {
+        this.priceCalculatedAfter = priceCalculatedAfter;
     }
 
     public boolean isFinished() {

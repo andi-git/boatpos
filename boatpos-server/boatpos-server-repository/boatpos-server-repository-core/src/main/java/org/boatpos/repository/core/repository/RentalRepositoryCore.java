@@ -91,14 +91,14 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
     }
 
     @Override
-    public Rental pay(Day day, DayId dayId, PricePaid pricePaid, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod) {
+    public Rental pay(Day day, DayId dayId, PricePaidAfter pricePaidAfter, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod) {
         checkNotNull(dayId, "'dayId' must not be null");
         checkNotNull(day, "'day' must not be null");
-        checkNotNull(pricePaid, "'pricePaid' must not be null");
+        checkNotNull(pricePaidAfter, "'pricePaid' must not be null");
         checkNotNull(promotion, "'promotion' must not be null");
         checkNotNull(paymentMethod, "'paymentMethod' must not be null");
         Rental rental = loadRentalByDayIdOrThrowException(day, dayId);
-        rental.setPricePaid(pricePaid)
+        rental.setPricePaidAfter(pricePaidAfter)
                 .setPaymentMethod(paymentMethod)
                 .setFinished(Finished.TRUE);
         if (promotion.isPresent()) {

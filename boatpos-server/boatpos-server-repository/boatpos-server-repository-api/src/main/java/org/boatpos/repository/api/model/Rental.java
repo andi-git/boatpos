@@ -38,13 +38,17 @@ public interface Rental extends DomainModel<Rental, RentalEntity, RentalBean> {
 
     Rental setArrivalTime(ArrivalTime arrivalTime);
 
-    PriceCalculated getPriceCalculated();
+    PriceCalculatedAfter getPriceCalculatedAfter();
 
-    Rental setPriceCalculated(PriceCalculated priceCalculated);
+    Rental setPriceCalculatedAfter(PriceCalculatedAfter priceCalculatedAfter);
 
-    PricePaid getPricePaid();
+    PricePaidAfter getPricePaidAfter();
 
-    Rental setPricePaid(PricePaid price);
+    Rental setPricePaidAfter(PricePaidAfter pricePaidAfter);
+
+    PricePaidBefore getPricePaidBefore();
+
+    Rental setPricePaidBefore(PricePaidBefore pricePaidBefore);
 
     Finished isFinished();
 
@@ -69,4 +73,6 @@ public interface Rental extends DomainModel<Rental, RentalEntity, RentalBean> {
     Rental addCommitment(Commitment commitment);
 
     Rental clearCommitments();
+
+    PricePaidComplete getPricePaidComplete();
 }

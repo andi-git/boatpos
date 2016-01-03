@@ -102,10 +102,10 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testPay() {
         Optional<PromotionAfter> holliKnolli = promotionAfterRepository.loadBy(new Name("HolliKnolli"));
-        Rental rental = rentalRepository.pay(new Day(dateTimeHelper.currentDate()), new DayId(3), new PricePaid("15.6"), holliKnolli, PaymentMethod.CASH);
-        assertNotNull(rental.getPricePaid());
+        Rental rental = rentalRepository.pay(new Day(dateTimeHelper.currentDate()), new DayId(3), new PricePaidAfter("15.6"), holliKnolli, PaymentMethod.CASH);
+        assertNotNull(rental.getPricePaidAfter());
         assertNotNull(rental.getPaymentMethod());
         assertTrue(rental.isFinished().get());
-        assertEquals(new PricePaid("15.6"), rentalRepository.loadBy(new Day(dateTimeHelper.currentDate()), new DayId(3)).get().getPricePaid());
+        assertEquals(new PricePaidAfter("15.6"), rentalRepository.loadBy(new Day(dateTimeHelper.currentDate()), new DayId(3)).get().getPricePaidAfter());
     }
 }
