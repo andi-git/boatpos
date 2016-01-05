@@ -34,4 +34,16 @@ public interface Boat extends MasterData<Boat, BoatEntity, BoatBean>, ContainsRe
     Count getCount();
 
     Boat setCount(Count count);
+
+    PictureUrlSmall getPictureUrlSmall();
+
+    Boat setPictureUrlSmall(PictureUrlSmall pictureUrlSmall);
+
+    PictureUrlMedium getPictureUrlMedium();
+
+    Boat setPictureUrlMedium(PictureUrlMedium pictureUrlMedium);
+
+    PictureUrlLarge getPictureUrlLarge();
+
+    Boat setPictureUrlLarge(PictureUrlLarge pictureUrlLarge);
 }

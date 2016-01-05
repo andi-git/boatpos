@@ -13,7 +13,7 @@ public class BoatEntityTest extends JavaBeanTest<BoatEntity> {
 
     @Test
     public void testConstructor() {
-        new BoatEntity(-1L, 1, "boat", "B", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 20, 0, new HashSet<>(), true);
+        new BoatEntity(-1L, 1, "boat", "B", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 20, 0, new HashSet<>(), true, "s", "m", "l");
     }
 
     @Override

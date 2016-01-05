@@ -32,7 +32,7 @@ public class BoatCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testDto() {
-        assertEquals("E-Boot", new BoatCore(boatUtil.createDummyBoat().asDto()).getName().get());
+        assertEquals("E-Boot", boatRepository.loadBy(new ShortName("E")).get().getName().get());
     }
 
     @Test
@@ -143,6 +143,6 @@ public class BoatCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testToString() {
-        assertEquals("{\"name\":\"E-Boot\",\"shortName\":\"E\",\"priceOneHour\":16.8,\"priceThirtyMinutes\":9.5,\"priceFortyFiveMinutes\":14.3,\"count\":22,\"enabled\":true,\"priority\":1,\"id\":1,\"version\":1}", boatUtil.createDummyBoat().toString());
+        assertEquals("{\"name\":\"E-Boot\",\"shortName\":\"E\",\"priceOneHour\":16.8,\"priceThirtyMinutes\":9.5,\"priceFortyFiveMinutes\":14.3,\"count\":22,\"pictureUrlSmall\":\"small_____\",\"pictureUrlMedium\":\"medium____\",\"pictureUrlLarge\":\"large_____\",\"enabled\":true,\"priority\":1,\"id\":1,\"version\":1}", boatUtil.createDummyBoat().toString());
     }
 }

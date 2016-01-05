@@ -78,10 +78,34 @@ public class BoatEntity extends AbstractMasterDataEntity implements ContainsRent
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RentalEntity> rentals;
 
+    /**
+     * The url for the small picture.
+     */
+    @NotNull
+    @Size(min = 10, max = 100)
+    @Expose
+    private String pictureUrlSmall;
+
+    /**
+     * The url for the medium picture.
+     */
+    @NotNull
+    @Size(min = 10, max = 100)
+    @Expose
+    private String pictureUrlMedium;
+
+    /**
+     * The url for the large picture.
+     */
+    @NotNull
+    @Size(min = 10, max = 100)
+    @Expose
+    private String pictureUrlLarge;
+
     public BoatEntity() {
     }
 
-    public BoatEntity(Long id, Integer version, String name, String shortName, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, Set<RentalEntity> rentals, boolean enabled) {
+    public BoatEntity(Long id, Integer version, String name, String shortName, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, Set<RentalEntity> rentals, boolean enabled, String pictureUrlSmall, String pictureUrlMedium, String pictureUrlLarge) {
         super(id, version, enabled, priority);
         this.name = name;
         this.shortName = shortName;
@@ -90,6 +114,9 @@ public class BoatEntity extends AbstractMasterDataEntity implements ContainsRent
         this.priceFortyFiveMinutes = priceFortyFiveMinutes;
         this.count = count;
         this.rentals = rentals;
+        this.pictureUrlSmall = pictureUrlSmall;
+        this.pictureUrlMedium = pictureUrlMedium;
+        this.pictureUrlLarge = pictureUrlLarge;
     }
 
     public String getName() {
@@ -148,5 +175,29 @@ public class BoatEntity extends AbstractMasterDataEntity implements ContainsRent
     @Override
     public void setRentals(Set<RentalEntity> rentals) {
         this.rentals = rentals;
+    }
+
+    public String getPictureUrlSmall() {
+        return pictureUrlSmall;
+    }
+
+    public void setPictureUrlSmall(String pictureUrlSmall) {
+        this.pictureUrlSmall = pictureUrlSmall;
+    }
+
+    public String getPictureUrlMedium() {
+        return pictureUrlMedium;
+    }
+
+    public void setPictureUrlMedium(String pictureUrlMedium) {
+        this.pictureUrlMedium = pictureUrlMedium;
+    }
+
+    public String getPictureUrlLarge() {
+        return pictureUrlLarge;
+    }
+
+    public void setPictureUrlLarge(String pictureUrlLarge) {
+        this.pictureUrlLarge = pictureUrlLarge;
     }
 }

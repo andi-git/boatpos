@@ -37,6 +37,7 @@ public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends Abstrac
             entity = entityManager.find(getMappedEntityClass(), dto.getId());
             if (entity != null) {
                 mapDto(dto, entity);
+                entityManager.persist(entity);
             } else {
                 entity = mappingHelper.map(dto, getMappedEntityClass());
             }

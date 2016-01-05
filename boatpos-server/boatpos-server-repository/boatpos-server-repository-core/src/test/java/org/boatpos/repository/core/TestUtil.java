@@ -54,7 +54,10 @@ public class TestUtil {
                     .add(new PriceOneHour("16.8"))
                     .add(new PriceThirtyMinutes("9.5"))
                     .add(new PriceFortyFiveMinutes("14.3"))
-                    .add(new Count(22));
+                    .add(new Count(22))
+                    .add(new PictureUrlSmall("small_____"))
+                    .add(new PictureUrlMedium("medium____"))
+                    .add(new PictureUrlLarge("large_____"));
         }
 
         public BoatBean createDummyBoatBean() {
@@ -69,6 +72,9 @@ public class TestUtil {
             boatBean.setCount(22);
             boatBean.setEnabled(true);
             boatBean.setPriority(1);
+            boatBean.setPictureUrlSmall("small_____");
+            boatBean.setPictureUrlMedium("medium____");
+            boatBean.setPictureUrlLarge("large_____");
             return boatBean;
         }
     }

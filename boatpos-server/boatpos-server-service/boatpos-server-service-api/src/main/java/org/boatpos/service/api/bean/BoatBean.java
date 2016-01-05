@@ -2,6 +2,7 @@ package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -63,10 +64,35 @@ public class BoatBean extends AbstractMasterDataBean {
     @Expose
     private Integer count;
 
+    /**
+     * The url for the small picture.
+     */
+    @NotNull
+    @Size(min = 10, max = 100)
+    @Expose
+    private String pictureUrlSmall;
+
+    /**
+     * The url for the medium picture.
+     */
+    @NotNull
+    @Size(min = 10, max = 100)
+    @Expose
+    private String pictureUrlMedium;
+
+    /**
+     * The url for the large picture.
+     */
+    @NotNull
+    @Size(min = 10, max = 100)
+    @Expose
+    private String pictureUrlLarge;
+
+
     public BoatBean() {
     }
 
-    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, boolean enabled) {
+    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, boolean enabled, String pictureUrlSmall, String pictureUrlMedium, String pictureUrlLarge) {
         super(id, version, enabled, priority);
         this.shortName = shortName;
         this.name = name;
@@ -74,6 +100,9 @@ public class BoatBean extends AbstractMasterDataBean {
         this.priceThirtyMinutes = priceThirtyMinutes;
         this.priceFortyFiveMinutes = priceFortyFiveMinutes;
         this.count = count;
+        this.pictureUrlSmall = pictureUrlSmall;
+        this.pictureUrlMedium = pictureUrlMedium;
+        this.pictureUrlLarge = pictureUrlLarge;
     }
 
     public String getName() {
@@ -122,5 +151,29 @@ public class BoatBean extends AbstractMasterDataBean {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public String getPictureUrlSmall() {
+        return pictureUrlSmall;
+    }
+
+    public void setPictureUrlSmall(String pictureUrlSmall) {
+        this.pictureUrlSmall = pictureUrlSmall;
+    }
+
+    public String getPictureUrlMedium() {
+        return pictureUrlMedium;
+    }
+
+    public void setPictureUrlMedium(String pictureUrlMedium) {
+        this.pictureUrlMedium = pictureUrlMedium;
+    }
+
+    public String getPictureUrlLarge() {
+        return pictureUrlLarge;
+    }
+
+    public void setPictureUrlLarge(String pictureUrlLarge) {
+        this.pictureUrlLarge = pictureUrlLarge;
     }
 }

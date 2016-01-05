@@ -89,6 +89,9 @@ public class PriceCalculatorTest {
                 .add(new PriceThirtyMinutes("10"))
                 .add(new PriceFortyFiveMinutes("15"))
                 .add(new Count(20))
+                .add(new PictureUrlSmall("small_____"))
+                .add(new PictureUrlMedium("medium____"))
+                .add(new PictureUrlLarge("large_____"))
                 .build();
     }
 

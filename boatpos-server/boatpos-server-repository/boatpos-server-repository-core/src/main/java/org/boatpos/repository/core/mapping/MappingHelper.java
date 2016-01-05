@@ -18,9 +18,9 @@ public interface MappingHelper {
     /**
      * Perform the mapping.
      *
-     * @param object the source-object
+     * @param source the source-object
      * @param target the type of the target
      * @return a new instance of type with values mapped from the target
      */
-    void map(Object object, Object target);
+    void map(Object source, Object target);
 }

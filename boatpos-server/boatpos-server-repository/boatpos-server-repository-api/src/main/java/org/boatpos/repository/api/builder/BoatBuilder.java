@@ -29,4 +29,10 @@ public interface BoatBuilder extends MasterDataBuilder<BoatBuilder, Boat, BoatEn
     BoatBuilder add(Set<Rental> rentals);
 
     BoatBuilder add(Rental rental);
+
+    BoatBuilder add(PictureUrlSmall pictureUrlSmall);
+
+    BoatBuilder add(PictureUrlMedium pictureUrlMedium);
+
+    BoatBuilder add(PictureUrlLarge pictureUrlLarge);
 }

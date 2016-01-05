@@ -23,7 +23,10 @@ public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> impleme
                     PriceThirtyMinutes priceThrityMinutes,
                     PriceFortyFiveMinutes priceFortyFiveMinutes,
                     Count count,
-                    Set<Rental> rentals) {
+                    Set<Rental> rentals,
+                    PictureUrlSmall pictureUrlSmall,
+                    PictureUrlMedium pictureUrlMedium,
+                    PictureUrlLarge pictureUrlLarge) {
         super(id, version, enabled, priority);
         checkNotNull(enabled, "'enabled' must not be null");
         checkNotNull(name, "'name' must not be null");
@@ -32,6 +35,9 @@ public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> impleme
         checkNotNull(priceThrityMinutes, "'priceThirteenMinutes' must not be null");
         checkNotNull(priceFortyFiveMinutes, "'priceFortyFiveMinutes' must not be null");
         checkNotNull(count, "'count' must not be null");
+        checkNotNull(pictureUrlSmall, "'pictureUrlSmall' must not be null");
+        checkNotNull(pictureUrlMedium, "'pictureUrlMedium' must not be null");
+        checkNotNull(pictureUrlLarge, "'pictureUrlLarge' must not be null");
         setName(name);
         setShortName(shortName);
         setPriceOneHour(priceOneHour);
@@ -39,6 +45,9 @@ public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> impleme
         setPriceFortyFiveMinutes(priceFortyFiveMinutes);
         setCount(count);
         setRentals(rentals);
+        setPictureUrlSmall(pictureUrlSmall);
+        setPictureUrlMedium(pictureUrlMedium);
+        setPictureUrlLarge(pictureUrlLarge);
     }
 
     public BoatCore(BoatEntity boat) {
@@ -112,6 +121,39 @@ public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> impleme
     @Override
     public Boat setCount(Count count) {
         getEntity().setCount(SimpleValueObject.nullSafe(count));
+        return this;
+    }
+
+    @Override
+    public PictureUrlSmall getPictureUrlSmall() {
+        return new PictureUrlSmall(getEntity().getPictureUrlSmall());
+    }
+
+    @Override
+    public Boat setPictureUrlSmall(PictureUrlSmall pictureUrlSmall) {
+        getEntity().setPictureUrlSmall(SimpleValueObject.nullSafe(pictureUrlSmall));
+        return this;
+    }
+
+    @Override
+    public PictureUrlMedium getPictureUrlMedium() {
+        return new PictureUrlMedium(getEntity().getPictureUrlMedium());
+    }
+
+    @Override
+    public Boat setPictureUrlMedium(PictureUrlMedium pictureUrlMedium) {
+        getEntity().setPictureUrlMedium(SimpleValueObject.nullSafe(pictureUrlMedium));
+        return this;
+    }
+
+    @Override
+    public PictureUrlLarge getPictureUrlLarge() {
+        return new PictureUrlLarge(getEntity().getPictureUrlLarge());
+    }
+
+    @Override
+    public Boat setPictureUrlLarge(PictureUrlLarge pictureUrlLarge) {
+        getEntity().setPictureUrlLarge(SimpleValueObject.nullSafe(pictureUrlLarge));
         return this;
     }
 

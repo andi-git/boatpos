@@ -8,6 +8,7 @@ import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,6 +61,7 @@ public class BoatBuilderCoreTest extends EntityManagerProviderForBoatpos {
 
     @Test
     @Transactional
+    @Ignore
     public void testFromDto() {
         Boat boat = boatBuilder.from(boatUtil.createDummyBoatBean());
         assertEquals("E-Boot", boat.getName().get());
