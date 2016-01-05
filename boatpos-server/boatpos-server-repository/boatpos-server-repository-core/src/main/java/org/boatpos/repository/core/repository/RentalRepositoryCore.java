@@ -111,6 +111,11 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
         return rental.persist();
     }
 
+    @Override
+    public List<Rental> loadAllActive() {
+        return loadAll("rental.getAllActive", (r) -> new RentalBuilderCore().from(r), (q) -> q.setParameter("date", dateTimeHelper.currentDate()));
+    }
+
     private Rental loadRentalByDayIdOrThrowException(Day day, DayId dayId) {
         return loadBy(day, dayId).orElseGet(() -> {
             throw new RuntimeException("unable to get " + Rental.class.getName() + " with for day " + day + " with id " + dayId);

@@ -6,8 +6,8 @@ import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.*;
 import org.boatpos.repository.api.values.*;
+import org.boatpos.repository.core.DateTimeHelperMock;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
-import org.boatpos.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
@@ -19,9 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
@@ -30,7 +28,7 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
     private RentalRepository rentalRepository;
 
     @Inject
-    private DateTimeHelper dateTimeHelper;
+    private DateTimeHelperMock dateTimeHelper;
 
     @Inject
     private BoatRepository boatRepository;
@@ -110,5 +108,13 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
         assertNotNull(rental.getPaymentMethod());
         assertTrue(rental.isFinished().get());
         assertEquals(new PricePaidAfter("15.6"), rentalRepository.loadBy(new Day(dateTimeHelper.currentDate()), new DayId(3)).get().getPricePaidAfter());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadAllActive() {
+        assertEquals(2, rentalRepository.loadAllActive().size());
+        dateTimeHelper.setDate(LocalDate.of(2015, 7, 2));
+        assertEquals(0, rentalRepository.loadAllActive().size());
     }
 }

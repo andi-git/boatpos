@@ -4,6 +4,7 @@ import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.bean.BoatBean;
+import org.boatpos.service.api.bean.BoatCountSummary;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
@@ -71,6 +72,18 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
         boatBean = new BoatBean();
         boatBean.setId(999L);
         assertNull(boatService.update(boatBean));
+    }
+
+    @Test
+    @Transactional
+    public void testCountBoats() {
+        BoatCountSummary boatCountSummary = boatService.countBoats();
+        assertEquals("E-Boot", boatCountSummary.getBoatCountList().get(0).getName());
+        assertEquals(22, boatCountSummary.getBoatCountList().get(0).getMax());
+        assertEquals(1, boatCountSummary.getBoatCountList().get(0).getCount());
+        assertEquals("Liegeboot", boatCountSummary.getBoatCountList().get(4).getName());
+        assertEquals(5, boatCountSummary.getBoatCountList().get(4).getMax());
+        assertEquals(0, boatCountSummary.getBoatCountList().get(4).getCount());
     }
 
     @Override

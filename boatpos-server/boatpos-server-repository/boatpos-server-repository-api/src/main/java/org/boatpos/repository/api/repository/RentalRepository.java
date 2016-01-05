@@ -91,4 +91,11 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
      * @return the finished {@link Rental} including the price
      */
     Rental pay(Day day, DayId dayId, PricePaidAfter pricePaidAfter, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod);
+
+    /**
+     * Load all active {@link Rental}s for the current day (not finished, not deleted).
+     *
+     * @return a {@link List} of all active {@link Rental}s
+     */
+    List<Rental> loadAllActive();
 }
