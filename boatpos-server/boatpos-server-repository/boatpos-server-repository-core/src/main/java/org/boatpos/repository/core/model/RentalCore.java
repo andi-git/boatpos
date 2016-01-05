@@ -9,7 +9,6 @@ import org.boatpos.repository.api.values.*;
 import org.boatpos.repository.core.mapping.RentalMapping;
 import org.boatpos.service.api.bean.RentalBean;
 
-import javax.enterprise.inject.spi.CDI;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
@@ -25,6 +24,8 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
                       Day day,
                       Boat boat,
                       DepartureTime departureTime,
+                      PriceCalculatedBefore priceCalculatedBefore,
+                      PricePaidBefore pricePaidBefore,
                       ArrivalTime arrivalTime,
                       PriceCalculatedAfter priceCalculatedAfter,
                       PricePaidAfter pricePaidAfter,
@@ -42,6 +43,8 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
         setDay(day);
         setBoat(boat);
         setDepartureTime(departureTime);
+        setPriceCalculatedBefore(priceCalculatedBefore);
+        setPricePaidBefore(pricePaidBefore);
         setArrivalTime(arrivalTime);
         setPriceCalculatedAfter(priceCalculatedAfter);
         setPricePaidAfter(pricePaidAfter);
@@ -57,7 +60,7 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
     }
 
     public RentalCore(RentalBean rentalBean) {
-        this(CDI.current().select(RentalMapping.class).get().mapDto(rentalBean));
+        this(RentalMapping.fromCDI().mapDto(rentalBean));
     }
 
     @Override
@@ -256,6 +259,6 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public RentalBean asDto() {
-        return CDI.current().select(RentalMapping.class).get().mapEntity(getEntity());
+        return RentalMapping.fromCDI().mapEntity(getEntity());
     }
 }

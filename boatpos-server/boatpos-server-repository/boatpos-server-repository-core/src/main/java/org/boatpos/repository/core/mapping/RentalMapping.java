@@ -5,6 +5,7 @@ import org.boatpos.service.api.bean.RentalBean;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
 
 /**
  * Mapping between {@link RentalEntity} and {@link RentalBean}.
@@ -12,7 +13,24 @@ import javax.enterprise.inject.spi.CDI;
 @Dependent
 public class RentalMapping extends Mapping<RentalEntity, RentalBean> {
 
+    @Inject
+    private PromotionMapping promotionMapping;
+
     public static RentalMapping fromCDI() {
         return CDI.current().select(RentalMapping.class).get();
+    }
+
+    @Override
+    public RentalBean mapEntity(RentalEntity rentalEntity) {
+        RentalBean rentalBean = super.mapEntity(rentalEntity);
+        rentalBean.setPromotionBean(promotionMapping.mapEntity(rentalEntity.getPromotion()));
+        return rentalBean;
+    }
+
+    @Override
+    public RentalEntity mapDto(RentalBean rentalBean) {
+        RentalEntity rentalEntity = super.mapDto(rentalBean);
+        rentalEntity.setPromotion(promotionMapping.mapDto(rentalBean.getPromotionBean()));
+        return rentalEntity;
     }
 }

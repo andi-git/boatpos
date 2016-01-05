@@ -1,8 +1,8 @@
 package org.boatpos.repository.core.mapping;
 
-import org.boatpos.model.PromotionEntity;
 import org.boatpos.model.PromotionAfterEntity;
 import org.boatpos.model.PromotionBeforeEntity;
+import org.boatpos.model.PromotionEntity;
 import org.boatpos.service.api.bean.PromotionAfterBean;
 import org.boatpos.service.api.bean.PromotionBean;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
@@ -23,9 +23,13 @@ public class PromotionMapping extends Mapping<PromotionEntity, PromotionBean> {
     private PromotionAfterMapping promotionAfterMapping;
 
     public PromotionBean mapEntity(PromotionEntity entity) {
-        return entity instanceof PromotionAfterEntity ?
-                promotionAfterMapping.mapEntity((PromotionAfterEntity) entity) :
-                promotionBeforeMapping.mapEntity((PromotionBeforeEntity) entity);
+        if (entity instanceof PromotionAfterEntity) {
+            return promotionAfterMapping.mapEntity((PromotionAfterEntity) entity);
+        } else if (entity instanceof PromotionBeforeEntity) {
+            return promotionBeforeMapping.mapEntity((PromotionBeforeEntity) entity);
+        } else {
+            return null;
+        }
     }
 
     public void mapEntity(PromotionEntity entity, PromotionBean dto) {
@@ -37,9 +41,13 @@ public class PromotionMapping extends Mapping<PromotionEntity, PromotionBean> {
     }
 
     public PromotionEntity mapDto(PromotionBean dto) {
-        return dto instanceof PromotionAfterBean ?
-                promotionAfterMapping.mapDto((PromotionAfterBean) dto) :
-                promotionBeforeMapping.mapDto((PromotionBeforeBean) dto);
+        if (dto instanceof PromotionAfterBean) {
+            return promotionAfterMapping.mapDto((PromotionAfterBean) dto);
+        } else if (dto instanceof PromotionBeforeBean) {
+            return promotionBeforeMapping.mapDto((PromotionBeforeBean) dto);
+        } else {
+            return null;
+        }
     }
 
     public void mapDto(PromotionBean dto, PromotionEntity entity) {

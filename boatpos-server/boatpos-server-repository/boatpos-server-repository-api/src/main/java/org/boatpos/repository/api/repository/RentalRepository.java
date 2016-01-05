@@ -61,21 +61,22 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
     /**
      * Departure of a {@link Boat}.
      *
-     * @param day           the {@link Day} of the {@link Rental}
-     * @param departureTime the take-off-time
-     * @param boat          the {@link Boat}
-     * @param commitments   the {@link Commitment}s
-     * @param promotion     the optional {@link PromotionBefore}
+     * @param day                   the {@link Day} of the {@link Rental}
+     * @param departureTime         the take-off-time
+     * @param boat                  the {@link Boat}
+     * @param commitments           the {@link Commitment}s
+     * @param promotion             the optional {@link PromotionBefore}
+     * @param priceCalculatedBefore the price calculated before the {@link Rental}
      * @return the persistent {@link Rental}
      */
-    Rental depart(Day day, DepartureTime departureTime, Boat boat, Set<Commitment> commitments, Optional<PromotionBefore> promotion);
+    Rental depart(Day day, DepartureTime departureTime, Boat boat, Set<Commitment> commitments, Optional<PromotionBefore> promotion, Optional<PriceCalculatedBefore> priceCalculatedBefore);
 
     /**
      * A {@link Boat} arrives.
      *
-     * @param day             the {@link Day} of the dayId
-     * @param dayId           the {@link DayId} that arrives
-     * @param arrivalTime     the time of the arrival
+     * @param day         the {@link Day} of the dayId
+     * @param dayId       the {@link DayId} that arrives
+     * @param arrivalTime the time of the arrival
      * @return the finished {@link Rental}
      */
     Rental arrive(Day day, DayId dayId, ArrivalTime arrivalTime);
@@ -83,9 +84,9 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
     /**
      * The price to be paid.
      *
-     * @param day       the {@link Day} of the dayId
-     * @param dayId     the {@link DayId} that arrives
-     * @param promotion the {@link PromotionAfter} of the {@link Rental}
+     * @param day            the {@link Day} of the dayId
+     * @param dayId          the {@link DayId} that arrives
+     * @param promotion      the {@link PromotionAfter} of the {@link Rental}
      * @param pricePaidAfter the {@link PricePaidAfter} to be paid
      * @return the finished {@link Rental} including the price
      */

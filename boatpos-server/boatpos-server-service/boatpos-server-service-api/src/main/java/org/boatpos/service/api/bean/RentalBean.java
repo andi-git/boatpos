@@ -112,6 +112,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
      * The {@link CommitmentBean} used for the {@link RentalBean}.
      */
     @Valid
+    @Expose
     private Set<CommitmentBean> commitmentBeans;
 
     public RentalBean() {

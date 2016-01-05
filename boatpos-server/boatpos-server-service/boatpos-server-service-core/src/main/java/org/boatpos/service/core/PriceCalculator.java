@@ -1,9 +1,6 @@
 package org.boatpos.service.core;
 
-import org.boatpos.repository.api.model.Boat;
-import org.boatpos.repository.api.model.Promotion;
-import org.boatpos.repository.api.model.PromotionAfter;
-import org.boatpos.repository.api.model.PromotionBefore;
+import org.boatpos.repository.api.model.*;
 import org.boatpos.repository.api.values.*;
 import org.nfunk.jep.JEP;
 
@@ -28,9 +25,20 @@ public class PriceCalculator {
     private static final int SCALE_CALCULATION = 10;
     private static final MathContext MATH_CONTEXT_PRICE = new MathContext(SCALE_PRICE, RoundingMode.HALF_UP);
     private static final MathContext MATH_CONTEXT_CALCULATION = new MathContext(SCALE_CALCULATION, RoundingMode.HALF_UP);
+    private static final BigDecimal ZERO = new BigDecimal("0.00");
 
     @Inject
     private PromotionChecker promotionChecker;
+
+    /**
+     * Calculate the price.
+     *
+     * @param rental the {@link Rental}
+     * @return the calculated price
+     */
+    public PriceCalculatedAfter calculate(Rental rental) {
+        return calculate(rental.getDepartureTime(), rental.getArrivalTime(), rental.getBoat(), rental.getPromotion());
+    }
 
     /**
      * Calculate the price.
@@ -64,10 +72,11 @@ public class PriceCalculator {
     }
 
     /**
-     * Perform the {@link PromotionAfter} on a {@link PriceCalculatedAfter} to produce a new {@link PriceCalculatedAfter}.
+     * Perform the {@link PromotionAfter} on a {@link PriceCalculatedAfter} to produce a new {@link
+     * PriceCalculatedAfter}.
      *
      * @param priceCalculatedAfter the price calculated before the {@link PromotionAfter}
-     * @param promotionAfter  the {@link PromotionAfter} to perform
+     * @param promotionAfter       the {@link PromotionAfter} to perform
      * @return the new calculated price
      */
     public PriceCalculatedAfter calculate(PriceCalculatedAfter priceCalculatedAfter, PromotionAfter promotionAfter) {
@@ -91,7 +100,7 @@ public class PriceCalculator {
      * @param promotionBefore the {@link PromotionBefore} to perform
      * @return the price to pay for the {@link PromotionBefore}
      */
-    public PriceCalculatedAfter calculate(PriceOneHour priceOneHour, PromotionBefore promotionBefore) {
+    public PriceCalculatedBefore calculate(PriceOneHour priceOneHour, PromotionBefore promotionBefore) {
         checkNotNull(priceOneHour, "'priceOneHour' must not be null");
         checkNotNull(priceOneHour.get(), "'priceOneHour-value' must not be null");
         checkNotNull(promotionBefore, "'promotionBefore' must not be null");
@@ -99,7 +108,7 @@ public class PriceCalculator {
             JEP parser = new JEP();
             parser.addVariable("priceOneHour", priceOneHour.get());
             parser.parseExpression(promotionBefore.getFormulaPrice().get());
-            return round(new PriceCalculatedAfter(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
+            return round(new PriceCalculatedBefore(scalePrice(new BigDecimal(parser.getValue(), MATH_CONTEXT_CALCULATION))));
         } else {
             throw new RuntimeException("Promotion " + promotionBefore + " is not active!");
         }
@@ -155,7 +164,27 @@ public class PriceCalculator {
      * @return the rounded calculated price
      */
     public PriceCalculatedAfter round(PriceCalculatedAfter priceCalculatedAfter) {
-        return new PriceCalculatedAfter(scalePrice(priceCalculatedAfter.get().setScale(1, BigDecimal.ROUND_HALF_UP)));
+        if (priceCalculatedAfter == null || priceCalculatedAfter.get() == null) {
+            return new PriceCalculatedAfter(ZERO);
+        }
+        return new PriceCalculatedAfter(round(priceCalculatedAfter.get()));
+    }
+
+    /**
+     * Round to 10-cents.
+     *
+     * @param priceCalculatedBefore the calculated price
+     * @return the rounded calculated price
+     */
+    public PriceCalculatedBefore round(PriceCalculatedBefore priceCalculatedBefore) {
+        if (priceCalculatedBefore == null || priceCalculatedBefore.get() == null) {
+            return new PriceCalculatedBefore(ZERO);
+        }
+        return new PriceCalculatedBefore(round(priceCalculatedBefore.get()));
+    }
+
+    private BigDecimal round(BigDecimal price) {
+        return scalePrice(price.setScale(1, BigDecimal.ROUND_HALF_UP));
     }
 
     private BigDecimal scalePrice(BigDecimal price) {

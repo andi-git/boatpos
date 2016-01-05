@@ -3,18 +3,18 @@ package org.boatpos.service.core;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Commitment;
 import org.boatpos.repository.api.model.PromotionBefore;
+import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.CommitmentRepository;
 import org.boatpos.repository.api.repository.PromotionBeforeRepository;
 import org.boatpos.repository.api.repository.RentalRepository;
-import org.boatpos.repository.api.values.Day;
-import org.boatpos.repository.api.values.DepartureTime;
-import org.boatpos.repository.api.values.DomainId;
-import org.boatpos.repository.api.values.SimpleValueObject;
+import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.DepartureService;
 import org.boatpos.service.api.bean.DepartureBean;
+import org.boatpos.service.api.bean.PaymentBean;
 import org.boatpos.service.api.bean.RentalBean;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.service.core.util.RentalLoader;
+import org.boatpos.util.qualifiers.Current;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -38,17 +38,46 @@ public class DepartureServiceCore implements DepartureService {
     private RentalRepository rentalRepository;
 
     @Inject
-    private DateTimeHelper dateTimeHelper;
+    private PriceCalculator priceCalculator;
+
+    @Inject
+    @Current
+    private Day day;
+
+    @Inject
+    private RentalLoader rentalLoader;
+
+    @Inject
+    @Current
+    private DepartureTime departureTime;
 
     @Override
     public RentalBean depart(DepartureBean departureBean) {
+        Boat boat = getBoat(departureBean);
+        Optional<PromotionBefore> promotionBefore = getPromotionBefore(departureBean);
+        Optional<PriceCalculatedBefore> priceCalculatedBefore = Optional.empty();
+        if (promotionBefore.isPresent()) {
+            priceCalculatedBefore = Optional.of(priceCalculator.calculate(boat.getPriceOneHour(), promotionBefore.get()));
+        }
         return rentalRepository
                 .depart(
-                        new Day(dateTimeHelper.currentDate()),
-                        new DepartureTime(dateTimeHelper.currentTime()),
-                        getBoat(departureBean),
+                        day,
+                        departureTime,
+                        boat,
                         getCommitments(departureBean),
-                        getPromotionBefore(departureBean))
+                        promotionBefore,
+                        priceCalculatedBefore)
+                .asDto();
+    }
+
+    @Override
+    public RentalBean pay(PaymentBean paymentBean) {
+        Rental rental = rentalLoader.loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()));
+        if (!rental.getPromotion().isPresent() || !(rental.getPromotion().get() instanceof PromotionBefore)) {
+            throw new RuntimeException("rental " + paymentBean.getDayNumber() + ": unable to pay for a promotion when no promotion-before is set");
+        }
+        return rental.setPricePaidBefore(new PricePaidBefore(paymentBean.getValue()))
+                .persist()
                 .asDto();
     }
 

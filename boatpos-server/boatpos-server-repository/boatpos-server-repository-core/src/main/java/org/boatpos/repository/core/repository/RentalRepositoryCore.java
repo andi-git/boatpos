@@ -63,10 +63,11 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
     }
 
     @Override
-    public Rental depart(Day day, DepartureTime departureTime, Boat boat, Set<Commitment> commitments, Optional<PromotionBefore> promotion) {
+    public Rental depart(Day day, DepartureTime departureTime, Boat boat, Set<Commitment> commitments, Optional<PromotionBefore> promotion, Optional<PriceCalculatedBefore> priceCalculatedBefore) {
         checkNotNull(day, "'day' must not be null");
         checkNotNull(boat, "'boat' must not be null");
         checkNotNull(promotion, "'promotion' must not be null");
+        checkNotNull(priceCalculatedBefore, "'priceCalculatedBefore' must not be null");
         RentalBuilder builder = builder()
                 .add(day)
                 .add(nextDayId(day))
@@ -75,6 +76,9 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
                 .add(commitments);
         if (promotion.isPresent()) {
             builder.add(promotion.get());
+        }
+        if (priceCalculatedBefore.isPresent()) {
+            builder.add(priceCalculatedBefore.get());
         }
         return builder.build().persist();
     }

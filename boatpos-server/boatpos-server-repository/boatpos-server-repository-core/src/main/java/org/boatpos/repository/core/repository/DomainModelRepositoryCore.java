@@ -32,16 +32,18 @@ public class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE exte
     public Optional<MODEL> loadBy(DomainId id) {
         log.debug("search {} via id: {}", getTypeEntity().getName(), id);
         Optional<MODEL> result = Optional.empty();
-        ENTITY entity = jpaHelper.getEntityManager().find(getTypeEntity(), id.get());
-        if (entity != null) {
-            MODEL domainModel;
-            try {
-                //noinspection unchecked
-                domainModel = (MODEL) getTypeDomainModelCore().getConstructor(getTypeEntity()).newInstance(entity);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        if (id != null && id.get() != null) {
+            ENTITY entity = jpaHelper.getEntityManager().find(getTypeEntity(), id.get());
+            if (entity != null) {
+                MODEL domainModel;
+                try {
+                    //noinspection unchecked
+                    domainModel = (MODEL) getTypeDomainModelCore().getConstructor(getTypeEntity()).newInstance(entity);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                result = Optional.of(domainModel);
             }
-            result = Optional.of(domainModel);
         }
         return result;
     }

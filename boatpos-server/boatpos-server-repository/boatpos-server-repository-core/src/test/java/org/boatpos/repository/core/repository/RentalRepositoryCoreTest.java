@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -79,11 +80,13 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
                 new DepartureTime(dateTimeHelper.currentTime()),
                 boatRepository.loadBy(new ShortName("E")).get(),
                 Sets.newHashSet(commitmentRepository.loadBy(new Name("Ausweis")).get()),
-                promotionBeforeRepository.loadBy(new Name("Fahr 3 zahl 2")));
+                promotionBeforeRepository.loadBy(new Name("Fahr 3 zahl 2")),
+                Optional.of(new PriceCalculatedBefore("40.0")));
         assertNotNull(rental.getId());
         assertEquals(dateTimeHelper.currentDate(), rental.getDay().get());
         assertEquals("E-Boot", rental.getBoat().getName().get());
         assertEquals("Fahr 3 zahl 2", rental.getPromotion().get().getName().get());
+        assertEquals(new BigDecimal("40.0"), rental.getPriceCalculatedBefore().get());
         assertEquals(1, rental.getCommitments().size());
         assertEquals(6, rental.getDayId().get().intValue());
         assertEquals(dateTimeHelper.currentTime(), rental.getDepartureTime().get());

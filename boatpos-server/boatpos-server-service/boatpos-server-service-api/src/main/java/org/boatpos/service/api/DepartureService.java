@@ -1,6 +1,7 @@
 package org.boatpos.service.api;
 
 import org.boatpos.service.api.bean.DepartureBean;
+import org.boatpos.service.api.bean.PaymentBean;
 import org.boatpos.service.api.bean.RentalBean;
 
 /**
@@ -15,4 +16,12 @@ public interface DepartureService {
      * @return the started {@link RentalBean}
      */
     RentalBean depart(DepartureBean departureBean);
+
+    /**
+     * Perform a payment before the rental.
+     *
+     * @param paymentBean the payment
+     * @return the current rental
+     */
+    RentalBean pay(PaymentBean paymentBean);
 }

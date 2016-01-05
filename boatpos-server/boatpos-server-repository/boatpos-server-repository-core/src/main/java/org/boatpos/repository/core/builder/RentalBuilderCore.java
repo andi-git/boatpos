@@ -10,6 +10,7 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.Day;
 import org.boatpos.repository.api.values.DayId;
 import org.boatpos.repository.api.values.DepartureTime;
+import org.boatpos.repository.api.values.PriceCalculatedBefore;
 import org.boatpos.repository.core.model.RentalCore;
 import org.boatpos.service.api.bean.RentalBean;
 
@@ -25,6 +26,7 @@ public class RentalBuilderCore extends DomainModelBuilderCore<RentalBuilder, Ren
     protected Boat boat;
     protected DepartureTime departureTime;
     protected PromotionBefore promotionBefore;
+    protected PriceCalculatedBefore priceCalculatedBefore;
     protected Set<Commitment> commitments = new HashSet<>();
     protected PaymentMethod paymentMethod;
 
@@ -71,7 +73,13 @@ public class RentalBuilderCore extends DomainModelBuilderCore<RentalBuilder, Ren
     }
 
     @Override
+    public RentalBuilder add(PriceCalculatedBefore priceCalculatedBefore) {
+        this.priceCalculatedBefore = priceCalculatedBefore;
+        return this;
+    }
+
+    @Override
     public Rental build() {
-        return new RentalCore(id, version, dayId, day, boat, departureTime, null, null, null, null, null, paymentMethod, promotionBefore, commitments);
+        return new RentalCore(id, version, dayId, day, boat, departureTime, priceCalculatedBefore, null, null, null, null, null, null, paymentMethod, promotionBefore, commitments);
     }
 }
