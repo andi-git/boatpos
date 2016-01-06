@@ -117,4 +117,14 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
         dateTimeHelper.setDate(LocalDate.of(2015, 7, 2));
         assertEquals(0, rentalRepository.loadAllActive().size());
     }
+
+    @Test
+    @Transactional
+    public void testDelete() {
+        Day day = new Day(dateTimeHelper.currentDate());
+        DayId dayId = new DayId(1);
+        assertFalse(rentalRepository.loadBy(day, dayId).get().isDeleted().get());
+        rentalRepository.delete(day, dayId);
+        assertTrue(rentalRepository.loadBy(day, dayId).get().isDeleted().get());
+    }
 }

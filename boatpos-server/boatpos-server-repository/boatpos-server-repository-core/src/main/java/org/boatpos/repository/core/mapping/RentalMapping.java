@@ -1,11 +1,14 @@
 package org.boatpos.repository.core.mapping;
 
+import org.boatpos.model.CommitmentEntity;
 import org.boatpos.model.RentalEntity;
+import org.boatpos.service.api.bean.CommitmentBean;
 import org.boatpos.service.api.bean.RentalBean;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
+import java.util.Set;
 
 /**
  * Mapping between {@link RentalEntity} and {@link RentalBean}.

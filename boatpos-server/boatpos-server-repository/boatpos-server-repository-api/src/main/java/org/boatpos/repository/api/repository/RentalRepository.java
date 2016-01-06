@@ -98,4 +98,13 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
      * @return a {@link List} of all active {@link Rental}s
      */
     List<Rental> loadAllActive();
+
+    /**
+     * Delete a {@link Rental} (set the flag 'deleted').
+     *
+     * @param day   the {@link Day} of the dayId
+     * @param dayId the {@link DayId} that arrives
+     * @return the deleted{@link Rental}
+     */
+    Optional<Rental> delete(Day day, DayId dayId);
 }

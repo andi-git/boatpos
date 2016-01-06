@@ -19,7 +19,7 @@ public class Deployments {
     private static final String FOLDER_ORM_XML_TARGET = "META-INF/query/";
     private static final String FILE_ARQUILLIAN_EXTENSION_SOURCE = "../../boatpos-server-test/boatpos-server-test-model/src/main/resources/META-INF/services/org.jboss.arquillian.container.test.spi.RemoteLoadableExtension";
     private static final String FILE_ARQUILLIAN_EXTENSION_TARGET = "META-INF/services/org.jboss.arquillian.container.test.spi.RemoteLoadableExtension";
-    private static final String FILE_DOZER_SOURCE = "../boatpos-server-service-core/src/main/resources/dozerBeanMapping.xml";
+    private static final String FILE_DOZER_SOURCE = "../../boatpos-server-repository/boatpos-server-repository-core/src/main/resources/dozerBeanMapping.xml";
 
     @Deployment
     public static WebArchive deploy() throws IOException {
