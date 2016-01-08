@@ -116,6 +116,7 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(2, rentalRepository.loadAllActive().size());
         dateTimeHelper.setDate(LocalDate.of(2015, 7, 2));
         assertEquals(0, rentalRepository.loadAllActive().size());
+        dateTimeHelper.resetDate();
     }
 
     @Test
