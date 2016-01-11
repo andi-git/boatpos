@@ -4,3 +4,6 @@
 
 # maven/java
 target/
+
+# nodejs
+node_modules/

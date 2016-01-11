@@ -1,0 +1,9 @@
+install nodejs, npm, gulp
+terminal:
+  npm install
+  gulp clean
+  gulp setup
+  gulp assets
+  gulp ts
+to run the server during development
+  gulp
