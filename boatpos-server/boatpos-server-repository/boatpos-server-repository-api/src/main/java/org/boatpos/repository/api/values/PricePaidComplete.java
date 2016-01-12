@@ -22,7 +22,7 @@ public class PricePaidComplete extends SimpleValueObject<PricePaidComplete, BigD
     private static BigDecimal calculate(PricePaidBefore pricePaidBefore, PricePaidAfter pricePaidAfter) {
         checkNotNull(pricePaidBefore, "'pricePaidBefore' must not be null");
         checkNotNull(pricePaidAfter, "'pricePaidAfter' must not be null");
-        return pricePaidBefore.get().add(pricePaidAfter.get()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return pricePaidBefore.orElseGet(BigDecimal.ZERO).add(pricePaidAfter.orElseGet(BigDecimal.ZERO)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public PricePaidComplete(String value) {

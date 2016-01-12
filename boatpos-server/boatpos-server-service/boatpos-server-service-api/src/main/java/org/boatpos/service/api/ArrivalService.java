@@ -1,9 +1,6 @@
 package org.boatpos.service.api;
 
-import org.boatpos.service.api.bean.AddPromotionBean;
-import org.boatpos.service.api.bean.ArrivalBean;
-import org.boatpos.service.api.bean.PaymentBean;
-import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.api.bean.*;
 
 /**
  * Service to perform an arrival.
@@ -30,8 +27,8 @@ public interface ArrivalService {
     /**
      * Perform a payment after the rental.
      *
-     * @param paymentBean the payment
+     * @param paymentBean the bill of the payment
      * @return the current rental
      */
-    RentalBean pay(PaymentBean paymentBean);
+    BillBean pay(PaymentBean paymentBean);
 }

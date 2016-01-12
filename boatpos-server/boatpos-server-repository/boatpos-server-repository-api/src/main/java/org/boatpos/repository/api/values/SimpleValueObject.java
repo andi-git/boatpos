@@ -26,6 +26,10 @@ public abstract class SimpleValueObject<SVO extends SimpleValueObject, T extends
         return value;
     }
 
+    public T orElseGet(T other) {
+        return value != null ? value : other;
+    }
+
     @SuppressWarnings("CloneDoesntCallSuperClone")
     public SVO clone() {
         try {

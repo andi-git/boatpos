@@ -3,10 +3,7 @@ package org.boatpos.service.core;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.ArrivalService;
-import org.boatpos.service.api.bean.AddPromotionBean;
-import org.boatpos.service.api.bean.ArrivalBean;
-import org.boatpos.service.api.bean.PaymentBean;
-import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.api.bean.*;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.boatpos.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
@@ -53,8 +50,8 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("34.10"), rental.getPriceCalculatedAfter());
         assertNull(rental.getPricePaidAfter());
 
-        rental = arrivalService.pay(new PaymentBean(2, new BigDecimal("34.10")));
-        assertEquals(new BigDecimal("34.10"), rental.getPricePaidAfter());
+        BillBean bill = arrivalService.pay(new PaymentBean(2, new BigDecimal("34.10")));
+        assertEquals(new BigDecimal("34.10"), bill.getSumTaxSetNormal());
     }
 
     @Test
@@ -70,9 +67,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals("HolliKnolli", rental.getPromotionBean().getName());
         assertNull(rental.getPricePaidAfter());
 
-        rental = arrivalService.pay(new PaymentBean(2, new BigDecimal("17.10")));
-        assertEquals(new BigDecimal("17.10"), rental.getPriceCalculatedAfter());
-        assertEquals("HolliKnolli", rental.getPromotionBean().getName());
-        assertEquals(new BigDecimal("17.10"), rental.getPricePaidAfter());
+        BillBean bill = arrivalService.pay(new PaymentBean(2, new BigDecimal("17.10")));
+        assertEquals(new BigDecimal("17.10"), bill.getSumTaxSetNormal());
     }
 }

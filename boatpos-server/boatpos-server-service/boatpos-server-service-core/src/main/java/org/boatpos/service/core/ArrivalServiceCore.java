@@ -6,10 +6,8 @@ import org.boatpos.repository.api.repository.PromotionAfterRepository;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.ArrivalService;
-import org.boatpos.service.api.bean.AddPromotionBean;
-import org.boatpos.service.api.bean.ArrivalBean;
-import org.boatpos.service.api.bean.PaymentBean;
-import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.api.bean.*;
+import org.boatpos.service.core.util.BillCreator;
 import org.boatpos.service.core.util.RentalLoader;
 import org.boatpos.util.qualifiers.Current;
 
@@ -42,6 +40,9 @@ public class ArrivalServiceCore implements ArrivalService {
     @Current
     private ArrivalTime arrivalTime;
 
+    @Inject
+    private BillCreator billCreator;
+
     @Override
     public RentalBean arrive(ArrivalBean arrivalBean) {
         Rental rental = rentalRepository.arrive(
@@ -72,10 +73,10 @@ public class ArrivalServiceCore implements ArrivalService {
     }
 
     @Override
-    public RentalBean pay(PaymentBean paymentBean) {
-        return rentalLoader.loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()))
+    public BillBean pay(PaymentBean paymentBean) {
+        return billCreator.create(rentalLoader
+                .loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()))
                 .setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
-                .persist()
-                .asDto();
+                .persist());
     }
 }
