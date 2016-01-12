@@ -1,5 +1,7 @@
 package org.boatpos.service.api;
 
+import org.boatpos.service.api.bean.JournalReportBean;
+
 import java.math.BigDecimal;
 
 /**
@@ -13,7 +15,7 @@ public interface JournalService {
      * @param year the year
      * @return the total income for a year
      */
-    BigDecimal totalIncomeForYear(Integer year);
+    JournalReportBean totalIncomeForYear(Integer year);
 
     /**
      * Get the total income for a month.
@@ -22,7 +24,7 @@ public interface JournalService {
      * @param month the month (1-based: 1...12)
      * @return the total income for a month
      */
-    BigDecimal totalIncomeForMonth(Integer year, Integer month);
+    JournalReportBean totalIncomeForMonth(Integer year, Integer month);
 
     /**
      * Get the total income for a day.
@@ -32,5 +34,5 @@ public interface JournalService {
      * @param dayOfMonth the day-of-month (1-based: 1...28/31)
      * @return the total income for a day
      */
-    BigDecimal totalIncomeForDay(Integer year, Integer month, Integer dayOfMonth);
+    JournalReportBean totalIncomeForDay(Integer year, Integer month, Integer dayOfMonth);
 }
