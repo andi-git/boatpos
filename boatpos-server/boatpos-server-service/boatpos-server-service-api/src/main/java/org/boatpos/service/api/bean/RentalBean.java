@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
      */
     @NotNull
     @Expose
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate date;
 
     /**
@@ -47,12 +49,14 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
      */
     @NotNull
     @Expose
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime departure;
 
     /**
      * The time where the {@link RentalBean} ends.
      */
     @Expose
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime arrival;
 
     /**
@@ -102,11 +106,18 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     private boolean coupon;
 
     /**
-     * The {@link PromotionBean} used for the {@link RentalBean}.
+     * The {@link PromotionBeforeBean} used for the {@link RentalBean}.
      */
     @Valid
     @Expose
-    private PromotionBean promotionBean;
+    private PromotionBeforeBean promotionBeforeBean;
+
+    /**
+     * The {@link PromotionAfterBean} used for the {@link RentalBean}.
+     */
+    @Valid
+    @Expose
+    private PromotionAfterBean promotionAfterBean;
 
     /**
      * The {@link CommitmentBean} used for the {@link RentalBean}.
@@ -118,7 +129,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBean promotionBean, Set<CommitmentBean> commitmentBeans) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans) {
         super(id, version);
         this.dayId = dayId;
         this.date = date;
@@ -132,7 +143,8 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.finished = finished;
         this.deleted = deleted;
         this.coupon = coupon;
-        this.promotionBean = promotionBean;
+        this.promotionBeforeBean = promotionBeforeBean;
+        this.promotionAfterBean = promotionAfterBean;
         this.commitmentBeans = commitmentBeans;
     }
 
@@ -232,12 +244,20 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.coupon = coupon;
     }
 
-    public PromotionBean getPromotionBean() {
-        return promotionBean;
+    public PromotionBeforeBean getPromotionBeforeBean() {
+        return promotionBeforeBean;
     }
 
-    public void setPromotionBean(PromotionBean promotionBean) {
-        this.promotionBean = promotionBean;
+    public void setPromotionBeforeBean(PromotionBeforeBean promotionBeforeBean) {
+        this.promotionBeforeBean = promotionBeforeBean;
+    }
+
+    public PromotionAfterBean getPromotionAfterBean() {
+        return promotionAfterBean;
+    }
+
+    public void setPromotionAfterBean(PromotionAfterBean promotionAfterBean) {
+        this.promotionAfterBean = promotionAfterBean;
     }
 
     public Set<CommitmentBean> getCommitmentBeans() {

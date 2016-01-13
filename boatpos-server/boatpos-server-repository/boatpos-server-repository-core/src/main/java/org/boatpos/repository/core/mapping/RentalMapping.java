@@ -1,14 +1,14 @@
 package org.boatpos.repository.core.mapping;
 
-import org.boatpos.model.CommitmentEntity;
+import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.model.RentalEntity;
-import org.boatpos.service.api.bean.CommitmentBean;
+import org.boatpos.service.api.bean.PromotionAfterBean;
+import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.service.api.bean.RentalBean;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
-import java.util.Set;
 
 /**
  * Mapping between {@link RentalEntity} and {@link RentalBean}.
@@ -26,14 +26,24 @@ public class RentalMapping extends Mapping<RentalEntity, RentalBean> {
     @Override
     public RentalBean mapEntity(RentalEntity rentalEntity) {
         RentalBean rentalBean = super.mapEntity(rentalEntity);
-        rentalBean.setPromotionBean(promotionMapping.mapEntity(rentalEntity.getPromotion()));
+        if (rentalEntity.getPromotion() != null) {
+            if (rentalEntity.getPromotion() instanceof PromotionBeforeEntity) {
+                rentalBean.setPromotionBeforeBean((PromotionBeforeBean) promotionMapping.mapEntity(rentalEntity.getPromotion()));
+            } else {
+                rentalBean.setPromotionAfterBean((PromotionAfterBean) promotionMapping.mapEntity(rentalEntity.getPromotion()));
+            }
+        }
         return rentalBean;
     }
 
     @Override
     public RentalEntity mapDto(RentalBean rentalBean) {
         RentalEntity rentalEntity = super.mapDto(rentalBean);
-        rentalEntity.setPromotion(promotionMapping.mapDto(rentalBean.getPromotionBean()));
+        if (rentalBean.getPromotionBeforeBean() != null) {
+            rentalEntity.setPromotion(promotionMapping.mapDto(rentalBean.getPromotionBeforeBean()));
+        } else {
+            rentalEntity.setPromotion(promotionMapping.mapDto(rentalBean.getPromotionAfterBean()));
+        }
         return rentalEntity;
     }
 }

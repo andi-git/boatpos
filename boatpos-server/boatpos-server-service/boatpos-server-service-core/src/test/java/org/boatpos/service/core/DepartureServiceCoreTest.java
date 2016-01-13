@@ -51,7 +51,8 @@ public class DepartureServiceCoreTest extends EntityManagerProviderForBoatpos {
         departureBean.setCommitmentIds(Sets.newHashSet(commitmentService.getByName("Ausweis").get().getId()));
         RentalBean rental = departureService.depart(departureBean);
         assertEquals(dateTimeHelper.currentTime(), rental.getDeparture());
-        assertNull(rental.getPromotionBean());
+        assertNull(rental.getPromotionBeforeBean());
+        assertNull(rental.getPromotionAfterBean());
         assertNull(rental.getPriceCalculatedBefore());
         assertEquals(new BigInteger("12"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM rental").getSingleResult());
     }
@@ -64,7 +65,7 @@ public class DepartureServiceCoreTest extends EntityManagerProviderForBoatpos {
         departureBean.setPromotionId(promotionBeforeService.getByName("Fahr 3 zahl 2").get().getId());
         departureBean.setCommitmentIds(Sets.newHashSet(commitmentService.getByName("Ausweis").get().getId()));
         RentalBean rental = departureService.depart(departureBean);
-        assertEquals("Fahr 3 zahl 2", rental.getPromotionBean().getName());
+        assertEquals("Fahr 3 zahl 2", rental.getPromotionBeforeBean().getName());
         assertEquals(new BigDecimal("33.60"), rental.getPriceCalculatedBefore());
         assertNull(rental.getPricePaidBefore());
 

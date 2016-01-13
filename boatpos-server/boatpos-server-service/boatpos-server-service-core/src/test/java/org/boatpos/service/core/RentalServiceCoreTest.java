@@ -28,7 +28,7 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
     public void testGet() throws Exception {
         RentalBean rentalBean = rentalService.get(new RentalDayNumberWrapper(1));
         assertEquals("E-Boot", rentalBean.getBoatBean().getName());
-        assertEquals("Fahr 3 zahl 2", rentalBean.getPromotionBean().getName());
+        assertEquals("Fahr 3 zahl 2", rentalBean.getPromotionBeforeBean().getName());
         assertEquals(new BigDecimal("1.60"), rentalBean.getPriceCalculatedAfter());
         assertEquals(new BigDecimal("32.00"), rentalBean.getPricePaidBefore());
         assertEquals(2, rentalBean.getCommitmentBeans().size());

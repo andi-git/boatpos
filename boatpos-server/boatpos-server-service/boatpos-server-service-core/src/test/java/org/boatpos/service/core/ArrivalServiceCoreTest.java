@@ -59,12 +59,13 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
     public void testAddPromotionAndPay() {
         RentalBean rental = arrivalService.arrive(new ArrivalBean(2));
         assertEquals(new BigDecimal("34.10"), rental.getPriceCalculatedAfter());
-        assertNull(rental.getPromotionBean());
+        assertNull(rental.getPromotionBeforeBean());
+        assertNull(rental.getPromotionAfterBean());
         assertNull(rental.getPricePaidAfter());
 
         rental = arrivalService.addPromotion(new AddPromotionBean(2, promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
         assertEquals(new BigDecimal("17.10"), rental.getPriceCalculatedAfter());
-        assertEquals("HolliKnolli", rental.getPromotionBean().getName());
+        assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
         assertNull(rental.getPricePaidAfter());
 
         BillBean bill = arrivalService.pay(new PaymentBean(2, new BigDecimal("17.10")));

@@ -15,7 +15,6 @@ public interface ArrivalService {
      */
     RentalBean arrive(ArrivalBean arrivalBean);
 
-
     /**
      * Add a promotion after the rental.
      *

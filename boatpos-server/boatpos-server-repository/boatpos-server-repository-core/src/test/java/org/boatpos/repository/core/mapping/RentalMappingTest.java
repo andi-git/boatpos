@@ -45,7 +45,7 @@ public class RentalMappingTest {
         assertEquals(1L, rentalBean.getId().longValue());
         assertEquals(2, rentalBean.getCommitmentBeans().size());
         assertEquals("boat", rentalBean.getBoatBean().getName());
-        assertEquals("promotion", rentalBean.getPromotionBean().getName());
+        assertEquals("promotion", rentalBean.getPromotionBeforeBean().getName());
 
         rentalEntity = rentalMapping.mapDto(rentalBean);
         assertEquals(1L, rentalEntity.getId().longValue());

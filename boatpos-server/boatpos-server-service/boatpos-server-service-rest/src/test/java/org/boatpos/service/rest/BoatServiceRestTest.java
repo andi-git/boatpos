@@ -2,6 +2,8 @@ package org.boatpos.service.rest;
 
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
+import org.boatpos.service.api.bean.BoatCountBean;
+import org.boatpos.service.api.bean.BoatCountSummary;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
@@ -123,5 +125,16 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         Long idToDisable = helper.createRestCall(url, (webTarget) -> webTarget.path("boat/name/E")).get().readEntity(BoatBean.class).getId();
         helper.createRestCall(url, (wt) -> wt.path("boat/disable/" + idToDisable)).put(null);
         helper.assertCount(url, "boat", 4, EnabledState.Enabled);
+    }
+
+    @Test
+    public void testCountBoats() throws Exception {
+        BoatCountSummary boatCountSummary = helper.createRestCall(url, (webTarget) -> webTarget.path("boat/count")).get().readEntity(BoatCountSummary.class);
+        assertEquals("E", boatCountSummary.getBoatCountList().get(0).getShortName());
+        assertEquals(1, boatCountSummary.getBoatCountList().get(0).getCount());
+        assertEquals(22, boatCountSummary.getBoatCountList().get(0).getMax());
+        assertEquals("P", boatCountSummary.getBoatCountList().get(5).getShortName());
+        assertEquals(0, boatCountSummary.getBoatCountList().get(5).getCount());
+        assertEquals(5, boatCountSummary.getBoatCountList().get(5).getMax());
     }
 }

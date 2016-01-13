@@ -82,4 +82,10 @@ public class BoatServiceRest {
         boatService.disable(id);
         return Response.ok().build();
     }
+
+    @GET
+    @Path("/count")
+    public Response count() {
+        return Response.ok(boatService.countBoats()).build();
+    }
 }

@@ -1,5 +1,6 @@
 package org.boatpos.service.api.bean;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class BillBean extends AbstractBean {
     private String receiptIdentifier;
 
     //    @SerializedName("Beleg-Datum-Uhrzeit")
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime receiptDateAndTime;
 
     //    @SerializedName("Betrag-Satz-Normal")
