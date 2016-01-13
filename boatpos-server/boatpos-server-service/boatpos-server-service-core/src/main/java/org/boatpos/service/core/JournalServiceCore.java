@@ -23,17 +23,17 @@ public class JournalServiceCore implements JournalService {
     private BoatRepository boatRepository;
 
     @Override
-    public JournalReportBean totalIncomeForYear(Integer year) {
+    public JournalReportBean totalIncomeFor(Integer year) {
         return totalIncomeFor(Period.year(LocalDate.of(year, 1, 1)));
     }
 
     @Override
-    public JournalReportBean totalIncomeForMonth(Integer year, Integer month) {
+    public JournalReportBean totalIncomeFor(Integer year, Integer month) {
         return totalIncomeFor(Period.month(LocalDate.of(year, month, 1)));
     }
 
     @Override
-    public JournalReportBean totalIncomeForDay(Integer year, Integer month, Integer dayOfMonth) {
+    public JournalReportBean totalIncomeFor(Integer year, Integer month, Integer dayOfMonth) {
         return totalIncomeFor(Period.day(LocalDate.of(year, month, dayOfMonth)));
     }
 
