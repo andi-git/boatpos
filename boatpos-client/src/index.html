@@ -1,6 +1,6 @@
 <html>
 
-  <head>
+<head>
     <title>Angular 2 QuickStart!</title>
 
     <!-- 1. Load libraries -->
@@ -11,29 +11,42 @@
 
     <script src="lib/angular2-polyfills.js"></script>
     <script src="lib/system.src.js"></script>
+    <script src="lib/system.js"></script>
     <script src="lib/Rx.js"></script>
     <script src="lib/angular2.dev.js"></script>
 
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.0/angular2-polyfills.js"></script>-->
+    <!--<script src="https://code.angularjs.org/tools/system.js"></script>-->
+    <!--<script src="https://code.angularjs.org/tools/typescript.js"></script>-->
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.0/Rx.js"></script>-->
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.0/angular2.dev.js"></script>-->
 
     <!-- 2. Configure SystemJS -->
     <script>
-      System.config({
-        packages: {        
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        }
-      });
-      System.import('js/boot.js')
-            .then(null, console.error.bind(console));
+        System.config({
+            defaultJSExtensions: true,
+            packages: {
+//                app: {
+//                    format: 'register',
+//                    defaultExtension: 'js'
+//                },
+                angular2: {
+                    defaultExtension: false
+                },
+                rxjs: {
+                    defaultExtension: false
+                }
+            }
+        });
+        System.import('js/boot')
+                .then(null, console.error.bind(console));
     </script>
 
-  </head>
+</head>
 
-  <!-- 3. Display the application -->
-  <body>
-    <my-app>Loading...</my-app>
-  </body>
+<!-- 3. Display the application -->
+<body>
+<my-app>Loading...</my-app>
+</body>
 
 </html>
