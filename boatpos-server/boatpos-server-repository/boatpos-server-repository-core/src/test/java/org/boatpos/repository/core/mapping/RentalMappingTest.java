@@ -57,9 +57,9 @@ public class RentalMappingTest {
     @Test
     public void testMappingOfDateLocal() {
         RentalEntity entity = new RentalEntity();
-        entity.setDate(LocalDate.of(2015, 7, 1));
+        entity.setDay(LocalDate.of(2015, 7, 1));
         RentalBean dto = rentalMapping.mapEntity(entity);
-        assertEquals(LocalDate.of(2015, 7, 1), dto.getDate());
+        assertEquals(LocalDate.of(2015, 7, 1), dto.getDay());
     }
 
     @Test

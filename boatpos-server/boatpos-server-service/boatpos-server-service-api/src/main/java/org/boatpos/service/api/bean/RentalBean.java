@@ -33,7 +33,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     @NotNull
     @Expose
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
-    private LocalDate date;
+    private LocalDate day;
 
     /**
      * The {@link BoatBean} of the {@link RentalBean}.
@@ -129,10 +129,10 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate date, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans) {
         super(id, version);
         this.dayId = dayId;
-        this.date = date;
+        this.day = day;
         this.boatBean = boatBean;
         this.departure = departure;
         this.arrival = arrival;
@@ -156,12 +156,12 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.dayId = dayId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDay() {
+        return day;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDay(LocalDate day) {
+        this.day = day;
     }
 
     public BoatBean getBoatBean() {

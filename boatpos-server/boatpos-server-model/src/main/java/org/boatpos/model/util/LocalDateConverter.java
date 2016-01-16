@@ -2,9 +2,8 @@ package org.boatpos.model.util;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @SuppressWarnings("unused")
 @Converter(autoApply = true)

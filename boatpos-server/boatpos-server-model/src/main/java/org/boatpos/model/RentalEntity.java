@@ -36,7 +36,7 @@ public class RentalEntity extends AbstractEntity {
      */
     @NotNull
     @Expose
-    private LocalDate date;
+    private LocalDate day;
 
     /**
      * The {@link BoatEntity} of the {@link RentalEntity}.
@@ -136,10 +136,10 @@ public class RentalEntity extends AbstractEntity {
     public RentalEntity() {
     }
 
-    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate date, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethod, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
+    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate day, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethod, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
         super(id, version);
         this.dayId = dayId;
-        this.date = date;
+        this.day = day;
         this.boat = boat;
         this.departure = departure;
         this.arrival = arrival;
@@ -163,12 +163,12 @@ public class RentalEntity extends AbstractEntity {
         this.dayId = dayId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDay() {
+        return day;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDay(LocalDate day) {
+        this.day = day;
     }
 
     public BoatEntity getBoat() {

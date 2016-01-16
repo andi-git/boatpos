@@ -12,6 +12,8 @@
         <class>org.boatpos.model.RentalEntity</class>
         <class>org.boatpos.model.PromotionEntity</class>
         <class>org.boatpos.model.CommitmentEntity</class>
+        <class>org.boatpos.model.util.LocalDateConverter</class>
+        <class>org.boatpos.model.util.LocalDateTimeConverter</class>
         <properties>
             <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />-->
             <property name="hibernate.show_sql" value="false" />

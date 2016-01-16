@@ -30,7 +30,9 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep</includeArtifactIds>
+                            <includeArtifactIds>
+                                guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep
+                            </includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -47,6 +49,32 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>deploy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>1.0.2.Final</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <port>10090</port>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- production -->

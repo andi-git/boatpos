@@ -76,12 +76,12 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public Day getDay() {
-        return new Day(getEntity().getDate());
+        return new Day(getEntity().getDay());
     }
 
     @Override
     public Rental setDay(Day day) {
-        getEntity().setDate(SimpleValueObject.nullSafe(day));
+        getEntity().setDay(SimpleValueObject.nullSafe(day));
         return this;
 
     }

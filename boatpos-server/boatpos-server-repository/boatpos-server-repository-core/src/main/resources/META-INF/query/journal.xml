@@ -6,7 +6,7 @@
     <named-query name="journal.sumBoatPeriod">
         <query>SELECT SUM(r.pricePaidBefore), SUM(r.pricePaidAfter)
                FROM   RentalEntity r
-               WHERE  r.date BETWEEN :start AND :end
+               WHERE  r.day BETWEEN :start AND :end
                  AND  r.boat = :boat
                  AND  r.finished = true
                  AND  r.deleted = false

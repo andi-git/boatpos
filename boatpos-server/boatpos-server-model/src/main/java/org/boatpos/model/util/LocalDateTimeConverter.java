@@ -3,7 +3,6 @@ package org.boatpos.model.util;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @SuppressWarnings("unused")

@@ -3,14 +3,17 @@
              version="1.0">
     <persistence-unit name="boatpos" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <!--<jta-data-source>java:jboss/datasources/boatpos</jta-data-source>-->
         <class>org.boatpos.model.BoatEntity</class>
         <class>org.boatpos.model.RentalEntity</class>
         <class>org.boatpos.model.PromotionEntity</class>
+        <class>org.boatpos.model.CommitmentEntity</class>
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-            <property name="hibernate.show_sql" value="false" />
-            <property name="hibernate.format_sql" value="false" />
-            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
         </properties>
     </persistence-unit>
 </persistence>

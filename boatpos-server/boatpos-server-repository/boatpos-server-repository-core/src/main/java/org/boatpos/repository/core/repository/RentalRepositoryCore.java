@@ -57,7 +57,7 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
         checkNotNull(day, "'day' must not be null");
         Optional<Integer> maxId = jpaHelper().getSingleResult(
                 jpaHelper().createNamedQuery("rental.maxDayId", Integer.class)
-                        .setParameter("date", day.get())
+                        .setParameter("day", day.get())
                         .getResultList());
         return new DayId(maxId.orElseGet(() -> 0) + 1);
     }
@@ -113,7 +113,7 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
 
     @Override
     public List<Rental> loadAllActive() {
-        return loadAll("rental.getAllActive", (r) -> new RentalBuilderCore().from(r), (q) -> q.setParameter("date", dateTimeHelper.currentDate()));
+        return loadAll("rental.getAllActive", (r) -> new RentalBuilderCore().from(r), (q) -> q.setParameter("day", dateTimeHelper.currentDate()));
     }
 
     @Override
