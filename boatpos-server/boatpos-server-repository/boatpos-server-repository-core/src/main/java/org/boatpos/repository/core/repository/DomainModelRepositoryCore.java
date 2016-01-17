@@ -1,6 +1,8 @@
 package org.boatpos.repository.core.repository;
 
 import org.boatpos.model.AbstractEntity;
+import org.boatpos.model.PromotionAfterEntity;
+import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.repository.api.model.DomainModel;
 import org.boatpos.repository.api.repository.DomainModelRepository;
 import org.boatpos.repository.api.values.DomainId;
@@ -77,10 +79,10 @@ public class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE exte
         return loadByParameter(namedQuery, addParameter, getTypeEntity(), getTypeEntity());
     }
 
-    protected <QUERY extends AbstractEntity, CONCRETE extends AbstractEntity> Optional<MODEL> loadByParameter(String namedQuery, Consumer<TypedQuery> addParameter, Class<QUERY> typeQueryEntity, Class<CONCRETE> typeConcreteEntity) {
-        TypedQuery<QUERY> query = jpaHelper().createNamedQuery(namedQuery, typeQueryEntity);
+    protected <E extends AbstractEntity, CONCRETE extends AbstractEntity> Optional<MODEL> loadByParameter(String namedQuery, Consumer<TypedQuery> addParameter, Class<E> typeQueryEntity, Class<CONCRETE> typeConcreteEntity) {
+        TypedQuery<E> query = jpaHelper().createNamedQuery(namedQuery, typeQueryEntity);
         addParameter.accept(query);
-        Optional<QUERY> singleResult = jpaHelper.getSingleResult(query.getResultList());
+        Optional<E> singleResult = jpaHelper.getSingleResult(query.getResultList());
         if (singleResult.isPresent()) {
             try {
                 //noinspection unchecked
