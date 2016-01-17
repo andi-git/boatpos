@@ -2,10 +2,13 @@ import {Component, OnInit} from 'angular2/core';
 import {Hero} from './hero';
 import {HeroDetailComponent} from './hero-detail.component';
 import {HeroService} from './hero.service';
+import {BoatCompact} from './boat';
+import {BoatService} from "./boat.service";
+import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
 
 @Component({
     selector: 'my-app',
-    template:`
+    template: `
     <h1>{{title}}</h1>
     <h2>My Heroes</h2>
     <ul class="heroes">
@@ -16,8 +19,15 @@ import {HeroService} from './hero.service';
       </li>
     </ul>
     <my-hero-detail [hero]="selectedHero"></my-hero-detail>
+    <br/>
+    <h2>My Boats</h2>
+    <ul class="boats">
+        <li *ngFor="#boat of boats">
+            <span class="badge">{{boat.id}}</span> {{boat.name}} <img src="{{boat.pictureUrlMedium}}" height="50px">
+        </li>
+    </ul>
   `,
-    styles:[`
+    styles: [`
     .selected {
       background-color: #CFD8DC !important;
       color: white;
@@ -66,14 +76,21 @@ import {HeroService} from './hero.service';
     }
   `],
     directives: [HeroDetailComponent],
-    providers: [HeroService]
+    providers: [HeroService, BoatService, HTTP_PROVIDERS]
 })
 export class AppComponent implements OnInit {
     public title = 'Tour of Heroes';
-    public heroes: Hero[];
-    public selectedHero: Hero;
+    public heroes:Hero[];
+    public selectedHero:Hero;
 
-    constructor(private _heroService: HeroService) { }
+    public boats:BoatCompact[];
+
+    constructor(private _heroService:HeroService, private _boatService:BoatService) {
+    }
+
+    getBoats() {
+        this._boatService.getBoats().subscribe(boats => this.boats = boats);
+    }
 
     getHeroes() {
         this._heroService.getHeroes().then(heroes => this.heroes = heroes);
@@ -81,7 +98,10 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.getHeroes();
+        this.getBoats();
     }
 
-    onSelect(hero: Hero) { this.selectedHero = hero; }
+    onSelect(hero:Hero) {
+        this.selectedHero = hero;
+    }
 }
