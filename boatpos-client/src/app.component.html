@@ -1,0 +1,21 @@
+<div>
+    backendUrl: {{backendUrl}}
+</div>
+BackendUrl: <input [(ngModel)]="backendUrl" placeholder="backendUrl"/>
+<h1>{{title}}</h1>
+<h2>My Heroes</h2>
+<ul class="heroes">
+    <li *ngFor="#hero of heroes"
+        [class.selected]="hero === selectedHero"
+        (click)="onSelect(hero)">
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </li>
+</ul>
+<my-hero-detail [hero]="selectedHero"></my-hero-detail>
+<br/>
+<h2>My Boats!</h2>
+<ul class="boats">
+    <li *ngFor="#boat of boats">
+        <span class="badge">{{boat.id}}</span> {{boat.name}} <img src="{{boat.pictureUrlMedium}}" height="50px">
+    </li>
+</ul>

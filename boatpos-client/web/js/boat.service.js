@@ -1,4 +1,4 @@
-System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/map'], function(exports_1) {
+System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var boat_1, core_1, http_1;
+    var boat_1, core_1, http_1, config_service_1;
     var BoatService;
     return {
         setters:[
@@ -21,15 +21,22 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (_1) {}],
+            function (_1) {},
+            function (config_service_1_1) {
+                config_service_1 = config_service_1_1;
+            }],
         execute: function() {
             BoatService = (function () {
                 // constructors do dependency injection in Angular2
-                function BoatService(http) {
+                function BoatService(http, configService) {
+                    var _this = this;
                     this.http = http;
+                    this.configService = configService;
+                    this.configService.loadConfig().subscribe(function (config) { return _this.backendUrl = config.backendUrl; });
                 }
                 BoatService.prototype.getBoats = function () {
-                    console.log("getBoats()");
+                    //let backendUrl:String = this.configService.getBackendUrl();
+                    console.log("~~~ " + this.backendUrl);
                     // call the rest-service
                     return this.http.get('http://home.com:8180/boatpos-server/rest/boat')
                         .map(function (res) { return res.json(); })
@@ -43,9 +50,15 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         return result;
                     });
                 };
+                BoatService.prototype.loadBackendUrl = function () {
+                    return this.configService.loadConfig().subscribe(function (config) {
+                        console.log("### " + config.backendUrl);
+                        return config.backendUrl;
+                    });
+                };
                 BoatService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])
                 ], BoatService);
                 return BoatService;
             })();

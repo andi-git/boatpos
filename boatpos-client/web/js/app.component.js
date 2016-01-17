@@ -1,4 +1,4 @@
-System.register(['angular2/core', './hero-detail.component', './hero.service', "./boat.service", 'angular2/http'], function(exports_1) {
+System.register(['angular2/core', './hero-detail.component', './hero.service', "./boat.service", "./config.service", 'angular2/http'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', './hero-detail.component', './hero.service', "
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, hero_detail_component_1, hero_service_1, boat_service_1, http_1;
+    var core_1, hero_detail_component_1, hero_service_1, boat_service_1, config_service_1, http_1;
     var AppComponent;
     return {
         setters:[
@@ -24,15 +24,22 @@ System.register(['angular2/core', './hero-detail.component', './hero.service', "
             function (boat_service_1_1) {
                 boat_service_1 = boat_service_1_1;
             },
+            function (config_service_1_1) {
+                config_service_1 = config_service_1_1;
+            },
             function (http_1_1) {
                 http_1 = http_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(_heroService, _boatService) {
+                function AppComponent(_heroService, _boatService, _configService) {
+                    var _this = this;
                     this._heroService = _heroService;
                     this._boatService = _boatService;
+                    this._configService = _configService;
                     this.title = 'Tour of Heroes';
+                    this._configService.loadConfig().subscribe(function (config) { return _this.backendUrl = config.backendUrl; });
+                    this._configService.loadConfig().subscribe(function (config) { return _this.config = config; });
                 }
                 AppComponent.prototype.getBoats = function () {
                     var _this = this;
@@ -52,12 +59,12 @@ System.register(['angular2/core', './hero-detail.component', './hero.service', "
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        template: "\n    <h1>{{title}}</h1>\n    <h2>My Heroes</h2>\n    <ul class=\"heroes\">\n      <li *ngFor=\"#hero of heroes\"\n        [class.selected]=\"hero === selectedHero\"\n        (click)=\"onSelect(hero)\">\n        <span class=\"badge\">{{hero.id}}</span> {{hero.name}}\n      </li>\n    </ul>\n    <my-hero-detail [hero]=\"selectedHero\"></my-hero-detail>\n    <br/>\n    <h2>My Boats</h2>\n    <ul class=\"boats\">\n        <li *ngFor=\"#boat of boats\">\n            <span class=\"badge\">{{boat.id}}</span> {{boat.name}} <img src=\"{{boat.pictureUrlMedium}}\" height=\"50px\">\n        </li>\n    </ul>\n  ",
-                        styles: ["\n    .selected {\n      background-color: #CFD8DC !important;\n      color: white;\n    }\n    .heroes {\n      margin: 0 0 2em 0;\n      list-style-type: none;\n      padding: 0;\n      width: 10em;\n    }\n    .heroes li {\n      cursor: pointer;\n      position: relative;\n      left: 0;\n      background-color: #EEE;\n      margin: .5em;\n      padding: .3em 0em;\n      height: 1.6em;\n      border-radius: 4px;\n    }\n    .heroes li.selected:hover {\n      color: white;\n    }\n    .heroes li:hover {\n      color: #607D8B;\n      background-color: #EEE;\n      left: .1em;\n    }\n    .heroes .text {\n      position: relative;\n      top: -3px;\n    }\n    .heroes .badge {\n      display: inline-block;\n      font-size: small;\n      color: white;\n      padding: 0.8em 0.7em 0em 0.7em;\n      background-color: #607D8B;\n      line-height: 1em;\n      position: relative;\n      left: -1px;\n      top: -4px;\n      height: 1.8em;\n      margin-right: .8em;\n      border-radius: 4px 0px 0px 4px;\n    }\n  "],
+                        templateUrl: "app.component.html",
+                        styleUrls: ["app.component.css"],
                         directives: [hero_detail_component_1.HeroDetailComponent],
-                        providers: [hero_service_1.HeroService, boat_service_1.BoatService, http_1.HTTP_PROVIDERS]
+                        providers: [hero_service_1.HeroService, boat_service_1.BoatService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS]
                     }), 
-                    __metadata('design:paramtypes', [hero_service_1.HeroService, boat_service_1.BoatService])
+                    __metadata('design:paramtypes', [hero_service_1.HeroService, boat_service_1.BoatService, config_service_1.ConfigService])
                 ], AppComponent);
                 return AppComponent;
             })();
