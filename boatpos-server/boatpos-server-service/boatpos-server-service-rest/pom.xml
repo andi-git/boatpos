@@ -83,6 +83,11 @@
             <artifactId>boatpos-server-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-server-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- test and packaging -->
         <dependency>

@@ -42,11 +42,7 @@ public class BoatServiceRest {
     @GET
     @Path("/")
     public Response getAll() {
-        return Response.ok(boatService.getAll())
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-                .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
-                .build();
+        return Response.ok(boatService.getAll()).build();
     }
 
     @GET
