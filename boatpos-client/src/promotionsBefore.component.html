@@ -1,0 +1,10 @@
+<div class="promotionsBefore-container">
+    <h2 class="promotionsBefore-header">Aktionen</h2>
+    <ul class="promotionsBefore">
+        <li *ngFor="#promotionBefore of promotionsBefore"
+            [class.selected]="promotionBefore === selectedPromotionBefore"
+            (click)="onSelect(promotionBefore)">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{promotionBefore.name}}
+        </li>
+    </ul>
+</div>

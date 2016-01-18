@@ -1,11 +1,12 @@
 .boats-header {
-    color: white;
+    color: black;
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
     padding: 0.2em 0 0.2em 1em;
     margin: 0 0 0.1em 0;
-    background: linear-gradient(to right, #0101DF, white);
-    border-radius: 20px 0 0 20px;
+    background-color: #81BEF7;
+    border-radius: 20px 20px 20px 20px;
+    border: 3px solid black;
 }
 
 .boats-container {

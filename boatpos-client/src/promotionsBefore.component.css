@@ -1,24 +1,24 @@
-.commitments-header {
+.promotionsBefore-header {
     color: black;
     vertical-align: middle;
     text-align: center;
     padding: 0.2em 0 0.2em 1em;
     margin: 0 0 0.1em 0;
-    background-color: #F5D0A9;
+    background-color: #BCF5A9;
     border-radius: 20px 20px 20px 20px;
     border: 3px solid black;
 }
 
-.commitments-container {
+.promotionsBefore-container {
     background-color: white;
 }
 
 .selected {
     color: white;
-    background: linear-gradient(to right, #FF8000, white) !important;
+    background: linear-gradient(to right, #31B404, white) !important;
 }
 
-.commitments {
+.promotionsBefore {
     margin: 0 0 0 0;
     list-style-type: none;
     padding: 0;
@@ -27,25 +27,28 @@
     font-weight: bold;
 }
 
-.commitments li {
+.promotionsBefore li {
     cursor: pointer;
     position: relative;
-    background: linear-gradient(to right, #F5D0A9, white);
+    background: linear-gradient(to right, #BCF5A9, white);
     margin: .2em;
     border-radius: 20px;
 }
 
-.commitments li.selected:hover {
+.promotionsBefore li.selected:hover {
     color: white;
     background: linear-gradient(to right, #E6E6E6, white);
 }
 
-.commitments li:hover {
+.promotionsBefore li:hover {
     background: linear-gradient(to right, #E6E6E6, white);
 }
 
+.heroes .text {
+    position: relative;
+}
 
-.commitments .badge {
+.promotionsBefore .badge {
     display: inline-block;
     font-size: small;
     color: white;
