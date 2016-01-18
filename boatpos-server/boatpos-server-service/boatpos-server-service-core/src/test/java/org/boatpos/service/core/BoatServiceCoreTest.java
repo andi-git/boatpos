@@ -4,6 +4,7 @@ import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.bean.BoatBean;
+import org.boatpos.service.api.bean.BoatCountBean;
 import org.boatpos.service.api.bean.BoatCountSummary;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -77,13 +79,13 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
     @Test
     @Transactional
     public void testCountBoats() {
-        BoatCountSummary boatCountSummary = boatService.countBoats();
-        assertEquals("E-Boot", boatCountSummary.getBoatCountList().get(0).getName());
-        assertEquals(22, boatCountSummary.getBoatCountList().get(0).getMax());
-        assertEquals(1, boatCountSummary.getBoatCountList().get(0).getCount());
-        assertEquals("Liegeboot", boatCountSummary.getBoatCountList().get(4).getName());
-        assertEquals(5, boatCountSummary.getBoatCountList().get(4).getMax());
-        assertEquals(0, boatCountSummary.getBoatCountList().get(4).getCount());
+        List<BoatCountBean> boatCounts = boatService.countBoats();
+        assertEquals("E-Boot", boatCounts.get(0).getName());
+        assertEquals(22, boatCounts.get(0).getMax());
+        assertEquals(1, boatCounts.get(0).getCount());
+        assertEquals("Liegeboot", boatCounts.get(4).getName());
+        assertEquals(5, boatCounts.get(4).getMax());
+        assertEquals(0, boatCounts.get(4).getCount());
     }
 
     @Override

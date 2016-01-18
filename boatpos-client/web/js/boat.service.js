@@ -46,6 +46,24 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         return result;
                     });
                 };
+                BoatService.prototype.getBoatCount = function () {
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
+                        .map(function (res) {
+                        console.log("### " + res.json());
+                        console.log("### " + res.json().id);
+                        return res.json();
+                    })
+                        .map(function (boatCounts) {
+                        var result = [];
+                        if (boatCounts) {
+                            boatCounts.forEach(function (boatCount) {
+                                console.log("___ " + boatCount);
+                                result.push(new boat_1.BoatCount(boatCount.id, boatCount.name, boatCount.shortName, boatCount.count, boatCount.max));
+                            });
+                        }
+                        return result;
+                    });
+                };
                 BoatService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])

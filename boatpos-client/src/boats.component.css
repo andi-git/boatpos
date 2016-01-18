@@ -15,7 +15,7 @@
 
 .selected {
     color: white;
-    background: linear-gradient(to right, #0101DF, white) !important;
+    background: #0101DF !important;
 }
 
 .boats {

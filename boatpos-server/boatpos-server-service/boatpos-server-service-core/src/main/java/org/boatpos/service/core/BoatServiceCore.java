@@ -5,13 +5,13 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.DomainId;
+import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.api.values.ShortName;
 import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.BoatCountBean;
-import org.boatpos.service.api.bean.BoatCountSummary;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.util.log.LogWrapper;
@@ -19,8 +19,10 @@ import org.boatpos.util.log.SLF4J;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequestScoped
 public class BoatServiceCore implements BoatService {
@@ -67,19 +69,16 @@ public class BoatServiceCore implements BoatService {
     }
 
     @Override
-    public BoatCountSummary countBoats() {
-        BoatCountSummary boatCountSummary = new BoatCountSummary();
+    public List<BoatCountBean> countBoats() {
+        List<BoatCountBean> boatCounts = new ArrayList<>();
         List<Rental> rentals = rentalRepository.loadAllActive();
-        for (Boat boat : boatRepository.loadAll()) {
-            boatCountSummary.addBoatCount(
-                    new BoatCountBean(
-                            boat.getId().get(),
-                            boat.getName().get(),
-                            boat.getShortName().get(),
-                            (int) rentals.stream().filter(r -> r.getBoat().equals(boat)).count(),
-                            boat.getCount().get()));
-        }
-        return boatCountSummary;
+        boatCounts.addAll(boatRepository.loadAll(Enabled.TRUE).stream().map(boat -> new BoatCountBean(
+                boat.getId().get(),
+                boat.getName().get(),
+                boat.getShortName().get(),
+                (int) rentals.stream().filter(r -> r.getBoat().equals(boat)).count(),
+                boat.getCount().get())).collect(Collectors.toList()));
+        return boatCounts;
     }
 
     @Override

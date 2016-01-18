@@ -15,7 +15,7 @@
 
 .selected {
     color: white;
-    background: linear-gradient(to right, #31B404, white) !important;
+    background: #31B404 !important;
 }
 
 .promotionsBefore {

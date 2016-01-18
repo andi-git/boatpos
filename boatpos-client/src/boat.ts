@@ -23,3 +23,23 @@ export class Boat {
         this.pictureUrlMedium = pictureUrlMedium;
     }
 }
+
+export class BoatCount {
+    id:number;
+    name:string;
+    shortName:string;
+    count:number;
+    max:number;
+
+    constructor(id:number,
+                name:string,
+                shortName:string,
+                count:number,
+                max:number) {
+        this.id = id;
+        this.name = name;
+        this.shortName = shortName;
+        this.count = count;
+        this.max = max;
+    }
+}

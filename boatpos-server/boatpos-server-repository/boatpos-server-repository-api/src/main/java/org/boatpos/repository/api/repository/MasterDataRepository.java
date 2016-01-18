@@ -11,17 +11,17 @@ import java.util.List;
 public interface MasterDataRepository<MODEL extends MasterData> extends DomainModelRepository<MODEL> {
 
     /**
-     * Get a {@link List} of all {@link DM}s ordered by {@code priority}.
+     * Get a {@link List} of all {@link MODEL}s ordered by {@code priority}.
      *
-     * @return a {@link List} of all {@link DM}s ordered by {@code priority}
+     * @return a {@link List} of all {@link MODEL}s ordered by {@code priority}
      */
     List<MODEL> loadAll();
 
     /**
-     * Get a {@link List} of all enabled {@link DM}s ordered by priority.
+     * Get a {@link List} of all enabled {@link MODEL}s ordered by priority.
      *
      * @param enabled flag if the commitments should enabled or disabled
-     * @return a {@link List} of all enabled {@link DM}s ordered by priority
+     * @return a {@link List} of all enabled {@link MODEL}s ordered by priority
      */
     List<MODEL> loadAll(Enabled enabled);
 }

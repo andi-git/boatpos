@@ -1,0 +1,8 @@
+<div class="boatCount-container">
+    <h2 class="boatCount-header">Statistik</h2>
+    <ul class="boatCount">
+        <li *ngFor="#boatCount of boatCounts">
+            &nbsp;&nbsp;&nbsp;&nbsp;{{boatCount.name}}: {{boatCount.count}} / {{boatCount.max}}
+        </li>
+    </ul>
+</div>

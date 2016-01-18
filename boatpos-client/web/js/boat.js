@@ -1,5 +1,5 @@
 System.register([], function(exports_1) {
-    var Boat;
+    var Boat, BoatCount;
     return {
         setters:[],
         execute: function() {
@@ -16,6 +16,17 @@ System.register([], function(exports_1) {
                 return Boat;
             })();
             exports_1("Boat", Boat);
+            BoatCount = (function () {
+                function BoatCount(id, name, shortName, count, max) {
+                    this.id = id;
+                    this.name = name;
+                    this.shortName = shortName;
+                    this.count = count;
+                    this.max = max;
+                }
+                return BoatCount;
+            })();
+            exports_1("BoatCount", BoatCount);
         }
     }
 });
