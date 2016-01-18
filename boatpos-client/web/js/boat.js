@@ -4,10 +4,12 @@ System.register([], function(exports_1) {
         setters:[],
         execute: function() {
             Boat = (function () {
-                function Boat(id, name, shortName, pictureUrlSmall, pictureUrlMedium) {
+                function Boat(id, name, enabled, priority, shortName, pictureUrlSmall, pictureUrlMedium) {
                     this.id = id;
                     this.name = name;
                     this.shortName = shortName;
+                    this.enabled = enabled;
+                    this.priority = priority;
                     this.pictureUrlSmall = pictureUrlSmall;
                     this.pictureUrlMedium = pictureUrlMedium;
                 }

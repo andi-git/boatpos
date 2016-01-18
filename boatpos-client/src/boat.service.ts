@@ -15,7 +15,7 @@ export class BoatService {
 
     getBoats(): Observable<Array<Boat>> {
         // call the rest-service
-        return this.http.get(this.configService.getBackendUrl() + 'rest/boat')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
             // map the result to json
             .map(res => res.json())
             // map the result to Boat
@@ -23,7 +23,14 @@ export class BoatService {
                 let result:Array<Boat> = [];
                 if (boats) {
                     boats.forEach((boat) => {
-                        result.push(new Boat(boat.id, boat.name, boat.shortName, boat.pictureUrlSmall, boat.pictureUrlMedium));
+                        result.push(new Boat(
+                            boat.id,
+                            boat.name,
+                            boat.shortName,
+                            boat.enabled,
+                            boat.priority,
+                            boat.pictureUrlSmall,
+                            boat.pictureUrlMedium));
                     });
                 }
                 return result;

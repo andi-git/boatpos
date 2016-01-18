@@ -1,4 +1,4 @@
-System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service"], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service", "./commitment"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,13 +8,10 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var boat_1, core_1, http_1, config_service_1;
-    var BoatService;
+    var core_1, http_1, config_service_1, commitment_1;
+    var CommitmentService;
     return {
         setters:[
-            function (boat_1_1) {
-                boat_1 = boat_1_1;
-            },
             function (core_1_1) {
                 core_1 = core_1_1;
             },
@@ -24,35 +21,38 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
             function (_1) {},
             function (config_service_1_1) {
                 config_service_1 = config_service_1_1;
+            },
+            function (commitment_1_1) {
+                commitment_1 = commitment_1_1;
             }],
         execute: function() {
-            BoatService = (function () {
+            CommitmentService = (function () {
                 // constructors do dependency injection in Angular2
-                function BoatService(http, configService) {
+                function CommitmentService(http, configService) {
                     this.http = http;
                     this.configService = configService;
                 }
-                BoatService.prototype.getBoats = function () {
+                CommitmentService.prototype.getCommitments = function () {
                     // call the rest-service
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled')
                         .map(function (res) { return res.json(); })
-                        .map(function (boats) {
+                        .map(function (commitments) {
                         var result = [];
-                        if (boats) {
-                            boats.forEach(function (boat) {
-                                result.push(new boat_1.Boat(boat.id, boat.name, boat.shortName, boat.enabled, boat.priority, boat.pictureUrlSmall, boat.pictureUrlMedium));
+                        if (commitments) {
+                            commitments.forEach(function (commitment) {
+                                result.push(new commitment_1.Commitment(commitment.id, commitment.name, commitment.enabled, commitment.priority));
                             });
                         }
                         return result;
                     });
                 };
-                BoatService = __decorate([
+                CommitmentService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])
-                ], BoatService);
-                return BoatService;
+                ], CommitmentService);
+                return CommitmentService;
             })();
-            exports_1("BoatService", BoatService);
+            exports_1("CommitmentService", CommitmentService);
         }
     }
 });

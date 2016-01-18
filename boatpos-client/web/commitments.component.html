@@ -1,0 +1,10 @@
+<div class="commitments-container">
+    <h2 class="commitments-header">Einsätze</h2>
+    <ul class="commitments">
+        <li *ngFor="#commitment of commitments"
+            [class.selected]="commitment=== selectedCommitment"
+            (click)="onSelect(commitment)">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{commitment.name}}
+        </li>
+    </ul>
+</div>
