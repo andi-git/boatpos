@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,29 +18,31 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map'], fun
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (_1) {}],
+            function (_1) {},
+            function (_2) {}],
         execute: function() {
             ConfigService = (function () {
                 function ConfigService(http) {
                     var _this = this;
                     this.http = http;
-                    this.loadConfig().subscribe(function (config) {
-                        console.log("+++ " + config.backendUrl);
-                        _this.backendUrl = config.backendUrl;
-                    });
-                    console.log("backendUrl: " + this.backendUrl);
-                }
-                ConfigService.prototype.loadConfig = function () {
-                    return this.http.get('config.json')
+                    this.configured = new core_1.EventEmitter();
+                    // load the config and fire an event when the config is loaded
+                    console.log("load config");
+                    this.http.get('config.json')
                         .map(function (res) {
                         return res.json();
+                    })
+                        .subscribe(function (config) {
+                        console.log("config loaded, fire event");
+                        _this.backendUrl = config.backendUrl;
+                        _this.configured.emit(config);
                     });
+                }
+                ConfigService.prototype.isConfigured = function () {
+                    return this.configured;
                 };
                 ConfigService.prototype.getBackendUrl = function () {
                     return this.backendUrl;
-                    //let backendUrl:String = "";
-                    //this.loadConfig().subscribe(config => backendUrl = config.backendUrl);
-                    //return backendUrl;
                 };
                 ConfigService = __decorate([
                     core_1.Injectable(), 

@@ -32,26 +32,24 @@ System.register(['angular2/core', './hero-detail.component', './hero.service', "
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(_heroService, _boatService, _configService) {
-                    var _this = this;
-                    this._heroService = _heroService;
-                    this._boatService = _boatService;
-                    this._configService = _configService;
+                function AppComponent(heroService, boatService, configService) {
+                    this.heroService = heroService;
+                    this.boatService = boatService;
+                    this.configService = configService;
                     this.title = 'Tour of Heroes';
-                    this._configService.loadConfig().subscribe(function (config) { return _this.backendUrl = config.backendUrl; });
-                    this._configService.loadConfig().subscribe(function (config) { return _this.config = config; });
                 }
                 AppComponent.prototype.getBoats = function () {
                     var _this = this;
-                    this._boatService.getBoats().subscribe(function (boats) { return _this.boats = boats; });
+                    this.boatService.getBoats().subscribe(function (boats) { return _this.boats = boats; });
                 };
                 AppComponent.prototype.getHeroes = function () {
                     var _this = this;
-                    this._heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
+                    this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
                 };
                 AppComponent.prototype.ngOnInit = function () {
+                    var _this = this;
                     this.getHeroes();
-                    this.getBoats();
+                    this.subscription = this.configService.isConfigured().subscribe(function (config) { return _this.getBoats(); });
                 };
                 AppComponent.prototype.onSelect = function (hero) {
                     this.selectedHero = hero;

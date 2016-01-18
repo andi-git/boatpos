@@ -29,16 +29,12 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
             BoatService = (function () {
                 // constructors do dependency injection in Angular2
                 function BoatService(http, configService) {
-                    var _this = this;
                     this.http = http;
                     this.configService = configService;
-                    this.configService.loadConfig().subscribe(function (config) { return _this.backendUrl = config.backendUrl; });
                 }
                 BoatService.prototype.getBoats = function () {
-                    //let backendUrl:String = this.configService.getBackendUrl();
-                    console.log("~~~ " + this.backendUrl);
                     // call the rest-service
-                    return this.http.get('http://home.com:8180/boatpos-server/rest/boat')
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/boat')
                         .map(function (res) { return res.json(); })
                         .map(function (boats) {
                         var result = [];
@@ -48,12 +44,6 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                             });
                         }
                         return result;
-                    });
-                };
-                BoatService.prototype.loadBackendUrl = function () {
-                    return this.configService.loadConfig().subscribe(function (config) {
-                        console.log("### " + config.backendUrl);
-                        return config.backendUrl;
                     });
                 };
                 BoatService = __decorate([

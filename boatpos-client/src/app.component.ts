@@ -17,30 +17,27 @@ import {Observable} from "rxjs/Observable";
     providers: [HeroService, BoatService, ConfigService, HTTP_PROVIDERS]
 })
 export class AppComponent implements OnInit {
-    public title = 'Tour of Heroes';
-    public heroes:Hero[];
-    public selectedHero:Hero;
+    private title = 'Tour of Heroes';
+    private heroes:Hero[];
+    private selectedHero:Hero;
 
-    public boats:BoatCompact[];
-    private config:Config;
-    private backendUrl:String;
+    private boats:BoatCompact[];
+    private subscription: any;
 
-    constructor(private _heroService:HeroService, private _boatService:BoatService, private _configService:ConfigService) {
-        this._configService.loadConfig().subscribe(config => this.backendUrl = config.backendUrl)
-        this._configService.loadConfig().subscribe(config => this.config = config)
+    constructor(private heroService:HeroService, private boatService:BoatService, private configService:ConfigService) {
     }
 
     getBoats() {
-        this._boatService.getBoats().subscribe(boats => this.boats = boats);
+        this.boatService.getBoats().subscribe(boats => this.boats = boats);
     }
 
     getHeroes() {
-        this._heroService.getHeroes().then(heroes => this.heroes = heroes);
+        this.heroService.getHeroes().then(heroes => this.heroes = heroes);
     }
 
     ngOnInit() {
         this.getHeroes();
-        this.getBoats();
+        this.subscription = this.configService.isConfigured().subscribe(config => this.getBoats());
     }
 
     onSelect(hero:Hero) {

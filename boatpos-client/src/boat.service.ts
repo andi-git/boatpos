@@ -10,19 +10,13 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class BoatService {
 
-    private backendUrl:String;
-
     // constructors do dependency injection in Angular2
     constructor(private http:Http, private configService:ConfigService) {
-        this.configService.loadConfig().subscribe(config => this.backendUrl = config.backendUrl)
     }
 
     getBoats(): Observable<Array<BoatCompact>> {
-        //let backendUrl:String = this.configService.getBackendUrl();
-        console.log("~~~ " + this.backendUrl);
         // call the rest-service
-        return this.http.get('http://home.com:8180/boatpos-server/rest/boat')
-        //return this.http.get(this.loadBackendUrl() + 'rest/boat')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/boat')
             // map the result to json
             .map(res => res.json())
             // map the result to BoatCompact
@@ -35,14 +29,5 @@ export class BoatService {
                 }
                 return result;
             });
-    }
-
-    loadBackendUrl(): String {
-        return this.configService.loadConfig().subscribe(
-            (config) => {
-                console.log("### " + config.backendUrl);
-                return config.backendUrl;
-            }
-        );
     }
 }

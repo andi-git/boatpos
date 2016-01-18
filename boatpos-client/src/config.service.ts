@@ -1,6 +1,7 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, EventEmitter} from 'angular2/core';
 import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs/Observable";
 import {Config} from "./config";
 
@@ -8,26 +9,27 @@ import {Config} from "./config";
 export class ConfigService {
 
     private backendUrl:String;
+    private configured:EventEmitter<Config> = new EventEmitter();
 
     constructor(private http:Http) {
-        this.loadConfig().subscribe((config) => {
-            console.log("+++ " + config.backendUrl);
-            this.backendUrl = config.backendUrl
-        });
-        console.log("backendUrl: " + this.backendUrl)
-    }
-
-    loadConfig(): Observable<Config> {
-        return this.http.get('config.json')
+        // load the config and fire an event when the config is loaded
+        console.log("load config");
+        this.http.get('config.json')
             .map((res) => {
                 return res.json();
+            })
+            .subscribe((config) => {
+                console.log("config loaded, fire event");
+                this.backendUrl = config.backendUrl;
+                this.configured.emit(config);
             });
     }
 
-    getBackendUrl(): String {
+    isConfigured():EventEmitter<Config> {
+        return this.configured;
+    }
+
+    getBackendUrl():String {
         return this.backendUrl;
-        //let backendUrl:String = "";
-        //this.loadConfig().subscribe(config => backendUrl = config.backendUrl);
-        //return backendUrl;
     }
 }
