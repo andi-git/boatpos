@@ -1,0 +1,10 @@
+<div class="boats-container">
+    <h2 class="boats-header">Boote</h2>
+    <ul class="boats">
+        <li *ngFor="#boat of boats"
+            [class.selected]="boat === selectedBoat"
+            (click)="onSelect(boat)">
+            <span class="badge"><img src="{{boat.pictureUrlSmall}}" height="40px"></span> {{boat.name}}
+        </li>
+    </ul>
+</div>

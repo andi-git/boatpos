@@ -1,4 +1,4 @@
-System.register(['angular2/core', './hero-detail.component', './hero.service', "./boat.service", "./config.service", 'angular2/http'], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./config.service", 'angular2/http', "./boats.component"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,18 +8,12 @@ System.register(['angular2/core', './hero-detail.component', './hero.service', "
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, hero_detail_component_1, hero_service_1, boat_service_1, config_service_1, http_1;
+    var core_1, boat_service_1, config_service_1, http_1, boats_component_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (hero_detail_component_1_1) {
-                hero_detail_component_1 = hero_detail_component_1_1;
-            },
-            function (hero_service_1_1) {
-                hero_service_1 = hero_service_1_1;
             },
             function (boat_service_1_1) {
                 boat_service_1 = boat_service_1_1;
@@ -29,40 +23,26 @@ System.register(['angular2/core', './hero-detail.component', './hero.service', "
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (boats_component_1_1) {
+                boats_component_1 = boats_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent(heroService, boatService, configService) {
-                    this.heroService = heroService;
-                    this.boatService = boatService;
-                    this.configService = configService;
-                    this.title = 'Tour of Heroes';
+                function AppComponent() {
                 }
-                AppComponent.prototype.getBoats = function () {
-                    var _this = this;
-                    this.boatService.getBoats().subscribe(function (boats) { return _this.boats = boats; });
-                };
-                AppComponent.prototype.getHeroes = function () {
-                    var _this = this;
-                    this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
-                };
                 AppComponent.prototype.ngOnInit = function () {
-                    var _this = this;
-                    this.getHeroes();
-                    this.subscription = this.configService.isConfigured().subscribe(function (config) { return _this.getBoats(); });
-                };
-                AppComponent.prototype.onSelect = function (hero) {
-                    this.selectedHero = hero;
+                    return undefined;
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
                         templateUrl: "app.component.html",
                         styleUrls: ["app.component.css"],
-                        directives: [hero_detail_component_1.HeroDetailComponent],
-                        providers: [hero_service_1.HeroService, boat_service_1.BoatService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS]
+                        directives: [boats_component_1.BoatsComponent],
+                        providers: [boat_service_1.BoatService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS]
                     }), 
-                    __metadata('design:paramtypes', [hero_service_1.HeroService, boat_service_1.BoatService, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [])
                 ], AppComponent);
                 return AppComponent;
             })();

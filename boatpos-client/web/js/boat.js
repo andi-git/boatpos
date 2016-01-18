@@ -1,18 +1,19 @@
 System.register([], function(exports_1) {
-    var BoatCompact;
+    var Boat;
     return {
         setters:[],
         execute: function() {
-            BoatCompact = (function () {
-                function BoatCompact(id, name, shortName, pictureUrlMedium) {
+            Boat = (function () {
+                function Boat(id, name, shortName, pictureUrlSmall, pictureUrlMedium) {
                     this.id = id;
                     this.name = name;
                     this.shortName = shortName;
+                    this.pictureUrlSmall = pictureUrlSmall;
                     this.pictureUrlMedium = pictureUrlMedium;
                 }
-                return BoatCompact;
+                return Boat;
             })();
-            exports_1("BoatCompact", BoatCompact);
+            exports_1("Boat", Boat);
         }
     }
 });
