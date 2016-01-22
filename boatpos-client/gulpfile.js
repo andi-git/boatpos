@@ -25,7 +25,8 @@ gulp.task('setup', function (done) {
         'node_modules/jquery/dist/jquery.*js',
         'node_modules/bootstrap/dist/js/bootstrap*.js',
         'node_modules/rxjs/bundles/Rx.js',
-        'node_modules/reflect-metadata/Reflect.js'
+        'node_modules/reflect-metadata/Reflect.js',
+        'node_modules/mousetrap/mousetrap.min.js'
     ]).pipe(gulp.dest('web/lib'));
     gulp.src([
         'node_modules/bootstrap/dist/css/bootstrap.css'

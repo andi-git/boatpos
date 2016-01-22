@@ -28,8 +28,8 @@ public class CommitmentBean extends AbstractMasterDataBean {
     public CommitmentBean() {
     }
 
-    public CommitmentBean(Long id, Integer version, String name, boolean paper, Integer priority, boolean enabled) {
-        super(id, version, enabled, priority);
+    public CommitmentBean(Long id, Integer version, String name, boolean paper, Integer priority, boolean enabled, Character keyBinding) {
+        super(id, version, enabled, priority, keyBinding);
         this.name = name;
         this.paper = paper;
     }

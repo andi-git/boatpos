@@ -40,7 +40,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         var result = [];
                         if (commitments) {
                             commitments.forEach(function (commitment) {
-                                result.push(new commitment_1.Commitment(commitment.id, commitment.name, commitment.enabled, commitment.priority));
+                                result.push(new commitment_1.Commitment(commitment.id, commitment.name, commitment.enabled, commitment.priority, commitment.keyBinding));
                             });
                         }
                         return result;

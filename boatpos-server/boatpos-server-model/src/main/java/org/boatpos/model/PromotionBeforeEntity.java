@@ -27,8 +27,8 @@ public class PromotionBeforeEntity extends PromotionEntity {
     public PromotionBeforeEntity() {
     }
 
-    public PromotionBeforeEntity(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Set<RentalEntity> rentals, Integer priority, boolean enabled) {
-        super(id, version, name, priceCalculation, rentals, priority, enabled);
+    public PromotionBeforeEntity(Long id, Integer version, String name, Integer timeCredit, String priceCalculation, Set<RentalEntity> rentals, Integer priority, boolean enabled, Character keyBinding) {
+        super(id, version, name, priceCalculation, rentals, priority, enabled, keyBinding);
         this.timeCredit = timeCredit;
     }
 

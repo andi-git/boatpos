@@ -3,7 +3,6 @@ package org.boatpos.service.rest;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.BoatCountBean;
-import org.boatpos.service.api.bean.BoatCountSummary;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
@@ -70,7 +69,7 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
     public void testSave() throws Exception {
         helper.assertCount(url, "boat", 6);
 
-        BoatBean boat = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________");
+        BoatBean boat = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________", 'a');
         Response response = helper.createRestCall(url, (wt) -> wt.path("boat")).post(Entity.json(boat));
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         BoatBean result = response.readEntity(BoatBean.class);
@@ -78,7 +77,7 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(0, result.getVersion().intValue());
         helper.assertCount(url, "boat", 7);
 
-        boat = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________");
+        boat = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________", 'a');
         response = helper.createRestCall(url, (wt) -> wt.path("boat")).post(Entity.json(boat));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 
@@ -138,4 +137,4 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(0, boatCounts.get(4).getCount());
         assertEquals(5, boatCounts.get(4).getMax());
     }
-    }
+}

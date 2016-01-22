@@ -32,6 +32,8 @@ public class JavaBeanTesterTest {
 
         private BeanB beanb;
 
+        private Character c;
+
         public int getI() {
             return i;
         }
@@ -62,6 +64,14 @@ public class JavaBeanTesterTest {
 
         public void setBeanb(BeanB beanb) {
             this.beanb = beanb;
+        }
+
+        public Character getC() {
+            return c;
+        }
+
+        public void setC(Character c) {
+            this.c = c;
         }
     }
 

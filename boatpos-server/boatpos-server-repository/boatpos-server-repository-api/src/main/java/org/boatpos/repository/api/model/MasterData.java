@@ -2,6 +2,7 @@ package org.boatpos.repository.api.model;
 
 import org.boatpos.model.AbstractMasterDataEntity;
 import org.boatpos.repository.api.values.Enabled;
+import org.boatpos.repository.api.values.KeyBinding;
 import org.boatpos.repository.api.values.Priority;
 import org.boatpos.service.api.bean.AbstractMasterDataBean;
 
@@ -21,4 +22,8 @@ public interface MasterData<MODEL extends MasterData, ENTITY extends AbstractMas
     Priority getPriority();
 
     MODEL setPriority(Priority priority);
+
+    KeyBinding getKeyBinding();
+
+    MODEL setKeyBinding(KeyBinding keyBinding);
 }

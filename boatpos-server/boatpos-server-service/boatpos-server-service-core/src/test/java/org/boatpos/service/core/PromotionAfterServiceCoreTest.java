@@ -44,7 +44,7 @@ public class PromotionAfterServiceCoreTest extends AbstractMasterDataServiceTest
     @Transactional
     public void testSave() throws Exception {
         assertEquals(2, promotionAfterService.getAll(EnabledState.All).size());
-        promotionAfterService.save(new PromotionAfterBean(null, 1, "PROMO", "price / 3", 3, true));
+        promotionAfterService.save(new PromotionAfterBean(null, 1, "PROMO", "price / 3", 3, true, 'a'));
         assertEquals(3, promotionAfterService.getAll(EnabledState.All).size());
     }
 

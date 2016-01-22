@@ -118,6 +118,8 @@ public class JavaBeanTester {
     public enum SimpleType {
         BooleanSimple(boolean.class, false, false),
         BooleanComplex(Boolean.class, false, false),
+        CharacterSimple(char.class, 'c', false),
+        CharacterComplex(Character.class, 'c', false),
         IntegerSimple(int.class, -1, false),
         IntegerComplex(Integer.class, -1, false),
         LongSimple(long.class, -1L, false),

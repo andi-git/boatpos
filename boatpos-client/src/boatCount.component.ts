@@ -11,17 +11,15 @@ import {ConfigService} from "./config.service";
 export class BoatCountComponent {
 
     private boatCounts:BoatCount[];
-    private subscription: any;
+    private subscription:any;
 
     constructor(private boatService:BoatService, private configService:ConfigService) {
     }
 
-    getBoatCounts() {
-        this.boatService.getBoatCount().subscribe(boatCounts => this.boatCounts = boatCounts);
-    }
-
     ngOnInit() {
-        this.subscription = this.configService.isConfigured().subscribe(config => this.getBoatCounts());
+        this.subscription = this.configService.isConfigured().subscribe(config =>
+            this.boatService.getBoatCount().subscribe(boatCounts => this.boatCounts = boatCounts)
+        );
         console.log("--> " + this.boatCounts);
     }
 }

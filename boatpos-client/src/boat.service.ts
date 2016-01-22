@@ -30,7 +30,8 @@ export class BoatService {
                             boat.enabled,
                             boat.priority,
                             boat.pictureUrlSmall,
-                            boat.pictureUrlMedium));
+                            boat.pictureUrlMedium,
+                            boat.keyBinding));
                     });
                 }
                 return result;

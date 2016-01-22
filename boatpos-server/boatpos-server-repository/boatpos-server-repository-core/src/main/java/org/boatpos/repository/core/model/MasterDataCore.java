@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> extends DomainModelCore<MODEL, ENTITY, DTO> implements MasterData<MODEL, ENTITY, DTO> {
 
-    public MasterDataCore(DomainId id, Version version, Enabled enabled, Priority priority) {
+    public MasterDataCore(DomainId id, Version version, Enabled enabled, Priority priority, KeyBinding keyBinding) {
         super(id, version);
         checkNotNull(enabled, "'enabled' must not be null");
         checkNotNull(priority, "'priority' must not be null");
@@ -63,6 +63,18 @@ public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends Ab
     @Override
     public MODEL setPriority(Priority priority) {
         getEntity().setPriority(SimpleValueObject.nullSafe(priority));
+        //noinspection unchecked
+        return (MODEL) this;
+    }
+
+    @Override
+    public KeyBinding getKeyBinding() {
+        return new KeyBinding(getEntity().getKeyBinding());
+    }
+
+    @Override
+    public MODEL setKeyBinding(KeyBinding keyBinding) {
+        getEntity().setKeyBinding(SimpleValueObject.nullSafe(keyBinding));
         //noinspection unchecked
         return (MODEL) this;
     }

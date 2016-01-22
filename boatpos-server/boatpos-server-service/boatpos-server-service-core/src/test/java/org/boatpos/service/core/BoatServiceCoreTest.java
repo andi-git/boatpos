@@ -5,7 +5,6 @@ import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.BoatCountBean;
-import org.boatpos.service.api.bean.BoatCountSummary;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
@@ -49,7 +48,7 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
     @Transactional
     public void testSave() throws Throwable {
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
-        BoatBean boatBean = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________");
+        BoatBean boatBean = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________", 'a');
         boatService.save(boatBean);
         assertEquals(6, boatService.getAll(EnabledState.Enabled).size());
     }
@@ -58,7 +57,7 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
     @Transactional
     public void testSaveWithException() throws Throwable {
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
-        BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________");
+        BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________", 'a');
         boatService.save(boatBean);
     }
 

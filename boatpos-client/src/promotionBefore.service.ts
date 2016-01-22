@@ -12,7 +12,7 @@ export class PromotionBeforeService {
     constructor(private http:Http, private configService:ConfigService) {
     }
 
-    getPromotionsBefore(): Observable<Array<PromotionBefore>> {
+    getPromotionsBefore():Observable<Array<PromotionBefore>> {
         return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/before/enabled')
             .map(res => res.json())
             .map((promotions:Array<any>) => {
@@ -24,7 +24,8 @@ export class PromotionBeforeService {
                             promotion.name,
                             promotion.timeCredit,
                             promotion.enabled,
-                            promotion.priority));
+                            promotion.priority,
+                            promotion.keyBinding));
                     });
                 }
                 return result;

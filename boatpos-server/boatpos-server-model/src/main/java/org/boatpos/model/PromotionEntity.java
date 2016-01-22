@@ -41,8 +41,8 @@ public abstract class PromotionEntity extends AbstractMasterDataEntity implement
     public PromotionEntity() {
     }
 
-    public PromotionEntity(Long id, Integer version, String name, String formulaPrice, Set<RentalEntity> rentals, Integer priority, boolean enabled) {
-        super(id, version, enabled, priority);
+    public PromotionEntity(Long id, Integer version, String name, String formulaPrice, Set<RentalEntity> rentals, Integer priority, boolean enabled, Character keyBinding) {
+        super(id, version, enabled, priority, keyBinding);
         this.name = name;
         this.formulaPrice = formulaPrice;
         this.rentals = rentals;

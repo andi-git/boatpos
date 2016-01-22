@@ -19,6 +19,6 @@ public class PromotionAfterBuilderCore extends PromotionBuilderCore<PromotionAft
 
     @Override
     public PromotionAfter build() {
-        return new PromotionAfterCore(id, version, enabled, priority, name, formulaPrice, rentals);
+        return new PromotionAfterCore(id, version, enabled, priority, name, formulaPrice, rentals, keyBinding);
     }
 }

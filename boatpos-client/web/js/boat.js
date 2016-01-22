@@ -4,7 +4,7 @@ System.register([], function(exports_1) {
         setters:[],
         execute: function() {
             Boat = (function () {
-                function Boat(id, name, enabled, priority, shortName, pictureUrlSmall, pictureUrlMedium) {
+                function Boat(id, name, enabled, priority, shortName, pictureUrlSmall, pictureUrlMedium, keyBinding) {
                     this.id = id;
                     this.name = name;
                     this.shortName = shortName;
@@ -12,6 +12,7 @@ System.register([], function(exports_1) {
                     this.priority = priority;
                     this.pictureUrlSmall = pictureUrlSmall;
                     this.pictureUrlMedium = pictureUrlMedium;
+                    this.keyBinding = keyBinding;
                 }
                 return Boat;
             })();

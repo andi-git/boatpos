@@ -26,13 +26,19 @@ public class AbstractMasterDataEntity extends AbstractEntity {
     @Expose
     private Integer priority;
 
+    /**
+     * The keybord-binding for client-input.
+     */
+    private Character keyBinding;
+
     public AbstractMasterDataEntity() {
     }
 
-    public AbstractMasterDataEntity(Long id, Integer version, boolean enabled, Integer priority) {
+    public AbstractMasterDataEntity(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding) {
         super(id, version);
         this.enabled = enabled;
         this.priority = priority;
+        this.keyBinding = keyBinding;
     }
 
     public boolean isEnabled() {
@@ -49,5 +55,13 @@ public class AbstractMasterDataEntity extends AbstractEntity {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public Character getKeyBinding() {
+        return keyBinding;
+    }
+
+    public void setKeyBinding(Character keyBinding) {
+        this.keyBinding = keyBinding;
     }
 }

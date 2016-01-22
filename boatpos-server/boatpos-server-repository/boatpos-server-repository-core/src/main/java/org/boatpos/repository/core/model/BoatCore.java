@@ -26,8 +26,9 @@ public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> impleme
                     Set<Rental> rentals,
                     PictureUrlSmall pictureUrlSmall,
                     PictureUrlMedium pictureUrlMedium,
-                    PictureUrlLarge pictureUrlLarge) {
-        super(id, version, enabled, priority);
+                    PictureUrlLarge pictureUrlLarge,
+                    KeyBinding keyBinding) {
+        super(id, version, enabled, priority, keyBinding);
         checkNotNull(enabled, "'enabled' must not be null");
         checkNotNull(name, "'name' must not be null");
         checkNotNull(shortName, "'shortName' must not be null");
@@ -48,6 +49,7 @@ public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> impleme
         setPictureUrlSmall(pictureUrlSmall);
         setPictureUrlMedium(pictureUrlMedium);
         setPictureUrlLarge(pictureUrlLarge);
+        setKeyBinding(keyBinding);
     }
 
     public BoatCore(BoatEntity boat) {

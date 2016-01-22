@@ -4,6 +4,7 @@ import org.boatpos.model.CommitmentEntity;
 import org.boatpos.repository.api.builder.CommitmentBuilder;
 import org.boatpos.repository.api.model.Commitment;
 import org.boatpos.repository.api.model.Rental;
+import org.boatpos.repository.api.values.KeyBinding;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.api.values.Paper;
 import org.boatpos.repository.core.model.CommitmentCore;
@@ -46,6 +47,6 @@ public class CommitmentBuilderCore extends MasterDataBuilderCore<CommitmentBuild
 
     @Override
     public Commitment build() {
-        return new CommitmentCore(id, version, enabled, priority, name, paper, rentals);
+        return new CommitmentCore(id, version, enabled, priority, name, paper, rentals, keyBinding);
     }
 }

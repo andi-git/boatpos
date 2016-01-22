@@ -92,8 +92,8 @@ public class BoatBean extends AbstractMasterDataBean {
     public BoatBean() {
     }
 
-    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, boolean enabled, String pictureUrlSmall, String pictureUrlMedium, String pictureUrlLarge) {
-        super(id, version, enabled, priority);
+    public BoatBean(Long id, Integer version, String shortName, String name, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, boolean enabled, String pictureUrlSmall, String pictureUrlMedium, String pictureUrlLarge, Character keyBinding) {
+        super(id, version, enabled, priority, keyBinding);
         this.shortName = shortName;
         this.name = name;
         this.priceOneHour = priceOneHour;

@@ -66,7 +66,7 @@ public class CommitmentServiceCoreTest extends AbstractMasterDataServiceTest<Com
     @Transactional
     public void testSave() throws Exception {
         assertEquals(5, commitmentService.getAll(EnabledState.Enabled).size());
-        commitmentService.save(new CommitmentBean(null, null, "Pass", true, 10, true));
+        commitmentService.save(new CommitmentBean(null, null, "Pass", true, 10, true, 'a'));
         assertEquals(6, commitmentService.getAll(EnabledState.Enabled).size());
     }
 

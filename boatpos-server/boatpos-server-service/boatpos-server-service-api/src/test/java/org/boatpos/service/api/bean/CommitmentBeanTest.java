@@ -19,11 +19,11 @@ public class CommitmentBeanTest extends JavaBeanTest<CommitmentBean> {
     }
 
     public static CommitmentBean createCommitmentAusweis() {
-        return new CommitmentBean(1L, 1, "Ausweis", true, 1, true);
+        return new CommitmentBean(1L, 1, "Ausweis", true, 1, true, 'a');
     }
 
     public static CommitmentBean createCommitment50Euro() {
-        return new CommitmentBean(2L, 1, "EUR 50,-", false, 2, true);
+        return new CommitmentBean(2L, 1, "EUR 50,-", false, 2, true, 'a');
     }
 
     @Test

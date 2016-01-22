@@ -7,6 +7,7 @@ export class Boat {
     pictureUrlSmall:string;
     pictureUrlMedium:string;
     selected:boolean;
+    keyBinding:string;
 
     constructor(id:number,
                 name:string,
@@ -14,7 +15,8 @@ export class Boat {
                 priority:number,
                 shortName:string,
                 pictureUrlSmall:string,
-                pictureUrlMedium:string) {
+                pictureUrlMedium:string,
+                keyBinding:string) {
         this.id = id;
         this.name = name;
         this.shortName = shortName;
@@ -22,6 +24,7 @@ export class Boat {
         this.priority = priority;
         this.pictureUrlSmall = pictureUrlSmall;
         this.pictureUrlMedium = pictureUrlMedium;
+        this.keyBinding = keyBinding;
     }
 }
 

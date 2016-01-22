@@ -105,8 +105,8 @@ public class BoatEntity extends AbstractMasterDataEntity implements ContainsRent
     public BoatEntity() {
     }
 
-    public BoatEntity(Long id, Integer version, String name, String shortName, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, Set<RentalEntity> rentals, boolean enabled, String pictureUrlSmall, String pictureUrlMedium, String pictureUrlLarge) {
-        super(id, version, enabled, priority);
+    public BoatEntity(Long id, Integer version, String name, String shortName, BigDecimal priceOneHour, BigDecimal priceThirtyMinutes, BigDecimal priceFortyFiveMinutes, Integer count, Integer priority, Set<RentalEntity> rentals, boolean enabled, String pictureUrlSmall, String pictureUrlMedium, String pictureUrlLarge, Character keyBinding) {
+        super(id, version, enabled, priority, keyBinding);
         this.name = name;
         this.shortName = shortName;
         this.priceOneHour = priceOneHour;

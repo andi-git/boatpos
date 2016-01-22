@@ -15,7 +15,7 @@ public class PromotionAfterEntity extends PromotionEntity {
     public PromotionAfterEntity() {
     }
 
-    public PromotionAfterEntity(Long id, Integer version, String name, String priceCalculation, Set<RentalEntity> rentals, Integer priority, boolean enabled) {
-        super(id, version, name, priceCalculation, rentals, priority, enabled);
+    public PromotionAfterEntity(Long id, Integer version, String name, String priceCalculation, Set<RentalEntity> rentals, Integer priority, boolean enabled, Character keyBinding) {
+        super(id, version, name, priceCalculation, rentals, priority, enabled, keyBinding);
     }
 }

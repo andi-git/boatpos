@@ -40,7 +40,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         var result = [];
                         if (boats) {
                             boats.forEach(function (boat) {
-                                result.push(new boat_1.Boat(boat.id, boat.name, boat.shortName, boat.enabled, boat.priority, boat.pictureUrlSmall, boat.pictureUrlMedium));
+                                result.push(new boat_1.Boat(boat.id, boat.name, boat.shortName, boat.enabled, boat.priority, boat.pictureUrlSmall, boat.pictureUrlMedium, boat.keyBinding));
                             });
                         }
                         return result;

@@ -63,7 +63,7 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
     public void testSave() throws Exception {
         helper.assertCount(url, "commitment", 6);
 
-        CommitmentBean commitment = new CommitmentBean(null, null, "Pass", true, 10, true);
+        CommitmentBean commitment = new CommitmentBean(null, null, "Pass", true, 10, true, 'a');
         Response response = helper.createRestCall(url, (wt) -> wt.path("commitment")).post(Entity.json(commitment));
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         CommitmentBean result = response.readEntity(CommitmentBean.class);
@@ -71,7 +71,7 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         assertEquals(0, result.getVersion().intValue());
         helper.assertCount(url, "commitment", 7);
 
-        commitment = new CommitmentBean(-1L, null, null, true, 10, true);
+        commitment = new CommitmentBean(-1L, null, null, true, 10, true, 'a');
         response = helper.createRestCall(url, (wt) -> wt.path("commitment")).post(Entity.json(commitment));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 

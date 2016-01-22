@@ -99,6 +99,6 @@ public class BoatBuilderCore extends MasterDataBuilderCore<BoatBuilder, Boat, Bo
 
     @Override
     public Boat build() {
-        return new BoatCore(id, version, enabled, priority, name, shortName, priceOneHour, priceThirtyMinutes, priceFortyFiveMinutes, count, rentals, pictureUrlSmall, pictureUrlMedium, pictureUrlLarge);
+        return new BoatCore(id, version, enabled, priority, name, shortName, priceOneHour, priceThirtyMinutes, priceFortyFiveMinutes, count, rentals, pictureUrlSmall, pictureUrlMedium, pictureUrlLarge, keyBinding);
     }
 }

@@ -20,8 +20,9 @@ public class PromotionBeforeCore extends PromotionCore<PromotionBefore, Promotio
                                Name name,
                                FormulaPrice formulaPrice,
                                Set<Rental> rentals,
-                               TimeCredit timeCredit) {
-        super(id, version, enabled, priority, name, formulaPrice, rentals);
+                               TimeCredit timeCredit,
+                               KeyBinding keyBinding) {
+        super(id, version, enabled, priority, name, formulaPrice, rentals, keyBinding);
         checkNotNull(timeCredit, "'timeCredit' must not be null");
         setTimeCredit(timeCredit);
     }

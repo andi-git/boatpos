@@ -27,7 +27,8 @@ export class CommitmentService {
                             commitment.id,
                             commitment.name,
                             commitment.enabled,
-                            commitment.priority
+                            commitment.priority,
+                            commitment.keyBinding
                         ));
                     });
                 }

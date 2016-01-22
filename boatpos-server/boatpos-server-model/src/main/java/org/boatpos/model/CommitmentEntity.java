@@ -43,8 +43,8 @@ public class CommitmentEntity extends AbstractMasterDataEntity implements Contai
     public CommitmentEntity() {
     }
 
-    public CommitmentEntity(Long id, Integer version, String name, Boolean paper, Set<RentalEntity> rentals, Integer priority, boolean enabled) {
-        super(id, version, enabled, priority);
+    public CommitmentEntity(Long id, Integer version, String name, Boolean paper, Set<RentalEntity> rentals, Integer priority, boolean enabled, Character keyBinding) {
+        super(id, version, enabled, priority, keyBinding);
         this.name = name;
         this.paper = paper;
         this.rentals = rentals;
