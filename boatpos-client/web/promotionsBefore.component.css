@@ -11,6 +11,8 @@
 
 .promotionsBefore-container {
     background-color: white;
+    padding: 0 0 0 1em;
+    margin: 0 0 0 0;
 }
 
 .selected {
