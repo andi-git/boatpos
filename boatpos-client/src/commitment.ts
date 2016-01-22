@@ -3,6 +3,7 @@ export class Commitment {
     name:string;
     enabled:boolean;
     priority:number;
+    selected:boolean;
 
     constructor(id:number,
                 name:string,

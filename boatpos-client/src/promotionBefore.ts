@@ -4,6 +4,7 @@ export class PromotionBefore {
     timeCredit:number;
     enabled:boolean;
     priority:number;
+    selected:boolean;
 
     constructor(id:number,
                 name:string,

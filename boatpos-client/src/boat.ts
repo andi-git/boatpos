@@ -6,6 +6,7 @@ export class Boat {
     priority:number;
     pictureUrlSmall:string;
     pictureUrlMedium:string;
+    selected:boolean;
 
     constructor(id:number,
                 name:string,
