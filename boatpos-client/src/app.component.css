@@ -34,16 +34,19 @@
 }
 .content-main-row-left {
     display: table-cell;
-    width: 5%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
+    width: 7%;
+    padding: 0.5em 0.2em 0.5em 0.2em;
+    margin: 0 10em 0 0;
+    background-color: white;
+    border-radius: 20px 20px 20px 20px;
+    border: 3px solid #E6E6E6;
+
 }
 .content-main-row-right {
     display: table-cell;
-    width: 95%;
+    width: 93%;
     border: 0 solid black;
-    padding: 0 0 0 0;
+    padding: 0 0 0 1em;
     margin: 0 0 0 0;
 }
 

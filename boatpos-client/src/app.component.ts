@@ -13,12 +13,13 @@ import {PromotionsBeforeComponent} from "./promotionsBefore.component";
 import {BoatCountComponent} from "./boatCount.component";
 import {InfoComponent} from "./info.component";
 import {InfoService} from "./info.service";
+import {MenuComponent} from "./menu.component";
 
 @Component({
     selector: 'my-app',
     templateUrl: "app.component.html",
     styleUrls: ["app.component.css"],
-    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent],
+    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent],
     providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, HTTP_PROVIDERS]
 })
 export class AppComponent implements OnInit {
