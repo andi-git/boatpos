@@ -9,11 +9,18 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class BoatService {
 
+    private boatsCache: Boat[];
+
     // constructors do dependency injection in Angular2
     constructor(private http:Http, private configService:ConfigService) {
+        // when configuration is finished, load and cache boats
+        this.configService.isConfigured().subscribe((config) => {
+            console.log("constructor of BoatService");
+            this.loadBoats().subscribe(boats => this.boatsCache = boats)
+        });
     }
 
-    getBoats(): Observable<Array<Boat>> {
+    private loadBoats(): Observable<Array<Boat>> {
         // call the rest-service
         return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
             // map the result to json
@@ -38,19 +45,15 @@ export class BoatService {
             });
     }
 
-
     getBoatCount(): Observable<Array<BoatCount>> {
         return this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
             .map((res) => {
-                console.log("### " + res.json());
-                console.log("### " + res.json().id);
                 return res.json()
             })
             .map((boatCounts:Array<any>) => {
                 let result:Array<BoatCount> = [];
                 if (boatCounts) {
                     boatCounts.forEach((boatCount) => {
-                        console.log("___ " + boatCount);
                         result.push(new BoatCount(
                             boatCount.id,
                             boatCount.name,
@@ -61,5 +64,19 @@ export class BoatService {
                 }
                 return result;
             });
+    }
+
+    getBoats():Array<Boat> {
+        return this.boatsCache;
+    }
+
+    getBoatByKeyBinding(keyBinding:string):Boat {
+        let boat:Boat = null;
+        this.getBoats().forEach((b) => {
+            if (b.keyBinding == keyBinding) {
+                boat = b;
+            }
+        });
+        return boat;
     }
 }

@@ -1,9 +1,9 @@
 <div class="commitments-container">
     <h2 class="commitments-header">Einsätze</h2>
     <ul class="commitments">
-        <li *ngFor="#commitment of commitments"
+        <li *ngFor="#commitment of getCommitments()"
             [class.selected]="commitment.selected"
-            (click)="onSelect(commitment)">
+            (click)="click(commitment)">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{commitment.name}}
         </li>
     </ul>

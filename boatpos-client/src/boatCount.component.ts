@@ -20,6 +20,5 @@ export class BoatCountComponent {
         this.subscription = this.configService.isConfigured().subscribe(config =>
             this.boatService.getBoatCount().subscribe(boatCounts => this.boatCounts = boatCounts)
         );
-        console.log("--> " + this.boatCounts);
     }
 }

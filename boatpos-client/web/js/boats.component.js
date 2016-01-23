@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./config.service", "./info.service", "angular2/core"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "angular2/core"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./info.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, config_service_1, info_service_1, core_2;
+    var core_1, boat_service_1, info_service_1, core_2;
     var BoatsComponent;
     return {
         setters:[
@@ -18,9 +18,6 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./info.
             function (boat_service_1_1) {
                 boat_service_1 = boat_service_1_1;
             },
-            function (config_service_1_1) {
-                config_service_1 = config_service_1_1;
-            },
             function (info_service_1_1) {
                 info_service_1 = info_service_1_1;
             },
@@ -29,9 +26,8 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./info.
             }],
         execute: function() {
             BoatsComponent = (function () {
-                function BoatsComponent(boatService, configService, infoService, zone) {
+                function BoatsComponent(boatService, infoService, zone) {
                     this.boatService = boatService;
-                    this.configService = configService;
                     this.infoService = infoService;
                     this.zone = zone;
                 }
@@ -42,32 +38,26 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./info.
                         // run the action within zone.run to update/render the view
                         _this.zone.run(function () {
                             // get the boat behind the binding and call onSelect
-                            _this.onSelect(_this.getBoatByKeyBinding(String.fromCharCode(e.charCode)));
+                            var boat = _this.boatService.getBoatByKeyBinding(String.fromCharCode(e.charCode));
+                            if (boat != null) {
+                                _this.click(boat);
+                            }
                         });
                     });
-                    this.subscription = this.configService.isConfigured().subscribe(function (config) {
-                        return _this.boatService.getBoats().subscribe(function (boats) { return _this.boats = boats; });
-                    });
                 };
-                BoatsComponent.prototype.onSelect = function (boat) {
+                BoatsComponent.prototype.getBoats = function () {
+                    return this.boatService.getBoats();
+                };
+                BoatsComponent.prototype.click = function (boat) {
                     if (boat.selected) {
-                        this.boats.forEach(function (boat) { return boat.selected = false; });
+                        this.getBoats().forEach(function (boat) { return boat.selected = false; });
                         this.infoService.event().emit("Boot '" + boat.name + "' wurde entfernt.");
                     }
                     else {
-                        this.boats.forEach(function (boat) { return boat.selected = false; });
+                        this.getBoats().forEach(function (boat) { return boat.selected = false; });
                         boat.selected = true;
                         this.infoService.event().emit("Boot '" + boat.name + "' wurde ausgewählt.");
                     }
-                };
-                BoatsComponent.prototype.getBoatByKeyBinding = function (keyBinding) {
-                    var boat = null;
-                    this.boats.forEach(function (b) {
-                        if (b.keyBinding == keyBinding) {
-                            boat = b;
-                        }
-                    });
-                    return boat;
                 };
                 BoatsComponent = __decorate([
                     core_1.Component({
@@ -75,7 +65,7 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./info.
                         templateUrl: "boats.component.html",
                         styleUrls: ["boats.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, config_service_1.ConfigService, info_service_1.InfoService, core_2.NgZone])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, info_service_1.InfoService, core_2.NgZone])
                 ], BoatsComponent);
                 return BoatsComponent;
             })();

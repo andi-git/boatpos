@@ -32,7 +32,6 @@ System.register(['angular2/core', "./boat.service", "./config.service"], functio
                     this.subscription = this.configService.isConfigured().subscribe(function (config) {
                         return _this.boatService.getBoatCount().subscribe(function (boatCounts) { return _this.boatCounts = boatCounts; });
                     });
-                    console.log("--> " + this.boatCounts);
                 };
                 BoatCountComponent = __decorate([
                     core_1.Component({

@@ -29,10 +29,16 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
             BoatService = (function () {
                 // constructors do dependency injection in Angular2
                 function BoatService(http, configService) {
+                    var _this = this;
                     this.http = http;
                     this.configService = configService;
+                    // when configuration is finished, load and cache boats
+                    this.configService.isConfigured().subscribe(function (config) {
+                        console.log("constructor of BoatService");
+                        _this.loadBoats().subscribe(function (boats) { return _this.boatsCache = boats; });
+                    });
                 }
-                BoatService.prototype.getBoats = function () {
+                BoatService.prototype.loadBoats = function () {
                     // call the rest-service
                     return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
                         .map(function (res) { return res.json(); })
@@ -49,20 +55,29 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                 BoatService.prototype.getBoatCount = function () {
                     return this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
                         .map(function (res) {
-                        console.log("### " + res.json());
-                        console.log("### " + res.json().id);
                         return res.json();
                     })
                         .map(function (boatCounts) {
                         var result = [];
                         if (boatCounts) {
                             boatCounts.forEach(function (boatCount) {
-                                console.log("___ " + boatCount);
                                 result.push(new boat_1.BoatCount(boatCount.id, boatCount.name, boatCount.shortName, boatCount.count, boatCount.max));
                             });
                         }
                         return result;
                     });
+                };
+                BoatService.prototype.getBoats = function () {
+                    return this.boatsCache;
+                };
+                BoatService.prototype.getBoatByKeyBinding = function (keyBinding) {
+                    var boat = null;
+                    this.getBoats().forEach(function (b) {
+                        if (b.keyBinding == keyBinding) {
+                            boat = b;
+                        }
+                    });
+                    return boat;
                 };
                 BoatService = __decorate([
                     core_1.Injectable(), 

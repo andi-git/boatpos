@@ -9,11 +9,22 @@ import {Commitment} from "./commitment";
 @Injectable()
 export class CommitmentService {
 
+    private commitmentsCache:Array<Commitment>;
+
     // constructors do dependency injection in Angular2
     constructor(private http:Http, private configService:ConfigService) {
+        // when configuration is finished, load and cache commitments
+        this.configService.isConfigured().subscribe((config) => {
+            console.log("constructor of CommitmentService");
+            this.loadCommitments().subscribe(commitments => this.commitmentsCache = commitments)
+        });
     }
 
-    getCommitments():Observable<Array<Commitment>> {
+    getCommitments():Array<Commitment> {
+        return this.commitmentsCache;
+    }
+
+    private loadCommitments():Observable<Array<Commitment>> {
         // call the rest-service
         return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled')
             // map the result to json
@@ -34,5 +45,15 @@ export class CommitmentService {
                 }
                 return result;
             });
+    }
+
+    getCommitmentByKeyBinding(keyBinding:string):Commitment {
+        let commitment:Commitment = null;
+        this.getCommitments().forEach((c) => {
+            if (c.keyBinding == keyBinding) {
+                commitment = c;
+            }
+        });
+        return commitment;
     }
 }

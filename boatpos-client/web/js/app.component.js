@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./config.service", 'angular2/http', "./boats.component", "./commitments.component", "./commitment.service", "./promotionBefore.service", "./promotionsBefore.component", "./boatCount.component", "./info.component", "./info.service"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./config.service", 'angular2/http', "./boats.component", "./commitments.component", "./commitment.service", "./promotion.service", "./promotionsBefore.component", "./boatCount.component", "./info.component", "./info.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./config.service", 'angular
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, config_service_1, http_1, boats_component_1, commitments_component_1, commitment_service_1, promotionBefore_service_1, promotionsBefore_component_1, boatCount_component_1, info_component_1, info_service_1;
+    var core_1, boat_service_1, config_service_1, http_1, boats_component_1, commitments_component_1, commitment_service_1, promotion_service_1, promotionsBefore_component_1, boatCount_component_1, info_component_1, info_service_1;
     var AppComponent;
     return {
         setters:[
@@ -33,8 +33,8 @@ System.register(['angular2/core', "./boat.service", "./config.service", 'angular
             function (commitment_service_1_1) {
                 commitment_service_1 = commitment_service_1_1;
             },
-            function (promotionBefore_service_1_1) {
-                promotionBefore_service_1 = promotionBefore_service_1_1;
+            function (promotion_service_1_1) {
+                promotion_service_1 = promotion_service_1_1;
             },
             function (promotionsBefore_component_1_1) {
                 promotionsBefore_component_1 = promotionsBefore_component_1_1;
@@ -61,7 +61,7 @@ System.register(['angular2/core', "./boat.service", "./config.service", 'angular
                         templateUrl: "app.component.html",
                         styleUrls: ["app.component.css"],
                         directives: [boats_component_1.BoatsComponent, commitments_component_1.CommitmentsComponent, promotionsBefore_component_1.PromotionsBeforeComponent, boatCount_component_1.BoatCountComponent, info_component_1.InfoComponent],
-                        providers: [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotionBefore_service_1.PromotionBeforeService, config_service_1.ConfigService, info_service_1.InfoService, http_1.HTTP_PROVIDERS]
+                        providers: [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, config_service_1.ConfigService, info_service_1.InfoService, http_1.HTTP_PROVIDERS]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

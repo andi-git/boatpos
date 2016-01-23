@@ -29,10 +29,19 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
             CommitmentService = (function () {
                 // constructors do dependency injection in Angular2
                 function CommitmentService(http, configService) {
+                    var _this = this;
                     this.http = http;
                     this.configService = configService;
+                    // when configuration is finished, load and cache commitments
+                    this.configService.isConfigured().subscribe(function (config) {
+                        console.log("constructor of CommitmentService");
+                        _this.loadCommitments().subscribe(function (commitments) { return _this.commitmentsCache = commitments; });
+                    });
                 }
                 CommitmentService.prototype.getCommitments = function () {
+                    return this.commitmentsCache;
+                };
+                CommitmentService.prototype.loadCommitments = function () {
                     // call the rest-service
                     return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled')
                         .map(function (res) { return res.json(); })
@@ -45,6 +54,15 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         }
                         return result;
                     });
+                };
+                CommitmentService.prototype.getCommitmentByKeyBinding = function (keyBinding) {
+                    var commitment = null;
+                    this.getCommitments().forEach(function (c) {
+                        if (c.keyBinding == keyBinding) {
+                            commitment = c;
+                        }
+                    });
+                    return commitment;
                 };
                 CommitmentService = __decorate([
                     core_1.Injectable(), 

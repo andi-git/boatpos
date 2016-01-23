@@ -23,7 +23,10 @@ System.register(['angular2/core', "./info.service"], function(exports_1) {
                 function InfoComponent(infoService) {
                     var _this = this;
                     this.infoService = infoService;
-                    infoService.event().subscribe(function (info) { return _this.info = info; });
+                    infoService.event().subscribe(function (info) {
+                        _this.info = info;
+                        console.log("info: " + _this.info);
+                    });
                 }
                 InfoComponent = __decorate([
                     core_1.Component({

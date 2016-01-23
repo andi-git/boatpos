@@ -11,6 +11,9 @@ export class InfoComponent {
     private info: String;
 
     constructor(private infoService:InfoService) {
-        infoService.event().subscribe(info => this.info = info);
+        infoService.event().subscribe((info) => {
+            this.info = info;
+            console.log("info: " + this.info);
+        });
     }
 }

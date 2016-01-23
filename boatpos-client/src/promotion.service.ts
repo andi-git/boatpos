@@ -7,12 +7,23 @@ import {ObservableWrapper} from "angular2/src/facade/async";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
-export class PromotionBeforeService {
+export class PromotionService {
+
+    private promotionsBeforeCache:Array<PromotionBefore>;
 
     constructor(private http:Http, private configService:ConfigService) {
+        // when configuration is finished, load and cache promotions
+        this.configService.isConfigured().subscribe((config) => {
+            console.log("constructor of PromotionService");
+            this.loadPromotionsBefore().subscribe(promotionsBefore => this.promotionsBeforeCache = promotionsBefore)
+        });
     }
 
-    getPromotionsBefore():Observable<Array<PromotionBefore>> {
+    getPromotionsBefore():Array<PromotionBefore> {
+        return this.promotionsBeforeCache;
+    }
+
+    private loadPromotionsBefore():Observable<Array<PromotionBefore>> {
         return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/before/enabled')
             .map(res => res.json())
             .map((promotions:Array<any>) => {
@@ -30,5 +41,15 @@ export class PromotionBeforeService {
                 }
                 return result;
             });
+    }
+
+    getPromotionBeforeByKeyBinding(keyBinding:string):PromotionBefore {
+        let promotionBefore:PromotionBefore = null;
+        this.getPromotionsBefore().forEach((p) => {
+            if (p.keyBinding == keyBinding) {
+                promotionBefore = p;
+            }
+        });
+        return promotionBefore;
     }
 }

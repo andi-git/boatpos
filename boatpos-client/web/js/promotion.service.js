@@ -9,7 +9,7 @@ System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/ad
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var promotionBefore_1, core_1, http_1, config_service_1;
-    var PromotionBeforeService;
+    var PromotionService;
     return {
         setters:[
             function (promotionBefore_1_1) {
@@ -26,12 +26,21 @@ System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/ad
                 config_service_1 = config_service_1_1;
             }],
         execute: function() {
-            PromotionBeforeService = (function () {
-                function PromotionBeforeService(http, configService) {
+            PromotionService = (function () {
+                function PromotionService(http, configService) {
+                    var _this = this;
                     this.http = http;
                     this.configService = configService;
+                    // when configuration is finished, load and cache promotions
+                    this.configService.isConfigured().subscribe(function (config) {
+                        console.log("constructor of PromotionService");
+                        _this.loadPromotionsBefore().subscribe(function (promotionsBefore) { return _this.promotionsBeforeCache = promotionsBefore; });
+                    });
                 }
-                PromotionBeforeService.prototype.getPromotionsBefore = function () {
+                PromotionService.prototype.getPromotionsBefore = function () {
+                    return this.promotionsBeforeCache;
+                };
+                PromotionService.prototype.loadPromotionsBefore = function () {
                     return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/before/enabled')
                         .map(function (res) { return res.json(); })
                         .map(function (promotions) {
@@ -44,13 +53,22 @@ System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/ad
                         return result;
                     });
                 };
-                PromotionBeforeService = __decorate([
+                PromotionService.prototype.getPromotionBeforeByKeyBinding = function (keyBinding) {
+                    var promotionBefore = null;
+                    this.getPromotionsBefore().forEach(function (p) {
+                        if (p.keyBinding == keyBinding) {
+                            promotionBefore = p;
+                        }
+                    });
+                    return promotionBefore;
+                };
+                PromotionService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])
-                ], PromotionBeforeService);
-                return PromotionBeforeService;
+                ], PromotionService);
+                return PromotionService;
             })();
-            exports_1("PromotionBeforeService", PromotionBeforeService);
+            exports_1("PromotionService", PromotionService);
         }
     }
 });
