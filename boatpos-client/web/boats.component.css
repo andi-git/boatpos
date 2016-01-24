@@ -7,6 +7,7 @@
     background-color: #81BEF7;
     border-radius: 20px 20px 20px 20px;
     border: 3px solid black;
+    text-shadow: 1px 1px white;
 }
 
 .boats-container {
