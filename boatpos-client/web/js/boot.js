@@ -18,7 +18,7 @@ System.register(['angular2/platform/browser', './app.component', "./config.servi
             browser_1.bootstrap(app_component_1.AppComponent, [config_service_1.ConfigService,
                 core_1.provide(Mousetrap, {
                     useFactory: function () { return new Mousetrap(); }
-                }),
+                })
             ]);
         }
     }

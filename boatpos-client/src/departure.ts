@@ -1,19 +1,11 @@
 import {Boat} from "./boat";
 import {Commitment} from "./commitment";
-import {PromotionBefore} from "./promotionBefore";
+import {PromotionBefore} from "./promotion";
 
-export class Departe {
+export class Departure {
     boatId:number;
     commitmentIds:Array<number> = [];
     promotionId:number;
-
-    constructor(boatId:number,
-                commitmentIds:Array<number>,
-                promotionId:number) {
-        this.boatId = boatId;
-        this.commitmentIds = commitmentIds;
-        this.promotionId = promotionId;
-    }
 
     constructor(boat:Boat,
                 commitments:Array<Commitment>,

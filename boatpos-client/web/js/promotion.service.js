@@ -1,4 +1,4 @@
-System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service"], function(exports_1) {
+System.register(['./promotion', 'angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,12 +8,12 @@ System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/ad
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var promotionBefore_1, core_1, http_1, config_service_1;
+    var promotion_1, core_1, http_1, config_service_1;
     var PromotionService;
     return {
         setters:[
-            function (promotionBefore_1_1) {
-                promotionBefore_1 = promotionBefore_1_1;
+            function (promotion_1_1) {
+                promotion_1 = promotion_1_1;
             },
             function (core_1_1) {
                 core_1 = core_1_1;
@@ -47,7 +47,7 @@ System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/ad
                         var result = [];
                         if (promotions) {
                             promotions.forEach(function (promotion) {
-                                result.push(new promotionBefore_1.PromotionBefore(promotion.id, promotion.name, promotion.timeCredit, promotion.enabled, promotion.priority, promotion.keyBinding));
+                                result.push(new promotion_1.PromotionBefore(promotion.id, promotion.name, promotion.timeCredit, promotion.enabled, promotion.priority, promotion.keyBinding));
                             });
                         }
                         return result;

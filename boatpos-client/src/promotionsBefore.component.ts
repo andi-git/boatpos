@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {PromotionBefore} from './promotionBefore';
+import {PromotionBefore} from './promotion';
 import {PromotionService} from "./promotion.service";
 import {InfoService} from "./info.service";
 import {NgZone} from "angular2/core";

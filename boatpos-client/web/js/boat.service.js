@@ -85,9 +85,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                 BoatService.prototype.getSelectedBoat = function () {
                     var boatSelected = null;
                     this.getBoats().forEach(function (boat) {
-                        console.log("check if " + boat.name + " is selected: " + boat.selected);
                         if (boat.selected === true) {
-                            console.log("ok, " + boat.name + " is selected...");
                             boatSelected = boat;
                         }
                     });

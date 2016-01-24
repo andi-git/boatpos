@@ -87,9 +87,7 @@ export class BoatService {
     getSelectedBoat():Boat {
         var boatSelected:Boat = null;
         this.getBoats().forEach(boat => {
-            console.log("check if " + boat.name + " is selected: " + boat.selected);
             if (boat.selected === true) {
-                console.log("ok, " + boat.name + " is selected...");
                 boatSelected = boat;
             }
         });
