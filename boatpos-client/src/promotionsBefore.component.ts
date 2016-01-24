@@ -31,10 +31,10 @@ export class PromotionsBeforeComponent {
 
     click(promotionBefore:PromotionBefore) {
         if (promotionBefore.selected) {
-            this.getPromotionsBefore().forEach(pb => pb.selected = false);
+            this.promotionService.resetSelected();
             this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde entfernt.");
         } else {
-            this.getPromotionsBefore().forEach(pb => pb.selected = false);
+            this.promotionService.resetSelected();
             promotionBefore.selected = true;
             this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde ausgewählt.");
         }

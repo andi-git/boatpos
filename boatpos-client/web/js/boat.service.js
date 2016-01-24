@@ -79,6 +79,20 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                     });
                     return boat;
                 };
+                BoatService.prototype.resetSelected = function () {
+                    this.getBoats().forEach(function (boat) { return boat.selected = false; });
+                };
+                BoatService.prototype.getSelectedBoat = function () {
+                    var boatSelected = null;
+                    this.getBoats().forEach(function (boat) {
+                        console.log("check if " + boat.name + " is selected: " + boat.selected);
+                        if (boat.selected === true) {
+                            console.log("ok, " + boat.name + " is selected...");
+                            boatSelected = boat;
+                        }
+                    });
+                    return boatSelected;
+                };
                 BoatService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])

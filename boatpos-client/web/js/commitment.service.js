@@ -64,6 +64,18 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     });
                     return commitment;
                 };
+                CommitmentService.prototype.resetSelected = function () {
+                    this.getCommitments().forEach(function (commitment) { return commitment.selected = false; });
+                };
+                CommitmentService.prototype.getSelectedCommitmens = function () {
+                    var selectedCommitments = [];
+                    this.getCommitments().forEach(function (commitment) {
+                        if (commitment.selected === true) {
+                            selectedCommitments.push(commitment);
+                        }
+                    });
+                    return selectedCommitments;
+                };
                 CommitmentService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])

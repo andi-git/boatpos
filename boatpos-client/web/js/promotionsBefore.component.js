@@ -47,11 +47,11 @@ System.register(['angular2/core', "./promotion.service", "./info.service", "angu
                 };
                 PromotionsBeforeComponent.prototype.click = function (promotionBefore) {
                     if (promotionBefore.selected) {
-                        this.getPromotionsBefore().forEach(function (pb) { return pb.selected = false; });
+                        this.promotionService.resetSelected();
                         this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde entfernt.");
                     }
                     else {
-                        this.getPromotionsBefore().forEach(function (pb) { return pb.selected = false; });
+                        this.promotionService.resetSelected();
                         promotionBefore.selected = true;
                         this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde ausgewählt.");
                     }

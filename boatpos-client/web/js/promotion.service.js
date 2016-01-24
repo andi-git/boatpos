@@ -62,6 +62,18 @@ System.register(['./promotionBefore', 'angular2/core', 'angular2/http', 'rxjs/ad
                     });
                     return promotionBefore;
                 };
+                PromotionService.prototype.resetSelected = function () {
+                    this.getPromotionsBefore().forEach(function (pb) { return pb.selected = false; });
+                };
+                PromotionService.prototype.getSelectedPromotionsBefore = function () {
+                    var selectedPromotionBefore;
+                    this.getPromotionsBefore().forEach(function (promotionBefore) {
+                        if (promotionBefore.selected === true) {
+                            selectedPromotionBefore = promotionBefore;
+                        }
+                    });
+                    return selectedPromotionBefore;
+                };
                 PromotionService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])

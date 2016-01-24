@@ -34,10 +34,10 @@ export class BoatsComponent {
 
     click(boat:Boat) {
         if (boat.selected) {
-            this.getBoats().forEach(boat => boat.selected = false);
+            this.boatService.resetSelected();
             this.infoService.event().emit("Boot '" + boat.name + "' wurde entfernt.");
         } else {
-            this.getBoats().forEach(boat => boat.selected = false);
+            this.boatService.resetSelected();
             boat.selected = true;
             this.infoService.event().emit("Boot '" + boat.name + "' wurde ausgewählt.");
         }

@@ -56,4 +56,18 @@ export class CommitmentService {
         });
         return commitment;
     }
+
+    resetSelected() {
+        this.getCommitments().forEach(commitment => commitment.selected = false);
+    }
+
+    getSelectedCommitmens():Array<Commitment> {
+        let selectedCommitments:Array<Commitment> = [];
+        this.getCommitments().forEach((commitment) => {
+            if (commitment.selected === true) {
+                selectedCommitments.push(commitment);
+            }
+        });
+        return selectedCommitments;
+    }
 }

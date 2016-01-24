@@ -50,11 +50,11 @@ System.register(['angular2/core', "./boat.service", "./info.service", "angular2/
                 };
                 BoatsComponent.prototype.click = function (boat) {
                     if (boat.selected) {
-                        this.getBoats().forEach(function (boat) { return boat.selected = false; });
+                        this.boatService.resetSelected();
                         this.infoService.event().emit("Boot '" + boat.name + "' wurde entfernt.");
                     }
                     else {
-                        this.getBoats().forEach(function (boat) { return boat.selected = false; });
+                        this.boatService.resetSelected();
                         boat.selected = true;
                         this.infoService.event().emit("Boot '" + boat.name + "' wurde ausgewählt.");
                     }

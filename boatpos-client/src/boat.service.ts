@@ -9,7 +9,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class BoatService {
 
-    private boatsCache: Boat[];
+    private boatsCache:Boat[];
 
     // constructors do dependency injection in Angular2
     constructor(private http:Http, private configService:ConfigService) {
@@ -20,7 +20,7 @@ export class BoatService {
         });
     }
 
-    private loadBoats(): Observable<Array<Boat>> {
+    private loadBoats():Observable<Array<Boat>> {
         // call the rest-service
         return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
             // map the result to json
@@ -45,7 +45,7 @@ export class BoatService {
             });
     }
 
-    getBoatCount(): Observable<Array<BoatCount>> {
+    getBoatCount():Observable<Array<BoatCount>> {
         return this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
             .map((res) => {
                 return res.json()
@@ -78,5 +78,21 @@ export class BoatService {
             }
         });
         return boat;
+    }
+
+    resetSelected() {
+        this.getBoats().forEach(boat => boat.selected = false);
+    }
+
+    getSelectedBoat():Boat {
+        var boatSelected:Boat = null;
+        this.getBoats().forEach(boat => {
+            console.log("check if " + boat.name + " is selected: " + boat.selected);
+            if (boat.selected === true) {
+                console.log("ok, " + boat.name + " is selected...");
+                boatSelected = boat;
+            }
+        });
+        return boatSelected;
     }
 }

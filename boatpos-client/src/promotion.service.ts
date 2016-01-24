@@ -52,4 +52,18 @@ export class PromotionService {
         });
         return promotionBefore;
     }
+
+    resetSelected() {
+        this.getPromotionsBefore().forEach(pb => pb.selected = false);
+    }
+
+    getSelectedPromotionsBefore():PromotionBefore {
+        let selectedPromotionBefore:PromotionBefore;
+        this.getPromotionsBefore().forEach((promotionBefore) => {
+            if (promotionBefore.selected === true) {
+                selectedPromotionBefore = promotionBefore;
+            }
+        });
+        return selectedPromotionBefore;
+    }
 }
