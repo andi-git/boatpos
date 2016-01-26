@@ -13,9 +13,9 @@
         <query>FROM BoatEntity b ORDER BY b.priority</query>
     </named-query>
     <named-query name="boat.getAllEnabled">
-        <query>FROM BoatEntity b WHERE enabled = true ORDER BY b.priority</query>
+        <query>FROM BoatEntity b WHERE enabled = TRUE ORDER BY b.priority</query>
     </named-query>
     <named-query name="boat.getAllDisabled">
-        <query>FROM BoatEntity b WHERE enabled = false ORDER BY b.priority</query>
+        <query>FROM BoatEntity b WHERE (enabled = FALSE OR enabled IS NULL) ORDER BY b.priority</query>
     </named-query>
 </entity-mappings>

@@ -36,7 +36,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                     this.configService.isConfigured().subscribe(function (config) {
                         console.log("constructor of BoatService");
                         _this.loadBoats().subscribe(function (boats) { return _this.boatsCache = boats; });
-                        _this.updateNextDayNumberString();
+                        _this.updateStats();
                     });
                 }
                 BoatService.prototype.loadBoats = function () {
@@ -53,8 +53,9 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         return result;
                     });
                 };
-                BoatService.prototype.getBoatCount = function () {
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
+                BoatService.prototype.loadBoatCount = function () {
+                    var _this = this;
+                    this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
                         .map(function (res) {
                         return res.json();
                     })
@@ -62,14 +63,24 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         var result = [];
                         if (boatCounts) {
                             boatCounts.forEach(function (boatCount) {
+                                console.log("--> " + boatCount.name + ", " + boatCount.count);
                                 result.push(new boat_1.BoatCount(boatCount.id, boatCount.name, boatCount.shortName, boatCount.count, boatCount.max));
                             });
                         }
                         return result;
+                    })
+                        .subscribe(function (boatCounts) {
+                        _this.boatCounts = boatCounts;
                     });
                 };
                 BoatService.prototype.getBoats = function () {
                     return this.boatsCache;
+                };
+                BoatService.prototype.getBoatCounts = function () {
+                    return this.boatCounts;
+                };
+                BoatService.prototype.getNextDayNumber = function () {
+                    return this.nextDayNumber;
                 };
                 BoatService.prototype.getBoatByKeyBinding = function (keyBinding) {
                     var boat = null;
@@ -92,7 +103,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                     });
                     return boatSelected;
                 };
-                BoatService.prototype.updateNextDayNumberString = function () {
+                BoatService.prototype.loadNextDayNumber = function () {
                     var _this = this;
                     this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId')
                         .map(function (res) {
@@ -110,8 +121,9 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         _this.nextDayNumber = nextDayNumber;
                     });
                 };
-                BoatService.prototype.getNextDayNumber = function () {
-                    return this.nextDayNumber;
+                BoatService.prototype.updateStats = function () {
+                    this.loadNextDayNumber();
+                    this.loadBoatCount();
                 };
                 BoatService = __decorate([
                     core_1.Injectable(), 

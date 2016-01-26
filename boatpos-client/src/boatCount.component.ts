@@ -16,13 +16,11 @@ export class BoatCountComponent {
     constructor(private boatService:BoatService, private configService:ConfigService) {
     }
 
-    ngOnInit() {
-        this.subscription = this.configService.isConfigured().subscribe(config =>
-            this.boatService.getBoatCount().subscribe(boatCounts => this.boatCounts = boatCounts)
-        );
-    }
-
     getNextDayNumber():string {
         return this.boatService.getNextDayNumber();
+    }
+
+    getBoatCounts():Array<BoatCount> {
+        return this.boatService.getBoatCounts();
     }
 }

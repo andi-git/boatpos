@@ -71,7 +71,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         //let rental:Rental;
                         this.rentalService.departe(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
                             _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
-                            _this.boatService.updateNextDayNumberString();
+                            _this.boatService.updateStats();
                             _this.resetUi();
                         });
                     }

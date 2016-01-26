@@ -11,6 +11,8 @@ export class BoatService {
 
     private boatsCache:Boat[];
 
+    private boatCounts:BoatCount[];
+
     private nextDayNumber;
 
     // constructors do dependency injection in Angular2
@@ -19,7 +21,7 @@ export class BoatService {
         this.configService.isConfigured().subscribe((config) => {
             console.log("constructor of BoatService");
             this.loadBoats().subscribe(boats => this.boatsCache = boats);
-            this.updateNextDayNumberString();
+            this.updateStats();
         });
     }
 
@@ -48,8 +50,8 @@ export class BoatService {
             });
     }
 
-    getBoatCount():Observable<Array<BoatCount>> {
-        return this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
+    private loadBoatCount() {
+        this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
             .map((res) => {
                 return res.json()
             })
@@ -57,6 +59,7 @@ export class BoatService {
                 let result:Array<BoatCount> = [];
                 if (boatCounts) {
                     boatCounts.forEach((boatCount) => {
+                        console.log("--> " + boatCount.name + ", " + boatCount.count);
                         result.push(new BoatCount(
                             boatCount.id,
                             boatCount.name,
@@ -66,11 +69,22 @@ export class BoatService {
                     });
                 }
                 return result;
+            })
+            .subscribe((boatCounts:Array<BoatCount>) => {
+                this.boatCounts = boatCounts;
             });
     }
 
     getBoats():Array<Boat> {
         return this.boatsCache;
+    }
+
+    getBoatCounts():Array<BoatCount> {
+        return this.boatCounts;
+    }
+
+    getNextDayNumber():string {
+        return this.nextDayNumber;
     }
 
     getBoatByKeyBinding(keyBinding:string):Boat {
@@ -97,7 +111,7 @@ export class BoatService {
         return boatSelected;
     }
 
-    updateNextDayNumberString() {
+    private loadNextDayNumber() {
         this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId')
             .map((res) => {
                 return res.json()
@@ -115,7 +129,8 @@ export class BoatService {
             });
     }
 
-    getNextDayNumber():string {
-        return this.nextDayNumber;
+    updateStats() {
+        this.loadNextDayNumber();
+        this.loadBoatCount();
     }
 }

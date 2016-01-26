@@ -13,6 +13,6 @@
         <query>FROM RentalEntity r WHERE r.day BETWEEN :start AND :end ORDER BY r.id</query>
     </named-query>
     <named-query name="rental.getAllActive">
-        <query>FROM RentalEntity r WHERE r.day = :day AND r.deleted = FALSE and r.finished = FALSE</query>
+        <query>FROM RentalEntity r WHERE r.day = :day AND (r.deleted = FALSE OR r.deleted IS NULL) and (r.finished = FALSE OR r.finished IS NULL)</query>
     </named-query>
 </entity-mappings>

@@ -59,7 +59,7 @@ export class ActionComponent {
             this.rentalService.departe(new Departure(boat, commitments, promotionBefore)).subscribe(
                 (rental) => {
                     this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
-                    this.boatService.updateNextDayNumberString();
+                    this.boatService.updateStats();
                     this.resetUi();
                 }
             );

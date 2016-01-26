@@ -27,14 +27,11 @@ System.register(['angular2/core', "./boat.service", "./config.service"], functio
                     this.boatService = boatService;
                     this.configService = configService;
                 }
-                BoatCountComponent.prototype.ngOnInit = function () {
-                    var _this = this;
-                    this.subscription = this.configService.isConfigured().subscribe(function (config) {
-                        return _this.boatService.getBoatCount().subscribe(function (boatCounts) { return _this.boatCounts = boatCounts; });
-                    });
-                };
                 BoatCountComponent.prototype.getNextDayNumber = function () {
                     return this.boatService.getNextDayNumber();
+                };
+                BoatCountComponent.prototype.getBoatCounts = function () {
+                    return this.boatService.getBoatCounts();
                 };
                 BoatCountComponent = __decorate([
                     core_1.Component({

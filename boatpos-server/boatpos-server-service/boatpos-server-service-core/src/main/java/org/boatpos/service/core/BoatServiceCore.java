@@ -1,6 +1,5 @@
 package org.boatpos.service.core;
 
-import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.RentalRepository;

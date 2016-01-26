@@ -2,7 +2,7 @@
     <h2 class="boatCount-header">Statistik</h2>
     <p class="nextNumber">Nächste Nummer: {{getNextDayNumber()}}</p>
     <ul class="boatCount">
-        <li *ngFor="#boatCount of boatCounts">
+        <li *ngFor="#boatCount of getBoatCounts()">
             &nbsp;&nbsp;&nbsp;&nbsp;{{boatCount.name}}: {{boatCount.count}} / {{boatCount.max}}
         </li>
     </ul>
