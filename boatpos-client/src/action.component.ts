@@ -33,6 +33,9 @@ export class ActionComponent {
         new Mousetrap().bind(['L'], () => {
             this.depart();
         });
+        new Mousetrap().bind(['M'], () => {
+            this.deleteRental();
+        });
         new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], (e) => {
             this.addToNumber(String.fromCharCode(e.charCode));
         });
@@ -45,6 +48,7 @@ export class ActionComponent {
     }
 
     private resetUi() {
+        this.rentalNumber = null;
         this.boatService.resetSelected();
         this.commitmentService.resetSelected();
         this.promotionService.resetSelected();
@@ -55,7 +59,6 @@ export class ActionComponent {
         let commitments:Array<Commitment> = this.commitmentService.getSelectedCommitmens();
         let promotionBefore:PromotionBefore = this.promotionService.getSelectedPromotionsBefore();
         if (boat != null) {
-            //let rental:Rental;
             this.rentalService.departe(new Departure(boat, commitments, promotionBefore)).subscribe(
                 (rental) => {
                     this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
@@ -64,7 +67,21 @@ export class ActionComponent {
                 }
             );
         } else {
-            this.infoService.event().emit("Vermietung nicht möglich: es wurde kein Boot augewählt");
+            this.infoService.event().emit("Vermietung nicht möglich: es wurde kein Boot augewählt.");
+        }
+    }
+
+    private deleteRental() {
+        if (this.rentalNumber != null) {
+            this.rentalService.deleteRental(this.rentalNumber).subscribe(
+                (rental) => {
+                    this.boatService.updateStats();
+                    this.infoService.event().emit("Nummer " + this.rentalNumber + " wurde gelöscht.");
+                    this.resetUi();
+                }
+            );
+        } else {
+            this.infoService.event().emit("Löschen nicht möglich: es wurde keine Nummer eingegeben.");
         }
     }
 

@@ -48,6 +48,9 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     new Mousetrap().bind(['L'], function () {
                         _this.depart();
                     });
+                    new Mousetrap().bind(['M'], function () {
+                        _this.deleteRental();
+                    });
                     new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], function (e) {
                         _this.addToNumber(String.fromCharCode(e.charCode));
                     });
@@ -58,6 +61,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     this.infoService.event().emit("Aktion abgebrochen, Elemente wieder zurückgesetzt.");
                 };
                 ActionComponent.prototype.resetUi = function () {
+                    this.rentalNumber = null;
                     this.boatService.resetSelected();
                     this.commitmentService.resetSelected();
                     this.promotionService.resetSelected();
@@ -68,7 +72,6 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     var commitments = this.commitmentService.getSelectedCommitmens();
                     var promotionBefore = this.promotionService.getSelectedPromotionsBefore();
                     if (boat != null) {
-                        //let rental:Rental;
                         this.rentalService.departe(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
                             _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                             _this.boatService.updateStats();
@@ -76,7 +79,20 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         });
                     }
                     else {
-                        this.infoService.event().emit("Vermietung nicht möglich: es wurde kein Boot augewählt");
+                        this.infoService.event().emit("Vermietung nicht möglich: es wurde kein Boot augewählt.");
+                    }
+                };
+                ActionComponent.prototype.deleteRental = function () {
+                    var _this = this;
+                    if (this.rentalNumber != null) {
+                        this.rentalService.deleteRental(this.rentalNumber).subscribe(function (rental) {
+                            _this.boatService.updateStats();
+                            _this.infoService.event().emit("Nummer " + _this.rentalNumber + " wurde gelöscht.");
+                            _this.resetUi();
+                        });
+                    }
+                    else {
+                        this.infoService.event().emit("Löschen nicht möglich: es wurde keine Nummer eingegeben.");
                     }
                 };
                 ActionComponent.prototype.createStringForPromotion = function (promotion) {

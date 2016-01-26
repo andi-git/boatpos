@@ -63,7 +63,6 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         var result = [];
                         if (boatCounts) {
                             boatCounts.forEach(function (boatCount) {
-                                console.log("--> " + boatCount.name + ", " + boatCount.count);
                                 result.push(new boat_1.BoatCount(boatCount.id, boatCount.name, boatCount.shortName, boatCount.count, boatCount.max));
                             });
                         }

@@ -59,7 +59,6 @@ export class BoatService {
                 let result:Array<BoatCount> = [];
                 if (boatCounts) {
                     boatCounts.forEach((boatCount) => {
-                        console.log("--> " + boatCount.name + ", " + boatCount.count);
                         result.push(new BoatCount(
                             boatCount.id,
                             boatCount.name,

@@ -9,14 +9,15 @@ import {Rental} from "./rental";
 @Injectable()
 export class RentalService {
 
+    private headers:Headers = new Headers();
+
     constructor(private http:Http, private configService:ConfigService) {
+        this.headers.append('Content-Type', 'application/json');
     }
 
     departe(departe:Departure):Observable<Rental> {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), {headers: headers}
+                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), {headers: this.headers}
             )
             .map(res => res.json())
             .map((rentalBean) => {
@@ -29,6 +30,30 @@ export class RentalService {
                     rentalBean.promotionBeforeBean,
                     rentalBean.coupon,
                     rentalBean.priceCalculatedBefore);
+            });
+    }
+
+    deleteRental(dayNumber:number):Observable<Rental> {
+        return this.http.delete(
+                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return new Rental(
+                    rentalBean.dayId,
+                    rentalBean.day,
+                    rentalBean.boatBean,
+                    rentalBean.departure,
+                    rentalBean.arrival,
+                    rentalBean.pricePaidAfter,
+                    rentalBean.pricePaidBefore,
+                    rentalBean.priceCalculatedAfter,
+                    rentalBean.priceCalculatedBefore,
+                    rentalBean.finished,
+                    rentalBean.deleted,
+                    rentalBean.coupon,
+                    rentalBean.promotionBeforeBean,
+                    rentalBean.promotionAfterBean,
+                    rentalBean.commitmentBeans);
             });
     }
 }

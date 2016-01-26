@@ -30,14 +30,21 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 function RentalService(http, configService) {
                     this.http = http;
                     this.configService = configService;
+                    this.headers = new http_1.Headers();
+                    this.headers.append('Content-Type', 'application/json');
                 }
                 RentalService.prototype.departe = function (departe) {
-                    var headers = new http_1.Headers();
-                    headers.append('Content-Type', 'application/json');
-                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), { headers: headers })
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return rental_1.Rental.fromDeparte(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, rentalBean.departure, rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
+                    });
+                };
+                RentalService.prototype.deleteRental = function (dayNumber) {
+                    return this.http.delete(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
+                        .map(function (res) { return res.json(); })
+                        .map(function (rentalBean) {
+                        return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, rentalBean.departure, rentalBean.arrival, rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans);
                     });
                 };
                 RentalService = __decorate([
