@@ -14,6 +14,12 @@ System.register([], function(exports_1) {
                     this.pictureUrlMedium = pictureUrlMedium;
                     this.keyBinding = keyBinding;
                 }
+                Boat.prototype.isSelected = function () {
+                    return this.selected;
+                };
+                Boat.prototype.setSelected = function (selected) {
+                    this.selected = selected;
+                };
                 return Boat;
             })();
             exports_1("Boat", Boat);

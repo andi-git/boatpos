@@ -33,6 +33,9 @@ System.register(['angular2/core', "./boat.service", "./config.service"], functio
                         return _this.boatService.getBoatCount().subscribe(function (boatCounts) { return _this.boatCounts = boatCounts; });
                     });
                 };
+                BoatCountComponent.prototype.getNextDayNumber = function () {
+                    return this.boatService.getNextDayNumber();
+                };
                 BoatCountComponent = __decorate([
                     core_1.Component({
                         selector: 'boatCount',

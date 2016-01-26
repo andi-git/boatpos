@@ -45,6 +45,11 @@ public class RentalServiceCore implements RentalService {
                 .asDto();
     }
 
+    @Override
+    public RentalDayNumberWrapper nextDayId() {
+        return new RentalDayNumberWrapper(rentalRepository.nextDayId(day).get());
+    }
+
     private static class ThrowExceptionRentalNotAvailable implements Supplier<Rental> {
 
         private final DayId dayId;

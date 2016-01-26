@@ -21,4 +21,8 @@ export class BoatCountComponent {
             this.boatService.getBoatCount().subscribe(boatCounts => this.boatCounts = boatCounts)
         );
     }
+
+    getNextDayNumber():string {
+        return this.boatService.getNextDayNumber();
+    }
 }

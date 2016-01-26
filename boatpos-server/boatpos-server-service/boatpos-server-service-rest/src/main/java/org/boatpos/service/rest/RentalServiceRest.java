@@ -30,4 +30,10 @@ public class RentalServiceRest {
     public Response delete(@PathParam("dayId") Integer dayId) {
         return Response.ok(rentalService.delete(new RentalDayNumberWrapper(dayId))).build();
     }
+
+    @GET
+    @Path("nextId")
+    public Response nextDayId() {
+        return Response.ok(rentalService.nextDayId()).build();
+    }
 }

@@ -36,6 +36,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                     this.configService.isConfigured().subscribe(function (config) {
                         console.log("constructor of BoatService");
                         _this.loadBoats().subscribe(function (boats) { return _this.boatsCache = boats; });
+                        _this.updateNextDayNumberString();
                     });
                 }
                 BoatService.prototype.loadBoats = function () {
@@ -80,7 +81,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                     return boat;
                 };
                 BoatService.prototype.resetSelected = function () {
-                    this.getBoats().forEach(function (boat) { return boat.selected = false; });
+                    this.getBoats().forEach(function (boat) { return boat.setSelected(false); });
                 };
                 BoatService.prototype.getSelectedBoat = function () {
                     var boatSelected = null;
@@ -90,6 +91,27 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         }
                     });
                     return boatSelected;
+                };
+                BoatService.prototype.updateNextDayNumberString = function () {
+                    var _this = this;
+                    this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId')
+                        .map(function (res) {
+                        return res.json();
+                    })
+                        .subscribe(function (result) {
+                        _this.nextDayNumber = "";
+                        var nextDayNumber = result.dayNumber;
+                        if (nextDayNumber < 100) {
+                            nextDayNumber = "0" + nextDayNumber;
+                        }
+                        if (nextDayNumber < 10) {
+                            nextDayNumber = "0" + nextDayNumber;
+                        }
+                        _this.nextDayNumber = nextDayNumber;
+                    });
+                };
+                BoatService.prototype.getNextDayNumber = function () {
+                    return this.nextDayNumber;
                 };
                 BoatService = __decorate([
                     core_1.Injectable(), 

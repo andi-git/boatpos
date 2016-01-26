@@ -26,6 +26,14 @@ export class Boat {
         this.pictureUrlMedium = pictureUrlMedium;
         this.keyBinding = keyBinding;
     }
+
+    isSelected():boolean {
+        return this.selected;
+    }
+
+    setSelected(selected:boolean) {
+        this.selected = selected;
+    }
 }
 
 export class BoatCount {

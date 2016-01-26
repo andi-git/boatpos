@@ -1,6 +1,7 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 import org.boatpos.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -41,5 +42,10 @@ public class RentalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertFalse(rentalBean.isDeleted());
         rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/1")).delete().readEntity(RentalBean.class);
         assertTrue(rentalBean.isDeleted());
+    }
+
+    @Test
+    public void testNextDayId() throws Exception {
+        assertEquals(6, helper.createRestCall(url, (webTarget) -> webTarget.path("rental/nextId")).get().readEntity(RentalDayNumberWrapper.class).getDayNumber().intValue());
     }
 }

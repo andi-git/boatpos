@@ -11,12 +11,15 @@ export class BoatService {
 
     private boatsCache:Boat[];
 
+    private nextDayNumber;
+
     // constructors do dependency injection in Angular2
     constructor(private http:Http, private configService:ConfigService) {
         // when configuration is finished, load and cache boats
         this.configService.isConfigured().subscribe((config) => {
             console.log("constructor of BoatService");
-            this.loadBoats().subscribe(boats => this.boatsCache = boats)
+            this.loadBoats().subscribe(boats => this.boatsCache = boats);
+            this.updateNextDayNumberString();
         });
     }
 
@@ -81,7 +84,7 @@ export class BoatService {
     }
 
     resetSelected() {
-        this.getBoats().forEach(boat => boat.selected = false);
+        this.getBoats().forEach(boat => boat.setSelected(false));
     }
 
     getSelectedBoat():Boat {
@@ -92,5 +95,27 @@ export class BoatService {
             }
         });
         return boatSelected;
+    }
+
+    updateNextDayNumberString() {
+        this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId')
+            .map((res) => {
+                return res.json()
+            })
+            .subscribe((result:any) => {
+                this.nextDayNumber = "";
+                let nextDayNumber = result.dayNumber;
+                if (nextDayNumber < 100) {
+                    nextDayNumber = "0" + nextDayNumber;
+                }
+                if (nextDayNumber < 10) {
+                    nextDayNumber = "0" + nextDayNumber;
+                }
+                this.nextDayNumber = nextDayNumber;
+            });
+    }
+
+    getNextDayNumber():string {
+        return this.nextDayNumber;
     }
 }

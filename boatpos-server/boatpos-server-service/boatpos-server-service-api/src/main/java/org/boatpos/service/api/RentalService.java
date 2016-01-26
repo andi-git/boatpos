@@ -23,4 +23,11 @@ public interface RentalService {
      * @return the deleted rental
      */
     RentalBean delete(RentalDayNumberWrapper rentalDayNumberWrapper);
+
+    /**
+     * Get the next day-id.
+     *
+     * @return the next day-id
+     */
+    RentalDayNumberWrapper nextDayId();
 }
