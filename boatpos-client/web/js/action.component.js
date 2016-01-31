@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "lib/angular2-modal", "angular2/core"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, angular2_modal_1, core_2;
     var ActionComponent;
     return {
         setters:[
@@ -32,16 +32,27 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
             },
             function (rental_service_1_1) {
                 rental_service_1 = rental_service_1_1;
+            },
+            function (angular2_modal_1_1) {
+                angular2_modal_1 = angular2_modal_1_1;
+            },
+            function (core_2_1) {
+                core_2 = core_2_1;
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, modal, elementRef, 
+                    //private injector:Injector,
+                    _renderer) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
                     this.promotionService = promotionService;
                     this.infoService = infoService;
                     this.rentalService = rentalService;
+                    this.modal = modal;
+                    this.elementRef = elementRef;
+                    this._renderer = _renderer;
                     new Mousetrap().bind(['K'], function () {
                         _this.cancel();
                     });
@@ -51,9 +62,14 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     new Mousetrap().bind(['M'], function () {
                         _this.deleteRental();
                     });
+                    new Mousetrap().bind(['N'], function () {
+                        _this.info();
+                    });
                     new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], function (e) {
                         _this.addToNumber(String.fromCharCode(e.charCode));
                     });
+                    this.modalConfig = new angular2_modal_1.ModalConfig("lg", false, 27);
+                    this.modalData = new angular2_modal_1.YesNoModalContent('Simple Large modal', 'Press ESC or click OK / outside area to close.', true);
                 }
                 ActionComponent.prototype.cancel = function () {
                     this.rentalNumber = null;
@@ -121,15 +137,38 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     this.rentalNumber = Number.parseInt((this.rentalNumber == null ? "" : this.rentalNumber) + s);
                     this.infoService.event().emit("Nummer geändert.");
                 };
+                ActionComponent.prototype.info = function () {
+                    var _this = this;
+                    console.log("info");
+                    var dialog;
+                    var component = angular2_modal_1.YesNoModal;
+                    var bindings = core_1.Injector.resolve([
+                        core_2.provide(angular2_modal_1.ICustomModal, { useValue: this.modalData }),
+                        //provide(IterableDiffers, {useValue: this.injector.get(IterableDiffers)}),
+                        //provide(KeyValueDiffers, {useValue: this.injector.get(KeyValueDiffers)}),
+                        core_2.provide(core_1.Renderer, { useValue: this._renderer })
+                    ]);
+                    //noinspection TypeScriptUnresolvedFunction
+                    dialog = this.modal.open(component, bindings, this.modalConfig);
+                    dialog.then(function (resultPromise) {
+                        return resultPromise.result.then(function (result) {
+                            _this.lastModalResult = result;
+                        }, function () {
+                            _this.lastModalResult = 'Rejected!';
+                            console.log(_this.lastModalResult);
+                        });
+                    });
+                };
                 ActionComponent = __decorate([
                     core_1.Component({
                         selector: 'action',
                         templateUrl: "action.component.html",
                         styleUrls: ["action.component.css"],
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, (typeof (_a = typeof angular2_modal_1.Modal !== 'undefined' && angular2_modal_1.Modal) === 'function' && _a) || Object, core_1.ElementRef, core_1.Renderer])
                 ], ActionComponent);
                 return ActionComponent;
+                var _a;
             })();
             exports_1("ActionComponent", ActionComponent);
         }

@@ -26,8 +26,21 @@ gulp.task('setup', function (done) {
         'node_modules/bootstrap/dist/js/bootstrap*.js',
         'node_modules/rxjs/bundles/Rx.js',
         'node_modules/reflect-metadata/Reflect.js',
-        'node_modules/mousetrap/mousetrap.min.js'
+        'node_modules/mousetrap/mousetrap.min.js',
+        'node_modules/angular2-modal/dist/angular2-modal.js'
     ]).pipe(gulp.dest('web/lib'));
+    gulp.src([
+        'node_modules/angular2-modal/dist/commonModals/*.js'
+    ]).pipe(gulp.dest('web/lib/commonModals'));
+    gulp.src([
+        'node_modules/angular2-modal/dist/components/*.js'
+    ]).pipe(gulp.dest('web/lib/components'));
+    gulp.src([
+        'node_modules/angular2-modal/dist/models/*.js'
+    ]).pipe(gulp.dest('web/lib/models'));
+    gulp.src([
+        'node_modules/angular2-modal/dist/providers/*.js'
+    ]).pipe(gulp.dest('web/lib/providers'));
     gulp.src([
         'node_modules/bootstrap/dist/css/bootstrap.css'
     ]).pipe(gulp.dest('web/css'));

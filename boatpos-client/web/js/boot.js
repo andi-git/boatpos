@@ -1,5 +1,5 @@
-System.register(['angular2/platform/browser', './app.component', "./config.service", "angular2/core"], function(exports_1) {
-    var browser_1, app_component_1, config_service_1, core_1;
+System.register(['angular2/platform/browser', './app.component', "./config.service", "angular2/core", "lib/angular2-modal"], function(exports_1) {
+    var browser_1, app_component_1, config_service_1, core_1, angular2_modal_1;
     return {
         setters:[
             function (browser_1_1) {
@@ -13,11 +13,17 @@ System.register(['angular2/platform/browser', './app.component', "./config.servi
             },
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (angular2_modal_1_1) {
+                angular2_modal_1 = angular2_modal_1_1;
             }],
         execute: function() {
             browser_1.bootstrap(app_component_1.AppComponent, [config_service_1.ConfigService,
                 core_1.provide(Mousetrap, {
                     useFactory: function () { return new Mousetrap(); }
+                }),
+                core_1.provide(angular2_modal_1.ModalConfig, {
+                    useValue: new angular2_modal_1.ModalConfig('lg', true, 81)
                 })
             ]);
         }

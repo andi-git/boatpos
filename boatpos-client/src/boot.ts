@@ -3,10 +3,15 @@ import {AppComponent}   from './app.component'
 import {ConfigService} from "./config.service";
 import {provide} from "angular2/core";
 import {RentalService} from "./rental.service";
+//noinspection TypeScriptCheckImport
+import {ModalConfig} from "lib/angular2-modal";
 
 bootstrap(AppComponent,
     [ConfigService,
         provide(Mousetrap, {
             useFactory: () => new Mousetrap()
+        }),
+        provide(ModalConfig, {
+            useValue: new ModalConfig('lg', true, 81)
         })
     ]);

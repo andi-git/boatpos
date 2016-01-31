@@ -16,13 +16,15 @@ import {InfoService} from "./info.service";
 import {MenuComponent} from "./menu.component";
 import {ActionComponent} from "./action.component";
 import {RentalService} from "./rental.service";
+//noinspection TypeScriptCheckImport
+import {Modal} from "lib/angular2-modal";
 
 @Component({
     selector: 'my-app',
     templateUrl: "app.component.html",
     styleUrls: ["app.component.css"],
     directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent],
-    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS]
+    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal]
 })
 export class AppComponent implements OnInit {
 
