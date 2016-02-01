@@ -5,6 +5,7 @@ import {ConfigService} from "./config.service";
 import {Observable} from "rxjs/Observable";
 import {Departure} from "./departure";
 import {Rental} from "./rental";
+import {Boat} from "./boat";
 
 @Injectable()
 export class RentalService {
@@ -35,6 +36,30 @@ export class RentalService {
 
     deleteRental(dayNumber:number):Observable<Rental> {
         return this.http.delete(
+                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return new Rental(
+                    rentalBean.dayId,
+                    rentalBean.day,
+                    rentalBean.boatBean,
+                    rentalBean.departure,
+                    rentalBean.arrival,
+                    rentalBean.pricePaidAfter,
+                    rentalBean.pricePaidBefore,
+                    rentalBean.priceCalculatedAfter,
+                    rentalBean.priceCalculatedBefore,
+                    rentalBean.finished,
+                    rentalBean.deleted,
+                    rentalBean.coupon,
+                    rentalBean.promotionBeforeBean,
+                    rentalBean.promotionAfterBean,
+                    rentalBean.commitmentBeans);
+            });
+    }
+
+    getRental(dayNumber:number):Observable<Rental> {
+        return this.http.get(
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {

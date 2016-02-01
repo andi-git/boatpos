@@ -47,6 +47,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, rentalBean.departure, rentalBean.arrival, rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans);
                     });
                 };
+                RentalService.prototype.getRental = function (dayNumber) {
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
+                        .map(function (res) { return res.json(); })
+                        .map(function (rentalBean) {
+                        return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, rentalBean.departure, rentalBean.arrival, rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans);
+                    });
+                };
                 RentalService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])

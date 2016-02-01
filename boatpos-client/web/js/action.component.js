@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "lib/angular2-modal", "angular2/core"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "lib/angular2-modal", "./modalInfo", "angular2/src/facade/lang"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, angular2_modal_1, core_2;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, angular2_modal_1, modalInfo_1, lang_1;
     var ActionComponent;
     return {
         setters:[
@@ -36,14 +36,15 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
             function (angular2_modal_1_1) {
                 angular2_modal_1 = angular2_modal_1_1;
             },
-            function (core_2_1) {
-                core_2 = core_2_1;
+            function (modalInfo_1_1) {
+                modalInfo_1 = modalInfo_1_1;
+            },
+            function (lang_1_1) {
+                lang_1 = lang_1_1;
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, modal, elementRef, 
-                    //private injector:Injector,
-                    _renderer) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, modal, elementRef, _renderer) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
@@ -68,8 +69,6 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], function (e) {
                         _this.addToNumber(String.fromCharCode(e.charCode));
                     });
-                    this.modalConfig = new angular2_modal_1.ModalConfig("lg", false, 27);
-                    this.modalData = new angular2_modal_1.YesNoModalContent('Simple Large modal', 'Press ESC or click OK / outside area to close.', true);
                 }
                 ActionComponent.prototype.cancel = function () {
                     this.rentalNumber = null;
@@ -108,7 +107,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         });
                     }
                     else {
-                        this.infoService.event().emit("Löschen nicht möglich: es wurde keine Nummer eingegeben.");
+                        this.infoService.event().emit("Löschen nicht möglich: keine Nummer eingegeben.");
                     }
                 };
                 ActionComponent.prototype.createStringForPromotion = function (promotion) {
@@ -135,29 +134,33 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                 ;
                 ActionComponent.prototype.addToNumber = function (s) {
                     this.rentalNumber = Number.parseInt((this.rentalNumber == null ? "" : this.rentalNumber) + s);
-                    this.infoService.event().emit("Nummer geändert.");
+                    this.infoService.event().emit("Nummer eingegeben.");
                 };
                 ActionComponent.prototype.info = function () {
                     var _this = this;
-                    console.log("info");
-                    var dialog;
-                    var component = angular2_modal_1.YesNoModal;
-                    var bindings = core_1.Injector.resolve([
-                        core_2.provide(angular2_modal_1.ICustomModal, { useValue: this.modalData }),
-                        //provide(IterableDiffers, {useValue: this.injector.get(IterableDiffers)}),
-                        //provide(KeyValueDiffers, {useValue: this.injector.get(KeyValueDiffers)}),
-                        core_2.provide(core_1.Renderer, { useValue: this._renderer })
-                    ]);
-                    //noinspection TypeScriptUnresolvedFunction
-                    dialog = this.modal.open(component, bindings, this.modalConfig);
-                    dialog.then(function (resultPromise) {
-                        return resultPromise.result.then(function (result) {
-                            _this.lastModalResult = result;
-                        }, function () {
-                            _this.lastModalResult = 'Rejected!';
-                            console.log(_this.lastModalResult);
+                    if (!lang_1.isPresent(this.rentalNumber)) {
+                        this.infoService.event().emit("Information anzeigen nicht möglich: keine Nummer eingegeben.");
+                    }
+                    else {
+                        this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
+                        var dialog;
+                        var component = modalInfo_1.ModalDelete;
+                        var bindings = core_1.Injector.resolve([
+                            core_1.provide(angular2_modal_1.ICustomModal, { useValue: new modalInfo_1.ModalInfoContent(this.rentalNumber, this.rentalService) }),
+                            core_1.provide(core_1.Renderer, { useValue: this._renderer })
+                        ]);
+                        //noinspection TypeScriptUnresolvedFunction
+                        dialog = this.modal.open(component, bindings, new angular2_modal_1.ModalConfig("lg", true, null));
+                        dialog.then(function (resultPromise) {
+                            return resultPromise.result.then(function (result) {
+                                _this.lastModalResult = result;
+                                _this.resetUi();
+                            }, function () {
+                                _this.lastModalResult = 'Rejected!';
+                                _this.resetUi();
+                            });
                         });
-                    });
+                    }
                 };
                 ActionComponent = __decorate([
                     core_1.Component({

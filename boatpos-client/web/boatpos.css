@@ -5,6 +5,7 @@ h1, h2, h3, h4, h5, p, body, input, button {
 
 body {
     margin: 1em 1em 1em 1em;
+    color: black;
 }
 
 /*p, table, input {*/

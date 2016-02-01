@@ -1,8 +1,7 @@
-import {Component, Inject, Injector, Renderer, ElementRef} from 'angular2/core';
+import {Component, Inject, Injector, Renderer, ElementRef, KeyValueDiffers, IterableDiffers, provide, NgZone} from 'angular2/core';
 import {Boat} from './boat';
 import {BoatService} from "./boat.service";
 import {InfoService} from "./info.service";
-import {NgZone} from "angular2/core";
 import {CommitmentService} from "./commitment.service";
 import {PromotionService} from "./promotion.service";
 import {Commitment} from "./commitment";
@@ -11,10 +10,9 @@ import {Departure} from "./departure";
 import {RentalService} from "./rental.service";
 import {Rental} from "./rental";
 //noinspection TypeScriptCheckImport
-import {Modal, ModalConfig, ICustomModal, YesNoModalContent, ModalDialogInstance, YesNoModal} from "lib/angular2-modal";
-import {provide} from "angular2/core";
-import {KeyValueDiffers} from "angular2/core";
-import {IterableDiffers} from "angular2/core";
+import {Modal, ModalConfig, ICustomModal, ModalDialogInstance} from "lib/angular2-modal";
+import {ModalInfoContent, ModalDelete} from "./modalInfo";
+import {isPresent} from "angular2/src/facade/lang";
 
 @Component({
     selector: 'action',
@@ -25,11 +23,7 @@ export class ActionComponent {
 
     private rentalNumber:number;
 
-    private modalConfig:ModalConfig;
-
-    private modalData:ICustomModal;
-
-    private lastModalResult: string;
+    private lastModalResult:string;
 
     constructor(private boatService:BoatService,
                 private commitmentService:CommitmentService,
@@ -38,7 +32,6 @@ export class ActionComponent {
                 private rentalService:RentalService,
                 private modal:Modal,
                 private elementRef:ElementRef,
-                //private injector:Injector,
                 private _renderer:Renderer) {
         new Mousetrap().bind(['K'], () => {
             this.cancel();
@@ -55,8 +48,6 @@ export class ActionComponent {
         new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], (e) => {
             this.addToNumber(String.fromCharCode(e.charCode));
         });
-        this.modalConfig = new ModalConfig("lg", false, 27);
-        this.modalData = new YesNoModalContent('Simple Large modal', 'Press ESC or click OK / outside area to close.', true);
     }
 
     private cancel() {
@@ -99,7 +90,7 @@ export class ActionComponent {
                 }
             );
         } else {
-            this.infoService.event().emit("Löschen nicht möglich: es wurde keine Nummer eingegeben.");
+            this.infoService.event().emit("Löschen nicht möglich: keine Nummer eingegeben.");
         }
     }
 
@@ -128,33 +119,31 @@ export class ActionComponent {
 
     private addToNumber(s:string) {
         this.rentalNumber = Number.parseInt((this.rentalNumber == null ? "" : this.rentalNumber) + s);
-        this.infoService.event().emit("Nummer geändert.");
+        this.infoService.event().emit("Nummer eingegeben.");
     }
 
     private info() {
-        console.log("info");
-        let dialog:  Promise<ModalDialogInstance>;
-        let component = YesNoModal;
-        let bindings = Injector.resolve([
-            provide(ICustomModal, {useValue: this.modalData}),
-            //provide(IterableDiffers, {useValue: this.injector.get(IterableDiffers)}),
-            //provide(KeyValueDiffers, {useValue: this.injector.get(KeyValueDiffers)}),
-            provide(Renderer, {useValue: this._renderer})
-        ]);
-
-        //noinspection TypeScriptUnresolvedFunction
-        dialog = this.modal.open(
-            <any>component,
-            bindings,
-            this.modalConfig);
-
-        dialog.then((resultPromise) => {
-            return resultPromise.result.then((result) => {
-                this.lastModalResult = result;
-            }, () => {
-                this.lastModalResult = 'Rejected!'
-                console.log(this.lastModalResult)
+        if (!isPresent(this.rentalNumber)) {
+            this.infoService.event().emit("Information anzeigen nicht möglich: keine Nummer eingegeben.")
+        } else {
+            this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
+            let dialog:Promise<ModalDialogInstance>;
+            let component = ModalDelete;
+            let bindings = Injector.resolve([
+                provide(ICustomModal, {useValue: new ModalInfoContent(this.rentalNumber, this.rentalService)}),
+                provide(Renderer, {useValue: this._renderer})
+            ]);
+            //noinspection TypeScriptUnresolvedFunction
+            dialog = this.modal.open(<any>component, bindings, new ModalConfig("lg", true, null));
+            dialog.then((resultPromise) => {
+                return resultPromise.result.then((result) => {
+                    this.lastModalResult = result;
+                    this.resetUi();
+                }, () => {
+                    this.lastModalResult = 'Rejected!';
+                    this.resetUi();
+                });
             });
-        });
+        }
     }
 }
