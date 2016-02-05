@@ -31,12 +31,14 @@ export class ModalInfoContent {
             <p><span class="text-grey">Preis danach:</span> {{pricePaidAfter}}</p>
             <p><span class="text-grey">Aktion bevor:</span> {{promotionBefore}}</p>
             <p><span class="text-grey">Aktion danach:</span> {{promotionAfter}}</p>
+            <p><span class="text-grey">Gelöscht:</span> {{getDeletedJaNein()}}</p>
         </div>
         <div class="modal-body" *ngIf="noRental">
             <p>{{noRental}}</p>
         </div>
         <div class="modal-footer">
-            <button class="buttonSmall button-action" (click)="delete($event)">Löschen</button>
+            <button class="buttonSmall button-action" (click)="delete($event)" *ngIf="!getDeletedOrEmpty()">Löschen</button>
+            <button class="buttonSmall button-action" (click)="undoDelete($event)" *ngIf="getDeletedOrEmpty()">Wiederherstellen</button>
             <button class="buttonSmall button-ok" (click)="close($event)">Schließen</button>
         </div>`,
 })
@@ -53,6 +55,7 @@ export class ModalDelete implements ICustomModalComponent {
     private promotionBefore:string;
     private promotionAfter:string;
     private commitments:string;
+    private deleted:boolean;
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
@@ -62,7 +65,7 @@ export class ModalDelete implements ICustomModalComponent {
                 this.cancel();
             },
             'M': () => {
-                this.deleteRental();
+                this.delete();
             },
             'O': () => {
                 this.cancel();
@@ -72,31 +75,50 @@ export class ModalDelete implements ICustomModalComponent {
         this.content.keyBinding.addBindingForDialogInfo(map);
 
         this.content.rentalService.getRental(this.content.rentalNumber).subscribe((rental:Rental) => {
-                this.boatName = rental.boat.name;
-                this.departure = rental.departure;
-                this.arrival = rental.arrival;
-                this.pricePaidBefore = rental.pricePaidBefore;
-                this.pricePaidBefore = rental.pricePaidAfter;
-                if (isPresent(rental.promotionBefore)) {
-                    this.promotionBefore = rental.promotionBefore.name;
-                }
-                if (isPresent(rental.promotionAfter)) {
-                    this.promotionAfter = rental.promotionAfter.name;
-                }
-                let first:boolean = true;
-                this.commitments = "";
-                rental.commitments.forEach((commitment) => {
-                    if (!first) {
-                        this.commitments += ",";
-                        first = false;
-                    }
-                    this.commitments += commitment.name;
-                });
+                this.setContentFromService(rental);
             },
             () => {
                 this.noRental = "Keine Vermietung mit Nummer " + this.content.rentalNumber + " gefunden!";
             });
 
+    }
+
+    private setContentFromService(rental:Rental) {
+        this.boatName = rental.boat.name;
+        this.departure = rental.departure;
+        this.arrival = rental.arrival;
+        this.pricePaidBefore = rental.pricePaidBefore;
+        this.pricePaidBefore = rental.pricePaidAfter;
+        if (isPresent(rental.promotionBefore)) {
+            this.promotionBefore = rental.promotionBefore.name;
+        }
+        if (isPresent(rental.promotionAfter)) {
+            this.promotionAfter = rental.promotionAfter.name;
+        }
+        let first:boolean = true;
+        this.commitments = "";
+        rental.commitments.forEach((commitment) => {
+            if (!first) {
+                this.commitments += ",";
+                first = false;
+            }
+            this.commitments += commitment.name;
+        });
+        this.deleted = rental.deleted;
+    }
+
+    getDeletedOrEmpty():string {
+        if (this.deleted === true) {
+            return "gelöscht";
+        }
+        return "";
+    }
+
+    getDeletedJaNein():string {
+        if (this.deleted === true) {
+            return "Ja";
+        }
+        return "Nein";
     }
 
     printDeparture():string {
@@ -126,7 +148,13 @@ export class ModalDelete implements ICustomModalComponent {
         this.dialog.dismiss();
     }
 
-    private deleteRental():void {
-        // TODO
+    private delete($event):void {
+        this.content.rentalService.deleteRental(this.content.rentalNumber).subscribe((rental:Rental) => {
+            this.setContentFromService(rental);
+        });
+    }
+
+    private undoDelete($event):void {
+
     }
 }

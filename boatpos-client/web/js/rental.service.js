@@ -34,17 +34,19 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     this.headers.append('Content-Type', 'application/json');
                 }
                 RentalService.prototype.departe = function (departe) {
+                    var _this = this;
                     return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return rental_1.Rental.fromDeparte(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, rentalBean.departure, rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
+                        return rental_1.Rental.fromDeparte(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, _this.createDate(rentalBean.departure), rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
                     });
                 };
                 RentalService.prototype.deleteRental = function (dayNumber) {
+                    var _this = this;
                     return this.http.delete(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, rentalBean.departure, rentalBean.arrival, rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans);
+                        return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, _this.createDate(rentalBean.departure), _this.createDate(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans);
                     });
                 };
                 RentalService.prototype.getRental = function (dayNumber) {
