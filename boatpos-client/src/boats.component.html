@@ -1,6 +1,6 @@
-<div class="boats-container">
-    <h2 class="boats-header">Boote</h2>
-    <ul class="boats">
+<div class="container-default boats-container">
+    <h2 class="header boats-header">Boote</h2>
+    <ul class="list boats">
         <li *ngFor="#boat of getBoats()"
             [class.selected]="boat.selected"
             (click)="click(boat)">

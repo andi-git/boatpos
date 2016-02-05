@@ -1,7 +1,7 @@
-<div class="commitments-container">
-    <h2 class="commitments-header">Einsätze</h2>
-    <ul class="commitments">
-        <li *ngFor="#commitment of getCommitments()"
+<div class="container-default commitments-container">
+    <h2 class="header commitments-header">Einsätze</h2>
+    <ul class="list commitments">
+        <li class="listitem" *ngFor="#commitment of getCommitments()"
             [class.selected]="commitment.selected"
             (click)="click(commitment)">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{commitment.name}}

@@ -1,17 +1,5 @@
 .boats-header {
-    color: black;
-    vertical-align: middle;
-    text-align: center;
-    padding: 0.2em 0 0.2em 1em;
-    margin: 0 0 0.1em 0;
     background-color: #81BEF7;
-    border-radius: 20px 20px 20px 20px;
-    border: 3px solid black;
-    text-shadow: 1px 1px white;
-}
-
-.boats-container {
-    background-color: white;
 }
 
 .selected {
@@ -19,34 +7,8 @@
     background: #0101DF !important;
 }
 
-.boats {
-    margin: 0 0 0 0;
-    list-style-type: none;
-    padding: 0;
-    vertical-align: middle;
-    font-size: 3em;
-    font-weight: normal;
-}
-
 .boats li {
-    cursor: pointer;
-    position: relative;
     background: linear-gradient(to right, #81BEF7, white);
-    margin: .2em;
-    border-radius: 20px;
-}
-
-.boats li.selected:hover {
-    color: white;
-    background: linear-gradient(to right, #E6E6E6, white);
-}
-
-.boats li:hover {
-    background: linear-gradient(to right, #E6E6E6, white);
-}
-
-.heroes .text {
-    position: relative;
 }
 
 .boats .badge {

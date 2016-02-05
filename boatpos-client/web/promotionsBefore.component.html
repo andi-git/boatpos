@@ -1,6 +1,6 @@
-<div class="promotionsBefore-container">
-    <h2 class="promotionsBefore-header">Aktionen</h2>
-    <ul class="promotionsBefore">
+<div class="default-container promotionsBefore-container">
+    <h2 class="header promotionsBefore-header">Aktionen</h2>
+    <ul class="list promotionsBefore">
         <li *ngFor="#promotionBefore of getPromotionsBefore()"
             [class.selected]="promotionBefore.selected"
             (click)="click(promotionBefore)">

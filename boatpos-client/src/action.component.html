@@ -1,9 +1,9 @@
 <div class="action-container">
-    <h2 class="action-header">Steuerung</h2>
-    <input class="input-rental-number" [(ngModel)]="rentalNumber" placeholder="Nr."/>
-    <button class="button button-return" (click)="arrive()">Verrechnen</button>
-    <button class="button button-delete" (click)="deleteRental()">Löschen</button>
+    <h2 class="header action-header">Steuerung</h2>
+    <input class="input input-rental-number" [(ngModel)]="rentalNumber" placeholder="Nr."/>
+    <button class="button button-action" (click)="arrive()">Verrechnen</button>
+    <button class="button button-info" (click)="deleteRental()">Löschen</button>
     <button class="button button-info" (click)="info()">Info</button>
     <button class="button button-cancel" (click)="cancel()">Abbrechen</button>
-    <button class="button button-rent" (click)="depart()">Vermieten</button>
+    <button class="button button-ok" (click)="depart()">Vermieten</button>
 </div>

@@ -1,19 +1,9 @@
 .promotionsBefore-header {
-    color: black;
-    vertical-align: middle;
-    text-align: center;
-    padding: 0.2em 0 0.2em 1em;
-    margin: 0 0 0.1em 0;
     background-color: #BCF5A9;
-    border-radius: 20px 20px 20px 20px;
-    border: 3px solid black;
-    text-shadow: 1px 1px white;
 }
 
 .promotionsBefore-container {
-    background-color: white;
     padding: 0 0 0 1em;
-    margin: 0 0 0 0;
 }
 
 .selected {
@@ -21,34 +11,8 @@
     background: #31B404 !important;
 }
 
-.promotionsBefore {
-    margin: 0 0 0 0;
-    list-style-type: none;
-    padding: 0;
-    vertical-align: middle;
-    font-size: 2.5em;
-    font-weight: normal;
-}
-
 .promotionsBefore li {
-    cursor: pointer;
-    position: relative;
     background: linear-gradient(to right, #BCF5A9, white);
-    margin: .2em;
-    border-radius: 20px;
-}
-
-.promotionsBefore li.selected:hover {
-    color: white;
-    background: linear-gradient(to right, #E6E6E6, white);
-}
-
-.promotionsBefore li:hover {
-    background: linear-gradient(to right, #E6E6E6, white);
-}
-
-.heroes .text {
-    position: relative;
 }
 
 .promotionsBefore .badge {

@@ -1,42 +1,22 @@
 .boatCount-header {
-    color: black;
-    vertical-align: middle;
-    text-align: center;
-    padding: 0.2em 0 0.2em 1em;
-    margin: 0 0 0.1em 0;
     background-color: #F3F781;
-    border-radius: 20px 20px 20px 20px;
-    border: 3px solid black;
-    text-shadow: 1px 1px white;
 }
 
 .nextNumber {
-    font-size: 2em;
-    padding: 0 0 0 0.5em;
-    margin: 0.2em 0 0 0;
+    font-size: 1.8em;
+    padding: 0 0 0 0.3em;
     background-color: #F3F781;
-    border-radius: 20px 20px 20px 20px;
-    border: 3px solid black;
-}
-
-.boatCount-container {
-    background-color: white;
-    padding: 0 0 0 1em;
-    margin: 0 0 0 0;
 }
 
 .boatCount {
-    margin: 0 0 0 0;
-    list-style-type: none;
-    padding: 0;
-    vertical-align: middle;
-    font-size: 1.5em;
-    font-weight: normal;
+    font-size: 1.8em;
 }
 
 .boatCount li {
-    position: relative;
+    cursor: auto;
     background: linear-gradient(to right, #F3F781, white);
-    margin: .2em;
-    border-radius: 20px;
+}
+
+li:hover {
+    background: linear-gradient(to right, #F3F781, white) !important;
 }

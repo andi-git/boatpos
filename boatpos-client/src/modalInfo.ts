@@ -18,23 +18,28 @@ export class ModalInfoContent {
 @Component({
     selector: 'modal-content',
     directives: [NgIf],
+    style: `
+
+    `,
     template: `<div class="modal-header">
-        <h2 class="modal-title">Information über Nummer {{content.rentalNumber}}</h2>
+        <h2 class="header header-main">Information über Nummer {{content.rentalNumber}}</h2>
         </div>
         <div class="modal-body" *ngIf="!noRental">
-            <p>Boot: {{boatName}}</p>
-            <p>Abfahrt: {{departure}}</p>
-            <p>Ankunft: {{arrival}}</p>
-            <p>Preis bevor: {{pricePaidBefore}}</p>
-            <p>Preis danach: {{pricePaidAfter}}</p>
-            <p>Aktion bevor: {{promotionBefore}}</p>
-            <p>Aktion danach: {{promotionAfter}}</p>
-            <p>Einsatz: {{commitments}}</p>
+            <p><span class="text-grey">Boot:</span> {{boatName}}</p>
+            <p><span class="text-grey">Einsatz:</span> {{commitments}}</p>
+            <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
+            <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
+            <p><span class="text-grey">Preis bevor:</span> {{pricePaidBefore}}</p>
+            <p><span class="text-grey">Preis danach:</span> {{pricePaidAfter}}</p>
+            <p><span class="text-grey">Aktion bevor:</span> {{promotionBefore}}</p>
+            <p><span class="text-grey">Aktion danach:</span> {{promotionAfter}}</p>
         </div>
-        <div class="modal-body" *ngIf="noRental">{{noRental}}</div>
+        <div class="modal-body" *ngIf="noRental">
+            <p>{{noRental}}</p>
+        </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" (click)="delete($event)">Löschen</button>
-            <button class="btn btn-primary" (click)="close($event)">Schließen</button>
+            <button class="buttonSmall button-action" (click)="delete($event)">Löschen</button>
+            <button class="buttonSmall button-ok" (click)="close($event)">Schließen</button>
         </div>`,
 })
 export class ModalDelete implements ICustomModalComponent {
@@ -76,6 +81,18 @@ export class ModalDelete implements ICustomModalComponent {
                 this.noRental = "Keine Vermietung mit Nummer " + this.content.rentalNumber + " gefunden!";
             });
 
+    }
+
+    printDeparture():string {
+        return this.printDate(this.departure);
+    }
+
+    printArrival():string {
+        return this.printDate(this.arrival);
+    }
+
+    printDate(date:Date):string {
+        return date;
     }
 
     close($event) {
