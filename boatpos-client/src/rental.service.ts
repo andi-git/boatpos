@@ -67,8 +67,8 @@ export class RentalService {
                     rentalBean.dayId,
                     rentalBean.day,
                     rentalBean.boatBean,
-                    rentalBean.departure,
-                    rentalBean.arrival,
+                    this.createDate(rentalBean.departure),
+                    this.createDate(rentalBean.arrival),
                     rentalBean.pricePaidAfter,
                     rentalBean.pricePaidBefore,
                     rentalBean.priceCalculatedAfter,
@@ -80,5 +80,11 @@ export class RentalService {
                     rentalBean.promotionAfterBean,
                     rentalBean.commitmentBeans);
             });
+    }
+
+    private createDate(jsonDate:string):Date {
+        let date:Date = new Date(jsonDate);
+        date.setUTCHours(date.getUTCHours() - 1);
+        return date;
     }
 }

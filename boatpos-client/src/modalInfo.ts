@@ -71,10 +71,14 @@ export class ModalDelete implements ICustomModalComponent {
                 if (isPresent(rental.promotionAfter)) {
                     this.promotionAfter = rental.promotionAfter.name;
                 }
+                let first:boolean = true;
                 this.commitments = "";
                 rental.commitments.forEach((commitment) => {
+                    if (!first) {
+                        this.commitments += ",";
+                        first = false;
+                    }
                     this.commitments += commitment.name;
-                    this.commitments += ", ";
                 });
             },
             () => {
@@ -92,7 +96,11 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     printDate(date:Date):string {
-        return date;
+        let dateString:string = "";
+        if (isPresent(date) && date.getUTCFullYear() > 1970) {
+            return date.getUTCHours() + ":" + date.getUTCMinutes() + " Uhr";
+        }
+        return dateString;
     }
 
     close($event) {

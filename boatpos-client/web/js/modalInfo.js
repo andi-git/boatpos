@@ -50,10 +50,14 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                         if (lang_1.isPresent(rental.promotionAfter)) {
                             _this.promotionAfter = rental.promotionAfter.name;
                         }
+                        var first = true;
                         _this.commitments = "";
                         rental.commitments.forEach(function (commitment) {
+                            if (!first) {
+                                _this.commitments += ",";
+                                first = false;
+                            }
                             _this.commitments += commitment.name;
-                            _this.commitments += ", ";
                         });
                     }, function () {
                         _this.noRental = "Keine Vermietung mit Nummer " + _this.content.rentalNumber + " gefunden!";
@@ -66,7 +70,11 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     return this.printDate(this.arrival);
                 };
                 ModalDelete.prototype.printDate = function (date) {
-                    return date;
+                    var dateString = "";
+                    if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
+                        return date.getUTCHours() + ":" + date.getUTCMinutes() + " Uhr";
+                    }
+                    return dateString;
                 };
                 ModalDelete.prototype.close = function ($event) {
                     $event.stopPropagation();
