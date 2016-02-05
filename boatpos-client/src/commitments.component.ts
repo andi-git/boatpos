@@ -1,8 +1,8 @@
-import {Component} from 'angular2/core';
+import {Component, NgZone} from 'angular2/core';
 import {Commitment} from './commitment';
 import {CommitmentService} from "./commitment.service";
 import {InfoService} from "./info.service";
-import {NgZone} from "angular2/core";
+import {KeyBindingService} from "./keybinding.service";
 
 @Component({
     selector: 'commitments',
@@ -11,18 +11,23 @@ import {NgZone} from "angular2/core";
 })
 export class CommitmentsComponent {
 
-    constructor(private commitmentService:CommitmentService, private infoService:InfoService, private zone:NgZone) {
+    constructor(private commitmentService:CommitmentService, private infoService:InfoService, private zone:NgZone, private keyBinding:KeyBindingService) {
     }
 
     ngOnInit() {
-        Mousetrap.bind(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], (e) => {
-            this.zone.run(() => {
-                var commitment = this.commitmentService.getCommitmentByKeyBinding(String.fromCharCode(e.charCode));
-                if (commitment != null) {
-                    this.click(commitment);
-                }
-            });
-        });
+        let map = {K: Function};
+        // A...J
+        for (var i = 65; i <= 74; i++) {
+            map[String.fromCharCode(i)] = (e) => {
+                this.zone.run(() => {
+                    var commitment = this.commitmentService.getCommitmentByKeyBinding(String.fromCharCode(e.charCode));
+                    if (commitment != null) {
+                        this.click(commitment);
+                    }
+                });
+            };
+        }
+        this.keyBinding.addBindingForMain(map);
     }
 
     getCommitments() : Array<Commitment> {

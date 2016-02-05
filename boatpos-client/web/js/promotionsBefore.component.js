@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./promotion.service", "./info.service", "angular2/core"], function(exports_1) {
+System.register(['angular2/core', "./promotion.service", "./info.service", "./keybinding.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./promotion.service", "./info.service", "angu
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, promotion_service_1, info_service_1, core_2;
+    var core_1, promotion_service_1, info_service_1, keybinding_service_1;
     var PromotionsBeforeComponent;
     return {
         setters:[
@@ -21,26 +21,32 @@ System.register(['angular2/core', "./promotion.service", "./info.service", "angu
             function (info_service_1_1) {
                 info_service_1 = info_service_1_1;
             },
-            function (core_2_1) {
-                core_2 = core_2_1;
+            function (keybinding_service_1_1) {
+                keybinding_service_1 = keybinding_service_1_1;
             }],
         execute: function() {
             PromotionsBeforeComponent = (function () {
-                function PromotionsBeforeComponent(promotionService, infoService, zone) {
+                function PromotionsBeforeComponent(promotionService, infoService, zone, keyBinding) {
                     this.promotionService = promotionService;
                     this.infoService = infoService;
                     this.zone = zone;
+                    this.keyBinding = keyBinding;
                 }
                 PromotionsBeforeComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    Mousetrap.bind(['k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'], function (e) {
-                        _this.zone.run(function () {
-                            var promotionBefore = _this.promotionService.getPromotionBeforeByKeyBinding(String.fromCharCode(e.charCode));
-                            if (promotionBefore != null) {
-                                _this.click(promotionBefore);
-                            }
-                        });
-                    });
+                    var map = { K: Function };
+                    // k...t
+                    for (var i = 107; i <= 116; i++) {
+                        map[String.fromCharCode(i)] = function (e) {
+                            _this.zone.run(function () {
+                                var promotionBefore = _this.promotionService.getPromotionBeforeByKeyBinding(String.fromCharCode(e.charCode));
+                                if (promotionBefore != null) {
+                                    _this.click(promotionBefore);
+                                }
+                            });
+                        };
+                    }
+                    this.keyBinding.addBindingForMain(map);
                 };
                 PromotionsBeforeComponent.prototype.getPromotionsBefore = function () {
                     return this.promotionService.getPromotionsBefore();
@@ -62,7 +68,7 @@ System.register(['angular2/core', "./promotion.service", "./info.service", "angu
                         templateUrl: "promotionsBefore.component.html",
                         styleUrls: ["promotionsBefore.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [promotion_service_1.PromotionService, info_service_1.InfoService, core_2.NgZone])
+                    __metadata('design:paramtypes', [promotion_service_1.PromotionService, info_service_1.InfoService, core_1.NgZone, keybinding_service_1.KeyBindingService])
                 ], PromotionsBeforeComponent);
                 return PromotionsBeforeComponent;
             })();

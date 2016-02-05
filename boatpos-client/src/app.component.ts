@@ -18,13 +18,14 @@ import {ActionComponent} from "./action.component";
 import {RentalService} from "./rental.service";
 //noinspection TypeScriptCheckImport
 import {Modal} from "lib/angular2-modal";
+import {KeyBindingService} from "./keybinding.service";
 
 @Component({
     selector: 'my-app',
     templateUrl: "app.component.html",
     styleUrls: ["app.component.css"],
     directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent],
-    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal]
+    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService]
 })
 export class AppComponent implements OnInit {
 

@@ -13,6 +13,7 @@ import {Rental} from "./rental";
 import {Modal, ModalConfig, ICustomModal, ModalDialogInstance} from "lib/angular2-modal";
 import {ModalInfoContent, ModalDelete} from "./modalInfo";
 import {isPresent} from "angular2/src/facade/lang";
+import {KeyBindingService} from "./keybinding.service";
 
 @Component({
     selector: 'action',
@@ -25,29 +26,36 @@ export class ActionComponent {
 
     private lastModalResult:string;
 
+    private mouseTrap:MousetrapStatic;
+
     constructor(private boatService:BoatService,
                 private commitmentService:CommitmentService,
                 private promotionService:PromotionService,
                 private infoService:InfoService,
                 private rentalService:RentalService,
                 private modal:Modal,
-                private elementRef:ElementRef,
-                private _renderer:Renderer) {
-        new Mousetrap().bind(['K'], () => {
-            this.cancel();
-        });
-        new Mousetrap().bind(['L'], () => {
-            this.depart();
-        });
-        new Mousetrap().bind(['M'], () => {
-            this.deleteRental();
-        });
-        new Mousetrap().bind(['N'], () => {
-            this.info();
-        });
-        new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], (e) => {
-            this.addToNumber(String.fromCharCode(e.charCode));
-        });
+                private renderer:Renderer,
+                private keyBinding:KeyBindingService) {
+        let map = {
+            'K': () => {
+                this.cancel();
+            },
+            'L': () => {
+                this.depart();
+            },
+            'M': () => {
+                this.deleteRental();
+            },
+            'N': () => {
+                this.info();
+            }
+        };
+        for (var i = 0; i <= 9; i++) {
+            map[i] = (e) => {
+                this.addToNumber(String.fromCharCode(e.charCode));
+            };
+        }
+        this.keyBinding.addBindingForMain(map);
     }
 
     private cancel() {
@@ -126,12 +134,13 @@ export class ActionComponent {
         if (!isPresent(this.rentalNumber)) {
             this.infoService.event().emit("Information anzeigen nicht möglich: keine Nummer eingegeben.")
         } else {
+            this.keyBinding.focusDialogInfo();
             this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
             let dialog:Promise<ModalDialogInstance>;
             let component = ModalDelete;
             let bindings = Injector.resolve([
                 provide(ICustomModal, {useValue: new ModalInfoContent(this.rentalNumber, this.rentalService)}),
-                provide(Renderer, {useValue: this._renderer})
+                provide(Renderer, {useValue: this.renderer})
             ]);
             //noinspection TypeScriptUnresolvedFunction
             dialog = this.modal.open(<any>component, bindings, new ModalConfig("lg", true, null));
@@ -139,9 +148,11 @@ export class ActionComponent {
                 return resultPromise.result.then((result) => {
                     this.lastModalResult = result;
                     this.resetUi();
+                    this.keyBinding.focusMain();
                 }, () => {
                     this.lastModalResult = 'Rejected!';
                     this.resetUi();
+                    this.keyBinding.focusMain();
                 });
             });
         }

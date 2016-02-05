@@ -1,8 +1,8 @@
-import {Component} from 'angular2/core';
+import {Component, NgZone} from 'angular2/core';
 import {PromotionBefore} from './promotion';
 import {PromotionService} from "./promotion.service";
 import {InfoService} from "./info.service";
-import {NgZone} from "angular2/core";
+import {KeyBindingService} from "./keybinding.service";
 
 @Component({
     selector: 'promotionsBefore',
@@ -11,21 +11,26 @@ import {NgZone} from "angular2/core";
 })
 export class PromotionsBeforeComponent {
 
-    constructor(private promotionService:PromotionService, private infoService:InfoService, private zone:NgZone) {
+    constructor(private promotionService:PromotionService, private infoService:InfoService, private zone:NgZone, private keyBinding:KeyBindingService) {
     }
 
     ngOnInit() {
-        Mousetrap.bind(['k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'], (e) => {
-            this.zone.run(() => {
-                var promotionBefore = this.promotionService.getPromotionBeforeByKeyBinding(String.fromCharCode(e.charCode));
-                if (promotionBefore != null) {
-                    this.click(promotionBefore);
-                }
-            });
-        });
+        let map = {K: Function};
+        // k...t
+        for (var i = 107; i <= 116; i++) {
+            map[String.fromCharCode(i)] = (e) => {
+                this.zone.run(() => {
+                    var promotionBefore = this.promotionService.getPromotionBeforeByKeyBinding(String.fromCharCode(e.charCode));
+                    if (promotionBefore != null) {
+                        this.click(promotionBefore);
+                    }
+                });
+            };
+        }
+        this.keyBinding.addBindingForMain(map);
     }
 
-    getPromotionsBefore() : Array<PromotionBefore> {
+    getPromotionsBefore():Array<PromotionBefore> {
         return this.promotionService.getPromotionsBefore();
     }
 

@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "lib/angular2-modal", "./modalInfo", "angular2/src/facade/lang"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "lib/angular2-modal", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, angular2_modal_1, modalInfo_1, lang_1;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, angular2_modal_1, modalInfo_1, lang_1, keybinding_service_1;
     var ActionComponent;
     return {
         setters:[
@@ -41,10 +41,13 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
             },
             function (lang_1_1) {
                 lang_1 = lang_1_1;
+            },
+            function (keybinding_service_1_1) {
+                keybinding_service_1 = keybinding_service_1_1;
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, modal, elementRef, _renderer) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, modal, renderer, keyBinding) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
@@ -52,23 +55,28 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     this.infoService = infoService;
                     this.rentalService = rentalService;
                     this.modal = modal;
-                    this.elementRef = elementRef;
-                    this._renderer = _renderer;
-                    new Mousetrap().bind(['K'], function () {
-                        _this.cancel();
-                    });
-                    new Mousetrap().bind(['L'], function () {
-                        _this.depart();
-                    });
-                    new Mousetrap().bind(['M'], function () {
-                        _this.deleteRental();
-                    });
-                    new Mousetrap().bind(['N'], function () {
-                        _this.info();
-                    });
-                    new Mousetrap().bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], function (e) {
-                        _this.addToNumber(String.fromCharCode(e.charCode));
-                    });
+                    this.renderer = renderer;
+                    this.keyBinding = keyBinding;
+                    var map = {
+                        'K': function () {
+                            _this.cancel();
+                        },
+                        'L': function () {
+                            _this.depart();
+                        },
+                        'M': function () {
+                            _this.deleteRental();
+                        },
+                        'N': function () {
+                            _this.info();
+                        }
+                    };
+                    for (var i = 0; i <= 9; i++) {
+                        map[i] = function (e) {
+                            _this.addToNumber(String.fromCharCode(e.charCode));
+                        };
+                    }
+                    this.keyBinding.addBindingForMain(map);
                 }
                 ActionComponent.prototype.cancel = function () {
                     this.rentalNumber = null;
@@ -142,12 +150,13 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         this.infoService.event().emit("Information anzeigen nicht möglich: keine Nummer eingegeben.");
                     }
                     else {
+                        this.keyBinding.focusDialogInfo();
                         this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
                         var dialog;
                         var component = modalInfo_1.ModalDelete;
                         var bindings = core_1.Injector.resolve([
                             core_1.provide(angular2_modal_1.ICustomModal, { useValue: new modalInfo_1.ModalInfoContent(this.rentalNumber, this.rentalService) }),
-                            core_1.provide(core_1.Renderer, { useValue: this._renderer })
+                            core_1.provide(core_1.Renderer, { useValue: this.renderer })
                         ]);
                         //noinspection TypeScriptUnresolvedFunction
                         dialog = this.modal.open(component, bindings, new angular2_modal_1.ModalConfig("lg", true, null));
@@ -155,9 +164,11 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                             return resultPromise.result.then(function (result) {
                                 _this.lastModalResult = result;
                                 _this.resetUi();
+                                _this.keyBinding.focusMain();
                             }, function () {
                                 _this.lastModalResult = 'Rejected!';
                                 _this.resetUi();
+                                _this.keyBinding.focusMain();
                             });
                         });
                     }
@@ -168,7 +179,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         templateUrl: "action.component.html",
                         styleUrls: ["action.component.css"],
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, (typeof (_a = typeof angular2_modal_1.Modal !== 'undefined' && angular2_modal_1.Modal) === 'function' && _a) || Object, core_1.ElementRef, core_1.Renderer])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, (typeof (_a = typeof angular2_modal_1.Modal !== 'undefined' && angular2_modal_1.Modal) === 'function' && _a) || Object, core_1.Renderer, keybinding_service_1.KeyBindingService])
                 ], ActionComponent);
                 return ActionComponent;
                 var _a;

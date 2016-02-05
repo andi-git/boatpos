@@ -18,9 +18,6 @@ export class ModalInfoContent {
 @Component({
     selector: 'modal-content',
     directives: [NgIf],
-    style: `
-
-    `,
     template: `<div class="modal-header">
         <h2 class="header header-main">Information über Nummer {{content.rentalNumber}}</h2>
         </div>

@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./commitment.service", "./info.service", "angular2/core"], function(exports_1) {
+System.register(['angular2/core', "./commitment.service", "./info.service", "./keybinding.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./commitment.service", "./info.service", "ang
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, commitment_service_1, info_service_1, core_2;
+    var core_1, commitment_service_1, info_service_1, keybinding_service_1;
     var CommitmentsComponent;
     return {
         setters:[
@@ -21,26 +21,32 @@ System.register(['angular2/core', "./commitment.service", "./info.service", "ang
             function (info_service_1_1) {
                 info_service_1 = info_service_1_1;
             },
-            function (core_2_1) {
-                core_2 = core_2_1;
+            function (keybinding_service_1_1) {
+                keybinding_service_1 = keybinding_service_1_1;
             }],
         execute: function() {
             CommitmentsComponent = (function () {
-                function CommitmentsComponent(commitmentService, infoService, zone) {
+                function CommitmentsComponent(commitmentService, infoService, zone, keyBinding) {
                     this.commitmentService = commitmentService;
                     this.infoService = infoService;
                     this.zone = zone;
+                    this.keyBinding = keyBinding;
                 }
                 CommitmentsComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    Mousetrap.bind(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'], function (e) {
-                        _this.zone.run(function () {
-                            var commitment = _this.commitmentService.getCommitmentByKeyBinding(String.fromCharCode(e.charCode));
-                            if (commitment != null) {
-                                _this.click(commitment);
-                            }
-                        });
-                    });
+                    var map = { K: Function };
+                    // A...J
+                    for (var i = 65; i <= 74; i++) {
+                        map[String.fromCharCode(i)] = function (e) {
+                            _this.zone.run(function () {
+                                var commitment = _this.commitmentService.getCommitmentByKeyBinding(String.fromCharCode(e.charCode));
+                                if (commitment != null) {
+                                    _this.click(commitment);
+                                }
+                            });
+                        };
+                    }
+                    this.keyBinding.addBindingForMain(map);
                 };
                 CommitmentsComponent.prototype.getCommitments = function () {
                     return this.commitmentService.getCommitments();
@@ -61,7 +67,7 @@ System.register(['angular2/core', "./commitment.service", "./info.service", "ang
                         templateUrl: "commitments.component.html",
                         styleUrls: ["commitments.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [commitment_service_1.CommitmentService, info_service_1.InfoService, core_2.NgZone])
+                    __metadata('design:paramtypes', [commitment_service_1.CommitmentService, info_service_1.InfoService, core_1.NgZone, keybinding_service_1.KeyBindingService])
                 ], CommitmentsComponent);
                 return CommitmentsComponent;
             })();
