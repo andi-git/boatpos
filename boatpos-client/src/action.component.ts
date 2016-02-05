@@ -26,8 +26,6 @@ export class ActionComponent {
 
     private lastModalResult:string;
 
-    private mouseTrap:MousetrapStatic;
-
     constructor(private boatService:BoatService,
                 private commitmentService:CommitmentService,
                 private promotionService:PromotionService,
@@ -139,7 +137,7 @@ export class ActionComponent {
             let dialog:Promise<ModalDialogInstance>;
             let component = ModalDelete;
             let bindings = Injector.resolve([
-                provide(ICustomModal, {useValue: new ModalInfoContent(this.rentalNumber, this.rentalService)}),
+                provide(ICustomModal, {useValue: new ModalInfoContent(this.rentalNumber, this.rentalService, this.keyBinding)}),
                 provide(Renderer, {useValue: this.renderer})
             ]);
             //noinspection TypeScriptUnresolvedFunction

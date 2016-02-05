@@ -9,9 +9,10 @@ import {Boat} from "./boat";
 import {PromotionBefore} from "./promotion";
 import {PromotionAfter} from "./promotion";
 import {Commitment} from "./commitment";
+import {KeyBindingService} from "./keybinding.service";
 
 export class ModalInfoContent {
-    constructor(public rentalNumber:number, public rentalService:RentalService) {
+    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService) {
     }
 }
 
@@ -56,6 +57,20 @@ export class ModalDelete implements ICustomModalComponent {
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
         this.content = <ModalInfoContent>modelContentData;
+        let map = {
+            'K': () => {
+                this.cancel();
+            },
+            'M': () => {
+                this.deleteRental();
+            },
+            'O': () => {
+                this.cancel();
+            }
+        };
+        console.log(this.content.keyBinding);
+        this.content.keyBinding.addBindingForDialogInfo(map);
+
         this.content.rentalService.getRental(this.content.rentalNumber).subscribe((rental:Rental) => {
                 this.boatName = rental.boat.name;
                 this.departure = rental.departure;
@@ -109,5 +124,9 @@ export class ModalDelete implements ICustomModalComponent {
     cancel() {
         //noinspection TypeScriptUnresolvedFunction
         this.dialog.dismiss();
+    }
+
+    private deleteRental():void {
+        // TODO
     }
 }

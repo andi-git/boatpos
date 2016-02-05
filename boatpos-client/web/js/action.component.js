@@ -155,7 +155,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         var dialog;
                         var component = modalInfo_1.ModalDelete;
                         var bindings = core_1.Injector.resolve([
-                            core_1.provide(angular2_modal_1.ICustomModal, { useValue: new modalInfo_1.ModalInfoContent(this.rentalNumber, this.rentalService) }),
+                            core_1.provide(angular2_modal_1.ICustomModal, { useValue: new modalInfo_1.ModalInfoContent(this.rentalNumber, this.rentalService, this.keyBinding) }),
                             core_1.provide(core_1.Renderer, { useValue: this.renderer })
                         ]);
                         //noinspection TypeScriptUnresolvedFunction

@@ -26,9 +26,10 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
             }],
         execute: function() {
             ModalInfoContent = (function () {
-                function ModalInfoContent(rentalNumber, rentalService) {
+                function ModalInfoContent(rentalNumber, rentalService, keyBinding) {
                     this.rentalNumber = rentalNumber;
                     this.rentalService = rentalService;
+                    this.keyBinding = keyBinding;
                 }
                 return ModalInfoContent;
             })();
@@ -38,6 +39,19 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     var _this = this;
                     this.dialog = dialog;
                     this.content = modelContentData;
+                    var map = {
+                        'K': function () {
+                            _this.cancel();
+                        },
+                        'M': function () {
+                            _this.deleteRental();
+                        },
+                        'O': function () {
+                            _this.cancel();
+                        }
+                    };
+                    console.log(this.content.keyBinding);
+                    this.content.keyBinding.addBindingForDialogInfo(map);
                     this.content.rentalService.getRental(this.content.rentalNumber).subscribe(function (rental) {
                         _this.boatName = rental.boat.name;
                         _this.departure = rental.departure;
@@ -84,6 +98,9 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                 ModalDelete.prototype.cancel = function () {
                     //noinspection TypeScriptUnresolvedFunction
                     this.dialog.dismiss();
+                };
+                ModalDelete.prototype.deleteRental = function () {
+                    // TODO
                 };
                 ModalDelete = __decorate([
                     core_1.Component({
