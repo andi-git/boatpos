@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @ApplicationScoped
 public class PriceCalculator {
 
-    private static final long TIME_BONUS_IN_MINUTES = 5;
+    public static final long TIME_BONUS_IN_MINUTES = 5;
     private static final int SCALE_PRICE = 2;
     private static final int SCALE_CALCULATION = 10;
     private static final MathContext MATH_CONTEXT_PRICE = new MathContext(SCALE_PRICE, RoundingMode.HALF_UP);

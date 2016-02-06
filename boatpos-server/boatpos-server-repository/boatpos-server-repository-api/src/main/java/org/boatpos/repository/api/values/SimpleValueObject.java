@@ -70,4 +70,8 @@ public abstract class SimpleValueObject<SVO extends SimpleValueObject, T extends
         }
         return null;
     }
+
+    public boolean isPresent() {
+        return value != null;
+    }
 }

@@ -259,6 +259,10 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public RentalBean asDto() {
-        return RentalMapping.fromCDI().mapEntity(getEntity());
+        RentalBean rentalBean = RentalMapping.fromCDI().mapEntity(getEntity());
+        if (getArrivalTime().isPresent()) {
+
+        }
+        return rentalBean;
     }
 }

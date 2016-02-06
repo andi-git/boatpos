@@ -59,6 +59,12 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime arrival;
 
+    @Expose
+    private Integer timeOfTravel;
+
+    @Expose
+    private Integer timeOfTravelCalculated;
+
     /**
      * The paid price after the rental.
      */
@@ -129,7 +135,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated) {
         super(id, version);
         this.dayId = dayId;
         this.day = day;
@@ -146,6 +152,8 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.promotionBeforeBean = promotionBeforeBean;
         this.promotionAfterBean = promotionAfterBean;
         this.commitmentBeans = commitmentBeans;
+        this.timeOfTravel = timeOfTravel;
+        this.timeOfTravelCalculated = timeOfTravelCalculated;
     }
 
     public Integer getDayId() {
@@ -266,5 +274,21 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
 
     public void setCommitmentBeans(Set<CommitmentBean> commitmentBeans) {
         this.commitmentBeans = commitmentBeans;
+    }
+
+    public Integer getTimeOfTravel() {
+        return timeOfTravel;
+    }
+
+    public void setTimeOfTravel(Integer timeOfTravel) {
+        this.timeOfTravel = timeOfTravel;
+    }
+
+    public Integer getTimeOfTravelCalculated() {
+        return timeOfTravelCalculated;
+    }
+
+    public void setTimeOfTravelCalculated(Integer timeOfTravelCalculated) {
+        this.timeOfTravelCalculated = timeOfTravelCalculated;
     }
 }

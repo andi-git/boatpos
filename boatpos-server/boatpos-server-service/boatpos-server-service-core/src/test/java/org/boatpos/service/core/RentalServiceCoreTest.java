@@ -32,6 +32,14 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("1.60"), rentalBean.getPriceCalculatedAfter());
         assertEquals(new BigDecimal("32.00"), rentalBean.getPricePaidBefore());
         assertEquals(2, rentalBean.getCommitmentBeans().size());
+        assertEquals(130, rentalBean.getTimeOfTravel().intValue());
+        assertEquals(125, rentalBean.getTimeOfTravelCalculated().intValue());
+        assertEquals(new BigDecimal("1.60"), rentalBean.getPriceCalculatedAfter());
+
+        rentalBean = rentalService.get(new RentalDayNumberWrapper(2));
+        assertEquals(new BigDecimal("34.10"), rentalBean.getPriceCalculatedAfter());
+        assertEquals(166, rentalBean.getTimeOfTravel().intValue());
+        assertEquals(161, rentalBean.getTimeOfTravelCalculated().intValue());
     }
 
     @Test
