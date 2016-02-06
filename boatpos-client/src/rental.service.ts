@@ -57,7 +57,7 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-               return this.convertRentalBeanTorRental(rentalBean);
+                return this.convertRentalBeanTorRental(rentalBean);
             });
     }
 
@@ -77,7 +77,9 @@ export class RentalService {
             rentalBean.coupon,
             rentalBean.promotionBeforeBean,
             rentalBean.promotionAfterBean,
-            rentalBean.commitmentBeans);
+            rentalBean.commitmentBeans,
+            rentalBean.timeOfTravel,
+            rentalBean.timeOfTravelCalculated);
     };
 
     private createDate(jsonDate:string):Date {

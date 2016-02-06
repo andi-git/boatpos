@@ -4,7 +4,7 @@ System.register([], function(exports_1) {
         setters:[],
         execute: function() {
             Rental = (function () {
-                function Rental(dayId, day, boat, departure, arrival, pricePaidAfter, pricePaidBefore, priceCalculatedAfter, priceCalculatedBefore, finished, deleted, coupon, promotionBefore, promotionAfter, commitments) {
+                function Rental(dayId, day, boat, departure, arrival, pricePaidAfter, pricePaidBefore, priceCalculatedAfter, priceCalculatedBefore, finished, deleted, coupon, promotionBefore, promotionAfter, commitments, timeOfTravel, timeOfTravelCalculated) {
                     var _this = this;
                     this.commitments = [];
                     this.dayId = dayId;
@@ -24,9 +24,11 @@ System.register([], function(exports_1) {
                     if (commitments != null) {
                         commitments.forEach(function (commitment) { return _this.commitments.push(commitment); });
                     }
+                    this.timeOfTravel = timeOfTravel;
+                    this.timeOfTravelCalculated = timeOfTravelCalculated;
                 }
                 Rental.fromDeparte = function (dayId, day, boat, departure, commitments, promotionBefore, coupon, priceCalculatedBefore) {
-                    return new Rental(dayId, day, boat, departure, null, null, null, null, priceCalculatedBefore, null, null, coupon, promotionBefore, null, commitments);
+                    return new Rental(dayId, day, boat, departure, null, null, null, null, priceCalculatedBefore, null, null, coupon, promotionBefore, null, commitments, null, null);
                 };
                 return Rental;
             })();

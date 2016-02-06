@@ -66,7 +66,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     });
                 };
                 RentalService.prototype.convertRentalBeanTorRental = function (rentalBean) {
-                    return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, this.createDate(rentalBean.departure), this.createDate(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans);
+                    return new rental_1.Rental(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, this.createDate(rentalBean.departure), this.createDate(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans, rentalBean.timeOfTravel, rentalBean.timeOfTravelCalculated);
                 };
                 ;
                 RentalService.prototype.createDate = function (jsonDate) {

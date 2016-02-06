@@ -27,8 +27,10 @@ export class ModalInfoContent {
             <p><span class="text-grey">Einsatz:</span> {{commitments}}</p>
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
+            <p><span class="text-grey">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>
             <p><span class="text-grey">Preis bevor:</span> {{pricePaidBefore}}</p>
             <p><span class="text-grey">Preis danach:</span> {{pricePaidAfter}}</p>
+            <p><span class="text-grey">Preis berechnet:</span> € {{priceCalculated}}</p>
             <p><span class="text-grey">Aktion bevor:</span> {{promotionBefore}}</p>
             <p><span class="text-grey">Aktion danach:</span> {{promotionAfter}}</p>
             <p><span class="text-grey">Gelöscht:</span> {{getDeletedJaNein()}}</p>
@@ -52,10 +54,12 @@ export class ModalDelete implements ICustomModalComponent {
     private arrival:Date;
     private pricePaidBefore:number;
     private pricePaidAfter:number;
+    private priceCalculated:number;
     private promotionBefore:string;
     private promotionAfter:string;
     private commitments:string;
     private deleted:boolean;
+    private timeOfTravel:number;
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
@@ -92,6 +96,7 @@ export class ModalDelete implements ICustomModalComponent {
         this.arrival = rental.arrival;
         this.pricePaidBefore = rental.pricePaidBefore;
         this.pricePaidBefore = rental.pricePaidAfter;
+        this.priceCalculated = rental.priceCalculatedAfter;
         if (isPresent(rental.promotionBefore)) {
             this.promotionBefore = rental.promotionBefore.name;
         }
@@ -108,6 +113,7 @@ export class ModalDelete implements ICustomModalComponent {
             this.commitments += commitment.name;
         });
         this.deleted = rental.deleted;
+        this.timeOfTravel = rental.timeOfTravel;
     }
 
     getDeletedOrEmpty():string {
