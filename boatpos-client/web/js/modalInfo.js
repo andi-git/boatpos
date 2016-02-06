@@ -44,13 +44,17 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                             _this.cancel();
                         },
                         'M': function () {
-                            _this.delete();
+                            if (_this.deleted === true) {
+                                _this.undoDelete();
+                            }
+                            else {
+                                _this.delete();
+                            }
                         },
                         'O': function () {
                             _this.cancel();
                         }
                     };
-                    console.log(this.content.keyBinding);
                     this.content.keyBinding.addBindingForDialogInfo(map);
                     this.content.rentalService.getRental(this.content.rentalNumber).subscribe(function (rental) {
                         _this.setContentFromService(rental);
@@ -123,6 +127,10 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     });
                 };
                 ModalDelete.prototype.undoDelete = function ($event) {
+                    var _this = this;
+                    this.content.rentalService.undoDeleteRental(this.content.rentalNumber).subscribe(function (rental) {
+                        _this.setContentFromService(rental);
+                    });
                 };
                 ModalDelete = __decorate([
                     core_1.Component({

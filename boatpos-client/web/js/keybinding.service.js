@@ -50,7 +50,6 @@ System.register(['angular2/core'], function(exports_1) {
                     }
                 };
                 KeyBindingService.prototype.focusMain = function () {
-                    console.log("set key-bindings for main");
                     this.setKeyBindings((this.keyBindingsForMain));
                 };
                 KeyBindingService.prototype.focusDialogInfo = function () {

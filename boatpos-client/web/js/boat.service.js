@@ -93,6 +93,11 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                 BoatService.prototype.resetSelected = function () {
                     this.getBoats().forEach(function (boat) { return boat.setSelected(false); });
                 };
+                BoatService.prototype.reset = function () {
+                    this.resetSelected();
+                    this.loadBoatCount();
+                    this.loadNextDayNumber();
+                };
                 BoatService.prototype.getSelectedBoat = function () {
                     var boatSelected = null;
                     this.getBoats().forEach(function (boat) {

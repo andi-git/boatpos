@@ -39,22 +39,16 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-                return new Rental(
-                    rentalBean.dayId,
-                    rentalBean.day,
-                    rentalBean.boatBean,
-                    this.createDate(rentalBean.departure),
-                    this.createDate(rentalBean.arrival),
-                    rentalBean.pricePaidAfter,
-                    rentalBean.pricePaidBefore,
-                    rentalBean.priceCalculatedAfter,
-                    rentalBean.priceCalculatedBefore,
-                    rentalBean.finished,
-                    rentalBean.deleted,
-                    rentalBean.coupon,
-                    rentalBean.promotionBeforeBean,
-                    rentalBean.promotionAfterBean,
-                    rentalBean.commitmentBeans);
+                return this.convertRentalBeanTorRental(rentalBean);
+            });
+    }
+
+    undoDeleteRental(dayNumber:number):Observable<Rental> {
+        return this.http.get(
+                this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers: this.headers})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return this.convertRentalBeanTorRental(rentalBean);
             });
     }
 
@@ -63,24 +57,28 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-                return new Rental(
-                    rentalBean.dayId,
-                    rentalBean.day,
-                    rentalBean.boatBean,
-                    this.createDate(rentalBean.departure),
-                    this.createDate(rentalBean.arrival),
-                    rentalBean.pricePaidAfter,
-                    rentalBean.pricePaidBefore,
-                    rentalBean.priceCalculatedAfter,
-                    rentalBean.priceCalculatedBefore,
-                    rentalBean.finished,
-                    rentalBean.deleted,
-                    rentalBean.coupon,
-                    rentalBean.promotionBeforeBean,
-                    rentalBean.promotionAfterBean,
-                    rentalBean.commitmentBeans);
+               return this.convertRentalBeanTorRental(rentalBean);
             });
     }
+
+    private convertRentalBeanTorRental(rentalBean):Rental {
+        return new Rental(
+            rentalBean.dayId,
+            rentalBean.day,
+            rentalBean.boatBean,
+            this.createDate(rentalBean.departure),
+            this.createDate(rentalBean.arrival),
+            rentalBean.pricePaidAfter,
+            rentalBean.pricePaidBefore,
+            rentalBean.priceCalculatedAfter,
+            rentalBean.priceCalculatedBefore,
+            rentalBean.finished,
+            rentalBean.deleted,
+            rentalBean.coupon,
+            rentalBean.promotionBeforeBean,
+            rentalBean.promotionAfterBean,
+            rentalBean.commitmentBeans);
+    };
 
     private createDate(jsonDate:string):Date {
         let date:Date = new Date(jsonDate);

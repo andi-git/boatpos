@@ -64,7 +64,7 @@ export class ActionComponent {
 
     private resetUi() {
         this.rentalNumber = null;
-        this.boatService.resetSelected();
+        this.boatService.reset();
         this.commitmentService.resetSelected();
         this.promotionService.resetSelected();
     }

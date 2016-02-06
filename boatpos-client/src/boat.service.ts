@@ -100,6 +100,12 @@ export class BoatService {
         this.getBoats().forEach(boat => boat.setSelected(false));
     }
 
+    reset() {
+        this.resetSelected();
+        this.loadBoatCount();
+        this.loadNextDayNumber();
+    }
+
     getSelectedBoat():Boat {
         var boatSelected:Boat = null;
         this.getBoats().forEach(boat => {

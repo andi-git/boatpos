@@ -85,7 +85,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                 };
                 ActionComponent.prototype.resetUi = function () {
                     this.rentalNumber = null;
-                    this.boatService.resetSelected();
+                    this.boatService.reset();
                     this.commitmentService.resetSelected();
                     this.promotionService.resetSelected();
                 };

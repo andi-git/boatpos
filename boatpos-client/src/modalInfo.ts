@@ -65,13 +65,16 @@ export class ModalDelete implements ICustomModalComponent {
                 this.cancel();
             },
             'M': () => {
-                this.delete();
+                if (this.deleted === true) {
+                    this.undoDelete()
+                } else {
+                    this.delete();
+                }
             },
             'O': () => {
                 this.cancel();
             }
         };
-        console.log(this.content.keyBinding);
         this.content.keyBinding.addBindingForDialogInfo(map);
 
         this.content.rentalService.getRental(this.content.rentalNumber).subscribe((rental:Rental) => {
@@ -155,6 +158,8 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     private undoDelete($event):void {
-
+        this.content.rentalService.undoDeleteRental(this.content.rentalNumber).subscribe((rental:Rental) => {
+            this.setContentFromService(rental);
+        });
     }
 }

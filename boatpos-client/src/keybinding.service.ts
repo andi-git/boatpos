@@ -45,7 +45,6 @@ export class KeyBindingService {
     }
 
     focusMain() {
-        console.log("set key-bindings for main");
         this.setKeyBindings((this.keyBindingsForMain));
     }
 
