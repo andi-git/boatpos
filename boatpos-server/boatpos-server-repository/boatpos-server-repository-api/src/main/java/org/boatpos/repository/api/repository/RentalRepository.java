@@ -104,7 +104,16 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
      *
      * @param day   the {@link Day} of the dayId
      * @param dayId the {@link DayId} that arrives
-     * @return the deleted{@link Rental}
+     * @return the deleted {@link Rental}
      */
     Optional<Rental> delete(Day day, DayId dayId);
+
+    /**
+     * Undo a deletion of a {@link Rental} (remove the flag 'deleted').
+     *
+     * @param day   the {@link Day} of the dayId
+     * @param dayId the {@link DayId} that arrives
+     * @return the reactivated {@link Rental}
+     */
+    Optional<Rental> undoDelete(Day day, DayId dayId);
 }

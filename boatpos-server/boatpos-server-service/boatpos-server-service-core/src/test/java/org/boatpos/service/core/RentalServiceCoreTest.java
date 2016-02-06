@@ -44,6 +44,14 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
 
     @Test
     @Transactional
+    public void testUndoDelete() throws Exception {
+        assertTrue(rentalService.get(new RentalDayNumberWrapper(2)).isDeleted());
+        rentalService.undoDelete(new RentalDayNumberWrapper(2));
+        assertFalse(rentalService.get(new RentalDayNumberWrapper(2)).isDeleted());
+    }
+
+    @Test
+    @Transactional
     public void testNextDayId() {
         assertEquals(6, rentalService.nextDayId().getDayNumber().intValue());
     }

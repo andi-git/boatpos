@@ -25,6 +25,14 @@ public interface RentalService {
     RentalBean delete(RentalDayNumberWrapper rentalDayNumberWrapper);
 
     /**
+     * Undo the deletion of a rental.
+     *
+     * @param rentalDayNumberWrapper the day-id to get the concrete rental of the current day
+     * @return the reactivated rental
+     */
+    RentalBean undoDelete(RentalDayNumberWrapper rentalDayNumberWrapper);
+
+    /**
      * Get the next day-id.
      *
      * @return the next day-id

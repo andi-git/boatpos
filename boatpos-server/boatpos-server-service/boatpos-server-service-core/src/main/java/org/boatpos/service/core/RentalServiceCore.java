@@ -46,6 +46,14 @@ public class RentalServiceCore implements RentalService {
     }
 
     @Override
+    public RentalBean undoDelete(RentalDayNumberWrapper rentalDayNumberWrapper) {
+        DayId dayId = new DayId(rentalDayNumberWrapper.getDayNumber());
+        return rentalRepository.undoDelete(day, dayId)
+                .orElseGet(new ThrowExceptionRentalNotAvailable(dayId))
+                .asDto();
+    }
+
+    @Override
     public RentalDayNumberWrapper nextDayId() {
         return new RentalDayNumberWrapper(rentalRepository.nextDayId(day).get());
     }

@@ -32,6 +32,12 @@ public class RentalServiceRest {
     }
 
     @GET
+    @Path("/undoDelete/{dayId:[0-9]*}")
+    public Response undoDelete(@PathParam("dayId") Integer dayId) {
+        return Response.ok(rentalService.undoDelete(new RentalDayNumberWrapper(dayId))).build();
+    }
+
+    @GET
     @Path("nextId")
     public Response nextDayId() {
         return Response.ok(rentalService.nextDayId()).build();

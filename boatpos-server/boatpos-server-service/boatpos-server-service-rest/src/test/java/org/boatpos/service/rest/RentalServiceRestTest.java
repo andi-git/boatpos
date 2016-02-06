@@ -45,6 +45,14 @@ public class RentalServiceRestTest extends FillDatabaseInOtherTransactionTest {
     }
 
     @Test
+    public void testUndoDelete() throws Exception {
+        RentalBean rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/2")).get().readEntity(RentalBean.class);
+        assertTrue(rentalBean.isDeleted());
+        rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/undoDelete/2")).get().readEntity(RentalBean.class);
+        assertFalse(rentalBean.isDeleted());
+    }
+
+    @Test
     public void testNextDayId() throws Exception {
         assertEquals(6, helper.createRestCall(url, (webTarget) -> webTarget.path("rental/nextId")).get().readEntity(RentalDayNumberWrapper.class).getDayNumber().intValue());
     }

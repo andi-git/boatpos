@@ -128,4 +128,14 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
         rentalRepository.delete(day, dayId);
         assertTrue(rentalRepository.loadBy(day, dayId).get().isDeleted().get());
     }
+
+    @Test
+    @Transactional
+    public void testUndoDelete() {
+        Day day = new Day(dateTimeHelper.currentDate());
+        DayId dayId = new DayId(2);
+        assertTrue(rentalRepository.loadBy(day, dayId).get().isDeleted().get());
+        rentalRepository.undoDelete(day, dayId);
+        assertFalse(rentalRepository.loadBy(day, dayId).get().isDeleted().get());
+    }
 }

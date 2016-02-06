@@ -122,6 +122,12 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
         return rentalOptional.isPresent() ? Optional.of(rentalOptional.get().setDeleted(Deleted.TRUE).persist()) : Optional.empty();
     }
 
+    @Override
+    public Optional<Rental> undoDelete(Day day, DayId dayId) {
+        Optional<Rental> rentalOptional = loadBy(day, dayId);
+        return rentalOptional.isPresent() ? Optional.of(rentalOptional.get().setDeleted(Deleted.FALSE).persist()) : Optional.empty();
+    }
+
     private Rental loadRentalByDayIdOrThrowException(Day day, DayId dayId) {
         return loadBy(day, dayId).orElseGet(() -> {
             throw new RuntimeException("unable to get " + Rental.class.getName() + " with for day " + day + " with id " + dayId);
