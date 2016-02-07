@@ -34,7 +34,7 @@ System.register(['angular2/core', "./commitment.service", "./info.service", "./k
                 }
                 CommitmentsComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    var map = { K: Function };
+                    var map = {};
                     // A...J
                     for (var i = 65; i <= 74; i++) {
                         map[String.fromCharCode(i)] = function (e) {

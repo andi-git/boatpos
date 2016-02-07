@@ -35,7 +35,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./keybind
                 BoatsComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     // bind the key-inputs
-                    var map = { K: Function };
+                    var map = {};
                     // a...j
                     for (var i = 97; i <= 106; i++) {
                         map[String.fromCharCode(i)] = function (e) {

@@ -34,7 +34,7 @@ System.register(['angular2/core', "./promotion.service", "./info.service", "./ke
                 }
                 PromotionsBeforeComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    var map = { K: Function };
+                    var map = {};
                     // k...t
                     for (var i = 107; i <= 116; i++) {
                         map[String.fromCharCode(i)] = function (e) {

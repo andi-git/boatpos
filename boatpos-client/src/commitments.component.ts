@@ -15,7 +15,7 @@ export class CommitmentsComponent {
     }
 
     ngOnInit() {
-        let map = {K: Function};
+        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
         // A...J
         for (var i = 65; i <= 74; i++) {
             map[String.fromCharCode(i)] = (e) => {

@@ -15,7 +15,7 @@ export class PromotionsBeforeComponent {
     }
 
     ngOnInit() {
-        let map = {K: Function};
+        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
         // k...t
         for (var i = 107; i <= 116; i++) {
             map[String.fromCharCode(i)] = (e) => {

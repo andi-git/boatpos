@@ -11,9 +11,13 @@ import {RentalService} from "./rental.service";
 import {Rental} from "./rental";
 //noinspection TypeScriptCheckImport
 import {Modal, ModalConfig, ICustomModal, ModalDialogInstance} from "lib/angular2-modal";
-import {ModalInfoContent, ModalDelete} from "./modalInfo";
+import {ModalInfoContext, ModalDelete} from "./modalInfo";
 import {isPresent} from "angular2/src/facade/lang";
 import {KeyBindingService} from "./keybinding.service";
+import {Injectable} from "angular2/core";
+import {ModalHandler} from "./modalHandler";
+import {ModalDeletedContext} from "./modalDeleted";
+import {ModalDeleted} from "./modalDeleted";
 
 @Component({
     selector: 'action',
@@ -31,10 +35,9 @@ export class ActionComponent {
                 private promotionService:PromotionService,
                 private infoService:InfoService,
                 private rentalService:RentalService,
-                private modal:Modal,
-                private renderer:Renderer,
-                private keyBinding:KeyBindingService) {
-        let map = {
+                private keyBinding:KeyBindingService,
+                private modalHandler:ModalHandler) {
+        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
             },
@@ -90,14 +93,38 @@ export class ActionComponent {
         if (this.rentalNumber != null) {
             this.rentalService.deleteRental(this.rentalNumber).subscribe(
                 (rental) => {
+                    let deletedInfo:String = "Vermietung mit Nummer " + this.rentalNumber + " wurde gelöscht.";
+                    this.showDialogDeleted(deletedInfo);
                     this.boatService.updateStats();
-                    this.infoService.event().emit("Nummer " + this.rentalNumber + " wurde gelöscht.");
                     this.resetUi();
+                    this.infoService.event().emit(deletedInfo);
+                },
+                () => {
+                    var deletedInfo = "Keine Vermietung mit Nummer  " + this.rentalNumber + " gefunden.";
+                    this.showDialogDeleted(deletedInfo);
+                    this.boatService.updateStats();
+                    this.resetUi();
+                    this.infoService.event().emit(deletedInfo);
                 }
             );
         } else {
             this.infoService.event().emit("Löschen nicht möglich: keine Nummer eingegeben.");
         }
+    }
+
+    private showDialogDeleted(deletedInfo:string) {
+        this.modalHandler.open(ModalDeleted, new ModalDeletedContext(deletedInfo, this.keyBinding)).then((resultPromise) => {
+            //noinspection TypeScriptUnresolvedVariable
+            return resultPromise.result.then((result) => {
+                this.lastModalResult = result;
+                this.resetUi();
+                this.keyBinding.focusMain();
+            }, () => {
+                this.lastModalResult = 'Rejected!';
+                this.resetUi();
+                this.keyBinding.focusMain();
+            });
+        });
     }
 
     private createStringForPromotion(promotion:PromotionBefore):string {
@@ -132,17 +159,9 @@ export class ActionComponent {
         if (!isPresent(this.rentalNumber)) {
             this.infoService.event().emit("Information anzeigen nicht möglich: keine Nummer eingegeben.")
         } else {
-            this.keyBinding.focusDialogInfo();
             this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
-            let dialog:Promise<ModalDialogInstance>;
-            let component = ModalDelete;
-            let bindings = Injector.resolve([
-                provide(ICustomModal, {useValue: new ModalInfoContent(this.rentalNumber, this.rentalService, this.keyBinding)}),
-                provide(Renderer, {useValue: this.renderer})
-            ]);
-            //noinspection TypeScriptUnresolvedFunction
-            dialog = this.modal.open(<any>component, bindings, new ModalConfig("lg", true, null));
-            dialog.then((resultPromise) => {
+            this.modalHandler.open(ModalDelete, new ModalInfoContext(this.rentalNumber, this.rentalService, this.keyBinding)).then((resultPromise) => {
+                //noinspection TypeScriptUnresolvedVariable
                 return resultPromise.result.then((result) => {
                     this.lastModalResult = result;
                     this.resetUi();

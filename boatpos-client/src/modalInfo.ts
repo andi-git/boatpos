@@ -11,7 +11,7 @@ import {PromotionAfter} from "./promotion";
 import {Commitment} from "./commitment";
 import {KeyBindingService} from "./keybinding.service";
 
-export class ModalInfoContent {
+export class ModalInfoContext {
     constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService) {
     }
 }
@@ -20,7 +20,7 @@ export class ModalInfoContent {
     selector: 'modal-content',
     directives: [NgIf],
     template: `<div class="modal-header">
-        <h2 class="header header-main">Information über Nummer {{content.rentalNumber}}</h2>
+        <h2 class="header header-main">Information über Nummer {{rentalNumber}}</h2>
         </div>
         <div class="modal-body" *ngIf="!noRental">
             <p><span class="text-grey">Boot:</span> {{boatName}}</p>
@@ -47,7 +47,9 @@ export class ModalInfoContent {
 export class ModalDelete implements ICustomModalComponent {
 
     private dialog:ModalDialogInstance;
-    private content:ModalInfoContent;
+    private keyBinding:KeyBindingService;
+    private rentalService:RentalService;
+    private rentalNumber:number;
     private noRental:string;
     private boatName:string;
     private departure:Date;
@@ -63,8 +65,10 @@ export class ModalDelete implements ICustomModalComponent {
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
-        this.content = <ModalInfoContent>modelContentData;
-        let map = {
+        this.keyBinding = (<ModalInfoContext>modelContentData).keyBinding;
+        this.rentalService = (<ModalInfoContext>modelContentData).rentalService;
+        this.rentalNumber = (<ModalInfoContext>modelContentData).rentalNumber;
+        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
             },
@@ -79,13 +83,14 @@ export class ModalDelete implements ICustomModalComponent {
                 this.cancel();
             }
         };
-        this.content.keyBinding.addBindingForDialogInfo(map);
+        this.keyBinding.addBindingForDialogInfo(map);
+        this.keyBinding.focusDialogInfo();
 
-        this.content.rentalService.getRental(this.content.rentalNumber).subscribe((rental:Rental) => {
+        this.rentalService.getRental(this.rentalNumber).subscribe((rental:Rental) => {
                 this.setContentFromService(rental);
             },
             () => {
-                this.noRental = "Keine Vermietung mit Nummer " + this.content.rentalNumber + " gefunden!";
+                this.noRental = "Keine Vermietung mit Nummer " + this.rentalNumber + " gefunden!";
             });
 
     }
@@ -158,13 +163,13 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     private delete($event):void {
-        this.content.rentalService.deleteRental(this.content.rentalNumber).subscribe((rental:Rental) => {
+        this.rentalService.deleteRental(this.rentalNumber).subscribe((rental:Rental) => {
             this.setContentFromService(rental);
         });
     }
 
     private undoDelete($event):void {
-        this.content.rentalService.undoDeleteRental(this.content.rentalNumber).subscribe((rental:Rental) => {
+        this.rentalService.undoDeleteRental(this.rentalNumber).subscribe((rental:Rental) => {
             this.setContentFromService(rental);
         });
     }

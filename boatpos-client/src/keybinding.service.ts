@@ -6,10 +6,13 @@ export class KeyBindingService {
     private mouseTrap:MousetrapStatic;
 
     // cache all key-bindings for main-dialog
-    private keyBindingsForMain:{K: (Function)} = {K: Function};
+    private keyBindingsForMain:{[key: string]: (e:ExtendedKeyboardEvent, combo:string) => any} = {};
 
-    // cache all key-bindings for main-dialog
-    private keyBindingsForDialogInfo:{K: (Function)} = {K: Function};
+    // cache all key-bindings for dialog 'info'
+    private keyBindingsForDialogInfo:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
+
+    // cache all key-bindings for dialog 'deleted'
+    private keyBindingsForDialogDeleted:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
 
     constructor() {
         this.mouseTrap = new Mousetrap();
@@ -23,7 +26,7 @@ export class KeyBindingService {
      * Add key-bindings for the main-dialog
      * @param keyBindings
      */
-    addBindingForMain(keyBindings:{K: (Function)}):void {
+    addBindingForMain(keyBindings:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)}):void {
         for (var key in keyBindings) {
             this.keyBindingsForMain[key] = keyBindings[key];
             // on init the main-dialog is active, so add the bindings to mousetrap
@@ -31,13 +34,19 @@ export class KeyBindingService {
         }
     }
 
-    addBindingForDialogInfo(keyBindings:{K: (Function)}):void {
+    addBindingForDialogInfo(keyBindings:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)}):void {
         for (var key in keyBindings) {
-            this.bind(key, keyBindings[key]);
+            this.keyBindingsForDialogInfo[key] = keyBindings[key];
         }
     }
 
-    private setKeyBindings(keyBindings:{K: (Function)}) {
+    addBindingForDialogDeleted(keyBindings:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)}):void {
+        for (var key in keyBindings) {
+            this.keyBindingsForDialogDeleted[key] = keyBindings[key];
+        }
+    }
+
+    private setKeyBindings(keyBindings:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)}) {
         this.mouseTrap.reset();
         for (var key in keyBindings) {
             this.bind(key, keyBindings[key]);
@@ -50,5 +59,9 @@ export class KeyBindingService {
 
     focusDialogInfo() {
         this.setKeyBindings(this.keyBindingsForDialogInfo);
+    }
+
+    focusDialogDeleted() {
+        this.setKeyBindings(this.keyBindingsForDialogDeleted);
     }
 }

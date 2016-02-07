@@ -16,7 +16,7 @@ export class BoatsComponent {
 
     ngOnInit() {
         // bind the key-inputs
-        let map = {K: Function};
+        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
         // a...j
         for (var i = 97; i <= 106; i++) {
             map[String.fromCharCode(i)] = (e) => {
