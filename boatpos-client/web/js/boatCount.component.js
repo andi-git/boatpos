@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./config.service"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./config.service", "./prettyprinter"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./config.service"], functio
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, config_service_1;
+    var core_1, boat_service_1, config_service_1, prettyprinter_1;
     var BoatCountComponent;
     return {
         setters:[
@@ -20,12 +20,18 @@ System.register(['angular2/core', "./boat.service", "./config.service"], functio
             },
             function (config_service_1_1) {
                 config_service_1 = config_service_1_1;
+            },
+            function (prettyprinter_1_1) {
+                prettyprinter_1 = prettyprinter_1_1;
             }],
         execute: function() {
             BoatCountComponent = (function () {
-                function BoatCountComponent(boatService, configService) {
+                function BoatCountComponent(boatService, configService, pp) {
                     this.boatService = boatService;
                     this.configService = configService;
+                    this.pp = pp;
+                    this.dateTime = "Datum: ";
+                    this.updateDateTime();
                 }
                 BoatCountComponent.prototype.getNextDayNumber = function () {
                     return this.boatService.getNextDayNumber();
@@ -33,13 +39,24 @@ System.register(['angular2/core', "./boat.service", "./config.service"], functio
                 BoatCountComponent.prototype.getBoatCounts = function () {
                     return this.boatService.getBoatCounts();
                 };
+                BoatCountComponent.prototype.updateDateTime = function () {
+                    var _this = this;
+                    var date = new Date();
+                    this.dateTime = "Datum: " +
+                        this.pp.pp2Pos(date.getDate()) + ". " +
+                        this.pp.pp2Pos(date.getMonth() + 1) + ". " +
+                        date.getFullYear() + ", " +
+                        this.pp.pp2Pos(date.getHours()) + ":" +
+                        this.pp.pp2Pos(date.getMinutes());
+                    setTimeout(function () { return _this.updateDateTime(); }, 60000);
+                };
                 BoatCountComponent = __decorate([
                     core_1.Component({
                         selector: 'boatCount',
                         templateUrl: "boatCount.component.html",
                         styleUrls: ["boatCount.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, config_service_1.ConfigService, prettyprinter_1.PrettyPrinter])
                 ], BoatCountComponent);
                 return BoatCountComponent;
             })();

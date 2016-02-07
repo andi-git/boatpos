@@ -4,7 +4,8 @@
 
 .nextNumber {
     font-size: 1.8em;
-    padding: 0 0 0 0.3em;
+    text-align: left;
+    padding: 0 0 0 1.5em;
     background-color: #F3F781;
 }
 
@@ -15,6 +16,7 @@
 .boatCount li {
     cursor: auto;
     background: linear-gradient(to right, #F3F781, white);
+    padding: 0 0 0 1.5em;
 }
 
 li:hover {

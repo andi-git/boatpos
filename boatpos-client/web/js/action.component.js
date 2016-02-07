@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service", "./modalHandler", "./modalDeleted"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service", "./modalHandler", "./modalDeleted", "./prettyprinter"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2, prettyprinter_1;
     var ActionComponent;
     return {
         setters:[
@@ -48,10 +48,13 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
             function (modalDeleted_1_1) {
                 modalDeleted_1 = modalDeleted_1_1;
                 modalDeleted_2 = modalDeleted_1_1;
+            },
+            function (prettyprinter_1_1) {
+                prettyprinter_1 = prettyprinter_1_1;
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, keyBinding, modalHandler) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, keyBinding, modalHandler, pp) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
@@ -60,6 +63,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     this.rentalService = rentalService;
                     this.keyBinding = keyBinding;
                     this.modalHandler = modalHandler;
+                    this.pp = pp;
                     var map = {
                         'K': function () {
                             _this.cancel();
@@ -177,7 +181,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     }
                     else {
                         this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
-                        this.modalHandler.open(modalInfo_1.ModalDelete, new modalInfo_1.ModalInfoContext(this.rentalNumber, this.rentalService, this.keyBinding)).then(function (resultPromise) {
+                        this.modalHandler.open(modalInfo_1.ModalDelete, new modalInfo_1.ModalInfoContext(this.rentalNumber, this.rentalService, this.keyBinding, this.pp)).then(function (resultPromise) {
                             //noinspection TypeScriptUnresolvedVariable
                             return resultPromise.result.then(function (result) {
                                 _this.lastModalResult = result;
@@ -197,7 +201,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         templateUrl: "action.component.html",
                         styleUrls: ["action.component.css"],
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter])
                 ], ActionComponent);
                 return ActionComponent;
             })();

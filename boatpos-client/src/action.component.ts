@@ -18,6 +18,7 @@ import {Injectable} from "angular2/core";
 import {ModalHandler} from "./modalHandler";
 import {ModalDeletedContext} from "./modalDeleted";
 import {ModalDeleted} from "./modalDeleted";
+import {PrettyPrinter} from "./prettyprinter";
 
 @Component({
     selector: 'action',
@@ -36,7 +37,8 @@ export class ActionComponent {
                 private infoService:InfoService,
                 private rentalService:RentalService,
                 private keyBinding:KeyBindingService,
-                private modalHandler:ModalHandler) {
+                private modalHandler:ModalHandler,
+                private pp:PrettyPrinter) {
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
@@ -160,7 +162,7 @@ export class ActionComponent {
             this.infoService.event().emit("Information anzeigen nicht möglich: keine Nummer eingegeben.")
         } else {
             this.infoService.event().emit("Information über Nummer " + this.rentalNumber + " wird angezeigt.");
-            this.modalHandler.open(ModalDelete, new ModalInfoContext(this.rentalNumber, this.rentalService, this.keyBinding)).then((resultPromise) => {
+            this.modalHandler.open(ModalDelete, new ModalInfoContext(this.rentalNumber, this.rentalService, this.keyBinding, this.pp)).then((resultPromise) => {
                 //noinspection TypeScriptUnresolvedVariable
                 return resultPromise.result.then((result) => {
                     this.lastModalResult = result;

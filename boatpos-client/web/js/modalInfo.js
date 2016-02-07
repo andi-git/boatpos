@@ -26,10 +26,11 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
             }],
         execute: function() {
             ModalInfoContext = (function () {
-                function ModalInfoContext(rentalNumber, rentalService, keyBinding) {
+                function ModalInfoContext(rentalNumber, rentalService, keyBinding, pp) {
                     this.rentalNumber = rentalNumber;
                     this.rentalService = rentalService;
                     this.keyBinding = keyBinding;
+                    this.pp = pp;
                 }
                 return ModalInfoContext;
             })();
@@ -41,6 +42,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     this.keyBinding = modelContentData.keyBinding;
                     this.rentalService = modelContentData.rentalService;
                     this.rentalNumber = modelContentData.rentalNumber;
+                    this.pp = modelContentData.pp;
                     var map = {
                         'K': function () {
                             _this.cancel();
@@ -112,9 +114,18 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                 ModalDelete.prototype.printDate = function (date) {
                     var dateString = "";
                     if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
-                        return date.getUTCHours() + ":" + date.getUTCMinutes() + " Uhr";
+                        return this.pp.pp2Pos(date.getUTCHours()) + ":" + this.pp.pp2Pos(date.getUTCMinutes()) + " Uhr";
                     }
                     return dateString;
+                };
+                ModalDelete.prototype.printPriceCalculated = function () {
+                    return this.pp.ppPrice(this.priceCalculated);
+                };
+                ModalDelete.prototype.printPricePaidBefore = function () {
+                    return this.pp.ppPrice(this.pricePaidBefore);
+                };
+                ModalDelete.prototype.printPricePaidAfter = function () {
+                    return this.pp.ppPrice(this.pricePaidAfter);
                 };
                 ModalDelete.prototype.close = function ($event) {
                     $event.stopPropagation();
@@ -141,7 +152,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     core_1.Component({
                         selector: 'modal-content',
                         directives: [common_1.NgIf],
-                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Information \u00FCber Nummer {{rentalNumber}}</h2>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"!noRental\">\n            <p><span class=\"text-grey\">Boot:</span> {{boatName}}</p>\n            <p><span class=\"text-grey\">Einsatz:</span> {{commitments}}</p>\n            <p><span class=\"text-grey\">Abfahrt:</span> {{printDeparture()}}</p>\n            <p><span class=\"text-grey\">Ankunft:</span> {{printArrival()}}</p>\n            <p><span class=\"text-grey\">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>\n            <p><span class=\"text-grey\">Preis bevor:</span> {{pricePaidBefore}}</p>\n            <p><span class=\"text-grey\">Preis danach:</span> {{pricePaidAfter}}</p>\n            <p><span class=\"text-grey\">Preis berechnet:</span> \u20AC {{priceCalculated}}</p>\n            <p><span class=\"text-grey\">Aktion bevor:</span> {{promotionBefore}}</p>\n            <p><span class=\"text-grey\">Aktion danach:</span> {{promotionAfter}}</p>\n            <p><span class=\"text-grey\">Gel\u00F6scht:</span> {{getDeletedJaNein()}}</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"noRental\">\n            <p>{{noRental}}</p>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"delete($event)\" *ngIf=\"!getDeletedOrEmpty()\">L\u00F6schen</button>\n            <button class=\"buttonSmall button-action\" (click)=\"undoDelete($event)\" *ngIf=\"getDeletedOrEmpty()\">Wiederherstellen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
+                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Information \u00FCber Nummer {{rentalNumber}}</h2>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"!noRental\">\n            <p><span class=\"text-grey\">Boot:</span> {{boatName}}</p>\n            <p><span class=\"text-grey\">Einsatz:</span> {{commitments}}</p>\n            <p><span class=\"text-grey\">Abfahrt:</span> {{printDeparture()}}</p>\n            <p><span class=\"text-grey\">Ankunft:</span> {{printArrival()}}</p>\n            <p><span class=\"text-grey\">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>\n            <p><span class=\"text-grey\">Preis bevor:</span> {{printPricePaidBefore()}}</p>\n            <p><span class=\"text-grey\">Preis danach:</span> {{printPricePaidAfter()}}</p>\n            <p><span class=\"text-grey\">Preis berechnet:</span> \u20AC {{printPriceCalculated()}}</p>\n            <p><span class=\"text-grey\">Aktion bevor:</span> {{promotionBefore}}</p>\n            <p><span class=\"text-grey\">Aktion danach:</span> {{promotionAfter}}</p>\n            <p><span class=\"text-grey\">Gel\u00F6scht:</span> {{getDeletedJaNein()}}</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"noRental\">\n            <p>{{noRental}}</p>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"delete($event)\" *ngIf=\"!getDeletedOrEmpty()\">L\u00F6schen</button>\n            <button class=\"buttonSmall button-action\" (click)=\"undoDelete($event)\" *ngIf=\"getDeletedOrEmpty()\">Wiederherstellen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof angular2_modal_1.ModalDialogInstance !== 'undefined' && angular2_modal_1.ModalDialogInstance) === 'function' && _a) || Object, (typeof (_b = typeof angular2_modal_1.ICustomModal !== 'undefined' && angular2_modal_1.ICustomModal) === 'function' && _b) || Object])
                 ], ModalDelete);

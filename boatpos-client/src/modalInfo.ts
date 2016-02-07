@@ -10,9 +10,10 @@ import {PromotionBefore} from "./promotion";
 import {PromotionAfter} from "./promotion";
 import {Commitment} from "./commitment";
 import {KeyBindingService} from "./keybinding.service";
+import {PrettyPrinter} from "./prettyprinter";
 
 export class ModalInfoContext {
-    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService) {
+    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public pp:PrettyPrinter) {
     }
 }
 
@@ -28,9 +29,9 @@ export class ModalInfoContext {
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
             <p><span class="text-grey">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>
-            <p><span class="text-grey">Preis bevor:</span> {{pricePaidBefore}}</p>
-            <p><span class="text-grey">Preis danach:</span> {{pricePaidAfter}}</p>
-            <p><span class="text-grey">Preis berechnet:</span> € {{priceCalculated}}</p>
+            <p><span class="text-grey">Preis bevor:</span> {{printPricePaidBefore()}}</p>
+            <p><span class="text-grey">Preis danach:</span> {{printPricePaidAfter()}}</p>
+            <p><span class="text-grey">Preis berechnet:</span> € {{printPriceCalculated()}}</p>
             <p><span class="text-grey">Aktion bevor:</span> {{promotionBefore}}</p>
             <p><span class="text-grey">Aktion danach:</span> {{promotionAfter}}</p>
             <p><span class="text-grey">Gelöscht:</span> {{getDeletedJaNein()}}</p>
@@ -49,6 +50,7 @@ export class ModalDelete implements ICustomModalComponent {
     private dialog:ModalDialogInstance;
     private keyBinding:KeyBindingService;
     private rentalService:RentalService;
+    private pp:PrettyPrinter;
     private rentalNumber:number;
     private noRental:string;
     private boatName:string;
@@ -68,6 +70,7 @@ export class ModalDelete implements ICustomModalComponent {
         this.keyBinding = (<ModalInfoContext>modelContentData).keyBinding;
         this.rentalService = (<ModalInfoContext>modelContentData).rentalService;
         this.rentalNumber = (<ModalInfoContext>modelContentData).rentalNumber;
+        this.pp = (<ModalInfoContext>modelContentData).pp;
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
@@ -146,9 +149,21 @@ export class ModalDelete implements ICustomModalComponent {
     printDate(date:Date):string {
         let dateString:string = "";
         if (isPresent(date) && date.getUTCFullYear() > 1970) {
-            return date.getUTCHours() + ":" + date.getUTCMinutes() + " Uhr";
+            return this.pp.pp2Pos(date.getUTCHours()) + ":" + this.pp.pp2Pos(date.getUTCMinutes()) + " Uhr";
         }
         return dateString;
+    }
+
+    printPriceCalculated():string {
+        return this.pp.ppPrice(this.priceCalculated);
+    }
+
+    printPricePaidBefore():string {
+        return this.pp.ppPrice(this.pricePaidBefore);
+    }
+
+    printPricePaidAfter():string {
+        return this.pp.ppPrice(this.pricePaidAfter);
     }
 
     close($event) {
