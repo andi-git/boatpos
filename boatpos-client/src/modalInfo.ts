@@ -29,11 +29,13 @@ export class ModalInfoContext {
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
             <p><span class="text-grey">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>
+            <p><span class="text-grey">Preis bezahl:</span> {{printPricePaid()}}</p>
             <p><span class="text-grey">Preis bevor:</span> {{printPricePaidBefore()}}</p>
             <p><span class="text-grey">Preis danach:</span> {{printPricePaidAfter()}}</p>
-            <p><span class="text-grey">Preis berechnet:</span> € {{printPriceCalculated()}}</p>
-            <p><span class="text-grey">Aktion bevor:</span> {{promotionBefore}}</p>
-            <p><span class="text-grey">Aktion danach:</span> {{promotionAfter}}</p>
+            <p><span class="text-grey">Preis berechnet bevor:</span> {{printPriceCalculatedBefore()}}</p>
+            <p><span class="text-grey">Preis berechnet danach:</span> {{printPriceCalculatedAfter()}}</p>
+            <p><span class="text-grey">Aktion bevor:</span> {{printPromotionBefore()}}</p>
+            <p><span class="text-grey">Aktion danach:</span> {{printPromotionAfter()}}</p>
             <p><span class="text-grey">Gelöscht:</span> {{getDeletedJaNein()}}</p>
         </div>
         <div class="modal-body" *ngIf="noRental">
@@ -58,7 +60,8 @@ export class ModalDelete implements ICustomModalComponent {
     private arrival:Date;
     private pricePaidBefore:number;
     private pricePaidAfter:number;
-    private priceCalculated:number;
+    private priceCalculatedBefore:number;
+    private priceCalculatedAfter:number;
     private promotionBefore:string;
     private promotionAfter:string;
     private commitments:string;
@@ -104,7 +107,8 @@ export class ModalDelete implements ICustomModalComponent {
         this.arrival = rental.arrival;
         this.pricePaidBefore = rental.pricePaidBefore;
         this.pricePaidBefore = rental.pricePaidAfter;
-        this.priceCalculated = rental.priceCalculatedAfter;
+        this.priceCalculatedBefore = rental.priceCalculatedBefore;
+        this.priceCalculatedAfter = rental.priceCalculatedAfter;
         if (isPresent(rental.promotionBefore)) {
             this.promotionBefore = rental.promotionBefore.name;
         }
@@ -143,7 +147,11 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     printArrival():string {
-        return this.printDate(this.arrival);
+        let result:string = "keine Ankunftszeit vorhanden";
+        if (isPresent(this.arrival) && this.arrival.getUTCFullYear() > 1970) {
+            result = this.printDate(this.arrival);
+        }
+        return result;
     }
 
     printDate(date:Date):string {
@@ -154,8 +162,24 @@ export class ModalDelete implements ICustomModalComponent {
         return dateString;
     }
 
-    printPriceCalculated():string {
-        return this.pp.ppPrice(this.priceCalculated);
+    printPricePaid():string {
+        let summandA:Number = 0;
+        if (!isNaN(this.pricePaidBefore)) {
+            summandA = this.pricePaidBefore;
+        }
+        let summandB:Number = 0;
+        if (!isNaN(this.pricePaidAfter)) {
+            summandA = this.pricePaidAfter;
+        }
+        return this.pp.ppPrice(summandA + summandB);
+    }
+
+    printPriceCalculatedBefore():string {
+        return this.pp.ppPrice(this.priceCalculatedBefore);
+    }
+
+    printPriceCalculatedAfter():string {
+        return this.pp.ppPrice(this.priceCalculatedAfter);
     }
 
     printPricePaidBefore():string {
@@ -164,6 +188,22 @@ export class ModalDelete implements ICustomModalComponent {
 
     printPricePaidAfter():string {
         return this.pp.ppPrice(this.pricePaidAfter);
+    }
+
+    printPromotionBefore():string {
+        let result:string = "keine Aktion vorhanden";
+        if (isPresent(this.promotionBefore)) {
+            result = this.promotionBefore;
+        }
+        return result;
+    }
+
+    printPromotionAfter():string {
+        let result:string = "keine Aktion vorhanden";
+        if (isPresent(this.promotionAfter)) {
+            result = this.promotionAfter;
+        }
+        return result;
     }
 
     close($event) {

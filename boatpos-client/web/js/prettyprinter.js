@@ -8,7 +8,7 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, lang_1;
+    var core_1, lang_1, lang_2;
     var PrettyPrinter;
     return {
         setters:[
@@ -17,6 +17,7 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
             },
             function (lang_1_1) {
                 lang_1 = lang_1_1;
+                lang_2 = lang_1_1;
             }],
         execute: function() {
             PrettyPrinter = (function () {
@@ -39,9 +40,12 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                     return result;
                 };
                 PrettyPrinter.prototype.ppPrice = function (price) {
-                    var result = "";
-                    if (lang_1.isPresent(price)) {
+                    var result = "€ ";
+                    if (lang_1.isPresent(price) && lang_2.isNumber(price) && !isNaN(price)) {
                         result += price.toFixed(2);
+                    }
+                    else {
+                        result += "0.00";
                     }
                     return result;
                 };

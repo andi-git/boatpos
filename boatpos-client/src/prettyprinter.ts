@@ -1,5 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {isPresent} from "angular2/src/facade/lang";
+import {isNumber} from "angular2/src/facade/lang";
 
 @Injectable()
 export class PrettyPrinter {
@@ -23,9 +24,11 @@ export class PrettyPrinter {
     }
 
     ppPrice(price:Number):string {
-        let result:string = "";
-        if (isPresent(price)) {
+        let result:string = "€ ";
+        if (isPresent(price) && isNumber(price) && !isNaN(price)) {
             result += price.toFixed(2);
+        } else {
+            result += "0.00";
         }
         return result;
     }
