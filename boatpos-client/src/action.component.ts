@@ -19,6 +19,8 @@ import {ModalHandler} from "./modalHandler";
 import {ModalDeletedContext} from "./modalDeleted";
 import {ModalDeleted} from "./modalDeleted";
 import {PrettyPrinter} from "./prettyprinter";
+import {ModalPromotionPay} from "./modalPromotionPay";
+import {ModalPromotionPayContext} from "./modalPromotionPay";
 
 @Component({
     selector: 'action',
@@ -79,11 +81,36 @@ export class ActionComponent {
         let commitments:Array<Commitment> = this.commitmentService.getSelectedCommitmens();
         let promotionBefore:PromotionBefore = this.promotionService.getSelectedPromotionsBefore();
         if (boat != null) {
-            this.rentalService.departe(new Departure(boat, commitments, promotionBefore)).subscribe(
+            this.rentalService.depart(new Departure(boat, commitments, promotionBefore)).subscribe(
                 (rental) => {
-                    this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
-                    this.boatService.updateStats();
-                    this.resetUi();
+                    // check if a promotion is selected or not
+                    if (isPresent(rental.priceCalculatedBefore) && rental.priceCalculatedBefore > 0) {
+                        this.modalHandler.open(ModalPromotionPay, new ModalPromotionPayContext(rental, this.rentalService, this.pp, this.keyBinding)).then((resultPromise) => {
+                            //noinspection TypeScriptUnresolvedVariable
+                            return resultPromise.result.then((result) => {
+                                this.lastModalResult = result;
+                                this.boatService.updateStats();
+                                this.resetUi();
+                                this.keyBinding.focusMain();
+                                if (this.lastModalResult === "paid") {
+                                    this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
+                                } else {
+                                    this.infoService.event().emit("Vermietung mit Nummer " + rental.dayId + " wurde abgebrochen (gelöscht).");
+                                }
+                            }, () => {
+                                console.log("--> error");
+                                this.lastModalResult = 'Rejected!';
+                                this.boatService.updateStats();
+                                this.resetUi();
+                                this.keyBinding.focusMain();
+                                this.infoService.event().emit("Vermietung abgebrochen, Aktion wurde nicht bezahlt.");
+                            });
+                        });
+                    } else {
+                        this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
+                        this.boatService.updateStats();
+                        this.resetUi();
+                    }
                 }
             );
         } else {
@@ -95,7 +122,7 @@ export class ActionComponent {
         if (this.rentalNumber != null) {
             this.rentalService.deleteRental(this.rentalNumber).subscribe(
                 (rental) => {
-                    let deletedInfo:String = "Vermietung mit Nummer " + this.rentalNumber + " wurde gelöscht.";
+                    let deletedInfo:string = "Vermietung mit Nummer " + this.rentalNumber + " wurde gelöscht.";
                     this.showDialogDeleted(deletedInfo);
                     this.boatService.updateStats();
                     this.resetUi();

@@ -20,6 +20,10 @@ export class PromotionBefore {
         this.priority = priority;
         this.keyBinding = keyBinding;
     }
+
+    toString():string {
+        return JSON.stringify(this);
+    }
 }
 
 export class PromotionAfter {
@@ -41,5 +45,9 @@ export class PromotionAfter {
         this.enabled = enabled;
         this.priority = priority;
         this.keyBinding = keyBinding;
+    }
+
+    toString():string {
+        return JSON.stringify(this);
     }
 }

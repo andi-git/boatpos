@@ -20,6 +20,9 @@ System.register([], function(exports_1) {
                 Boat.prototype.setSelected = function (selected) {
                     this.selected = selected;
                 };
+                Boat.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
                 return Boat;
             })();
             exports_1("Boat", Boat);
@@ -31,6 +34,9 @@ System.register([], function(exports_1) {
                     this.count = count;
                     this.max = max;
                 }
+                BoatCount.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
                 return BoatCount;
             })();
             exports_1("BoatCount", BoatCount);

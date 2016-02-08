@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service", "./modalHandler", "./modalDeleted", "./prettyprinter"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service", "./modalHandler", "./modalDeleted", "./prettyprinter", "./modalPromotionPay"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2, prettyprinter_1;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2, prettyprinter_1, modalPromotionPay_1, modalPromotionPay_2;
     var ActionComponent;
     return {
         setters:[
@@ -51,6 +51,10 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
             },
             function (prettyprinter_1_1) {
                 prettyprinter_1 = prettyprinter_1_1;
+            },
+            function (modalPromotionPay_1_1) {
+                modalPromotionPay_1 = modalPromotionPay_1_1;
+                modalPromotionPay_2 = modalPromotionPay_1_1;
             }],
         execute: function() {
             ActionComponent = (function () {
@@ -102,10 +106,37 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     var commitments = this.commitmentService.getSelectedCommitmens();
                     var promotionBefore = this.promotionService.getSelectedPromotionsBefore();
                     if (boat != null) {
-                        this.rentalService.departe(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
-                            _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
-                            _this.boatService.updateStats();
-                            _this.resetUi();
+                        this.rentalService.depart(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
+                            // check if a promotion is selected or not
+                            if (lang_1.isPresent(rental.priceCalculatedBefore) && rental.priceCalculatedBefore > 0) {
+                                _this.modalHandler.open(modalPromotionPay_1.ModalPromotionPay, new modalPromotionPay_2.ModalPromotionPayContext(rental, _this.rentalService, _this.pp, _this.keyBinding)).then(function (resultPromise) {
+                                    //noinspection TypeScriptUnresolvedVariable
+                                    return resultPromise.result.then(function (result) {
+                                        _this.lastModalResult = result;
+                                        _this.boatService.updateStats();
+                                        _this.resetUi();
+                                        _this.keyBinding.focusMain();
+                                        if (_this.lastModalResult === "paid") {
+                                            _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
+                                        }
+                                        else {
+                                            _this.infoService.event().emit("Vermietung mit Nummer " + rental.dayId + " wurde abgebrochen (gelöscht).");
+                                        }
+                                    }, function () {
+                                        console.log("--> error");
+                                        _this.lastModalResult = 'Rejected!';
+                                        _this.boatService.updateStats();
+                                        _this.resetUi();
+                                        _this.keyBinding.focusMain();
+                                        _this.infoService.event().emit("Vermietung abgebrochen, Aktion wurde nicht bezahlt.");
+                                    });
+                                });
+                            }
+                            else {
+                                _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
+                                _this.boatService.updateStats();
+                                _this.resetUi();
+                            }
                         });
                     }
                     else {

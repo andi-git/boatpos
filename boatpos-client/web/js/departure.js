@@ -17,6 +17,9 @@ System.register([], function(exports_1) {
                         this.promotionId = promotion.id;
                     }
                 }
+                Departure.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
                 return Departure;
             })();
             exports_1("Departure", Departure);

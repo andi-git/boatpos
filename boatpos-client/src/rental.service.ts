@@ -6,6 +6,7 @@ import {Observable} from "rxjs/Observable";
 import {Departure} from "./departure";
 import {Rental} from "./rental";
 import {Boat} from "./boat";
+import {Payment} from "./payment";
 
 @Injectable()
 export class RentalService {
@@ -16,13 +17,13 @@ export class RentalService {
         this.headers.append('Content-Type', 'application/json');
     }
 
-    departe(departe:Departure):Observable<Rental> {
+    depart(depart:Departure):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), {headers: this.headers}
+                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers: this.headers}
             )
             .map(res => res.json())
             .map((rentalBean) => {
-                return Rental.fromDeparte(
+                return Rental.fromDepart(
                     rentalBean.dayId,
                     rentalBean.day,
                     rentalBean.boatBean,
@@ -31,6 +32,16 @@ export class RentalService {
                     rentalBean.promotionBeforeBean,
                     rentalBean.coupon,
                     rentalBean.priceCalculatedBefore);
+            });
+    }
+
+    payBefore(payment:Payment):Observable<Rental> {
+        return this.http.post(
+                this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers: this.headers}
+            )
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return this.convertRentalBeanTorRental(rentalBean);
             });
     }
 

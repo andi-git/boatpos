@@ -60,7 +60,7 @@ export class Rental {
         this.timeOfTravelCalculated = timeOfTravelCalculated;
     }
 
-    static fromDeparte(dayId:number,
+    static fromDepart(dayId:number,
                        day:Date,
                        boat:Boat,
                        departure:Date,
@@ -86,5 +86,9 @@ export class Rental {
             null,
             null
         );
+    }
+
+    toString():string {
+        return JSON.stringify(this);
     }
 }

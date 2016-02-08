@@ -27,8 +27,11 @@ System.register([], function(exports_1) {
                     this.timeOfTravel = timeOfTravel;
                     this.timeOfTravelCalculated = timeOfTravelCalculated;
                 }
-                Rental.fromDeparte = function (dayId, day, boat, departure, commitments, promotionBefore, coupon, priceCalculatedBefore) {
+                Rental.fromDepart = function (dayId, day, boat, departure, commitments, promotionBefore, coupon, priceCalculatedBefore) {
                     return new Rental(dayId, day, boat, departure, null, null, null, null, priceCalculatedBefore, null, null, coupon, promotionBefore, null, commitments, null, null);
+                };
+                Rental.prototype.toString = function () {
+                    return JSON.stringify(this);
                 };
                 return Rental;
             })();

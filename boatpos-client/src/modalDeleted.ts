@@ -24,7 +24,6 @@ export class ModalDeletedContext {
 export class ModalDeleted implements ICustomModalComponent {
 
     private dialog:ModalDialogInstance;
-    private context:ModalDeletedContext;
     private deletedInfo:string;
     private keyBinding:KeyBindingService;
 

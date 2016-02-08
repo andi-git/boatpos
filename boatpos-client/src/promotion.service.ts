@@ -54,7 +54,9 @@ export class PromotionService {
     }
 
     resetSelected() {
-        this.getPromotionsBefore().forEach(pb => pb.selected = false);
+        this.getPromotionsBefore().forEach((pb:PromotionBefore) => {
+            pb.selected = false
+        });
     }
 
     getSelectedPromotionsBefore():PromotionBefore {

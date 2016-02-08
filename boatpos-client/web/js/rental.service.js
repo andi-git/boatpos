@@ -33,12 +33,20 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
-                RentalService.prototype.departe = function (departe) {
+                RentalService.prototype.depart = function (depart) {
                     var _this = this;
-                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(departe), { headers: this.headers })
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return rental_1.Rental.fromDeparte(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, _this.createDate(rentalBean.departure), rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
+                        return rental_1.Rental.fromDepart(rentalBean.dayId, rentalBean.day, rentalBean.boatBean, _this.createDate(rentalBean.departure), rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
+                    });
+                };
+                RentalService.prototype.payBefore = function (payment) {
+                    var _this = this;
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), { headers: this.headers })
+                        .map(function (res) { return res.json(); })
+                        .map(function (rentalBean) {
+                        return _this.convertRentalBeanTorRental(rentalBean);
                     });
                 };
                 RentalService.prototype.deleteRental = function (dayNumber) {

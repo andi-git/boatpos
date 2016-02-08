@@ -29,7 +29,7 @@ export class ModalInfoContext {
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
             <p><span class="text-grey">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>
-            <p><span class="text-grey">Preis bezahl:</span> {{printPricePaid()}}</p>
+            <p><span class="text-grey">Preis bezahlt:</span> {{printPricePaid()}}</p>
             <p><span class="text-grey">Preis bevor:</span> {{printPricePaidBefore()}}</p>
             <p><span class="text-grey">Preis danach:</span> {{printPricePaidAfter()}}</p>
             <p><span class="text-grey">Preis berechnet bevor:</span> {{printPriceCalculatedBefore()}}</p>
@@ -63,6 +63,7 @@ export class ModalDelete implements ICustomModalComponent {
     private priceCalculatedBefore:number;
     private priceCalculatedAfter:number;
     private promotionBefore:string;
+    private promotionBeforeCredit:number;
     private promotionAfter:string;
     private commitments:string;
     private deleted:boolean;
@@ -106,11 +107,12 @@ export class ModalDelete implements ICustomModalComponent {
         this.departure = rental.departure;
         this.arrival = rental.arrival;
         this.pricePaidBefore = rental.pricePaidBefore;
-        this.pricePaidBefore = rental.pricePaidAfter;
+        this.pricePaidAfter = rental.pricePaidAfter;
         this.priceCalculatedBefore = rental.priceCalculatedBefore;
         this.priceCalculatedAfter = rental.priceCalculatedAfter;
         if (isPresent(rental.promotionBefore)) {
             this.promotionBefore = rental.promotionBefore.name;
+            this.promotionBeforeCredit = rental.promotionBefore.timeCredit;
         }
         if (isPresent(rental.promotionAfter)) {
             this.promotionAfter = rental.promotionAfter.name;
@@ -163,13 +165,13 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     printPricePaid():string {
-        let summandA:Number = 0;
+        let summandA:number = 0;
         if (!isNaN(this.pricePaidBefore)) {
             summandA = this.pricePaidBefore;
         }
-        let summandB:Number = 0;
+        let summandB:number = 0;
         if (!isNaN(this.pricePaidAfter)) {
-            summandA = this.pricePaidAfter;
+            summandB = this.pricePaidAfter;
         }
         return this.pp.ppPrice(summandA + summandB);
     }
@@ -193,7 +195,7 @@ export class ModalDelete implements ICustomModalComponent {
     printPromotionBefore():string {
         let result:string = "keine Aktion vorhanden";
         if (isPresent(this.promotionBefore)) {
-            result = this.promotionBefore;
+            result = this.promotionBefore + " (Guthaben: " + this.promotionBeforeCredit + " Minuten)";
         }
         return result;
     }

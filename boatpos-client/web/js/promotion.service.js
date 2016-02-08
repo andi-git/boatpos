@@ -63,7 +63,9 @@ System.register(['./promotion', 'angular2/core', 'angular2/http', 'rxjs/add/oper
                     return promotionBefore;
                 };
                 PromotionService.prototype.resetSelected = function () {
-                    this.getPromotionsBefore().forEach(function (pb) { return pb.selected = false; });
+                    this.getPromotionsBefore().forEach(function (pb) {
+                        pb.selected = false;
+                    });
                 };
                 PromotionService.prototype.getSelectedPromotionsBefore = function () {
                     var selectedPromotionBefore;

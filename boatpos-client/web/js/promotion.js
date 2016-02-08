@@ -12,6 +12,9 @@ System.register([], function(exports_1) {
                     this.priority = priority;
                     this.keyBinding = keyBinding;
                 }
+                PromotionBefore.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
                 return PromotionBefore;
             })();
             exports_1("PromotionBefore", PromotionBefore);
@@ -23,6 +26,9 @@ System.register([], function(exports_1) {
                     this.priority = priority;
                     this.keyBinding = keyBinding;
                 }
+                PromotionAfter.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
                 return PromotionAfter;
             })();
             exports_1("PromotionAfter", PromotionAfter);

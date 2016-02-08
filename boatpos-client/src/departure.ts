@@ -20,4 +20,8 @@ export class Departure {
             this.promotionId = promotion.id;
         }
     }
+
+    toString():string {
+        return JSON.stringify(this);
+    }
 }

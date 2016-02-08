@@ -34,6 +34,10 @@ export class Boat {
     setSelected(selected:boolean) {
         this.selected = selected;
     }
+
+    toString():string {
+        return JSON.stringify(this);
+    }
 }
 
 export class BoatCount {
@@ -53,5 +57,9 @@ export class BoatCount {
         this.shortName = shortName;
         this.count = count;
         this.max = max;
+    }
+
+    toString():string {
+        return JSON.stringify(this);
     }
 }
