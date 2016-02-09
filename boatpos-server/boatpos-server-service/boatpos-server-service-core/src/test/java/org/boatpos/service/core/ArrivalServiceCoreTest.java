@@ -36,7 +36,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigInteger("11"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM rental").getSingleResult());
         RentalBean rental = arrivalService.arrive(new ArrivalBean(2));
         assertEquals(dateTimeHelper.currentTime(), rental.getArrival());
-        assertTrue(rental.isFinished());
+        assertFalse(rental.isFinished());
         assertEquals(new BigDecimal("34.10"), rental.getPriceCalculatedAfter());
         assertEquals(new BigInteger("11"), getEntityManager().createNativeQuery("SELECT COUNT(*) FROM rental").getSingleResult());
     }
@@ -46,12 +46,14 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
     public void testPay() {
         RentalBean rental = arrivalService.arrive(new ArrivalBean(2));
         assertEquals(dateTimeHelper.currentTime(), rental.getArrival());
-        assertTrue(rental.isFinished());
+        assertFalse(rental.isFinished());
         assertEquals(new BigDecimal("34.10"), rental.getPriceCalculatedAfter());
         assertNull(rental.getPricePaidAfter());
 
         BillBean bill = arrivalService.pay(new PaymentBean(2, new BigDecimal("34.10")));
         assertEquals(new BigDecimal("34.10"), bill.getSumTaxSetNormal());
+        rental = arrivalService.arrive(new ArrivalBean(2));
+        assertTrue(rental.isFinished());
     }
 
     @Test

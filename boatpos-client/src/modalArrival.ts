@@ -11,8 +11,9 @@ import {PromotionAfter} from "./promotion";
 import {Commitment} from "./commitment";
 import {KeyBindingService} from "./keybinding.service";
 import {PrettyPrinter} from "./prettyprinter";
+import {Payment} from "./payment";
 
-export class ModalInfoContext {
+export class ModalArrivalContext {
     constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public pp:PrettyPrinter) {
     }
 }
@@ -21,74 +22,109 @@ export class ModalInfoContext {
     selector: 'modal-content',
     directives: [NgIf],
     template: `<div class="modal-header">
-        <h2 class="header header-main">Information über Nummer {{rentalNumber}}</h2>
+        <h2 class="header header-main">Verrechnung Nummer {{rentalNumber}}</h2>
         </div>
-        <div class="modal-body" *ngIf="!noRental">
+        <div class="modal-body" *ngIf="state === 'ok'">
             <p><span class="text-grey">Boot:</span> {{getBoatName()}}</p>
             <p><span class="text-grey">Einsatz:</span> {{getCommitments()}}</p>
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
-            <p><span class="text-grey">Fahrzeit:</span> {{printTimeOfTravel()}}</p>
-            <p><span class="text-grey">Preis bezahlt:</span> {{printPricePaid()}}</p>
-            <p><span class="text-grey">Preis bevor:</span> {{printPricePaidBefore()}}</p>
-            <p><span class="text-grey">Preis danach:</span> {{printPricePaidAfter()}}</p>
-            <p><span class="text-grey">Preis berechnet bevor:</span> {{printPriceCalculatedBefore()}}</p>
-            <p><span class="text-grey">Preis berechnet danach:</span> {{printPriceCalculatedAfter()}}</p>
+            <p><span class="text-grey">Fahrzeit:</span> {{printTimeOfTravel()}} (verrechnet: {{printTimeOfTravelCalculated()}})</p>
             <p><span class="text-grey">Aktion bevor:</span> {{printPromotionBefore()}}</p>
+            <p><span class="text-grey">Preis bereits bezahlt:</span> {{printPricePaidBefore()}}</p>
             <p><span class="text-grey">Aktion danach:</span> {{printPromotionAfter()}}</p>
-            <p><span class="text-grey">Gelöscht:</span> {{getDeletedJaNein()}}</p>
-            <p><span class="text-grey">Abgerechnet:</span> {{printFinishedJaNein()}}</p>
+            <p><span class="text-grey">Zu bezahlender Betrag:</span></p>
+            <input class="input input-arrival-price" [(ngModel)]="price" placeholder="Preis"/>
         </div>
-        <div class="modal-body" *ngIf="noRental">
-            <p>{{noRental}}</p>
+        <div class="modal-body" *ngIf="state === 'na'">
+            <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>
+        </div>
+        <div class="modal-body" *ngIf="state === 'del'">
+            <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>
+        </div>
+        <div class="modal-body" *ngIf="state === 'alf'">
+            <p>Vermietung mit Nummer {{rentalNumber}} wurde bereits abgerechnet!</p>
         </div>
         <div class="modal-footer">
-            <button class="buttonSmall button-action" (click)="delete($event)" *ngIf="!getDeletedOrEmpty()">Löschen</button>
-            <button class="buttonSmall button-action" (click)="undoDelete($event)" *ngIf="getDeletedOrEmpty()">Wiederherstellen</button>
-            <button class="buttonSmall button-ok" (click)="close($event)">Schließen</button>
+            <button class="buttonSmall button-action" (click)="reset()" *ngIf="state === 'ok'">Zurücksetzen</button>
+            <button class="buttonSmall button-ok" (click)="pay()" *ngIf="state === 'ok'">Bezahlen</button>
+            <button class="buttonSmall button-cancel" (click)="close($event)">Schließen</button>
         </div>`,
+    styles: [`
+        .input-arrival-price {
+            font-size: 7em;
+            font-weight: 900;
+        }
+        `],
 })
-export class ModalDelete implements ICustomModalComponent {
+export class ModalArrival implements ICustomModalComponent {
 
     private dialog:ModalDialogInstance;
     private keyBinding:KeyBindingService;
     private rentalService:RentalService;
     private pp:PrettyPrinter;
     private rentalNumber:number;
-    private noRental:string;
+    private state:string;
     private rental:Rental;
+    private price:string;
+    private originalPrice:string;
+    private isOriginalPrice:boolean;
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
-        this.keyBinding = (<ModalInfoContext>modelContentData).keyBinding;
-        this.rentalService = (<ModalInfoContext>modelContentData).rentalService;
-        this.rentalNumber = (<ModalInfoContext>modelContentData).rentalNumber;
-        this.pp = (<ModalInfoContext>modelContentData).pp;
+        this.keyBinding = (<ModalArrivalContext>modelContentData).keyBinding;
+        this.rentalService = (<ModalArrivalContext>modelContentData).rentalService;
+        this.rentalNumber = (<ModalArrivalContext>modelContentData).rentalNumber;
+        this.pp = (<ModalArrivalContext>modelContentData).pp;
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
             },
             'M': () => {
-                if (isPresent(this.rental) && this.rental.deleted === true) {
-                    this.undoDelete()
-                } else {
-                    this.delete();
-                }
+                this.reset();
             },
             'O': () => {
-                this.cancel();
+                this.pay();
+            },
+            '.': () => {
+                this.addToPrice('.');
             }
         };
+        for (var i = 0; i <= 9; i++) {
+            map[i] = (e) => {
+                this.addToPrice(String.fromCharCode(e.charCode));
+            };
+        }
         this.keyBinding.addBindingForDialogInfo(map);
         this.keyBinding.focusDialogInfo();
+        this.arrive();
+    }
 
-        this.rentalService.getRental(this.rentalNumber).subscribe((rental:Rental) => {
+    private arrive() {
+        this.rentalService.arrive(this.rentalNumber).subscribe((rental:Rental) => {
                 this.rental = <Rental>rental;
+                if (this.rental.deleted === true) {
+                    this.state = "del";
+                } else if (this.rental.finished === true) {
+                    this.state = "alf";
+                } else {
+                    this.state = "ok";
+                    this.price = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
+                    this.isOriginalPrice = true;
+                    this.originalPrice = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
+                }
             },
             () => {
-                this.noRental = "Keine Vermietung mit Nummer " + this.rentalNumber + " gefunden!";
+                this.state = "na";
             });
+    }
 
+    private addToPrice(s:string) {
+        if (this.isOriginalPrice === true) {
+            this.price = "";
+            this.isOriginalPrice = false;
+        }
+        this.price = (this.price == null ? "" : this.price) + s;
     }
 
     getBoatName():string {
@@ -108,18 +144,6 @@ export class ModalDelete implements ICustomModalComponent {
             });
         }
         return commitments;
-    }
-
-    getDeletedOrEmpty():string {
-        return (isPresent(this.rental) && this.rental.deleted === true) ? "gelöscht" : "";
-    }
-
-    getDeletedJaNein():string {
-        return (isPresent(this.rental) && this.rental.deleted === true) ? "Ja" : "Nein";
-    }
-
-    printFinishedJaNein():string {
-        return (isPresent(this.rental) && this.rental.finished === true) ? "Ja" : "Nein";
     }
 
     printDeparture():string {
@@ -142,36 +166,8 @@ export class ModalDelete implements ICustomModalComponent {
         return dateString;
     }
 
-    printPricePaid():string {
-        if (isPresent(this.rental)) {
-            let summandA:number = 0;
-            if (!isNaN(this.rental.pricePaidBefore)) {
-                summandA = this.rental.pricePaidBefore;
-            }
-            let summandB:number = 0;
-            if (!isNaN(this.rental.pricePaidAfter)) {
-                summandB = this.rental.pricePaidAfter;
-            }
-            return this.pp.ppPrice(summandA + summandB, "€ ");
-        } else {
-            return "";
-        }
-    }
-
-    printPriceCalculatedBefore():string {
-        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.priceCalculatedBefore, "€ ") : "";
-    }
-
-    printPriceCalculatedAfter():string {
-        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.priceCalculatedAfter, "€ ") : "";
-    }
-
     printPricePaidBefore():string {
-        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore, "€ ") : "";
-    }
-
-    printPricePaidAfter():string {
-        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidAfter, "€ ") : "";
+        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore, "") : "";
     }
 
     printPromotionBefore():string {
@@ -190,8 +186,12 @@ export class ModalDelete implements ICustomModalComponent {
         return result;
     }
 
-    printTimeOfTravel(): string {
+    printTimeOfTravel():string {
         return (isPresent(this.rental)) ? this.rental.timeOfTravel + " Minuten" : "";
+    }
+
+    printTimeOfTravelCalculated():string {
+        return (isPresent(this.rental)) ? this.rental.timeOfTravelCalculated + " Minuten" : "";
     }
 
     close($event) {
@@ -205,15 +205,20 @@ export class ModalDelete implements ICustomModalComponent {
         this.dialog.dismiss();
     }
 
-    private delete():void {
-        this.rentalService.deleteRental(this.rentalNumber).subscribe((rental:Rental) => {
-            this.rental = rental;
-        });
+    private reset():void {
+        this.price = this.originalPrice;
+        this.isOriginalPrice = true;
     }
 
-    private undoDelete():void {
-        this.rentalService.undoDeleteRental(this.rentalNumber).subscribe((rental:Rental) => {
-            this.rental = rental;
-        });
+    private pay():void {
+        let payment:Payment = new Payment(this.rentalNumber, Number.parseFloat(this.price));
+        this.rentalService.payAfter(payment).subscribe((rental:Rental) => {
+                this.rental = rental;
+                //noinspection TypeScriptUnresolvedFunction
+                this.dialog.close("ok");
+            },
+            () => {
+                this.cancel();
+            });
     }
 }

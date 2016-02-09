@@ -23,8 +23,8 @@ export class PrettyPrinter {
         return result;
     }
 
-    ppPrice(price:number):string {
-        let result:string = "€ ";
+    ppPrice(price:number, prefix:string):string {
+        let result:string = isPresent(prefix) ? prefix : "€ ";
         if (isPresent(price) && isNumber(price) && !isNaN(price)) {
             result += price.toFixed(2);
         } else {

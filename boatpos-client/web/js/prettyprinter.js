@@ -39,8 +39,8 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                     result += this.pp2Pos(number);
                     return result;
                 };
-                PrettyPrinter.prototype.ppPrice = function (price) {
-                    var result = "€ ";
+                PrettyPrinter.prototype.ppPrice = function (price, prefix) {
+                    var result = lang_1.isPresent(prefix) ? prefix : "€ ";
                     if (lang_1.isPresent(price) && lang_2.isNumber(price) && !isNaN(price)) {
                         result += price.toFixed(2);
                     }

@@ -7,6 +7,7 @@ import {Departure} from "./departure";
 import {Rental} from "./rental";
 import {Boat} from "./boat";
 import {Payment} from "./payment";
+import {Arrival} from "./arrival";
 
 @Injectable()
 export class RentalService {
@@ -66,6 +67,25 @@ export class RentalService {
     getRental(dayNumber:number):Observable<Rental> {
         return this.http.get(
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return this.convertRentalBeanTorRental(rentalBean);
+            });
+    }
+
+    arrive(dayNumber:number):Observable<Rental> {
+        return this.http.post(
+                this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.headers})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return this.convertRentalBeanTorRental(rentalBean);
+            });
+    }
+
+    payAfter(payment:Payment):Observable<Rental> {
+        return this.http.post(
+                this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.headers}
+            )
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanTorRental(rentalBean);

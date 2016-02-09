@@ -78,7 +78,7 @@ export class ModalPromotionPay implements ICustomModalComponent {
     }
 
     getPriceCalculatedBefore():string {
-        return this.pp.ppPrice(this.rental.priceCalculatedBefore);
+        return this.pp.ppPrice(this.rental.priceCalculatedBefore, "€ ");
     }
 
     getPromotionBefore():string {

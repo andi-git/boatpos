@@ -13,6 +13,7 @@ import org.boatpos.service.api.DepartureService;
 import org.boatpos.service.api.bean.DepartureBean;
 import org.boatpos.service.api.bean.PaymentBean;
 import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
 import org.boatpos.util.qualifiers.Current;
 
@@ -51,6 +52,9 @@ public class DepartureServiceCore implements DepartureService {
     @Current
     private DepartureTime departureTime;
 
+    @Inject
+    private RentalBeanEnrichment rentalBeanEnrichment;
+
     @Override
     public RentalBean depart(DepartureBean departureBean) {
         Boat boat = getBoat(departureBean);
@@ -59,15 +63,14 @@ public class DepartureServiceCore implements DepartureService {
         if (promotionBefore.isPresent()) {
             priceCalculatedBefore = Optional.of(priceCalculator.calculate(boat.getPriceOneHour(), promotionBefore.get()));
         }
-        return rentalRepository
+        return rentalBeanEnrichment.asDto(rentalRepository
                 .depart(
                         day,
                         departureTime,
                         boat,
                         getCommitments(departureBean),
                         promotionBefore,
-                        priceCalculatedBefore)
-                .asDto();
+                        priceCalculatedBefore));
     }
 
     @Override
@@ -76,9 +79,8 @@ public class DepartureServiceCore implements DepartureService {
         if (!rental.getPromotion().isPresent() || !(rental.getPromotion().get() instanceof PromotionBefore)) {
             throw new RuntimeException("rental " + paymentBean.getDayNumber() + ": unable to pay for a promotion when no promotion-before is set");
         }
-        return rental.setPricePaidBefore(new PricePaidBefore(paymentBean.getValue()))
-                .persist()
-                .asDto();
+        return rentalBeanEnrichment.asDto(rental.setPricePaidBefore(new PricePaidBefore(paymentBean.getValue()))
+                .persist());
     }
 
     private Optional<PromotionBefore> getPromotionBefore(DepartureBean departureBean) {

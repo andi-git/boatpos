@@ -21,6 +21,8 @@ import {ModalDeleted} from "./modalDeleted";
 import {PrettyPrinter} from "./prettyprinter";
 import {ModalPromotionPay} from "./modalPromotionPay";
 import {ModalPromotionPayContext} from "./modalPromotionPay";
+import {ModalArrival} from "./modalArrival";
+import {ModalArrivalContext} from "./modalArrival";
 
 @Component({
     selector: 'action',
@@ -53,6 +55,9 @@ export class ActionComponent {
             },
             'N': () => {
                 this.info();
+            },
+            'O': () => {
+                this.arrive();
             }
         };
         for (var i = 0; i <= 9; i++) {
@@ -197,6 +202,28 @@ export class ActionComponent {
                     this.keyBinding.focusMain();
                 }, () => {
                     this.lastModalResult = 'Rejected!';
+                    this.resetUi();
+                    this.keyBinding.focusMain();
+                });
+            });
+        }
+    }
+
+    private arrive() {
+        if (!isPresent(this.rentalNumber)) {
+            this.infoService.event().emit("Verrechnung nicht möglich: keine Nummer eingegeben.")
+        } else {
+            this.infoService.event().emit("Verrechnung der Nummer " + this.rentalNumber + ".");
+            this.modalHandler.open(ModalArrival, new ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.pp)).then((resultPromise) => {
+                //noinspection TypeScriptUnresolvedVariable
+                return resultPromise.result.then((result) => {
+                    this.lastModalResult = result;
+                    this.infoService.event().emit("Vermietung mit Nummer " + this.rentalNumber + " ist abgeschlossen.");
+                    this.resetUi();
+                    this.keyBinding.focusMain();
+                }, () => {
+                    this.lastModalResult = 'Rejected!';
+                    this.infoService.event().emit("Abrechnung der Nummer " + this.rentalNumber + " wurde abgebrochen.");
                     this.resetUi();
                     this.keyBinding.focusMain();
                 });

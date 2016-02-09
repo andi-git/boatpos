@@ -17,6 +17,9 @@ export class KeyBindingService {
     // cache all key-bindings for dialog 'promotion-pay'
     private keyBindingsForDialogPromotionPay:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
 
+    // cache all key-bindings for dialog 'arrival'
+    private keyBindingsForDialogArrival:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)} = {};
+
     constructor() {
         this.mouseTrap = new Mousetrap();
     }
@@ -55,6 +58,12 @@ export class KeyBindingService {
         }
     }
 
+    addBindingForDialogArrival(keyBindings:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)}):void {
+        for (var key in keyBindings) {
+            this.keyBindingsForDialogArrival[key] = keyBindings[key];
+        }
+    }
+
     private setKeyBindings(keyBindings:{[key: string]: ((e:ExtendedKeyboardEvent, combo:string) => any)}) {
         this.mouseTrap.reset();
         for (var key in keyBindings) {
@@ -76,5 +85,9 @@ export class KeyBindingService {
 
     focusDialogPromotionPay() {
         this.setKeyBindings(this.keyBindingsForDialogPromotionPay);
+    }
+
+    focusDialogArrival() {
+        this.setKeyBindings(this.keyBindingsForDialogArrival);
     }
 }

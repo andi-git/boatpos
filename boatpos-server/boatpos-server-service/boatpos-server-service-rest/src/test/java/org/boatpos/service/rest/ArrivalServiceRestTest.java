@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
@@ -29,7 +30,7 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         Response response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(2)));
         RentalBean rentalBean = response.readEntity(RentalBean.class);
         assertEquals(2, rentalBean.getDayId().intValue());
-        assertTrue(rentalBean.isFinished());
+        assertFalse(rentalBean.isFinished());
 
         response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(999)));
         assertEquals(500, response.getStatus());
@@ -49,5 +50,8 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/pay")).post(Entity.json(new PaymentBean(2, new BigDecimal("17.10"))));
         BillBean billBean = response.readEntity(BillBean.class);
         assertEquals(new BigDecimal("17.10"), billBean.getSumTaxSetNormal());
+        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(2)));
+        rentalBean = response.readEntity(RentalBean.class);
+        assertTrue(rentalBean.isFinished());
     }
 }

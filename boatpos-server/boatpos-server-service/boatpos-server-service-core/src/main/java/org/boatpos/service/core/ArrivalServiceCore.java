@@ -8,6 +8,7 @@ import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.bean.*;
 import org.boatpos.service.core.util.BillCreator;
+import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
 import org.boatpos.util.qualifiers.Current;
 
@@ -43,6 +44,9 @@ public class ArrivalServiceCore implements ArrivalService {
     @Inject
     private BillCreator billCreator;
 
+    @Inject
+    private RentalBeanEnrichment rentalBeanEnrichment;
+
     @Override
     public RentalBean arrive(ArrivalBean arrivalBean) {
         Rental rental = rentalRepository.arrive(
@@ -50,7 +54,7 @@ public class ArrivalServiceCore implements ArrivalService {
                 new DayId(arrivalBean.getDayNumber()),
                 arrivalTime);
         PriceCalculatedAfter priceCalculatedAfter = priceCalculator.calculate(rental);
-        return rental.setPriceCalculatedAfter(priceCalculatedAfter).persist().asDto();
+        return rentalBeanEnrichment.asDto(rental.setPriceCalculatedAfter(priceCalculatedAfter).persist());
     }
 
     @Override
@@ -63,7 +67,7 @@ public class ArrivalServiceCore implements ArrivalService {
                 Rental rental = rentalOptional.get();
                 rental.setPromotion(promotionAfterOptional.get());
                 rental.setPriceCalculatedAfter(priceCalculator.calculate(rental));
-                return rental.persist().asDto();
+                return rentalBeanEnrichment.asDto(rental.persist());
             } else {
                 throw new RuntimeException("unable to load promotion with id " + addPromotionBean.getPromotionId());
             }
@@ -74,9 +78,13 @@ public class ArrivalServiceCore implements ArrivalService {
 
     @Override
     public BillBean pay(PaymentBean paymentBean) {
-        return billCreator.create(rentalLoader
-                .loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()))
+        Rental rental = rentalLoader.loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()));
+        if (rental.isFinished().get()) {
+            throw new IllegalStateException("Payment not possible - rental is already finished!");
+        }
+        return billCreator.create(rental
                 .setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
+                .setFinished(Finished.TRUE)
                 .persist());
     }
 }

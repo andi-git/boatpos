@@ -77,7 +77,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "./pa
                     });
                 };
                 ModalPromotionPay.prototype.getPriceCalculatedBefore = function () {
-                    return this.pp.ppPrice(this.rental.priceCalculatedBefore);
+                    return this.pp.ppPrice(this.rental.priceCalculatedBefore, "€ ");
                 };
                 ModalPromotionPay.prototype.getPromotionBefore = function () {
                     return this.rental.promotionBefore.name;
