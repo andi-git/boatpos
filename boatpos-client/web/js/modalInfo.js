@@ -48,7 +48,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                             _this.cancel();
                         },
                         'M': function () {
-                            if (_this.deleted === true) {
+                            if (lang_1.isPresent(_this.rental) && _this.rental.deleted === true) {
                                 _this.undoDelete();
                             }
                             else {
@@ -62,58 +62,41 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     this.keyBinding.addBindingForDialogInfo(map);
                     this.keyBinding.focusDialogInfo();
                     this.rentalService.getRental(this.rentalNumber).subscribe(function (rental) {
-                        _this.setContentFromService(rental);
+                        _this.rental = rental;
                     }, function () {
                         _this.noRental = "Keine Vermietung mit Nummer " + _this.rentalNumber + " gefunden!";
                     });
                 }
-                ModalDelete.prototype.setContentFromService = function (rental) {
-                    var _this = this;
-                    this.boatName = rental.boat.name;
-                    this.departure = rental.departure;
-                    this.arrival = rental.arrival;
-                    this.pricePaidBefore = rental.pricePaidBefore;
-                    this.pricePaidAfter = rental.pricePaidAfter;
-                    this.priceCalculatedBefore = rental.priceCalculatedBefore;
-                    this.priceCalculatedAfter = rental.priceCalculatedAfter;
-                    if (lang_1.isPresent(rental.promotionBefore)) {
-                        this.promotionBefore = rental.promotionBefore.name;
-                        this.promotionBeforeCredit = rental.promotionBefore.timeCredit;
-                    }
-                    if (lang_1.isPresent(rental.promotionAfter)) {
-                        this.promotionAfter = rental.promotionAfter.name;
-                    }
-                    var first = true;
-                    this.commitments = "";
-                    rental.commitments.forEach(function (commitment) {
-                        if (!first) {
-                            _this.commitments += ",";
+                ModalDelete.prototype.getBoatName = function () {
+                    return lang_1.isPresent(this.rental) ? this.rental.boat.name : "";
+                };
+                ModalDelete.prototype.getCommitments = function () {
+                    var commitments = "";
+                    if (lang_1.isPresent(this.rental)) {
+                        var first = true;
+                        this.rental.commitments.forEach(function (commitment) {
+                            if (!first) {
+                                commitments += ",";
+                            }
+                            commitments += commitment.name;
                             first = false;
-                        }
-                        _this.commitments += commitment.name;
-                    });
-                    this.deleted = rental.deleted;
-                    this.timeOfTravel = rental.timeOfTravel;
+                        });
+                    }
+                    return commitments;
                 };
                 ModalDelete.prototype.getDeletedOrEmpty = function () {
-                    if (this.deleted === true) {
-                        return "gelöscht";
-                    }
-                    return "";
+                    return (lang_1.isPresent(this.rental) && this.rental.deleted === true) ? "gelöscht" : "";
                 };
                 ModalDelete.prototype.getDeletedJaNein = function () {
-                    if (this.deleted === true) {
-                        return "Ja";
-                    }
-                    return "Nein";
+                    return (lang_1.isPresent(this.rental) && this.rental.deleted === true) ? "Ja" : "Nein";
                 };
                 ModalDelete.prototype.printDeparture = function () {
-                    return this.printDate(this.departure);
+                    return lang_1.isPresent(this.rental) ? this.printDate(this.rental.departure) : "";
                 };
                 ModalDelete.prototype.printArrival = function () {
                     var result = "keine Ankunftszeit vorhanden";
-                    if (lang_1.isPresent(this.arrival) && this.arrival.getUTCFullYear() > 1970) {
-                        result = this.printDate(this.arrival);
+                    if (lang_1.isPresent(this.rental) && lang_1.isPresent(this.rental.arrival) && this.rental.arrival.getUTCFullYear() > 1970) {
+                        result = this.printDate(this.rental.arrival);
                     }
                     return result;
                 };
@@ -125,39 +108,44 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     return dateString;
                 };
                 ModalDelete.prototype.printPricePaid = function () {
-                    var summandA = 0;
-                    if (!isNaN(this.pricePaidBefore)) {
-                        summandA = this.pricePaidBefore;
+                    if (lang_1.isPresent(this.rental)) {
+                        var summandA = 0;
+                        if (!isNaN(this.rental.pricePaidBefore)) {
+                            summandA = this.rental.pricePaidBefore;
+                        }
+                        var summandB = 0;
+                        if (!isNaN(this.rental.pricePaidAfter)) {
+                            summandB = this.rental.pricePaidAfter;
+                        }
+                        return this.pp.ppPrice(summandA + summandB);
                     }
-                    var summandB = 0;
-                    if (!isNaN(this.pricePaidAfter)) {
-                        summandB = this.pricePaidAfter;
+                    else {
+                        return "";
                     }
-                    return this.pp.ppPrice(summandA + summandB);
                 };
                 ModalDelete.prototype.printPriceCalculatedBefore = function () {
-                    return this.pp.ppPrice(this.priceCalculatedBefore);
+                    return lang_1.isPresent(this.rental) ? this.pp.ppPrice(this.rental.priceCalculatedBefore) : "";
                 };
                 ModalDelete.prototype.printPriceCalculatedAfter = function () {
-                    return this.pp.ppPrice(this.priceCalculatedAfter);
+                    return lang_1.isPresent(this.rental) ? this.pp.ppPrice(this.rental.priceCalculatedAfter) : "";
                 };
                 ModalDelete.prototype.printPricePaidBefore = function () {
-                    return this.pp.ppPrice(this.pricePaidBefore);
+                    return lang_1.isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore) : "";
                 };
                 ModalDelete.prototype.printPricePaidAfter = function () {
-                    return this.pp.ppPrice(this.pricePaidAfter);
+                    return lang_1.isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidAfter) : "";
                 };
                 ModalDelete.prototype.printPromotionBefore = function () {
                     var result = "keine Aktion vorhanden";
-                    if (lang_1.isPresent(this.promotionBefore)) {
-                        result = this.promotionBefore + " (Guthaben: " + this.promotionBeforeCredit + " Minuten)";
+                    if (lang_1.isPresent(this.rental) && lang_1.isPresent(this.rental.promotionBefore)) {
+                        result = this.rental.promotionBefore.name + " (Guthaben: " + this.rental.promotionBefore.timeCredit + " Minuten)";
                     }
                     return result;
                 };
                 ModalDelete.prototype.printPromotionAfter = function () {
                     var result = "keine Aktion vorhanden";
-                    if (lang_1.isPresent(this.promotionAfter)) {
-                        result = this.promotionAfter;
+                    if (lang_1.isPresent(this.rental) && lang_1.isPresent(this.rental.promotionAfter)) {
+                        result = this.rental.promotionAfter;
                     }
                     return result;
                 };
@@ -173,20 +161,20 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                 ModalDelete.prototype.delete = function ($event) {
                     var _this = this;
                     this.rentalService.deleteRental(this.rentalNumber).subscribe(function (rental) {
-                        _this.setContentFromService(rental);
+                        _this.rental = rental;
                     });
                 };
                 ModalDelete.prototype.undoDelete = function ($event) {
                     var _this = this;
                     this.rentalService.undoDeleteRental(this.rentalNumber).subscribe(function (rental) {
-                        _this.setContentFromService(rental);
+                        _this.rental = rental;
                     });
                 };
                 ModalDelete = __decorate([
                     core_1.Component({
                         selector: 'modal-content',
                         directives: [common_1.NgIf],
-                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Information \u00FCber Nummer {{rentalNumber}}</h2>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"!noRental\">\n            <p><span class=\"text-grey\">Boot:</span> {{boatName}}</p>\n            <p><span class=\"text-grey\">Einsatz:</span> {{commitments}}</p>\n            <p><span class=\"text-grey\">Abfahrt:</span> {{printDeparture()}}</p>\n            <p><span class=\"text-grey\">Ankunft:</span> {{printArrival()}}</p>\n            <p><span class=\"text-grey\">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>\n            <p><span class=\"text-grey\">Preis bezahlt:</span> {{printPricePaid()}}</p>\n            <p><span class=\"text-grey\">Preis bevor:</span> {{printPricePaidBefore()}}</p>\n            <p><span class=\"text-grey\">Preis danach:</span> {{printPricePaidAfter()}}</p>\n            <p><span class=\"text-grey\">Preis berechnet bevor:</span> {{printPriceCalculatedBefore()}}</p>\n            <p><span class=\"text-grey\">Preis berechnet danach:</span> {{printPriceCalculatedAfter()}}</p>\n            <p><span class=\"text-grey\">Aktion bevor:</span> {{printPromotionBefore()}}</p>\n            <p><span class=\"text-grey\">Aktion danach:</span> {{printPromotionAfter()}}</p>\n            <p><span class=\"text-grey\">Gel\u00F6scht:</span> {{getDeletedJaNein()}}</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"noRental\">\n            <p>{{noRental}}</p>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"delete($event)\" *ngIf=\"!getDeletedOrEmpty()\">L\u00F6schen</button>\n            <button class=\"buttonSmall button-action\" (click)=\"undoDelete($event)\" *ngIf=\"getDeletedOrEmpty()\">Wiederherstellen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
+                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Information \u00FCber Nummer {{rentalNumber}}</h2>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"!noRental\">\n            <p><span class=\"text-grey\">Boot:</span> {{getBoatName()}}</p>\n            <p><span class=\"text-grey\">Einsatz:</span> {{getCommitments()}}</p>\n            <p><span class=\"text-grey\">Abfahrt:</span> {{printDeparture()}}</p>\n            <p><span class=\"text-grey\">Ankunft:</span> {{printArrival()}}</p>\n            <p><span class=\"text-grey\">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>\n            <p><span class=\"text-grey\">Preis bezahlt:</span> {{printPricePaid()}}</p>\n            <p><span class=\"text-grey\">Preis bevor:</span> {{printPricePaidBefore()}}</p>\n            <p><span class=\"text-grey\">Preis danach:</span> {{printPricePaidAfter()}}</p>\n            <p><span class=\"text-grey\">Preis berechnet bevor:</span> {{printPriceCalculatedBefore()}}</p>\n            <p><span class=\"text-grey\">Preis berechnet danach:</span> {{printPriceCalculatedAfter()}}</p>\n            <p><span class=\"text-grey\">Aktion bevor:</span> {{printPromotionBefore()}}</p>\n            <p><span class=\"text-grey\">Aktion danach:</span> {{printPromotionAfter()}}</p>\n            <p><span class=\"text-grey\">Gel\u00F6scht:</span> {{getDeletedJaNein()}}</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"noRental\">\n            <p>{{noRental}}</p>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"delete($event)\" *ngIf=\"!getDeletedOrEmpty()\">L\u00F6schen</button>\n            <button class=\"buttonSmall button-action\" (click)=\"undoDelete($event)\" *ngIf=\"getDeletedOrEmpty()\">Wiederherstellen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof angular2_modal_1.ModalDialogInstance !== 'undefined' && angular2_modal_1.ModalDialogInstance) === 'function' && _a) || Object, (typeof (_b = typeof angular2_modal_1.ICustomModal !== 'undefined' && angular2_modal_1.ICustomModal) === 'function' && _b) || Object])
                 ], ModalDelete);

@@ -24,8 +24,8 @@ export class ModalInfoContext {
         <h2 class="header header-main">Information über Nummer {{rentalNumber}}</h2>
         </div>
         <div class="modal-body" *ngIf="!noRental">
-            <p><span class="text-grey">Boot:</span> {{boatName}}</p>
-            <p><span class="text-grey">Einsatz:</span> {{commitments}}</p>
+            <p><span class="text-grey">Boot:</span> {{getBoatName()}}</p>
+            <p><span class="text-grey">Einsatz:</span> {{getCommitments()}}</p>
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
             <p><span class="text-grey">Fahrzeit:</span> {{timeOfTravel}} Minuten</p>
@@ -55,19 +55,7 @@ export class ModalDelete implements ICustomModalComponent {
     private pp:PrettyPrinter;
     private rentalNumber:number;
     private noRental:string;
-    private boatName:string;
-    private departure:Date;
-    private arrival:Date;
-    private pricePaidBefore:number;
-    private pricePaidAfter:number;
-    private priceCalculatedBefore:number;
-    private priceCalculatedAfter:number;
-    private promotionBefore:string;
-    private promotionBeforeCredit:number;
-    private promotionAfter:string;
-    private commitments:string;
-    private deleted:boolean;
-    private timeOfTravel:number;
+    private rental:Rental;
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
@@ -80,7 +68,7 @@ export class ModalDelete implements ICustomModalComponent {
                 this.cancel();
             },
             'M': () => {
-                if (this.deleted === true) {
+                if (isPresent(this.rental) && this.rental.deleted === true) {
                     this.undoDelete()
                 } else {
                     this.delete();
@@ -94,7 +82,7 @@ export class ModalDelete implements ICustomModalComponent {
         this.keyBinding.focusDialogInfo();
 
         this.rentalService.getRental(this.rentalNumber).subscribe((rental:Rental) => {
-                this.setContentFromService(rental);
+                this.rental = <Rental>rental;
             },
             () => {
                 this.noRental = "Keine Vermietung mit Nummer " + this.rentalNumber + " gefunden!";
@@ -102,56 +90,41 @@ export class ModalDelete implements ICustomModalComponent {
 
     }
 
-    private setContentFromService(rental:Rental) {
-        this.boatName = rental.boat.name;
-        this.departure = rental.departure;
-        this.arrival = rental.arrival;
-        this.pricePaidBefore = rental.pricePaidBefore;
-        this.pricePaidAfter = rental.pricePaidAfter;
-        this.priceCalculatedBefore = rental.priceCalculatedBefore;
-        this.priceCalculatedAfter = rental.priceCalculatedAfter;
-        if (isPresent(rental.promotionBefore)) {
-            this.promotionBefore = rental.promotionBefore.name;
-            this.promotionBeforeCredit = rental.promotionBefore.timeCredit;
-        }
-        if (isPresent(rental.promotionAfter)) {
-            this.promotionAfter = rental.promotionAfter.name;
-        }
-        let first:boolean = true;
-        this.commitments = "";
-        rental.commitments.forEach((commitment) => {
-            if (!first) {
-                this.commitments += ",";
+    getBoatName():string {
+        return isPresent(this.rental) ? this.rental.boat.name : "";
+    }
+
+    getCommitments():string {
+        let commitments:string = "";
+        if (isPresent(this.rental)) {
+            let first:boolean = true;
+            this.rental.commitments.forEach((commitment) => {
+                if (!first) {
+                    commitments += ",";
+                }
+                commitments += commitment.name;
                 first = false;
-            }
-            this.commitments += commitment.name;
-        });
-        this.deleted = rental.deleted;
-        this.timeOfTravel = rental.timeOfTravel;
+            });
+        }
+        return commitments;
     }
 
     getDeletedOrEmpty():string {
-        if (this.deleted === true) {
-            return "gelöscht";
-        }
-        return "";
+        return (isPresent(this.rental) && this.rental.deleted === true) ? "gelöscht" : "";
     }
 
     getDeletedJaNein():string {
-        if (this.deleted === true) {
-            return "Ja";
-        }
-        return "Nein";
+        return (isPresent(this.rental) && this.rental.deleted === true) ? "Ja" : "Nein";
     }
 
     printDeparture():string {
-        return this.printDate(this.departure);
+        return isPresent(this.rental) ? this.printDate(this.rental.departure) : "";
     }
 
     printArrival():string {
         let result:string = "keine Ankunftszeit vorhanden";
-        if (isPresent(this.arrival) && this.arrival.getUTCFullYear() > 1970) {
-            result = this.printDate(this.arrival);
+        if (isPresent(this.rental) && isPresent(this.rental.arrival) && this.rental.arrival.getUTCFullYear() > 1970) {
+            result = this.printDate(this.rental.arrival);
         }
         return result;
     }
@@ -165,45 +138,49 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     printPricePaid():string {
-        let summandA:number = 0;
-        if (!isNaN(this.pricePaidBefore)) {
-            summandA = this.pricePaidBefore;
+        if (isPresent(this.rental)) {
+            let summandA:number = 0;
+            if (!isNaN(this.rental.pricePaidBefore)) {
+                summandA = this.rental.pricePaidBefore;
+            }
+            let summandB:number = 0;
+            if (!isNaN(this.rental.pricePaidAfter)) {
+                summandB = this.rental.pricePaidAfter;
+            }
+            return this.pp.ppPrice(summandA + summandB);
+        } else {
+            return "";
         }
-        let summandB:number = 0;
-        if (!isNaN(this.pricePaidAfter)) {
-            summandB = this.pricePaidAfter;
-        }
-        return this.pp.ppPrice(summandA + summandB);
     }
 
     printPriceCalculatedBefore():string {
-        return this.pp.ppPrice(this.priceCalculatedBefore);
+        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.priceCalculatedBefore) : "";
     }
 
     printPriceCalculatedAfter():string {
-        return this.pp.ppPrice(this.priceCalculatedAfter);
+        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.priceCalculatedAfter) : "";
     }
 
     printPricePaidBefore():string {
-        return this.pp.ppPrice(this.pricePaidBefore);
+        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore) : "";
     }
 
     printPricePaidAfter():string {
-        return this.pp.ppPrice(this.pricePaidAfter);
+        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidAfter) : "";
     }
 
     printPromotionBefore():string {
         let result:string = "keine Aktion vorhanden";
-        if (isPresent(this.promotionBefore)) {
-            result = this.promotionBefore + " (Guthaben: " + this.promotionBeforeCredit + " Minuten)";
+        if (isPresent(this.rental) && isPresent(this.rental.promotionBefore)) {
+            result = this.rental.promotionBefore.name + " (Guthaben: " + this.rental.promotionBefore.timeCredit + " Minuten)";
         }
         return result;
     }
 
     printPromotionAfter():string {
         let result:string = "keine Aktion vorhanden";
-        if (isPresent(this.promotionAfter)) {
-            result = this.promotionAfter;
+        if (isPresent(this.rental) && isPresent(this.rental.promotionAfter)) {
+            result = this.rental.promotionAfter;
         }
         return result;
     }
@@ -221,13 +198,13 @@ export class ModalDelete implements ICustomModalComponent {
 
     private delete($event):void {
         this.rentalService.deleteRental(this.rentalNumber).subscribe((rental:Rental) => {
-            this.setContentFromService(rental);
+            this.rental = rental;
         });
     }
 
     private undoDelete($event):void {
         this.rentalService.undoDeleteRental(this.rentalNumber).subscribe((rental:Rental) => {
-            this.setContentFromService(rental);
+            this.rental = rental;
         });
     }
 }
