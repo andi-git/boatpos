@@ -5,7 +5,7 @@ import org.boatpos.repository.api.model.MasterData;
 /**
  * Flag, if a {@link MasterData} is enabled or not.
  */
-public class Paper extends SimpleValueObject<Paper, Boolean> {
+public class Paper extends SimpleBooleanObject<Paper> {
 
     public static Paper TRUE = new Paper(true);
 

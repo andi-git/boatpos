@@ -5,7 +5,7 @@ import org.boatpos.repository.api.model.MasterData;
 /**
  * Flag, if a {@link MasterData} is enabled or not.
  */
-public class Enabled extends SimpleValueObject<Enabled, Boolean> {
+public class Enabled extends SimpleBooleanObject<Enabled> {
 
     public static Enabled TRUE = new Enabled(true);
 

@@ -6,7 +6,7 @@ import org.boatpos.repository.api.model.Rental;
 /**
  * Flag, if a {@link Rental} is finished or not.
  */
-public class Finished extends SimpleValueObject<Finished, Boolean> {
+public class Finished extends SimpleBooleanObject<Finished> {
 
     public static Finished TRUE = new Finished(true);
 

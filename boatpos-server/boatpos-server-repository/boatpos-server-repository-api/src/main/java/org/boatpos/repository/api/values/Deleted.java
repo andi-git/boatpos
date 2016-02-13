@@ -5,7 +5,7 @@ import org.boatpos.repository.api.model.Rental;
 /**
  * Flag, if a {@link Rental} is deleted or not.
  */
-public class Deleted extends SimpleValueObject<Deleted, Boolean> {
+public class Deleted extends SimpleBooleanObject<Deleted> {
 
     public static Deleted TRUE = new Deleted(true);
 
