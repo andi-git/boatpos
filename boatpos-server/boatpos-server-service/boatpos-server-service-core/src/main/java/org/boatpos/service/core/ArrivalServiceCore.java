@@ -49,9 +49,11 @@ public class ArrivalServiceCore implements ArrivalService {
 
     @Override
     public RentalBean arrive(ArrivalBean arrivalBean) {
+        DayId dayId = new DayId(arrivalBean.getDayNumber());
+        rentalLoader.checkIfRentalIsActive(dayId);
         Rental rental = rentalRepository.arrive(
                 day,
-                new DayId(arrivalBean.getDayNumber()),
+                dayId,
                 arrivalTime);
         PriceCalculatedAfter priceCalculatedAfter = priceCalculator.calculate(rental);
         return rentalBeanEnrichment.asDto(rental.setPriceCalculatedAfter(priceCalculatedAfter).persist());
@@ -60,7 +62,9 @@ public class ArrivalServiceCore implements ArrivalService {
     @Override
     public RentalBean addPromotion(AddPromotionBean addPromotionBean) {
         checkNotNull(addPromotionBean, "'addPromotionBean' must not be null");
-        Optional<Rental> rentalOptional = rentalRepository.loadBy(day, new DayId(addPromotionBean.getDayNumber()));
+        DayId dayId = new DayId(addPromotionBean.getDayNumber());
+        rentalLoader.checkIfRentalIsActive(dayId);
+        Optional<Rental> rentalOptional = rentalRepository.loadBy(day, dayId);
         if (rentalOptional.isPresent()) {
             Optional<PromotionAfter> promotionAfterOptional = promotionAfterRepository.loadBy(new DomainId(addPromotionBean.getPromotionId()));
             if (promotionAfterOptional.isPresent()) {
@@ -78,8 +82,10 @@ public class ArrivalServiceCore implements ArrivalService {
 
     @Override
     public BillBean pay(PaymentBean paymentBean) {
-        Rental rental = rentalLoader.loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()));
-        if (rental.isFinished().get()) {
+        DayId dayId = new DayId(paymentBean.getDayNumber());
+        rentalLoader.checkIfRentalIsActive(dayId);
+        Rental rental = rentalLoader.loadOnCurrentDayBy(dayId);
+        if (rental.isFinished() != null && rental.isFinished().get()) {
             throw new IllegalStateException("Payment not possible - rental is already finished!");
         }
         return billCreator.create(rental

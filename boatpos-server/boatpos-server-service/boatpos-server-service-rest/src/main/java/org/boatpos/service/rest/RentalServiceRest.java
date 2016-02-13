@@ -1,6 +1,5 @@
 package org.boatpos.service.rest;
 
-import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.RentalService;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 

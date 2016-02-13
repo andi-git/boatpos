@@ -42,4 +42,14 @@ public class RentalLoader {
             throw new RuntimeException("unable to find a " + Rental.class.getName() + " for current day with day-id " + dayId.get());
         }
     }
+
+    public void checkIfRentalIsActive(DayId dayId) {
+        Rental rental = loadOnCurrentDayBy(dayId);
+        if (rental.isFinished() != null && rental.isFinished().get()) {
+            throw new IllegalStateException("rental " + dayId.get() + " is already finished");
+        }
+        if (rental.isDeleted() != null && rental.isDeleted().get()) {
+            throw new IllegalStateException("rental " + dayId.get() + " is deleted");
+        }
+    }
 }

@@ -27,9 +27,9 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testArrive() throws Exception {
-        Response response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(2)));
+        Response response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(3)));
         RentalBean rentalBean = response.readEntity(RentalBean.class);
-        assertEquals(2, rentalBean.getDayId().intValue());
+        assertEquals(3, rentalBean.getDayId().intValue());
         assertFalse(rentalBean.isFinished());
 
         response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(999)));
@@ -38,20 +38,19 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testAddPromotionAndPay() throws Exception {
-        Response response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(2)));
+        Response response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(3)));
         RentalBean rentalBean = response.readEntity(RentalBean.class);
-        assertEquals(new BigDecimal("34.10"), rentalBean.getPriceCalculatedAfter());
+        assertEquals(new BigDecimal("44.80"), rentalBean.getPriceCalculatedAfter());
 
         Long promotionId = helper.createRestCall(url, (wt) -> wt.path("promotion/after/name/HolliKnolli")).get().readEntity(PromotionAfterBean.class).getId();
-        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/promotion")).post(Entity.json(new AddPromotionBean(2, promotionId)));
+        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/promotion")).post(Entity.json(new AddPromotionBean(3, promotionId)));
         rentalBean = response.readEntity(RentalBean.class);
-        assertEquals(new BigDecimal("17.10"), rentalBean.getPriceCalculatedAfter());
+        assertEquals(new BigDecimal("22.40"), rentalBean.getPriceCalculatedAfter());
 
-        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/pay")).post(Entity.json(new PaymentBean(2, new BigDecimal("17.10"))));
+        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/pay")).post(Entity.json(new PaymentBean(3, new BigDecimal("22.40"))));
         BillBean billBean = response.readEntity(BillBean.class);
-        assertEquals(new BigDecimal("17.10"), billBean.getSumTaxSetNormal());
-        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(2)));
-        rentalBean = response.readEntity(RentalBean.class);
+        assertEquals(new BigDecimal("22.40"), billBean.getSumTaxSetNormal());
+        rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/3")).get().readEntity(RentalBean.class);
         assertTrue(rentalBean.isFinished());
     }
 }
