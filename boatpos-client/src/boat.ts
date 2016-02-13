@@ -46,6 +46,7 @@ export class BoatCount {
     shortName:string;
     count:number;
     max:number;
+    style:string;
 
     constructor(id:number,
                 name:string,
@@ -57,6 +58,9 @@ export class BoatCount {
         this.shortName = shortName;
         this.count = count;
         this.max = max;
+        if (count >= max) {
+            this.style = "max";
+        }
     }
 
     toString():string {

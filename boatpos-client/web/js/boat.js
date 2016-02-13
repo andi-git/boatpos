@@ -33,6 +33,9 @@ System.register([], function(exports_1) {
                     this.shortName = shortName;
                     this.count = count;
                     this.max = max;
+                    if (count >= max) {
+                        this.style = "max";
+                    }
                 }
                 BoatCount.prototype.toString = function () {
                     return JSON.stringify(this);
