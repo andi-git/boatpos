@@ -9,7 +9,7 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./prett
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, boat_service_1, config_service_1, prettyprinter_1;
-    var BoatCountComponent;
+    var StatistikComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -25,26 +25,45 @@ System.register(['angular2/core', "./boat.service", "./config.service", "./prett
                 prettyprinter_1 = prettyprinter_1_1;
             }],
         execute: function() {
-            BoatCountComponent = (function () {
-                function BoatCountComponent(boatService, configService, pp) {
+            StatistikComponent = (function () {
+                function StatistikComponent(boatService, configService, pp) {
                     this.boatService = boatService;
                     this.configService = configService;
                     this.pp = pp;
+                    this.dateString = "Datum: ";
+                    this.timeString = "Uhrzeit: ";
+                    this.updateDate();
+                    this.updateTime();
                 }
-                BoatCountComponent.prototype.getBoatCounts = function () {
-                    return this.boatService.getBoatCounts();
+                StatistikComponent.prototype.getNextDayNumber = function () {
+                    return this.boatService.getNextDayNumber();
                 };
-                BoatCountComponent = __decorate([
+                StatistikComponent.prototype.updateDate = function () {
+                    var date = new Date();
+                    this.dateString = "Datum: " +
+                        this.pp.pp2Pos(date.getDate()) + ". " +
+                        this.pp.pp2Pos(date.getMonth() + 1) + ". " +
+                        date.getFullYear();
+                };
+                StatistikComponent.prototype.updateTime = function () {
+                    var _this = this;
+                    var date = new Date();
+                    this.timeString = "Uhrzeit: " +
+                        this.pp.pp2Pos(date.getHours()) + ":" +
+                        this.pp.pp2Pos(date.getMinutes());
+                    setTimeout(function () { return _this.updateTime(); }, 60000);
+                };
+                StatistikComponent = __decorate([
                     core_1.Component({
-                        selector: 'boatCount',
-                        templateUrl: "boatCount.component.html",
-                        styleUrls: ["boatCount.component.css"]
+                        selector: 'statistik',
+                        templateUrl: "statistik.component.html",
+                        styleUrls: ["statistik.component.css"]
                     }), 
                     __metadata('design:paramtypes', [boat_service_1.BoatService, config_service_1.ConfigService, prettyprinter_1.PrettyPrinter])
-                ], BoatCountComponent);
-                return BoatCountComponent;
+                ], StatistikComponent);
+                return StatistikComponent;
             })();
-            exports_1("BoatCountComponent", BoatCountComponent);
+            exports_1("StatistikComponent", StatistikComponent);
         }
     }
 });

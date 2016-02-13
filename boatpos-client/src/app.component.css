@@ -66,6 +66,38 @@
 }
 
 /*
+ * divs: content-boat
+ */
+.content-boat-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-boat-row {
+    display: table-row;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-boat-row-left {
+    display: table-cell;
+    width: 60%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-boat-row-right {
+    display: table-cell;
+    width: 40%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/*
  * divs: content-commitment-promotion
  */
 .content-commitment-promotion-table {

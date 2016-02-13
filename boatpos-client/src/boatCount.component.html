@@ -1,10 +1,8 @@
 <div class="container-default boatCount-container">
-    <h2 class="header boatCount-header">Statistik</h2>
-    <p class="header nextNumber">{{dateTime}}</p>
-    <p class="header nextNumber">Nächste Nummer: {{getNextDayNumber()}}</p>
+    <h2 class="header boatCount-header">Vermietungen</h2>
     <ul class="list boatCount">
         <li *ngFor="#boatCount of getBoatCounts()">
-            {{boatCount.name}}: {{boatCount.count}} / {{boatCount.max}}
+            {{boatCount.shortName}}: {{boatCount.count}} / {{boatCount.max}}
         </li>
     </ul>
 </div>

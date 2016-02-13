@@ -21,12 +21,13 @@ import {Modal} from "lib/angular2-modal";
 import {KeyBindingService} from "./keybinding.service";
 import {ModalHandler} from "./modalHandler";
 import {PrettyPrinter} from "./prettyprinter";
+import {StatistikComponent} from "./statistik.component";
 
 @Component({
     selector: 'my-app',
     templateUrl: "app.component.html",
     styleUrls: ["app.component.css"],
-    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent],
+    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent],
     providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter]
 })
 export class AppComponent implements OnInit {

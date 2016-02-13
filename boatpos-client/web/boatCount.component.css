@@ -2,17 +2,6 @@
     background-color: #F3F781;
 }
 
-.nextNumber {
-    font-size: 1.8em;
-    text-align: left;
-    padding: 0 0 0 1.5em;
-    background-color: #F3F781;
-}
-
-.boatCount {
-    font-size: 1.8em;
-}
-
 .boatCount li {
     cursor: auto;
     background: linear-gradient(to right, #F3F781, white);
