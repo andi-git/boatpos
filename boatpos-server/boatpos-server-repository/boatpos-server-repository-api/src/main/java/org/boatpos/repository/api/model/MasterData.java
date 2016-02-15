@@ -1,9 +1,7 @@
 package org.boatpos.repository.api.model;
 
 import org.boatpos.model.AbstractMasterDataEntity;
-import org.boatpos.repository.api.values.Enabled;
-import org.boatpos.repository.api.values.KeyBinding;
-import org.boatpos.repository.api.values.Priority;
+import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.AbstractMasterDataBean;
 
 /**
@@ -26,4 +24,12 @@ public interface MasterData<MODEL extends MasterData, ENTITY extends AbstractMas
     KeyBinding getKeyBinding();
 
     MODEL setKeyBinding(KeyBinding keyBinding);
+
+    PictureUrlThumb getPictureUrlThumb();
+
+    MODEL setPictureUrlThumb(PictureUrlThumb pictureUrlThumb);
+
+    PictureUrl getPictureUrl();
+
+    MODEL setPictureUrl(PictureUrl pictureUrl);
 }

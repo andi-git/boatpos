@@ -24,9 +24,6 @@ public class BoatBuilderCore extends MasterDataBuilderCore<BoatBuilder, Boat, Bo
     private PriceFortyFiveMinutes priceFortyFiveMinutes;
     private Count count;
     private Set<Rental> rentals = new HashSet<>();
-    private PictureUrlSmall pictureUrlSmall;
-    private PictureUrlMedium pictureUrlMedium;
-    private PictureUrlLarge pictureUrlLarge;
 
     @Inject
     private RentalBuilder rentalBuilder;
@@ -80,25 +77,7 @@ public class BoatBuilderCore extends MasterDataBuilderCore<BoatBuilder, Boat, Bo
     }
 
     @Override
-    public BoatBuilder add(PictureUrlSmall pictureUrlSmall) {
-        this.pictureUrlSmall = pictureUrlSmall;
-        return this;
-    }
-
-    @Override
-    public BoatBuilder add(PictureUrlMedium pictureUrlMedium) {
-        this.pictureUrlMedium = pictureUrlMedium;
-        return this;
-    }
-
-    @Override
-    public BoatBuilder add(PictureUrlLarge pictureUrlLarge) {
-        this.pictureUrlLarge = pictureUrlLarge;
-        return this;
-    }
-
-    @Override
     public Boat build() {
-        return new BoatCore(id, version, enabled, priority, name, shortName, priceOneHour, priceThirtyMinutes, priceFortyFiveMinutes, count, rentals, pictureUrlSmall, pictureUrlMedium, pictureUrlLarge, keyBinding);
+        return new BoatCore(id, version, enabled, priority, name, shortName, priceOneHour, priceThirtyMinutes, priceFortyFiveMinutes, count, rentals, keyBinding, pictureUrl, pictureUrlThumb);
     }
 }

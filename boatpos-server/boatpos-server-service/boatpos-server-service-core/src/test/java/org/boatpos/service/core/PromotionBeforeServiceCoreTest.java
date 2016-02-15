@@ -44,7 +44,7 @@ public class PromotionBeforeServiceCoreTest extends AbstractMasterDataServiceTes
     @Test
     @Transactional
     public void testSave() throws Exception {
-        promotionBeforeService.save(new PromotionBeforeBean(null, 1, "PROMO", 300, "price / 3", 3, true, 'a'));
+        promotionBeforeService.save(new PromotionBeforeBean(null, 1, "PROMO", 300, "price / 3", 3, true, 'a', "", ""));
         assertEquals(4, promotionBeforeService.getAll().size());
     }
 

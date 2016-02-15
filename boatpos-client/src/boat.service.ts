@@ -41,8 +41,8 @@ export class BoatService {
                             boat.shortName,
                             boat.enabled,
                             boat.priority,
-                            boat.pictureUrlSmall,
-                            boat.pictureUrlMedium,
+                            boat.pictureUrl,
+                            boat.pictureUrlThumb,
                             boat.keyBinding));
                     });
                 }

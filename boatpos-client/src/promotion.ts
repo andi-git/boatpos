@@ -6,19 +6,25 @@ export class PromotionBefore {
     priority:number;
     selected:boolean;
     keyBinding:string;
+    pictureUrl:string;
+    pictureUrlThumb:string;
 
     constructor(id:number,
                 name:string,
                 timeCredit:number,
                 enabled:boolean,
                 priority:number,
-                keyBinding:string) {
+                keyBinding:string,
+                pictureUrl:string,
+                pictureUrlThumb:string) {
         this.id = id;
         this.name = name;
         this.timeCredit = timeCredit;
         this.enabled = enabled;
         this.priority = priority;
         this.keyBinding = keyBinding;
+        this.pictureUrl = pictureUrl;
+        this.pictureUrlThumb = pictureUrlThumb;
     }
 
     toString():string {
@@ -34,17 +40,23 @@ export class PromotionAfter {
     priority:number;
     selected:boolean;
     keyBinding:string;
+    pictureUrl:string;
+    pictureUrlThumb:string;
 
     constructor(id:number,
                 name:string,
                 enabled:boolean,
                 priority:number,
-                keyBinding:string) {
+                keyBinding:string,
+                pictureUrl:string,
+                pictureUrlThumb:string) {
         this.id = id;
         this.name = name;
         this.enabled = enabled;
         this.priority = priority;
         this.keyBinding = keyBinding;
+        this.pictureUrl = pictureUrl;
+        this.pictureUrlThumb = pictureUrlThumb;
     }
 
     toString():string {

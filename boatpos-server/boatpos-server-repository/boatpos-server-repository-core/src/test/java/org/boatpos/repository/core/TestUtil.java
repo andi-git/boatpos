@@ -55,9 +55,9 @@ public class TestUtil {
                     .add(new PriceThirtyMinutes("9.5"))
                     .add(new PriceFortyFiveMinutes("14.3"))
                     .add(new Count(22))
-                    .add(new PictureUrlSmall("small_____"))
-                    .add(new PictureUrlMedium("medium____"))
-                    .add(new PictureUrlLarge("large_____"));
+                    .add(new KeyBinding('x'))
+                    .add(new PictureUrlThumb("small_____"))
+                    .add(new PictureUrl("large_____"));
         }
 
         public BoatBean createDummyBoatBean() {
@@ -72,9 +72,9 @@ public class TestUtil {
             boatBean.setCount(22);
             boatBean.setEnabled(true);
             boatBean.setPriority(1);
-            boatBean.setPictureUrlSmall("small_____");
-            boatBean.setPictureUrlMedium("medium____");
-            boatBean.setPictureUrlLarge("large_____");
+            boatBean.setKeyBinding('x');
+            boatBean.setPictureUrlThumb("small_____");
+            boatBean.setPictureUrl("large_____");
             return boatBean;
         }
     }
@@ -105,7 +105,10 @@ public class TestUtil {
                     .add(Enabled.TRUE)
                     .add(new Priority(1))
                     .add(new Name("Pass"))
-                    .add(Paper.TRUE);
+                    .add(Paper.TRUE)
+                    .add(new KeyBinding('x'))
+                    .add(new PictureUrl("p"))
+                    .add(new PictureUrlThumb("t"));
         }
     }
 
@@ -136,7 +139,10 @@ public class TestUtil {
                     .add(new Priority(1))
                     .add(new Name("Tageskarte"))
                     .add(new FormulaPrice("some formula * 2"))
-                    .add(new TimeCredit(1200));
+                    .add(new TimeCredit(1200))
+                    .add(new KeyBinding('x'))
+                    .add(new PictureUrl("p"))
+                    .add(new PictureUrlThumb("t"));
         }
     }
 
@@ -166,7 +172,10 @@ public class TestUtil {
                     .add(Enabled.TRUE)
                     .add(new Priority(1))
                     .add(new Name("Alles Gratis"))
-                    .add(new FormulaPrice("some formula * 2"));
+                    .add(new FormulaPrice("some formula * 2"))
+                    .add(new KeyBinding('x'))
+                    .add(new PictureUrl("p"))
+                    .add(new PictureUrlThumb("t"));
         }
     }
 

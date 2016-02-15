@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> extends DomainModelCore<MODEL, ENTITY, DTO> implements MasterData<MODEL, ENTITY, DTO> {
 
-    public MasterDataCore(DomainId id, Version version, Enabled enabled, Priority priority, KeyBinding keyBinding) {
+    public MasterDataCore(DomainId id, Version version, Enabled enabled, Priority priority, KeyBinding keyBinding, PictureUrl pictureUrl, PictureUrlThumb pictureUrlThumb) {
         super(id, version);
         checkNotNull(enabled, "'enabled' must not be null");
         checkNotNull(priority, "'priority' must not be null");
@@ -75,6 +75,30 @@ public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends Ab
     @Override
     public MODEL setKeyBinding(KeyBinding keyBinding) {
         getEntity().setKeyBinding(SimpleValueObject.nullSafe(keyBinding));
+        //noinspection unchecked
+        return (MODEL) this;
+    }
+
+    @Override
+    public PictureUrlThumb getPictureUrlThumb() {
+        return new PictureUrlThumb(getEntity().getPictureUrlThumb());
+    }
+
+    @Override
+    public MODEL setPictureUrlThumb(PictureUrlThumb pictureUrlThumb) {
+        getEntity().setPictureUrl(SimpleValueObject.nullSafe(pictureUrlThumb));
+        //noinspection unchecked
+        return (MODEL) this;
+    }
+
+    @Override
+    public PictureUrl getPictureUrl() {
+        return new PictureUrl(getEntity().getPictureUrl());
+    }
+
+    @Override
+    public MODEL setPictureUrl(PictureUrl pictureUrl) {
+        getEntity().setPictureUrl(SimpleValueObject.nullSafe(pictureUrl));
         //noinspection unchecked
         return (MODEL) this;
     }

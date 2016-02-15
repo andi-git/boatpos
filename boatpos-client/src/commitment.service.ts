@@ -39,7 +39,9 @@ export class CommitmentService {
                             commitment.name,
                             commitment.enabled,
                             commitment.priority,
-                            commitment.keyBinding
+                            commitment.keyBinding,
+                            commitment.pictureUrl,
+                            commitment.pictureUrlThumb
                         ));
                     });
                 }

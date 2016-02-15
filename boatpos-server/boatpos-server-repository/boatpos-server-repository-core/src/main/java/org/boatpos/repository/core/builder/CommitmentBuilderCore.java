@@ -47,6 +47,6 @@ public class CommitmentBuilderCore extends MasterDataBuilderCore<CommitmentBuild
 
     @Override
     public Commitment build() {
-        return new CommitmentCore(id, version, enabled, priority, name, paper, rentals, keyBinding);
+        return new CommitmentCore(id, version, enabled, priority, name, paper, rentals, keyBinding, pictureUrl, pictureUrlThumb);
     }
 }

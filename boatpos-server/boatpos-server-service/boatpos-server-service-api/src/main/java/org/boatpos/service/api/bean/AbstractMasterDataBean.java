@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Abstract DTO for master-data.
@@ -25,6 +26,22 @@ public class AbstractMasterDataBean extends AbstractBeanBasedOnEntity {
     private Integer priority;
 
     /**
+     * The url for the small picture.
+     */
+    @NotNull
+    @Size(max = 100)
+    @Expose
+    private String pictureUrlThumb;
+
+    /**
+     * The url for the large picture.
+     */
+    @NotNull
+    @Size(max = 100)
+    @Expose
+    private String pictureUrl;
+
+    /**
      * The keybord-binding for client-input.
      */
     private Character keyBinding;
@@ -32,11 +49,13 @@ public class AbstractMasterDataBean extends AbstractBeanBasedOnEntity {
     public AbstractMasterDataBean() {
     }
 
-    public AbstractMasterDataBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding) {
+    public AbstractMasterDataBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb) {
         super(id, version);
         this.enabled = enabled;
         this.priority = priority;
         this.keyBinding = keyBinding;
+        this.pictureUrl = pictureUrl;
+        this.pictureUrlThumb = pictureUrlThumb;
     }
 
     public boolean isEnabled() {
@@ -61,5 +80,21 @@ public class AbstractMasterDataBean extends AbstractBeanBasedOnEntity {
 
     public void setKeyBinding(Character keyBinding) {
         this.keyBinding = keyBinding;
+    }
+
+    public String getPictureUrlThumb() {
+        return pictureUrlThumb;
+    }
+
+    public void setPictureUrlThumb(String pictureUrlThumb) {
+        this.pictureUrlThumb = pictureUrlThumb;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 }

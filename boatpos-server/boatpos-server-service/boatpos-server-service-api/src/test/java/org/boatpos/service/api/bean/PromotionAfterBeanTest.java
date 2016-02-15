@@ -16,6 +16,6 @@ public class PromotionAfterBeanTest extends JavaBeanTest<PromotionAfterBean> {
     }
 
     public static PromotionAfterBean createPromotionAfter() {
-        return new PromotionAfterBean(1L, 1, "HolliKnolli", "price / 3", 1, true, 'a');
+        return new PromotionAfterBean(1L, 1, "HolliKnolli", "price / 3", 1, true, 'a', "", "");
     }
 }

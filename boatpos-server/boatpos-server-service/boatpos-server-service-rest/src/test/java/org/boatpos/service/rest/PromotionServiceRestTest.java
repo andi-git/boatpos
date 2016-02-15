@@ -68,7 +68,7 @@ public class PromotionServiceRestTest extends FillDatabaseInOtherTransactionTest
     public void testSave() throws Exception {
         helper.assertCount(url, "promotion/before", 3);
 
-        PromotionBean promotion = new PromotionBeforeBean(null, null, "PROMO", 300, "price / 3", 3, true, 'a');
+        PromotionBean promotion = new PromotionBeforeBean(null, null, "PROMO", 300, "price / 3", 3, true, 'a', "", "");
         Response response = helper.createRestCall(url, (wt) -> wt.path("promotion/before")).post(Entity.json(promotion));
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         PromotionBean result = response.readEntity(PromotionBeforeBean.class);
@@ -76,13 +76,13 @@ public class PromotionServiceRestTest extends FillDatabaseInOtherTransactionTest
         assertEquals(0, result.getVersion().intValue());
         helper.assertCount(url, "promotion/before", 4);
 
-        promotion = new PromotionBeforeBean(null, null, null, 300, "price / 3", 3, true, 'a');
+        promotion = new PromotionBeforeBean(null, null, null, 300, "price / 3", 3, true, 'a', "", "");
         response = helper.createRestCall(url, (wt) -> wt.path("promotion/before")).post(Entity.json(promotion));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
         helper.assertCount(url, "promotion/before", 4);
 
         helper.assertCount(url, "promotion/after", 2);
-        promotion = new PromotionAfterBean(null, null, "PROMO", "price / 3", 3, true, 'a');
+        promotion = new PromotionAfterBean(null, null, "PROMO", "price / 3", 3, true, 'a', "", "");
         response = helper.createRestCall(url, (wt) -> wt.path("promotion/after")).post(Entity.json(promotion));
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         result = response.readEntity(PromotionAfterBean.class);
@@ -90,7 +90,7 @@ public class PromotionServiceRestTest extends FillDatabaseInOtherTransactionTest
         assertEquals(0, result.getVersion().intValue());
         helper.assertCount(url, "promotion/after", 3);
 
-        promotion = new PromotionAfterBean(null, null, null, "price / 3", 3, true, 'a');
+        promotion = new PromotionAfterBean(null, null, null, "price / 3", 3, true, 'a', "", "");
         response = helper.createRestCall(url, (wt) -> wt.path("promotion/after")).post(Entity.json(promotion));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 

@@ -4,14 +4,14 @@ System.register([], function(exports_1) {
         setters:[],
         execute: function() {
             Boat = (function () {
-                function Boat(id, name, enabled, priority, shortName, pictureUrlSmall, pictureUrlMedium, keyBinding) {
+                function Boat(id, name, enabled, priority, shortName, pictureUrl, pictureUrlThumb, keyBinding) {
                     this.id = id;
                     this.name = name;
                     this.shortName = shortName;
                     this.enabled = enabled;
                     this.priority = priority;
-                    this.pictureUrlSmall = pictureUrlSmall;
-                    this.pictureUrlMedium = pictureUrlMedium;
+                    this.pictureUrl = pictureUrl;
+                    this.pictureUrlThumb = pictureUrlThumb;
                     this.keyBinding = keyBinding;
                 }
                 Boat.prototype.isSelected = function () {

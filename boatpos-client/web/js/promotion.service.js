@@ -47,7 +47,7 @@ System.register(['./promotion', 'angular2/core', 'angular2/http', 'rxjs/add/oper
                         var result = [];
                         if (promotions) {
                             promotions.forEach(function (promotion) {
-                                result.push(new promotion_1.PromotionBefore(promotion.id, promotion.name, promotion.timeCredit, promotion.enabled, promotion.priority, promotion.keyBinding));
+                                result.push(new promotion_1.PromotionBefore(promotion.id, promotion.name, promotion.timeCredit, promotion.enabled, promotion.priority, promotion.keyBinding, promotion.pictureUrl, promotion.pictureUrlThumb));
                             });
                         }
                         return result;

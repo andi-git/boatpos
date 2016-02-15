@@ -4,8 +4,8 @@ export class Boat {
     shortName:string;
     enabled:boolean;
     priority:number;
-    pictureUrlSmall:string;
-    pictureUrlMedium:string;
+    pictureUrl:string;
+    pictureUrlThumb:string;
     selected:boolean;
     keyBinding:string;
 
@@ -14,16 +14,16 @@ export class Boat {
                 enabled:boolean,
                 priority:number,
                 shortName:string,
-                pictureUrlSmall:string,
-                pictureUrlMedium:string,
+                pictureUrl:string,
+                pictureUrlThumb:string,
                 keyBinding:string) {
         this.id = id;
         this.name = name;
         this.shortName = shortName;
         this.enabled = enabled;
         this.priority = priority;
-        this.pictureUrlSmall = pictureUrlSmall;
-        this.pictureUrlMedium = pictureUrlMedium;
+        this.pictureUrl = pictureUrl;
+        this.pictureUrlThumb = pictureUrlThumb;
         this.keyBinding = keyBinding;
     }
 

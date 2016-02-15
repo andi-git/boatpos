@@ -31,6 +31,6 @@ public class PromotionBeforeBuilderCore extends PromotionBuilderCore<PromotionBe
 
     @Override
     public PromotionBefore build() {
-        return new PromotionBeforeCore(id, version, enabled, priority, name, formulaPrice, rentals, timeCredit, keyBinding);
+        return new PromotionBeforeCore(id, version, enabled, priority, name, formulaPrice, rentals, timeCredit, keyBinding, pictureUrl, pictureUrlThumb);
     }
 }

@@ -4,7 +4,7 @@
         <li *ngFor="#boat of getBoats()"
             [class.selected]="boat.selected"
             (click)="click(boat)">
-            <span class="badge"><img src="{{boat.pictureUrlSmall}}" height="40px"></span> {{boat.name}}
+            <span class="badge"><img src="{{boat.pictureUrlThumb}}" height="40px"></span> {{boat.name}}
         </li>
     </ul>
 </div>

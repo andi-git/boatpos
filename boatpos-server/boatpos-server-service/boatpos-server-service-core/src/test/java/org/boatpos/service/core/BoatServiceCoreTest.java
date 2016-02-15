@@ -48,7 +48,7 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
     @Transactional
     public void testSave() throws Throwable {
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
-        BoatBean boatBean = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________", 'a');
+        BoatBean boatBean = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, 'a', "s_________", "l_________");
         boatService.save(boatBean);
         assertEquals(6, boatService.getAll(EnabledState.Enabled).size());
     }
@@ -57,7 +57,7 @@ public class BoatServiceCoreTest extends AbstractMasterDataServiceTest<BoatBean>
     @Transactional
     public void testSaveWithException() throws Throwable {
         assertEquals(5, boatService.getAll(EnabledState.Enabled).size());
-        BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, "s_________", "m_________", "l_________", 'a');
+        BoatBean boatBean = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, 'a', "s_________", "l_________");
         boatService.save(boatBean);
     }
 

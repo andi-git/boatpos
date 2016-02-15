@@ -20,8 +20,10 @@ public class CommitmentCore extends MasterDataCore<Commitment, CommitmentEntity,
                           Name name,
                           Paper paper,
                           Set<Rental> rentals,
-                          KeyBinding keyBinding) {
-        super(id, version, enabled, priority, keyBinding);
+                          KeyBinding keyBinding,
+                          PictureUrl pictureUrl,
+                          PictureUrlThumb pictureUrlThumb) {
+        super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(enabled, "'enabled' must not be null");
         checkNotNull(name, "'name' must not be null");
         checkNotNull(paper, "'paper' must not be null");

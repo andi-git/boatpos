@@ -143,6 +143,6 @@ public class BoatCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testToString() {
-        assertEquals("{\"name\":\"E-Boot\",\"shortName\":\"E\",\"priceOneHour\":16.8,\"priceThirtyMinutes\":9.5,\"priceFortyFiveMinutes\":14.3,\"count\":22,\"pictureUrlSmall\":\"small_____\",\"pictureUrlMedium\":\"medium____\",\"pictureUrlLarge\":\"large_____\",\"enabled\":true,\"priority\":1,\"id\":1,\"version\":1}", boatUtil.createDummyBoat().toString());
+        assertEquals("{\"name\":\"E-Boot\",\"shortName\":\"E\",\"priceOneHour\":16.8,\"priceThirtyMinutes\":9.5,\"priceFortyFiveMinutes\":14.3,\"count\":22,\"enabled\":true,\"priority\":1,\"keyBinding\":\"x\",\"pictureUrl\":\"large_____\",\"id\":1,\"version\":1}", boatUtil.createDummyBoat().toString());
     }
 }

@@ -30,10 +30,10 @@ public class PromotionMappingTest {
 
     @Before
     public void before() {
-        promotionBefore = new PromotionBeforeEntity(1L, 1, "PromoB", 60, "calcPrice", new HashSet<>(), 1, true, 'a');
-        promotionBeforeBean = new PromotionBeforeBean(1L, 1, "PromoB", 60, "calcPrice", 1, true, 'a');
-        promotionAfter = new PromotionAfterEntity(2L, 1, "PromoA", "calcPrice", new HashSet<>(), 1, true, 'a');
-        promotionAfterBean = new PromotionAfterBean(2L, 1, "PromoA", "calcPrice", 1, true, 'a');
+        promotionBefore = new PromotionBeforeEntity(1L, 1, "PromoB", 60, "calcPrice", new HashSet<>(), 1, true, 'a', "", "");
+        promotionBeforeBean = new PromotionBeforeBean(1L, 1, "PromoB", 60, "calcPrice", 1, true, 'a', "", "");
+        promotionAfter = new PromotionAfterEntity(2L, 1, "PromoA", "calcPrice", new HashSet<>(), 1, true, 'a', "", "");
+        promotionAfterBean = new PromotionAfterBean(2L, 1, "PromoA", "calcPrice", 1, true, 'a', "", "");
     }
 
     @Test

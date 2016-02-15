@@ -27,8 +27,8 @@ public abstract class PromotionBean extends AbstractMasterDataBean {
     public PromotionBean() {
     }
 
-    public PromotionBean(Long id, Integer version, String name, String formulaPrice, Integer priority, boolean enabled, Character keyBinding) {
-        super(id, version, enabled, priority, keyBinding);
+    public PromotionBean(Long id, Integer version, String name, String formulaPrice, Integer priority, boolean enabled, Character keyBinding, String pictureUrl, String pictureUrlThumb) {
+        super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.formulaPrice = formulaPrice;
     }

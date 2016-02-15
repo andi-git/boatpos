@@ -18,8 +18,10 @@ public class PromotionAfterCore extends PromotionCore<PromotionAfter, PromotionA
                               Name name,
                               FormulaPrice formulaPrice,
                               Set<Rental> rentals,
-                              KeyBinding keyBinding) {
-        super(id, version, enabled, priority, name, formulaPrice, rentals, keyBinding);
+                              KeyBinding keyBinding,
+                              PictureUrl pictureUrl,
+                              PictureUrlThumb pictureUrlThumb) {
+        super(id, version, enabled, priority, name, formulaPrice, rentals, keyBinding, pictureUrl, pictureUrlThumb);
     }
 
     public PromotionAfterCore(PromotionAfterEntity promotionAfterEntity) {

@@ -36,7 +36,9 @@ export class PromotionService {
                             promotion.timeCredit,
                             promotion.enabled,
                             promotion.priority,
-                            promotion.keyBinding));
+                            promotion.keyBinding,
+                            promotion.pictureUrl,
+                            promotion.pictureUrlThumb));
                     });
                 }
                 return result;

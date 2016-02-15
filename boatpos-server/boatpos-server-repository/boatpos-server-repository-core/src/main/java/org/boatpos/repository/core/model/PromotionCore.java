@@ -19,8 +19,10 @@ public abstract class PromotionCore<MODEL extends Promotion, ENTITY extends Prom
                          Name name,
                          FormulaPrice formulaPrice,
                          Set<Rental> rentals,
-                         KeyBinding keyBinding) {
-        super(id, version, enabled, priority, keyBinding);
+                         KeyBinding keyBinding,
+                         PictureUrl pictureUrl,
+                         PictureUrlThumb pictureUrlThumb) {
+        super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(enabled, "'enabled' must not be null");
         checkNotNull(name, "'name' must not be null");
         checkNotNull(formulaPrice, "'formulaPrice' must not be null");
