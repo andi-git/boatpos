@@ -4,7 +4,7 @@
         <li *ngFor="#promotionBefore of getPromotionsBefore()"
             [class.selected]="promotionBefore.selected"
             (click)="click(promotionBefore)">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{promotionBefore.name}}
+            <span class="badge"><img src="{{promotionBefore.pictureUrlThumb}}" height="60px"></span> {{promotionBefore.name}}
         </li>
     </ul>
 </div>

@@ -2,7 +2,7 @@
     <h2 class="header boatCount-header">Vermietungen</h2>
     <ul class="list boatCount">
         <li *ngFor="#boatCount of getBoatCounts()">
-            <span [ngClass]="boatCount.style">{{boatCount.shortName}}: {{boatCount.count}} / {{boatCount.max}}</span>
+            <span class="badge"><img src="http://www.eppel-boote.at/boatpos/images/blank_200x133.png" height="60px" width="1px"></span><span [ngClass]="boatCount.style">{{boatCount.shortName}}: {{boatCount.count}} / {{boatCount.max}}</span>
         </li>
     </ul>
 </div>

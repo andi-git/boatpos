@@ -4,7 +4,7 @@
         <li class="listitem" *ngFor="#commitment of getCommitments()"
             [class.selected]="commitment.selected"
             (click)="click(commitment)">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{commitment.name}}
+            <span class="badge"><img src="{{commitment.pictureUrlThumb}}" height="60px"></span> {{commitment.name}}
         </li>
     </ul>
 </div>
