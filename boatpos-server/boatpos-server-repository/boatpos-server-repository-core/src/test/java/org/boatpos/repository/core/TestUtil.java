@@ -7,6 +7,7 @@ import org.boatpos.repository.api.model.*;
 import org.boatpos.repository.api.repository.*;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.BoatBean;
+import org.boatpos.service.api.bean.HolidayBean;
 import org.boatpos.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.Dependent;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
@@ -212,6 +214,40 @@ public class TestUtil {
                     .add(new DayId(1))
                     .add(new DepartureTime(dateTimeHelper.currentTime()))
                     .add(boatRepository.loadBy(new ShortName("E")).get());
+        }
+    }
+
+    @Dependent
+    public static class HolidayUtil {
+
+        @Inject
+        @BoatPosDB
+        private EntityManager entityManager;
+
+        @Inject
+        private DateTimeHelper dateTimeHelper;
+
+        @Inject
+        private HolidayRepository holidayRepository;
+
+        @SuppressWarnings({"SqlNoDataSourceInspection", "SqlDialectInspection"})
+        public void assertDatabaseHolidayCount(int count) {
+            assertEquals(count, ((BigInteger) entityManager.createNativeQuery("SELECT COUNT(*) FROM holiday").getSingleResult()).intValue());
+        }
+
+        public Holiday createDummyHoliday() {
+            return createDummyHolidayBuilder().build();
+        }
+
+        public HolidayBuilder createDummyHolidayBuilder() {
+            return holidayRepository.builder()
+                    .add(new Version(1))
+                    .add(new Day(LocalDate.of(2015, 5, 1)))
+                    .add(new Name("Staatsfeiertag"));
+        }
+
+        public HolidayBean createDummyHolidayBean() {
+            return new HolidayBean(1L, 1, LocalDate.of(2015, 5, 1), "Staatsfeiertag");
         }
     }
 }

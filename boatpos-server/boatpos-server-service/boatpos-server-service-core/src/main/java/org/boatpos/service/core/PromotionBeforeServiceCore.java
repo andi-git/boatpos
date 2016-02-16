@@ -6,8 +6,9 @@ import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.PromotionBeforeService;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
-import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.MasterDataHelper;
+import org.boatpos.service.core.util.ModelDtoConverter;
+import org.boatpos.service.core.util.WeekendHolidayHelper;
 import org.boatpos.util.log.LogWrapper;
 import org.boatpos.util.log.SLF4J;
 
@@ -32,6 +33,9 @@ public class PromotionBeforeServiceCore implements PromotionBeforeService {
     @Inject
     private MasterDataHelper masterDataHelper;
 
+    @Inject
+    private WeekendHolidayHelper weekendHolidayHelper;
+
     @Override
     public List<PromotionBeforeBean> getAll() {
         return getAll(EnabledState.All);
@@ -39,17 +43,17 @@ public class PromotionBeforeServiceCore implements PromotionBeforeService {
 
     @Override
     public List<PromotionBeforeBean> getAll(EnabledState enabledState) {
-        return modelDtoConverter.convert(masterDataHelper.loadAll(promotionBeforeRepository, enabledState));
+        return modelDtoConverter.convert(weekendHolidayHelper.check(masterDataHelper.loadAll(promotionBeforeRepository, enabledState)));
     }
 
     @Override
     public Optional<PromotionBeforeBean> getById(Long id) {
-        return modelDtoConverter.convert(promotionBeforeRepository.loadBy(new DomainId(id)));
+        return modelDtoConverter.convert(weekendHolidayHelper.check(promotionBeforeRepository.loadBy(new DomainId(id))));
     }
 
     @Override
     public Optional<PromotionBeforeBean> getByName(String name) {
-        return modelDtoConverter.convert(promotionBeforeRepository.loadBy(new Name(name)));
+        return modelDtoConverter.convert(weekendHolidayHelper.check(promotionBeforeRepository.loadBy(new Name(name))));
     }
 
     @Override
@@ -61,7 +65,6 @@ public class PromotionBeforeServiceCore implements PromotionBeforeService {
     public PromotionBeforeBean update(PromotionBeforeBean promotionBeforeBean) {
         return promotionBeforeRepository.builder().from(promotionBeforeBean).persist().asDto();
     }
-
 
     @Override
     public void enable(Long id) {

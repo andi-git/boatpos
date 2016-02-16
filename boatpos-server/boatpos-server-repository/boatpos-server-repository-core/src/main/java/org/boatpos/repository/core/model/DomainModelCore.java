@@ -74,8 +74,8 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         return (MODEL) this;
     }
 
-    /*
-    private void deleteIfEverNeeded() {
+
+    public void delete() {
         log.debug("delete {}: {}", getTypeEntity().getName(), entity);
         checkNotNull(entity, "'entity' must not be null -> maybe not loaded?");
         try {
@@ -85,7 +85,7 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
             throw handleException(e, "exception on delete entity: " + entity.getClass().getName());
         }
     }
-    */
+
 
     @Override
     public DomainId getId() {

@@ -11,13 +11,34 @@ import java.time.LocalDateTime;
 @ApplicationScoped
 public class DateTimeHelperMock extends DateTimeHelper {
 
+    private static final LocalDate DEFAULT_DATE = LocalDate.of(2015, 7, 1);
+
+    private static final LocalDateTime DEFAULT_TIME = LocalDateTime.of(2015, 7, 1, 15, 0);
+
+    private LocalDate currentDate = DEFAULT_DATE;
+
+    private LocalDateTime currentTime = DEFAULT_TIME;
+
     @Override
     public LocalDate currentDate() {
-        return LocalDate.of(2015, 7, 1);
+        return currentDate;
     }
 
     @Override
     public LocalDateTime currentTime() {
-        return LocalDateTime.of(2015, 7, 1, 15, 0);
+        return currentTime;
+    }
+
+    public void setDate(LocalDate localDate) {
+        currentDate = localDate;
+    }
+
+    public void setTime(LocalDateTime localDateTime) {
+        currentTime = localDateTime;
+    }
+
+    public void reset() {
+        currentDate = DEFAULT_DATE;
+        currentTime = DEFAULT_TIME;
     }
 }

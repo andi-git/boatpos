@@ -6,11 +6,9 @@ import org.boatpos.service.api.bean.BillBean;
 import org.boatpos.service.api.bean.CompanyBean;
 import org.boatpos.service.api.bean.TaxSetBean;
 import org.boatpos.util.datetime.DateTimeHelper;
-import org.boatpos.util.qualifiers.Current;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.LocalDateTime;
 
 /**
  * Create a bill.

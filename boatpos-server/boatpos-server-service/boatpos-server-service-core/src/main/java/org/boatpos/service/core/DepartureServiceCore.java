@@ -15,6 +15,7 @@ import org.boatpos.service.api.bean.PaymentBean;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
+import org.boatpos.service.core.util.WeekendHolidayHelper;
 import org.boatpos.util.qualifiers.Current;
 
 import javax.enterprise.context.RequestScoped;
@@ -55,13 +56,19 @@ public class DepartureServiceCore implements DepartureService {
     @Inject
     private RentalBeanEnrichment rentalBeanEnrichment;
 
+    @Inject
+    private WeekendHolidayHelper weekendHolidayHelper;
+
     @Override
     public RentalBean depart(DepartureBean departureBean) {
         Boat boat = getBoat(departureBean);
-        Optional<PromotionBefore> promotionBefore = getPromotionBefore(departureBean);
         Optional<PriceCalculatedBefore> priceCalculatedBefore = Optional.empty();
-        if (promotionBefore.isPresent()) {
-            priceCalculatedBefore = Optional.of(priceCalculator.calculate(boat.getPriceOneHour(), promotionBefore.get()));
+        Optional<PromotionBefore> promotionBefore = Optional.empty();
+        if (!weekendHolidayHelper.isWeekendOrHoliday()) {
+            promotionBefore = getPromotionBefore(departureBean);
+            if (promotionBefore.isPresent()) {
+                priceCalculatedBefore = Optional.of(priceCalculator.calculate(boat.getPriceOneHour(), promotionBefore.get()));
+            }
         }
         return rentalBeanEnrichment.asDto(rentalRepository
                 .depart(

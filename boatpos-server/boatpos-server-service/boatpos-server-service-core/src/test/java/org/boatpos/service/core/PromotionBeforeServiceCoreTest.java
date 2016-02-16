@@ -3,7 +3,6 @@ package org.boatpos.service.core;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.PromotionBeforeService;
-import org.boatpos.service.api.bean.PromotionBean;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
