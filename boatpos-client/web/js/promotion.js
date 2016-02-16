@@ -5,6 +5,7 @@ System.register([], function(exports_1) {
         execute: function() {
             PromotionBefore = (function () {
                 function PromotionBefore(id, name, timeCredit, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb) {
+                    this.style = "enabled";
                     this.id = id;
                     this.name = name;
                     this.timeCredit = timeCredit;
@@ -13,6 +14,9 @@ System.register([], function(exports_1) {
                     this.keyBinding = keyBinding;
                     this.pictureUrl = pictureUrl;
                     this.pictureUrlThumb = pictureUrlThumb;
+                    if (this.enabled === false) {
+                        this.style = "disabled";
+                    }
                 }
                 PromotionBefore.prototype.toString = function () {
                     return JSON.stringify(this);

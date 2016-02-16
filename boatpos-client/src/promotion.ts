@@ -8,6 +8,7 @@ export class PromotionBefore {
     keyBinding:string;
     pictureUrl:string;
     pictureUrlThumb:string;
+    style:string = "enabled";
 
     constructor(id:number,
                 name:string,
@@ -25,6 +26,10 @@ export class PromotionBefore {
         this.keyBinding = keyBinding;
         this.pictureUrl = pictureUrl;
         this.pictureUrlThumb = pictureUrlThumb;
+        if (this.enabled === false) {
+            this.style = "disabled";
+        }
+
     }
 
     toString():string {

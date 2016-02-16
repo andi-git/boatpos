@@ -43,17 +43,17 @@ public class PromotionBeforeServiceCore implements PromotionBeforeService {
 
     @Override
     public List<PromotionBeforeBean> getAll(EnabledState enabledState) {
-        return modelDtoConverter.convert(weekendHolidayHelper.check(masterDataHelper.loadAll(promotionBeforeRepository, enabledState)));
+        return weekendHolidayHelper.modify(modelDtoConverter.convert(masterDataHelper.loadAll(promotionBeforeRepository, enabledState)));
     }
 
     @Override
     public Optional<PromotionBeforeBean> getById(Long id) {
-        return modelDtoConverter.convert(weekendHolidayHelper.check(promotionBeforeRepository.loadBy(new DomainId(id))));
+        return weekendHolidayHelper.modify(modelDtoConverter.convert(promotionBeforeRepository.loadBy(new DomainId(id))));
     }
 
     @Override
     public Optional<PromotionBeforeBean> getByName(String name) {
-        return modelDtoConverter.convert(weekendHolidayHelper.check(promotionBeforeRepository.loadBy(new Name(name))));
+        return weekendHolidayHelper.modify(modelDtoConverter.convert(promotionBeforeRepository.loadBy(new Name(name))));
     }
 
     @Override

@@ -1,9 +1,8 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.model.PromotionBefore;
 import org.boatpos.repository.api.repository.HolidayRepository;
 import org.boatpos.repository.api.values.Day;
-import org.boatpos.repository.api.values.Enabled;
+import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.Dependent;
@@ -21,21 +20,21 @@ public class WeekendHolidayHelper {
     @Inject
     private DateTimeHelper dateTimeHelper;
 
-    public List<PromotionBefore> check(List<PromotionBefore> promotionsBefore) {
-        promotionsBefore.forEach(this::check);
+    public List<PromotionBeforeBean> modify(List<PromotionBeforeBean> promotionsBefore) {
+        promotionsBefore.forEach(this::modify);
         return promotionsBefore;
     }
 
-    public Optional<PromotionBefore> check(Optional<PromotionBefore> promotionBefore) {
+    public Optional<PromotionBeforeBean> modify(Optional<PromotionBeforeBean> promotionBefore) {
         if (promotionBefore.isPresent()) {
-            return Optional.of(check(promotionBefore.get()));
+            return Optional.of(modify(promotionBefore.get()));
         }
         return promotionBefore;
     }
 
-    public PromotionBefore check(PromotionBefore promotionBefore) {
+    public PromotionBeforeBean modify(PromotionBeforeBean promotionBefore) {
         if (isWeekendOrHoliday()) {
-            promotionBefore.setEnabled(Enabled.FALSE);
+            promotionBefore.setEnabled(false);
         }
         return promotionBefore;
     }

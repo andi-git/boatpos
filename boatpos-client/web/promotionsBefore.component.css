@@ -14,3 +14,11 @@
 .promotionsBefore li {
     background: linear-gradient(to right, #BCF5A9, white);
 }
+
+.enabled {
+
+}
+
+.disabled {
+    color: grey;
+}

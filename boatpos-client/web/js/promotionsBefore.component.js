@@ -52,14 +52,16 @@ System.register(['angular2/core', "./promotion.service", "./info.service", "./ke
                     return this.promotionService.getPromotionsBefore();
                 };
                 PromotionsBeforeComponent.prototype.click = function (promotionBefore) {
-                    if (promotionBefore.selected) {
-                        this.promotionService.resetSelected();
-                        this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde entfernt.");
-                    }
-                    else {
-                        this.promotionService.resetSelected();
-                        promotionBefore.selected = true;
-                        this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde ausgewählt.");
+                    if (promotionBefore.enabled === true) {
+                        if (promotionBefore.selected) {
+                            this.promotionService.resetSelected();
+                            this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde entfernt.");
+                        }
+                        else {
+                            this.promotionService.resetSelected();
+                            promotionBefore.selected = true;
+                            this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde ausgewählt.");
+                        }
                     }
                 };
                 PromotionsBeforeComponent = __decorate([

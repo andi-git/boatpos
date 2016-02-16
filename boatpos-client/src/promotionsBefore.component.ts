@@ -35,13 +35,15 @@ export class PromotionsBeforeComponent {
     }
 
     click(promotionBefore:PromotionBefore) {
-        if (promotionBefore.selected) {
-            this.promotionService.resetSelected();
-            this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde entfernt.");
-        } else {
-            this.promotionService.resetSelected();
-            promotionBefore.selected = true;
-            this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde ausgewählt.");
+        if (promotionBefore.enabled === true) {
+            if (promotionBefore.selected) {
+                this.promotionService.resetSelected();
+                this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde entfernt.");
+            } else {
+                this.promotionService.resetSelected();
+                promotionBefore.selected = true;
+                this.infoService.event().emit("Aktion '" + promotionBefore.name + "' wurde ausgewählt.");
+            }
         }
     }
 }

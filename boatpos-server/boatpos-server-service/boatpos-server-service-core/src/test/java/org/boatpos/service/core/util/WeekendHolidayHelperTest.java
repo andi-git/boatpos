@@ -1,9 +1,9 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.model.PromotionBefore;
 import org.boatpos.repository.api.repository.PromotionBeforeRepository;
 import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
+import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.service.core.DateTimeHelperMock;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
@@ -31,24 +31,25 @@ public class WeekendHolidayHelperTest extends EntityManagerProviderForBoatpos {
     @Inject
     private DateTimeHelperMock dateTimeHelper;
 
+    @Inject
+    private ModelDtoConverter modelDtoConverter;
+
     @Test
     @Transactional
     public void testHolidayHelper() {
-        assertFalse(weekendHolidayHelper.check(Optional.empty()).isPresent());
-        Optional<PromotionBefore> promotionBefore = promotionBeforeRepository.loadBy(new Name("Fahr 3 zahl 2"));
-        assertTrue(weekendHolidayHelper.check(promotionBefore).get().isEnabled().get());
+        assertFalse(weekendHolidayHelper.modify(Optional.empty()).isPresent());
+        Optional<PromotionBeforeBean> promotionBefore = modelDtoConverter.convert(promotionBeforeRepository.loadBy(new Name("Fahr 3 zahl 2")));
+        assertTrue(weekendHolidayHelper.modify(promotionBefore).get().isEnabled());
         dateTimeHelper.setDate(LocalDate.of(2015, 8, 15));
-        assertFalse(weekendHolidayHelper.check(promotionBefore).get().isEnabled().get());
-        promotionBefore.get().persist();
+        assertFalse(weekendHolidayHelper.modify(promotionBefore).get().isEnabled());
 
-        List<PromotionBefore> promotionsBefore = promotionBeforeRepository.loadAll(Enabled.TRUE);
+        List<PromotionBeforeBean> promotionsBefore = modelDtoConverter.convert(promotionBeforeRepository.loadAll(Enabled.TRUE));
         promotionsBefore.forEach((pb) -> {
-            assertTrue(pb.isEnabled().get());
+            assertTrue(pb.isEnabled());
         });
-        promotionsBefore = weekendHolidayHelper.check(promotionsBefore);
+        promotionsBefore = weekendHolidayHelper.modify(promotionsBefore);
         promotionsBefore.forEach((pb) -> {
-            assertFalse(pb.isEnabled().get());
-            pb.persist();
+            assertFalse(pb.isEnabled());
         });
 
         dateTimeHelper.reset();
