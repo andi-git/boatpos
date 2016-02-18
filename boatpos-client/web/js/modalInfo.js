@@ -71,18 +71,10 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     return lang_1.isPresent(this.rental) ? this.rental.boat.name : "";
                 };
                 ModalDelete.prototype.getCommitments = function () {
-                    var commitments = "";
                     if (lang_1.isPresent(this.rental)) {
-                        var first = true;
-                        this.rental.commitments.forEach(function (commitment) {
-                            if (!first) {
-                                commitments += ",";
-                            }
-                            commitments += commitment.name;
-                            first = false;
-                        });
+                        return this.pp.printCommitments(this.rental.commitments);
                     }
-                    return commitments;
+                    return "";
                 };
                 ModalDelete.prototype.getDeletedOrEmpty = function () {
                     return (lang_1.isPresent(this.rental) && this.rental.deleted === true) ? "gelöscht" : "";

@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {isPresent} from "angular2/src/facade/lang";
 import {isNumber} from "angular2/src/facade/lang";
+import {Commitment} from "./commitment";
 
 @Injectable()
 export class PrettyPrinter {
@@ -31,5 +32,20 @@ export class PrettyPrinter {
             result += "0.00";
         }
         return result;
+    }
+
+    printCommitments(commitments:Array<Commitment>):string {
+        let commitmentString:string = "";
+        if (isPresent(commitments)) {
+            let first:boolean = true;
+            commitments.forEach((commitment) => {
+                if (!first) {
+                    commitmentString += ", ";
+                }
+                commitmentString += commitment.name;
+                first = false;
+            });
+        }
+        return commitmentString;
     }
 }

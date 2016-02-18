@@ -96,18 +96,10 @@ export class ModalDelete implements ICustomModalComponent {
     }
 
     getCommitments():string {
-        let commitments:string = "";
         if (isPresent(this.rental)) {
-            let first:boolean = true;
-            this.rental.commitments.forEach((commitment) => {
-                if (!first) {
-                    commitments += ",";
-                }
-                commitments += commitment.name;
-                first = false;
-            });
+            return this.pp.printCommitments(this.rental.commitments);
         }
-        return commitments;
+        return "";
     }
 
     getDeletedOrEmpty():string {

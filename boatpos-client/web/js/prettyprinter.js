@@ -49,6 +49,20 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                     }
                     return result;
                 };
+                PrettyPrinter.prototype.printCommitments = function (commitments) {
+                    var commitmentString = "";
+                    if (lang_1.isPresent(commitments)) {
+                        var first = true;
+                        commitments.forEach(function (commitment) {
+                            if (!first) {
+                                commitmentString += ", ";
+                            }
+                            commitmentString += commitment.name;
+                            first = false;
+                        });
+                    }
+                    return commitmentString;
+                };
                 PrettyPrinter = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])

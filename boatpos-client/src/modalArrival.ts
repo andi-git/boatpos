@@ -33,8 +33,28 @@ export class ModalArrivalContext {
             <p><span class="text-grey">Aktion bevor:</span> {{printPromotionBefore()}}</p>
             <p><span class="text-grey">Preis bereits bezahlt:</span> {{printPricePaidBefore()}}</p>
             <p><span class="text-grey">Aktion danach:</span> {{printPromotionAfter()}}</p>
-            <p><span class="text-grey">Zu bezahlender Betrag:</span></p>
-            <input class="input input-arrival-price" [(ngModel)]="price" placeholder="Preis"/>
+            <div class="container-money">
+                <table>
+                    <tr>
+                        <td valign="top">
+                            <div class="container-price-to-pay">
+                                <span class="text-normal">Zu bezahlender Betrag:</span>
+                                <input [class]="classInputPrice" [(ngModel)]="price" placeholder="Preis"/>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="container-get-money">
+                                <span class="text-small">Bezahlter Betrag:</span>
+                                <input [class]="classInputGetMoney" [(ngModel)]="getMoney" placeholder="Bezahlt"/>
+                            </div>
+                            <div class="container-return-money">
+                                <span class="text-small">Betrag retour:</span>
+                                <input class="input input-return-money" [(ngModel)]="returnMoney" placeholder="Retour"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="modal-body" *ngIf="state === 'na'">
             <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>
@@ -54,6 +74,51 @@ export class ModalArrivalContext {
         .input-arrival-price {
             font-size: 7em;
             font-weight: 900;
+            line-height: 2em;
+        }
+
+        .input-arrival-price-selected {
+            font-size: 7em;
+            font-weight: 900;
+            line-height: 2em;
+            background-color: #81BEF7;
+        }
+
+        .input-get-money {
+            font-size: 4em;
+            font-weight: 200;
+        }
+
+        .input-get-money-selected {
+            font-size: 4em;
+            font-weight: 200;
+            background-color: #81BEF7;
+        }
+
+        .input-return-money {
+            font-size: 4em;
+            font-weight: 200;
+        }
+
+        .container-money {
+        }
+
+        .container-price-to-pay {
+            margin: 0 1em 0 0;
+        }
+
+        .container-get-money {
+        }
+
+        .container-return-money {
+        }
+
+        .text-normal {
+            font-size: 2em;
+        }
+
+        .text-small {
+            font-size: 1.5em;
         }
         `],
 })
@@ -66,9 +131,15 @@ export class ModalArrival implements ICustomModalComponent {
     private rentalNumber:number;
     private state:string;
     private rental:Rental;
+
     private price:string;
     private originalPrice:string;
     private isOriginalPrice:boolean;
+    private getMoney:string;
+    private returnMoney:string;
+    private classInputPrice:string = "input input-arrival-price-selected";
+    private classInputGetMoney:string = "input input-get-money";
+    private inputMethod:InputMethod = InputMethod.PriceToPay;
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
@@ -85,6 +156,9 @@ export class ModalArrival implements ICustomModalComponent {
             },
             'O': () => {
                 this.pay();
+            },
+            '~': () => {
+                this.switchInputMethod();
             },
             '.': () => {
                 this.addToPrice('.');
@@ -120,11 +194,18 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     private addToPrice(s:string) {
-        if (this.isOriginalPrice === true) {
-            this.price = "";
-            this.isOriginalPrice = false;
+        if (this.inputMethod === InputMethod.PriceToPay) {
+            if (this.isOriginalPrice === true) {
+                this.price = "";
+                this.isOriginalPrice = false;
+            }
+            this.price = (this.price == null ? "" : this.price) + s;
+        } else if (this.inputMethod === InputMethod.GetMoney) {
+            this.getMoney = (this.getMoney == null ? "" : this.getMoney) + s;
+            if (this.getMoney - this.price > 0) {
+                this.returnMoney = this.pp.ppPrice(this.getMoney - this.price, "");
+            }
         }
-        this.price = (this.price == null ? "" : this.price) + s;
     }
 
     getBoatName():string {
@@ -132,18 +213,10 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     getCommitments():string {
-        let commitments:string = "";
         if (isPresent(this.rental)) {
-            let first:boolean = true;
-            this.rental.commitments.forEach((commitment) => {
-                if (!first) {
-                    commitments += ",";
-                }
-                commitments += commitment.name;
-                first = false;
-            });
+            return this.pp.printCommitments(this.rental.commitments);
         }
-        return commitments;
+        return "";
     }
 
     printDeparture():string {
@@ -208,6 +281,8 @@ export class ModalArrival implements ICustomModalComponent {
     private reset():void {
         this.price = this.originalPrice;
         this.isOriginalPrice = true;
+        this.returnMoney = "";
+        this.getMoney = "";
     }
 
     private pay():void {
@@ -221,4 +296,18 @@ export class ModalArrival implements ICustomModalComponent {
                 this.cancel();
             });
     }
+
+    private switchInputMethod() {
+        if (this.inputMethod === InputMethod.PriceToPay) {
+            this.inputMethod = InputMethod.GetMoney;
+            this.classInputPrice = "input input-arrival-price";
+            this.classInputGetMoney = "input input-get-money-selected";
+        } else {
+            this.inputMethod = InputMethod.PriceToPay;
+            this.classInputPrice = "input input-arrival-price-selected";
+            this.classInputGetMoney = "input input-get-money";
+        }
+    }
 }
+
+enum InputMethod {PriceToPay, GetMoney}
