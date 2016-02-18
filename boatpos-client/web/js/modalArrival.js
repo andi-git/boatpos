@@ -80,13 +80,6 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     var _this = this;
                     this.rentalService.arrive(this.rentalNumber).subscribe(function (rental) {
                         _this.rental = rental;
-                        if (lang_1.isPresent(_this.rental && lang_1.isPresent(_this.rental.commitments))) {
-                            _this.rental.commitments.forEach(function (commitment) {
-                                if (commitment.paper === true) {
-                                    _this.commitmentReturn = true;
-                                }
-                            });
-                        }
                         if (_this.rental.deleted === true) {
                             _this.state = "del";
                         }
@@ -95,9 +88,29 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                         }
                         else {
                             _this.state = "ok";
+                            // set price
                             _this.price = _this.pp.ppPrice(_this.rental.priceCalculatedAfter, "");
                             _this.isOriginalPrice = true;
                             _this.originalPrice = _this.pp.ppPrice(_this.rental.priceCalculatedAfter, "");
+                            // add special warning if commitment has to be returned and add the return value for special commitments
+                            if (lang_1.isPresent(_this.rental && lang_1.isPresent(_this.rental.commitments))) {
+                                _this.rental.commitments.forEach(function (commitment) {
+                                    // return commitment
+                                    if (commitment.paper === true) {
+                                        _this.commitmentReturn = true;
+                                    }
+                                    // € 50,-
+                                    if (commitment.name === "EUR 50,-") {
+                                        _this.getMoney = _this.pp.ppPrice(50, "");
+                                        _this.calculateReturnMoney();
+                                    }
+                                    // € 100,-
+                                    if (commitment.name === "EUR 100,-") {
+                                        _this.getMoney = _this.pp.ppPrice(100, "");
+                                        _this.calculateReturnMoney();
+                                    }
+                                });
+                            }
                         }
                     }, function () {
                         _this.state = "na";
@@ -113,9 +126,12 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     }
                     else if (this.inputMethod === InputMethod.GetMoney) {
                         this.getMoney = (this.getMoney == null ? "" : this.getMoney) + s;
-                        if (this.getMoney - this.price > 0) {
-                            this.returnMoney = this.pp.ppPrice(this.getMoney - this.price, "");
-                        }
+                        this.calculateReturnMoney();
+                    }
+                };
+                ModalArrival.prototype.calculateReturnMoney = function () {
+                    if (this.getMoney - this.price > 0) {
+                        this.returnMoney = this.pp.ppPrice(this.getMoney - this.price, "");
                     }
                 };
                 ModalArrival.prototype.getBoatName = function () {

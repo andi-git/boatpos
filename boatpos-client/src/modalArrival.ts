@@ -191,22 +191,35 @@ export class ModalArrival implements ICustomModalComponent {
     private arrive() {
         this.rentalService.arrive(this.rentalNumber).subscribe((rental:Rental) => {
                 this.rental = <Rental>rental;
-                if (isPresent(this.rental && isPresent(this.rental.commitments))) {
-                    this.rental.commitments.forEach((commitment) => {
-                        if (commitment.paper === true) {
-                            this.commitmentReturn = true;
-                        }
-                    });
-                }
                 if (this.rental.deleted === true) {
                     this.state = "del";
                 } else if (this.rental.finished === true) {
                     this.state = "alf";
                 } else {
                     this.state = "ok";
+                    // set price
                     this.price = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
                     this.isOriginalPrice = true;
                     this.originalPrice = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
+                    // add special warning if commitment has to be returned and add the return value for special commitments
+                    if (isPresent(this.rental && isPresent(this.rental.commitments))) {
+                        this.rental.commitments.forEach((commitment) => {
+                            // return commitment
+                            if (commitment.paper === true) {
+                                this.commitmentReturn = true;
+                            }
+                            // € 50,-
+                            if (commitment.name === "EUR 50,-") {
+                                this.getMoney = this.pp.ppPrice(50, "");
+                                this.calculateReturnMoney();
+                            }
+                            // € 100,-
+                            if (commitment.name === "EUR 100,-") {
+                                this.getMoney = this.pp.ppPrice(100, "");
+                                this.calculateReturnMoney();
+                            }
+                        });
+                    }
                 }
             },
             () => {
@@ -223,10 +236,14 @@ export class ModalArrival implements ICustomModalComponent {
             this.price = (this.price == null ? "" : this.price) + s;
         } else if (this.inputMethod === InputMethod.GetMoney) {
             this.getMoney = (this.getMoney == null ? "" : this.getMoney) + s;
+            this.calculateReturnMoney();
+        }
+    }
+
+    private calculateReturnMoney() {
             if (this.getMoney - this.price > 0) {
                 this.returnMoney = this.pp.ppPrice(this.getMoney - this.price, "");
             }
-        }
     }
 
     getBoatName():string {
