@@ -7,6 +7,7 @@ export class Commitment {
     keyBinding:string;
     pictureUrl:string;
     pictureUrlThumb:string;
+    paper:boolean;
 
     constructor(id:number,
                 name:string,
@@ -14,7 +15,8 @@ export class Commitment {
                 priority:number,
                 keyBinding:string,
                 pictureUrl:string,
-                pictureUrlThumb:string) {
+                pictureUrlThumb:string,
+                paper:boolean) {
         this.id = id;
         this.name = name;
         this.enabled = enabled;
@@ -22,5 +24,6 @@ export class Commitment {
         this.keyBinding = keyBinding;
         this.pictureUrl = pictureUrl;
         this.pictureUrlThumb = pictureUrlThumb;
+        this.paper = paper;
     }
 }

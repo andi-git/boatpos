@@ -41,7 +41,8 @@ export class CommitmentService {
                             commitment.priority,
                             commitment.keyBinding,
                             commitment.pictureUrl,
-                            commitment.pictureUrlThumb
+                            commitment.pictureUrlThumb,
+                            commitment.paper
                         ));
                     });
                 }

@@ -26,7 +26,7 @@ export class ModalArrivalContext {
         </div>
         <div class="modal-body" *ngIf="state === 'ok'">
             <p><span class="text-grey">Boot:</span> {{getBoatName()}}</p>
-            <p><span class="text-grey">Einsatz:</span> {{getCommitments()}}</p>
+            <p><span class="text-grey">Einsatz:</span> {{getCommitments()}} <span [hidden]="!commitmentReturn" class="commitment-return">{{getCommitmentReturnString()}}</span></p>
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
             <p><span class="text-grey">Fahrzeit:</span> {{printTimeOfTravel()}} (verrechnet: {{printTimeOfTravelCalculated()}})</p>
@@ -120,6 +120,19 @@ export class ModalArrivalContext {
         .text-small {
             font-size: 1.5em;
         }
+
+        .commitment-return {
+            font-size: 1em;
+            color: black;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 0.5em 0 0.5em;
+            margin: 0 0 0 0;
+            background-color: white;
+            border-radius: 20px 20px 20px 20px;
+            border: 2px solid black;
+            background-color: #ff5050;
+        }
         `],
 })
 export class ModalArrival implements ICustomModalComponent {
@@ -131,6 +144,7 @@ export class ModalArrival implements ICustomModalComponent {
     private rentalNumber:number;
     private state:string;
     private rental:Rental;
+    private commitmentReturn:boolean = false;
 
     private price:string;
     private originalPrice:string;
@@ -177,6 +191,13 @@ export class ModalArrival implements ICustomModalComponent {
     private arrive() {
         this.rentalService.arrive(this.rentalNumber).subscribe((rental:Rental) => {
                 this.rental = <Rental>rental;
+                if (isPresent(this.rental && isPresent(this.rental.commitments))) {
+                    this.rental.commitments.forEach((commitment) => {
+                        if (commitment.paper === true) {
+                            this.commitmentReturn = true;
+                        }
+                    });
+                }
                 if (this.rental.deleted === true) {
                     this.state = "del";
                 } else if (this.rental.finished === true) {
@@ -276,6 +297,14 @@ export class ModalArrival implements ICustomModalComponent {
     cancel() {
         //noinspection TypeScriptUnresolvedFunction
         this.dialog.dismiss();
+    }
+
+    getCommitmentReturnString():string {
+        if (this.commitmentReturn === true) {
+            return "Einsatz retour!";
+        } else {
+            return "";
+        }
     }
 
     private reset():void {

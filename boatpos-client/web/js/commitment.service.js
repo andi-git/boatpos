@@ -49,7 +49,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         var result = [];
                         if (commitments) {
                             commitments.forEach(function (commitment) {
-                                result.push(new commitment_1.Commitment(commitment.id, commitment.name, commitment.enabled, commitment.priority, commitment.keyBinding, commitment.pictureUrl, commitment.pictureUrlThumb));
+                                result.push(new commitment_1.Commitment(commitment.id, commitment.name, commitment.enabled, commitment.priority, commitment.keyBinding, commitment.pictureUrl, commitment.pictureUrlThumb, commitment.paper));
                             });
                         }
                         return result;
