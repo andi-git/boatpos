@@ -241,8 +241,8 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     private calculateReturnMoney() {
-            if (this.getMoney - this.price > 0) {
-                this.returnMoney = this.pp.ppPrice(this.getMoney - this.price, "");
+            if (Number.parseFloat(this.getMoney) - Number.parseFloat(this.price) > 0) {
+                this.returnMoney = this.pp.ppPrice(Number.parseFloat(this.getMoney) - Number.parseFloat(this.price), "");
             }
     }
 

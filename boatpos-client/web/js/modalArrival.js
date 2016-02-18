@@ -130,8 +130,8 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     }
                 };
                 ModalArrival.prototype.calculateReturnMoney = function () {
-                    if (this.getMoney - this.price > 0) {
-                        this.returnMoney = this.pp.ppPrice(this.getMoney - this.price, "");
+                    if (Number.parseFloat(this.getMoney) - Number.parseFloat(this.price) > 0) {
+                        this.returnMoney = this.pp.ppPrice(Number.parseFloat(this.getMoney) - Number.parseFloat(this.price), "");
                     }
                 };
                 ModalArrival.prototype.getBoatName = function () {
