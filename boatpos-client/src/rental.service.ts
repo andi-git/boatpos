@@ -26,7 +26,7 @@ export class RentalService {
             .map((rentalBean) => {
                 return Rental.fromDepart(
                     rentalBean.dayId,
-                    rentalBean.day,
+                    this.createDate(rentalBean.day),
                     rentalBean.boatBean,
                     this.createDate(rentalBean.departure),
                     rentalBean.commitmentBeans,
@@ -95,7 +95,7 @@ export class RentalService {
     private convertRentalBeanTorRental(rentalBean):Rental {
         return new Rental(
             rentalBean.dayId,
-            rentalBean.day,
+            this.createDate(rentalBean.day),
             rentalBean.boatBean,
             this.createDate(rentalBean.departure),
             this.createDate(rentalBean.arrival),
@@ -116,6 +116,8 @@ export class RentalService {
     private createDate(jsonDate:string):Date {
         let date:Date = new Date(jsonDate);
         date.setUTCHours(date.getUTCHours() - 1);
+        date.setUTCDate(date.getUTCDate() + 1);
+        date.setUTCMonth(date.getUTCMonth() + 1);
         return date;
     }
 }

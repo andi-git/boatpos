@@ -8,7 +8,8 @@ import {Config} from "./config";
 @Injectable()
 export class ConfigService {
 
-    private backendUrl:String;
+    private backendUrl:string;
+    private printerUrl:string;
     private configured:EventEmitter<Config> = new EventEmitter();
 
     constructor(private http:Http) {
@@ -21,6 +22,7 @@ export class ConfigService {
             .subscribe((config) => {
                 console.log("config loaded, fire event");
                 this.backendUrl = config.backendUrl;
+                this.printerUrl = config.printerUrl;
                 this.configured.emit(config);
             });
     }
@@ -29,7 +31,11 @@ export class ConfigService {
         return this.configured;
     }
 
-    getBackendUrl():String {
+    getBackendUrl():string {
         return this.backendUrl;
+    }
+
+    getPrinterUrl():string {
+        return this.printerUrl;
     }
 }

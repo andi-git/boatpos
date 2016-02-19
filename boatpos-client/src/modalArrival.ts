@@ -27,6 +27,7 @@ export class ModalArrivalContext {
         <div class="modal-body" *ngIf="state === 'ok'">
             <p><span class="text-grey">Boot:</span> {{getBoatName()}}</p>
             <p><span class="text-grey">Einsatz:</span> {{getCommitments()}} <span [hidden]="!commitmentReturn" class="commitment-return">{{getCommitmentReturnString()}}</span></p>
+            <p><span class="text-grey">Datum:</span> {{printDay()}}</p>
             <p><span class="text-grey">Abfahrt:</span> {{printDeparture()}}</p>
             <p><span class="text-grey">Ankunft:</span> {{printArrival()}}</p>
             <p><span class="text-grey">Fahrzeit:</span> {{printTimeOfTravel()}} (verrechnet: {{printTimeOfTravelCalculated()}})</p>
@@ -257,24 +258,23 @@ export class ModalArrival implements ICustomModalComponent {
         return "";
     }
 
+
+    printDay():string {
+        if (isPresent(this.rental)) {
+            return this.pp.printDate(this.rental.day);
+        }
+    }
+
     printDeparture():string {
-        return isPresent(this.rental) ? this.printDate(this.rental.departure) : "";
+        return isPresent(this.rental) ? this.pp.printTime(this.rental.departure) : "";
     }
 
     printArrival():string {
         let result:string = "keine Ankunftszeit vorhanden";
         if (isPresent(this.rental) && isPresent(this.rental.arrival) && this.rental.arrival.getUTCFullYear() > 1970) {
-            result = this.printDate(this.rental.arrival);
+            result = this.pp.printTime(this.rental.arrival);
         }
         return result;
-    }
-
-    printDate(date:Date):string {
-        let dateString:string = "";
-        if (isPresent(date) && date.getUTCFullYear() > 1970) {
-            return this.pp.pp2Pos(date.getUTCHours()) + ":" + this.pp.pp2Pos(date.getUTCMinutes()) + " Uhr";
-        }
-        return dateString;
     }
 
     printPricePaidBefore():string {

@@ -35,6 +35,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                         .subscribe(function (config) {
                         console.log("config loaded, fire event");
                         _this.backendUrl = config.backendUrl;
+                        _this.printerUrl = config.printerUrl;
                         _this.configured.emit(config);
                     });
                 }
@@ -43,6 +44,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                 };
                 ConfigService.prototype.getBackendUrl = function () {
                     return this.backendUrl;
+                };
+                ConfigService.prototype.getPrinterUrl = function () {
+                    return this.printerUrl;
                 };
                 ConfigService = __decorate([
                     core_1.Injectable(), 

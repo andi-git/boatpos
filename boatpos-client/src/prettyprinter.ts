@@ -48,4 +48,20 @@ export class PrettyPrinter {
         }
         return commitmentString;
     }
+
+    printTime(date:Date):string {
+        let timeString:string = "";
+        if (isPresent(date) && date.getUTCFullYear() > 1970) {
+            return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + " Uhr";
+        }
+        return timeString;
+    }
+
+    printDate(date:Date):string {
+        let dateString:string = "";
+        if (isPresent(date) && date.getUTCFullYear() > 1970) {
+            return this.pp2Pos(date.getUTCDate()) + ". " + this.pp2Pos(date.getUTCMonth()) + ". " + date.getUTCFullYear();
+        }
+        return dateString;
+    }
 }

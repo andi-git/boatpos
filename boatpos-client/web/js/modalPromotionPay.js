@@ -70,7 +70,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "./pa
                     var payment = new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore);
                     this.rentalService.payBefore(payment).subscribe(function (rental) {
                         _this.rental = rental;
-                        _this.closeOk();
+                        _this.closeOk(rental);
                     }, function () {
                         _this.error = "Fehler beim Zahlen der Aktion von Vermietung mit Nummer " + _this.rental.dayId + "!";
                         _this.cancel();

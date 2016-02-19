@@ -44,6 +44,9 @@ gulp.task('setup', function (done) {
     gulp.src([
         'node_modules/bootstrap/dist/css/bootstrap.css'
     ]).pipe(gulp.dest('web/css'));
+    gulp.src([
+        'lib/*.js'
+    ]).pipe(gulp.dest('web/lib'));
 });
 
 // called when we change our non-TypeScript assets

@@ -63,6 +63,20 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                     }
                     return commitmentString;
                 };
+                PrettyPrinter.prototype.printTime = function (date) {
+                    var timeString = "";
+                    if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
+                        return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + " Uhr";
+                    }
+                    return timeString;
+                };
+                PrettyPrinter.prototype.printDate = function (date) {
+                    var dateString = "";
+                    if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
+                        return this.pp2Pos(date.getUTCDate()) + ". " + this.pp2Pos(date.getUTCMonth()) + ". " + date.getUTCFullYear();
+                    }
+                    return dateString;
+                };
                 PrettyPrinter = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])

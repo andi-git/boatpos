@@ -69,7 +69,7 @@ export class ModalPromotionPay implements ICustomModalComponent {
         let payment:Payment = new Payment(this.rental.dayId, this.rental.priceCalculatedBefore);
         this.rentalService.payBefore(payment).subscribe((rental:Rental) => {
                 this.rental = rental;
-                this.closeOk();
+                this.closeOk(rental);
             },
             () => {
                 this.error = "Fehler beim Zahlen der Aktion von Vermietung mit Nummer " + this.rental.dayId + "!";
