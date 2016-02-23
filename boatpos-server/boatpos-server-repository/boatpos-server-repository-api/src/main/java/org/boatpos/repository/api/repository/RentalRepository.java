@@ -1,8 +1,10 @@
 package org.boatpos.repository.api.repository;
 
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.builder.RentalBuilder;
-import org.boatpos.repository.api.model.*;
+import org.boatpos.repository.api.model.Boat;
+import org.boatpos.repository.api.model.Commitment;
+import org.boatpos.repository.api.model.PromotionBefore;
+import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.*;
 
 import java.util.List;
@@ -80,17 +82,6 @@ public interface RentalRepository extends DomainModelRepository<Rental> {
      * @return the finished {@link Rental}
      */
     Rental arrive(Day day, DayId dayId, ArrivalTime arrivalTime);
-
-    /**
-     * The price to be paid.
-     *
-     * @param day            the {@link Day} of the dayId
-     * @param dayId          the {@link DayId} that arrives
-     * @param promotion      the {@link PromotionAfter} of the {@link Rental}
-     * @param pricePaidAfter the {@link PricePaidAfter} to be paid
-     * @return the finished {@link Rental} including the price
-     */
-    Rental pay(Day day, DayId dayId, PricePaidAfter pricePaidAfter, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod);
 
     /**
      * Load all active {@link Rental}s for the current day (not finished, not deleted).

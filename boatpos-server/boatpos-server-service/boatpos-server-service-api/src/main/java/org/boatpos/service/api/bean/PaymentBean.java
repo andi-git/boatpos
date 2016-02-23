@@ -20,12 +20,16 @@ public class PaymentBean extends AbstractBean {
     @Min(0)
     private BigDecimal value;
 
+    @NotNull
+    private String paymentMethod;
+
     public PaymentBean() {
     }
 
-    public PaymentBean(Integer dayNumber, BigDecimal value) {
+    public PaymentBean(Integer dayNumber, BigDecimal value, String paymentMethod) {
         this.dayNumber = dayNumber;
         this.value = value;
+        this.paymentMethod = paymentMethod;
     }
 
     public Integer getDayNumber() {
@@ -44,17 +48,26 @@ public class PaymentBean extends AbstractBean {
         this.value = value;
     }
 
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PaymentBean that = (PaymentBean) o;
         return Objects.equal(dayNumber, that.dayNumber) &&
-                Objects.equal(value, that.value);
+                Objects.equal(value, that.value) &&
+                Objects.equal(paymentMethod, that.paymentMethod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(dayNumber, value);
+        return Objects.hashCode(dayNumber, value, paymentMethod);
     }
 }

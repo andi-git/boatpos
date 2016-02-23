@@ -69,7 +69,7 @@ public class DepartureServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("33.60"), rental.getPriceCalculatedBefore());
         assertNull(rental.getPricePaidBefore());
 
-        rental = departureService.pay(new PaymentBean(rental.getDayId(), new BigDecimal("33.60")));
+        rental = departureService.pay(new PaymentBean(rental.getDayId(), new BigDecimal("33.60"), "cash"));
         assertEquals(new BigDecimal("33.60"), rental.getPricePaidBefore());
     }
 }

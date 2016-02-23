@@ -31,7 +31,8 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
                       PricePaidAfter pricePaidAfter,
                       Finished finished,
                       Deleted deleted,
-                      PaymentMethod paymentMethod,
+                      PaymentMethod paymentMethodBefore,
+                      PaymentMethod paymentMethodAfter,
                       Promotion promotion,
                       Set<Commitment> commitments) {
         super(id, version);
@@ -50,7 +51,8 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
         setPricePaidAfter(pricePaidAfter);
         setFinished(finished);
         setDeleted(deleted);
-        setPaymentMethod(paymentMethod);
+        setPaymentMethodBefore(paymentMethodBefore);
+        setPaymentMethodAfter(paymentMethodAfter);
         setPromotion(promotion);
         addCommitments(commitments);
     }
@@ -186,13 +188,24 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
     }
 
     @Override
-    public PaymentMethod getPaymentMethod() {
-        return getEntity().getPaymentMethod();
+    public PaymentMethod getPaymentMethodBefore() {
+        return getEntity().getPaymentMethodBefore();
     }
 
     @Override
-    public Rental setPaymentMethod(PaymentMethod paymentMethod) {
-        getEntity().setPaymentMethod(paymentMethod);
+    public Rental setPaymentMethodBefore(PaymentMethod paymentMethodBefore) {
+        getEntity().setPaymentMethodBefore(paymentMethodBefore);
+        return this;
+    }
+
+    @Override
+    public PaymentMethod getPaymentMethodAfter() {
+        return getEntity().getPaymentMethodBefore();
+    }
+
+    @Override
+    public Rental setPaymentMethodAfter(PaymentMethod paymentMethodAfter) {
+        getEntity().setPaymentMethodAfter(paymentMethodAfter);
         return this;
     }
 
@@ -259,10 +272,6 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean
 
     @Override
     public RentalBean asDto() {
-        RentalBean rentalBean = RentalMapping.fromCDI().mapEntity(getEntity());
-        if (getArrivalTime().isPresent()) {
-
-        }
-        return rentalBean;
+        return RentalMapping.fromCDI().mapEntity(getEntity());
     }
 }

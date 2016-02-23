@@ -132,10 +132,19 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     @Expose
     private Set<CommitmentBean> commitmentBeans;
 
+    @NotNull
+    @Expose
+    private String paymentMethodBefore;
+
+    @NotNull
+    @Expose
+    private String paymentMethodAfter;
+
+
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated, String paymentMethodBefore, String paymentMethodAfter) {
         super(id, version);
         this.dayId = dayId;
         this.day = day;
@@ -154,6 +163,8 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.commitmentBeans = commitmentBeans;
         this.timeOfTravel = timeOfTravel;
         this.timeOfTravelCalculated = timeOfTravelCalculated;
+        this.paymentMethodBefore = paymentMethodBefore;
+        this.paymentMethodAfter = paymentMethodAfter;
     }
 
     public Integer getDayId() {
@@ -290,5 +301,21 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
 
     public void setTimeOfTravelCalculated(Integer timeOfTravelCalculated) {
         this.timeOfTravelCalculated = timeOfTravelCalculated;
+    }
+
+    public String getPaymentMethodBefore() {
+        return paymentMethodBefore;
+    }
+
+    public void setPaymentMethodBefore(String paymentMethodBefore) {
+        this.paymentMethodBefore = paymentMethodBefore;
+    }
+
+    public String getPaymentMethodAfter() {
+        return paymentMethodAfter;
+    }
+
+    public void setPaymentMethodAfter(String paymentMethodAfter) {
+        this.paymentMethodAfter = paymentMethodAfter;
     }
 }

@@ -1,9 +1,11 @@
 package org.boatpos.repository.core.repository;
 
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.builder.RentalBuilder;
-import org.boatpos.repository.api.model.*;
+import org.boatpos.repository.api.model.Boat;
+import org.boatpos.repository.api.model.Commitment;
+import org.boatpos.repository.api.model.PromotionBefore;
+import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.repository.core.builder.RentalBuilderCore;
@@ -91,23 +93,6 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
         return loadRentalByDayIdOrThrowException(day, dayId)
                 .setArrivalTime(arrivalTime)
                 .persist();
-    }
-
-    @Override
-    public Rental pay(Day day, DayId dayId, PricePaidAfter pricePaidAfter, Optional<PromotionAfter> promotion, PaymentMethod paymentMethod) {
-        checkNotNull(dayId, "'dayId' must not be null");
-        checkNotNull(day, "'day' must not be null");
-        checkNotNull(pricePaidAfter, "'pricePaid' must not be null");
-        checkNotNull(promotion, "'promotion' must not be null");
-        checkNotNull(paymentMethod, "'paymentMethod' must not be null");
-        Rental rental = loadRentalByDayIdOrThrowException(day, dayId);
-        rental.setPricePaidAfter(pricePaidAfter)
-                .setPaymentMethod(paymentMethod)
-                .setFinished(Finished.TRUE);
-        if (promotion.isPresent()) {
-            rental.setPromotion(promotion.get());
-        }
-        return rental.persist();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class RentalBuilderCore extends DomainModelBuilderCore<RentalBuilder, Ren
     protected PromotionBefore promotionBefore;
     protected PriceCalculatedBefore priceCalculatedBefore;
     protected Set<Commitment> commitments = new HashSet<>();
-    protected PaymentMethod paymentMethod;
+    protected PaymentMethod paymentMethodBefore;
 
     @Override
     public RentalBuilder add(DayId dayId) {
@@ -79,7 +79,13 @@ public class RentalBuilderCore extends DomainModelBuilderCore<RentalBuilder, Ren
     }
 
     @Override
+    public RentalBuilder add(PaymentMethod paymentMethodBefore) {
+        this.paymentMethodBefore = paymentMethodBefore;
+        return this;
+    }
+
+    @Override
     public Rental build() {
-        return new RentalCore(id, version, dayId, day, boat, departureTime, priceCalculatedBefore, null, null, null, null, null, null, paymentMethod, promotionBefore, commitments);
+        return new RentalCore(id, version, dayId, day, boat, departureTime, priceCalculatedBefore, null, null, null, null, null, null, paymentMethodBefore, null, promotionBefore, commitments);
     }
 }

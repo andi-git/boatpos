@@ -28,4 +28,6 @@ public interface RentalBuilder extends DomainModelBuilder<RentalBuilder, Rental,
     RentalBuilder add(Commitment commitment);
 
     RentalBuilder add(PriceCalculatedBefore priceCalculatedBefore);
+
+    RentalBuilder add(PaymentMethod paymentMethodBefore);
 }

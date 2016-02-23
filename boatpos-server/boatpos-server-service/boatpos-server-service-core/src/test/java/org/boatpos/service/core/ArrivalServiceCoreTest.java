@@ -1,5 +1,6 @@
 package org.boatpos.service.core;
 
+import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.ArrivalService;
@@ -54,13 +55,14 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("44.80"), rental.getPriceCalculatedAfter());
         assertNull(rental.getPricePaidAfter());
 
-        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80")));
+        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "card"));
         assertEquals(new BigDecimal("44.80"), bill.getSumTaxSetNormal());
         rental = rentalService.get(new RentalDayNumberWrapper(3));
         assertTrue(rental.isFinished());
+        assertEquals(PaymentMethod.CARD.toString(), rental.getPaymentMethodAfter());
 
         try {
-            arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80")));
+            arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "cash"));
             fail("rental 3 is already finished");
         } catch (Exception e) {
             // ok
@@ -81,7 +83,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
         assertNull(rental.getPricePaidAfter());
 
-        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("22.40")));
+        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("22.40"), "card"));
         assertEquals(new BigDecimal("22.40"), bill.getSumTaxSetNormal());
     }
 }

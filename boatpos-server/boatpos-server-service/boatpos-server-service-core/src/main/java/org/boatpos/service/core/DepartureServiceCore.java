@@ -1,5 +1,6 @@
 package org.boatpos.service.core;
 
+import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Commitment;
 import org.boatpos.repository.api.model.PromotionBefore;
@@ -86,7 +87,9 @@ public class DepartureServiceCore implements DepartureService {
         if (!rental.getPromotion().isPresent() || !(rental.getPromotion().get() instanceof PromotionBefore)) {
             throw new RuntimeException("rental " + paymentBean.getDayNumber() + ": unable to pay for a promotion when no promotion-before is set");
         }
-        return rentalBeanEnrichment.asDto(rental.setPricePaidBefore(new PricePaidBefore(paymentBean.getValue()))
+        return rentalBeanEnrichment.asDto(rental
+                .setPricePaidBefore(new PricePaidBefore(paymentBean.getValue()))
+                .setPaymentMethodBefore(PaymentMethod.get(paymentBean.getPaymentMethod()))
                 .persist());
     }
 

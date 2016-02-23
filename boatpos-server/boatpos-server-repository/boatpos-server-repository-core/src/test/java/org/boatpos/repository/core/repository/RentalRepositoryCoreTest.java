@@ -1,8 +1,6 @@
 package org.boatpos.repository.core.repository;
 
 import com.google.common.collect.Sets;
-import org.boatpos.model.PaymentMethod;
-import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.*;
 import org.boatpos.repository.api.values.*;
@@ -97,17 +95,6 @@ public class RentalRepositoryCoreTest extends EntityManagerProviderForBoatpos {
         Rental rental = rentalRepository.arrive(new Day(dateTimeHelper.currentDate()), new DayId(3), new ArrivalTime(LocalDateTime.of(2015, 7, 1, 15, 30)));
         assertNotNull(rental.getArrivalTime().get());
         assertEquals(LocalDateTime.of(2015, 7, 1, 15, 30), rentalRepository.loadBy(new Day(dateTimeHelper.currentDate()), new DayId(3)).get().getArrivalTime().get());
-    }
-
-    @Test
-    @Transactional
-    public void testPay() {
-        Optional<PromotionAfter> holliKnolli = promotionAfterRepository.loadBy(new Name("HolliKnolli"));
-        Rental rental = rentalRepository.pay(new Day(dateTimeHelper.currentDate()), new DayId(3), new PricePaidAfter("15.6"), holliKnolli, PaymentMethod.CASH);
-        assertNotNull(rental.getPricePaidAfter());
-        assertNotNull(rental.getPaymentMethod());
-        assertTrue(rental.isFinished().get());
-        assertEquals(new PricePaidAfter("15.6"), rentalRepository.loadBy(new Day(dateTimeHelper.currentDate()), new DayId(3)).get().getPricePaidAfter());
     }
 
     @Test

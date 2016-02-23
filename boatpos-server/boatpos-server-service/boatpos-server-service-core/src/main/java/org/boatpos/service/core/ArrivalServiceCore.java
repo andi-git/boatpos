@@ -1,5 +1,6 @@
 package org.boatpos.service.core;
 
+import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
@@ -91,6 +92,7 @@ public class ArrivalServiceCore implements ArrivalService {
         return billCreator.create(rental
                 .setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
                 .setFinished(Finished.TRUE)
+                .setPaymentMethodAfter(PaymentMethod.get(paymentBean.getPaymentMethod()))
                 .persist());
     }
 }

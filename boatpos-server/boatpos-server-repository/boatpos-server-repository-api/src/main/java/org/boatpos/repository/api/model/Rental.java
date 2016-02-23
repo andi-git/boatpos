@@ -62,9 +62,13 @@ public interface Rental extends DomainModel<Rental, RentalEntity, RentalBean> {
 
     Rental setDeleted(Deleted deleted);
 
-    PaymentMethod getPaymentMethod();
+    PaymentMethod getPaymentMethodBefore();
 
-    Rental setPaymentMethod(PaymentMethod paymentMethod);
+    Rental setPaymentMethodBefore(PaymentMethod paymentMethodBefore);
+
+    PaymentMethod getPaymentMethodAfter();
+
+    Rental setPaymentMethodAfter(PaymentMethod paymentMethodAfter);
 
     Optional<Promotion> getPromotion();
 

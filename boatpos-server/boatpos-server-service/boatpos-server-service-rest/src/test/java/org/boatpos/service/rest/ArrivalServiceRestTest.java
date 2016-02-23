@@ -47,10 +47,11 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         rentalBean = response.readEntity(RentalBean.class);
         assertEquals(new BigDecimal("22.40"), rentalBean.getPriceCalculatedAfter());
 
-        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/pay")).post(Entity.json(new PaymentBean(3, new BigDecimal("22.40"))));
+        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/pay")).post(Entity.json(new PaymentBean(3, new BigDecimal("22.40"), "cash")));
         BillBean billBean = response.readEntity(BillBean.class);
         assertEquals(new BigDecimal("22.40"), billBean.getSumTaxSetNormal());
         rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/3")).get().readEntity(RentalBean.class);
         assertTrue(rentalBean.isFinished());
+        assertEquals("cash", rentalBean.getPaymentMethodAfter());
     }
 }

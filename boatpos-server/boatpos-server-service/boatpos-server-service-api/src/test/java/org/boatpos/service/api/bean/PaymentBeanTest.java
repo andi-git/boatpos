@@ -17,13 +17,13 @@ public class PaymentBeanTest extends JavaBeanTest<PaymentBean> {
 
     @Test
     public void testConstructor() {
-        new PaymentBean(1, new BigDecimal("20.0"));
+        new PaymentBean(1, new BigDecimal("20.0"), "card");
     }
 
     @Test
     public void testEqualsAndHashCode() {
-        PaymentBean paymentBean1 = new PaymentBean(1, new BigDecimal("20.0"));
-        PaymentBean paymentBean2 = new PaymentBean(2, new BigDecimal("20.0"));
+        PaymentBean paymentBean1 = new PaymentBean(1, new BigDecimal("20.0"), "card");
+        PaymentBean paymentBean2 = new PaymentBean(2, new BigDecimal("20.0"), "cash");
         assertEquals(paymentBean1, paymentBean1);
         assertEquals(paymentBean2, paymentBean2);
         assertNotEquals(paymentBean1, paymentBean2);

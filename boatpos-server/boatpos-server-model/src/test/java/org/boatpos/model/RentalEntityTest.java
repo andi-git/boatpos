@@ -15,7 +15,7 @@ public class RentalEntityTest extends JavaBeanTest<RentalEntity> {
 
     @Test
     public void testConstructor() {
-        new RentalEntity(null, 1, 1, LocalDate.now(), null, LocalDateTime.now(), null, null, null, null, null, false, false, false, null, null, null);
+        new RentalEntity(null, 1, 1, LocalDate.now(), null, LocalDateTime.now(), null, null, null, null, null, false, false, false, null, null, null, null);
         RentalEntity rentalEntity = RentalEntity.builder()
                 .setDayId(1)
                 .setBoat(new BoatEntity())
@@ -23,8 +23,10 @@ public class RentalEntityTest extends JavaBeanTest<RentalEntity> {
                 .setDepartTime(LocalDateTime.now())
                 .setPromotion(Optional.empty())
                 .build();
-        rentalEntity.setPaymentMethod(PaymentMethod.CARD);
-        rentalEntity.getPaymentMethod();
+        rentalEntity.setPaymentMethodBefore(PaymentMethod.CARD);
+        rentalEntity.setPaymentMethodAfter(PaymentMethod.CARD);
+        rentalEntity.getPaymentMethodBefore();
+        rentalEntity.getPaymentMethodAfter();
     }
 
     @Test

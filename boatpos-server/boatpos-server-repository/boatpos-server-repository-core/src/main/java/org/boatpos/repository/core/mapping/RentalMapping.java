@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.mapping;
 
+import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.service.api.bean.PromotionAfterBean;
@@ -33,6 +34,8 @@ public class RentalMapping extends Mapping<RentalEntity, RentalBean> {
                 rentalBean.setPromotionAfterBean((PromotionAfterBean) promotionMapping.mapEntity(rentalEntity.getPromotion()));
             }
         }
+        rentalBean.setPaymentMethodBefore(map(rentalEntity.getPaymentMethodBefore()));
+        rentalBean.setPaymentMethodAfter(map(rentalEntity.getPaymentMethodAfter()));
         return rentalBean;
     }
 
@@ -44,6 +47,11 @@ public class RentalMapping extends Mapping<RentalEntity, RentalBean> {
         } else {
             rentalEntity.setPromotion(promotionMapping.mapDto(rentalBean.getPromotionAfterBean()));
         }
+        rentalEntity.setPaymentMethodBefore(PaymentMethod.getOrNull(rentalBean.getPaymentMethodBefore()));
         return rentalEntity;
+    }
+
+    private String map(PaymentMethod paymentMethod) {
+        return paymentMethod != null ? paymentMethod.toString() : null;
     }
 }

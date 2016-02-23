@@ -107,11 +107,18 @@ public class RentalEntity extends AbstractEntity {
     private Boolean coupon;
 
     /**
-     * The method of the payment.
+     * The method of the payment before.
      */
     @Expose
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private PaymentMethod paymentMethodBefore;
+
+    /**
+     * The method of the payment after.
+     */
+    @Expose
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethodAfter;
 
     /**
      * The {@link PromotionEntity} used for the {@link RentalEntity}.
@@ -136,7 +143,7 @@ public class RentalEntity extends AbstractEntity {
     public RentalEntity() {
     }
 
-    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate day, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethod, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
+    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate day, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethodBefore, PaymentMethod paymentMethodAfter, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
         super(id, version);
         this.dayId = dayId;
         this.day = day;
@@ -150,7 +157,8 @@ public class RentalEntity extends AbstractEntity {
         this.finished = finished;
         this.deleted = deleted;
         this.coupon = coupon;
-        this.paymentMethod = paymentMethod;
+        this.paymentMethodBefore = paymentMethodBefore;
+        this.paymentMethodAfter = paymentMethodAfter;
         this.promotion = promotion;
         this.commitments = commitments;
     }
@@ -251,12 +259,20 @@ public class RentalEntity extends AbstractEntity {
         this.coupon = coupon;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public PaymentMethod getPaymentMethodBefore() {
+        return paymentMethodBefore;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setPaymentMethodBefore(PaymentMethod paymentMethodBefore) {
+        this.paymentMethodBefore = paymentMethodBefore;
+    }
+
+    public PaymentMethod getPaymentMethodAfter() {
+        return paymentMethodAfter;
+    }
+
+    public void setPaymentMethodAfter(PaymentMethod paymentMethodAfter) {
+        this.paymentMethodAfter = paymentMethodAfter;
     }
 
     public PromotionEntity getPromotion() {
@@ -327,7 +343,7 @@ public class RentalEntity extends AbstractEntity {
             checkNotNull(boat, "boat must not be null");
             checkNotNull(dayId, "dayId must not be null");
             checkNotNull(departTime, "departTime must not be null");
-            return new RentalEntity(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, null, null, null, false, false, false, null, promotion, commitments);
+            return new RentalEntity(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, null, null, null, false, false, false, null, null, promotion, commitments);
         }
 
     }

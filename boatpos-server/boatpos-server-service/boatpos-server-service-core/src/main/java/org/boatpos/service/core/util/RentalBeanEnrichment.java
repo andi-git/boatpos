@@ -24,7 +24,7 @@ public class RentalBeanEnrichment {
 
     public RentalBean asDto(Rental rental) {
         RentalBean rentalBean = rental.asDto();
-
+        
         // add time of travel
         ArrivalTime tmpArrivalTime = new ArrivalTime(dateTimeHelper.currentTime());
         if (rental.getArrivalTime().isPresent()) {
