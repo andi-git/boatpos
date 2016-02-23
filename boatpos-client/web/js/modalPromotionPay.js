@@ -45,8 +45,11 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "./pa
                     this.pp = context.pp;
                     this.keyBinding = context.keyBinding;
                     var map = {
-                        'O': function () {
-                            _this.paid();
+                        'P': function () {
+                            _this.payCash();
+                        },
+                        'Q': function () {
+                            _this.payCard();
                         },
                         'K': function () {
                             _this.deleteRental();
@@ -65,9 +68,14 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "./pa
                         _this.cancel();
                     });
                 };
-                ModalPromotionPay.prototype.paid = function () {
+                ModalPromotionPay.prototype.payCash = function () {
+                    this.pay(new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "cash"));
+                };
+                ModalPromotionPay.prototype.payCard = function () {
+                    this.pay(new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "card"));
+                };
+                ModalPromotionPay.prototype.pay = function (payment) {
                     var _this = this;
-                    var payment = new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore);
                     this.rentalService.payBefore(payment).subscribe(function (rental) {
                         _this.rental = rental;
                         _this.closeOk(rental);
@@ -99,7 +107,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "./pa
                     core_1.Component({
                         selector: 'modal-content',
                         directives: [common_1.NgIf],
-                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Aktion '{{getPromotionBefore()}}' bezahlen!</h2>\n        </div>\n        <div class=\"modal-body\">\n            <p><span class=\"text-grey\">Preis f\u00FCr</span> {{getPromotionBefore()}} <span class=\"text-grey\">von</span> {{getPriceCalculatedBefore()}} <span class=\"text-grey\">erhalten?</span></p>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-cancel\" (click)=\"deleteRental()\">L\u00F6schen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"paid()\">Bezahlt</button>\n        </div>",
+                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Aktion '{{getPromotionBefore()}}' bezahlen!</h2>\n        </div>\n        <div class=\"modal-body\">\n            <p><span class=\"text-grey\">Preis f\u00FCr</span> {{getPromotionBefore()}} <span class=\"text-grey\">von</span> {{getPriceCalculatedBefore()}} <span class=\"text-grey\">erhalten?</span></p>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-cancel\" (click)=\"deleteRental()\">L\u00F6schen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"payCash()\">Bar</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"payCard()\">Karte</button>\n        </div>",
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof angular2_modal_1.ModalDialogInstance !== 'undefined' && angular2_modal_1.ModalDialogInstance) === 'function' && _a) || Object, (typeof (_b = typeof angular2_modal_1.ICustomModal !== 'undefined' && angular2_modal_1.ICustomModal) === 'function' && _b) || Object])
                 ], ModalPromotionPay);

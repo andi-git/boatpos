@@ -44,9 +44,9 @@ export class ModalInfoContext {
             <p>{{noRental}}</p>
         </div>
         <div class="modal-footer">
-            <button class="buttonSmall button-action" (click)="delete($event)" *ngIf="!getDeletedOrEmpty()">Löschen</button>
-            <button class="buttonSmall button-action" (click)="undoDelete($event)" *ngIf="getDeletedOrEmpty()">Wiederherstellen</button>
-            <button class="buttonSmall button-ok" (click)="close($event)">Schließen</button>
+            <button class="buttonSmall button-cancel" (click)="delete($event)" *ngIf="!getDeletedOrEmpty()">Löschen</button>
+            <button class="buttonSmall button-ok" (click)="undoDelete($event)" *ngIf="getDeletedOrEmpty()">Wiederherstellen</button>
+            <button class="buttonSmall button-cancel" (click)="close($event)">Schließen</button>
         </div>`,
 })
 export class ModalDelete implements ICustomModalComponent {
@@ -75,9 +75,6 @@ export class ModalDelete implements ICustomModalComponent {
                 } else {
                     this.delete();
                 }
-            },
-            'O': () => {
-                this.cancel();
             }
         };
         this.keyBinding.addBindingForDialogInfo(map);

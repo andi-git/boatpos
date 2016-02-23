@@ -68,7 +68,8 @@ export class ModalArrivalContext {
         </div>
         <div class="modal-footer">
             <button class="buttonSmall button-action" (click)="reset()" *ngIf="state === 'ok'">Zurücksetzen</button>
-            <button class="buttonSmall button-ok" (click)="pay()" *ngIf="state === 'ok'">Bezahlen</button>
+            <button class="buttonSmall button-ok" (click)="payCash()" *ngIf="state === 'ok'">Bar</button>
+            <button class="buttonSmall button-ok" (click)="payCard()" *ngIf="state === 'ok'">Karte</button>
             <button class="buttonSmall button-cancel" (click)="close($event)">Schließen</button>
         </div>`,
     styles: [`
@@ -166,13 +167,16 @@ export class ModalArrival implements ICustomModalComponent {
             'K': () => {
                 this.cancel();
             },
-            'M': () => {
+            'P': () => {
+                this.payCash();
+            },
+            'Q': () => {
+                this.payCard();
+            },
+            'R': () => {
                 this.reset();
             },
-            'O': () => {
-                this.pay();
-            },
-            '~': () => {
+            'S': () => {
                 this.switchInputMethod();
             },
             '.': () => {
@@ -331,8 +335,15 @@ export class ModalArrival implements ICustomModalComponent {
         this.getMoney = "";
     }
 
-    private pay():void {
-        let payment:Payment = new Payment(this.rentalNumber, Number.parseFloat(this.price));
+    private payCash():void {
+        this.pay(new Payment(this.rentalNumber, Number.parseFloat(this.price), "cash"));
+    }
+
+    private payCard():void {
+        this.pay(new Payment(this.rentalNumber, Number.parseFloat(this.price), "card"));
+    }
+
+    private pay(payment:Payment) {
         this.rentalService.payAfter(payment).subscribe((rental:Rental) => {
                 this.rental = rental;
                 //noinspection TypeScriptUnresolvedFunction

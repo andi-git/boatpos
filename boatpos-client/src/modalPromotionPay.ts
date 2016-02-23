@@ -23,7 +23,8 @@ export class ModalPromotionPayContext {
             <p><span class="text-grey">Preis für</span> {{getPromotionBefore()}} <span class="text-grey">von</span> {{getPriceCalculatedBefore()}} <span class="text-grey">erhalten?</span></p>
         <div class="modal-footer">
             <button class="buttonSmall button-cancel" (click)="deleteRental()">Löschen</button>
-            <button class="buttonSmall button-ok" (click)="paid()">Bezahlt</button>
+            <button class="buttonSmall button-ok" (click)="payCash()">Bar</button>
+            <button class="buttonSmall button-ok" (click)="payCard()">Karte</button>
         </div>`,
 })
 export class ModalPromotionPay implements ICustomModalComponent {
@@ -43,8 +44,11 @@ export class ModalPromotionPay implements ICustomModalComponent {
         this.pp = (<ModalPromotionPayContext>context).pp;
         this.keyBinding = (<ModalPromotionPayContext>context).keyBinding;
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
-            'O': () => {
-                this.paid();
+            'P': () => {
+                this.payCash();
+            },
+            'Q': () => {
+                this.payCard();
             },
             'K': () => {
                 this.deleteRental();
@@ -65,8 +69,15 @@ export class ModalPromotionPay implements ICustomModalComponent {
             });
     }
 
-    paid() {
-        let payment:Payment = new Payment(this.rental.dayId, this.rental.priceCalculatedBefore);
+    private payCash():void {
+        this.pay(new Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "cash"));
+    }
+
+    private payCard():void {
+        this.pay(new Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "card"));
+    }
+
+    private pay(payment:Payment) {
         this.rentalService.payBefore(payment).subscribe((rental:Rental) => {
                 this.rental = rental;
                 this.closeOk(rental);

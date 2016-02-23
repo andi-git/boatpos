@@ -4,9 +4,10 @@ System.register([], function(exports_1) {
         setters:[],
         execute: function() {
             Payment = (function () {
-                function Payment(dayNumber, value) {
+                function Payment(dayNumber, value, paymentMethod) {
                     this.dayNumber = dayNumber;
                     this.value = value;
+                    this.paymentMethod = paymentMethod;
                 }
                 Payment.prototype.toString = function () {
                     return JSON.stringify(this);

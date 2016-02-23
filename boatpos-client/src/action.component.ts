@@ -100,14 +100,12 @@ export class ActionComponent {
                                 this.resetUi();
                                 this.keyBinding.focusMain();
                                 if (isPresent(rental.pricePaidBefore) && rental.pricePaidBefore > 0) {
-                                    console.log("result: " + rental);
                                     this.printDepart(rental);
                                     this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                 } else {
                                     this.infoService.event().emit("Vermietung mit Nummer " + rental.dayId + " wurde abgebrochen (gelöscht).");
                                 }
                             }, () => {
-                                console.log("--> error");
                                 this.lastModalResult = 'Rejected!';
                                 this.boatService.updateStats();
                                 this.resetUi();
@@ -277,7 +275,6 @@ export class ActionComponent {
             });
             request += builder.createTextElement({data: 'Abfahrt: ' + this.pp.printTime(rental.departure) + '\n'});
             request += builder.createTextElement({data: 'Einsatz: ' + this.pp.printCommitments(rental.commitments) + '\n'});
-            console.log("--> " + rental.pricePaidBefore);
             if (isPresent(rental.pricePaidBefore)) {
                 request += builder.createTextElement({data: 'Aktion: ' + rental.promotionBefore.name + '\n'});
                 request += builder.createTextElement({data: 'Bezahlt: ' + this.pp.ppPrice(rental.pricePaidBefore, '€ ') + '\n'});

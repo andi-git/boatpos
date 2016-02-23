@@ -128,7 +128,6 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                                         _this.resetUi();
                                         _this.keyBinding.focusMain();
                                         if (lang_1.isPresent(rental.pricePaidBefore) && rental.pricePaidBefore > 0) {
-                                            console.log("result: " + rental);
                                             _this.printDepart(rental);
                                             _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                         }
@@ -136,7 +135,6 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                                             _this.infoService.event().emit("Vermietung mit Nummer " + rental.dayId + " wurde abgebrochen (gelöscht).");
                                         }
                                     }, function () {
-                                        console.log("--> error");
                                         _this.lastModalResult = 'Rejected!';
                                         _this.boatService.updateStats();
                                         _this.resetUi();
@@ -301,7 +299,6 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         });
                         request += builder.createTextElement({ data: 'Abfahrt: ' + this.pp.printTime(rental.departure) + '\n' });
                         request += builder.createTextElement({ data: 'Einsatz: ' + this.pp.printCommitments(rental.commitments) + '\n' });
-                        console.log("--> " + rental.pricePaidBefore);
                         if (lang_1.isPresent(rental.pricePaidBefore)) {
                             request += builder.createTextElement({ data: 'Aktion: ' + rental.promotionBefore.name + '\n' });
                             request += builder.createTextElement({ data: 'Bezahlt: ' + this.pp.ppPrice(rental.pricePaidBefore, '€ ') + '\n' });
