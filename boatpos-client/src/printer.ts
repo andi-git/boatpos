@@ -3,6 +3,7 @@ import {isPresent} from "angular2/src/facade/lang";
 import {Rental} from "./rental";
 import {ConfigService} from "./config.service";
 import {PrettyPrinter} from "./prettyprinter";
+import {Boat} from "./boat";
 
 @Injectable()
 export class Printer {
@@ -20,26 +21,60 @@ export class Printer {
             request = this.addBoat(builder, request, rental);
             request = this.add5MinuteInfo(builder, request);
             this.printPaper(builder, request);
+
+            setTimeout(() => this.printNumberForCommitment(rental), 3000);
+        }
+    }
+
+    public printNumberForCommitment(rental:Rental) {
+        console.log("rental: " + rental);
+        if (isPresent(rental) && isPresent(rental.commitments)) {
+            let needPaper:boolean = false;
+            rental.commitments.forEach((commitment) => {
+                if (commitment.paper) {
+                    needPaper = true;
+                }
+            });
+            console.log("need paper: " + needPaper);
+            if (needPaper === true) {
+                let dayIdString:string = this.pp.pp3Pos(rental.dayId);
+                //noinspection TypeScriptUnresolvedFunction
+                var builder = new StarWebPrintBuilder();
+                var request = builder.createInitializationElement();
+                request = this.blankLine(builder, request);
+                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
+                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(1)), 'left');
+                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(2)), 'left');
+                request = this.blankLine(builder, request);
+                request = this.blankLine(builder, request);
+                this.printPaper(builder, request);
+            }
+        }
+    }
+
+    private convertFromNumberToLogoName(logoNumber:string):string {
+        if (logoNumber === "0") {
+            return "99";
+        } else {
+            return "0" + logoNumber;
         }
     }
 
     private addLogo(builder:any, request:any):any {
         // logo and company-info
-        request = this.printLogo(builder, request, 10);
+        request = this.printLogo(builder, request, 10, 'center');
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Christiane Ahammer');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, '1220 Wien, Wagramertraße 48a');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: +43 1 2633530');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: office@eppel-boote.at');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'web: www.eppel-boote.at');
-        request = this.blankLine(builder, request);
         return request;
     }
 
     private addBoat(builder:any, request:any, rental:Rental):any {
         // add boat and number
-        request = this.printLine(builder, request, 6, 6, 'center', true, false, rental.boat.shortName);
-        request = this.blankLine(builder, request);
+        request = this.printLogo(builder, request, this.mapBoatToLogoName(rental.boat), 'center');
         request = this.printLine(builder, request, 3, 3, 'center', true, false, this.pp.pp3Pos(rental.dayId));
         // rental-data
         request = this.printText(builder, request, 1, 2, 'left', false, true, 'Datum');
@@ -57,6 +92,24 @@ export class Printer {
         return request;
     }
 
+    private mapBoatToLogoName(boat:Boat):string {
+        if (boat.shortName === "E") {
+            return "20";
+        } else if (boat.shortName === "T2") {
+            return "21";
+        } else if (boat.shortName === "T2") {
+            return "22";
+        } else if (boat.shortName === "T4") {
+            return "23";
+        } else if (boat.shortName === "TR") {
+            return "24";
+        } else if (boat.shortName === "L") {
+            return "25";
+        } else if (boat.shortName === "P") {
+            return "26";
+        }
+    }
+
     private add5MinuteInfo(builder:any, request:any):any {
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Hinweis: Es werden (für das Ein-/Aussteigen)');
@@ -64,7 +117,8 @@ export class Printer {
         return request;
     }
 
-    private printLogo(builder:any, request:any, logo:number):any {
+    private printLogo(builder:any, request:any, logo:number, align:string):any {
+        request += builder.createAlignmentElement({position: align});
         request += builder.createLogoElement({number: logo, width: 'single', height: 'single'});
         return request;
     }

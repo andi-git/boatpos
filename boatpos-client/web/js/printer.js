@@ -31,6 +31,7 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                     this.pp = pp;
                 }
                 Printer.prototype.printDepart = function (rental) {
+                    var _this = this;
                     if (lang_1.isPresent(rental)) {
                         //noinspection TypeScriptUnresolvedFunction
                         var builder = new StarWebPrintBuilder();
@@ -39,24 +40,56 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                         request = this.addBoat(builder, request, rental);
                         request = this.add5MinuteInfo(builder, request);
                         this.printPaper(builder, request);
+                        setTimeout(function () { return _this.printNumberForCommitment(rental); }, 3000);
+                    }
+                };
+                Printer.prototype.printNumberForCommitment = function (rental) {
+                    console.log("rental: " + rental);
+                    if (lang_1.isPresent(rental) && lang_1.isPresent(rental.commitments)) {
+                        var needPaper = false;
+                        rental.commitments.forEach(function (commitment) {
+                            if (commitment.paper) {
+                                needPaper = true;
+                            }
+                        });
+                        console.log("need paper: " + needPaper);
+                        if (needPaper === true) {
+                            var dayIdString = this.pp.pp3Pos(rental.dayId);
+                            //noinspection TypeScriptUnresolvedFunction
+                            var builder = new StarWebPrintBuilder();
+                            var request = builder.createInitializationElement();
+                            request = this.blankLine(builder, request);
+                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
+                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(1)), 'left');
+                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(2)), 'left');
+                            request = this.blankLine(builder, request);
+                            request = this.blankLine(builder, request);
+                            this.printPaper(builder, request);
+                        }
+                    }
+                };
+                Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
+                    if (logoNumber === "0") {
+                        return "99";
+                    }
+                    else {
+                        return "0" + logoNumber;
                     }
                 };
                 Printer.prototype.addLogo = function (builder, request) {
                     // logo and company-info
-                    request = this.printLogo(builder, request, 10);
+                    request = this.printLogo(builder, request, 10, 'center');
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Christiane Ahammer');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, '1220 Wien, Wagramertraße 48a');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: +43 1 2633530');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: office@eppel-boote.at');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'web: www.eppel-boote.at');
-                    request = this.blankLine(builder, request);
                     return request;
                 };
                 Printer.prototype.addBoat = function (builder, request, rental) {
                     // add boat and number
-                    request = this.printLine(builder, request, 6, 6, 'center', true, false, rental.boat.shortName);
-                    request = this.blankLine(builder, request);
+                    request = this.printLogo(builder, request, this.mapBoatToLogoName(rental.boat), 'center');
                     request = this.printLine(builder, request, 3, 3, 'center', true, false, this.pp.pp3Pos(rental.dayId));
                     // rental-data
                     request = this.printText(builder, request, 1, 2, 'left', false, true, 'Datum');
@@ -73,13 +106,37 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                     }
                     return request;
                 };
+                Printer.prototype.mapBoatToLogoName = function (boat) {
+                    if (boat.shortName === "E") {
+                        return "20";
+                    }
+                    else if (boat.shortName === "T2") {
+                        return "21";
+                    }
+                    else if (boat.shortName === "T2") {
+                        return "22";
+                    }
+                    else if (boat.shortName === "T4") {
+                        return "23";
+                    }
+                    else if (boat.shortName === "TR") {
+                        return "24";
+                    }
+                    else if (boat.shortName === "L") {
+                        return "25";
+                    }
+                    else if (boat.shortName === "P") {
+                        return "26";
+                    }
+                };
                 Printer.prototype.add5MinuteInfo = function (builder, request) {
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Hinweis: Es werden (für das Ein-/Aussteigen)');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, '5 Minuten auf Fahrzeit gutgeschrieben!');
                     return request;
                 };
-                Printer.prototype.printLogo = function (builder, request, logo) {
+                Printer.prototype.printLogo = function (builder, request, logo, align) {
+                    request += builder.createAlignmentElement({ position: align });
                     request += builder.createLogoElement({ number: logo, width: 'single', height: 'single' });
                     return request;
                 };
