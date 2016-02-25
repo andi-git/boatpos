@@ -98,8 +98,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 ;
                 RentalService.prototype.createDate = function (jsonDate) {
                     var date = new Date(jsonDate);
-                    date.setUTCHours(date.getUTCHours() - 1);
-                    date.setUTCDate(date.getUTCDate() + 1);
+                    date.setUTCHours(date.getUTCHours());
+                    date.setUTCDate(date.getUTCDate());
                     date.setUTCMonth(date.getUTCMonth() + 1);
                     return date;
                 };

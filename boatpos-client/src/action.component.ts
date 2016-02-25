@@ -24,6 +24,7 @@ import {ModalPromotionPayContext} from "./modalPromotionPay";
 import {ModalArrival} from "./modalArrival";
 import {ModalArrivalContext} from "./modalArrival";
 import {ConfigService} from "./config.service";
+import {Printer} from "./printer";
 
 @Component({
     selector: 'action',
@@ -44,7 +45,7 @@ export class ActionComponent {
                 private keyBinding:KeyBindingService,
                 private modalHandler:ModalHandler,
                 private pp:PrettyPrinter,
-                private configService:ConfigService) {
+                private printer:Printer) {
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
@@ -100,7 +101,7 @@ export class ActionComponent {
                                 this.resetUi();
                                 this.keyBinding.focusMain();
                                 if (isPresent(rental.pricePaidBefore) && rental.pricePaidBefore > 0) {
-                                    this.printDepart(rental);
+                                    this.printer.printDepart(rental);
                                     this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                 } else {
                                     this.infoService.event().emit("Vermietung mit Nummer " + rental.dayId + " wurde abgebrochen (gelöscht).");
@@ -114,7 +115,7 @@ export class ActionComponent {
                             });
                         });
                     } else {
-                        this.printDepart(rental);
+                        this.printer.printDepart(rental);
                         this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                         this.boatService.updateStats();
                         this.resetUi();
@@ -231,71 +232,6 @@ export class ActionComponent {
                     this.keyBinding.focusMain();
                 });
             });
-        }
-    }
-
-    private printDepart(rental:Rental):void {
-        if (isPresent(rental)) {
-            //noinspection TypeScriptUnresolvedFunction
-            var builder = new StarWebPrintBuilder();
-            var request = '';
-            request += builder.createInitializationElement();
-
-            // logo and company-info
-            request = builder.createLogoElement({number: 10, width: 'single', height: 'single'});
-            request += builder.createAlignmentElement({position: 'center'});
-            request += builder.createTextElement({data: '\nChristiane Ahammer\n'});
-            request += builder.createTextElement({codepage: 'utf8', data: '1220 Wien, Wagramertraße 48a\n'});
-            request += builder.createTextElement({data: 'tel: +43 1 2633530\n'});
-            request += builder.createTextElement({data: 'mail: office@eppel-boote.at\n'});
-            request += builder.createTextElement({data: 'web: www.eppel-boote.at\n\n'});
-
-            // boat
-            request += builder.createTextElement({
-                width: 6,
-                height: 6,
-                emphasis: true,
-                data: rental.boat.shortName
-            });
-            request += builder.createTextElement({width: 1, height: 1, data: '\n'});
-            request += builder.createTextElement({
-                width: 3,
-                height: 3,
-                emphasis: true,
-                data: this.pp.pp3Pos(rental.dayId) + '\n'
-            });
-
-            // rental-data
-            request += builder.createAlignmentElement({position: 'left'});
-            request += builder.createTextElement({
-                width: 1,
-                height: 2,
-                emphasis: false,
-                data: 'Datum: ' + this.pp.printDate(rental.day) + '\n'
-            });
-            request += builder.createTextElement({data: 'Abfahrt: ' + this.pp.printTime(rental.departure) + '\n'});
-            request += builder.createTextElement({data: 'Einsatz: ' + this.pp.printCommitments(rental.commitments) + '\n'});
-            if (isPresent(rental.pricePaidBefore)) {
-                request += builder.createTextElement({data: 'Aktion: ' + rental.promotionBefore.name + '\n'});
-                request += builder.createTextElement({data: 'Bezahlt: ' + this.pp.ppPrice(rental.pricePaidBefore, '€ ') + '\n'});
-            }
-
-            // 5-minutes info
-            request += builder.createAlignmentElement({position: 'center'});
-            request += builder.createTextElement({
-                codepage: 'utf8',
-                width: 1,
-                height: 1,
-                data: '\nHinweis: Es werden (für das Ein-/Aussteigen) \n5 Minuten auf Fahrzeit gutgeschrieben!\n'
-            });
-
-            // cut
-            request += builder.createCutPaperElement({feed: true});
-            //noinspection TypeScriptUnresolvedFunction
-            var trader = new StarWebPrintTrader({url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage'});
-
-            // print
-            trader.sendMessage({request: request});
         }
     }
 }

@@ -115,8 +115,8 @@ export class RentalService {
 
     private createDate(jsonDate:string):Date {
         let date:Date = new Date(jsonDate);
-        date.setUTCHours(date.getUTCHours() - 1);
-        date.setUTCDate(date.getUTCDate() + 1);
+        date.setUTCHours(date.getUTCHours());
+        date.setUTCDate(date.getUTCDate());
         date.setUTCMonth(date.getUTCMonth() + 1);
         return date;
     }

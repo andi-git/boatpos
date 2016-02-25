@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service", "./modalHandler", "./modalDeleted", "./prettyprinter", "./modalPromotionPay", "./modalArrival", "./config.service"], function(exports_1) {
+System.register(['angular2/core', "./boat.service", "./info.service", "./commitment.service", "./promotion.service", "./departure", "./rental.service", "./modalInfo", "angular2/src/facade/lang", "./keybinding.service", "./modalHandler", "./modalDeleted", "./prettyprinter", "./modalPromotionPay", "./modalArrival", "./printer"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2, prettyprinter_1, modalPromotionPay_1, modalPromotionPay_2, modalArrival_1, modalArrival_2, config_service_1;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2, prettyprinter_1, modalPromotionPay_1, modalPromotionPay_2, modalArrival_1, modalArrival_2, printer_1;
     var ActionComponent;
     return {
         setters:[
@@ -60,12 +60,12 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                 modalArrival_1 = modalArrival_1_1;
                 modalArrival_2 = modalArrival_1_1;
             },
-            function (config_service_1_1) {
-                config_service_1 = config_service_1_1;
+            function (printer_1_1) {
+                printer_1 = printer_1_1;
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, keyBinding, modalHandler, pp, configService) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, keyBinding, modalHandler, pp, printer) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
@@ -75,7 +75,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     this.keyBinding = keyBinding;
                     this.modalHandler = modalHandler;
                     this.pp = pp;
-                    this.configService = configService;
+                    this.printer = printer;
                     var map = {
                         'K': function () {
                             _this.cancel();
@@ -128,7 +128,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                                         _this.resetUi();
                                         _this.keyBinding.focusMain();
                                         if (lang_1.isPresent(rental.pricePaidBefore) && rental.pricePaidBefore > 0) {
-                                            _this.printDepart(rental);
+                                            _this.printer.printDepart(rental);
                                             _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                         }
                                         else {
@@ -144,7 +144,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                                 });
                             }
                             else {
-                                _this.printDepart(rental);
+                                _this.printer.printDepart(rental);
                                 _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                 _this.boatService.updateStats();
                                 _this.resetUi();
@@ -261,71 +261,13 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         });
                     }
                 };
-                ActionComponent.prototype.printDepart = function (rental) {
-                    if (lang_1.isPresent(rental)) {
-                        //noinspection TypeScriptUnresolvedFunction
-                        var builder = new StarWebPrintBuilder();
-                        var request = '';
-                        request += builder.createInitializationElement();
-                        // logo and company-info
-                        request = builder.createLogoElement({ number: 10, width: 'single', height: 'single' });
-                        request += builder.createAlignmentElement({ position: 'center' });
-                        request += builder.createTextElement({ data: '\nChristiane Ahammer\n' });
-                        request += builder.createTextElement({ codepage: 'utf8', data: '1220 Wien, Wagramertraße 48a\n' });
-                        request += builder.createTextElement({ data: 'tel: +43 1 2633530\n' });
-                        request += builder.createTextElement({ data: 'mail: office@eppel-boote.at\n' });
-                        request += builder.createTextElement({ data: 'web: www.eppel-boote.at\n\n' });
-                        // boat
-                        request += builder.createTextElement({
-                            width: 6,
-                            height: 6,
-                            emphasis: true,
-                            data: rental.boat.shortName
-                        });
-                        request += builder.createTextElement({ width: 1, height: 1, data: '\n' });
-                        request += builder.createTextElement({
-                            width: 3,
-                            height: 3,
-                            emphasis: true,
-                            data: this.pp.pp3Pos(rental.dayId) + '\n'
-                        });
-                        // rental-data
-                        request += builder.createAlignmentElement({ position: 'left' });
-                        request += builder.createTextElement({
-                            width: 1,
-                            height: 2,
-                            emphasis: false,
-                            data: 'Datum: ' + this.pp.printDate(rental.day) + '\n'
-                        });
-                        request += builder.createTextElement({ data: 'Abfahrt: ' + this.pp.printTime(rental.departure) + '\n' });
-                        request += builder.createTextElement({ data: 'Einsatz: ' + this.pp.printCommitments(rental.commitments) + '\n' });
-                        if (lang_1.isPresent(rental.pricePaidBefore)) {
-                            request += builder.createTextElement({ data: 'Aktion: ' + rental.promotionBefore.name + '\n' });
-                            request += builder.createTextElement({ data: 'Bezahlt: ' + this.pp.ppPrice(rental.pricePaidBefore, '€ ') + '\n' });
-                        }
-                        // 5-minutes info
-                        request += builder.createAlignmentElement({ position: 'center' });
-                        request += builder.createTextElement({
-                            codepage: 'utf8',
-                            width: 1,
-                            height: 1,
-                            data: '\nHinweis: Es werden (für das Ein-/Aussteigen) \n5 Minuten auf Fahrzeit gutgeschrieben!\n'
-                        });
-                        // cut
-                        request += builder.createCutPaperElement({ feed: true });
-                        //noinspection TypeScriptUnresolvedFunction
-                        var trader = new StarWebPrintTrader({ url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage' });
-                        // print
-                        trader.sendMessage({ request: request });
-                    }
-                };
                 ActionComponent = __decorate([
                     core_1.Component({
                         selector: 'action',
                         templateUrl: "action.component.html",
                         styleUrls: ["action.component.css"],
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer])
                 ], ActionComponent);
                 return ActionComponent;
             })();

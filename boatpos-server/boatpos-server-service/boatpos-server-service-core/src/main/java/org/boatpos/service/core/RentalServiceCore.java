@@ -4,7 +4,9 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.Day;
 import org.boatpos.repository.api.values.DayId;
+import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.RentalService;
+import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
@@ -33,11 +35,17 @@ public class RentalServiceCore implements RentalService {
     @Inject
     private RentalBeanEnrichment rentalBeanEnrichment;
 
+    @Inject
+    private ArrivalService arrivalService;
+
     @Override
     public RentalBean get(RentalDayNumberWrapper rentalDayNumberWrapper) {
         DayId dayId = new DayId(rentalDayNumberWrapper.getDayNumber());
-        return rentalBeanEnrichment.asDto(rentalRepository.loadBy(day, dayId)
-                .orElseGet(new ThrowExceptionRentalNotAvailable(dayId)));
+        Rental rental = rentalRepository.loadBy(day, dayId).orElseGet(new ThrowExceptionRentalNotAvailable(dayId));
+        if (!rental.isFinished().get() && !rental.isDeleted().get()) {
+            arrivalService.arrive(new ArrivalBean(rental.getDayId().get()));
+        }
+        return rentalBeanEnrichment.asDto(rental);
     }
 
     @Override
