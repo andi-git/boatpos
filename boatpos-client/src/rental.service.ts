@@ -8,6 +8,7 @@ import {Rental} from "./rental";
 import {Boat} from "./boat";
 import {Payment} from "./payment";
 import {Arrival} from "./arrival";
+import {Bill} from "./bill";
 
 @Injectable()
 export class RentalService {
@@ -42,7 +43,7 @@ export class RentalService {
             )
             .map(res => res.json())
             .map((rentalBean) => {
-                return this.convertRentalBeanTorRental(rentalBean);
+                return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
@@ -51,7 +52,7 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-                return this.convertRentalBeanTorRental(rentalBean);
+                return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
@@ -60,7 +61,7 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-                return this.convertRentalBeanTorRental(rentalBean);
+                return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
@@ -69,7 +70,7 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-                return this.convertRentalBeanTorRental(rentalBean);
+                return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
@@ -78,7 +79,7 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.headers})
             .map(res => res.json())
             .map((rentalBean) => {
-                return this.convertRentalBeanTorRental(rentalBean);
+                return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
@@ -87,12 +88,12 @@ export class RentalService {
                 this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.headers}
             )
             .map(res => res.json())
-            .map((rentalBean) => {
-                return this.convertRentalBeanTorRental(rentalBean);
+            .map((billBean) => {
+                return this.convertBillBeanToBill(billBean);
             });
     }
 
-    private convertRentalBeanTorRental(rentalBean):Rental {
+    private convertRentalBeanToRental(rentalBean):Rental {
         return new Rental(
             rentalBean.dayId,
             this.createDate(rentalBean.day),
@@ -111,6 +112,10 @@ export class RentalService {
             rentalBean.commitmentBeans,
             rentalBean.timeOfTravel,
             rentalBean.timeOfTravelCalculated);
+    };
+
+    private convertBillBeanToBill(billBean):Bill {
+        return new Bill();
     };
 
     private createDate(jsonDate:string):Date {

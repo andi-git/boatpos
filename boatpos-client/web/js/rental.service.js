@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service", "./rental", "./arrival"], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service", "./rental", "./arrival", "./bill"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, config_service_1, rental_1, arrival_1;
+    var core_1, http_1, config_service_1, rental_1, arrival_1, bill_1;
     var RentalService;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
             },
             function (arrival_1_1) {
                 arrival_1 = arrival_1_1;
+            },
+            function (bill_1_1) {
+                bill_1 = bill_1_1;
             }],
         execute: function() {
             RentalService = (function () {
@@ -49,7 +52,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     return this.http.post(this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return _this.convertRentalBeanTorRental(rentalBean);
+                        return _this.convertRentalBeanToRental(rentalBean);
                     });
                 };
                 RentalService.prototype.deleteRental = function (dayNumber) {
@@ -57,7 +60,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     return this.http.delete(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return _this.convertRentalBeanTorRental(rentalBean);
+                        return _this.convertRentalBeanToRental(rentalBean);
                     });
                 };
                 RentalService.prototype.undoDeleteRental = function (dayNumber) {
@@ -65,7 +68,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     return this.http.get(this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return _this.convertRentalBeanTorRental(rentalBean);
+                        return _this.convertRentalBeanToRental(rentalBean);
                     });
                 };
                 RentalService.prototype.getRental = function (dayNumber) {
@@ -73,7 +76,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return _this.convertRentalBeanTorRental(rentalBean);
+                        return _this.convertRentalBeanToRental(rentalBean);
                     });
                 };
                 RentalService.prototype.arrive = function (dayNumber) {
@@ -81,19 +84,23 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new arrival_1.Arrival(dayNumber)), { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return _this.convertRentalBeanTorRental(rentalBean);
+                        return _this.convertRentalBeanToRental(rentalBean);
                     });
                 };
                 RentalService.prototype.payAfter = function (payment) {
                     var _this = this;
                     return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), { headers: this.headers })
                         .map(function (res) { return res.json(); })
-                        .map(function (rentalBean) {
-                        return _this.convertRentalBeanTorRental(rentalBean);
+                        .map(function (billBean) {
+                        return _this.convertBillBeanToBill(billBean);
                     });
                 };
-                RentalService.prototype.convertRentalBeanTorRental = function (rentalBean) {
+                RentalService.prototype.convertRentalBeanToRental = function (rentalBean) {
                     return new rental_1.Rental(rentalBean.dayId, this.createDate(rentalBean.day), rentalBean.boatBean, this.createDate(rentalBean.departure), this.createDate(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans, rentalBean.timeOfTravel, rentalBean.timeOfTravelCalculated);
+                };
+                ;
+                RentalService.prototype.convertBillBeanToBill = function (billBean) {
+                    return new bill_1.Bill();
                 };
                 ;
                 RentalService.prototype.createDate = function (jsonDate) {

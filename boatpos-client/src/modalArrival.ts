@@ -12,9 +12,11 @@ import {Commitment} from "./commitment";
 import {KeyBindingService} from "./keybinding.service";
 import {PrettyPrinter} from "./prettyprinter";
 import {Payment} from "./payment";
+import {Printer} from "./printer";
+import {Bill} from "./bill";
 
 export class ModalArrivalContext {
-    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public pp:PrettyPrinter) {
+    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public printer:Printer, public pp:PrettyPrinter) {
     }
 }
 
@@ -142,6 +144,7 @@ export class ModalArrival implements ICustomModalComponent {
     private dialog:ModalDialogInstance;
     private keyBinding:KeyBindingService;
     private rentalService:RentalService;
+    private printer:Printer;
     private pp:PrettyPrinter;
     private rentalNumber:number;
     private state:string;
@@ -162,6 +165,7 @@ export class ModalArrival implements ICustomModalComponent {
         this.keyBinding = (<ModalArrivalContext>modelContentData).keyBinding;
         this.rentalService = (<ModalArrivalContext>modelContentData).rentalService;
         this.rentalNumber = (<ModalArrivalContext>modelContentData).rentalNumber;
+        this.printer = (<ModalArrivalContext>modelContentData).printer;
         this.pp = (<ModalArrivalContext>modelContentData).pp;
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
@@ -344,8 +348,8 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     private pay(payment:Payment) {
-        this.rentalService.payAfter(payment).subscribe((rental:Rental) => {
-                this.rental = rental;
+        this.rentalService.payAfter(payment).subscribe((bill:Bill) => {
+                this.printer.printBill(bill);
                 //noinspection TypeScriptUnresolvedFunction
                 this.dialog.close("ok");
             },

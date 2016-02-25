@@ -218,7 +218,7 @@ export class ActionComponent {
             this.infoService.event().emit("Verrechnung nicht möglich: keine Nummer eingegeben.")
         } else {
             this.infoService.event().emit("Verrechnung der Nummer " + this.rentalNumber + ".");
-            this.modalHandler.open(ModalArrival, new ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.pp)).then((resultPromise) => {
+            this.modalHandler.open(ModalArrival, new ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp)).then((resultPromise) => {
                 //noinspection TypeScriptUnresolvedVariable
                 return resultPromise.result.then((result) => {
                     this.lastModalResult = result;

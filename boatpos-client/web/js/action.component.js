@@ -245,7 +245,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     }
                     else {
                         this.infoService.event().emit("Verrechnung der Nummer " + this.rentalNumber + ".");
-                        this.modalHandler.open(modalArrival_1.ModalArrival, new modalArrival_2.ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.pp)).then(function (resultPromise) {
+                        this.modalHandler.open(modalArrival_1.ModalArrival, new modalArrival_2.ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp)).then(function (resultPromise) {
                             //noinspection TypeScriptUnresolvedVariable
                             return resultPromise.result.then(function (result) {
                                 _this.lastModalResult = result;

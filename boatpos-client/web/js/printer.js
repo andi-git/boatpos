@@ -37,6 +37,7 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                         var builder = new StarWebPrintBuilder();
                         var request = builder.createInitializationElement();
                         request = this.addLogo(builder, request);
+                        request = this.printCompanyData(builder, request, rental);
                         request = this.addBoat(builder, request, rental);
                         request = this.add5MinuteInfo(builder, request);
                         this.printPaper(builder, request);
@@ -44,7 +45,6 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                     }
                 };
                 Printer.prototype.printNumberForCommitment = function (rental) {
-                    console.log("rental: " + rental);
                     if (lang_1.isPresent(rental) && lang_1.isPresent(rental.commitments)) {
                         var needPaper = false;
                         rental.commitments.forEach(function (commitment) {
@@ -52,7 +52,6 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                                 needPaper = true;
                             }
                         });
-                        console.log("need paper: " + needPaper);
                         if (needPaper === true) {
                             var dayIdString = this.pp.pp3Pos(rental.dayId);
                             //noinspection TypeScriptUnresolvedFunction
@@ -68,6 +67,22 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                         }
                     }
                 };
+                Printer.prototype.printBill = function (bill) {
+                    //noinspection TypeScriptUnresolvedFunction
+                    var builder = new StarWebPrintBuilder();
+                    var request = builder.createInitializationElement();
+                    request = this.addLogo(builder, request);
+                    request = this.printLine(builder, request, 3, 3, 'center', true, false, 'Rechnung');
+                    request = this.blankLine(builder, request);
+                    request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+                    request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+                    request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+                    request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+                    request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+                    request = this.blankLine(builder, request);
+                    request = this.printCompanyData(builder, request);
+                    this.printPaper(builder, request);
+                };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
                     if (logoNumber === "0") {
                         return "99";
@@ -80,6 +95,9 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                     // logo and company-info
                     request = this.printLogo(builder, request, 10, 'center');
                     request = this.blankLine(builder, request);
+                    return request;
+                };
+                Printer.prototype.printCompanyData = function (builder, request) {
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Christiane Ahammer');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, '1220 Wien, Wagramertraße 48a');
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: +43 1 2633530');

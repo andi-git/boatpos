@@ -4,6 +4,7 @@ import {Rental} from "./rental";
 import {ConfigService} from "./config.service";
 import {PrettyPrinter} from "./prettyprinter";
 import {Boat} from "./boat";
+import {Bill} from "./bill";
 
 @Injectable()
 export class Printer {
@@ -18,6 +19,7 @@ export class Printer {
             var builder = new StarWebPrintBuilder();
             var request = builder.createInitializationElement();
             request = this.addLogo(builder, request);
+            request = this.printCompanyData(builder, request, rental);
             request = this.addBoat(builder, request, rental);
             request = this.add5MinuteInfo(builder, request);
             this.printPaper(builder, request);
@@ -27,7 +29,6 @@ export class Printer {
     }
 
     public printNumberForCommitment(rental:Rental) {
-        console.log("rental: " + rental);
         if (isPresent(rental) && isPresent(rental.commitments)) {
             let needPaper:boolean = false;
             rental.commitments.forEach((commitment) => {
@@ -35,7 +36,6 @@ export class Printer {
                     needPaper = true;
                 }
             });
-            console.log("need paper: " + needPaper);
             if (needPaper === true) {
                 let dayIdString:string = this.pp.pp3Pos(rental.dayId);
                 //noinspection TypeScriptUnresolvedFunction
@@ -52,6 +52,23 @@ export class Printer {
         }
     }
 
+    public printBill(bill:Bill) {
+        //noinspection TypeScriptUnresolvedFunction
+        var builder = new StarWebPrintBuilder();
+        var request = builder.createInitializationElement();
+        request = this.addLogo(builder, request);
+        request = this.printLine(builder, request, 3, 3, 'center', true, false, 'Rechnung');
+        request = this.blankLine(builder, request);
+        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+        request = this.blankLine(builder, request);
+        request = this.printCompanyData(builder, request);
+        this.printPaper(builder, request);
+    }
+
     private convertFromNumberToLogoName(logoNumber:string):string {
         if (logoNumber === "0") {
             return "99";
@@ -64,6 +81,10 @@ export class Printer {
         // logo and company-info
         request = this.printLogo(builder, request, 10, 'center');
         request = this.blankLine(builder, request);
+        return request;
+    }
+
+    private printCompanyData(builder:any, request:any):any {
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Christiane Ahammer');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, '1220 Wien, Wagramertraße 48a');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: +43 1 2633530');
