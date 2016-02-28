@@ -81,7 +81,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                             _this.cancel();
                         },
                         'L': function () {
-                            _this.depart();
+                            _this.departBySelected();
                         },
                         'M': function () {
                             _this.deleteRental();
@@ -91,6 +91,15 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         },
                         'O': function () {
                             _this.arrive();
+                        },
+                        'T': function () {
+                            _this.depart(_this.boatService.getBoatByShortName('E'), [_this.commitmentService.getCommitmentByName('Ausweis')], null);
+                        },
+                        'U': function () {
+                            _this.depart(_this.boatService.getBoatByShortName('T2'), [_this.commitmentService.getCommitmentByName('Ausweis')], null);
+                        },
+                        'V': function () {
+                            _this.depart(_this.boatService.getBoatByShortName('T4'), [_this.commitmentService.getCommitmentByName('Ausweis')], null);
                         }
                     };
                     for (var i = 0; i <= 9; i++) {
@@ -111,12 +120,9 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     this.commitmentService.resetSelected();
                     this.promotionService.resetSelected();
                 };
-                ActionComponent.prototype.depart = function () {
+                ActionComponent.prototype.depart = function (boat, commitments, promotionBefore) {
                     var _this = this;
-                    var boat = this.boatService.getSelectedBoat();
-                    var commitments = this.commitmentService.getSelectedCommitmens();
-                    var promotionBefore = this.promotionService.getSelectedPromotionsBefore();
-                    if (boat != null) {
+                    if (lang_1.isPresent(boat)) {
                         this.rentalService.depart(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
                             // check if a promotion is selected or not
                             if (lang_1.isPresent(rental.priceCalculatedBefore) && rental.priceCalculatedBefore > 0) {
@@ -154,6 +160,9 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                     else {
                         this.infoService.event().emit("Vermietung nicht möglich: es wurde kein Boot augewählt.");
                     }
+                };
+                ActionComponent.prototype.departBySelected = function () {
+                    this.depart(this.boatService.getSelectedBoat(), this.commitmentService.getSelectedCommitmens(), this.promotionService.getSelectedPromotionsBefore());
                 };
                 ActionComponent.prototype.deleteRental = function () {
                     var _this = this;

@@ -51,7 +51,7 @@ export class ActionComponent {
                 this.cancel();
             },
             'L': () => {
-                this.depart();
+                this.departBySelected();
             },
             'M': () => {
                 this.deleteRental();
@@ -61,6 +61,15 @@ export class ActionComponent {
             },
             'O': () => {
                 this.arrive();
+            },
+            'T': () => {
+                this.depart(this.boatService.getBoatByShortName('E'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
+            },
+            'U': () => {
+                this.depart(this.boatService.getBoatByShortName('T2'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
+            },
+            'V': () => {
+                this.depart(this.boatService.getBoatByShortName('T4'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
             }
         };
         for (var i = 0; i <= 9; i++) {
@@ -84,11 +93,8 @@ export class ActionComponent {
         this.promotionService.resetSelected();
     }
 
-    private depart() {
-        let boat:Boat = this.boatService.getSelectedBoat();
-        let commitments:Array<Commitment> = this.commitmentService.getSelectedCommitmens();
-        let promotionBefore:PromotionBefore = this.promotionService.getSelectedPromotionsBefore();
-        if (boat != null) {
+    private depart(boat:Boat, commitments:Array<Commitment>, promotionBefore:PromotionBefore) {
+        if (isPresent(boat)) {
             this.rentalService.depart(new Departure(boat, commitments, promotionBefore)).subscribe(
                 (rental) => {
                     // check if a promotion is selected or not
@@ -125,6 +131,10 @@ export class ActionComponent {
         } else {
             this.infoService.event().emit("Vermietung nicht möglich: es wurde kein Boot augewählt.");
         }
+    }
+
+    private departBySelected() {
+        this.depart(this.boatService.getSelectedBoat(), this.commitmentService.getSelectedCommitmens(), this.promotionService.getSelectedPromotionsBefore());
     }
 
     private deleteRental() {

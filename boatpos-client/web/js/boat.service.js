@@ -47,7 +47,7 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                         var result = [];
                         if (boats) {
                             boats.forEach(function (boat) {
-                                result.push(new boat_1.Boat(boat.id, boat.name, boat.shortName, boat.enabled, boat.priority, boat.pictureUrl, boat.pictureUrlThumb, boat.keyBinding));
+                                result.push(new boat_1.Boat(boat.id, boat.name, boat.enabled, boat.priority, boat.shortName, boat.pictureUrl, boat.pictureUrlThumb, boat.keyBinding));
                             });
                         }
                         return result;
@@ -85,6 +85,24 @@ System.register(['./boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/
                     var boat = null;
                     this.getBoats().forEach(function (b) {
                         if (b.keyBinding == keyBinding) {
+                            boat = b;
+                        }
+                    });
+                    return boat;
+                };
+                BoatService.prototype.getBoatByShortName = function (shortName) {
+                    var boat = null;
+                    this.getBoats().forEach(function (b) {
+                        if (b.shortName == shortName) {
+                            boat = b;
+                        }
+                    });
+                    return boat;
+                };
+                BoatService.prototype.getBoatByName = function (name) {
+                    var boat = null;
+                    this.getBoats().forEach(function (b) {
+                        if (b.name == name) {
                             boat = b;
                         }
                     });

@@ -38,9 +38,9 @@ export class BoatService {
                         result.push(new Boat(
                             boat.id,
                             boat.name,
-                            boat.shortName,
                             boat.enabled,
                             boat.priority,
+                            boat.shortName,
                             boat.pictureUrl,
                             boat.pictureUrlThumb,
                             boat.keyBinding));
@@ -90,6 +90,26 @@ export class BoatService {
         let boat:Boat = null;
         this.getBoats().forEach((b) => {
             if (b.keyBinding == keyBinding) {
+                boat = b;
+            }
+        });
+        return boat;
+    }
+
+    getBoatByShortName(shortName:string):Boat {
+        let boat:Boat = null;
+        this.getBoats().forEach((b) => {
+            if (b.shortName == shortName) {
+                boat = b;
+            }
+        });
+        return boat;
+    }
+
+    getBoatByName(name:string):Boat {
+        let boat:Boat = null;
+        this.getBoats().forEach((b) => {
+            if (b.name == name) {
                 boat = b;
             }
         });

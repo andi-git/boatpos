@@ -14,6 +14,9 @@ System.register([], function(exports_1) {
                     this.pictureUrlThumb = pictureUrlThumb;
                     this.paper = paper;
                 }
+                Commitment.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
                 return Commitment;
             })();
             exports_1("Commitment", Commitment);

@@ -64,6 +64,15 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     });
                     return commitment;
                 };
+                CommitmentService.prototype.getCommitmentByName = function (name) {
+                    var commitment = null;
+                    this.getCommitments().forEach(function (c) {
+                        if (c.name == name) {
+                            commitment = c;
+                        }
+                    });
+                    return commitment;
+                };
                 CommitmentService.prototype.resetSelected = function () {
                     this.getCommitments().forEach(function (commitment) { return commitment.selected = false; });
                 };

@@ -26,4 +26,8 @@ export class Commitment {
         this.pictureUrlThumb = pictureUrlThumb;
         this.paper = paper;
     }
+
+    toString():string {
+        return JSON.stringify(this);
+    }
 }

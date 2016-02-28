@@ -60,6 +60,16 @@ export class CommitmentService {
         return commitment;
     }
 
+    getCommitmentByName(name:string):Commitment {
+        let commitment:Commitment = null;
+        this.getCommitments().forEach((c) => {
+            if (c.name == name) {
+                commitment = c;
+            }
+        });
+        return commitment;
+    }
+
     resetSelected() {
         this.getCommitments().forEach(commitment => commitment.selected = false);
     }
