@@ -5,23 +5,21 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class JournalReportItemBeanTest extends JavaBeanTest<JournalReportItemBean> {
 
     @Test
     public void testConstructor() {
-        new JournalReportItemBean(new BoatBean(), BigDecimal.ZERO);
+        new JournalReportBean();
+        new JournalReportItemBean("boat", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0);
     }
 
     @Test
     public void testEqualsAndHashCode() {
-        BoatBean boatBean1 = new BoatBean();
-        BoatBean boatBean2 = new BoatBean();
-        boatBean1.setId(1L);
-        boatBean2.setId(2L);
-        JournalReportItemBean journalReportItemBean1 = new JournalReportItemBean(boatBean1, BigDecimal.ZERO);
-        JournalReportItemBean journalReportItemBean2 = new JournalReportItemBean(boatBean2, BigDecimal.ZERO);
+        JournalReportItemBean journalReportItemBean1 = new JournalReportItemBean("boat1", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0);
+        JournalReportItemBean journalReportItemBean2 = new JournalReportItemBean("boat2", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0);
         assertEquals(journalReportItemBean1, journalReportItemBean1);
         assertEquals(journalReportItemBean2, journalReportItemBean2);
         assertNotEquals(journalReportItemBean1, journalReportItemBean2);

@@ -3,13 +3,32 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
-    <named-query name="journal.sumBoatPeriod">
-        <query>SELECT SUM(r.pricePaidBefore), SUM(r.pricePaidAfter)
-               FROM   RentalEntity r
-               WHERE  r.day BETWEEN :start AND :end
-                 AND  r.boat = :boat
-                 AND  r.finished = true
-                 AND  r.deleted = false
+    <named-query name="journal.incomeBoatPeriodBefore">
+        <query>
+                SELECT new org.boatpos.repository.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidBefore))
+                FROM   RentalEntity r
+                WHERE  r.day BETWEEN :start AND :end
+                  AND  r.paymentMethodBefore = :paymentMethod AND r.finished = true AND  r.deleted = false
+                GROUP BY r.boat.id
+        </query>
+    </named-query>
+    <named-query name="journal.incomeBoatPeriodAfter">
+        <query>
+                SELECT new org.boatpos.repository.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidAfter))
+                FROM   RentalEntity r
+                WHERE  r.day BETWEEN :start AND :end
+                  AND  r.paymentMethodAfter = :paymentMethod AND r.finished = true AND  r.deleted = false
+                GROUP BY r.boat.id
+        </query>
+    </named-query>
+    <named-query name="journal.countBoatPeriod">
+        <query>
+                SELECT new org.boatpos.repository.api.values.BoatCountResult(r.boat.name, COUNT(r.boat.id))
+                FROM   RentalEntity r
+                WHERE  r.day BETWEEN :start AND :end
+                  AND  r.finished = true
+                  AND  r.deleted = false
+                GROUP BY r.boat.id
         </query>
     </named-query>
 </entity-mappings>

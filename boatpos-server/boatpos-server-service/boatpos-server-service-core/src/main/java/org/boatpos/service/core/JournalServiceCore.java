@@ -1,8 +1,11 @@
 package org.boatpos.service.core;
 
+import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.JournalRepository;
+import org.boatpos.repository.api.values.BoatCountResult;
+import org.boatpos.repository.api.values.IncomeResult;
 import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
@@ -12,6 +15,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @RequestScoped
 public class JournalServiceCore implements JournalService {
@@ -38,10 +45,30 @@ public class JournalServiceCore implements JournalService {
     }
 
     private JournalReportBean totalIncomeFor(Period period) {
+        checkNotNull(period, "'period' must not be null");
         JournalReportBean journalReportBean = new JournalReportBean();
+        List<BoatCountResult> boatCountResult = journalRepository.countBoatFor(period);
         for (Boat boat : boatRepository.loadAll()) {
-            journalReportBean.addJournalReportItemBean(new JournalReportItemBean(boat.asDto(), journalRepository.sum(boat, period).get()));
+            journalReportBean.addJournalReportItemBean(new JournalReportItemBean(
+                    boat.getName().get(),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CASH)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CARD)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CASH)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CARD)),
+                    getBoatCountFor(boat, boatCountResult).intValue()));
         }
         return journalReportBean;
+    }
+
+    private BigDecimal getIncomeResultFor(Boat boat, List<IncomeResult> incomeResult) {
+        checkNotNull(boat, "'boat' must not be null");
+        checkNotNull(incomeResult, "'incomeCountResult' must not be null");
+        return incomeResult.stream().filter((ir) -> boat.getName().get().equals(ir.getBoatName())).findFirst().orElse(new IncomeResult("", BigDecimal.ZERO)).getPricePaid();
+    }
+
+    private Long getBoatCountFor(Boat boat, List<BoatCountResult> boatCountResult) {
+        checkNotNull(boat, "'boat' must not be null");
+        checkNotNull(boatCountResult, "'boatCountResult' must not be null");
+        return boatCountResult.stream().filter(bc -> bc.getBoatName().equals(boat.getName().get())).findFirst().orElse(new BoatCountResult("", 0L)).getCount();
     }
 }

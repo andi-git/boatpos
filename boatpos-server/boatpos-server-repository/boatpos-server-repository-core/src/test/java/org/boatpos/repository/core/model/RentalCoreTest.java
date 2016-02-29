@@ -101,6 +101,9 @@ public class RentalCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("10.0"), rental.getPriceCalculatedAfter().get());
         assertEquals(new BigDecimal("20.0"), rental.getPricePaidBefore().get());
         assertEquals(new BigDecimal("10.0"), rental.getPricePaidAfter().get());
-
+        rental.isFinished();
+        rental.getPaymentMethodAfter();
+        rental.getPaymentMethodBefore();
+        rental.getPricePaidComplete();
     }
 }
