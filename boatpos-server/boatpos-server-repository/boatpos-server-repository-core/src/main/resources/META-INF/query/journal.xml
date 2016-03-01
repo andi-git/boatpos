@@ -8,7 +8,7 @@
                 SELECT new org.boatpos.repository.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidBefore))
                 FROM   RentalEntity r
                 WHERE  r.day BETWEEN :start AND :end
-                  AND  r.paymentMethodBefore = :paymentMethod AND r.finished = true AND  r.deleted = false
+                  AND  r.paymentMethodBefore = :paymentMethod AND r.finished = true AND (r.deleted = false OR r.deleted IS NULL)
                 GROUP BY r.boat.id
         </query>
     </named-query>
@@ -17,7 +17,7 @@
                 SELECT new org.boatpos.repository.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidAfter))
                 FROM   RentalEntity r
                 WHERE  r.day BETWEEN :start AND :end
-                  AND  r.paymentMethodAfter = :paymentMethod AND r.finished = true AND  r.deleted = false
+                  AND  r.paymentMethodAfter = :paymentMethod AND r.finished = true AND (r.deleted = false OR r.deleted IS NULL)
                 GROUP BY r.boat.id
         </query>
     </named-query>
@@ -27,7 +27,7 @@
                 FROM   RentalEntity r
                 WHERE  r.day BETWEEN :start AND :end
                   AND  r.finished = true
-                  AND  r.deleted = false
+                  AND  (r.deleted = false OR r.deleted IS NULL)
                 GROUP BY r.boat.id
         </query>
     </named-query>

@@ -11,13 +11,14 @@ import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;
+import org.boatpos.util.log.LogWrapper;
+import org.boatpos.util.log.SLF4J;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,6 +30,10 @@ public class JournalServiceCore implements JournalService {
 
     @Inject
     private BoatRepository boatRepository;
+
+    @Inject
+    @SLF4J
+    private LogWrapper log;
 
     @Override
     public JournalReportBean totalIncomeFor(Integer year) {
@@ -47,6 +52,7 @@ public class JournalServiceCore implements JournalService {
 
     private JournalReportBean totalIncomeFor(Period period) {
         checkNotNull(period, "'period' must not be null");
+        log.info("calculate total income for {} - {}", period.getStart(), period.getEnd());
         JournalReportBean journalReportBean = new JournalReportBean();
         List<BoatCountResult> boatCountResult = journalRepository.countBoatFor(period);
         for (Boat boat : boatRepository.loadAll(Enabled.TRUE)) {
