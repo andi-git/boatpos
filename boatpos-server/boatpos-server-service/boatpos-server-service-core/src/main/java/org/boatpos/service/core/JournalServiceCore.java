@@ -5,6 +5,7 @@ import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.JournalRepository;
 import org.boatpos.repository.api.values.BoatCountResult;
+import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.IncomeResult;
 import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.JournalService;
@@ -48,7 +49,7 @@ public class JournalServiceCore implements JournalService {
         checkNotNull(period, "'period' must not be null");
         JournalReportBean journalReportBean = new JournalReportBean();
         List<BoatCountResult> boatCountResult = journalRepository.countBoatFor(period);
-        for (Boat boat : boatRepository.loadAll()) {
+        for (Boat boat : boatRepository.loadAll(Enabled.TRUE)) {
             journalReportBean.addJournalReportItemBean(new JournalReportItemBean(
                     boat.getName().get(),
                     getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CASH)),
