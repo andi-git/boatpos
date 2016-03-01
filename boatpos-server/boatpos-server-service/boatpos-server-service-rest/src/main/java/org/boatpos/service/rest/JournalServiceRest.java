@@ -1,6 +1,7 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.service.api.JournalService;
+import org.boatpos.util.datetime.DateTimeHelper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,6 +17,27 @@ public class JournalServiceRest {
 
     @Inject
     private JournalService journalService;
+
+    @Inject
+    private DateTimeHelper dateTimeHelper;
+
+    @GET
+    @Path("/income/year")
+    public Response totalIncomeCurrentYear() {
+        return Response.ok(journalService.totalIncomeFor(dateTimeHelper.currentDate().getYear())).build();
+    }
+
+    @GET
+    @Path("/income/month")
+    public Response totalIncomeCurrentMonth() {
+        return Response.ok(journalService.totalIncomeFor(dateTimeHelper.currentDate().getYear(), dateTimeHelper.currentDate().getMonthValue())).build();
+    }
+
+    @GET
+    @Path("/income/day")
+    public Response totalIncomeCurrentDay() {
+        return Response.ok(journalService.totalIncomeFor(dateTimeHelper.currentDate().getYear(), dateTimeHelper.currentDate().getMonthValue(), dateTimeHelper.currentDate().getDayOfMonth())).build();
+    }
 
     @GET
     @Path("/income/{year:[0-9]*}")
