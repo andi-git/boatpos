@@ -54,6 +54,8 @@ public class JournalServiceCore implements JournalService {
         checkNotNull(period, "'period' must not be null");
         log.info("calculate total income for {} - {}", period.getStart(), period.getEnd());
         JournalReportBean journalReportBean = new JournalReportBean();
+        journalReportBean.setStart(period.getStart());
+        journalReportBean.setEnd(period.getEnd());
         List<BoatCountResult> boatCountResult = journalRepository.countBoatFor(period);
         for (Boat boat : boatRepository.loadAll(Enabled.TRUE)) {
             journalReportBean.addJournalReportItemBean(new JournalReportItemBean(

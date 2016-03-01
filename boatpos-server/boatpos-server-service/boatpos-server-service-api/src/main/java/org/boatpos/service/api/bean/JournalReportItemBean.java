@@ -1,6 +1,7 @@
 package org.boatpos.service.api.bean;
 
 import com.google.common.base.Objects;
+import com.google.gson.annotations.Expose;
 
 import java.math.BigDecimal;
 
@@ -9,16 +10,22 @@ import java.math.BigDecimal;
  */
 public class JournalReportItemBean extends AbstractBean {
 
+    @Expose
     private String boatName;
 
+    @Expose
     private BigDecimal pricePaidBeforeCash;
 
+    @Expose
     private BigDecimal pricePaidBeforeCard;
 
+    @Expose
     private BigDecimal pricePaidAfterCash;
 
+    @Expose
     private BigDecimal pricePaidAfterCard;
 
+    @Expose
     private Integer count;
 
     public JournalReportItemBean() {}
@@ -96,17 +103,5 @@ public class JournalReportItemBean extends AbstractBean {
     @Override
     public int hashCode() {
         return Objects.hashCode(boatName, pricePaidBeforeCash, pricePaidBeforeCard, pricePaidAfterCash, pricePaidAfterCard, count);
-    }
-
-    @Override
-    public String toString() {
-        return "JournalReportItemBean{" +
-                "boatName='" + boatName + '\'' +
-                ", pricePaidBeforeCash=" + pricePaidBeforeCash +
-                ", pricePaidBeforeCard=" + pricePaidBeforeCard +
-                ", pricePaidAfterCash=" + pricePaidAfterCash +
-                ", pricePaidAfterCard=" + pricePaidAfterCard +
-                ", count=" + count +
-                '}';
     }
 }
