@@ -5,6 +5,8 @@ import {ConfigService} from "./config.service";
 import {PrettyPrinter} from "./prettyprinter";
 import {Boat} from "./boat";
 import {Bill} from "./bill";
+import {JournalReport} from "./journalReport";
+import {Align} from "./prettyprinter";
 
 @Injectable()
 export class Printer {
@@ -174,5 +176,50 @@ export class Printer {
         var trader = new StarWebPrintTrader({url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage'});
         // print
         trader.sendMessage({request: request});
+    }
+
+    printJournal(journalReport:JournalReport):void {
+        if (isPresent(journalReport)) {
+            //noinspection TypeScriptUnresolvedFunction
+            //var builder = new StarWebPrintBuilder();
+            //var request = builder.createInitializationElement();
+            //request = this.addLogo(builder, request);
+            if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
+                console.log("Datum: " + this.pp.printDate(journalReport.start));
+            } else {
+                console.log("Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+            }
+            let sum:number = 0;
+            console.log("Anzahl Vermietungen");
+            journalReport.journalReportItems.forEach(jri => {
+                let element:string = "";
+                element += this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT);
+                element += this.pp.ppFixLength(this.pp.pp3Pos(jri.count), 10, Align.RIGHT);
+                sum += jri.count;
+                console.log("'" + element + "'");
+            });
+            console.log("'" + this.pp.ppFixLength("Summe:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, Align.RIGHT) + "'");
+            sum = 0;
+            console.log("Bargeld");
+            journalReport.journalReportItems.forEach(jri => {
+                let element:string = "";
+                element += this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT);
+                element += this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, Align.RIGHT);
+                sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
+                console.log("'" + element + "'");
+            });
+            console.log("'" + this.pp.ppFixLength("Summe:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT) + "'");
+            sum = 0;
+            console.log("Karte");
+            journalReport.journalReportItems.forEach(jri => {
+                let element:string = "";
+                element += this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT);
+                element += this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, Align.RIGHT);
+                sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
+                console.log("'" + element + "'");
+            });
+            console.log("'" + this.pp.ppFixLength("Summe:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT) + "'");
+            //this.printPaper(builder, request);
+        }
     }
 }

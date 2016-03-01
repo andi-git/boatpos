@@ -27,9 +27,9 @@ export class RentalService {
             .map((rentalBean) => {
                 return Rental.fromDepart(
                     rentalBean.dayId,
-                    this.createDate(rentalBean.day),
+                    RentalService.createDate(rentalBean.day),
                     rentalBean.boatBean,
-                    this.createDate(rentalBean.departure),
+                    RentalService.createDate(rentalBean.departure),
                     rentalBean.commitmentBeans,
                     rentalBean.promotionBeforeBean,
                     rentalBean.coupon,
@@ -96,10 +96,10 @@ export class RentalService {
     private convertRentalBeanToRental(rentalBean):Rental {
         return new Rental(
             rentalBean.dayId,
-            this.createDate(rentalBean.day),
+            RentalService.createDate(rentalBean.day),
             rentalBean.boatBean,
-            this.createDate(rentalBean.departure),
-            this.createDate(rentalBean.arrival),
+            RentalService.createDate(rentalBean.departure),
+            RentalService.createDate(rentalBean.arrival),
             rentalBean.pricePaidAfter,
             rentalBean.pricePaidBefore,
             rentalBean.priceCalculatedAfter,
@@ -118,7 +118,7 @@ export class RentalService {
         return new Bill();
     };
 
-    private createDate(jsonDate:string):Date {
+    public static createDate(jsonDate:string):Date {
         let date:Date = new Date(jsonDate);
         date.setUTCHours(date.getUTCHours());
         date.setUTCDate(date.getUTCDate());

@@ -8,7 +8,7 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, lang_1, config_service_1, prettyprinter_1;
+    var core_1, lang_1, config_service_1, prettyprinter_1, prettyprinter_2;
     var Printer;
     return {
         setters:[
@@ -23,6 +23,7 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
             },
             function (prettyprinter_1_1) {
                 prettyprinter_1 = prettyprinter_1_1;
+                prettyprinter_2 = prettyprinter_1_1;
             }],
         execute: function() {
             Printer = (function () {
@@ -185,6 +186,51 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                     var trader = new StarWebPrintTrader({ url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage' });
                     // print
                     trader.sendMessage({ request: request });
+                };
+                Printer.prototype.printJournal = function (journalReport) {
+                    var _this = this;
+                    if (lang_1.isPresent(journalReport)) {
+                        //noinspection TypeScriptUnresolvedFunction
+                        //var builder = new StarWebPrintBuilder();
+                        //var request = builder.createInitializationElement();
+                        //request = this.addLogo(builder, request);
+                        if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
+                            console.log("Datum: " + this.pp.printDate(journalReport.start));
+                        }
+                        else {
+                            console.log("Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+                        }
+                        var sum = 0;
+                        console.log("Anzahl Vermietungen");
+                        journalReport.journalReportItems.forEach(function (jri) {
+                            var element = "";
+                            element += _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT);
+                            element += _this.pp.ppFixLength(_this.pp.pp3Pos(jri.count), 10, prettyprinter_2.Align.RIGHT);
+                            sum += jri.count;
+                            console.log("'" + element + "'");
+                        });
+                        console.log("'" + this.pp.ppFixLength("Summe:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, prettyprinter_2.Align.RIGHT) + "'");
+                        sum = 0;
+                        console.log("Bargeld");
+                        journalReport.journalReportItems.forEach(function (jri) {
+                            var element = "";
+                            element += _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT);
+                            element += _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, prettyprinter_2.Align.RIGHT);
+                            sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
+                            console.log("'" + element + "'");
+                        });
+                        console.log("'" + this.pp.ppFixLength("Summe:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_2.Align.RIGHT) + "'");
+                        sum = 0;
+                        console.log("Karte");
+                        journalReport.journalReportItems.forEach(function (jri) {
+                            var element = "";
+                            element += _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT);
+                            element += _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, prettyprinter_2.Align.RIGHT);
+                            sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
+                            console.log("'" + element + "'");
+                        });
+                        console.log("'" + this.pp.ppFixLength("Summe:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_2.Align.RIGHT) + "'");
+                    }
                 };
                 Printer = __decorate([
                     core_1.Injectable(), 

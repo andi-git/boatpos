@@ -64,4 +64,28 @@ export class PrettyPrinter {
         }
         return dateString;
     }
+
+    ppFixLength(string:String, length:Number, align:Align):void {
+        let result:string = string;
+        if (string.length > length) {
+            result = string.substr(0, length);
+        } else {
+            if (align === Align.LEFT || align === Align.CENTER) {
+                for (let i:number = string.length; i < length; i++) {
+                    result += " ";
+                }
+            } else {
+                for (let i:number = string.length; i < length; i++) {
+                    result = " " + result;
+                }
+            }
+        }
+        return result;
+    }
+}
+
+export enum Align {
+    LEFT,
+    CENTER,
+    RIGHT
 }

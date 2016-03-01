@@ -40,11 +40,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     this.headers.append('Content-Type', 'application/json');
                 }
                 RentalService.prototype.depart = function (depart) {
-                    var _this = this;
                     return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), { headers: this.headers })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
-                        return rental_1.Rental.fromDepart(rentalBean.dayId, _this.createDate(rentalBean.day), rentalBean.boatBean, _this.createDate(rentalBean.departure), rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
+                        return rental_1.Rental.fromDepart(rentalBean.dayId, RentalService.createDate(rentalBean.day), rentalBean.boatBean, RentalService.createDate(rentalBean.departure), rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
                     });
                 };
                 RentalService.prototype.payBefore = function (payment) {
@@ -96,14 +95,14 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                     });
                 };
                 RentalService.prototype.convertRentalBeanToRental = function (rentalBean) {
-                    return new rental_1.Rental(rentalBean.dayId, this.createDate(rentalBean.day), rentalBean.boatBean, this.createDate(rentalBean.departure), this.createDate(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans, rentalBean.timeOfTravel, rentalBean.timeOfTravelCalculated);
+                    return new rental_1.Rental(rentalBean.dayId, RentalService.createDate(rentalBean.day), rentalBean.boatBean, RentalService.createDate(rentalBean.departure), RentalService.createDate(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans, rentalBean.timeOfTravel, rentalBean.timeOfTravelCalculated);
                 };
                 ;
                 RentalService.prototype.convertBillBeanToBill = function (billBean) {
                     return new bill_1.Bill();
                 };
                 ;
-                RentalService.prototype.createDate = function (jsonDate) {
+                RentalService.createDate = function (jsonDate) {
                     var date = new Date(jsonDate);
                     date.setUTCHours(date.getUTCHours());
                     date.setUTCDate(date.getUTCDate());

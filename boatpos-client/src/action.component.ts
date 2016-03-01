@@ -25,6 +25,7 @@ import {ModalArrival} from "./modalArrival";
 import {ModalArrivalContext} from "./modalArrival";
 import {ConfigService} from "./config.service";
 import {Printer} from "./printer";
+import {JournalService} from "./journal.service";
 
 @Component({
     selector: 'action',
@@ -42,6 +43,7 @@ export class ActionComponent {
                 private promotionService:PromotionService,
                 private infoService:InfoService,
                 private rentalService:RentalService,
+                private journalService:JournalService,
                 private keyBinding:KeyBindingService,
                 private modalHandler:ModalHandler,
                 private pp:PrettyPrinter,
@@ -70,6 +72,9 @@ export class ActionComponent {
             },
             'V': () => {
                 this.depart(this.boatService.getBoatByShortName('T4'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
+            },
+            'Z': () => {
+                this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport));
             }
         };
         for (var i = 0; i <= 9; i++) {

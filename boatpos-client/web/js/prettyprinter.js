@@ -9,7 +9,7 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, lang_1, lang_2;
-    var PrettyPrinter;
+    var PrettyPrinter, Align;
     return {
         setters:[
             function (core_1_1) {
@@ -77,6 +77,25 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                     }
                     return dateString;
                 };
+                PrettyPrinter.prototype.ppFixLength = function (string, length, align) {
+                    var result = string;
+                    if (string.length > length) {
+                        result = string.substr(0, length);
+                    }
+                    else {
+                        if (align === Align.LEFT || align === Align.CENTER) {
+                            for (var i = string.length; i < length; i++) {
+                                result += " ";
+                            }
+                        }
+                        else {
+                            for (var i = string.length; i < length; i++) {
+                                result = " " + result;
+                            }
+                        }
+                    }
+                    return result;
+                };
                 PrettyPrinter = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])
@@ -84,6 +103,12 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                 return PrettyPrinter;
             })();
             exports_1("PrettyPrinter", PrettyPrinter);
+            (function (Align) {
+                Align[Align["LEFT"] = 0] = "LEFT";
+                Align[Align["CENTER"] = 1] = "CENTER";
+                Align[Align["RIGHT"] = 2] = "RIGHT";
+            })(Align || (Align = {}));
+            exports_1("Align", Align);
         }
     }
 });
