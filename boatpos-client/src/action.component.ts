@@ -73,7 +73,7 @@ export class ActionComponent {
             'V': () => {
                 this.depart(this.boatService.getBoatByShortName('T4'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
             },
-            'Z': () => {
+            'W': () => {
                 this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport));
             }
         };

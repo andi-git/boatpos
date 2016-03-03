@@ -181,45 +181,45 @@ export class Printer {
     printJournal(journalReport:JournalReport):void {
         if (isPresent(journalReport)) {
             //noinspection TypeScriptUnresolvedFunction
-            //var builder = new StarWebPrintBuilder();
-            //var request = builder.createInitializationElement();
-            //request = this.addLogo(builder, request);
+            var builder = new StarWebPrintBuilder();
+            var request = builder.createInitializationElement();
+            request = this.addLogo(builder, request);
+            request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen");
+            request = this.blankLine(builder, request);
             if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
-                console.log("Datum: " + this.pp.printDate(journalReport.start));
+                request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
             } else {
-                console.log("Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+                request = this.printLine(builder, request, 1, 1, "left", true, false, "Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
             }
+            request = this.blankLine(builder, request);
             let sum:number = 0;
-            console.log("Anzahl Vermietungen");
+            request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
             journalReport.journalReportItems.forEach(jri => {
-                let element:string = "";
-                element += this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT);
-                element += this.pp.ppFixLength(this.pp.pp3Pos(jri.count), 10, Align.RIGHT);
+                request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
+                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.pp3Pos(jri.count), 10, Align.RIGHT));
                 sum += jri.count;
-                console.log("'" + element + "'");
             });
-            console.log("'" + this.pp.ppFixLength("Summe:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, Align.RIGHT) + "'");
+            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, Align.RIGHT));
+            request = this.blankLine(builder, request);
             sum = 0;
-            console.log("Bargeld");
+            request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
             journalReport.journalReportItems.forEach(jri => {
-                let element:string = "";
-                element += this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT);
-                element += this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, Align.RIGHT);
+                request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
+                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, Align.RIGHT));
                 sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
-                console.log("'" + element + "'");
             });
-            console.log("'" + this.pp.ppFixLength("Summe:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT) + "'");
+            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
+            request = this.blankLine(builder, request);
             sum = 0;
-            console.log("Karte");
+            request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
             journalReport.journalReportItems.forEach(jri => {
-                let element:string = "";
-                element += this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT);
-                element += this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, Align.RIGHT);
+                request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
+                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, Align.RIGHT));
                 sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
-                console.log("'" + element + "'");
             });
-            console.log("'" + this.pp.ppFixLength("Summe:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT) + "'");
-            //this.printPaper(builder, request);
+            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
+            request = this.printLogo(builder, request, 13, 'center');
+            this.printPaper(builder, request);
         }
     }
 }

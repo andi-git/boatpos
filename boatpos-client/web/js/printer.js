@@ -191,45 +191,46 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                     var _this = this;
                     if (lang_1.isPresent(journalReport)) {
                         //noinspection TypeScriptUnresolvedFunction
-                        //var builder = new StarWebPrintBuilder();
-                        //var request = builder.createInitializationElement();
-                        //request = this.addLogo(builder, request);
+                        var builder = new StarWebPrintBuilder();
+                        var request = builder.createInitializationElement();
+                        request = this.addLogo(builder, request);
+                        request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen");
+                        request = this.blankLine(builder, request);
                         if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
-                            console.log("Datum: " + this.pp.printDate(journalReport.start));
+                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
                         }
                         else {
-                            console.log("Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
                         }
+                        request = this.blankLine(builder, request);
                         var sum = 0;
-                        console.log("Anzahl Vermietungen");
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
                         journalReport.journalReportItems.forEach(function (jri) {
-                            var element = "";
-                            element += _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT);
-                            element += _this.pp.ppFixLength(_this.pp.pp3Pos(jri.count), 10, prettyprinter_2.Align.RIGHT);
+                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT));
+                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.pp3Pos(jri.count), 10, prettyprinter_2.Align.RIGHT));
                             sum += jri.count;
-                            console.log("'" + element + "'");
                         });
-                        console.log("'" + this.pp.ppFixLength("Summe:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, prettyprinter_2.Align.RIGHT) + "'");
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, prettyprinter_2.Align.RIGHT));
+                        request = this.blankLine(builder, request);
                         sum = 0;
-                        console.log("Bargeld");
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
                         journalReport.journalReportItems.forEach(function (jri) {
-                            var element = "";
-                            element += _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT);
-                            element += _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, prettyprinter_2.Align.RIGHT);
+                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT));
+                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, prettyprinter_2.Align.RIGHT));
                             sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
-                            console.log("'" + element + "'");
                         });
-                        console.log("'" + this.pp.ppFixLength("Summe:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_2.Align.RIGHT) + "'");
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_2.Align.RIGHT));
+                        request = this.blankLine(builder, request);
                         sum = 0;
-                        console.log("Karte");
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
                         journalReport.journalReportItems.forEach(function (jri) {
-                            var element = "";
-                            element += _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT);
-                            element += _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, prettyprinter_2.Align.RIGHT);
+                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT));
+                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, prettyprinter_2.Align.RIGHT));
                             sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
-                            console.log("'" + element + "'");
                         });
-                        console.log("'" + this.pp.ppFixLength("Summe:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_2.Align.RIGHT) + "'");
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_2.Align.RIGHT));
+                        request = this.printLogo(builder, request, 13, 'center');
+                        this.printPaper(builder, request);
                     }
                 };
                 Printer = __decorate([

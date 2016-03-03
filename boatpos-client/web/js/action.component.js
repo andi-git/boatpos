@@ -105,7 +105,7 @@ System.register(['angular2/core', "./boat.service", "./info.service", "./commitm
                         'V': function () {
                             _this.depart(_this.boatService.getBoatByShortName('T4'), [_this.commitmentService.getCommitmentByName('Ausweis')], null);
                         },
-                        'Z': function () {
+                        'W': function () {
                             _this.journalService.incomeCurrentDay().subscribe(function (journalReport) { return _this.printer.printJournal(journalReport); });
                         }
                     };
