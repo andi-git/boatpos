@@ -24,17 +24,29 @@ import {PrettyPrinter} from "./prettyprinter";
 import {StatistikComponent} from "./component/rental/statistik.component";
 import {Printer} from "./printer";
 import {JournalService} from "./service/journal.service";
+import {ModeService} from "./service/mode.service";
+import {Mode} from "./service/mode.service";
 
 @Component({
     selector: 'my-app',
     templateUrl: "../html/app.component.html",
     styleUrls: ["../css/app.component.css"],
     directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent],
-    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, JournalService]
+    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, JournalService, ModeService]
 })
 export class AppComponent implements OnInit {
 
+    private modeService:ModeService;
+
+    constructor(modeService:ModeService) {
+        this.modeService = modeService;
+    }
+
     ngOnInit():any {
         return undefined;
+    }
+
+    getMode():string {
+        return this.modeService.getModeAsString();
     }
 }

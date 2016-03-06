@@ -6,13 +6,10 @@
         <div class="content-main-row-left">
             <mainmenu></mainmenu>
         </div>
-        <div class="content-main-row-right">
+        <div class="content-main-row-right" *ngIf="getMode() === 'RENTAL'">
             <div class="content-rental-table">
                 <div class="content-rental-row">
                     <div class="content-rental-row-left">
-                        <!--<div>-->
-                            <!--<boats></boats>-->
-                        <!--</div>-->
                         <div class="content-boat-table">
                             <div class="content-boat-row">
                                 <div class="content-boat-row-left">
@@ -52,6 +49,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="content-main-row-right" *ngIf="getMode() === 'RENTALS'">
+        </div>
+        <div class="content-main-row-right" *ngIf="getMode() === 'STATS'">
         </div>
     </div>
 </div>

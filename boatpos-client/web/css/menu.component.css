@@ -5,3 +5,12 @@
     vertical-align: middle;
     text-align: center;
 }
+
+.menu-item, .menu-item:hover{
+    cursor: pointer;
+    border-radius: 20px 20px 20px 20px;
+}
+
+.menu-item:hover {
+    background-color: white;
+}
