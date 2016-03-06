@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {isPresent} from "angular2/src/facade/lang";
 import {isNumber} from "angular2/src/facade/lang";
-import {Commitment} from "./commitment";
+import {Commitment} from "./model/commitment";
 
 @Injectable()
 export class PrettyPrinter {

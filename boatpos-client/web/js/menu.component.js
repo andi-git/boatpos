@@ -22,8 +22,8 @@ System.register(['angular2/core'], function(exports_1) {
                 MenuComponent = __decorate([
                     core_1.Component({
                         selector: 'mainmenu',
-                        templateUrl: "menu.component.html",
-                        styleUrls: ["menu.component.css"]
+                        templateUrl: "../html/menu.component.html",
+                        styleUrls: ["../css/menu.component.css"]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MenuComponent);

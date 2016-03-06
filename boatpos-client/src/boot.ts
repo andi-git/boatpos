@@ -1,8 +1,8 @@
 import {bootstrap}      from 'angular2/platform/browser'
 import {AppComponent}   from './app.component'
-import {ConfigService} from "./config.service";
+import {ConfigService} from "./service/config.service";
 import {provide} from "angular2/core";
-import {RentalService} from "./rental.service";
+import {RentalService} from "./service/rental.service";
 //noinspection TypeScriptCheckImport
 import {ModalConfig} from "lib/angular2-modal";
 

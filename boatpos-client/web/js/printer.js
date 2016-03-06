@@ -1,4 +1,4 @@
-System.register(['angular2/core', "angular2/src/facade/lang", "./config.service", "./prettyprinter"], function(exports_1) {
+System.register(['angular2/core', "angular2/src/facade/lang", "./service/config.service", "./prettyprinter"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -59,9 +59,9 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./config.service"
                             var builder = new StarWebPrintBuilder();
                             var request = builder.createInitializationElement();
                             request = this.blankLine(builder, request);
-                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
-                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(1)), 'left');
                             request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(2)), 'left');
+                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(1)), 'left');
+                            request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
                             request = this.blankLine(builder, request);
                             request = this.blankLine(builder, request);
                             this.printPaper(builder, request);

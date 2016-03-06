@@ -51,16 +51,21 @@ gulp.task('setup', function (done) {
 
 // called when we change our non-TypeScript assets
 gulp.task('assets', function () {
-    gulp.src(['./src/**/*.json',
-            './src/**/*.html',
-            './src/**/*.css'])
+    gulp.src(['./src/**/*.json'])
         .pipe(gulp.dest('./web'));
+    gulp.src(['./src/**/*.html'])
+        .pipe(gulp.dest('./web/html'));
+    gulp.src(['./src/index.html'])
+        .pipe(gulp.dest('./web'));
+    gulp.src(['./src/**/*.css'])
+        .pipe(gulp.dest('./web/css'));
 });
 
 gulp.task('watch',
     ['watch.assets',
         'watch.ts',
         'watch.web']);
+
 // copies non-typescript assets by calling the assets task when any source files change
 gulp.task('watch.assets', ['assets'], function () {
     return gulp.watch(['./src/**/*.json',

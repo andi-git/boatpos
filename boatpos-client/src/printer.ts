@@ -1,11 +1,11 @@
 import {Injectable} from 'angular2/core';
 import {isPresent} from "angular2/src/facade/lang";
-import {Rental} from "./rental";
-import {ConfigService} from "./config.service";
+import {Rental} from "./model/rental";
+import {ConfigService} from "./service/config.service";
 import {PrettyPrinter} from "./prettyprinter";
-import {Boat} from "./boat";
-import {Bill} from "./bill";
-import {JournalReport} from "./journalReport";
+import {Boat} from "./model/boat";
+import {Bill} from "./model/bill";
+import {JournalReport} from "./model/journalReport";
 import {Align} from "./prettyprinter";
 
 @Injectable()
@@ -44,9 +44,9 @@ export class Printer {
                 var builder = new StarWebPrintBuilder();
                 var request = builder.createInitializationElement();
                 request = this.blankLine(builder, request);
-                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
-                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(1)), 'left');
                 request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(2)), 'left');
+                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(1)), 'left');
+                request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
                 request = this.blankLine(builder, request);
                 request = this.blankLine(builder, request);
                 this.printPaper(builder, request);
