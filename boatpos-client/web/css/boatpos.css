@@ -12,6 +12,10 @@ p {
     font-size: 2em;
 }
 
+.explanation {
+    font-size: 1.3em;
+}
+
 .text-grey {
     color: grey;
 }
@@ -146,4 +150,22 @@ li:hover {
     background-color: transparent;
     margin-right: 1.0em;
     border-radius: 20px 0 0 20px;
+}
+
+td, tr, th {
+    font-size: 1.3em;
+    border: 2px solid black;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+th {
+    background-color: #0101DF;
+    color: #FFFFFF;
+    text-shadow: 2px 2px black;
+}
+
+.table-no-style {
+    font-size: inherit;
+    border: none;
+    background-color: white;
 }

@@ -37,15 +37,15 @@ export class ModalArrivalContext {
             <p><span class="text-grey">Preis bereits bezahlt:</span> {{printPricePaidBefore()}}</p>
             <p><span class="text-grey">Aktion danach:</span> {{printPromotionAfter()}}</p>
             <div class="container-money">
-                <table>
-                    <tr>
-                        <td valign="top">
+                <table class="table-no-style">
+                    <tr class="table-no-style">
+                        <td valign="top" class="table-no-style">
                             <div class="container-price-to-pay">
                                 <span class="text-normal">Zu bezahlender Betrag:</span>
                                 <input [class]="classInputPrice" [(ngModel)]="price" placeholder="Preis"/>
                             </div>
                         </td>
-                        <td>
+                        <td class="table-no-style">
                             <div class="container-get-money">
                                 <span class="text-small">Bezahlter Betrag:</span>
                                 <input [class]="classInputGetMoney" [(ngModel)]="getMoney" placeholder="Bezahlt"/>

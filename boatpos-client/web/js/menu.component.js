@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./service/mode.service", "./service/info.service"], function(exports_1) {
+System.register(['angular2/core', "./service/mode.service", "./service/info.service", "./service/config.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "./service/mode.service", "./service/info.serv
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, mode_service_1, info_service_1, mode_service_2;
+    var core_1, mode_service_1, info_service_1, mode_service_2, config_service_1;
     var MenuComponent;
     return {
         setters:[
@@ -21,24 +21,28 @@ System.register(['angular2/core', "./service/mode.service", "./service/info.serv
             },
             function (info_service_1_1) {
                 info_service_1 = info_service_1_1;
+            },
+            function (config_service_1_1) {
+                config_service_1 = config_service_1_1;
             }],
         execute: function() {
             MenuComponent = (function () {
-                function MenuComponent(modeService, infoService) {
+                function MenuComponent(modeService, infoService, configService) {
                     this.modeService = modeService;
                     this.infoService = infoService;
+                    this.configService = configService;
                 }
                 MenuComponent.prototype.modeRental = function () {
                     this.infoService.event().emit("'Vermietung' wird angezeigt.");
-                    this.modeService.setMode(mode_service_2.Mode.RENTAL);
+                    this.modeService.event().emit(mode_service_2.Mode.RENTAL);
                 };
                 MenuComponent.prototype.modeRentals = function () {
                     this.infoService.event().emit("'Alle Vermietungen' werden angezeigt.");
-                    this.modeService.setMode(mode_service_2.Mode.RENTALS);
+                    this.modeService.event().emit(mode_service_2.Mode.RENTALS);
                 };
                 MenuComponent.prototype.modeStats = function () {
                     this.infoService.event().emit("'Statistiken' werden angezeigt.");
-                    this.modeService.setMode(mode_service_2.Mode.STATS);
+                    this.modeService.event().emit(mode_service_2.Mode.STATS);
                 };
                 MenuComponent = __decorate([
                     core_1.Component({
@@ -46,7 +50,7 @@ System.register(['angular2/core', "./service/mode.service", "./service/info.serv
                         templateUrl: "../html/menu.component.html",
                         styleUrls: ["../css/menu.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [mode_service_1.ModeService, info_service_1.InfoService])
+                    __metadata('design:paramtypes', [mode_service_1.ModeService, info_service_1.InfoService, config_service_1.ConfigService])
                 ], MenuComponent);
                 return MenuComponent;
             })();

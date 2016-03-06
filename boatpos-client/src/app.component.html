@@ -6,7 +6,7 @@
         <div class="content-main-row-left">
             <mainmenu></mainmenu>
         </div>
-        <div class="content-main-row-right" *ngIf="getMode() === 'RENTAL'">
+        <div class="content-main-row-right" *ngIf="mode === 'RENTAL'">
             <div class="content-rental-table">
                 <div class="content-rental-row">
                     <div class="content-rental-row-left">
@@ -50,12 +50,12 @@
                 </div>
             </div>
         </div>
-        <div class="content-main-row-right" *ngIf="getMode() === 'RENTALS'">
+        <div class="content-main-row-right" *ngIf="mode === 'RENTALS'">
             <div class="content-rentals-table">
-                <p>Alle Vermietungen des heutigen Tages</p>
+                <rentals></rentals>
             </div>
         </div>
-        <div class="content-main-row-right" *ngIf="getMode() === 'STATS'">
+        <div class="content-main-row-right" *ngIf="mode === 'STATS'">
             <div class="content-rentals-table">
                 <p>Statistiken</p>
             </div>

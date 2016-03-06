@@ -1,7 +1,14 @@
-System.register([], function(exports_1) {
+System.register(["../prettyprinter", "angular2/src/facade/lang"], function(exports_1) {
+    var prettyprinter_1, lang_1;
     var Rental;
     return {
-        setters:[],
+        setters:[
+            function (prettyprinter_1_1) {
+                prettyprinter_1 = prettyprinter_1_1;
+            },
+            function (lang_1_1) {
+                lang_1 = lang_1_1;
+            }],
         execute: function() {
             Rental = (function () {
                 function Rental(dayId, day, boat, departure, arrival, pricePaidAfter, pricePaidBefore, priceCalculatedAfter, priceCalculatedBefore, finished, deleted, coupon, promotionBefore, promotionAfter, commitments, timeOfTravel, timeOfTravelCalculated) {
@@ -32,6 +39,46 @@ System.register([], function(exports_1) {
                 };
                 Rental.prototype.toString = function () {
                     return JSON.stringify(this);
+                };
+                Rental.prototype.style = function () {
+                    if (this.deleted === true) {
+                        return "rental-deleted";
+                    }
+                    else if (this.finished === true) {
+                        return "rental-finished";
+                    }
+                    else {
+                        return "rental-default";
+                    }
+                };
+                Rental.prototype.ppDayId = function () {
+                    return new prettyprinter_1.PrettyPrinter().pp3Pos(this.dayId);
+                };
+                Rental.prototype.ppCommitments = function () {
+                    return new prettyprinter_1.PrettyPrinter().printCommitments(this.commitments);
+                };
+                Rental.prototype.ppDeparture = function () {
+                    return new prettyprinter_1.PrettyPrinter().printTime(this.departure);
+                };
+                Rental.prototype.ppArrival = function () {
+                    if (this.finished === true) {
+                        return new prettyprinter_1.PrettyPrinter().printTime(this.arrival);
+                    }
+                    else {
+                        return "";
+                    }
+                };
+                Rental.prototype.ppPricePaidComplete = function () {
+                    return new prettyprinter_1.PrettyPrinter().ppPrice(this.pricePaidBefore + this.pricePaidAfter, null);
+                };
+                Rental.prototype.ppPromotionComplete = function () {
+                    return new prettyprinter_1.PrettyPrinter().printPromotions(this.promotionBefore, this.promotionAfter);
+                };
+                Rental.prototype.ppTimeOfTravel = function () {
+                    if (lang_1.isPresent(this.timeOfTravel) && this.timeOfTravel > 0) {
+                        return this.timeOfTravel + "Min";
+                    }
+                    return "";
                 };
                 return Rental;
             })();

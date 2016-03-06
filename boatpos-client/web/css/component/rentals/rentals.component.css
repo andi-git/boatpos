@@ -1,0 +1,27 @@
+.rentals-header {
+    background-color: #81BEF7;
+}
+
+.rentals-container-table {
+    display: block;
+    width: 100%;
+    /*border: 0 solid black;*/
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    overflow-y: scroll;
+    height: 800px;
+    border-radius: 20px 0 0 20px;
+    border: 3px solid black;
+}
+
+.rental-deleted {
+    background-color: #ff9999;
+}
+
+.rental-finished {
+    background-color: #BCF5A9;
+}
+
+.rental-default {
+    background-color: #F3F781;
+}

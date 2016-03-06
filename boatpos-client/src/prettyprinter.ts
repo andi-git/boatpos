@@ -2,6 +2,9 @@ import {Injectable} from 'angular2/core';
 import {isPresent} from "angular2/src/facade/lang";
 import {isNumber} from "angular2/src/facade/lang";
 import {Commitment} from "./model/commitment";
+import {PromotionsBeforeComponent} from "./component/rental/promotionsBefore.component";
+import {PromotionBefore} from "./model/promotion";
+import {PromotionAfter} from "./model/promotion";
 
 @Injectable()
 export class PrettyPrinter {
@@ -47,6 +50,19 @@ export class PrettyPrinter {
             });
         }
         return commitmentString;
+    }
+
+    printPromotions(promotionBefore:PromotionBefore, promotionAfter:PromotionAfter):string {
+        let promotionsString:string = "";
+        let first:boolean = true;
+        if (isPresent(promotionBefore)) {
+            promotionsString += promotionBefore.name;
+            promotionsString += ", ";
+        }
+        if (isPresent(promotionAfter)) {
+            promotionsString += promotionAfter.name;
+        }
+        return promotionsString;
     }
 
     printTime(date:Date):string {

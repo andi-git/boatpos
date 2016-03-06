@@ -1,25 +1,27 @@
 import {Injectable, EventEmitter} from 'angular2/core';
+import {BoatService} from "./boat.service";
+import {CommitmentService} from "./commitment.service";
+import {PromotionService} from "./promotion.service";
+import {RentalService} from "./rental.service";
+import {ConfigService} from "./config.service";
 
 @Injectable()
 export class ModeService {
 
-    private mode:Mode = Mode.RENTAL;
+    defaultMode:Mode = Mode.RENTALS;
 
-    setMode(mode:Mode) {
-        this.mode = mode;
+    private modeChangeEvent:EventEmitter<Mode> = new EventEmitter();
+
+    // inject here the services to have a constructor-call on these components
+    constructor(private boatService:BoatService, private commitmentService:CommitmentService, private promotionService:PromotionService, private configService:ConfigService) {
+        this.configService.isConfigured().subscribe((config) => {
+            console.log("constructor of ModeService");
+            this.event().emit(Mode.RENTAL);
+        });
     }
 
-    getModeAsString():string {
-        // TODO: this is ugly!
-        if (this.mode == Mode.RENTAL) {
-            return "RENTAL";
-        } else if (this.mode == Mode.RENTALS) {
-            return "RENTALS";
-        }
-        if (this.mode == Mode.STATS) {
-            return "STATS";
-        }
-        return "UNKNOWN";
+    event():EventEmitter<Mode> {
+        return this.modeChangeEvent;
     }
 }
 

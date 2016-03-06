@@ -1,0 +1,31 @@
+<div class="container-default rentals-container">
+    <h2 class="header rentals-header">Vermietungen am heutigen Tag</h2>
+    <p class="explanation"><span class="rental-default">unterwegs</span> <span
+            class="rental-finished">abgerechnet</span> <span class="rental-deleted">gelöscht</span></p>
+    <div class="container-default rentals-container-table">
+        <table>
+            <tr>
+                <th>Nr.</th>
+                <th>Boot</th>
+                <th>Einsatz</th>
+                <th>Abfahrt</th>
+                <th>Fahrzeit</th>
+                <th>Ankunft</th>
+                <th>bezahlt</th>
+                <th>Aktion</th>
+            </tr>
+            <tr *ngFor="#rental of rentalsCurrentDay" [class]="rental.style()">
+                <!--[class.selected]="boat.selected"-->
+                <!--(click)="click(boat)">-->
+                <td>{{rental.ppDayId()}}</td>
+                <td>{{rental.boat.name}}</td>
+                <td>{{rental.ppCommitments()}}</td>
+                <td>{{rental.ppDeparture()}}</td>
+                <td>{{rental.ppTimeOfTravel()}}</td>
+                <td>{{rental.ppArrival()}}</td>
+                <td>{{rental.ppPricePaidComplete()}}</td>
+                <td>{{rental.ppPromotionComplete()}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

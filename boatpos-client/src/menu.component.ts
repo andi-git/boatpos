@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {ModeService} from "./service/mode.service";
 import {InfoService} from "./service/info.service";
 import {Mode} from "./service/mode.service";
+import {ConfigService} from "./service/config.service";
 
 @Component({
     selector: 'mainmenu',
@@ -10,22 +11,21 @@ import {Mode} from "./service/mode.service";
 })
 export class MenuComponent {
 
-    constructor(private modeService:ModeService, private infoService:InfoService) {
-
+    constructor(private modeService:ModeService, private infoService:InfoService, private configService:ConfigService) {
     }
 
     private modeRental() {
         this.infoService.event().emit("'Vermietung' wird angezeigt.");
-        this.modeService.setMode(Mode.RENTAL);
+        this.modeService.event().emit(Mode.RENTAL);
     }
 
     private modeRentals() {
         this.infoService.event().emit("'Alle Vermietungen' werden angezeigt.");
-        this.modeService.setMode(Mode.RENTALS);
+        this.modeService.event().emit(Mode.RENTALS);
     }
 
     private modeStats() {
         this.infoService.event().emit("'Statistiken' werden angezeigt.");
-        this.modeService.setMode(Mode.STATS);
+        this.modeService.event().emit(Mode.STATS);
     }
 }
