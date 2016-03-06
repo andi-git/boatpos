@@ -102,6 +102,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         var result = [];
                         if (rentals) {
                             rentals.forEach(function (rental) {
+                                console.log(rental.timeOfTravel);
                                 result.push(_this.convertRentalBeanToRental(rental));
                             });
                         }

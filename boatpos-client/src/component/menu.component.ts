@@ -1,13 +1,13 @@
 import {Component} from 'angular2/core';
-import {ModeService} from "./service/mode.service";
-import {InfoService} from "./service/info.service";
-import {Mode} from "./service/mode.service";
-import {ConfigService} from "./service/config.service";
+import {ModeService} from "./../service/mode.service";
+import {InfoService} from "./../service/info.service";
+import {Mode} from "./../service/mode.service";
+import {ConfigService} from "./../service/config.service";
 
 @Component({
     selector: 'mainmenu',
-    templateUrl: "../html/menu.component.html",
-    styleUrls: ["../css/menu.component.css"]
+    templateUrl: "../html/component/menu.component.html",
+    styleUrls: ["../css/component/menu.component.css"]
 })
 export class MenuComponent {
 

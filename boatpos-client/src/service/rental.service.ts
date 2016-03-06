@@ -102,6 +102,7 @@ export class RentalService {
                 let result:Array<Rental> = [];
                 if (rentals) {
                     rentals.forEach((rental) => {
+                        console.log(rental.timeOfTravel);
                         result.push(this.convertRentalBeanToRental(rental));
                     });
                 }

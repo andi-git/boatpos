@@ -75,10 +75,17 @@ System.register(["../prettyprinter", "angular2/src/facade/lang"], function(expor
                     return new prettyprinter_1.PrettyPrinter().printPromotions(this.promotionBefore, this.promotionAfter);
                 };
                 Rental.prototype.ppTimeOfTravel = function () {
-                    if (lang_1.isPresent(this.timeOfTravel) && this.timeOfTravel > 0) {
-                        return this.timeOfTravel + "Min";
+                    console.log("tot: " + this.timeOfTravel);
+                    var result = "";
+                    if (lang_1.isPresent(this.timeOfTravel) || this.timeOfTravel > 0) {
+                        if (this.timeOfTravel > 60) {
+                            result += Math.floor(this.timeOfTravel / 60);
+                            result += " Std ";
+                        }
+                        result += this.timeOfTravel % 60;
+                        result += " Min";
                     }
-                    return "";
+                    return result;
                 };
                 return Rental;
             })();

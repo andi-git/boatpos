@@ -133,9 +133,16 @@ export class Rental {
     }
 
     ppTimeOfTravel():string {
-        if (isPresent(this.timeOfTravel) && this.timeOfTravel > 0) {
-            return this.timeOfTravel + "Min";
+        console.log("tot: " + this.timeOfTravel);
+        let result:string = "";
+        if (isPresent(this.timeOfTravel) || this.timeOfTravel > 0) {
+            if (this.timeOfTravel > 60) {
+                result += Math.floor(this.timeOfTravel / 60);
+                result += " Std "
+            }
+            result += this.timeOfTravel % 60;
+            result += " Min";
         }
-        return "";
+        return result;
     }
 }
