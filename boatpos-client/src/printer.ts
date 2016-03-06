@@ -196,7 +196,7 @@ export class Printer {
             request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
             journalReport.journalReportItems.forEach(jri => {
                 request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
-                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.pp3Pos(jri.count), 10, Align.RIGHT));
+                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.count, 10, Align.RIGHT));
                 sum += jri.count;
             });
             request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, Align.RIGHT));
