@@ -20,12 +20,12 @@ export class MenuComponent {
     }
 
     private modeRentals() {
-        console.log("'Alle Vermietungen' werden angezeigt");
+        this.infoService.event().emit("'Alle Vermietungen' werden angezeigt.");
         this.modeService.setMode(Mode.RENTALS);
     }
 
     private modeStats() {
-        console.log("'Statistiken' werden angezeigt");
+        this.infoService.event().emit("'Statistiken' werden angezeigt.");
         this.modeService.setMode(Mode.STATS);
     }
 }

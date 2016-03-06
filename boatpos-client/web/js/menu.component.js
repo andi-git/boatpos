@@ -33,11 +33,11 @@ System.register(['angular2/core', "./service/mode.service", "./service/info.serv
                     this.modeService.setMode(mode_service_2.Mode.RENTAL);
                 };
                 MenuComponent.prototype.modeRentals = function () {
-                    console.log("'Alle Vermietungen' werden angezeigt");
+                    this.infoService.event().emit("'Alle Vermietungen' werden angezeigt.");
                     this.modeService.setMode(mode_service_2.Mode.RENTALS);
                 };
                 MenuComponent.prototype.modeStats = function () {
-                    console.log("'Statistiken' werden angezeigt");
+                    this.infoService.event().emit("'Statistiken' werden angezeigt.");
                     this.modeService.setMode(mode_service_2.Mode.STATS);
                 };
                 MenuComponent = __decorate([
