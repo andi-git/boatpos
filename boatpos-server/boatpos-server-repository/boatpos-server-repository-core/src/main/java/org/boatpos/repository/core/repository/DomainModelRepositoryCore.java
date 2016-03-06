@@ -14,6 +14,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -72,7 +73,7 @@ public class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE exte
     protected <E extends AbstractEntity> List<MODEL> loadAll(String namedQuery, Function<E, MODEL> mapper, Consumer<TypedQuery> addParameter, Class<E> typeEntity) {
         TypedQuery<E> query = jpaHelper().createNamedQuery(namedQuery, typeEntity);
         addParameter.accept(query);
-        return query.getResultList().stream().map(mapper).collect(Collectors.toList());
+        return query.getResultList().stream().map(mapper::apply).collect(Collectors.toList());
     }
 
     protected Optional<MODEL> loadByParameter(String namedQuery, Consumer<TypedQuery> addParameter) {

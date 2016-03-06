@@ -70,5 +70,7 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
     public void testGetAllForCurrentDay() {
         List<RentalBean> rentalBeans = rentalService.getAllCurrentDay();
         assertEquals(5, rentalBeans.size());
+        assertEquals(1, rentalBeans.get(0).getDayId().intValue());
+        assertEquals(130, rentalBeans.get(0).getTimeOfTravel().intValue());
     }
 }

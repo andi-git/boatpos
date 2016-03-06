@@ -19,8 +19,10 @@ import org.boatpos.util.qualifiers.Current;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @RequestScoped
 public class RentalServiceCore implements RentalService {
@@ -44,9 +46,6 @@ public class RentalServiceCore implements RentalService {
 
     @Inject
     private DateTimeHelper dateTimeHelper;
-
-    @Inject
-    private ModelDtoConverter modelDtoConverter;
 
     @Override
     public RentalBean get(RentalDayNumberWrapper rentalDayNumberWrapper) {
@@ -79,7 +78,7 @@ public class RentalServiceCore implements RentalService {
 
     @Override
     public List<RentalBean> getAllCurrentDay() {
-        return modelDtoConverter.convert(rentalRepository.loadAll(Period.day(dateTimeHelper.currentDate())));
+        return rentalRepository.loadAll(Period.day(dateTimeHelper.currentDate())).stream().map(rental -> rentalBeanEnrichment.asDto(rental)).collect(Collectors.toList());
     }
 
     private static class ThrowExceptionRentalNotAvailable implements Supplier<Rental> {
