@@ -1,10 +1,10 @@
 import {Component} from 'angular2/core';
-import {InfoService} from "../../service/info.service";
+import {InfoService} from "../service/info.service";
 
 @Component({
     selector: 'info',
-    templateUrl: "../../../html/component/rental/info.component.html",
-    styleUrls: ["../../../css/component/rental/info.component.css"]
+    templateUrl: "../../../html/component/info.component.html",
+    styleUrls: ["../../../css/component/info.component.css"]
 })
 export class InfoComponent {
 

@@ -11,7 +11,7 @@ import {CommitmentService} from "./service/commitment.service";
 import {PromotionService} from "./service/promotion.service";
 import {PromotionsBeforeComponent} from "./component/rental/promotionsBefore.component";
 import {BoatCountComponent} from "./component/rental/boatCount.component";
-import {InfoComponent} from "./component/rental/info.component";
+import {InfoComponent} from "./component/info.component";
 import {InfoService} from "./service/info.service";
 import {MenuComponent} from "./menu.component";
 import {ActionComponent} from "./component/rental/action.component";
