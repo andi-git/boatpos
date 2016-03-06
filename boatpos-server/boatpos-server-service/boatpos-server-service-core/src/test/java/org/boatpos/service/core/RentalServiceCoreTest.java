@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -62,5 +63,12 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testNextDayId() {
         assertEquals(6, rentalService.nextDayId().getDayNumber().intValue());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllForCurrentDay() {
+        List<RentalBean> rentalBeans = rentalService.getAllCurrentDay();
+        assertEquals(5, rentalBeans.size());
     }
 }

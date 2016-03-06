@@ -4,18 +4,22 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.Day;
 import org.boatpos.repository.api.values.DayId;
+import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.RentalService;
 import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
+import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
+import org.boatpos.util.datetime.DateTimeHelper;
 import org.boatpos.util.log.LogWrapper;
 import org.boatpos.util.log.SLF4J;
 import org.boatpos.util.qualifiers.Current;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.function.Supplier;
 
 @RequestScoped
@@ -37,6 +41,12 @@ public class RentalServiceCore implements RentalService {
 
     @Inject
     private ArrivalService arrivalService;
+
+    @Inject
+    private DateTimeHelper dateTimeHelper;
+
+    @Inject
+    private ModelDtoConverter modelDtoConverter;
 
     @Override
     public RentalBean get(RentalDayNumberWrapper rentalDayNumberWrapper) {
@@ -65,6 +75,11 @@ public class RentalServiceCore implements RentalService {
     @Override
     public RentalDayNumberWrapper nextDayId() {
         return new RentalDayNumberWrapper(rentalRepository.nextDayId(day).get());
+    }
+
+    @Override
+    public List<RentalBean> getAllCurrentDay() {
+        return modelDtoConverter.convert(rentalRepository.loadAll(Period.day(dateTimeHelper.currentDate())));
     }
 
     private static class ThrowExceptionRentalNotAvailable implements Supplier<Rental> {

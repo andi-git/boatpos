@@ -3,6 +3,8 @@ package org.boatpos.service.api;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 
+import java.util.List;
+
 /**
  * Service for rentals.
  */
@@ -38,4 +40,11 @@ public interface RentalService {
      * @return the next day-id
      */
     RentalDayNumberWrapper nextDayId();
+
+    /**
+     * Get all rentals for the current day.
+     *
+     * @return all rentals of the current day
+     */
+    List<RentalBean> getAllCurrentDay();
 }

@@ -9,8 +9,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -55,5 +57,12 @@ public class RentalServiceRestTest extends FillDatabaseInOtherTransactionTest {
     @Test
     public void testNextDayId() throws Exception {
         assertEquals(6, helper.createRestCall(url, (webTarget) -> webTarget.path("rental/nextId")).get().readEntity(RentalDayNumberWrapper.class).getDayNumber().intValue());
+    }
+
+    @Test
+    public void testGetAllForCurrentDay() throws Exception {
+        List<RentalBean> rentalBeans = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/currentDay")).get().readEntity(new GenericType<List<RentalBean>>() {
+        });
+        assertEquals(5, rentalBeans.size());
     }
 }

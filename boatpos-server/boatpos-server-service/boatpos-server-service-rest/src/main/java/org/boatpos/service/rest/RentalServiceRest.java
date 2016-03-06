@@ -19,6 +19,12 @@ public class RentalServiceRest {
     private RentalService rentalService;
 
     @GET
+    @Path("/currentDay")
+    public Response getAllCurrentDay() {
+        return Response.ok(rentalService.getAllCurrentDay()).build();
+    }
+
+    @GET
     @Path("/{dayId:[0-9]*}")
     public Response get(@PathParam("dayId") Integer dayId) {
         return Response.ok(rentalService.get(new RentalDayNumberWrapper(dayId))).build();
