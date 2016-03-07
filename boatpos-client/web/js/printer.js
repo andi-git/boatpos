@@ -190,6 +190,7 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./service/config.
                 Printer.prototype.printJournal = function (journalReport) {
                     var _this = this;
                     if (lang_1.isPresent(journalReport)) {
+                        console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end));
                         //noinspection TypeScriptUnresolvedFunction
                         var builder = new StarWebPrintBuilder();
                         var request = builder.createInitializationElement();
@@ -200,17 +201,17 @@ System.register(['angular2/core', "angular2/src/facade/lang", "./service/config.
                             request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
                         }
                         else {
-                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
                         }
                         request = this.blankLine(builder, request);
                         var sum = 0;
                         request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
                         journalReport.journalReportItems.forEach(function (jri) {
                             request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_2.Align.LEFT));
-                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.count, 10, prettyprinter_2.Align.RIGHT));
+                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(String(jri.count), 10, prettyprinter_2.Align.RIGHT));
                             sum += jri.count;
                         });
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, prettyprinter_2.Align.RIGHT));
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_2.Align.LEFT) + this.pp.ppFixLength(String(sum), 10, prettyprinter_2.Align.RIGHT));
                         request = this.blankLine(builder, request);
                         sum = 0;
                         request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");

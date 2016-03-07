@@ -68,9 +68,9 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                     var first = true;
                     if (lang_1.isPresent(promotionBefore)) {
                         promotionsString += promotionBefore.name;
-                        promotionsString += ", ";
                     }
                     if (lang_1.isPresent(promotionAfter)) {
+                        promotionsString += ", ";
                         promotionsString += promotionAfter.name;
                     }
                     return promotionsString;
@@ -84,8 +84,8 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                 };
                 PrettyPrinter.prototype.printDate = function (date) {
                     var dateString = "";
-                    if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
-                        return this.pp2Pos(date.getUTCDate()) + ". " + this.pp2Pos(date.getUTCMonth()) + ". " + date.getUTCFullYear();
+                    if (lang_1.isPresent(date) && date.getFullYear() > 1970) {
+                        return this.pp2Pos(date.getDate()) + ". " + this.pp2Pos(date.getMonth() + 1) + ". " + date.getFullYear();
                     }
                     return dateString;
                 };

@@ -8,7 +8,7 @@ import {ConfigService} from "./config.service";
 @Injectable()
 export class ModeService {
 
-    defaultMode:Mode = Mode.RENTALS;
+    defaultMode:Mode = Mode.RENTAL;
 
     private modeChangeEvent:EventEmitter<Mode> = new EventEmitter();
 
@@ -16,7 +16,7 @@ export class ModeService {
     constructor(private boatService:BoatService, private commitmentService:CommitmentService, private promotionService:PromotionService, private configService:ConfigService) {
         this.configService.isConfigured().subscribe((config) => {
             console.log("constructor of ModeService");
-            this.event().emit(Mode.RENTAL);
+            this.event().emit(this.defaultMode);
         });
     }
 

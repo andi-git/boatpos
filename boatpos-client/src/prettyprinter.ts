@@ -57,9 +57,9 @@ export class PrettyPrinter {
         let first:boolean = true;
         if (isPresent(promotionBefore)) {
             promotionsString += promotionBefore.name;
-            promotionsString += ", ";
         }
         if (isPresent(promotionAfter)) {
+            promotionsString += ", ";
             promotionsString += promotionAfter.name;
         }
         return promotionsString;
@@ -75,8 +75,8 @@ export class PrettyPrinter {
 
     printDate(date:Date):string {
         let dateString:string = "";
-        if (isPresent(date) && date.getUTCFullYear() > 1970) {
-            return this.pp2Pos(date.getUTCDate()) + ". " + this.pp2Pos(date.getUTCMonth()) + ". " + date.getUTCFullYear();
+        if (isPresent(date) && date.getFullYear() > 1970) {
+            return this.pp2Pos(date.getDate()) + ". " + this.pp2Pos(date.getMonth() + 1) + ". " + date.getFullYear();
         }
         return dateString;
     }

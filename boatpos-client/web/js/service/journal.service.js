@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service", "../model/journalReport", "./rental.service"], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service", "../model/journalReport", "./rental.service", "angular2/src/facade/lang"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, config_service_1, journalReport_1, journalReport_2, rental_service_1;
+    var core_1, http_1, config_service_1, journalReport_1, journalReport_2, rental_service_1, lang_1;
     var JournalService;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
             },
             function (rental_service_1_1) {
                 rental_service_1 = rental_service_1_1;
+            },
+            function (lang_1_1) {
+                lang_1 = lang_1_1;
             }],
         execute: function() {
             JournalService = (function () {
@@ -38,6 +41,28 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 JournalService.prototype.incomeCurrentDay = function () {
                     // call the rest-service
                     return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/day')
+                        .map(function (res) { return res.json(); })
+                        .map(function (journalReportBean) {
+                        var journalReport = new journalReport_1.JournalReport();
+                        journalReport.start = rental_service_1.RentalService.createDate(journalReportBean.start);
+                        journalReport.end = rental_service_1.RentalService.createDate(journalReportBean.end);
+                        journalReportBean.journalReportItemBeans.forEach(function (jrib) {
+                            return journalReport.add(new journalReport_2.JournalReportItem(jrib.boatName, jrib.pricePaidBeforeCash, jrib.pricePaidBeforeCard, jrib.pricePaidAfterCash, jrib.pricePaidAfterCard, jrib.count));
+                        });
+                        return journalReport;
+                    });
+                };
+                JournalService.prototype.income = function (year, month, day) {
+                    var args = year;
+                    if (lang_1.isPresent(month)) {
+                        args += "/";
+                        args += month;
+                    }
+                    if (lang_1.isPresent(day)) {
+                        args += "/";
+                        args += day;
+                    }
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args)
                         .map(function (res) { return res.json(); })
                         .map(function (journalReportBean) {
                         var journalReport = new journalReport_1.JournalReport();

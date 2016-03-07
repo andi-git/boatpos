@@ -1,0 +1,20 @@
+<div class="container-default stats-container">
+    <h2 class="header stats-header">Statistiken</h2>
+    <div class="container-default income-container">
+        <h2 class="header income-header">Einnahmen</h2>
+        <select [ngModel]="currentDay" (ngModelChange)="dayChange($event)">
+            <option *ngFor="#day of days">{{day}}</option>
+        </select>
+        <select [ngModel]="currentMonth" (ngModelChange)="monthChange($event)">
+            <option *ngFor="#month of months">{{month}}</option>
+        </select>
+        <select [ngModel]="currentYear" (ngModelChange)="yearChange($event)">
+            <option *ngFor="#year of years">{{year}}</option>
+        </select>
+        <button class="buttonSmall button-cancel" (click)="resetIncome()">Zur&uuml;cksetzen</button>
+        <br/>
+        <button class="buttonSmall button-ok" (click)="incomeDay()">Tag</button>
+        <button class="buttonSmall button-ok" (click)="incomeMonth()">Monat</button>
+        <button class="buttonSmall button-ok" (click)="incomeYear()">Jahr</button>
+    </div>
+</div>

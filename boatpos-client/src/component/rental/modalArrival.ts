@@ -286,7 +286,7 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     printPricePaidBefore():string {
-        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore, "") : "";
+        return isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore, null) : "";
     }
 
     printPromotionBefore():string {

@@ -27,12 +27,13 @@ import {JournalService} from "./../service/journal.service";
 import {ModeService} from "./../service/mode.service";
 import {Mode} from "./../service/mode.service";
 import {RentalsComponent} from "./rentals/rentals.component";
+import {StatsComponent} from "./stats/stats.component";
 
 @Component({
     selector: 'my-app',
     templateUrl: "../html/component/app.component.html",
     styleUrls: ["../css/component/app.component.css"],
-    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent, RentalsComponent],
+    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent, RentalsComponent, StatsComponent],
     providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, JournalService, ModeService]
 })
 export class AppComponent implements OnInit {

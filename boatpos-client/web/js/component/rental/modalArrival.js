@@ -164,7 +164,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     return result;
                 };
                 ModalArrival.prototype.printPricePaidBefore = function () {
-                    return lang_1.isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore, "") : "";
+                    return lang_1.isPresent(this.rental) ? this.pp.ppPrice(this.rental.pricePaidBefore, null) : "";
                 };
                 ModalArrival.prototype.printPromotionBefore = function () {
                     var result = "keine Aktion vorhanden";

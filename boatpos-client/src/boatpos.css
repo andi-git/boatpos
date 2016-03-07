@@ -8,7 +8,7 @@ body {
     color: black;
 }
 
-p {
+p, select {
     font-size: 2em;
 }
 

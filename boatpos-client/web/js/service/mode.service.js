@@ -36,11 +36,11 @@ System.register(['angular2/core', "./boat.service", "./commitment.service", "./p
                     this.commitmentService = commitmentService;
                     this.promotionService = promotionService;
                     this.configService = configService;
-                    this.defaultMode = Mode.RENTALS;
+                    this.defaultMode = Mode.RENTAL;
                     this.modeChangeEvent = new core_1.EventEmitter();
                     this.configService.isConfigured().subscribe(function (config) {
                         console.log("constructor of ModeService");
-                        _this.event().emit(Mode.RENTAL);
+                        _this.event().emit(_this.defaultMode);
                     });
                 }
                 ModeService.prototype.event = function () {

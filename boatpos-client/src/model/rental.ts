@@ -133,7 +133,6 @@ export class Rental {
     }
 
     ppTimeOfTravel():string {
-        console.log("tot: " + this.timeOfTravel);
         let result:string = "";
         if (isPresent(this.timeOfTravel) || this.timeOfTravel > 0) {
             if (this.timeOfTravel > 60) {

@@ -29,7 +29,7 @@ export class RentalService {
                     rentalBean.dayId,
                     RentalService.createDate(rentalBean.day),
                     rentalBean.boatBean,
-                    RentalService.createDate(rentalBean.departure),
+                    RentalService.createDateTime(rentalBean.departure),
                     rentalBean.commitmentBeans,
                     rentalBean.promotionBeforeBean,
                     rentalBean.coupon,
@@ -102,7 +102,6 @@ export class RentalService {
                 let result:Array<Rental> = [];
                 if (rentals) {
                     rentals.forEach((rental) => {
-                        console.log(rental.timeOfTravel);
                         result.push(this.convertRentalBeanToRental(rental));
                     });
                 }
@@ -115,8 +114,8 @@ export class RentalService {
             rentalBean.dayId,
             RentalService.createDate(rentalBean.day),
             rentalBean.boatBean,
-            RentalService.createDate(rentalBean.departure),
-            RentalService.createDate(rentalBean.arrival),
+            RentalService.createDateTime(rentalBean.departure),
+            RentalService.createDateTime(rentalBean.arrival),
             rentalBean.pricePaidAfter,
             rentalBean.pricePaidBefore,
             rentalBean.priceCalculatedAfter,
@@ -136,10 +135,10 @@ export class RentalService {
     };
 
     public static createDate(jsonDate:string):Date {
-        let date:Date = new Date(jsonDate);
-        date.setUTCHours(date.getUTCHours());
-        date.setUTCDate(date.getUTCDate());
-        date.setUTCMonth(date.getUTCMonth() + 1);
-        return date;
+        return new Date(jsonDate + "T00:00:00.000Z");
+    }
+
+    public static createDateTime(jsonDateTime:string):Date {
+        return new Date(jsonDateTime);
     }
 }

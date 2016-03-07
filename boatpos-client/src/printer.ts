@@ -180,6 +180,7 @@ export class Printer {
 
     printJournal(journalReport:JournalReport):void {
         if (isPresent(journalReport)) {
+            console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end));
             //noinspection TypeScriptUnresolvedFunction
             var builder = new StarWebPrintBuilder();
             var request = builder.createInitializationElement();
@@ -189,17 +190,17 @@ export class Printer {
             if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
                 request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
             } else {
-                request = this.printLine(builder, request, 1, 1, "left", true, false, "Periode: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+                request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
             }
             request = this.blankLine(builder, request);
             let sum:number = 0;
             request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
             journalReport.journalReportItems.forEach(jri => {
                 request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
-                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.count, 10, Align.RIGHT));
+                request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(String(jri.count), 10, Align.RIGHT));
                 sum += jri.count;
             });
-            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.pp3Pos(sum), 10, Align.RIGHT));
+            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(String(sum), 10, Align.RIGHT));
             request = this.blankLine(builder, request);
             sum = 0;
             request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");

@@ -21,14 +21,12 @@ export class RentalsComponent {
                 this.updateRentalsCurrentDay();
             }
         });
-        if (this.modeService.defaultMode === Mode.RENTALS) {
-            this.updateRentalsCurrentDay();
-        }
+        this.updateRentalsCurrentDay();
     }
 
     private updateRentalsCurrentDay() {
         this.rentalService.loadAllForCurrentDay().subscribe((rentals:Array<Rental>) => {
-           this.rentalsCurrentDay = rentals;
+            this.rentalsCurrentDay = rentals;
         });
     }
 }

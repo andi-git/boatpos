@@ -75,7 +75,6 @@ System.register(["../prettyprinter", "angular2/src/facade/lang"], function(expor
                     return new prettyprinter_1.PrettyPrinter().printPromotions(this.promotionBefore, this.promotionAfter);
                 };
                 Rental.prototype.ppTimeOfTravel = function () {
-                    console.log("tot: " + this.timeOfTravel);
                     var result = "";
                     if (lang_1.isPresent(this.timeOfTravel) || this.timeOfTravel > 0) {
                         if (this.timeOfTravel > 60) {

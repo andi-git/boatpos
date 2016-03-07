@@ -35,9 +35,7 @@ System.register(['angular2/core', "../../service/rental.service", "../../service
                             _this.updateRentalsCurrentDay();
                         }
                     });
-                    if (this.modeService.defaultMode === mode_service_2.Mode.RENTALS) {
-                        this.updateRentalsCurrentDay();
-                    }
+                    this.updateRentalsCurrentDay();
                 }
                 RentalsComponent.prototype.updateRentalsCurrentDay = function () {
                     var _this = this;
