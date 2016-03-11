@@ -7,6 +7,7 @@
     <modules>
         <module>boatpos-server</module>
         <module>boatpos-client</module>
+        <module>boatpos-common</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -62,6 +63,7 @@
         <version.arquillian-rest-extension>1.0.0.Alpha4</version.arquillian-rest-extension>
         <version.jacoco>0.7.5.201505241946</version.jacoco>
         <version.javassist>3.18.2-GA</version.javassist>
+        <version.mockito>2.0.43-beta</version.mockito>
     </properties>
 
     <build>
@@ -188,6 +190,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mocktio-core</artifactId>
+                <version>${version.mockito}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

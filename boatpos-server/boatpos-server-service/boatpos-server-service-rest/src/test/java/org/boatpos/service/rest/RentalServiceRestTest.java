@@ -2,7 +2,7 @@ package org.boatpos.service.rest;
 
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;

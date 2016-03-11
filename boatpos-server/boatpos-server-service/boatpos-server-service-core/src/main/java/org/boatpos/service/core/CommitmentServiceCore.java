@@ -8,7 +8,7 @@ import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.bean.CommitmentBean;
 import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.MasterDataHelper;
-import org.boatpos.util.log.SLF4J;
+import org.boatpos.common.util.log.SLF4J;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.RequestScoped;

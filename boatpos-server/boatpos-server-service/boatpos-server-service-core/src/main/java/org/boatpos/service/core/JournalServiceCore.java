@@ -11,8 +11,8 @@ import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;
-import org.boatpos.util.log.LogWrapper;
-import org.boatpos.util.log.SLF4J;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

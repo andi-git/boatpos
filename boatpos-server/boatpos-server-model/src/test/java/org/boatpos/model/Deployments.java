@@ -1,6 +1,6 @@
 package org.boatpos.model;
 
-import org.boatpos.test.ArquillianHelper;
+import org.boatpos.common.test.ArquillianHelper;
 import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -16,7 +16,8 @@ public class Deployments {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsLibraries(ArquillianHelper.getAllArquillianLibs())
                 .addAsWebInfResource("META-INF/beans.xml", "beans.xml")
-                .addPackages(true, "org.boatpos.util")
+                .addPackages(true, "org.boatpos.common.util")
+                .addPackages(true, "org.boatpos.common.test")
                 .addPackages(true, "org.boatpos.test")
                 .addPackages(true, "org.boatpos.model");
     }

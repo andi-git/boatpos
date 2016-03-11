@@ -3,7 +3,7 @@ package org.boatpos.repository.core.mapping;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.repository.core.TestUtil;
 import org.boatpos.service.api.bean.HolidayBean;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;

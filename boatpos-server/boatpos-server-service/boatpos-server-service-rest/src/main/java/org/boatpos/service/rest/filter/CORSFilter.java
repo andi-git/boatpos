@@ -1,7 +1,7 @@
 package org.boatpos.service.rest.filter;
 
-import org.boatpos.util.log.LogWrapper;
-import org.boatpos.util.log.SLF4J;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;

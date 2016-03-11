@@ -1,7 +1,7 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.service.api.JournalService;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

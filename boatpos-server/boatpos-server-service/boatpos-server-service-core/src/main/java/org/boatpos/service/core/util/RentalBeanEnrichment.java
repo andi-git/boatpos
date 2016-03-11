@@ -4,7 +4,7 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.ArrivalTime;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.core.PriceCalculator;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;

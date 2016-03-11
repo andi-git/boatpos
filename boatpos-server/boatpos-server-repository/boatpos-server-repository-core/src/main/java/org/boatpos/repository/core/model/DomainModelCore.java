@@ -6,7 +6,7 @@ import org.boatpos.repository.api.values.DomainId;
 import org.boatpos.repository.api.values.Version;
 import org.boatpos.repository.core.repository.JPAHelper;
 import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
-import org.boatpos.util.log.LogWrapper;
+import org.boatpos.common.util.log.LogWrapper;
 
 import javax.enterprise.inject.spi.CDI;
 import javax.persistence.PersistenceException;

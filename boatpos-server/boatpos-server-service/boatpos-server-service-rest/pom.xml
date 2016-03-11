@@ -85,7 +85,7 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-util</artifactId>
+            <artifactId>boatpos-common-util</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -112,7 +112,7 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-test-util</artifactId>
+            <artifactId>boatpos-common-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

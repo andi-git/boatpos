@@ -4,7 +4,7 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.Day;
 import org.boatpos.repository.api.values.DayId;
-import org.boatpos.util.qualifiers.Current;
+import org.boatpos.common.util.qualifiers.Current;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;

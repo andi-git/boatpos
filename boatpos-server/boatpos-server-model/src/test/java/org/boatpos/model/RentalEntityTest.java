@@ -1,6 +1,6 @@
 package org.boatpos.model;
 
-import org.boatpos.test.JavaBeanTest;
+import org.boatpos.common.test.JavaBeanTest;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;

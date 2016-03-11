@@ -1,7 +1,7 @@
 package org.boatpos.service.api.bean;
 
 import com.google.common.collect.Lists;
-import org.boatpos.test.JavaBeanTest;
+import org.boatpos.common.test.JavaBeanTest;
 import org.junit.Test;
 
 import java.math.BigDecimal;

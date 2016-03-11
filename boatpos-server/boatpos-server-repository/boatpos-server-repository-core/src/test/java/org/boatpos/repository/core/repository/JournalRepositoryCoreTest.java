@@ -1,13 +1,10 @@
 package org.boatpos.repository.core.repository;
 
 import org.boatpos.model.PaymentMethod;
-import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.JournalRepository;
 import org.boatpos.repository.api.values.IncomeResult;
 import org.boatpos.repository.api.values.Period;
-import org.boatpos.repository.api.values.ShortName;
-import org.boatpos.repository.api.values.SumPaid;
 import org.boatpos.repository.core.DateTimeHelperMock;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
@@ -17,9 +14,7 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 

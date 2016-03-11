@@ -1,6 +1,6 @@
 package org.boatpos.service.api.bean;
 
-import org.boatpos.test.JavaBeanTest;
+import org.boatpos.common.test.JavaBeanTest;
 import org.junit.Test;
 
 public class PromotionBeforeBeanTest extends JavaBeanTest<PromotionBeforeBean> {

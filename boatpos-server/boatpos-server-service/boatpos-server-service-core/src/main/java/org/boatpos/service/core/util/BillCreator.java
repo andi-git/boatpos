@@ -5,7 +5,7 @@ import org.boatpos.repository.api.model.Rental;
 import org.boatpos.service.api.bean.BillBean;
 import org.boatpos.service.api.bean.CompanyBean;
 import org.boatpos.service.api.bean.TaxSetBean;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

@@ -10,8 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>boatpos-server-test</module>
-        <module>boatpos-server-util</module>
+        <module>boatpos-server-test-model</module>
         <module>boatpos-server-model</module>
         <module>boatpos-server-service</module>
         <module>boatpos-server-repository</module>

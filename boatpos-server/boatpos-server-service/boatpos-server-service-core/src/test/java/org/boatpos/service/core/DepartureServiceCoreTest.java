@@ -9,7 +9,7 @@ import org.boatpos.service.api.bean.DepartureBean;
 import org.boatpos.service.api.bean.PaymentBean;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;

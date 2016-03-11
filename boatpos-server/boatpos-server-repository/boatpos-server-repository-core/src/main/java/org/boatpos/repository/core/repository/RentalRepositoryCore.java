@@ -10,7 +10,7 @@ import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.repository.core.builder.RentalBuilderCore;
 import org.boatpos.repository.core.model.RentalCore;
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;

@@ -1,6 +1,6 @@
 package org.boatpos.service.core;
 
-import org.boatpos.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Specializes;

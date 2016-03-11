@@ -9,8 +9,8 @@ import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.service.core.util.MasterDataHelper;
 import org.boatpos.service.core.util.ModelDtoConverter;
 import org.boatpos.service.core.util.WeekendHolidayHelper;
-import org.boatpos.util.log.LogWrapper;
-import org.boatpos.util.log.SLF4J;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

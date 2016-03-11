@@ -17,7 +17,7 @@ import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
 import org.boatpos.service.core.util.WeekendHolidayHelper;
-import org.boatpos.util.qualifiers.Current;
+import org.boatpos.common.util.qualifiers.Current;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

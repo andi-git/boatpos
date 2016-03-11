@@ -1,20 +1,17 @@
 package org.boatpos.repository.core.repository;
 
 import org.boatpos.model.AbstractEntity;
-import org.boatpos.model.PromotionAfterEntity;
-import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.repository.api.model.DomainModel;
 import org.boatpos.repository.api.repository.DomainModelRepository;
 import org.boatpos.repository.api.values.DomainId;
 import org.boatpos.repository.core.model.DomainModelCore;
-import org.boatpos.util.log.LogWrapper;
-import org.boatpos.util.log.SLF4J;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;

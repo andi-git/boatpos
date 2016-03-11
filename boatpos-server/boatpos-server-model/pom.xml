@@ -50,7 +50,7 @@
         <!-- test -->
         <dependency>
             <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-server-test-util</artifactId>
+            <artifactId>boatpos-common-test</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

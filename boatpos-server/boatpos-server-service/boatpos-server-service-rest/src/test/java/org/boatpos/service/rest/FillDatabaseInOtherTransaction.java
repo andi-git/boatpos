@@ -1,7 +1,7 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.repository.api.BoatPosDB;
-import org.boatpos.test.model.SampleDatabaseCreator;
+import org.boatpos.test.model.SampleDatabaseCreatorBoatPos;
 
 import javax.annotation.Resource;
 import javax.ejb.*;
@@ -22,7 +22,7 @@ public class FillDatabaseInOtherTransaction {
     private EntityManager entityManager;
 
     @Inject
-    private SampleDatabaseCreator sampleDatabaseCreator;
+    private SampleDatabaseCreatorBoatPos sampleDatabaseCreator;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void fillDatabase() throws Exception {

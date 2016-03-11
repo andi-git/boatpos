@@ -2,7 +2,6 @@ package org.boatpos.service.core;
 
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
-import org.boatpos.service.api.bean.JournalReportItemBean;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;

@@ -1,6 +1,6 @@
 package org.boatpos.service.api.bean;
 
-import org.boatpos.test.JavaBeanTester;
+import org.boatpos.common.test.JavaBeanTester;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
