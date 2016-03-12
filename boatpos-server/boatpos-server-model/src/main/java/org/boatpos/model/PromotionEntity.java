@@ -1,6 +1,7 @@
 package org.boatpos.model;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import javax.persistence.*;
 import javax.validation.Valid;

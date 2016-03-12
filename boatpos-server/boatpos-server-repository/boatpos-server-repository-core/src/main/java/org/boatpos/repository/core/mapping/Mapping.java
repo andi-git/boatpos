@@ -1,6 +1,6 @@
 package org.boatpos.repository.core.mapping;
 
-import org.boatpos.model.AbstractEntity;
+import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.repository.api.BoatPosDB;
 import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 

@@ -1,6 +1,6 @@
 package org.boatpos.repository.api.builder;
 
-import org.boatpos.model.AbstractMasterDataEntity;
+import org.boatpos.common.model.AbstractMasterDataEntity;
 import org.boatpos.repository.api.model.MasterData;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.AbstractMasterDataBean;

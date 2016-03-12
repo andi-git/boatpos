@@ -18,6 +18,7 @@ public class Deployments {
                 .addAsWebInfResource("META-INF/beans.xml", "beans.xml")
                 .addPackages(true, "org.boatpos.common.util")
                 .addPackages(true, "org.boatpos.common.test")
+                .addPackages(true, "org.boatpos.common.model")
                 .addPackages(true, "org.boatpos.test")
                 .addPackages(true, "org.boatpos.model");
     }

@@ -1,4 +1,4 @@
-package org.boatpos.model;
+package org.boatpos.common.model;
 
 import com.google.common.base.Objects;
 import com.google.gson.GsonBuilder;

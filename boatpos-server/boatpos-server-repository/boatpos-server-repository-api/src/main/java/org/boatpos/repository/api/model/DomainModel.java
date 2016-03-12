@@ -1,6 +1,6 @@
 package org.boatpos.repository.api.model;
 
-import org.boatpos.model.AbstractEntity;
+import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.repository.api.values.DomainId;
 import org.boatpos.repository.api.values.Version;
 import org.boatpos.service.api.bean.AbstractBean;

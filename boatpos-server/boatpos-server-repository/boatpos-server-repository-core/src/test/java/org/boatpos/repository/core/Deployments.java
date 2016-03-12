@@ -34,6 +34,7 @@ public class Deployments {
                 .addAsResource(new File(FILE_ARQUILLIAN_EXTENSION_SOURCE), FILE_ARQUILLIAN_EXTENSION_TARGET)
                 .addPackages(true, "org.boatpos.common.util")
                 .addPackages(true, "org.boatpos.common.test")
+                .addPackages(true, "org.boatpos.common.model")
                 .addPackages(true, "org.boatpos.model")
                 .addPackages(true, "org.boatpos.test.model")
                 .addPackages(true, "org.boatpos.service.api")

@@ -1,6 +1,6 @@
 package org.boatpos.repository.core.repository;
 
-import org.boatpos.model.AbstractEntity;
+import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.repository.api.model.MasterData;
 import org.boatpos.repository.api.repository.MasterDataRepository;
 import org.boatpos.repository.api.values.Enabled;

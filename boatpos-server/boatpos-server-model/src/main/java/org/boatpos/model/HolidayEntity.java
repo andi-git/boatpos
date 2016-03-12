@@ -1,6 +1,7 @@
 package org.boatpos.model;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.model.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

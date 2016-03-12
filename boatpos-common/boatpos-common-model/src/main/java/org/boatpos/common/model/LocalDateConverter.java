@@ -1,4 +1,4 @@
-package org.boatpos.model.util;
+package org.boatpos.common.model;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

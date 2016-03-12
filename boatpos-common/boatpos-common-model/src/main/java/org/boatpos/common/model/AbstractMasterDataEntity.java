@@ -1,4 +1,4 @@
-package org.boatpos.model;
+package org.boatpos.common.model;
 
 import com.google.gson.annotations.Expose;
 
@@ -11,16 +11,16 @@ import javax.validation.constraints.Size;
  * This class has all basic-fields for master-data-entities.
  */
 @MappedSuperclass
-public class AbstractMasterDataEntity extends AbstractEntity {
+public abstract class AbstractMasterDataEntity extends AbstractEntity {
 
     /**
-     * Flag if this {@link BoatEntity} is enabled or disabled.
+     * Flag if this entity is enabled or disabled.
      */
     @Expose
     private boolean enabled;
 
     /**
-     * The priority of the {@link BoatEntity}.
+     * The priority of the entity.
      */
     @NotNull
     @Min(0)

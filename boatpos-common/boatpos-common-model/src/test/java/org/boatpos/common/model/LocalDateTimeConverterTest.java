@@ -1,14 +1,12 @@
-package org.boatpos.model.util;
+package org.boatpos.common.model;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class LocalDateTimeConverterTest {
 

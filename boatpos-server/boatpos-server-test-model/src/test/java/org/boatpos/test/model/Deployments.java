@@ -31,6 +31,7 @@ public class Deployments {
                 .addPackages(true, "org.boatpos.util")
                 .addPackages(true, "org.boatpos.test")
                 .addPackages(true, "org.boatpos.model")
-                .addPackages(true, "org.boatpos.common.test");
+                .addPackages(true, "org.boatpos.common.test")
+                .addPackages(true, "org.boatpos.common.model");
     }
 }
