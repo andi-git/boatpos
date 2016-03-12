@@ -1,7 +1,7 @@
 package org.boatpos.repository.core.repository;
 
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.repository.api.repository.PromotionBeforeRepository;
-import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.core.TestUtil;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;

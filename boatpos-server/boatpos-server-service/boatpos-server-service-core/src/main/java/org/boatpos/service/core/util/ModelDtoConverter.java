@@ -1,7 +1,7 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.model.DomainModel;
-import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
+import org.boatpos.common.repository.api.model.DomainModel;
+import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 
 import javax.enterprise.context.Dependent;
 import java.util.List;

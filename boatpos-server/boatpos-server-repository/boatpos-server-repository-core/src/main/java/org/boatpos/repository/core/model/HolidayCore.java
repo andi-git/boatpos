@@ -1,5 +1,8 @@
 package org.boatpos.repository.core.model;
 
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.SimpleValueObject;
+import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.repository.api.model.Holiday;
 import org.boatpos.repository.api.values.*;

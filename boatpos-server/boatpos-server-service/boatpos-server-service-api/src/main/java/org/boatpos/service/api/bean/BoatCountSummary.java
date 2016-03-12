@@ -1,6 +1,7 @@
 package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractBean;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,11 @@
 package org.boatpos.repository.core.repository;
 
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.model.PromotionAfterEntity;
 import org.boatpos.model.PromotionEntity;
 import org.boatpos.repository.api.builder.PromotionAfterBuilder;
 import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
-import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.core.builder.PromotionAfterBuilderCore;
 import org.boatpos.repository.core.model.PromotionAfterCore;

@@ -1,9 +1,11 @@
 package org.boatpos.service.api.bean;
 
+import org.boatpos.common.service.api.bean.AbstractBean;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class CompanyBean {
+public class CompanyBean extends AbstractBean {
 
     @NotNull
     @Size(min = 3, max = 100)

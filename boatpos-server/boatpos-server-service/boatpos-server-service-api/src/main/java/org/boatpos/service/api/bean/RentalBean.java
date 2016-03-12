@@ -1,6 +1,9 @@
 package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
+import org.boatpos.common.service.api.bean.LocalDateAdapter;
+import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;

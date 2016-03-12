@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.values;
 
-import org.boatpos.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.values.SimpleBooleanObject;
 
 /**
  * Flag, if a {@link MasterData} is enabled or not.

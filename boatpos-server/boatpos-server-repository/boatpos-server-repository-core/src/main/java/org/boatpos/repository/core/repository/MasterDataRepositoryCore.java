@@ -1,9 +1,9 @@
 package org.boatpos.repository.core.repository;
 
 import org.boatpos.common.model.AbstractEntity;
-import org.boatpos.repository.api.model.MasterData;
-import org.boatpos.repository.api.repository.MasterDataRepository;
-import org.boatpos.repository.api.values.Enabled;
+import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.repository.MasterDataRepository;
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.repository.core.model.MasterDataCore;
 
 import java.util.List;

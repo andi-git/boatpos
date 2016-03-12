@@ -2,6 +2,8 @@ package org.boatpos.repository.core.mapping;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.builder.BoatBuilder;
 import org.boatpos.repository.api.model.Rental;

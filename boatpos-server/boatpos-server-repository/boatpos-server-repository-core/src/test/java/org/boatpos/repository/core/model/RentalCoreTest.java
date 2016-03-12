@@ -1,5 +1,7 @@
 package org.boatpos.repository.core.model;
 
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.repository.api.model.Commitment;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.BoatRepository;

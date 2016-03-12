@@ -1,10 +1,10 @@
 package org.boatpos.service.api.bean;
 
 import com.google.common.base.Objects;
+import org.boatpos.common.service.api.bean.AbstractBean;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 /**
  * The payment of a rental.

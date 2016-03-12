@@ -2,6 +2,7 @@ package org.boatpos.service.api.bean;
 
 import com.google.common.base.Objects;
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractBean;
 
 public class BoatCountBean extends AbstractBean {
 

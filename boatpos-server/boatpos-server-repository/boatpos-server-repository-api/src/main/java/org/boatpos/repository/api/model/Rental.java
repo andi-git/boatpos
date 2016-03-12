@@ -1,5 +1,7 @@
 package org.boatpos.repository.api.model;
 
+import org.boatpos.common.repository.api.model.DomainModel;
+import org.boatpos.common.repository.api.values.Deleted;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.values.*;

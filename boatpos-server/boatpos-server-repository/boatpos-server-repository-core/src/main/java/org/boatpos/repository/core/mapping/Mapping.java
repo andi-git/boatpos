@@ -1,8 +1,8 @@
 package org.boatpos.repository.core.mapping;
 
 import org.boatpos.common.model.AbstractEntity;
+import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 import org.boatpos.repository.api.BoatPosDB;
-import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

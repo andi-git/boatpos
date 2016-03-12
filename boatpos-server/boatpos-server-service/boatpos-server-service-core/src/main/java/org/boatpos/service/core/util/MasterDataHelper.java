@@ -1,9 +1,9 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.model.MasterData;
-import org.boatpos.repository.api.repository.MasterDataRepository;
-import org.boatpos.repository.api.values.DomainId;
-import org.boatpos.repository.api.values.Enabled;
+import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.repository.MasterDataRepository;
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.service.api.EnabledState;
 
 import javax.enterprise.context.Dependent;

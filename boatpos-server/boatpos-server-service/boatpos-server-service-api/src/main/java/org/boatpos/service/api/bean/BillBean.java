@@ -1,5 +1,8 @@
 package org.boatpos.service.api.bean;
 
+import org.boatpos.common.service.api.bean.AbstractBean;
+import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
+
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

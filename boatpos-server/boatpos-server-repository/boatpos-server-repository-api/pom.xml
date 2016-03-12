@@ -25,6 +25,11 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-repository-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
             <artifactId>boatpos-server-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>

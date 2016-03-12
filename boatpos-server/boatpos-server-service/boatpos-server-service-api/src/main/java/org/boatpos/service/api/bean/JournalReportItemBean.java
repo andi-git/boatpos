@@ -2,6 +2,7 @@ package org.boatpos.service.api.bean;
 
 import com.google.common.base.Objects;
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractBean;
 
 import java.math.BigDecimal;
 
@@ -28,7 +29,8 @@ public class JournalReportItemBean extends AbstractBean {
     @Expose
     private Integer count;
 
-    public JournalReportItemBean() {}
+    public JournalReportItemBean() {
+    }
 
     public JournalReportItemBean(String boatName, BigDecimal pricePaidBeforeCash, BigDecimal pricePaidBeforeCard, BigDecimal pricePaidAfterCash, BigDecimal pricePaidAfterCard, Integer count) {
         this.boatName = boatName;

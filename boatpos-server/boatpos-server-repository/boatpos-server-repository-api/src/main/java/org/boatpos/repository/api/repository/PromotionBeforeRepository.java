@@ -1,15 +1,10 @@
 package org.boatpos.repository.api.repository;
 
-import org.boatpos.model.PromotionEntity;
+import org.boatpos.common.repository.api.repository.MasterDataRepository;
 import org.boatpos.repository.api.builder.PromotionBeforeBuilder;
-import org.boatpos.repository.api.builder.PromotionBuilder;
-import org.boatpos.repository.api.model.Promotion;
-import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.model.PromotionBefore;
-import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

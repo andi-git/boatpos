@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.model;
 
+import org.boatpos.common.repository.api.values.*;
 import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.repository.api.model.PromotionBefore;
 import org.boatpos.repository.api.model.Rental;

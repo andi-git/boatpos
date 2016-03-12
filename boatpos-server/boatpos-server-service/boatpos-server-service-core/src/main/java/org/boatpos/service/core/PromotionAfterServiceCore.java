@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
+import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
-import org.boatpos.repository.api.values.DomainId;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.EnabledState;
 import org.boatpos.service.api.PromotionAfterService;

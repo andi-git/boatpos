@@ -1,6 +1,6 @@
 package org.boatpos.repository.api.values;
 
-import org.boatpos.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.values.SimpleBooleanObject;
 import org.boatpos.repository.api.model.Rental;
 
 /**

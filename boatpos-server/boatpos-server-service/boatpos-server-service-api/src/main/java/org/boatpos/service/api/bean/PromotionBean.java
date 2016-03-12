@@ -1,6 +1,7 @@
 package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

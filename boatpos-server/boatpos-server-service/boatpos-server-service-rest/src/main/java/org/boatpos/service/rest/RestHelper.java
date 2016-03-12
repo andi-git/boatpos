@@ -1,6 +1,6 @@
 package org.boatpos.service.rest;
 
-import org.boatpos.service.api.bean.AbstractBean;
+import org.boatpos.common.service.api.bean.AbstractBean;
 
 import javax.enterprise.context.Dependent;
 import javax.ws.rs.core.Response;

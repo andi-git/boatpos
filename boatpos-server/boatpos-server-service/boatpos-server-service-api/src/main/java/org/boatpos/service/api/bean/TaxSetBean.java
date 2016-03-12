@@ -1,8 +1,10 @@
 package org.boatpos.service.api.bean;
 
+import org.boatpos.common.service.api.bean.AbstractBean;
+
 import java.math.BigDecimal;
 
-public abstract class TaxSetBean {
+public abstract class TaxSetBean extends AbstractBean {
 
     private String name;
 

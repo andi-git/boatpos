@@ -35,6 +35,8 @@ public class Deployments {
                 .addPackages(true, "org.boatpos.common.util")
                 .addPackages(true, "org.boatpos.common.test")
                 .addPackages(true, "org.boatpos.common.model")
+                .addPackages(true, "org.boatpos.common.repository.api")
+                .addPackages(true, "org.boatpos.common.service.api")
                 .addPackages(true, "org.boatpos.model")
                 .addPackages(true, "org.boatpos.test.model")
                 .addPackages(true, "org.boatpos.service.api")

@@ -1,7 +1,7 @@
 package org.boatpos.service.rest;
 
+import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 import org.boatpos.service.api.EnabledState;
-import org.boatpos.service.api.bean.AbstractMasterDataBean;
 
 import javax.enterprise.context.Dependent;
 import javax.ws.rs.client.ClientBuilder;

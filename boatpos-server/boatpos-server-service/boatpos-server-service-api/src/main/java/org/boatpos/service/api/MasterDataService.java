@@ -1,6 +1,6 @@
 package org.boatpos.service.api;
 
-import org.boatpos.service.api.bean.AbstractMasterDataBean;
+import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
 import java.util.List;
 import java.util.Optional;

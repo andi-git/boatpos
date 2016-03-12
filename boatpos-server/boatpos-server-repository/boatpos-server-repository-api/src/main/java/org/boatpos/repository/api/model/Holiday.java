@@ -1,5 +1,6 @@
 package org.boatpos.repository.api.model;
 
+import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;

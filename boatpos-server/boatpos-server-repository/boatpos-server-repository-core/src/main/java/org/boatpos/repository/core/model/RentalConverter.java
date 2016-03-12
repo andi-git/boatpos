@@ -1,8 +1,8 @@
 package org.boatpos.repository.core.model;
 
+import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.model.ContainsRentals;
 import org.boatpos.model.RentalEntity;
-import org.boatpos.repository.api.model.DomainModel;
 import org.boatpos.repository.api.model.Rental;
 
 import javax.enterprise.context.ApplicationScoped;

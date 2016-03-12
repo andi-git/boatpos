@@ -21,6 +21,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-service-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- test -->
         <dependency>

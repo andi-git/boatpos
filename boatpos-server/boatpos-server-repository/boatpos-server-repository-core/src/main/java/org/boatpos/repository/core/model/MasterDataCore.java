@@ -1,9 +1,9 @@
 package org.boatpos.repository.core.model;
 
 import org.boatpos.common.model.AbstractMasterDataEntity;
-import org.boatpos.repository.api.model.MasterData;
-import org.boatpos.repository.api.values.*;
-import org.boatpos.service.api.bean.AbstractMasterDataBean;
+import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

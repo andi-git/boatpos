@@ -1,6 +1,8 @@
 package org.boatpos.service.api.bean;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
+import org.boatpos.common.service.api.bean.LocalDateAdapter;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;

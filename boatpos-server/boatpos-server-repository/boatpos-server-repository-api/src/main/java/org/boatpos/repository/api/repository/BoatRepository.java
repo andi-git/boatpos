@@ -1,8 +1,9 @@
 package org.boatpos.repository.api.repository;
 
+import org.boatpos.common.repository.api.repository.MasterDataRepository;
+import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.repository.api.builder.BoatBuilder;
 import org.boatpos.repository.api.model.Boat;
-import org.boatpos.repository.api.values.DomainId;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.api.values.ShortName;
 

@@ -1,5 +1,6 @@
 package org.boatpos.repository.api.repository;
 
+import org.boatpos.common.repository.api.repository.DomainModelRepository;
 import org.boatpos.repository.api.builder.HolidayBuilder;
 import org.boatpos.repository.api.model.Holiday;
 import org.boatpos.repository.api.values.Day;

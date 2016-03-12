@@ -1,5 +1,6 @@
 package org.boatpos.repository.core;
 
+import org.boatpos.common.repository.api.values.*;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.BoatPosDB;
 import org.boatpos.repository.api.builder.*;

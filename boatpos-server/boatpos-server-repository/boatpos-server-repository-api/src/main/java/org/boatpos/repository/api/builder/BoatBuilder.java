@@ -1,7 +1,7 @@
 package org.boatpos.repository.api.builder;
 
+import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.boatpos.model.BoatEntity;
-import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.*;

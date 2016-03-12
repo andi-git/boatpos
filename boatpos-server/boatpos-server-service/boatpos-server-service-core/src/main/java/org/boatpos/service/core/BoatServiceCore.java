@@ -1,10 +1,10 @@
 package org.boatpos.service.core;
 
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.RentalRepository;
-import org.boatpos.repository.api.values.DomainId;
-import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.api.values.ShortName;
 import org.boatpos.service.api.BoatService;

@@ -1,5 +1,8 @@
 package org.boatpos.repository.core.model;
 
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.values.*;

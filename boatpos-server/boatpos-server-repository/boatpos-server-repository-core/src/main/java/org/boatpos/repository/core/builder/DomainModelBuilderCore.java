@@ -1,15 +1,14 @@
 package org.boatpos.repository.core.builder;
 
 import org.boatpos.common.model.AbstractEntity;
-import org.boatpos.repository.api.builder.DomainModelBuilder;
-import org.boatpos.repository.api.model.DomainModel;
-import org.boatpos.repository.api.values.DomainId;
-import org.boatpos.repository.api.values.Version;
+import org.boatpos.common.repository.api.builder.DomainModelBuilder;
+import org.boatpos.common.repository.api.model.DomainModel;
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Version;
+import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 import org.boatpos.repository.core.model.DomainModelCore;
-import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
 
 public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity>
         implements DomainModelBuilder<BUILDER, MODEL, ENTITY, DTO> {

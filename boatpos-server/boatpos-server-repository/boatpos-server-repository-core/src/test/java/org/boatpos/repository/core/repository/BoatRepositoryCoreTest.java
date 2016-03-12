@@ -1,8 +1,8 @@
 package org.boatpos.repository.core.repository;
 
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.repository.api.repository.BoatRepository;
-import org.boatpos.repository.api.values.DomainId;
-import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.api.values.ShortName;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;

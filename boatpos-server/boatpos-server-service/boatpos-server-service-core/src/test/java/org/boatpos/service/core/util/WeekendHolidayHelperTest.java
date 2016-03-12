@@ -1,7 +1,7 @@
 package org.boatpos.service.core.util;
 
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.repository.api.repository.PromotionBeforeRepository;
-import org.boatpos.repository.api.values.Enabled;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.service.core.DateTimeHelperMock;

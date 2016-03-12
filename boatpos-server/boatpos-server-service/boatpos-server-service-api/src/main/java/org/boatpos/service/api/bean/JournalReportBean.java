@@ -2,6 +2,8 @@ package org.boatpos.service.api.bean;
 
 import com.google.common.base.Objects;
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.service.api.bean.AbstractBean;
+import org.boatpos.common.service.api.bean.LocalDateAdapter;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;

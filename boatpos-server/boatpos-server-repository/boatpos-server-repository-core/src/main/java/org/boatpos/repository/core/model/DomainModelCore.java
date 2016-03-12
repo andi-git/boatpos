@@ -1,11 +1,11 @@
 package org.boatpos.repository.core.model;
 
 import org.boatpos.common.model.AbstractEntity;
-import org.boatpos.repository.api.model.DomainModel;
-import org.boatpos.repository.api.values.DomainId;
-import org.boatpos.repository.api.values.Version;
+import org.boatpos.common.repository.api.model.DomainModel;
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Version;
+import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 import org.boatpos.repository.core.repository.JPAHelper;
-import org.boatpos.service.api.bean.AbstractBeanBasedOnEntity;
 import org.boatpos.common.util.log.LogWrapper;
 
 import javax.enterprise.inject.spi.CDI;
