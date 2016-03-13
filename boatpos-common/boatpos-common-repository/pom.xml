@@ -3,20 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>boatpos</artifactId>
+        <artifactId>boatpos-common</artifactId>
         <groupId>org.boatpos</groupId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>boatpos-common</artifactId>
     <packaging>pom</packaging>
+
+    <artifactId>boatpos-common-repository</artifactId>
+
     <modules>
-        <module>boatpos-common-test</module>
-        <module>boatpos-common-util</module>
-        <module>boatpos-common-model</module>
-        <module>boatpos-common-repository</module>
-        <module>boatpos-common-service</module>
+        <module>boatpos-common-repository-api</module>
     </modules>
 
 </project>

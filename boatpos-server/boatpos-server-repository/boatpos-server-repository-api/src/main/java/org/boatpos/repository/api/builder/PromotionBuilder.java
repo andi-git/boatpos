@@ -2,12 +2,10 @@ package org.boatpos.repository.api.builder;
 
 import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.boatpos.model.PromotionEntity;
-import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.model.Promotion;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.FormulaPrice;
 import org.boatpos.repository.api.values.Name;
-import org.boatpos.repository.api.values.Paper;
 import org.boatpos.service.api.bean.PromotionBean;
 
 import java.util.Set;

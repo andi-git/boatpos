@@ -5,8 +5,6 @@ import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.BoatBean;
 
-import java.util.Set;
-
 /**
  * The domain model for a boat.
  */

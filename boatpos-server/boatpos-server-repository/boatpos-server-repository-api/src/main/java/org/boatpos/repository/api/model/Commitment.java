@@ -6,8 +6,6 @@ import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.api.values.Paper;
 import org.boatpos.service.api.bean.CommitmentBean;
 
-import java.util.Set;
-
 /**
  * The domain model for a commitment.
  */

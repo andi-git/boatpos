@@ -2,7 +2,6 @@ package org.boatpos.repository.api.values;
 
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
