@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.mapping;
 
+import org.boatpos.common.repository.core.mapping.Mapping;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.service.api.bean.HolidayBean;
 

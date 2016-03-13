@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.builder;
 
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.builder.BoatBuilder;
 import org.boatpos.repository.api.builder.RentalBuilder;

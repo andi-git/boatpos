@@ -1,15 +1,15 @@
 package org.boatpos.repository.core;
 
 import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.qualifiers.Current;
 import org.boatpos.model.BoatEntity;
-import org.boatpos.repository.api.BoatPosDB;
 import org.boatpos.repository.api.builder.*;
 import org.boatpos.repository.api.model.*;
 import org.boatpos.repository.api.repository.*;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.HolidayBean;
-import org.boatpos.common.util.datetime.DateTimeHelper;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -27,7 +27,7 @@ public class TestUtil {
     public static class BoatUtil {
 
         @Inject
-        @BoatPosDB
+        @Current
         private EntityManager entityManager;
 
         @Inject
@@ -46,10 +46,14 @@ public class TestUtil {
             return createDummyBoatBuilder().build();
         }
 
-        public BoatBuilder createDummyBoatBuilder() {
+        public Boat createDummyBoatIdAndVersionNull() {
+            return createDummyBoatBuilder(new DomainId(null), new Version(null)).build();
+        }
+
+        public BoatBuilder createDummyBoatBuilder(DomainId id, Version version) {
             return boatRepository.builder()
-                    .add(new DomainId(1L))
-                    .add(new Version(1))
+                    .add(id)
+                    .add(version)
                     .add(Enabled.TRUE)
                     .add(new Priority(1))
                     .add(new Name("E-Boot"))
@@ -61,6 +65,10 @@ public class TestUtil {
                     .add(new KeyBinding('x'))
                     .add(new PictureUrlThumb("small_____"))
                     .add(new PictureUrl("large_____"));
+        }
+
+        public BoatBuilder createDummyBoatBuilder() {
+            return createDummyBoatBuilder(new DomainId(1L), new Version(1));
         }
 
         public BoatBean createDummyBoatBean() {
@@ -86,7 +94,7 @@ public class TestUtil {
     public static class CommitmentUtil {
 
         @Inject
-        @BoatPosDB
+        @Current
         private EntityManager entityManager;
 
         @Inject
@@ -119,7 +127,7 @@ public class TestUtil {
     public static class PromotionBeforeUtil {
 
         @Inject
-        @BoatPosDB
+        @Current
         private EntityManager entityManager;
 
         @Inject
@@ -153,7 +161,7 @@ public class TestUtil {
     public static class PromotionAfterUtil {
 
         @Inject
-        @BoatPosDB
+        @Current
         private EntityManager entityManager;
 
         @Inject
@@ -186,7 +194,7 @@ public class TestUtil {
     public static class RentalUtil {
 
         @Inject
-        @BoatPosDB
+        @Current
         private EntityManager entityManager;
 
         @Inject
@@ -222,7 +230,7 @@ public class TestUtil {
     public static class HolidayUtil {
 
         @Inject
-        @BoatPosDB
+        @Current
         private EntityManager entityManager;
 
         @Inject

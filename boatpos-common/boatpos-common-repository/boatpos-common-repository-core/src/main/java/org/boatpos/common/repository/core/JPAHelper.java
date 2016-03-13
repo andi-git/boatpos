@@ -1,6 +1,6 @@
-package org.boatpos.repository.core.repository;
+package org.boatpos.common.repository.core;
 
-import org.boatpos.repository.api.BoatPosDB;
+import org.boatpos.common.util.qualifiers.Current;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class JPAHelper {
 
     @Inject
-    @BoatPosDB
+    @Current
     private EntityManager entityManager;
 
     public EntityManager getEntityManager() {

@@ -1,0 +1,16 @@
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/persistence"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+             version="1.0">
+    <persistence-unit name="my-persistence" transaction-type="JTA">
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <!--suppress JpaDomInspection -->
+        <mapping-file>META-INF/query/boat.xml</mapping-file>
+        <class>org.boatpos.common.repository.core.boat.BoatEntity</class>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
+            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+        </properties>
+    </persistence-unit>
+</persistence>

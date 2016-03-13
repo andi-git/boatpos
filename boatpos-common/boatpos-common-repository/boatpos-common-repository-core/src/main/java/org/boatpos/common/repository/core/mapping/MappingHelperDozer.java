@@ -1,4 +1,4 @@
-package org.boatpos.repository.core.mapping;
+package org.boatpos.common.repository.core.mapping;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;

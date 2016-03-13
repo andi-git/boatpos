@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.repository;
 
+import org.boatpos.common.repository.core.JPAHelper;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.repository.JournalRepository;
 import org.boatpos.repository.api.values.BoatCountResult;

@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.repository;
 
+import org.boatpos.common.repository.core.respository.DomainModelRepositoryCore;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.repository.api.builder.HolidayBuilder;
 import org.boatpos.repository.api.model.*;

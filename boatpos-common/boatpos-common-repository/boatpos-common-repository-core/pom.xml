@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>boatpos-common-repository</artifactId>
+        <groupId>org.boatpos</groupId>
+        <version>0.0.2-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>boatpos-common-repository-core</artifactId>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${version.maven-dependency-plugin}</version>
+                <executions>
+                    <!-- copy libs for arquillian-tests -->
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeTransitive>false</excludeTransitive>
+                            <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
+                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3</includeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-repository-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-service-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.craftsman</groupId>
+            <artifactId>dozer-jdk8-support</artifactId>
+        </dependency>
+    </dependencies>
+</project>

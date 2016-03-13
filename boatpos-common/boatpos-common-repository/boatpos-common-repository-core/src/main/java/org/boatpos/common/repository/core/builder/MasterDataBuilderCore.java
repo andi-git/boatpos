@@ -1,11 +1,11 @@
-package org.boatpos.repository.core.builder;
+package org.boatpos.common.repository.core.builder;
 
 import org.boatpos.common.model.AbstractMasterDataEntity;
 import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
-import org.boatpos.repository.core.model.MasterDataCore;
 
 public abstract class MasterDataBuilderCore<BUILDER extends MasterDataBuilder, MODEL extends MasterData, MODELCORE extends MasterDataCore, ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> extends DomainModelBuilderCore<BUILDER, MODEL, MODELCORE, ENTITY, DTO> implements MasterDataBuilder<BUILDER, MODEL, ENTITY, DTO> {
 

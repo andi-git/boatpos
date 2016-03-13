@@ -28,9 +28,5 @@ public interface DomainModel<MODEL extends DomainModel, ENTITY extends AbstractE
 
     DomainId getId();
 
-    MODEL setId(DomainId id);
-
     Version getVersion();
-
-    MODEL setVersion(Version version);
 }

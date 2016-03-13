@@ -1,4 +1,4 @@
-package org.boatpos.repository.core.model;
+package org.boatpos.common.repository.core.model;
 
 import org.boatpos.common.model.AbstractMasterDataEntity;
 import org.boatpos.common.repository.api.model.MasterData;
@@ -86,7 +86,7 @@ public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends Ab
 
     @Override
     public MODEL setPictureUrlThumb(PictureUrlThumb pictureUrlThumb) {
-        getEntity().setPictureUrl(SimpleValueObject.nullSafe(pictureUrlThumb));
+        getEntity().setPictureUrlThumb(SimpleValueObject.nullSafe(pictureUrlThumb));
         //noinspection unchecked
         return (MODEL) this;
     }

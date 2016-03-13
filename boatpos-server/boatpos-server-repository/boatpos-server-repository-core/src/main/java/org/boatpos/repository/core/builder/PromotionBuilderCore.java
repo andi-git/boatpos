@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.builder;
 
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.boatpos.model.PromotionEntity;
 import org.boatpos.repository.api.builder.PromotionBuilder;
 import org.boatpos.repository.api.model.Promotion;

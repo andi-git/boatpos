@@ -42,7 +42,7 @@ public class BoatCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testPersist() {
         boatUtil.assertDatabaseBoatCount(6);
-        Boat boat = boatUtil.createDummyBoat().setId(new DomainId(null)).setVersion(new Version(null));
+        Boat boat = boatUtil.createDummyBoatIdAndVersionNull();
         boat.persist();
         boatUtil.assertDatabaseBoatCount(7);
     }
@@ -51,7 +51,7 @@ public class BoatCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testPersistNotValid() {
         boatUtil.assertDatabaseBoatCount(6);
-        Boat boat = boatUtil.createDummyBoat().setId(new DomainId(null)).setVersion(new Version(null)).setName(new Name("x"));
+        Boat boat = boatUtil.createDummyBoatIdAndVersionNull().setName(new Name("x"));
         try {
             boat.persist();
             fail("Exception must be thrown!");
@@ -111,41 +111,5 @@ public class BoatCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(5, boatRepository.loadAll(Enabled.TRUE).size());
         boatRepository.loadBy(new ShortName("P")).get().enable();
         assertEquals(6, boatRepository.loadAll(Enabled.TRUE).size());
-    }
-
-    @Test
-    @Transactional
-    public void testEquals() {
-        Boat boat1 = boatUtil.createDummyBoat();
-        Boat boat2 = boatUtil.createDummyBoat();
-        Boat boat3 = boatUtil.createDummyBoat().setId(new DomainId(2L));
-
-        assertEquals(boat1, boat2);
-        assertNotEquals(boat1, boat3);
-
-        boat1 = boatUtil.createDummyBoatBuilder().add(new DomainId(null)).build();
-        boat2 = boatUtil.createDummyBoatBuilder().add(new DomainId(null)).build();
-        assertNotEquals(boat1, boat2);
-    }
-
-    @Test
-    @Transactional
-    public void testHashCode() {
-        Boat boat1 = boatUtil.createDummyBoat();
-        Boat boat2 = boatUtil.createDummyBoat();
-        Boat boat3 = boatUtil.createDummyBoat().setId(new DomainId(2L));
-
-        assertEquals(boat1.hashCode(), boat2.hashCode());
-        assertNotEquals(boat1.hashCode(), boat3.hashCode());
-
-        boat1.setId(null);
-        boat2.setId(null);
-        assertNotEquals(boat1.hashCode(), boat2.hashCode());
-    }
-
-    @Test
-    @Transactional
-    public void testToString() {
-        assertEquals("{\"name\":\"E-Boot\",\"shortName\":\"E\",\"priceOneHour\":16.8,\"priceThirtyMinutes\":9.5,\"priceFortyFiveMinutes\":14.3,\"count\":22,\"enabled\":true,\"priority\":1,\"keyBinding\":\"x\",\"pictureUrl\":\"large_____\",\"id\":1,\"version\":1}", boatUtil.createDummyBoat().toString());
     }
 }

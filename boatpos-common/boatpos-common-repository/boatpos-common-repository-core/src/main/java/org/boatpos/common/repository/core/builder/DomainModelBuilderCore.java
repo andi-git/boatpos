@@ -1,12 +1,12 @@
-package org.boatpos.repository.core.builder;
+package org.boatpos.common.repository.core.builder;
 
 import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.repository.api.builder.DomainModelBuilder;
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Version;
+import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
-import org.boatpos.repository.core.model.DomainModelCore;
 
 import java.lang.reflect.ParameterizedType;
 

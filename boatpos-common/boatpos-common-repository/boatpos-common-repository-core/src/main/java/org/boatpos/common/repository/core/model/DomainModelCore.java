@@ -1,11 +1,11 @@
-package org.boatpos.repository.core.model;
+package org.boatpos.common.repository.core.model;
 
 import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Version;
+import org.boatpos.common.repository.core.JPAHelper;
 import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
-import org.boatpos.repository.core.repository.JPAHelper;
 import org.boatpos.common.util.log.LogWrapper;
 
 import javax.enterprise.inject.spi.CDI;
@@ -74,7 +74,6 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         return (MODEL) this;
     }
 
-
     public void delete() {
         log.debug("delete {}: {}", getTypeEntity().getName(), entity);
         checkNotNull(entity, "'entity' must not be null -> maybe not loaded?");
@@ -86,14 +85,12 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         }
     }
 
-
     @Override
     public DomainId getId() {
         return new DomainId(getEntity().getId());
     }
 
-    @Override
-    public MODEL setId(DomainId id) {
+    private MODEL setId(DomainId id) {
         getEntity().setId(id == null ? null : id.get());
         //noinspection unchecked
         return (MODEL) this;
@@ -104,8 +101,7 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         return new Version(getEntity().getVersion());
     }
 
-    @Override
-    public MODEL setVersion(Version version) {
+    private MODEL setVersion(Version version) {
         getEntity().setVersion(version == null ? null : version.get());
         //noinspection unchecked
         return (MODEL) this;
@@ -120,7 +116,7 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         return entity;
     }
 
-    public ENTITY getEntity() {
+    protected ENTITY getEntity() {
         return entity;
     }
 

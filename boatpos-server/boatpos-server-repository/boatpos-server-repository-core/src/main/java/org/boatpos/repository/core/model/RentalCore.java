@@ -5,6 +5,7 @@ import org.boatpos.common.repository.api.values.Deleted;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.repository.api.values.Version;
+import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.PromotionAfterEntity;
 import org.boatpos.model.PromotionBeforeEntity;

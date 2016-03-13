@@ -1,4 +1,4 @@
-package org.boatpos.repository.core.mapping;
+package org.boatpos.common.repository.core.mapping;
 
 /**
  * The real mapping. It encapsulates the mapping-implementation / -framework.

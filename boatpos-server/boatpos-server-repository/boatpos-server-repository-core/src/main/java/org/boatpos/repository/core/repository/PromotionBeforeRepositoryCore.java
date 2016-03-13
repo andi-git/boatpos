@@ -1,6 +1,7 @@
 package org.boatpos.repository.core.repository;
 
 import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.repository.core.respository.MasterDataRepositoryCore;
 import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.model.PromotionEntity;
 import org.boatpos.repository.api.builder.PromotionBeforeBuilder;

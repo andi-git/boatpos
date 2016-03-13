@@ -24,7 +24,7 @@ public class Deployments {
 
     @Deployment
     public static WebArchive deploy() throws IOException {
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
+        return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsLibraries(ArquillianHelper.getAllArquillianLibs())
                 .addAsWebInfResource("META-INF/beans.xml", "beans.xml")
                 .addAsWebInfResource("jboss-deployment-structure.xml")
@@ -36,13 +36,12 @@ public class Deployments {
                 .addPackages(true, "org.boatpos.common.test")
                 .addPackages(true, "org.boatpos.common.model")
                 .addPackages(true, "org.boatpos.common.repository.api")
+                .addPackages(true, "org.boatpos.common.repository.core")
                 .addPackages(true, "org.boatpos.common.service.api")
                 .addPackages(true, "org.boatpos.model")
                 .addPackages(true, "org.boatpos.test.model")
                 .addPackages(true, "org.boatpos.service.api")
                 .addPackages(true, "org.boatpos.repository.api")
                 .addPackages(true, "org.boatpos.repository.core");
-        System.out.println(webArchive.toString(true));
-        return webArchive;
     }
 }

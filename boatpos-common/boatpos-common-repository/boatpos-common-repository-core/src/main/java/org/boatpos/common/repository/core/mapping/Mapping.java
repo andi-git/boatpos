@@ -1,8 +1,8 @@
-package org.boatpos.repository.core.mapping;
+package org.boatpos.common.repository.core.mapping;
 
 import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
-import org.boatpos.repository.api.BoatPosDB;
+import org.boatpos.common.util.qualifiers.Current;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends Abstrac
     private MappingHelper mappingHelper;
 
     @Inject
-    @BoatPosDB
+    @Current
     private EntityManager entityManager;
 
     public DTO mapEntity(ENTITY entity) {
@@ -36,8 +36,13 @@ public abstract class Mapping<ENTITY extends AbstractEntity, DTO extends Abstrac
         if (dto.getId() != null) {
             entity = entityManager.find(getMappedEntityClass(), dto.getId());
             if (entity != null) {
+                Long id = entity.getId();
+                Integer version = entity.getVersion();
                 mapDto(dto, entity);
+                entity.setId(id);
+                entity.setVersion(version);
                 entityManager.persist(entity);
+                entityManager.flush();
             } else {
                 entity = mappingHelper.map(dto, getMappedEntityClass());
             }

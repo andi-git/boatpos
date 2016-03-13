@@ -1,6 +1,6 @@
 package org.boatpos.service.rest;
 
-import org.boatpos.repository.api.BoatPosDB;
+import org.boatpos.common.util.qualifiers.Current;
 import org.boatpos.test.model.SampleDatabaseCreatorBoatPos;
 
 import javax.annotation.Resource;
@@ -18,7 +18,7 @@ public class FillDatabaseInOtherTransaction {
     private UserTransaction userTransaction;
 
     @PersistenceContext
-    @BoatPosDB
+    @Current
     private EntityManager entityManager;
 
     @Inject

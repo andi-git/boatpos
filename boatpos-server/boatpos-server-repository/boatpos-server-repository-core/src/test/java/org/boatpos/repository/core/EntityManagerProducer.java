@@ -1,6 +1,6 @@
 package org.boatpos.repository.core;
 
-import org.boatpos.repository.api.BoatPosDB;
+import org.boatpos.common.util.qualifiers.Current;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -15,7 +15,7 @@ public class EntityManagerProducer {
     private EntityManager entityManager;
 
     @Produces
-    @BoatPosDB
+    @Current
     @ApplicationScoped
     private EntityManager produce() {
         return entityManager;

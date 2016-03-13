@@ -1,5 +1,6 @@
 package org.boatpos.repository.core.builder;
 
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.boatpos.model.CommitmentEntity;
 import org.boatpos.repository.api.builder.CommitmentBuilder;
 import org.boatpos.repository.api.model.Commitment;

@@ -1,7 +1,8 @@
 package org.boatpos.repository.core.mapping;
 
+import org.boatpos.common.repository.core.mapping.Mapping;
+import org.boatpos.common.util.qualifiers.Current;
 import org.boatpos.model.BoatEntity;
-import org.boatpos.repository.api.BoatPosDB;
 import org.boatpos.service.api.bean.BoatBean;
 
 import javax.enterprise.context.Dependent;
@@ -16,7 +17,7 @@ import javax.persistence.EntityManager;
 public class BoatMapping extends Mapping<BoatEntity, BoatBean> {
 
     @Inject
-    @BoatPosDB
+    @Current
     private EntityManager entityManager;
 
     public static BoatMapping fromCDI() {

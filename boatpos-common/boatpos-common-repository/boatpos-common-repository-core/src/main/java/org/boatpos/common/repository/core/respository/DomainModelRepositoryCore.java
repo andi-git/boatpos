@@ -1,10 +1,11 @@
-package org.boatpos.repository.core.repository;
+package org.boatpos.common.repository.core.respository;
 
 import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.repository.DomainModelRepository;
 import org.boatpos.common.repository.api.values.DomainId;
-import org.boatpos.repository.core.model.DomainModelCore;
+import org.boatpos.common.repository.core.JPAHelper;
+import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 

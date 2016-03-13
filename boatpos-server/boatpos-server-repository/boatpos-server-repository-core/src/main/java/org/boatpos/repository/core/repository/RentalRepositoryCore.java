@@ -1,6 +1,7 @@
 package org.boatpos.repository.core.repository;
 
 import org.boatpos.common.repository.api.values.Deleted;
+import org.boatpos.common.repository.core.respository.DomainModelRepositoryCore;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.builder.RentalBuilder;
 import org.boatpos.repository.api.model.Boat;

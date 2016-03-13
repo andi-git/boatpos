@@ -1,10 +1,10 @@
-package org.boatpos.repository.core.repository;
+package org.boatpos.common.repository.core.respository;
 
 import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
 import org.boatpos.common.repository.api.values.Enabled;
-import org.boatpos.repository.core.model.MasterDataCore;
+import org.boatpos.common.repository.core.model.MasterDataCore;
 
 import java.util.List;
 
