@@ -1,6 +1,6 @@
 package org.boatpos.service.rest;
 
-import org.boatpos.service.api.EnabledState;
+import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.bean.PromotionAfterBean;
 import org.boatpos.service.api.bean.PromotionBean;
 import org.boatpos.service.api.bean.PromotionBeforeBean;

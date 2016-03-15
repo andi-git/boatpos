@@ -1,6 +1,7 @@
 package org.boatpos.service.core.util;
 
 import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.service.core.ModelDtoConverter;
 import org.boatpos.repository.api.repository.PromotionBeforeRepository;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
@@ -44,13 +45,9 @@ public class WeekendHolidayHelperTest extends EntityManagerProviderForBoatpos {
         assertFalse(weekendHolidayHelper.modify(promotionBefore).get().isEnabled());
 
         List<PromotionBeforeBean> promotionsBefore = modelDtoConverter.convert(promotionBeforeRepository.loadAll(Enabled.TRUE));
-        promotionsBefore.forEach((pb) -> {
-            assertTrue(pb.isEnabled());
-        });
+        promotionsBefore.forEach((pb) -> assertTrue(pb.isEnabled()));
         promotionsBefore = weekendHolidayHelper.modify(promotionsBefore);
-        promotionsBefore.forEach((pb) -> {
-            assertFalse(pb.isEnabled());
-        });
+        promotionsBefore.forEach((pb) -> assertFalse(pb.isEnabled()));
 
         dateTimeHelper.reset();
     }

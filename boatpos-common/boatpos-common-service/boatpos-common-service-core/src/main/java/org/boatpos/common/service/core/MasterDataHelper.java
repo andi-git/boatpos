@@ -1,13 +1,14 @@
-package org.boatpos.service.core.util;
+package org.boatpos.common.service.core;
 
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Enabled;
-import org.boatpos.service.api.EnabledState;
+import org.boatpos.common.service.api.EnabledState;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +31,15 @@ public class MasterDataHelper {
      * @return an ordered {@link List} of all {@link MODEL}s from the repository with the specified {@link EnabledState}
      */
     public <MODEL extends MasterData> List<MODEL> loadAll(MasterDataRepository<MODEL> repository, EnabledState enabledState) {
-        List<MODEL> entities;
-        if (EnabledState.Enabled == enabledState) {
-            entities = repository.loadAll(Enabled.TRUE);
-        } else if (EnabledState.Disabled == enabledState) {
-            entities = repository.loadAll(Enabled.FALSE);
-        } else {
-            entities = repository.loadAll();
+        List<MODEL> entities = new ArrayList<>();
+        if (repository != null) {
+            if (EnabledState.Enabled == enabledState) {
+                entities = repository.loadAll(Enabled.TRUE);
+            } else if (EnabledState.Disabled == enabledState) {
+                entities = repository.loadAll(Enabled.FALSE);
+            } else {
+                entities = repository.loadAll();
+            }
         }
         return entities;
     }
@@ -49,9 +52,11 @@ public class MasterDataHelper {
      * @param <MODEL>    the concrete type of the {@link MasterData}
      */
     public <MODEL extends MasterData> void enable(MasterDataRepository<MODEL> repository, DomainId id) {
-        Optional<MODEL> model = repository.loadBy(id);
-        if (model.isPresent()) {
-            model.get().enable();
+        if (repository != null && id != null) {
+            Optional<MODEL> model = repository.loadBy(id);
+            if (model.isPresent()) {
+                model.get().enable();
+            }
         }
     }
 
@@ -64,9 +69,11 @@ public class MasterDataHelper {
      * @param <MODEL>    the concrete type of the {@link MasterData}
      */
     public <MODEL extends MasterData> void disable(MasterDataRepository<MODEL> repository, DomainId id) {
-        Optional<MODEL> model = repository.loadBy(id);
-        if (model.isPresent()) {
-            model.get().disable();
+        if (repository != null && id != null) {
+            Optional<MODEL> model = repository.loadBy(id);
+            if (model.isPresent()) {
+                model.get().disable();
+            }
         }
     }
 }

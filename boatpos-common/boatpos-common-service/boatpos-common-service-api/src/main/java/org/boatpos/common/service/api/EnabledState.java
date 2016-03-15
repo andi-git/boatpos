@@ -1,4 +1,4 @@
-package org.boatpos.service.api;
+package org.boatpos.common.service.api;
 
 /**
  * The state if the bean has to enabled or disabled.

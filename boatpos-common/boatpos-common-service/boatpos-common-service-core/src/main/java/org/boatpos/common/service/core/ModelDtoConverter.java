@@ -1,4 +1,4 @@
-package org.boatpos.service.core.util;
+package org.boatpos.common.service.core;
 
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;

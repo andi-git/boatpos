@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
 import org.boatpos.service.api.CommitmentService;
-import org.boatpos.service.api.EnabledState;
+import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
 import org.boatpos.service.api.bean.CommitmentBean;
 import org.jboss.arquillian.junit.Arquillian;

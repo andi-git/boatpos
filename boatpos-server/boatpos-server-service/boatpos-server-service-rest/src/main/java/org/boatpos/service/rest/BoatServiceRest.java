@@ -1,7 +1,7 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.service.api.BoatService;
-import org.boatpos.service.api.EnabledState;
+import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
 
 import javax.ejb.Stateless;

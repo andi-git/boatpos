@@ -14,5 +14,6 @@
 
     <modules>
         <module>boatpos-common-service-api</module>
+        <module>boatpos-common-service-core</module>
     </modules>
 </project>

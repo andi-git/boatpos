@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
 import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
-import org.boatpos.service.api.EnabledState;
+import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.MasterDataService;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
