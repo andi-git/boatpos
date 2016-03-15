@@ -1,6 +1,8 @@
 package org.boatpos.service.rest;
 
 import com.google.common.collect.Sets;
+import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
+import org.boatpos.common.test.rest.RestTestHelper;
 import org.boatpos.service.api.bean.*;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;

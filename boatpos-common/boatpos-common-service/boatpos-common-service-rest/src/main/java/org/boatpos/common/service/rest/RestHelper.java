@@ -1,4 +1,4 @@
-package org.boatpos.service.rest;
+package org.boatpos.common.service.rest;
 
 import org.boatpos.common.service.api.bean.AbstractBean;
 

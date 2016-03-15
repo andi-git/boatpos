@@ -1,4 +1,4 @@
-package org.boatpos.service.rest;
+package org.boatpos.common.test.rest;
 
 import org.junit.After;
 import org.junit.Before;

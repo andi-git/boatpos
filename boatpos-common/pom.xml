@@ -17,6 +17,7 @@
         <module>boatpos-common-model</module>
         <module>boatpos-common-repository</module>
         <module>boatpos-common-service</module>
+        <module>boatpos-common-test-rest</module>
     </modules>
 
 </project>

@@ -1,6 +1,8 @@
 package org.boatpos.service.rest;
 
 import org.boatpos.common.service.api.EnabledState;
+import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
+import org.boatpos.common.test.rest.RestTestHelper;
 import org.boatpos.service.api.bean.CommitmentBean;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;

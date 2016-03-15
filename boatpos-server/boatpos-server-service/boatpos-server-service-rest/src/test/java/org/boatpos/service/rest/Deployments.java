@@ -38,6 +38,8 @@ public class Deployments {
                 .addPackages(true, "org.boatpos.common.repository.core")
                 .addPackages(true, "org.boatpos.common.service.api")
                 .addPackages(true, "org.boatpos.common.service.core")
+                .addPackages(true, "org.boatpos.common.service.rest")
+                .addPackages(true, "org.boatpos.common.service.rest-test")
                 .addPackages(true, "org.boatpos.model")
                 .addPackages(true, "org.boatpos.test.model")
                 .addPackages(true, "org.boatpos.repository.api")

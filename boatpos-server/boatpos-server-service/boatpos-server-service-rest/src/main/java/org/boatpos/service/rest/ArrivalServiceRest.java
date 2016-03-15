@@ -1,5 +1,6 @@
 package org.boatpos.service.rest;
 
+import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.bean.AddPromotionBean;

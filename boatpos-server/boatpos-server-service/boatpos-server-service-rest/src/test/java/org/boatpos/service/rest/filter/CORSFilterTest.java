@@ -1,7 +1,7 @@
 package org.boatpos.service.rest.filter;
 
-import org.boatpos.service.rest.FillDatabaseInOtherTransactionTest;
-import org.boatpos.service.rest.RestTestHelper;
+import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
+import org.boatpos.common.test.rest.RestTestHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import java.net.URL;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class CORSFilterTest extends FillDatabaseInOtherTransactionTest {

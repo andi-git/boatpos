@@ -1,4 +1,4 @@
-package org.boatpos.service.rest.filter;
+package org.boatpos.common.service.rest;
 
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -15,10 +15,6 @@ import java.io.IOException;
  */
 @Provider
 public class CORSFilter implements ContainerResponseFilter {
-
-    @Inject
-    @SLF4J
-    private LogWrapper log;
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
