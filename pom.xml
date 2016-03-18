@@ -8,6 +8,7 @@
         <module>boatpos-server</module>
         <module>boatpos-client</module>
         <module>boatpos-common</module>
+        <module>regkas-server</module>
     </modules>
 
     <packaging>pom</packaging>

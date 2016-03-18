@@ -8,11 +8,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class RentalDayNumberWrapperTest extends JavaBeanTest<RentalDayNumberWrapper> {
 
-    @Override
-    protected Class<RentalDayNumberWrapper> getType() {
-        return RentalDayNumberWrapper.class;
-    }
-
     @Test
     public void testConstructor() {
         new RentalDayNumberWrapper(1);

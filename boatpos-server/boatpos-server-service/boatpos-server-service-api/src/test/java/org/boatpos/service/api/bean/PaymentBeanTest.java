@@ -10,11 +10,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class PaymentBeanTest extends JavaBeanTest<PaymentBean> {
 
-    @Override
-    protected Class<PaymentBean> getType() {
-        return PaymentBean.class;
-    }
-
     @Test
     public void testConstructor() {
         new PaymentBean(1, new BigDecimal("20.0"), "card");

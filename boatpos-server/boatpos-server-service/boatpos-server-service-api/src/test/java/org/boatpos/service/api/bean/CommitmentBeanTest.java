@@ -7,11 +7,6 @@ import static org.junit.Assert.*;
 
 public class CommitmentBeanTest extends JavaBeanTest<CommitmentBean> {
 
-    @Override
-    protected Class<CommitmentBean> getType() {
-        return CommitmentBean.class;
-    }
-
     @Test
     public void testConstructor() {
         createCommitmentAusweis();

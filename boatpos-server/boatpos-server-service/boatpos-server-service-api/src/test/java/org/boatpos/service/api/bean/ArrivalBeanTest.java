@@ -8,11 +8,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class ArrivalBeanTest extends JavaBeanTest<ArrivalBean> {
 
-    @Override
-    protected Class<ArrivalBean> getType() {
-        return ArrivalBean.class;
-    }
-
     @Test
     public void testConstructor() {
         new ArrivalBean(1);

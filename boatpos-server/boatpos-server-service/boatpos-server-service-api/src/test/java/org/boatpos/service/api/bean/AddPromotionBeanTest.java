@@ -10,11 +10,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class AddPromotionBeanTest extends JavaBeanTest<AddPromotionBean> {
 
-    @Override
-    protected Class<AddPromotionBean> getType() {
-        return AddPromotionBean.class;
-    }
-
     @Test
     public void testConstructor() {
         new AddPromotionBean(1, 1L);

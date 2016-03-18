@@ -33,9 +33,4 @@ public class RentalEntityTest extends JavaBeanTest<RentalEntity> {
     public void testAdditional() {
         new RentalEntity();
     }
-
-    @Override
-    protected Class<RentalEntity> getType() {
-        return RentalEntity.class;
-    }
 }

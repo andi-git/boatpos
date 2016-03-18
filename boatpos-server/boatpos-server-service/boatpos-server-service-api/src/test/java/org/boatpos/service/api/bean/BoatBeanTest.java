@@ -7,11 +7,6 @@ import java.math.BigDecimal;
 
 public class BoatBeanTest extends JavaBeanTest<BoatBean> {
 
-    @Override
-    protected Class<BoatBean> getType() {
-        return BoatBean.class;
-    }
-
     @Test
     public void testConstructor() {
         createBoatE();

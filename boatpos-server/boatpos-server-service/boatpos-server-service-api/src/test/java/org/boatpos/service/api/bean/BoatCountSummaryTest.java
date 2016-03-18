@@ -8,11 +8,6 @@ import java.util.ArrayList;
 
 public class BoatCountSummaryTest extends JavaBeanTest<BoatCountSummary> {
 
-    @Override
-    protected Class<BoatCountSummary> getType() {
-        return BoatCountSummary.class;
-    }
-
     @Test
     public void testAdditional() {
         BoatCountSummary boatCountSummary = new BoatCountSummary();

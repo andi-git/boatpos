@@ -10,11 +10,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class BoatCountBeanTest extends JavaBeanTest<BoatCountBean> {
 
-    @Override
-    protected Class<BoatCountBean> getType() {
-        return BoatCountBean.class;
-    }
-
     @Test
     public void testConstructor() {
         new BoatCountBean(1, "", "", 0, 0);

@@ -27,10 +27,4 @@ public class JournalReportItemBeanTest extends JavaBeanTest<JournalReportItemBea
         assertEquals(journalReportItemBean2.hashCode(), journalReportItemBean2.hashCode());
         assertNotEquals(journalReportItemBean1.hashCode(), journalReportItemBean2.hashCode());
     }
-
-
-    @Override
-    protected Class<JournalReportItemBean> getType() {
-        return JournalReportItemBean.class;
-    }
 }

@@ -38,7 +38,7 @@ public class JavaBeanTester {
     }
 
     private boolean isBeanOfThisProject(Class<?> type) {
-        return type.getName().startsWith("org.boatpos");
+        return type.getName().startsWith("org.boatpos") || type.getName().startsWith("org.regkas");
     }
 
     private void checkNoArgConstructor(Class<?> type) {

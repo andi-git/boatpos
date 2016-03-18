@@ -9,11 +9,6 @@ import static org.junit.Assert.assertNotEquals;
 
 public class DepartureBeanTest extends JavaBeanTest<DepartureBean> {
 
-    @Override
-    protected Class<DepartureBean> getType() {
-        return DepartureBean.class;
-    }
-
     @Test
     public void testEqualsAndHashCode() {
         DepartureBean departureBean1 = new DepartureBean(BoatBeanTest.createBoatE().getId(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis().getId(), CommitmentBeanTest.createCommitment50Euro().getId()), PromotionAfterBeanTest.createPromotionAfter().getId());

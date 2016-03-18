@@ -31,9 +31,4 @@ public class BillBeanTest extends JavaBeanTest<BillBean>  {
         bill.setTaxSetBesonderesBean(Lists.newArrayList());
         bill.setTaxSetNullBean(Lists.newArrayList());
     }
-
-    @Override
-    protected Class<BillBean> getType() {
-        return BillBean.class;
-    }
 }

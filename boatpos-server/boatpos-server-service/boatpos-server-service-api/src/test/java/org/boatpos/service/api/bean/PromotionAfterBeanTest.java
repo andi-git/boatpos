@@ -5,11 +5,6 @@ import org.junit.Test;
 
 public class PromotionAfterBeanTest extends JavaBeanTest<PromotionAfterBean> {
 
-    @Override
-    protected Class<PromotionAfterBean> getType() {
-        return PromotionAfterBean.class;
-    }
-
     @Test
     public void testConstructor() {
         createPromotionAfter();

@@ -14,9 +14,4 @@ public class PromotionBeforeEntityTest extends JavaBeanTest<PromotionBeforeEntit
     public void testConstructor() {
         new PromotionBeforeEntity(null, 1, "Fahr 3 zahl 2", 180, "pricePerHour * 2", new HashSet<>(), 1, true, 'a', "", "");
     }
-
-    @Override
-    protected Class<PromotionBeforeEntity> getType() {
-        return PromotionBeforeEntity.class;
-    }
 }
