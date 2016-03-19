@@ -37,7 +37,7 @@ public class UserEntity extends AbstractMasterDataEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, Integer version, boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String password, CompanyEntity company) {
+    public UserEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String password, CompanyEntity company) {
         super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.password = password;

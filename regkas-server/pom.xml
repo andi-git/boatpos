@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>regkas-server-model</module>
+        <module>regkas-server-test-model</module>
     </modules>
 
     <artifactId>regkas-server</artifactId>

@@ -12,6 +12,6 @@ public class ReceiptElementEntityTest extends JavaBeanTest<ReceiptElementEntity>
 
     @Test
     public void testConstructor() {
-        new ReceiptElementEntity(1L, 1, new ProductGroupEntity(), BigDecimal.ZERO);
+        new ReceiptElementEntity(1L, 1, new ProductGroupEntity(), new ReceiptEntity(), BigDecimal.ZERO);
     }
 }

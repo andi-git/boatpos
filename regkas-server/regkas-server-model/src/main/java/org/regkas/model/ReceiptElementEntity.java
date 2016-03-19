@@ -19,11 +19,12 @@ import java.time.LocalDateTime;
  */
 @SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
-@Table(name = "receiptElement")
+@Table(name = "receiptelement")
 public class ReceiptElementEntity extends AbstractEntity {
 
     @Valid
     @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
     @Expose
     private ProductGroupEntity productGroup;
 
@@ -32,12 +33,19 @@ public class ReceiptElementEntity extends AbstractEntity {
     @Expose
     private BigDecimal amount;
 
+    @NotNull
+    @Valid
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Expose
+    private ReceiptEntity receipt;
+
     public ReceiptElementEntity() {
     }
 
-    public ReceiptElementEntity(Long id, Integer version, ProductGroupEntity productGroup, BigDecimal amount) {
+    public ReceiptElementEntity(Long id, Integer version, ProductGroupEntity productGroup, ReceiptEntity receipt, BigDecimal amount) {
         super(id, version);
         this.productGroup = productGroup;
+        this.receipt = receipt;
         this.amount = amount;
     }
 
@@ -47,6 +55,14 @@ public class ReceiptElementEntity extends AbstractEntity {
 
     public void setProductGroup(ProductGroupEntity productGroup) {
         this.productGroup = productGroup;
+    }
+
+    public ReceiptEntity getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(ReceiptEntity receipt) {
+        this.receipt = receipt;
     }
 
     public BigDecimal getAmount() {

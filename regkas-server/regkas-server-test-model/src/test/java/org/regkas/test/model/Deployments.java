@@ -1,4 +1,4 @@
-package org.boatpos.test.model;
+package org.regkas.test.model;
 
 import org.boatpos.common.test.ArquillianHelper;
 import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;
@@ -31,7 +31,7 @@ public class Deployments {
                 .addPackages(true, "org.boatpos.common.util")
                 .addPackages(true, "org.boatpos.common.test")
                 .addPackages(true, "org.boatpos.common.model")
-                .addPackages(true, "org.boatpos.model")
-                .addPackages(true, "org.boatpos.test.model");
+                .addPackages(true, "org.regkas.model")
+                .addPackages(true, "org.regkas.test.model");
     }
 }

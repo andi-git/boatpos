@@ -3,10 +3,14 @@ package org.regkas.model;
 import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * Entity for the address.
@@ -30,13 +34,20 @@ public class AddressEntity extends AbstractEntity {
     @Expose
     private String country;
 
+    @Valid
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Expose
+    private Set<CompanyEntity> companies;
+
     public AddressEntity() {
     }
 
-    public AddressEntity(String street, String zip, String country) {
+    public AddressEntity(Long id, Integer version, String street, String zip, String country, Set<CompanyEntity> companies) {
+        super(id, version);
         this.street = street;
         this.zip = zip;
         this.country = country;
+        this.companies = companies;
     }
 
     public String getStreet() {
@@ -61,5 +72,13 @@ public class AddressEntity extends AbstractEntity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Set<CompanyEntity> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(Set<CompanyEntity> companies) {
+        this.companies = companies;
     }
 }

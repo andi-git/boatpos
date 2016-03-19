@@ -3,10 +3,7 @@ package org.regkas.model;
 import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractMasterDataEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Set;
@@ -26,6 +23,7 @@ public class CompanyEntity extends AbstractMasterDataEntity {
 
     @Valid
     @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
     @Expose
     private AddressEntity address;
 
@@ -55,7 +53,7 @@ public class CompanyEntity extends AbstractMasterDataEntity {
     public CompanyEntity() {
     }
 
-    public CompanyEntity(Long id, Integer version, boolean enabled, int priority, String pictureUrlThumb, String pictureUrl, String name, AddressEntity address, String phone, String mail, String atu, Set<CashBoxEntity> cashBoxes, Set<UserEntity> users) {
+    public CompanyEntity(Long id, Integer version, Boolean enabled, int priority, String pictureUrlThumb, String pictureUrl, String name, AddressEntity address, String phone, String mail, String atu, Set<CashBoxEntity> cashBoxes, Set<UserEntity> users) {
         super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.address = address;

@@ -12,6 +12,6 @@ public class TaxSetEntityTest extends JavaBeanTest<TaxSetEntity> {
 
     @Test
     public void testConstructor() {
-        new TaxSetEntity(1L, 1, true, 1, "", "", "name", 20);
+        new TaxSetEntity(1L, 1, true, 1, "", "", "name", 20, new HashSet<>());
     }
 }
