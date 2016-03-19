@@ -1,41 +1,36 @@
 package org.regkas.model;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 /**
- * Entity of a tax-set.
+ * Representation of an element of a receipt.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
-@Table(name = "taxset")
-public class TaxSetEntity extends AbstractMasterDataEntity {
+@Table(name = "receiptType")
+public class ReceiptTypeEntity extends AbstractMasterDataEntity {
 
     @NotNull
     @Size(min = 3, max = 50)
     @Expose
     private String name;
 
-    @NotNull
-    @Min(1)
-    @Max(99)
-    @Expose
-    private Integer taxPercent;
-
-    public TaxSetEntity() {
+    public ReceiptTypeEntity() {
     }
 
-    public TaxSetEntity(Long id, Integer version, boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, Integer taxPercent) {
+    public ReceiptTypeEntity(Long id, Integer version, boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name) {
         super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
         this.name = name;
-        this.taxPercent = taxPercent;
     }
 
     public String getName() {
@@ -44,13 +39,5 @@ public class TaxSetEntity extends AbstractMasterDataEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getTaxPercent() {
-        return taxPercent;
-    }
-
-    public void setTaxPercent(Integer taxPercent) {
-        this.taxPercent = taxPercent;
     }
 }

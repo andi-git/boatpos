@@ -5,13 +5,13 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.HashSet;
+import java.math.BigDecimal;
 
 @RunWith(Arquillian.class)
-public class TaxSetEntityTest extends JavaBeanTest<TaxSetEntity> {
+public class ReceiptElementEntityTest extends JavaBeanTest<ReceiptElementEntity> {
 
     @Test
     public void testConstructor() {
-        new TaxSetEntity(1L, 1, true, 1, "", "", "name", 20);
+        new ReceiptElementEntity(1L, 1, new ProductGroupEntity(), BigDecimal.ZERO);
     }
 }

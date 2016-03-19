@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @RunWith(Arquillian.class)
-public class PaymentEntityTest extends JavaBeanTest<PaymentEntity> {
+public class ReceiptEntityTest extends JavaBeanTest<ReceiptEntity> {
 
     @Test
     public void testConstructor() {
-        new PaymentEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new HashSet<>());
+        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeEntity(), new HashSet<>());
     }
 }

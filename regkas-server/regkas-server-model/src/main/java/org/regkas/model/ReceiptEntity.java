@@ -2,7 +2,6 @@ package org.regkas.model;
 
 import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractEntity;
-import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -12,17 +11,17 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Representation of a payment.
+ * Representation of a receipt.
  */
 @SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
-@Table(name = "company")
-public class PaymentEntity extends AbstractEntity {
+@Table(name = "receipt")
+public class ReceiptEntity extends AbstractEntity {
 
     @NotNull
     @Size(min = 3, max = 50)
     @Expose
-    private String name;
+    private String receiptId;
 
     @NotNull
     @Expose
@@ -56,32 +55,39 @@ public class PaymentEntity extends AbstractEntity {
     @Expose
     private UserEntity user;
 
+    @NotNull
+    @Valid
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Expose
+    private ReceiptTypeEntity receiptType;
+
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Expose
-    private Set<PaymentElementEntity> paymentElement;
+    private Set<ReceiptElementEntity> paymentElement;
 
-    public PaymentEntity() {
+    public ReceiptEntity() {
     }
 
-    public PaymentEntity(Long id, Integer version, String name, LocalDateTime dateTime, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashbox, UserEntity user, Set<PaymentElementEntity> paymentElement) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime dateTime, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashbox, UserEntity user, ReceiptTypeEntity receiptType, Set<ReceiptElementEntity> paymentElement) {
         super(id, version);
-        this.name = name;
+        this.receiptId = receiptId;
         this.dateTime = dateTime;
         this.encryptedTurnoverValue = encryptedTurnoverValue;
         this.signatureValuePreviousReceipt = signatureValuePreviousReceipt;
         this.company = company;
         this.cashbox = cashbox;
         this.user = user;
+        this.receiptType = receiptType;
         this.paymentElement = paymentElement;
     }
 
-    public String getName() {
-        return name;
+    public String getReceiptId() {
+        return receiptId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setReceiptId(String receiptId) {
+        this.receiptId = receiptId;
     }
 
     public LocalDateTime getDateTime() {
@@ -132,11 +138,19 @@ public class PaymentEntity extends AbstractEntity {
         this.user = user;
     }
 
-    public Set<PaymentElementEntity> getPaymentElement() {
+    public ReceiptTypeEntity getReceiptType() {
+        return receiptType;
+    }
+
+    public void setReceiptType(ReceiptTypeEntity receiptType) {
+        this.receiptType = receiptType;
+    }
+
+    public Set<ReceiptElementEntity> getPaymentElement() {
         return paymentElement;
     }
 
-    public void setPaymentElement(Set<PaymentElementEntity> paymentElement) {
+    public void setPaymentElement(Set<ReceiptElementEntity> paymentElement) {
         this.paymentElement = paymentElement;
     }
 }

@@ -5,6 +5,7 @@ import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,27 +16,26 @@ import javax.validation.constraints.Size;
  */
 @SuppressWarnings("unused")
 @Entity
-@Table(name = "taxset")
-public class TaxSetEntity extends AbstractMasterDataEntity {
+@Table(name = "productgroup")
+public class ProductGroupEntity extends AbstractMasterDataEntity {
 
     @NotNull
     @Size(min = 3, max = 50)
     @Expose
     private String name;
 
+    @Valid
     @NotNull
-    @Min(1)
-    @Max(99)
     @Expose
-    private Integer taxPercent;
+    private TaxSetEntity taxSet;
 
-    public TaxSetEntity() {
+    public ProductGroupEntity() {
     }
 
-    public TaxSetEntity(Long id, Integer version, boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, Integer taxPercent) {
-        super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
+    public ProductGroupEntity(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity taxSet) {
+        super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
-        this.taxPercent = taxPercent;
+        this.taxSet = taxSet;
     }
 
     public String getName() {
@@ -46,11 +46,11 @@ public class TaxSetEntity extends AbstractMasterDataEntity {
         this.name = name;
     }
 
-    public Integer getTaxPercent() {
-        return taxPercent;
+    public TaxSetEntity getTaxSet() {
+        return taxSet;
     }
 
-    public void setTaxPercent(Integer taxPercent) {
-        this.taxPercent = taxPercent;
+    public void setTaxSet(TaxSetEntity taxSet) {
+        this.taxSet = taxSet;
     }
 }

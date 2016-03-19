@@ -15,38 +15,38 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Representation of an element of a payment.
+ * Representation of an element of a receipt.
  */
 @SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
-@Table(name = "company")
-public class PaymentElementEntity extends AbstractEntity {
+@Table(name = "receiptElement")
+public class ReceiptElementEntity extends AbstractEntity {
 
     @Valid
     @NotNull
     @Expose
-    private TaxSetEntity taxSet;
+    private ProductGroupEntity productGroup;
 
     @Valid
     @Min(0)
     @Expose
     private BigDecimal amount;
 
-    public PaymentElementEntity() {
+    public ReceiptElementEntity() {
     }
 
-    public PaymentElementEntity(Long id, Integer version, TaxSetEntity taxSet, BigDecimal amount) {
+    public ReceiptElementEntity(Long id, Integer version, ProductGroupEntity productGroup, BigDecimal amount) {
         super(id, version);
-        this.taxSet = taxSet;
+        this.productGroup = productGroup;
         this.amount = amount;
     }
 
-    public TaxSetEntity getTaxSet() {
-        return taxSet;
+    public ProductGroupEntity getProductGroup() {
+        return productGroup;
     }
 
-    public void setTaxSet(TaxSetEntity taxSet) {
-        this.taxSet = taxSet;
+    public void setProductGroup(ProductGroupEntity productGroup) {
+        this.productGroup = productGroup;
     }
 
     public BigDecimal getAmount() {

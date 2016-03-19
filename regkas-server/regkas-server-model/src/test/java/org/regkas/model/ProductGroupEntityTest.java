@@ -5,13 +5,11 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.HashSet;
-
 @RunWith(Arquillian.class)
-public class TaxSetEntityTest extends JavaBeanTest<TaxSetEntity> {
+public class ProductGroupEntityTest extends JavaBeanTest<ProductGroupEntity> {
 
     @Test
     public void testConstructor() {
-        new TaxSetEntity(1L, 1, true, 1, "", "", "name", 20);
+        new ProductGroupEntity(1L, 1, true, 1, 'a', "", "", "name", new TaxSetEntity());
     }
 }

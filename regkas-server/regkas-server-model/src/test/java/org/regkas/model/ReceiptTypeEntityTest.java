@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 
 @RunWith(Arquillian.class)
-public class PaymentElementEntityTest extends JavaBeanTest<PaymentElementEntity> {
+public class ReceiptTypeEntityTest extends JavaBeanTest<ReceiptTypeEntity> {
 
     @Test
     public void testConstructor() {
-        new PaymentElementEntity(1L, 1, new TaxSetEntity(), BigDecimal.ZERO);
+        new ReceiptTypeEntity(1L, 1, true, 1, "", "", "name");
     }
 }
