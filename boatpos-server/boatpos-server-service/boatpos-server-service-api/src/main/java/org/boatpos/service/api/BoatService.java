@@ -1,5 +1,6 @@
 package org.boatpos.service.api;
 
+import org.boatpos.common.service.api.MasterDataService;
 import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.BoatCountBean;
 import org.boatpos.service.api.bean.BoatCountSummary;

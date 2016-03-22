@@ -1,6 +1,5 @@
-package org.boatpos.service.api;
+package org.boatpos.common.service.api;
 
-import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
 import java.util.List;

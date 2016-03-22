@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
 import org.boatpos.common.service.api.EnabledState;
-import org.boatpos.service.api.MasterDataService;
+import org.boatpos.common.service.api.MasterDataService;
 import org.boatpos.service.api.PromotionBeforeService;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.jboss.arquillian.junit.Arquillian;

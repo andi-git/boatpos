@@ -3,19 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>boatpos</artifactId>
+        <artifactId>regkas-server</artifactId>
         <groupId>org.boatpos</groupId>
         <version>0.0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>regkas-server-model</module>
-        <module>regkas-server-test-model</module>
-        <module>regkas-server-repository</module>
-        <module>regkas-server-service</module>
+        <module>regkas-server-repository-api</module>
     </modules>
 
-    <artifactId>regkas-server</artifactId>
+    <artifactId>regkas-server-repository</artifactId>
 
 </project>

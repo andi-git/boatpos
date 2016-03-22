@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 /**
- * Representation of a b boat.
+ * Representation of a boat.
  */
 @SuppressWarnings("unused")
 public class BoatBean extends AbstractMasterDataBean {

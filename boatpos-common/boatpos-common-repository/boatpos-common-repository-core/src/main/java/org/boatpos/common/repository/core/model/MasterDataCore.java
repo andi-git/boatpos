@@ -15,6 +15,7 @@ public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends Ab
         checkNotNull(priority, "'priority' must not be null");
         setEnabled(enabled);
         setPriority(priority);
+        setKeyBinding(keyBinding);
         setPictureUrl(pictureUrl);
         setPictureUrlThumb(pictureUrlThumb);
     }
