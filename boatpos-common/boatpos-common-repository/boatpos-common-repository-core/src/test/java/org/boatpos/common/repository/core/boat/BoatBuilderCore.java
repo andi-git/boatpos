@@ -1,11 +1,11 @@
 package org.boatpos.common.repository.core.boat;
 
-import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 
 import javax.enterprise.context.Dependent;
 
 @Dependent
-public class BoatBuilderCore extends MasterDataBuilderCore<BoatBuilder, Boat, BoatCore, BoatEntity, BoatBean> implements BoatBuilder {
+public class BoatBuilderCore extends MasterDataBuilderCoreWithDto<BoatBuilder, Boat, BoatCore, BoatEntity, BoatBean> implements BoatBuilder {
 
     private Name name;
     private Price price;

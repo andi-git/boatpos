@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.model;
 
 import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.model.MasterDataWithDto;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.BoatBean;
@@ -8,7 +9,7 @@ import org.boatpos.service.api.bean.BoatBean;
 /**
  * The domain model for a boat.
  */
-public interface Boat extends MasterData<Boat, BoatEntity, BoatBean>, ContainsRentals<Boat> {
+public interface Boat extends MasterDataWithDto<Boat, BoatEntity, BoatBean>, ContainsRentals<Boat> {
 
     Name getName();
 

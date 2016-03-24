@@ -7,7 +7,7 @@ import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 /**
  * The abstract domain model for master data.
  */
-public interface MasterData<MODEL extends MasterData, ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> extends DomainModel<MODEL, ENTITY, DTO> {
+public interface MasterData<MODEL extends MasterData, ENTITY extends AbstractMasterDataEntity> extends DomainModel<MODEL, ENTITY> {
 
     MODEL enable();
 

@@ -1,6 +1,7 @@
 package org.boatpos.repository.core.builder;
 
 import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
+import org.boatpos.common.repository.core.builder.DomainModelBuilderWithDtoCore;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.builder.RentalBuilder;
@@ -20,7 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Dependent
-public class RentalBuilderCore extends DomainModelBuilderCore<RentalBuilder, Rental, RentalCore, RentalEntity, RentalBean> implements RentalBuilder {
+public class RentalBuilderCore extends DomainModelBuilderWithDtoCore<RentalBuilder, Rental, RentalCore, RentalEntity, RentalBean> implements RentalBuilder {
 
     protected DayId dayId;
     protected Day day;

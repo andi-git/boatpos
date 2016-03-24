@@ -3,11 +3,10 @@ package org.boatpos.common.repository.core.model;
 import org.boatpos.common.model.AbstractMasterDataEntity;
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.values.*;
-import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> extends DomainModelCore<MODEL, ENTITY, DTO> implements MasterData<MODEL, ENTITY, DTO> {
+public abstract class MasterDataCore<MODEL extends MasterData, ENTITY extends AbstractMasterDataEntity> extends DomainModelCore<MODEL, ENTITY> implements MasterData<MODEL, ENTITY> {
 
     public MasterDataCore(DomainId id, Version version, Enabled enabled, Priority priority, KeyBinding keyBinding, PictureUrl pictureUrl, PictureUrlThumb pictureUrlThumb) {
         super(id, version);

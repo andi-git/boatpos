@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class CommitmentCore extends MasterDataCore<Commitment, CommitmentEntity, CommitmentBean> implements Commitment {
+public class CommitmentCore extends MasterDataCore<Commitment, CommitmentEntity> implements Commitment {
 
     public CommitmentCore(DomainId id,
                           Version version,

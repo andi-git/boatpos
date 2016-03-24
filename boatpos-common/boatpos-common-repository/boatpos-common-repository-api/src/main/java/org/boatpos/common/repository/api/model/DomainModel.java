@@ -8,7 +8,7 @@ import org.boatpos.common.service.api.bean.AbstractBean;
 /**
  * The generic domain-model.
  */
-public interface DomainModel<MODEL extends DomainModel, ENTITY extends AbstractEntity, DTO extends AbstractBean> {
+public interface DomainModel<MODEL extends DomainModel, ENTITY extends AbstractEntity> {
 
     /**
      * Persist (save or update) the current {@link DomainModel}.
@@ -23,8 +23,6 @@ public interface DomainModel<MODEL extends DomainModel, ENTITY extends AbstractE
     void delete();
 
     ENTITY asEntity();
-
-    DTO asDto();
 
     DomainId getId();
 

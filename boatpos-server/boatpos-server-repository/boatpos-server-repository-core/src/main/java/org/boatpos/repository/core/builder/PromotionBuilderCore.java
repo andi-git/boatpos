@@ -1,6 +1,8 @@
 package org.boatpos.repository.core.builder;
 
+import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 import org.boatpos.model.PromotionEntity;
 import org.boatpos.repository.api.builder.PromotionBuilder;
 import org.boatpos.repository.api.model.Promotion;
@@ -13,7 +15,9 @@ import org.boatpos.service.api.bean.PromotionBean;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class PromotionBuilderCore<BUILDER extends PromotionBuilder, MODEL extends Promotion, MODELCORE extends PromotionCore, ENTITY extends PromotionEntity, DTO extends PromotionBean> extends MasterDataBuilderCore<BUILDER, MODEL, MODELCORE, ENTITY, DTO> implements PromotionBuilder<BUILDER, MODEL, ENTITY, DTO> {
+public abstract class PromotionBuilderCore<BUILDER extends PromotionBuilder, MODEL extends Promotion, MODELCORE extends PromotionCore, ENTITY extends PromotionEntity, DTO extends PromotionBean>
+        extends MasterDataBuilderCoreWithDto<BUILDER, MODEL, MODELCORE, ENTITY, DTO>
+        implements PromotionBuilder<BUILDER, MODEL, ENTITY, DTO> {
 
     protected Name name;
     protected FormulaPrice formulaPrice;

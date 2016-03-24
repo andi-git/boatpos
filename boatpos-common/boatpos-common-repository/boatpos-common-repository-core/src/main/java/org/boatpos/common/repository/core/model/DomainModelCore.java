@@ -15,7 +15,7 @@ import java.lang.reflect.ParameterizedType;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> implements DomainModel<MODEL, ENTITY, DTO> {
+public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends AbstractEntity> implements DomainModel<MODEL, ENTITY> {
 
     private final JPAHelper jpaHelper;
 

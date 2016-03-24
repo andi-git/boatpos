@@ -1,8 +1,8 @@
 package org.boatpos.common.repository.core.boat;
 
-import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.model.MasterDataWithDto;
 
-public interface Boat extends MasterData<Boat, BoatEntity, BoatBean> {
+public interface Boat extends MasterDataWithDto<Boat, BoatEntity, BoatBean> {
 
     Name getName();
 

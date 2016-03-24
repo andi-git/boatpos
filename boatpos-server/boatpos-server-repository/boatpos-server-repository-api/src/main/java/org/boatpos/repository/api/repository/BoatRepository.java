@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.repository;
 
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
+import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.repository.api.builder.BoatBuilder;
 import org.boatpos.repository.api.model.Boat;
@@ -12,7 +13,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link Boat}.
  */
-public interface BoatRepository extends MasterDataRepository<Boat> {
+public interface BoatRepository extends MasterDataRepositoryWithDto<Boat> {
 
     /**
      * Get the {@link BoatBuilder}.

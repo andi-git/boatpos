@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.repository;
 
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
+import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.repository.api.builder.CommitmentBuilder;
 import org.boatpos.repository.api.model.Commitment;
 import org.boatpos.repository.api.values.Name;
@@ -10,7 +11,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link Commitment}.
  */
-public interface CommitmentRepository extends MasterDataRepository<Commitment> {
+public interface CommitmentRepository extends MasterDataRepositoryWithDto<Commitment> {
 
     /**
      * Get the {@link CommitmentBuilder}.

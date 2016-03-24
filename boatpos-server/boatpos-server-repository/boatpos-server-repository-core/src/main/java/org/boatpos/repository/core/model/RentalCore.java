@@ -10,7 +10,10 @@ import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.PromotionAfterEntity;
 import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.model.RentalEntity;
-import org.boatpos.repository.api.model.*;
+import org.boatpos.repository.api.model.Boat;
+import org.boatpos.repository.api.model.Commitment;
+import org.boatpos.repository.api.model.Promotion;
+import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.repository.core.mapping.RentalMapping;
 import org.boatpos.service.api.bean.RentalBean;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class RentalCore extends DomainModelCore<Rental, RentalEntity, RentalBean> implements Rental {
+public class RentalCore extends DomainModelCore<Rental, RentalEntity> implements Rental {
 
     public RentalCore(DomainId id,
                       Version version,

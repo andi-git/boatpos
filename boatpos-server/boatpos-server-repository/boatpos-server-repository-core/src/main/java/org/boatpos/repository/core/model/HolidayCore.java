@@ -6,13 +6,14 @@ import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.repository.api.model.Holiday;
-import org.boatpos.repository.api.values.*;
+import org.boatpos.repository.api.values.Day;
+import org.boatpos.repository.api.values.Name;
 import org.boatpos.repository.core.mapping.HolidayMapping;
 import org.boatpos.service.api.bean.HolidayBean;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class HolidayCore extends DomainModelCore<Holiday, HolidayEntity, HolidayBean> implements Holiday {
+public class HolidayCore extends DomainModelCore<Holiday, HolidayEntity> implements Holiday {
 
     public HolidayCore(DomainId id,
                        Version version,

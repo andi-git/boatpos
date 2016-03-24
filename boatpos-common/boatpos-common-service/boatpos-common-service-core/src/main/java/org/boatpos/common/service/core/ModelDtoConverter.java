@@ -1,6 +1,7 @@
 package org.boatpos.common.service.core;
 
 import org.boatpos.common.repository.api.model.DomainModel;
+import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 
 import javax.enterprise.context.Dependent;
@@ -24,7 +25,7 @@ public class ModelDtoConverter {
      * @param <DTO>   the concrete type of te {@link AbstractBeanBasedOnEntity}
      * @return a {@link List} of {@link DTO}s converted from the {@link List} of {@link MODEL}s
      */
-    public <MODEL extends DomainModel, DTO extends AbstractBeanBasedOnEntity> List<DTO> convert(List<MODEL> models) {
+    public <MODEL extends DomainModelWithDto, DTO extends AbstractBeanBasedOnEntity> List<DTO> convert(List<MODEL> models) {
         checkNotNull(models, "'model-list' must not be null");
         //noinspection unchecked
         return models.stream().map(model -> (DTO) model.asDto()).collect(Collectors.toList());
@@ -38,7 +39,7 @@ public class ModelDtoConverter {
      * @param <DTO>   the concrete type of te {@link AbstractBeanBasedOnEntity}
      * @return the converted {@link Optional} of the {@link DTO}
      */
-    public <MODEL extends DomainModel, DTO extends AbstractBeanBasedOnEntity> Optional<DTO> convert(Optional<MODEL> model) {
+    public <MODEL extends DomainModelWithDto, DTO extends AbstractBeanBasedOnEntity> Optional<DTO> convert(Optional<MODEL> model) {
         checkNotNull(model, "'model' must not be null");
         if (model.isPresent()) {
             //noinspection unchecked

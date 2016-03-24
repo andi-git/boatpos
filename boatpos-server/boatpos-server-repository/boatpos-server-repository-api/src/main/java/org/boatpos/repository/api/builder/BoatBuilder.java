@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.builder;
 
 import org.boatpos.common.repository.api.builder.MasterDataBuilder;
+import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Rental;
@@ -12,7 +13,7 @@ import java.util.Set;
 /**
  * Builder for {@link Boat}.
  */
-public interface BoatBuilder extends MasterDataBuilder<BoatBuilder, Boat, BoatEntity, BoatBean> {
+public interface BoatBuilder extends MasterDataBuilderWithDto<BoatBuilder, Boat, BoatEntity, BoatBean> {
 
     BoatBuilder add(Name name);
 

@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.builder;
 
 import org.boatpos.common.repository.api.builder.DomainModelBuilder;
+import org.boatpos.common.repository.api.builder.DomainModelBuilderWithDto;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.repository.api.model.Holiday;
 import org.boatpos.repository.api.model.Rental;
@@ -11,7 +12,7 @@ import org.boatpos.service.api.bean.HolidayBean;
 /**
  * Builder for {@link Rental}.
  */
-public interface HolidayBuilder extends DomainModelBuilder<HolidayBuilder, Holiday, HolidayEntity, HolidayBean> {
+public interface HolidayBuilder extends DomainModelBuilderWithDto<HolidayBuilder, Holiday, HolidayEntity, HolidayBean> {
 
     HolidayBuilder add(Day day);
 

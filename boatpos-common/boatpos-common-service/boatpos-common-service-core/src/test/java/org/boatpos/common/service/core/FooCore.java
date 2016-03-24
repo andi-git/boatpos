@@ -3,7 +3,7 @@ package org.boatpos.common.service.core;
 import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 
-public class FooCore extends MasterDataCore<Foo, FooEntity, FooBean> implements Foo {
+public class FooCore extends MasterDataCore<Foo, FooEntity> implements Foo {
 
     public FooCore(DomainId id, Version version, Enabled enabled, Priority priority, KeyBinding keyBinding, PictureUrl pictureUrl, PictureUrlThumb pictureUrlThumb) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);

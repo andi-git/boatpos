@@ -1,8 +1,8 @@
 package org.boatpos.common.repository.core.boat;
 
-import org.boatpos.common.repository.api.builder.MasterDataBuilder;
+import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 
-public interface BoatBuilder extends MasterDataBuilder<BoatBuilder, Boat, BoatEntity, BoatBean> {
+public interface BoatBuilder extends MasterDataBuilderWithDto<BoatBuilder, Boat, BoatEntity, BoatBean> {
 
     BoatBuilder add(Name name);
 

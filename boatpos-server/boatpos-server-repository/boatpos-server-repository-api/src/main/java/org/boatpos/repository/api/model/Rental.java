@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.model;
 
 import org.boatpos.common.repository.api.model.DomainModel;
+import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.boatpos.common.repository.api.values.Deleted;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
@@ -13,7 +14,7 @@ import java.util.Set;
 /**
  * The domain model for a rental.
  */
-public interface Rental extends DomainModel<Rental, RentalEntity, RentalBean> {
+public interface Rental extends DomainModelWithDto<Rental, RentalEntity, RentalBean> {
 
     /**
      * Undo the delete the current {@link DomainModel}.

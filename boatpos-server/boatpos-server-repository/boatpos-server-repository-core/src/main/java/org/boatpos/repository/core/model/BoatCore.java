@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class BoatCore extends MasterDataCore<Boat, BoatEntity, BoatBean> implements Boat {
+public class BoatCore extends MasterDataCore<Boat, BoatEntity> implements Boat {
 
     public BoatCore(DomainId id,
                     Version version,

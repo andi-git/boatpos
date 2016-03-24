@@ -6,12 +6,11 @@ import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
-import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 
 import java.lang.reflect.ParameterizedType;
 
-public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity>
-        implements DomainModelBuilder<BUILDER, MODEL, ENTITY, DTO> {
+public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity>
+        implements DomainModelBuilder<BUILDER, MODEL, ENTITY> {
 
     protected DomainId id;
     protected Version version;
@@ -26,18 +25,8 @@ public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder,
         }
     }
 
-    @Override
-    public MODEL from(DTO dto) {
-        try {
-            //noinspection unchecked
-            return (MODEL) getDomainModelCoreClass().getDeclaredConstructor(dto.getClass()).newInstance(dto);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @SuppressWarnings("unchecked")
-    private Class<MODELCORE> getDomainModelCoreClass() {
+    protected Class<MODELCORE> getDomainModelCoreClass() {
         return (Class<MODELCORE>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
     }
 

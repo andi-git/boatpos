@@ -1,6 +1,7 @@
 package org.boatpos.repository.api.builder;
 
 import org.boatpos.common.repository.api.builder.DomainModelBuilder;
+import org.boatpos.common.repository.api.builder.DomainModelBuilderWithDto;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.model.*;
@@ -12,7 +13,7 @@ import java.util.Set;
 /**
  * Builder for {@link Rental}.
  */
-public interface RentalBuilder extends DomainModelBuilder<RentalBuilder, Rental, RentalEntity, RentalBean> {
+public interface RentalBuilder extends DomainModelBuilderWithDto<RentalBuilder, Rental, RentalEntity, RentalBean> {
 
     RentalBuilder add(DayId dayId);
 

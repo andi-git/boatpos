@@ -9,13 +9,11 @@ import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 /**
  * Builder for {@link DomainModel}.
  */
-public interface DomainModelBuilder<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, ENTITY extends AbstractEntity, DTO extends AbstractBeanBasedOnEntity> {
+public interface DomainModelBuilder<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, ENTITY extends AbstractEntity> {
 
     MODEL build();
 
     MODEL from(ENTITY entity);
-
-    MODEL from(DTO dto);
 
     BUILDER add(DomainId id);
 

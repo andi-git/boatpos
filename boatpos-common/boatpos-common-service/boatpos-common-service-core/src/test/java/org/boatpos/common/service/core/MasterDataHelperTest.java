@@ -2,6 +2,7 @@ package org.boatpos.common.service.core;
 
 import com.google.common.collect.Lists;
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
+import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.common.service.api.EnabledState;
@@ -25,7 +26,7 @@ public class MasterDataHelperTest {
 
     @Test
     public void testLoadAll() throws Exception {
-        MasterDataRepository repository = mock(MasterDataRepository.class);
+        MasterDataRepositoryWithDto repository = mock(MasterDataRepositoryWithDto.class);
         when(repository.loadAll()).thenReturn(Lists.newArrayList(FooCore.createDummy1(), FooCore.createDummy2()));
         when(repository.loadAll(Enabled.TRUE)).thenReturn(Lists.newArrayList(FooCore.createDummy1()));
         when(repository.loadAll(Enabled.FALSE)).thenReturn(Lists.newArrayList(FooCore.createDummy2()));
@@ -37,7 +38,7 @@ public class MasterDataHelperTest {
 
     @Test
     public void testEnable() throws Exception {
-        MasterDataRepository repository = mock(MasterDataRepository.class);
+        MasterDataRepositoryWithDto repository = mock(MasterDataRepositoryWithDto.class);
         when(repository.loadBy(new DomainId(1L))).thenReturn(Optional.of(FooCore.createDummy1()));
         masterDataHelper.enable(repository, new DomainId(1L));
     }

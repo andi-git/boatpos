@@ -5,14 +5,17 @@ import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.boatpos.model.PromotionEntity;
 import org.boatpos.repository.api.model.Promotion;
 import org.boatpos.repository.api.model.Rental;
-import org.boatpos.repository.api.values.*;
+import org.boatpos.repository.api.values.FormulaPrice;
+import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.bean.PromotionBean;
 
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public abstract class PromotionCore<MODEL extends Promotion, ENTITY extends PromotionEntity, DTO extends PromotionBean> extends MasterDataCore<MODEL, ENTITY, DTO> implements Promotion<MODEL, ENTITY, DTO> {
+public abstract class PromotionCore<MODEL extends Promotion, ENTITY extends PromotionEntity, DTO extends PromotionBean>
+        extends MasterDataCore<MODEL, ENTITY>
+        implements Promotion<MODEL, ENTITY, DTO> {
 
     public PromotionCore(DomainId id,
                          Version version,

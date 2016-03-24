@@ -1,6 +1,7 @@
 package org.boatpos.repository.core.builder;
 
 import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
+import org.boatpos.common.repository.core.builder.DomainModelBuilderWithDtoCore;
 import org.boatpos.model.HolidayEntity;
 import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
@@ -18,7 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Dependent
-public class HolidayBuilderCore extends DomainModelBuilderCore<HolidayBuilder, Holiday, HolidayCore, HolidayEntity, HolidayBean> implements HolidayBuilder {
+public class HolidayBuilderCore extends DomainModelBuilderWithDtoCore<HolidayBuilder, Holiday, HolidayCore, HolidayEntity, HolidayBean> implements HolidayBuilder {
 
     protected Day day;
     protected Name name;

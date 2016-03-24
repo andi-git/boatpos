@@ -1,6 +1,6 @@
 package org.boatpos.repository.core.builder;
 
-import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.builder.BoatBuilder;
 import org.boatpos.repository.api.builder.RentalBuilder;
@@ -16,7 +16,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Dependent
-public class BoatBuilderCore extends MasterDataBuilderCore<BoatBuilder, Boat, BoatCore, BoatEntity, BoatBean> implements BoatBuilder {
+public class BoatBuilderCore
+        extends MasterDataBuilderCoreWithDto<BoatBuilder, Boat, BoatCore, BoatEntity, BoatBean>
+        implements BoatBuilder {
 
     private Name name;
     private ShortName shortName;

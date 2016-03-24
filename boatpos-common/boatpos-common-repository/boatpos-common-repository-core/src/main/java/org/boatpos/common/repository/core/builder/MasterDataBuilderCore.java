@@ -5,9 +5,10 @@ import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
-import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
-public abstract class MasterDataBuilderCore<BUILDER extends MasterDataBuilder, MODEL extends MasterData, MODELCORE extends MasterDataCore, ENTITY extends AbstractMasterDataEntity, DTO extends AbstractMasterDataBean> extends DomainModelBuilderCore<BUILDER, MODEL, MODELCORE, ENTITY, DTO> implements MasterDataBuilder<BUILDER, MODEL, ENTITY, DTO> {
+public abstract class MasterDataBuilderCore<BUILDER extends MasterDataBuilder, MODEL extends MasterData, MODELCORE extends MasterDataCore, ENTITY extends AbstractMasterDataEntity>
+        extends DomainModelBuilderCore<BUILDER, MODEL, MODELCORE, ENTITY>
+        implements MasterDataBuilder<BUILDER, MODEL, ENTITY> {
 
     protected Enabled enabled;
     protected Priority priority;

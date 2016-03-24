@@ -13,7 +13,7 @@ public class BillBeanTest extends JavaBeanTest<BillBean> {
 
     @Test
     public void testConstructor() {
-        BillBean bill = new BillBean(new CompanyBean("name", "street", "zip", "country", "phone", "mail", "atu"),
+        BillBean bill = new BillBean(new CompanyBean(),
                 "cashbox",
                 "id",
                 LocalDateTime.now(),

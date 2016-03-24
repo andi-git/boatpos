@@ -1,6 +1,7 @@
 package org.boatpos.repository.core.builder;
 
 import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
+import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 import org.boatpos.model.CommitmentEntity;
 import org.boatpos.repository.api.builder.CommitmentBuilder;
 import org.boatpos.repository.api.model.Commitment;
@@ -15,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Dependent
-public class CommitmentBuilderCore extends MasterDataBuilderCore<CommitmentBuilder, Commitment, CommitmentCore, CommitmentEntity, CommitmentBean> implements CommitmentBuilder {
+public class CommitmentBuilderCore extends MasterDataBuilderCoreWithDto<CommitmentBuilder, Commitment, CommitmentCore, CommitmentEntity, CommitmentBean> implements CommitmentBuilder {
 
     private Name name;
     private Paper paper;
