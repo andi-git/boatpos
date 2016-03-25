@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>regkas-server-repository-api</module>
+        <module>regkas-server-repository-core</module>
     </modules>
 
     <artifactId>regkas-server-repository</artifactId>

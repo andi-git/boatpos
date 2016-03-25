@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
+                 version="2.1">
+    <named-query name="user.getByName">
+        <query>FROM UserEntity u WHERE u.name = :name</query>
+    </named-query>
+    <named-query name="user.getAll">
+        <query>FROM UserEntity u ORDER BY u.priority</query>
+    </named-query>
+    <named-query name="user.getAllEnabled">
+        <query>FROM UserEntity u WHERE u.enabled = TRUE ORDER BY u.priority</query>
+    </named-query>
+    <named-query name="user.getAllDisabled">
+        <query>FROM UserEntity u WHERE (u.enabled = FALSE OR u.enabled IS NULL) ORDER BY u.priority</query>
+    </named-query>
+</entity-mappings>

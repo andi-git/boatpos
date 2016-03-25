@@ -12,6 +12,6 @@ public class AddressEntityTest extends JavaBeanTest<AddressEntity> {
 
     @Test
     public void testConstructor() {
-        new AddressEntity(1L, 1, "street", "zip", "country", new HashSet<>());
+        new AddressEntity(1L, 1, "street", "zip", "city", "country", new HashSet<>());
     }
 }

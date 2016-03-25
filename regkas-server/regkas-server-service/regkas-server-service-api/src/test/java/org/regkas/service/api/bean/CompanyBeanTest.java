@@ -9,6 +9,6 @@ public class CompanyBeanTest extends JavaBeanTest<CompanyBean> {
 
     @Test
     public void testConstructor() {
-        new CompanyBean(1L, 1, true, 1, ' ', "", "", "name", "street", "zip", "country", "phone", "mail", "atu");
+        new CompanyBean(1L, 1, true, 1, ' ', "", "", "name", "street", "zip", "city", "country", "phone", "mail", "atu");
     }
 }

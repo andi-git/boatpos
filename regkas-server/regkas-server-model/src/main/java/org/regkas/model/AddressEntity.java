@@ -32,6 +32,11 @@ public class AddressEntity extends AbstractEntity {
     @NotNull
     @Size(min = 3, max = 100)
     @Expose
+    private String city;
+
+    @NotNull
+    @Size(min = 3, max = 100)
+    @Expose
     private String country;
 
     @Valid
@@ -42,9 +47,10 @@ public class AddressEntity extends AbstractEntity {
     public AddressEntity() {
     }
 
-    public AddressEntity(Long id, Integer version, String street, String zip, String country, Set<CompanyEntity> companies) {
+    public AddressEntity(Long id, Integer version, String street, String zip, String city, String country, Set<CompanyEntity> companies) {
         super(id, version);
         this.street = street;
+        this.city = city;
         this.zip = zip;
         this.country = country;
         this.companies = companies;
@@ -64,6 +70,14 @@ public class AddressEntity extends AbstractEntity {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getCountry() {

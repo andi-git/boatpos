@@ -3,7 +3,6 @@ package org.boatpos.repository.core.builder;
 import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 import org.boatpos.model.BoatEntity;
 import org.boatpos.repository.api.builder.BoatBuilder;
-import org.boatpos.repository.api.builder.RentalBuilder;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.*;
@@ -11,7 +10,6 @@ import org.boatpos.repository.core.model.BoatCore;
 import org.boatpos.service.api.bean.BoatBean;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,9 +25,6 @@ public class BoatBuilderCore
     private PriceFortyFiveMinutes priceFortyFiveMinutes;
     private Count count;
     private Set<Rental> rentals = new HashSet<>();
-
-    @Inject
-    private RentalBuilder rentalBuilder;
 
     @Override
     public BoatBuilder add(Name name) {

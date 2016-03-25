@@ -5,7 +5,6 @@ import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.JPAHelper;
-import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 import org.boatpos.common.util.log.LogWrapper;
 
 import javax.enterprise.inject.spi.CDI;
@@ -16,10 +15,6 @@ import java.lang.reflect.ParameterizedType;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends AbstractEntity> implements DomainModel<MODEL, ENTITY> {
-
-    private final JPAHelper jpaHelper;
-
-    private final Class<MODEL> typeDomainModel;
 
     private final Class<ENTITY> typeEntity;
 
@@ -35,9 +30,6 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
 
     public DomainModelCore() {
         super();
-        this.jpaHelper = CDI.current().select(JPAHelper.class).get();
-        //noinspection unchecked
-        this.typeDomainModel = (Class<MODEL>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         //noinspection unchecked
         this.typeEntity = (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         try {
@@ -46,7 +38,8 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        this.log = new LogWrapper(typeDomainModel);
+        //noinspection unchecked
+        this.log = new LogWrapper((Class<MODEL>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
     }
 
     public DomainModelCore(ENTITY abstractEntity) {
@@ -59,14 +52,14 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         checkNotNull(entity, "'entity' must not be null -> maybe not loaded?");
         if (getId() == null || getId().get() == null) {
             log.debug("persist {}: {}", getTypeEntity().getName(), entity);
-            jpaHelper.getEntityManager().persist(entity);
+            getJpaHelper().getEntityManager().persist(entity);
         } else {
             log.debug("merge {}: {}", getTypeEntity().getName(), entity);
-            entity = jpaHelper.getEntityManager().merge(entity);
+            entity = getJpaHelper().getEntityManager().merge(entity);
         }
         try {
             // flush it to get possible exception right here
-            jpaHelper.getEntityManager().flush();
+            getJpaHelper().getEntityManager().flush();
         } catch (final Exception e) {
             throw handleException(e, "exception on persist entity: " + entity.getClass().getName());
         }
@@ -78,8 +71,8 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         log.debug("delete {}: {}", getTypeEntity().getName(), entity);
         checkNotNull(entity, "'entity' must not be null -> maybe not loaded?");
         try {
-            jpaHelper.getEntityManager().remove(entity);
-            jpaHelper.getEntityManager().flush();
+            getJpaHelper().getEntityManager().remove(entity);
+            getJpaHelper().getEntityManager().flush();
         } catch (final Exception e) {
             throw handleException(e, "exception on delete entity: " + entity.getClass().getName());
         }
@@ -141,5 +134,9 @@ public abstract class DomainModelCore<MODEL extends DomainModel, ENTITY extends 
         } else {
             return new PersistenceException(message, e);
         }
+    }
+
+    private JPAHelper getJpaHelper() {
+        return CDI.current().select(JPAHelper.class).get();
     }
 }

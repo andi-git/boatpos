@@ -1,6 +1,6 @@
 package org.regkas.repository.api.model;
 
-import org.boatpos.common.repository.api.model.MasterData;
+import org.boatpos.common.repository.api.model.MasterDataWithDto;
 import org.regkas.model.CompanyEntity;
 import org.regkas.repository.api.values.ATU;
 import org.regkas.repository.api.values.EMail;
@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * The domain model for a company.
  */
-public interface Company extends MasterData<Company, CompanyEntity> {
+public interface Company extends MasterDataWithDto<Company, CompanyEntity, CompanyBean> {
 
     Name getName();
 
@@ -35,20 +35,19 @@ public interface Company extends MasterData<Company, CompanyEntity> {
 
     Company setAddress(Address address);
 
-//    Set<CashBox> getCashBoxes();
-//
-//    Company addCashBoxes(Set<CashBox> cashBoxes);
-//
-//    Company addCashBox(CashBox cashBoxe);
-//
-//    Company clearCashBoxes();
-//
-//    Set<User> getUsers();
-//
-//    Company addUsers(Set<User> users);
-//
-//    Company addUser(User user);
-//
-//    Company clearUsers();
+    Set<CashBox> getCashBoxes();
 
+    Company addCashBoxes(Set<CashBox> cashBoxes);
+
+    Company addCashBox(CashBox cashBoxes);
+
+    Company clearCashBoxes();
+
+    Set<User> getUsers();
+
+    Company addUsers(Set<User> users);
+
+    Company addUser(User user);
+
+    Company clearUsers();
 }

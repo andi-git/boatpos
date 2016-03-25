@@ -31,8 +31,8 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.clear();
         em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();
 
-        AddressEntity address1 = new AddressEntity(null, null, "Street 1", "1220", "Vienna", new HashSet<>());
-        AddressEntity address2 = new AddressEntity(null, null, "Street 2", "1220", "Vienna", new HashSet<>());
+        AddressEntity address1 = new AddressEntity(null, null, "Street 1", "1220", "Vienna", "Austria", new HashSet<>());
+        AddressEntity address2 = new AddressEntity(null, null, "Street 2", "1220", "Vienna", "Austria", new HashSet<>());
         UserEntity user1 = new UserEntity(null, null, true, 1, "", "", "Maria Musterfrau", "abc123", null);
         UserEntity user2 = new UserEntity(null, null, true, 2, "", "", "Max Mustermann", "xyz789", null);
         CashBoxEntity cashBox1 = new CashBoxEntity(null, null, true, 1, "", "", "RegKas1", "123", null);

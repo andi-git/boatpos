@@ -16,10 +16,10 @@
         <class>org.boatpos.model.PromotionBeforeEntity</class>
         <class>org.boatpos.model.CommitmentEntity</class>
         <class>org.boatpos.model.HolidayEntity</class>
-        <class>org.boatpos.model.util.LocalDateConverter</class>
-        <class>org.boatpos.model.util.LocalDateTimeConverter</class>
+        <class>org.boatpos.common.model.LocalDateConverter</class>
+        <class>org.boatpos.common.model.LocalDateTimeConverter</class>
         <properties>
-            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.format_sql" value="false" />
         </properties>

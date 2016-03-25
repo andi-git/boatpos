@@ -1,5 +1,6 @@
 package org.regkas.service.api.bean;
 
+import com.google.gson.annotations.Expose;
 import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
 import javax.validation.constraints.NotNull;
@@ -9,38 +10,51 @@ public class CompanyBean extends AbstractMasterDataBean {
 
     @NotNull
     @Size(min = 3, max = 100)
+    @Expose
     private String name;
 
     @NotNull
     @Size(min = 3, max = 100)
+    @Expose
     private String street;
 
     @NotNull
     @Size(min = 3, max = 100)
+    @Expose
     private String zip;
 
     @NotNull
     @Size(min = 3, max = 100)
+    @Expose
+    private String city;
+
+    @NotNull
+    @Size(min = 3, max = 100)
+    @Expose
     private String country;
 
     @Size(min = 3, max = 100)
+    @Expose
     private String phone;
 
     @Size(min = 3, max = 100)
+    @Expose
     private String mail;
 
     @NotNull
     @Size(min = 3, max = 100)
+    @Expose
     private String atu;
 
     public CompanyBean() {
     }
 
-    public CompanyBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, String street, String zip, String country, String phone, String mail, String atu) {
+    public CompanyBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, String street, String zip, String city, String country, String phone, String mail, String atu) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.street = street;
         this.zip = zip;
+        this.city = city;
         this.country = country;
         this.phone = phone;
         this.mail = mail;
@@ -69,6 +83,14 @@ public class CompanyBean extends AbstractMasterDataBean {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getCountry() {

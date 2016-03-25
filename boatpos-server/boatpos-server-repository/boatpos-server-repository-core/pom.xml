@@ -55,6 +55,11 @@
         </dependency>
         <dependency>
             <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
             <artifactId>boatpos-common-util</artifactId>
             <version>${project.version}</version>
         </dependency>
