@@ -15,12 +15,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class CommitmentRepositoryCore extends MasterDataRepositoryCore<Commitment, CommitmentCore, CommitmentEntity> implements CommitmentRepository {
-
-    @Override
-    public CommitmentBuilder builder() {
-        return new CommitmentBuilderCore();
-    }
+public class CommitmentRepositoryCore extends MasterDataRepositoryCore<Commitment, CommitmentCore, CommitmentEntity, CommitmentBuilder, CommitmentBuilderCore> implements CommitmentRepository {
 
     @Override
     public Optional<Commitment> loadBy(Name name) {

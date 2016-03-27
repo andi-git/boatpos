@@ -1,5 +1,7 @@
 package org.boatpos.common.service.core;
 
+import org.boatpos.common.repository.api.builder.MasterDataBuilder;
+import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.model.MasterDataWithDto;
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
@@ -32,7 +34,7 @@ public class MasterDataHelper {
      * @param <MODEL>      the concrete type of the {@link MasterData}
      * @return an ordered {@link List} of all {@link MODEL}s from the repository with the specified {@link EnabledState}
      */
-    public <MODEL extends MasterDataWithDto> List<MODEL> loadAll(MasterDataRepositoryWithDto<MODEL> repository, EnabledState enabledState) {
+    public <MODEL extends MasterDataWithDto, BUILDER extends MasterDataBuilderWithDto> List<MODEL> loadAll(MasterDataRepositoryWithDto<MODEL, BUILDER> repository, EnabledState enabledState) {
         List<MODEL> entities = new ArrayList<>();
         if (repository != null) {
             if (EnabledState.Enabled == enabledState) {
@@ -53,7 +55,7 @@ public class MasterDataHelper {
      * @param id         the {@link DomainId} of the {@link MODEL}
      * @param <MODEL>    the concrete type of the {@link MasterData}
      */
-    public <MODEL extends MasterDataWithDto> void enable(MasterDataRepositoryWithDto<MODEL> repository, DomainId id) {
+    public <MODEL extends MasterDataWithDto, BUILDER extends MasterDataBuilderWithDto> void enable(MasterDataRepositoryWithDto<MODEL, BUILDER> repository, DomainId id) {
         if (repository != null && id != null) {
             Optional<MODEL> model = repository.loadBy(id);
             if (model.isPresent()) {
@@ -70,7 +72,7 @@ public class MasterDataHelper {
      * @param id         the {@link DomainId} of the {@link MODEL}
      * @param <MODEL>    the concrete type of the {@link MasterData}
      */
-    public <MODEL extends MasterData> void disable(MasterDataRepository<MODEL> repository, DomainId id) {
+    public <MODEL extends MasterData, BUILDER extends MasterDataBuilder> void disable(MasterDataRepository<MODEL, BUILDER> repository, DomainId id) {
         if (repository != null && id != null) {
             Optional<MODEL> model = repository.loadBy(id);
             if (model.isPresent()) {

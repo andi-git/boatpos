@@ -10,14 +10,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link User}.
  */
-public interface UserRepository extends MasterDataRepository<User> {
-
-    /**
-     * Get the {@link UserBuilder}.
-     *
-     * @return the {@link UserBuilder}
-     */
-    UserBuilder builder();
+public interface UserRepository extends MasterDataRepository<User, UserBuilder> {
 
     /**
      * Load all attributes based on the {@link Name}.

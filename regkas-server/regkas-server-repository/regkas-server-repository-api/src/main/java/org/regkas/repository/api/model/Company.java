@@ -50,4 +50,12 @@ public interface Company extends MasterDataWithDto<Company, CompanyEntity, Compa
     Company addUser(User user);
 
     Company clearUsers();
+
+    Set<ProductGroup> getProductGroups();
+
+    Company addProductGroups(Set<ProductGroup> productGroups);
+
+    Company addProductGroup(ProductGroup productGroup);
+
+    Company clearProductGroups();
 }

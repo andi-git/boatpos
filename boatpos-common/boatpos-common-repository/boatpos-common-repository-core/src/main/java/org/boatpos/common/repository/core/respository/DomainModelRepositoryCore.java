@@ -1,10 +1,12 @@
 package org.boatpos.common.repository.core.respository;
 
 import org.boatpos.common.model.AbstractEntity;
+import org.boatpos.common.repository.api.builder.DomainModelBuilder;
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.repository.DomainModelRepository;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.core.JPAHelper;
+import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -12,6 +14,7 @@ import org.boatpos.common.util.log.SLF4J;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +22,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Dependent
-public class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity> implements DomainModelRepository<MODEL> {
+public abstract class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity, BUILDER extends DomainModelBuilder, BUILDERCORE extends DomainModelBuilderCore>
+        implements DomainModelRepository<MODEL, BUILDER> {
 
     @Inject
     private JPAHelper jpaHelper;
@@ -28,6 +31,17 @@ public class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE exte
     @Inject
     @SLF4J
     private LogWrapper log;
+
+    @Override
+    public BUILDER builder() {
+        try {
+            //noinspection unchecked
+            return (BUILDER) getBuilderCoreType().getConstructor().newInstance();
+        } catch (Exception e) {
+            log.error("unable to create builder, type: {}", getBuilderCoreType());
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public Optional<MODEL> loadBy(DomainId id) {
@@ -57,6 +71,11 @@ public class DomainModelRepositoryCore<MODEL extends DomainModel, MODELCORE exte
     protected Class<ENTITY> getTypeEntity() {
         //noinspection unchecked
         return (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
+    }
+
+    protected Class<BUILDERCORE> getBuilderCoreType() {
+        //noinspection unchecked
+        return (Class<BUILDERCORE>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[4];
     }
 
     protected List<MODEL> loadAll(String namedQuery, Function<ENTITY, MODEL> mapper) {

@@ -10,9 +10,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * Representation of an element of a receipt.
@@ -26,12 +24,17 @@ public class ReceiptElementEntity extends AbstractEntity {
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @Expose
-    private ProductGroupEntity productGroup;
+    private ProductEntity product;
 
-    @Valid
+    @NotNull
+    @Min(1)
+    @Expose
+    private Integer amount;
+
+    @NotNull
     @Min(0)
     @Expose
-    private BigDecimal amount;
+    private BigDecimal totalPrice;
 
     @NotNull
     @Valid
@@ -42,19 +45,20 @@ public class ReceiptElementEntity extends AbstractEntity {
     public ReceiptElementEntity() {
     }
 
-    public ReceiptElementEntity(Long id, Integer version, ProductGroupEntity productGroup, ReceiptEntity receipt, BigDecimal amount) {
+    public ReceiptElementEntity(Long id, Integer version, ProductEntity product, ReceiptEntity receipt, BigDecimal totalPrice, Integer amount) {
         super(id, version);
-        this.productGroup = productGroup;
+        this.product = product;
         this.receipt = receipt;
+        this.totalPrice = totalPrice;
         this.amount = amount;
     }
 
-    public ProductGroupEntity getProductGroup() {
-        return productGroup;
+    public ProductEntity getProduct() {
+        return product;
     }
 
-    public void setProductGroup(ProductGroupEntity productGroup) {
-        this.productGroup = productGroup;
+    public void setProduct(ProductEntity product) {
+        this.product = product;
     }
 
     public ReceiptEntity getReceipt() {
@@ -65,11 +69,19 @@ public class ReceiptElementEntity extends AbstractEntity {
         this.receipt = receipt;
     }
 
-    public BigDecimal getAmount() {
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 }

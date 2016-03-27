@@ -1,24 +1,19 @@
 package org.regkas.service.api.bean;
 
-import org.boatpos.common.service.api.bean.AbstractBean;
+import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
-import java.math.BigDecimal;
-
-public abstract class TaxSetBean extends AbstractBean {
+public class TaxSetBean extends AbstractMasterDataBean {
 
     private String name;
 
-    private BigDecimal value;
-
-    private int amount;
+    private Integer taxPercent;
 
     public TaxSetBean() {
     }
 
-    public TaxSetBean(String name, BigDecimal value, int amount) {
+    public TaxSetBean(String name, Integer taxPercent) {
         this.name = name;
-        this.value = value;
-        this.amount = amount;
+        this.taxPercent = taxPercent;
     }
 
     public String getName() {
@@ -29,69 +24,11 @@ public abstract class TaxSetBean extends AbstractBean {
         this.name = name;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public Integer getTaxPercent() {
+        return taxPercent;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public static class TaxSetNormalBean extends TaxSetBean {
-
-        public TaxSetNormalBean() {
-        }
-
-        public TaxSetNormalBean(String name, BigDecimal value, int amount) {
-            super(name, value, amount);
-        }
-    }
-
-    public static class TaxSetErmaessigt1Bean extends TaxSetBean {
-
-        public TaxSetErmaessigt1Bean() {
-        }
-
-        public TaxSetErmaessigt1Bean(String name, BigDecimal value, int amount) {
-            super(name, value, amount);
-        }
-    }
-
-    public static class TaxSetErmaessigt2Bean extends TaxSetBean {
-
-        public TaxSetErmaessigt2Bean() {
-        }
-
-        public TaxSetErmaessigt2Bean(String name, BigDecimal value, int amount) {
-            super(name, value, amount);
-        }
-    }
-
-    public static class TaxSetBesonderesBean extends TaxSetBean {
-
-        public TaxSetBesonderesBean() {
-        }
-
-        public TaxSetBesonderesBean(String name, BigDecimal value, int amount) {
-            super(name, value, amount);
-        }
-    }
-
-    public static class TaxSetNullBean extends TaxSetBean {
-
-        public TaxSetNullBean() {
-        }
-
-        public TaxSetNullBean(String name, BigDecimal value, int amount) {
-            super(name, value, amount);
-        }
+    public void setTaxPercent(Integer taxPercent) {
+        this.taxPercent = taxPercent;
     }
 }

@@ -11,14 +11,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link PromotionBefore}s.
  */
-public interface PromotionBeforeRepository extends MasterDataRepositoryWithDto<PromotionBefore> {
-
-    /**
-     * Get the {@link PromotionBeforeBuilder}.
-     *
-     * @return the {@link PromotionBeforeBuilder}
-     */
-    PromotionBeforeBuilder builder();
+public interface PromotionBeforeRepository extends MasterDataRepositoryWithDto<PromotionBefore, PromotionBeforeBuilder> {
 
     /**
      * Get a {@link PromotionBefore} by it's name.

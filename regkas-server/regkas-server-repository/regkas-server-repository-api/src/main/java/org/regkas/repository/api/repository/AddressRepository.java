@@ -13,12 +13,6 @@ import java.util.Optional;
 /**
  * The repository for the {@link Address}.
  */
-public interface AddressRepository extends DomainModelRepository<Address> {
+public interface AddressRepository extends DomainModelRepository<Address, AddressBuilder> {
 
-    /**
-     * Get the {@link AddressBuilder}.
-     *
-     * @return the {@link AddressBuilder}
-     */
-    AddressBuilder builder();
 }

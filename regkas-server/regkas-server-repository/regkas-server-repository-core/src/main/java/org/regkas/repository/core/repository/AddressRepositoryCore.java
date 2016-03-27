@@ -11,10 +11,6 @@ import org.regkas.repository.core.model.AddressCore;
 import javax.enterprise.context.Dependent;
 
 @Dependent
-public class AddressRepositoryCore extends DomainModelRepositoryCore<Address, AddressCore, AddressEntity> implements AddressRepository {
+public class AddressRepositoryCore extends DomainModelRepositoryCore<Address, AddressCore, AddressEntity, AddressBuilder, AddressBuilderCore> implements AddressRepository {
 
-    @Override
-    public AddressBuilder builder() {
-        return new AddressBuilderCore();
-    }
 }

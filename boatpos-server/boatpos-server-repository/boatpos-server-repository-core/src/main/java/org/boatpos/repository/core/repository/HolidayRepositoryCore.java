@@ -15,12 +15,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class HolidayRepositoryCore extends DomainModelRepositoryCore<Holiday, HolidayCore, HolidayEntity> implements HolidayRepository {
-
-    @Override
-    public HolidayBuilder builder() {
-        return new HolidayBuilderCore();
-    }
+public class HolidayRepositoryCore extends DomainModelRepositoryCore<Holiday, HolidayCore, HolidayEntity, HolidayBuilder, HolidayBuilderCore> implements HolidayRepository {
 
     @Override
     public Optional<Holiday> loadBy(Day day) {

@@ -4,7 +4,7 @@ import org.boatpos.common.repository.api.repository.MasterDataRepository;
 
 import java.util.Optional;
 
-public interface BoatRepository extends MasterDataRepository<Boat> {
+public interface BoatRepository extends MasterDataRepository<Boat, BoatBuilder> {
 
     BoatBuilder builder();
 

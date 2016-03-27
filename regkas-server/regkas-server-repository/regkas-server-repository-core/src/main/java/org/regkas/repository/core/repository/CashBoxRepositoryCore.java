@@ -15,12 +15,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class CashBoxRepositoryCore extends MasterDataRepositoryCore<CashBox, CashBoxCore, CashBoxEntity> implements CashBoxRepository {
-
-    @Override
-    public CashBoxBuilder builder() {
-        return new CashBoxBuilderCore();
-    }
+public class CashBoxRepositoryCore extends MasterDataRepositoryCore<CashBox, CashBoxCore, CashBoxEntity, CashBoxBuilder, CashBoxBuilderCore> implements CashBoxRepository {
 
     @Override
     public Optional<CashBox> loadBy(Name name) {

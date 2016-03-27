@@ -2,10 +2,7 @@ package org.regkas.repository.api.builder;
 
 import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 import org.regkas.model.CompanyEntity;
-import org.regkas.repository.api.model.Address;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Company;
-import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.values.ATU;
 import org.regkas.repository.api.values.EMail;
 import org.regkas.repository.api.values.Name;
@@ -32,4 +29,6 @@ public interface CompanyBuilder extends MasterDataBuilderWithDto<CompanyBuilder,
     CompanyBuilder add(CashBox cashBox);
 
     CompanyBuilder add(User user);
+
+    CompanyBuilder add(ProductGroup productGroup);
 }

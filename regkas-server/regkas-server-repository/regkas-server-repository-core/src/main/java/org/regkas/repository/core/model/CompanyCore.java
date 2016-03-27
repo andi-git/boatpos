@@ -4,10 +4,7 @@ import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.CompanyEntity;
-import org.regkas.repository.api.model.Address;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Company;
-import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.values.ATU;
 import org.regkas.repository.api.values.EMail;
 import org.regkas.repository.api.values.Name;
@@ -37,7 +34,8 @@ public class CompanyCore extends MasterDataCore<Company, CompanyEntity> implemen
                        ATU atu,
                        Address address,
                        Set<User> users,
-                       Set<CashBox> cashBoxes) {
+                       Set<CashBox> cashBoxes,
+                       Set<ProductGroup> productGroups) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(atu, "'atu' must not be null");
@@ -53,6 +51,7 @@ public class CompanyCore extends MasterDataCore<Company, CompanyEntity> implemen
         setAddress(address);
         addUsers(users);
         addCashBoxes(cashBoxes);
+        addProductGroups(productGroups);
     }
 
     public CompanyCore(CompanyEntity companyEntity) {
@@ -147,17 +146,17 @@ public class CompanyCore extends MasterDataCore<Company, CompanyEntity> implemen
     }
 
     @Override
-    public Company addCashBoxes(Set<CashBox> commitments) {
-        if (commitments != null) {
-            getEntity().setCashBoxes(commitments.stream().map(DomainModel::asEntity).collect(Collectors.toSet()));
+    public Company addCashBoxes(Set<CashBox> cashBoxes) {
+        if (cashBoxes != null) {
+            getEntity().setCashBoxes(cashBoxes.stream().map(DomainModel::asEntity).collect(Collectors.toSet()));
         }
         return this;
     }
 
     @Override
-    public Company addCashBox(CashBox commitment) {
-        if (commitment != null) {
-            getEntity().getCashBoxes().add(commitment.asEntity());
+    public Company addCashBox(CashBox cashBox) {
+        if (cashBox != null) {
+            getEntity().getCashBoxes().add(cashBox.asEntity());
         }
         return this;
     }
@@ -165,6 +164,33 @@ public class CompanyCore extends MasterDataCore<Company, CompanyEntity> implemen
     @Override
     public Company clearCashBoxes() {
         getEntity().getCashBoxes().clear();
+        return this;
+    }
+
+    @Override
+    public Set<ProductGroup> getProductGroups() {
+        return Collections.unmodifiableSet(getEntity().getProductGroups().stream().map(ProductGroupCore::new).collect(Collectors.toSet()));
+    }
+
+    @Override
+    public Company addProductGroups(Set<ProductGroup> productGroups) {
+        if (productGroups != null) {
+            getEntity().setProductGroups(productGroups.stream().map(DomainModel::asEntity).collect(Collectors.toSet()));
+        }
+        return this;
+    }
+
+    @Override
+    public Company addProductGroup(ProductGroup productGroup) {
+        if (productGroup != null) {
+            getEntity().getProductGroups().add(productGroup.asEntity());
+        }
+        return this;
+    }
+
+    @Override
+    public Company clearProductGroups() {
+        getEntity().getProductGroups().clear();
         return this;
     }
 

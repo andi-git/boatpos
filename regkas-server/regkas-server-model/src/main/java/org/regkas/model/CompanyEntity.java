@@ -50,10 +50,15 @@ public class CompanyEntity extends AbstractMasterDataEntity {
     @Expose
     private Set<UserEntity> users;
 
+    @Valid
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Expose
+    private Set<ProductGroupEntity> productGroups;
+
     public CompanyEntity() {
     }
 
-    public CompanyEntity(Long id, Integer version, Boolean enabled, int priority, String pictureUrlThumb, String pictureUrl, String name, AddressEntity address, String phone, String mail, String atu, Set<CashBoxEntity> cashBoxes, Set<UserEntity> users) {
+    public CompanyEntity(Long id, Integer version, Boolean enabled, int priority, String pictureUrlThumb, String pictureUrl, String name, AddressEntity address, String phone, String mail, String atu, Set<CashBoxEntity> cashBoxes, Set<UserEntity> users, Set<ProductGroupEntity> productGroups) {
         super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.address = address;
@@ -62,6 +67,7 @@ public class CompanyEntity extends AbstractMasterDataEntity {
         this.atu = atu;
         this.cashBoxes = cashBoxes;
         this.users = users;
+        this.productGroups = productGroups;
     }
 
     public String getName() {
@@ -118,5 +124,13 @@ public class CompanyEntity extends AbstractMasterDataEntity {
 
     public void setUsers(Set<UserEntity> users) {
         this.users = users;
+    }
+
+    public Set<ProductGroupEntity> getProductGroups() {
+        return productGroups;
+    }
+
+    public void setProductGroups(Set<ProductGroupEntity> productGroups) {
+        this.productGroups = productGroups;
     }
 }

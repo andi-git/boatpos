@@ -10,14 +10,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link Holiday}.
  */
-public interface HolidayRepository extends DomainModelRepository<Holiday> {
-
-    /**
-     * Get the {@link HolidayBuilder}.
-     *
-     * @return the {@link HolidayBuilder}
-     */
-    HolidayBuilder builder();
+public interface HolidayRepository extends DomainModelRepository<Holiday, HolidayBuilder> {
 
     /**
      * Get a {@link Holiday} by {@link Day}.

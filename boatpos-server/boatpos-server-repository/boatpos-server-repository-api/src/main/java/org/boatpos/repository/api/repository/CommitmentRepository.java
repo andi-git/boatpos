@@ -11,14 +11,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link Commitment}.
  */
-public interface CommitmentRepository extends MasterDataRepositoryWithDto<Commitment> {
-
-    /**
-     * Get the {@link CommitmentBuilder}.
-     *
-     * @return the {@link CommitmentBuilder}
-     */
-    CommitmentBuilder builder();
+public interface CommitmentRepository extends MasterDataRepositoryWithDto<Commitment, CommitmentBuilder> {
 
     /**
      * Get a {@link Commitment} by it's name.

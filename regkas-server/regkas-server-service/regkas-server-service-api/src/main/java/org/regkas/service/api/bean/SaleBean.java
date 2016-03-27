@@ -15,20 +15,20 @@ public class SaleBean extends AbstractBean {
 
     @Valid
     @Expose
-    private List<SaleElementBean> saleElements = new ArrayList<>();
+    private List<ReceiptElementBean> saleElements = new ArrayList<>();
 
     public SaleBean() {
     }
 
-    public SaleBean(List<SaleElementBean> saleElements) {
+    public SaleBean(List<ReceiptElementBean> saleElements) {
         this.saleElements = saleElements;
     }
 
-    public List<SaleElementBean> getSaleElements() {
+    public List<ReceiptElementBean> getSaleElements() {
         return saleElements;
     }
 
-    public void setSaleElements(List<SaleElementBean> saleElements) {
+    public void setSaleElements(List<ReceiptElementBean> saleElements) {
         this.saleElements = saleElements;
     }
 }

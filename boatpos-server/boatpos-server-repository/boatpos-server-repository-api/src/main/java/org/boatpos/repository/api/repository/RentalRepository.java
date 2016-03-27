@@ -15,14 +15,7 @@ import java.util.Set;
 /**
  * The repository for the {@link Rental}.
  */
-public interface RentalRepository extends DomainModelRepository<Rental> {
-
-    /**
-     * Get the {@link RentalBuilder}.
-     *
-     * @return the {@link RentalBuilder}
-     */
-    RentalBuilder builder();
+public interface RentalRepository extends DomainModelRepository<Rental, RentalBuilder> {
 
     /**
      * Get a {@link Rental} by it's {@link DayId} for the assigned day.

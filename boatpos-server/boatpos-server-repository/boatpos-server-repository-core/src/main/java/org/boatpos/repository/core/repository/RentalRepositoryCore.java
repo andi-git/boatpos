@@ -23,15 +23,10 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, RentalCore, RentalEntity> implements RentalRepository {
+public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, RentalCore, RentalEntity, RentalBuilder, RentalBuilderCore> implements RentalRepository {
 
     @Inject
     private DateTimeHelper dateTimeHelper;
-
-    @Override
-    public RentalBuilder builder() {
-        return new RentalBuilderCore();
-    }
 
     @Override
     public Optional<Rental> loadBy(Day day, DayId dayId) {

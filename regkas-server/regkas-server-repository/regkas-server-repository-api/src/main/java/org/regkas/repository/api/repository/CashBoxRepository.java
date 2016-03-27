@@ -12,14 +12,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link CashBox}.
  */
-public interface CashBoxRepository extends MasterDataRepository<CashBox> {
-
-    /**
-     * Get the {@link CashBoxBuilder}.
-     *
-     * @return the {@link CashBoxBuilder}
-     */
-    CashBoxBuilder builder();
+public interface CashBoxRepository extends MasterDataRepository<CashBox, CashBoxBuilder> {
 
     /**
      * Load all attributes based on the {@link Name}.

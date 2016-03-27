@@ -25,7 +25,7 @@ public class ReceiptEntity extends AbstractEntity {
 
     @NotNull
     @Expose
-    private LocalDateTime dateTime;
+    private LocalDateTime receiptDate;
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -47,7 +47,7 @@ public class ReceiptEntity extends AbstractEntity {
     @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     @Expose
-    private CashBoxEntity cashbox;
+    private CashBoxEntity cashBox;
 
     @NotNull
     @Valid
@@ -64,22 +64,22 @@ public class ReceiptEntity extends AbstractEntity {
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Expose
-    private Set<ReceiptElementEntity> paymentElement;
+    private Set<ReceiptElementEntity> receiptElements;
 
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime dateTime, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashbox, UserEntity user, ReceiptTypeEntity receiptType, Set<ReceiptElementEntity> paymentElement) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, Set<ReceiptElementEntity> receiptElements) {
         super(id, version);
         this.receiptId = receiptId;
-        this.dateTime = dateTime;
+        this.receiptDate = receiptDate;
         this.encryptedTurnoverValue = encryptedTurnoverValue;
         this.signatureValuePreviousReceipt = signatureValuePreviousReceipt;
         this.company = company;
-        this.cashbox = cashbox;
+        this.cashBox = cashBox;
         this.user = user;
         this.receiptType = receiptType;
-        this.paymentElement = paymentElement;
+        this.receiptElements = receiptElements;
     }
 
     public String getReceiptId() {
@@ -90,12 +90,12 @@ public class ReceiptEntity extends AbstractEntity {
         this.receiptId = receiptId;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getReceiptDate() {
+        return receiptDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setReceiptDate(LocalDateTime receiptDate) {
+        this.receiptDate = receiptDate;
     }
 
     public String getEncryptedTurnoverValue() {
@@ -122,12 +122,12 @@ public class ReceiptEntity extends AbstractEntity {
         this.company = company;
     }
 
-    public CashBoxEntity getCashbox() {
-        return cashbox;
+    public CashBoxEntity getCashBox() {
+        return cashBox;
     }
 
-    public void setCashbox(CashBoxEntity cashbox) {
-        this.cashbox = cashbox;
+    public void setCashBox(CashBoxEntity cashBox) {
+        this.cashBox = cashBox;
     }
 
     public UserEntity getUser() {
@@ -146,11 +146,11 @@ public class ReceiptEntity extends AbstractEntity {
         this.receiptType = receiptType;
     }
 
-    public Set<ReceiptElementEntity> getPaymentElement() {
-        return paymentElement;
+    public Set<ReceiptElementEntity> getReceiptElements() {
+        return receiptElements;
     }
 
-    public void setPaymentElement(Set<ReceiptElementEntity> paymentElement) {
-        this.paymentElement = paymentElement;
+    public void setReceiptElements(Set<ReceiptElementEntity> receiptElements) {
+        this.receiptElements = receiptElements;
     }
 }

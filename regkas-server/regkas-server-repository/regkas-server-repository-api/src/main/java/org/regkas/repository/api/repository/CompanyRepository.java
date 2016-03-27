@@ -11,14 +11,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link Company}.
  */
-public interface CompanyRepository extends MasterDataRepositoryWithDto<Company> {
-
-    /**
-     * Get the {@link CompanyBuilder}.
-     *
-     * @return the {@link CompanyBuilder}
-     */
-    CompanyBuilder builder();
+public interface CompanyRepository extends MasterDataRepositoryWithDto<Company, CompanyBuilder> {
 
     /**
      * Load all attributes based on the {@link Name}.

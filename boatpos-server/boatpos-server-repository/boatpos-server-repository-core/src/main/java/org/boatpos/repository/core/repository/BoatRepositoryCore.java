@@ -16,12 +16,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class BoatRepositoryCore extends MasterDataRepositoryCore<Boat, BoatCore, BoatEntity> implements BoatRepository {
-
-    @Override
-    public BoatBuilder builder() {
-        return new BoatBuilderCore();
-    }
+public class BoatRepositoryCore extends MasterDataRepositoryCore<Boat, BoatCore, BoatEntity, BoatBuilder, BoatBuilderCore> implements BoatRepository {
 
     @Override
     public Optional<Boat> loadBy(Name name) {

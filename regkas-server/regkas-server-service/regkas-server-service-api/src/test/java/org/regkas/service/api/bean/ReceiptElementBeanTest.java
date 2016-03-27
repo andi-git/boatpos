@@ -5,12 +5,10 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
-
-public class SaleElementBeanTest extends JavaBeanTest<SaleElementBean> {
+public class ReceiptElementBeanTest extends JavaBeanTest<ReceiptElementBean> {
 
     @Test
     public void testConstructor() {
-        new SaleElementBean(new ProductGroupBean(), BigDecimal.ZERO);
+        new ReceiptElementBean(new ProductBean(), 1, BigDecimal.ZERO);
     }
 }

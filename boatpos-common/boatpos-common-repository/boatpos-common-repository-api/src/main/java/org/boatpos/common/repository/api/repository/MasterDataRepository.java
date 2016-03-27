@@ -1,5 +1,6 @@
 package org.boatpos.common.repository.api.repository;
 
+import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.boatpos.common.repository.api.model.MasterData;
 import org.boatpos.common.repository.api.values.Enabled;
 
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * The repository for the {@link MasterData}.
  */
-public interface MasterDataRepository<MODEL extends MasterData> extends DomainModelRepository<MODEL> {
+public interface MasterDataRepository<MODEL extends MasterData, BUILDER extends MasterDataBuilder> extends DomainModelRepository<MODEL, BUILDER> {
 
     /**
      * Get a {@link List} of all {@link MODEL}s ordered by {@code priority}.

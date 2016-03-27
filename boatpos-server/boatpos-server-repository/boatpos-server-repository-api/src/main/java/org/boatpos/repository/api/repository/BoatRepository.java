@@ -13,14 +13,7 @@ import java.util.Optional;
 /**
  * The repository for the {@link Boat}.
  */
-public interface BoatRepository extends MasterDataRepositoryWithDto<Boat> {
-
-    /**
-     * Get the {@link BoatBuilder}.
-     *
-     * @return the {@link BoatBuilder}
-     */
-    BoatBuilder builder();
+public interface BoatRepository extends MasterDataRepositoryWithDto<Boat, BoatBuilder> {
 
     /**
      * Load all attributes based on the {@link DomainId}.

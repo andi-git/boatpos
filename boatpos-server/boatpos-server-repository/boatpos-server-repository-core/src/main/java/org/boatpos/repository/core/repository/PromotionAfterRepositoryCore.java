@@ -19,12 +19,7 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class PromotionAfterRepositoryCore extends MasterDataRepositoryCore<PromotionAfter, PromotionAfterCore, PromotionAfterEntity> implements PromotionAfterRepository {
-
-    @Override
-    public PromotionAfterBuilder builder() {
-        return new PromotionAfterBuilderCore();
-    }
+public class PromotionAfterRepositoryCore extends MasterDataRepositoryCore<PromotionAfter, PromotionAfterCore, PromotionAfterEntity, PromotionAfterBuilder, PromotionAfterBuilderCore> implements PromotionAfterRepository {
 
     @Override
     public Optional<PromotionAfter> loadBy(Name name) {

@@ -56,4 +56,18 @@
             <b>country</b>
         </field>
     </mapping>
+
+    <mapping wildcard="true">
+        <class-a>org.regkas.model.ReceiptEntity</class-a>
+        <class-b>org.regkas.service.api.bean.ReceiptBean</class-b>
+        <!--<field>-->
+            <!--<a>company</a>-->
+            <!--<b>commitmentBeans</b>-->
+        <!--</field>-->
+        <!--<field>-->
+            <!--<a>boat</a>-->
+            <!--<b>boatBean</b>-->
+        <!--</field>-->
+    </mapping>
+
 </mappings>

@@ -5,10 +5,16 @@
         <jta-data-source>java:jboss/datasources/regkas</jta-data-source>
         <mapping-file>META-INF/query/cashbox.xml</mapping-file>
         <mapping-file>META-INF/query/company.xml</mapping-file>
+        <mapping-file>META-INF/query/taxset.xml</mapping-file>
+        <mapping-file>META-INF/query/product.xml</mapping-file>
+        <mapping-file>META-INF/query/productgroup.xml</mapping-file>
+        <mapping-file>META-INF/query/receipt.xml</mapping-file>
+        <mapping-file>META-INF/query/receipttype.xml</mapping-file>
         <mapping-file>META-INF/query/user.xml</mapping-file>
         <class>org.regkas.model.AddressEntity</class>
         <class>org.regkas.model.CashBoxEntity</class>
         <class>org.regkas.model.CompanyEntity</class>
+        <class>org.regkas.model.ProductEntity</class>
         <class>org.regkas.model.ProductGroupEntity</class>
         <class>org.regkas.model.ReceiptElementEntity</class>
         <class>org.regkas.model.ReceiptEntity</class>

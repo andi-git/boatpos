@@ -8,6 +8,7 @@ import org.boatpos.repository.api.builder.PromotionBeforeBuilder;
 import org.boatpos.repository.api.model.PromotionBefore;
 import org.boatpos.repository.api.repository.PromotionBeforeRepository;
 import org.boatpos.repository.api.values.Name;
+import org.boatpos.repository.core.builder.PromotionAfterBuilderCore;
 import org.boatpos.repository.core.builder.PromotionBeforeBuilderCore;
 import org.boatpos.repository.core.model.PromotionBeforeCore;
 
@@ -19,12 +20,7 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class PromotionBeforeRepositoryCore extends MasterDataRepositoryCore<PromotionBefore, PromotionBeforeCore, PromotionBeforeEntity> implements PromotionBeforeRepository {
-
-    @Override
-    public PromotionBeforeBuilder builder() {
-        return new PromotionBeforeBuilderCore();
-    }
+public class PromotionBeforeRepositoryCore extends MasterDataRepositoryCore<PromotionBefore, PromotionBeforeCore, PromotionBeforeEntity, PromotionBeforeBuilder, PromotionAfterBuilderCore> implements PromotionBeforeRepository {
 
     @Override
     public Optional<PromotionBefore> loadBy(Name name) {

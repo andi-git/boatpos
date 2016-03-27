@@ -15,12 +15,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Dependent
-public class UserRepositoryCore extends MasterDataRepositoryCore<User, UserCore, UserEntity> implements UserRepository {
-
-    @Override
-    public UserBuilder builder() {
-        return new UserBuilderCore();
-    }
+public class UserRepositoryCore extends MasterDataRepositoryCore<User, UserCore, UserEntity, UserBuilder, UserBuilderCore> implements UserRepository {
 
     @Override
     public Optional<User> loadBy(Name name) {

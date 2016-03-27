@@ -6,8 +6,6 @@ import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Representation of a bill / payment.
@@ -52,44 +50,19 @@ public class BillBean extends AbstractBean {
 
     private CompanyBean company;
 
-    private List<TaxSetBean.TaxSetNormalBean> taxSetNormal = new ArrayList<>();
-
-    private List<TaxSetBean.TaxSetErmaessigt1Bean> taxSetErmaessigt1 = new ArrayList<>();
-
-    private List<TaxSetBean.TaxSetErmaessigt2Bean> taxSetErmaessigt2 = new ArrayList<>();
-
-    private List<TaxSetBean.TaxSetBesonderesBean> taxSetBesonderesBean = new ArrayList<>();
-
-    private List<TaxSetBean.TaxSetNullBean> taxSetNullBean = new ArrayList<>();
-
     public BillBean() {
     }
 
-    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, List<TaxSetBean.TaxSetNormalBean> taxSetNormal, List<TaxSetBean.TaxSetErmaessigt1Bean> taxSetErmaessigt1, List<TaxSetBean.TaxSetErmaessigt2Bean> taxSetErmaessigt2, List<TaxSetBean.TaxSetBesonderesBean> taxSetBesonderesBean, List<TaxSetBean.TaxSetNullBean> taxSetNullBean) {
+    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, BigDecimal sumTaxSetNormal, BigDecimal sumTaxSetErmaessigt1, BigDecimal sumTaxSetErmaessigt2, BigDecimal sumTaxSetBesonderes, BigDecimal sumTaxSetNull) {
         this.cashBoxID = cashBoxID;
         this.receiptIdentifier = receiptIdentifier;
         this.receiptDateAndTime = receiptDateAndTime;
         this.company = company;
-        this.taxSetNormal.addAll(taxSetNormal);
-        this.taxSetErmaessigt1.addAll(taxSetErmaessigt1);
-        this.taxSetErmaessigt2.addAll(taxSetErmaessigt2);
-        this.taxSetBesonderesBean.addAll(taxSetBesonderesBean);
-        this.taxSetNullBean.addAll(taxSetNullBean);
-        if (this.taxSetNormal != null) {
-            taxSetNormal.stream().forEach((p) -> sumTaxSetNormal = sumTaxSetNormal.add(p.getValue()));
-        }
-        if (this.taxSetErmaessigt1 != null) {
-            taxSetErmaessigt1.stream().forEach((p) -> sumTaxSetErmaessigt1 = sumTaxSetErmaessigt1.add(p.getValue()));
-        }
-        if (this.taxSetErmaessigt2 != null) {
-            taxSetErmaessigt2.stream().forEach((p) -> sumTaxSetErmaessigt2 = sumTaxSetErmaessigt2.add(p.getValue()));
-        }
-        if (this.taxSetBesonderesBean != null) {
-            taxSetBesonderesBean.stream().forEach((p) -> sumTaxSetBesonders = sumTaxSetBesonders.add(p.getValue()));
-        }
-        if (this.taxSetNullBean != null) {
-            taxSetNullBean.stream().forEach((p) -> sumTaxSetNull = sumTaxSetNull.add(p.getValue()));
-        }
+        this.sumTaxSetNormal = sumTaxSetNormal;
+        this.sumTaxSetErmaessigt1 = sumTaxSetErmaessigt1;
+        this.sumTaxSetErmaessigt2 = sumTaxSetErmaessigt2;
+        this.sumTaxSetBesonders = sumTaxSetBesonderes;
+        this.sumTaxSetNull = sumTaxSetNull;
     }
 
     public String getCashBoxID() {
@@ -186,45 +159,5 @@ public class BillBean extends AbstractBean {
 
     public void setCompany(CompanyBean company) {
         this.company = company;
-    }
-
-    public List<TaxSetBean.TaxSetNormalBean> getTaxSetNormal() {
-        return taxSetNormal;
-    }
-
-    public void setTaxSetNormal(List<TaxSetBean.TaxSetNormalBean> taxSetNormal) {
-        this.taxSetNormal = taxSetNormal;
-    }
-
-    public List<TaxSetBean.TaxSetErmaessigt1Bean> getTaxSetErmaessigt1() {
-        return taxSetErmaessigt1;
-    }
-
-    public void setTaxSetErmaessigt1(List<TaxSetBean.TaxSetErmaessigt1Bean> taxSetErmaessigt1) {
-        this.taxSetErmaessigt1 = taxSetErmaessigt1;
-    }
-
-    public List<TaxSetBean.TaxSetErmaessigt2Bean> getTaxSetErmaessigt2() {
-        return taxSetErmaessigt2;
-    }
-
-    public void setTaxSetErmaessigt2(List<TaxSetBean.TaxSetErmaessigt2Bean> taxSetErmaessigt2) {
-        this.taxSetErmaessigt2 = taxSetErmaessigt2;
-    }
-
-    public List<TaxSetBean.TaxSetBesonderesBean> getTaxSetBesonderesBean() {
-        return taxSetBesonderesBean;
-    }
-
-    public void setTaxSetBesonderesBean(List<TaxSetBean.TaxSetBesonderesBean> taxSetBesonderesBean) {
-        this.taxSetBesonderesBean = taxSetBesonderesBean;
-    }
-
-    public List<TaxSetBean.TaxSetNullBean> getTaxSetNullBean() {
-        return taxSetNullBean;
-    }
-
-    public void setTaxSetNullBean(List<TaxSetBean.TaxSetNullBean> taxSetNullBean) {
-        this.taxSetNullBean = taxSetNullBean;
     }
 }

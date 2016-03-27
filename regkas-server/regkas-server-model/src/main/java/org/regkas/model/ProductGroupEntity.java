@@ -26,7 +26,12 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @Expose
-    private TaxSetEntity tax;
+    private TaxSetEntity taxSet;
+
+    @Valid
+    @NotNull
+    @Expose
+    private CompanyEntity company;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -36,10 +41,11 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
     public ProductGroupEntity() {
     }
 
-    public ProductGroupEntity(Long id, Integer version, Boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity tax, Set<ReceiptElementEntity> receiptElements) {
+    public ProductGroupEntity(Long id, Integer version, Boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity taxSet, CompanyEntity company, Set<ReceiptElementEntity> receiptElements) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
-        this.tax = tax;
+        this.taxSet = taxSet;
+        this.company = company;
         this.receiptElements = receiptElements;
     }
 
@@ -51,12 +57,20 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
         this.name = name;
     }
 
-    public TaxSetEntity getTax() {
-        return tax;
+    public TaxSetEntity getTaxSet() {
+        return taxSet;
     }
 
-    public void setTax(TaxSetEntity tax) {
-        this.tax = tax;
+    public void setTaxSet(TaxSetEntity taxSet) {
+        this.taxSet = taxSet;
+    }
+
+    public CompanyEntity getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyEntity company) {
+        this.company = company;
     }
 
     public Set<ReceiptElementEntity> getReceiptElements() {
