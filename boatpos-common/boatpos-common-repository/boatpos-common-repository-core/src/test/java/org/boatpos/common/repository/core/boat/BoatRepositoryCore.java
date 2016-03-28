@@ -11,11 +11,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class BoatRepositoryCore extends MasterDataRepositoryCore<Boat, BoatCore, BoatEntity, BoatBuilder, BoatBuilderCore> implements BoatRepository {
 
     @Override
-    public BoatBuilder builder() {
-        return new BoatBuilderCore();
-    }
-
-    @Override
     public Optional<Boat> loadBy(Name name) {
         checkNotNull(name, "'name' must not be null");
         return loadByParameter("boat.getByName", (query) -> query.setParameter("name", name.get()));

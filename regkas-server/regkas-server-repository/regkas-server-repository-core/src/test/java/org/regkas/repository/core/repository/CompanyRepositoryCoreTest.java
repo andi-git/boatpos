@@ -26,12 +26,6 @@ public class CompanyRepositoryCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testBuilder() {
-        assertEquals(CompanyBuilderCore.class, companyRepository.builder().getClass());
-    }
-
-    @Test
-    @Transactional
     public void testLoadByName() {
         assertEquals("atu123", companyRepository.loadBy(new Name("company")).get().getATU().get());
     }

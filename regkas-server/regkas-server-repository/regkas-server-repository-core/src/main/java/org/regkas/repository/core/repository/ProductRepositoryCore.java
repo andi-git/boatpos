@@ -28,7 +28,7 @@ public class ProductRepositoryCore extends MasterDataRepositoryCore<Product, Pro
     @Override
     public List<Product> loadBy(ProductGroup productGroup) {
         checkNotNull(productGroup, "'productGroup' must not be null");
-        return loadAll("product.getByProductGroup", ProductCore::new, (query) -> query.setParameter("id", productGroup.getId()));
+        return loadAll("product.getByProductGroup", ProductCore::new, (query) -> query.setParameter("id", productGroup.getId().get()));
     }
 
     @Override

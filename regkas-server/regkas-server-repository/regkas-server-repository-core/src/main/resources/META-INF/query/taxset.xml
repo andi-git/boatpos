@@ -4,15 +4,15 @@
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
     <named-query name="taxset.getByName">
-        <query>FROM TextSetEntity t WHERE t.name = :name</query>
+        <query>FROM TaxSetEntity t WHERE t.name = :name</query>
     </named-query>
     <named-query name="taxset.getAll">
-        <query>FROM TextSetEntity t ORDER BY t.priority</query>
+        <query>FROM TaxSetEntity t ORDER BY t.priority</query>
     </named-query>
     <named-query name="taxset.getAllEnabled">
-        <query>FROM TextSetEntity t WHERE t.enabled = TRUE ORDER BY t.priority</query>
+        <query>FROM TaxSetEntity t WHERE t.enabled = TRUE ORDER BY t.priority</query>
     </named-query>
     <named-query name="taxset.getAllDisabled">
-        <query>FROM TextSetEntity t WHERE (t.enabled = FALSE OR t.enabled IS NULL) ORDER BY t.priority</query>
+        <query>FROM TaxSetEntity t WHERE (t.enabled = FALSE OR t.enabled IS NULL) ORDER BY t.priority</query>
     </named-query>
 </entity-mappings>

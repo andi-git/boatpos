@@ -30,23 +30,24 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
 
     @Valid
     @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
     @Expose
     private CompanyEntity company;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Expose
-    private Set<ReceiptElementEntity> receiptElements;
+    private Set<ProductEntity> products;
 
     public ProductGroupEntity() {
     }
 
-    public ProductGroupEntity(Long id, Integer version, Boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity taxSet, CompanyEntity company, Set<ReceiptElementEntity> receiptElements) {
+    public ProductGroupEntity(Long id, Integer version, Boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity taxSet, CompanyEntity company, Set<ProductEntity> products) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.taxSet = taxSet;
         this.company = company;
-        this.receiptElements = receiptElements;
+        this.products = products;
     }
 
     public String getName() {
@@ -73,11 +74,11 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
         this.company = company;
     }
 
-    public Set<ReceiptElementEntity> getReceiptElements() {
-        return receiptElements;
+    public Set<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setReceiptElements(Set<ReceiptElementEntity> receiptElements) {
-        this.receiptElements = receiptElements;
+    public void setProducts(Set<ProductEntity> products) {
+        this.products = products;
     }
 }

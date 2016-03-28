@@ -18,7 +18,7 @@ public class ReceiptBean extends AbstractBeanBasedOnEntity {
 
     @NotNull
     @Expose
-    private LocalDateTime dateTime;
+    private LocalDateTime receiptDate;
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -47,20 +47,20 @@ public class ReceiptBean extends AbstractBeanBasedOnEntity {
 
     @Valid
     @Expose
-    private Set<ReceiptElementBean> receiptElement;
+    private Set<ReceiptElementBean> receiptElements;
 
     public ReceiptBean() {
     }
 
-    public ReceiptBean(String receiptId, LocalDateTime dateTime, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyBean company, String cashbox, String receiptType, Set<ReceiptElementBean> receiptElement) {
+    public ReceiptBean(String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyBean company, String cashbox, String receiptType, Set<ReceiptElementBean> receiptElements) {
         this.receiptId = receiptId;
-        this.dateTime = dateTime;
+        this.receiptDate = receiptDate;
         this.encryptedTurnoverValue = encryptedTurnoverValue;
         this.signatureValuePreviousReceipt = signatureValuePreviousReceipt;
         this.company = company;
         this.cashbox = cashbox;
         this.receiptType = receiptType;
-        this.receiptElement = receiptElement;
+        this.receiptElements = receiptElements;
     }
 
     public String getReceiptId() {
@@ -71,12 +71,12 @@ public class ReceiptBean extends AbstractBeanBasedOnEntity {
         this.receiptId = receiptId;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getReceiptDate() {
+        return receiptDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setReceiptDate(LocalDateTime receiptDate) {
+        this.receiptDate = receiptDate;
     }
 
     public String getEncryptedTurnoverValue() {
@@ -119,11 +119,11 @@ public class ReceiptBean extends AbstractBeanBasedOnEntity {
         this.receiptType = receiptType;
     }
 
-    public Set<ReceiptElementBean> getReceiptElement() {
-        return receiptElement;
+    public Set<ReceiptElementBean> getReceiptElements() {
+        return receiptElements;
     }
 
-    public void setReceiptElement(Set<ReceiptElementBean> receiptElement) {
-        this.receiptElement = receiptElement;
+    public void setReceiptElements(Set<ReceiptElementBean> receiptElements) {
+        this.receiptElements = receiptElements;
     }
 }

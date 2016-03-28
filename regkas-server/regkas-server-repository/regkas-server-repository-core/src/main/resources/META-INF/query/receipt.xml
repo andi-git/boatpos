@@ -4,6 +4,6 @@
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
     <named-query name="receipt.getBetween">
-        <query>FROM Receipt r WHERE r.receiptDate BETWEEN :start AND :end ORDER BY id</query>
+        <query>FROM ReceiptEntity r WHERE r.receiptDate BETWEEN :start AND :end ORDER BY id</query>
     </named-query>
 </entity-mappings>

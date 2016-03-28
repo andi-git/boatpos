@@ -11,10 +11,8 @@ import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +36,7 @@ public abstract class DomainModelRepositoryCore<MODEL extends DomainModel, MODEL
             //noinspection unchecked
             return (BUILDER) getBuilderCoreType().getConstructor().newInstance();
         } catch (Exception e) {
-            log.error("unable to create builder, type: {}", getBuilderCoreType());
-            throw new RuntimeException(e);
+            throw new RuntimeException("unable to create builder, type: " + getBuilderCoreType(), e);
         }
     }
 

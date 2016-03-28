@@ -23,7 +23,7 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
         return loadAll("receipt.getBetween",
                 ReceiptCore::new,
                 (query) -> query
-                        .setParameter("start", period.getStart())
-                        .setParameter("end", period.getEnd()));
+                        .setParameter("start", period.getStartDay())
+                        .setParameter("end", period.getEndDay()));
     }
 }

@@ -4,10 +4,10 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.model.Company;
-import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.model.Product;
+import org.regkas.repository.api.repository.ProductRepository;
 import org.regkas.repository.api.values.Name;
-import org.regkas.service.api.bean.CompanyBean;
+import org.regkas.service.api.bean.ProductBean;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
@@ -17,26 +17,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(Arquillian.class)
-public class CompanyMappingTest extends EntityManagerProviderForRegkas {
+public class ProductMappingTest extends EntityManagerProviderForRegkas {
 
     @Inject
-    private CompanyRepository companyRepository;
+    private ProductRepository productRepository;
 
     @Inject
-    private CompanyMapping companyMapping;
+    private ProductMapping productMapping;
 
     @Test
     @Transactional
     public void testFromCDI() {
-        assertNotNull(CompanyMapping.fromCDI());
+        assertNotNull(ProductMapping.fromCDI());
     }
 
     @Test
     @Transactional
     public void testMappingEntityToDto() {
-        Optional<Company> company = companyRepository.loadBy(new Name("company"));
-        CompanyBean companyBean = companyMapping.mapEntity(company.get().asEntity());
-        assertEquals("company", companyBean.getName());
-        assertEquals("Street 1", companyBean.getStreet());
+        Optional<Product> product = productRepository.loadBy(new Name("Cola"));
+        ProductBean productBean = productMapping.mapEntity(product.get().asEntity());
+        assertEquals("Cola", productBean.getName());
     }
 }

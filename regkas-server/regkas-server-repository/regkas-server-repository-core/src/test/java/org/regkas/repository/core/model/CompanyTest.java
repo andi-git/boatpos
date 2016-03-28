@@ -4,10 +4,7 @@ import com.google.common.collect.Sets;
 import org.junit.Test;
 import org.regkas.repository.api.model.Address;
 import org.regkas.repository.api.model.Company;
-import org.regkas.repository.core.builder.AddressBuilderCoreTest;
-import org.regkas.repository.core.builder.CashBoxBuilderCoreTest;
-import org.regkas.repository.core.builder.CompanyBuilderCoreTest;
-import org.regkas.repository.core.builder.UserBuilderCoreTest;
+import org.regkas.repository.core.builder.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,5 +34,12 @@ public class CompanyTest {
         company.clearCashBoxes();
         company.addCashBoxes(Sets.newHashSet(CashBoxBuilderCoreTest.build()));
         assertEquals(1, company.getCashBoxes().size());
+
+        company.clearProductGroups();
+        company.addProductGroup(ProductGroupBuilderCoreTest.build());
+        assertEquals(1, company.getProductGroups().size());
+        company.clearProductGroups();
+        company.addProductGroups(Sets.newHashSet(ProductGroupBuilderCoreTest.build()));
+        assertEquals(1, company.getProductGroups().size());
     }
 }

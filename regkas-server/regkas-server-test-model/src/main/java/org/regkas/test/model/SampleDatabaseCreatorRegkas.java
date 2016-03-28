@@ -116,20 +116,23 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
             // clear all tables
             em.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
             em.createNativeQuery("DELETE FROM address").executeUpdate();
+            em.createNativeQuery("DELETE FROM address_company").executeUpdate();
             em.createNativeQuery("DELETE FROM cashbox").executeUpdate();
             em.createNativeQuery("DELETE FROM company").executeUpdate();
+            em.createNativeQuery("DELETE FROM company_cashbox").executeUpdate();
+            em.createNativeQuery("DELETE FROM company_productgroup").executeUpdate();
+            em.createNativeQuery("DELETE FROM company_user").executeUpdate();
+            em.createNativeQuery("DELETE FROM product").executeUpdate();
+            em.createNativeQuery("DELETE FROM product_receiptelement").executeUpdate();
             em.createNativeQuery("DELETE FROM productgroup").executeUpdate();
+            em.createNativeQuery("DELETE FROM productgroup_product").executeUpdate();
             em.createNativeQuery("DELETE FROM receiptelement").executeUpdate();
             em.createNativeQuery("DELETE FROM receipt").executeUpdate();
             em.createNativeQuery("DELETE FROM receipttype").executeUpdate();
-            em.createNativeQuery("DELETE FROM taxset").executeUpdate();
-            em.createNativeQuery("DELETE FROM user").executeUpdate();
-            em.createNativeQuery("DELETE FROM address_company").executeUpdate();
-            em.createNativeQuery("DELETE FROM company_cashbox").executeUpdate();
-            em.createNativeQuery("DELETE FROM company_user").executeUpdate();
-            em.createNativeQuery("DELETE FROM productgroup_receiptelement").executeUpdate();
             em.createNativeQuery("DELETE FROM receipt_receiptelement").executeUpdate();
+            em.createNativeQuery("DELETE FROM taxset").executeUpdate();
             em.createNativeQuery("DELETE FROM taxset_productgroup").executeUpdate();
+            em.createNativeQuery("DELETE FROM user").executeUpdate();
             em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
             // reset sequence for ids and clear cache
             em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();

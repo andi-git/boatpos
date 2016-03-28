@@ -23,7 +23,6 @@ public class ReceiptElementEntity extends AbstractEntity {
     @Valid
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
-    @Expose
     private ProductEntity product;
 
     @NotNull
@@ -39,7 +38,6 @@ public class ReceiptElementEntity extends AbstractEntity {
     @NotNull
     @Valid
     @ManyToOne(cascade = CascadeType.ALL)
-    @Expose
     private ReceiptEntity receipt;
 
     public ReceiptElementEntity() {

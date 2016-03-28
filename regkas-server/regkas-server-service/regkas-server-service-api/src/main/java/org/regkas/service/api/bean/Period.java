@@ -1,42 +1,68 @@
 package org.regkas.service.api.bean;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * The period of the time.
  */
 public class Period {
 
-    private LocalDate start;
+    private LocalDateTime start;
 
-    private LocalDate end;
+    private LocalDateTime end;
 
-    public Period(LocalDate start, LocalDate end) {
-        this.start = start;
-        this.end = end;
+    public Period(LocalDateTime start, LocalDateTime end) {
+        this.start = LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(), 0, 0, 0, 0);
+        this.end = LocalDateTime.of(end.getYear(), end.getMonth(), end.getDayOfMonth(), 23, 59, 59, 999999999);
     }
 
-    public LocalDate getStart() {
+    /**
+     * The day where the period starts. It's accuracy is day, so:
+     * <pre>
+     * <ul>
+     *     <li>hour: 0</li>
+     *     <li>minute: 0</li>
+     *     <li>second: 0</li>
+     *     <li>nano: 0</li>
+     * </ul>
+     * </pre>
+     *
+     * @return the start-day of the period
+     */
+    public LocalDateTime getStartDay() {
         return start;
     }
 
-    public LocalDate getEnd() {
+    /**
+     * The day where the period ends. It's accuracy is day, so:
+     * <pre>
+     * <ul>
+     *     <li>hour: 23</li>
+     *     <li>minute: 59</li>
+     *     <li>second: 59</li>
+     *     <li>nano: 999.999.999</li>
+     * </ul>
+     * </pre>
+     *
+     * @return the end-day of the period
+     */
+    public LocalDateTime getEndDay() {
         return end;
     }
 
-    public static Period day(LocalDate date) {
+    public static Period day(LocalDateTime date) {
         return new Period(date, date);
     }
 
-    public static Period month(LocalDate date) {
+    public static Period month(LocalDateTime date) {
         return new Period(
-                LocalDate.from(date).withDayOfMonth(1),
-                LocalDate.from(date).withDayOfMonth(date.lengthOfMonth()));
+                LocalDateTime.from(date).withDayOfMonth(1),
+                LocalDateTime.from(date).withDayOfMonth(date.toLocalDate().lengthOfMonth()));
     }
 
-    public static Period year(LocalDate date) {
+    public static Period year(LocalDateTime date) {
         return new Period(
-                LocalDate.from(date).withMonth(1).withDayOfMonth(1),
-                LocalDate.from(date).withMonth(12).withDayOfMonth(date.lengthOfMonth()));
+                LocalDateTime.from(date).withMonth(1).withDayOfMonth(1),
+                LocalDateTime.from(date).withMonth(12).withDayOfMonth(date.toLocalDate().lengthOfMonth()));
     }
 }

@@ -23,12 +23,6 @@ public class UserRepositoryCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testBuilder() {
-        assertEquals(UserBuilderCore.class, userRepository.builder().getClass());
-    }
-
-    @Test
-    @Transactional
     public void testLoadByName() {
         assertEquals("abc123", userRepository.loadBy(new Name("Maria Musterfrau")).get().getPassword().get());
     }
