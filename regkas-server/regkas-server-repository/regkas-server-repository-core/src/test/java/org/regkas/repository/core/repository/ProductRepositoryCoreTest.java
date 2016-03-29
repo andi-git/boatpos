@@ -35,6 +35,6 @@ public class ProductRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testLoadByProductGroup() {
         Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"));
-        assertEquals(1, productRepository.loadBy(productGroup.get()).size());
+        assertEquals(2, productRepository.loadBy(productGroup.get()).size());
     }
 }

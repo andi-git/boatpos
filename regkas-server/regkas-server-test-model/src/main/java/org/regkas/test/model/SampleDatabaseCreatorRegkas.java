@@ -64,6 +64,10 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         ProductEntity product2 = new ProductEntity(null, null, true, 2, 'B', "", "", "Cola", productGroup6, new HashSet<>(), new BigDecimal("2.50"), false);
         ProductEntity product3 = new ProductEntity(null, null, true, 3, 'C', "", "", "Cornetto", productGroup2, new HashSet<>(), new BigDecimal("2.00"), false);
         ProductEntity product4 = new ProductEntity(null, null, true, 4, 'D', "", "", "Wurstsemmel", productGroup1, new HashSet<>(), new BigDecimal("2.20"), false);
+        productGroup1.getProducts().add(product1);
+        productGroup1.getProducts().add(product4);
+        productGroup6.getProducts().add(product2);
+        productGroup2.getProducts().add(product3);
 
         ReceiptTypeEntity receiptType1 = new ReceiptTypeEntity(null, null, true, 1, "", "", "Start-Beleg");
         ReceiptTypeEntity receiptType2 = new ReceiptTypeEntity(null, null, true, 2, "", "", "Standard-Beleg");
@@ -91,6 +95,7 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.persist(taxSet3);
         em.persist(taxSet4);
         em.persist(taxSet5);
+        em.persist(product1);
         em.persist(productGroup1);
         em.persist(productGroup2);
         em.persist(productGroup3);

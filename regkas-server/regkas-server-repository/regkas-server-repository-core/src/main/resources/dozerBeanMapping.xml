@@ -83,4 +83,15 @@
         </field>
     </mapping>
 
+    <mapping wildcard="true">
+        <class-a>org.regkas.model.ProductGroupEntity</class-a>
+        <class-b>org.regkas.service.api.bean.ProductGroupBean</class-b>
+        <field>
+            <a>products</a>
+            <b>products</b>
+            <a-hint>org.regkas.model.ProductEntity</a-hint>
+            <b-hint>org.regkas.service.api.bean.ProductBean</b-hint>
+        </field>
+    </mapping>
+
 </mappings>

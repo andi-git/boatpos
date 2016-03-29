@@ -1,5 +1,6 @@
 package org.regkas.service.api.bean;
 
+import com.google.common.collect.Lists;
 import org.boatpos.common.test.JavaBeanTest;
 import org.junit.Test;
 
@@ -9,6 +10,6 @@ public class ProductGroupBeanTest extends JavaBeanTest<ProductGroupBean> {
 
     @Test
     public void testConstructor() {
-        new ProductGroupBean(1L, 1, true, 1, ' ', "", "", "name", 20);
+        new ProductGroupBean(1L, 1, true, 1, ' ', "", "", "name", 20, Lists.newArrayList());
     }
 }

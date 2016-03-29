@@ -5,6 +5,9 @@ import org.regkas.model.ProductGroupEntity;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.bean.ProductGroupBean;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * The domain model for a product-group.
  */
@@ -17,4 +20,12 @@ public interface ProductGroup extends MasterDataWithDto<ProductGroup, ProductGro
     TaxSet getTaxSet();
 
     ProductGroup setTaxSet(TaxSet taxSet);
+
+    List<Product> getProducts();
+
+    ProductGroup addProducts(List<Product> products);
+
+    ProductGroup addProduct(Product product);
+
+    ProductGroup clearProducts();
 }

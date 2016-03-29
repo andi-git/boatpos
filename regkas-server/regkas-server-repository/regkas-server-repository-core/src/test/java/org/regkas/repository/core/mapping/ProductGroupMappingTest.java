@@ -4,6 +4,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.model.ProductGroupEntity;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.repository.ProductGroupRepository;
 import org.regkas.repository.api.values.Name;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 public class ProductGroupMappingTest extends EntityManagerProviderForRegkas {
@@ -35,7 +37,10 @@ public class ProductGroupMappingTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testMappingEntityToDto() {
         Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"));
+        assertEquals(2, productGroup.get().getProducts().size());
         ProductGroupBean productGroupBean = productGroupMapping.mapEntity(productGroup.get().asEntity());
         assertEquals("Snack", productGroupBean.getName());
+        assertEquals(2, productGroupBean.getProducts().size());
+        assertTrue(productGroupBean.getProducts().get(0).getPriority() < productGroupBean.getProducts().get(1).getPriority());
     }
 }

@@ -42,17 +42,14 @@ public class CompanyEntity extends AbstractMasterDataEntity {
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Expose
     private Set<CashBoxEntity> cashBoxes;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Expose
     private Set<UserEntity> users;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Expose
     private Set<ProductGroupEntity> productGroups;
 
     public CompanyEntity() {

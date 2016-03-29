@@ -3,10 +3,12 @@ package org.regkas.service.api.bean;
 import com.google.gson.annotations.Expose;
 import org.boatpos.common.service.api.bean.AbstractMasterDataBean;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Representation of a product-group.
@@ -24,13 +26,19 @@ public class ProductGroupBean extends AbstractMasterDataBean {
     @Expose
     private Integer taxPercent;
 
+    @NotNull
+    @Valid
+    @Expose
+    private List<ProductBean> products;
+
     public ProductGroupBean() {
     }
 
-    public ProductGroupBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, Integer taxPercent) {
+    public ProductGroupBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, Integer taxPercent, List<ProductBean> products) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.taxPercent = taxPercent;
+        this.products = products;
     }
 
     public String getName() {
@@ -47,5 +55,13 @@ public class ProductGroupBean extends AbstractMasterDataBean {
 
     public void setTaxPercent(Integer taxPercent) {
         this.taxPercent = taxPercent;
+    }
+
+    public List<ProductBean> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductBean> products) {
+        this.products = products;
     }
 }

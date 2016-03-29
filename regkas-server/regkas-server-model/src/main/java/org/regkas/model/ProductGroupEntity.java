@@ -36,7 +36,6 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Expose
     private Set<ProductEntity> products;
 
     public ProductGroupEntity() {

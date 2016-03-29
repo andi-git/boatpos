@@ -1,8 +1,10 @@
 package org.regkas.repository.core.builder;
 
+import com.google.common.collect.Lists;
 import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 import org.regkas.model.ProductGroupEntity;
 import org.regkas.repository.api.builder.ProductGroupBuilder;
+import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.model.TaxSet;
 import org.regkas.repository.api.values.Name;
@@ -10,6 +12,7 @@ import org.regkas.repository.core.model.ProductGroupCore;
 import org.regkas.service.api.bean.ProductGroupBean;
 
 import javax.enterprise.context.Dependent;
+import java.util.List;
 
 @Dependent
 public class ProductGroupBuilderCore
@@ -20,9 +23,11 @@ public class ProductGroupBuilderCore
 
     private TaxSet taxSet;
 
+    private List<Product> products = Lists.newArrayList();
+
     @Override
     public ProductGroup build() {
-        return new ProductGroupCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, taxSet);
+        return new ProductGroupCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, taxSet, products);
     }
 
     @Override
@@ -34,6 +39,12 @@ public class ProductGroupBuilderCore
     @Override
     public ProductGroupBuilder add(TaxSet taxSet) {
         this.taxSet = taxSet;
+        return this;
+    }
+
+    @Override
+    public ProductGroupBuilder add(Product product) {
+        this.products.add(product);
         return this;
     }
 }
