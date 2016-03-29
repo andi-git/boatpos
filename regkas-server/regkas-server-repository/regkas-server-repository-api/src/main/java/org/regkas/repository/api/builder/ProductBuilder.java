@@ -7,6 +7,7 @@ import org.regkas.model.ProductGroupEntity;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.model.TaxSet;
+import org.regkas.repository.api.values.Generic;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.Price;
 import org.regkas.service.api.bean.ProductBean;
@@ -21,4 +22,6 @@ public interface ProductBuilder extends MasterDataBuilderWithDto<ProductBuilder,
     ProductBuilder add(Price price);
 
     ProductBuilder add(ProductGroup productGroup);
+
+    ProductBuilder add(Generic generic);
 }

@@ -9,6 +9,7 @@ import org.regkas.repository.core.builder.ProductGroupBuilderCoreTest;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ProductCoreTest {
 
@@ -18,5 +19,6 @@ public class ProductCoreTest {
         assertEquals("product-name", product.getName().get());
         assertEquals(BigDecimal.ONE, product.getPrice().get());
         assertEquals("productgroup-name", product.getProductGroup().getName().get());
+        assertFalse(product.isGeneric().get());
     }
 }

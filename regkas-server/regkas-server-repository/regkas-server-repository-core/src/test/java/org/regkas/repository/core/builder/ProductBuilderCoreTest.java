@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.regkas.model.ProductGroupEntity;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.values.Generic;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.Password;
 import org.regkas.repository.api.values.Price;
@@ -31,6 +32,7 @@ public class ProductBuilderCoreTest {
                 .add(new Name("product-name"))
                 .add(new Price(BigDecimal.ONE))
                 .add(ProductGroupBuilderCoreTest.build())
+                .add(Generic.FALSE)
                 .build();
     }
 }

@@ -13,6 +13,6 @@ public class ProductEntityTest extends JavaBeanTest<ProductEntity> {
 
     @Test
     public void testConstructor() {
-        new ProductEntity(1L, 1, true, 1, 'a', "", "", "product", new ProductGroupEntity(), new HashSet<>(), BigDecimal.ZERO);
+        new ProductEntity(1L, 1, true, 1, 'a', "", "", "product", new ProductGroupEntity(), new HashSet<>(), BigDecimal.ZERO, true);
     }
 }

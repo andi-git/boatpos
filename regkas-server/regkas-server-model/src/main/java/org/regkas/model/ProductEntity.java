@@ -1,7 +1,6 @@
 package org.regkas.model;
 
 import com.google.gson.annotations.Expose;
-import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import javax.persistence.*;
@@ -36,6 +35,9 @@ public class ProductEntity extends AbstractMasterDataEntity {
     @Expose
     private BigDecimal price;
 
+    @Expose
+    private Boolean generic;
+
     @NotNull
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,12 +47,13 @@ public class ProductEntity extends AbstractMasterDataEntity {
     public ProductEntity() {
     }
 
-    public ProductEntity(Long id, Integer version, Boolean enabled, int priority, char keyBinding, String pictureUrlThumb, String pictureUrl, String name, ProductGroupEntity productGroup, Set<ReceiptElementEntity> receiptElements, BigDecimal price) {
+    public ProductEntity(Long id, Integer version, Boolean enabled, int priority, char keyBinding, String pictureUrlThumb, String pictureUrl, String name, ProductGroupEntity productGroup, Set<ReceiptElementEntity> receiptElements, BigDecimal price, boolean generic) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.productGroup = productGroup;
         this.receiptElements = receiptElements;
         this.price = price;
+        this.generic = generic;
     }
 
     public String getName() {
@@ -83,5 +86,13 @@ public class ProductEntity extends AbstractMasterDataEntity {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Boolean getGeneric() {
+        return generic;
+    }
+
+    public void setGeneric(Boolean generic) {
+        this.generic = generic;
     }
 }

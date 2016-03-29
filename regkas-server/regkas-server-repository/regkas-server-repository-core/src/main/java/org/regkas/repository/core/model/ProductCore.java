@@ -5,6 +5,7 @@ import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.ProductEntity;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
+import org.regkas.repository.api.values.Generic;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.Price;
 import org.regkas.repository.core.mapping.ProductMapping;
@@ -23,14 +24,17 @@ public class ProductCore extends MasterDataCore<Product, ProductEntity> implemen
                        PictureUrlThumb pictureUrlThumb,
                        Name name,
                        Price price,
-                       ProductGroup productGroup) {
+                       ProductGroup productGroup,
+                       Generic generic) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(price, "'price' must not be null");
         checkNotNull(productGroup, "'productGroup' must not be null");
+        checkNotNull(generic, "'generic' must not be null");
         setName(name);
         setPrice(price);
         setProductGroup(productGroup);
+        setGeneric(generic);
     }
 
     public ProductCore(ProductEntity product) {
@@ -67,6 +71,18 @@ public class ProductCore extends MasterDataCore<Product, ProductEntity> implemen
     @Override
     public Product setProductGroup(ProductGroup productGroup) {
         if (productGroup != null) getEntity().setProductGroup(productGroup.asEntity());
+        return this;
+    }
+
+    @Override
+    public Generic isGeneric() {
+        return new Generic(getEntity().getGeneric());
+    }
+
+    @Override
+    public Product setGeneric(Generic generic) {
+        getEntity().setGeneric(SimpleValueObject.nullSafe(generic));
+        //noinspection unchecked
         return this;
     }
 

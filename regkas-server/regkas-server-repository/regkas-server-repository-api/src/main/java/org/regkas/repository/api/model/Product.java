@@ -3,6 +3,7 @@ package org.regkas.repository.api.model;
 import org.boatpos.common.repository.api.model.MasterDataWithDto;
 import org.regkas.model.ProductEntity;
 import org.regkas.model.ProductGroupEntity;
+import org.regkas.repository.api.values.Generic;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.Price;
 import org.regkas.service.api.bean.ProductBean;
@@ -24,4 +25,8 @@ public interface Product extends MasterDataWithDto<Product, ProductEntity, Produ
     ProductGroup getProductGroup();
 
     Product setProductGroup(ProductGroup productGroup);
+
+    Generic isGeneric();
+
+    Product setGeneric(Generic generic);
 }

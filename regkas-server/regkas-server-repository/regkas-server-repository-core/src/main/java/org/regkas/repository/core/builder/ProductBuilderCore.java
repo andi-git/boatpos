@@ -6,6 +6,7 @@ import org.regkas.model.ProductEntity;
 import org.regkas.repository.api.builder.ProductBuilder;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
+import org.regkas.repository.api.values.Generic;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.Price;
 import org.regkas.repository.core.model.ProductCore;
@@ -24,9 +25,11 @@ public class ProductBuilderCore
 
     private ProductGroup productGroup;
 
+    private Generic generic;
+
     @Override
     public Product build() {
-        return new ProductCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, price, productGroup);
+        return new ProductCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, price, productGroup, generic);
     }
 
     @Override
@@ -44,6 +47,12 @@ public class ProductBuilderCore
     @Override
     public ProductBuilder add(ProductGroup productGroup) {
         this.productGroup = productGroup;
+        return this;
+    }
+
+    @Override
+    public ProductBuilder add(Generic generic) {
+        this.generic = generic;
         return this;
     }
 }

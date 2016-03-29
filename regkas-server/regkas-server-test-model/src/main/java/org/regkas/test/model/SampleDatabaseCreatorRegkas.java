@@ -60,9 +60,10 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         ProductGroupEntity productGroup5 = new ProductGroupEntity(null, null, true, 5, 'e', "", "", "Wein", taxSet1, company, new HashSet<>());
         ProductGroupEntity productGroup6 = new ProductGroupEntity(null, null, true, 6, 'f', "", "", "alkoholfreies Getränk", taxSet1, company, new HashSet<>());
         ProductGroupEntity productGroup7 = new ProductGroupEntity(null, null, true, 7, 'g', "", "", "Kaffee", taxSet1, company, new HashSet<>());
-        ProductEntity product1 = new ProductEntity(null, null, true, 1, 'A', "", "", "Cola", productGroup6, new HashSet<>(), new BigDecimal("2.50"));
-        ProductEntity product2 = new ProductEntity(null, null, true, 1, 'B', "", "", "Cornetto", productGroup2, new HashSet<>(), new BigDecimal("2.00"));
-        ProductEntity product3 = new ProductEntity(null, null, true, 1, 'C', "", "", "Wurstsemmel", productGroup1, new HashSet<>(), new BigDecimal("2.20"));
+        ProductEntity product1 = new ProductEntity(null, null, true, 1, 'A', "", "", "Snack", productGroup1, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity product2 = new ProductEntity(null, null, true, 2, 'B', "", "", "Cola", productGroup6, new HashSet<>(), new BigDecimal("2.50"), false);
+        ProductEntity product3 = new ProductEntity(null, null, true, 3, 'C', "", "", "Cornetto", productGroup2, new HashSet<>(), new BigDecimal("2.00"), false);
+        ProductEntity product4 = new ProductEntity(null, null, true, 4, 'D', "", "", "Wurstsemmel", productGroup1, new HashSet<>(), new BigDecimal("2.20"), false);
 
         ReceiptTypeEntity receiptType1 = new ReceiptTypeEntity(null, null, true, 1, "", "", "Start-Beleg");
         ReceiptTypeEntity receiptType2 = new ReceiptTypeEntity(null, null, true, 2, "", "", "Standard-Beleg");
@@ -71,9 +72,9 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         ReceiptTypeEntity receiptType5 = new ReceiptTypeEntity(null, null, true, 5, "", "", "Null-Beleg");
         ReceiptEntity receipt1 = new ReceiptEntity(null, null, "0000001", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, new HashSet<>());
         ReceiptEntity receipt2 = new ReceiptEntity(null, null, "0000001", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, new HashSet<>());
-        ReceiptElementEntity receiptElement11 = new ReceiptElementEntity(null, null, product1, receipt1, new BigDecimal("5.00"), 2);
-        ReceiptElementEntity receiptElement12 = new ReceiptElementEntity(null, null, product2, receipt1, new BigDecimal("6.00"), 3);
-        ReceiptElementEntity receiptElement21 = new ReceiptElementEntity(null, null, product3, receipt2, new BigDecimal("11.00"), 5);
+        ReceiptElementEntity receiptElement11 = new ReceiptElementEntity(null, null, product2, receipt1, new BigDecimal("5.00"), 2);
+        ReceiptElementEntity receiptElement12 = new ReceiptElementEntity(null, null, product3, receipt1, new BigDecimal("6.00"), 3);
+        ReceiptElementEntity receiptElement21 = new ReceiptElementEntity(null, null, product4, receipt2, new BigDecimal("11.00"), 5);
         receipt1.getReceiptElements().add(receiptElement11);
         receipt1.getReceiptElements().add(receiptElement12);
         receipt2.getReceiptElements().add(receiptElement21);
