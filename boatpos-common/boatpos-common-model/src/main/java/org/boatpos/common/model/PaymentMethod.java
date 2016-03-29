@@ -1,4 +1,4 @@
-package org.boatpos.model;
+package org.boatpos.common.model;
 
 /**
  * The method of the payment.

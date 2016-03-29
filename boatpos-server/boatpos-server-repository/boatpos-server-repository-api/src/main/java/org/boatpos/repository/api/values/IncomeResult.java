@@ -1,7 +1,6 @@
 package org.boatpos.repository.api.values;
 
 import com.google.common.base.Objects;
-import org.boatpos.model.PaymentMethod;
 
 import java.math.BigDecimal;
 

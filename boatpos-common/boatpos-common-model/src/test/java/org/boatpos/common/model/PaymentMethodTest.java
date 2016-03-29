@@ -1,9 +1,9 @@
-package org.boatpos.model;
+package org.boatpos.common.model;
 
-import org.boatpos.common.model.PaymentMethod;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class PaymentMethodTest {
 

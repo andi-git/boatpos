@@ -1,5 +1,6 @@
 package org.regkas.repository.api.builder;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.builder.DomainModelBuilder;
 import org.regkas.model.ReceiptElementEntity;
 import org.regkas.model.ReceiptEntity;
@@ -26,6 +27,8 @@ public interface ReceiptBuilder extends DomainModelBuilder<ReceiptBuilder, Recei
     ReceiptBuilder add(ReceiptType receiptType);
 
     ReceiptBuilder add(CashBox cashBox);
+
+    ReceiptBuilder add(PaymentMethod paymentMethod);
 
     ReceiptBuilder add(ReceiptElement receiptElement);
 }

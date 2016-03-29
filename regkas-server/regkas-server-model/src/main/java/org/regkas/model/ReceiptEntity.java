@@ -2,6 +2,7 @@ package org.regkas.model;
 
 import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractEntity;
+import org.boatpos.common.model.PaymentMethod;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -66,10 +67,14 @@ public class ReceiptEntity extends AbstractEntity {
     @Expose
     private Set<ReceiptElementEntity> receiptElements;
 
+    @Expose
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, Set<ReceiptElementEntity> receiptElements) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, Set<ReceiptElementEntity> receiptElements) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -80,6 +85,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.user = user;
         this.receiptType = receiptType;
         this.receiptElements = receiptElements;
+        this.paymentMethod = paymentMethod;
     }
 
     public String getReceiptId() {
@@ -152,5 +158,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setReceiptElements(Set<ReceiptElementEntity> receiptElements) {
         this.receiptElements = receiptElements;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

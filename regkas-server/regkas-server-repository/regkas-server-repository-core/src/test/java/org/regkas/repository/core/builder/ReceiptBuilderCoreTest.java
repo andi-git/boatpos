@@ -1,5 +1,6 @@
 package org.regkas.repository.core.builder;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.junit.Test;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.model.ReceiptElement;
@@ -28,6 +29,7 @@ public class ReceiptBuilderCoreTest {
                 .add(UserBuilderCoreTest.build())
                 .add(ReceiptTypeBuilderCoreTest.build())
                 .add(CashBoxBuilderCoreTest.build())
+                .add(PaymentMethod.CASH)
                 .add(ReceiptElementBuilderCoreTest.build())
                 .build();
     }

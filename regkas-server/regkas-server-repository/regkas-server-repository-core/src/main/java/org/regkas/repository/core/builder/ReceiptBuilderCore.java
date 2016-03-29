@@ -1,5 +1,6 @@
 package org.regkas.repository.core.builder;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
 import org.regkas.model.ReceiptEntity;
 import org.regkas.repository.api.builder.ReceiptBuilder;
@@ -35,11 +36,13 @@ public class ReceiptBuilderCore
 
     private CashBox cashBox;
 
+    private PaymentMethod paymentMethod;
+
     private Set<ReceiptElement> receiptElements = new HashSet<>();
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, receiptElements);
     }
 
     @Override
@@ -87,6 +90,12 @@ public class ReceiptBuilderCore
     @Override
     public ReceiptBuilder add(CashBox cashBox) {
         this.cashBox = cashBox;
+        return this;
+    }
+
+    @Override
+    public ReceiptBuilder add(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
         return this;
     }
 

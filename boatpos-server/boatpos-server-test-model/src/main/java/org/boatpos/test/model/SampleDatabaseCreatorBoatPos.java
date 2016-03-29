@@ -1,6 +1,7 @@
 package org.boatpos.test.model;
 
 import com.google.common.collect.Sets;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.test.SampleDatabaseCreator;
 import org.boatpos.model.*;
 

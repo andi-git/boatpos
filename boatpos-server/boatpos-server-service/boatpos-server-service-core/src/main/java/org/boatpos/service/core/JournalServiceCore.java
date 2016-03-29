@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.Enabled;
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.JournalRepository;

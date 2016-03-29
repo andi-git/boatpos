@@ -1,12 +1,12 @@
 package org.boatpos.repository.core.model;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.Deleted;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.PromotionAfterEntity;
 import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.model.RentalEntity;

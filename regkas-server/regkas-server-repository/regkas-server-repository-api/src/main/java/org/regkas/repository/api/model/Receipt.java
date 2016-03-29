@@ -1,5 +1,6 @@
 package org.regkas.repository.api.model;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.boatpos.common.repository.api.model.MasterDataWithDto;
 import org.regkas.model.CompanyEntity;
@@ -46,6 +47,10 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
     CashBox getCashBox();
 
     Receipt setCashBox(CashBox cashBox);
+
+    PaymentMethod getPaymentMethod();
+
+    Receipt setPaymentMethod(PaymentMethod paymentMethod);
 
     Set<ReceiptElement> getReceiptElements();
 

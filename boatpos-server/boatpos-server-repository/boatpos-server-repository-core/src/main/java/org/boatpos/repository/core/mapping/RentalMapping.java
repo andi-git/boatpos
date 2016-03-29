@@ -1,7 +1,7 @@
 package org.boatpos.repository.core.mapping;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.core.mapping.Mapping;
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.PromotionBeforeEntity;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.service.api.bean.PromotionAfterBean;

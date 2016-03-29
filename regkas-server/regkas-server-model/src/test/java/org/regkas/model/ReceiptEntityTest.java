@@ -1,5 +1,6 @@
 package org.regkas.model;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.test.JavaBeanTest;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
@@ -13,6 +14,6 @@ public class ReceiptEntityTest extends JavaBeanTest<ReceiptEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeEntity(), new HashSet<>());
+        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeEntity(), PaymentMethod.CASH, new HashSet<>());
     }
 }

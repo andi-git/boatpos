@@ -1,6 +1,6 @@
 package org.boatpos.repository.api.repository;
 
-import org.boatpos.model.PaymentMethod;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.BoatCountResult;
 import org.boatpos.repository.api.values.IncomeResult;

@@ -1,6 +1,6 @@
 package org.boatpos.service.core;
 
-import org.boatpos.model.PaymentMethod;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
 import org.boatpos.repository.api.values.Name;
 import org.boatpos.service.api.ArrivalService;

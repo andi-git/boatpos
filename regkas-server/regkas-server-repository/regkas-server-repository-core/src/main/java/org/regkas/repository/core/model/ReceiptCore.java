@@ -1,5 +1,6 @@
 package org.regkas.repository.core.model;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.SimpleValueObject;
@@ -32,6 +33,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        User user,
                        ReceiptType receiptType,
                        CashBox cashBox,
+                       PaymentMethod paymentMethod,
                        Set<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -42,6 +44,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         checkNotNull(user, "'user' must not be null");
         checkNotNull(receiptType, "'receiptType' must not be null");
         checkNotNull(cashBox, "'cashBox' must not be null");
+        checkNotNull(paymentMethod, "'paymentMethod' must not be null");
         checkNotNull(receiptElements, "'receiptElements' must not be null");
         setReceiptId(receiptId);
         setReceiptDate(receiptDate);
@@ -51,6 +54,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setUser(user);
         setReceiptType(receiptType);
         setCashBox(cashBox);
+        setPaymentMethod(paymentMethod);
         addReceiptElements(receiptElements);
     }
 
@@ -143,6 +147,17 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public Receipt setCashBox(CashBox cashBox) {
         if (cashBox != null) getEntity().setCashBox(cashBox.asEntity());
+        return this;
+    }
+
+    @Override
+    public PaymentMethod getPaymentMethod() {
+        return getEntity().getPaymentMethod();
+    }
+
+    @Override
+    public Receipt setPaymentMethod(PaymentMethod paymentMethod) {
+        if (paymentMethod != null) getEntity().setPaymentMethod(paymentMethod);
         return this;
     }
 

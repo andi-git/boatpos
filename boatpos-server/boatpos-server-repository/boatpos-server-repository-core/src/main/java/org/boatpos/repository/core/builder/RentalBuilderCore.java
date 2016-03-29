@@ -1,8 +1,8 @@
 package org.boatpos.repository.core.builder;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
 import org.boatpos.common.repository.core.builder.DomainModelBuilderWithDtoCore;
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.model.RentalEntity;
 import org.boatpos.repository.api.builder.RentalBuilder;
 import org.boatpos.repository.api.model.Boat;

@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.DomainId;
-import org.boatpos.model.PaymentMethod;
 import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
