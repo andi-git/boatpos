@@ -38,9 +38,11 @@ public class ProductGroupMappingTest extends EntityManagerProviderForRegkas {
     public void testMappingEntityToDto() {
         Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"));
         assertEquals(2, productGroup.get().getProducts().size());
+        productGroup.get().getProducts().forEach(System.out::println);
         ProductGroupBean productGroupBean = productGroupMapping.mapEntity(productGroup.get().asEntity());
         assertEquals("Snack", productGroupBean.getName());
         assertEquals(2, productGroupBean.getProducts().size());
+        productGroupBean.getProducts().forEach(System.out::println);
         assertTrue(productGroupBean.getProducts().get(0).getPriority() < productGroupBean.getProducts().get(1).getPriority());
     }
 }

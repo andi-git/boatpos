@@ -6,6 +6,9 @@
     <named-query name="receipttype.getByName">
         <query>FROM ReceiptTypeEntity r WHERE r.name = :name</query>
     </named-query>
+    <named-query name="receipttype.getNullType">
+        <query>FROM ReceiptTypeEntity r WHERE r.name = 'Null-Beleg'</query>
+    </named-query>
     <named-query name="receipttype.getAll">
         <query>FROM ReceiptTypeEntity r ORDER BY r.priority</query>
     </named-query>

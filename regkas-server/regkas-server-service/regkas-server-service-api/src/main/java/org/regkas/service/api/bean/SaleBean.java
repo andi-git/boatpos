@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import org.boatpos.common.service.api.bean.AbstractBean;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,14 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class SaleBean extends AbstractBean {
 
+    @NotNull
+    @Expose
+    private String paymentMethod;
+
+    @NotNull
+    @Expose
+    private String receiptType;
+
     @Valid
     @Expose
     private List<ReceiptElementBean> saleElements = new ArrayList<>();
@@ -20,8 +29,26 @@ public class SaleBean extends AbstractBean {
     public SaleBean() {
     }
 
-    public SaleBean(List<ReceiptElementBean> saleElements) {
+    public SaleBean(String paymentMethod, String receiptType, List<ReceiptElementBean> saleElements) {
+        this.paymentMethod = paymentMethod;
+        this.receiptType = receiptType;
         this.saleElements = saleElements;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getReceiptType() {
+        return receiptType;
+    }
+
+    public void setReceiptType(String receiptType) {
+        this.receiptType = receiptType;
     }
 
     public List<ReceiptElementBean> getSaleElements() {

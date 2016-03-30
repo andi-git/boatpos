@@ -12,10 +12,19 @@
     <named-query name="product.getAll">
         <query>FROM ProductEntity p ORDER BY p.priority</query>
     </named-query>
+    <named-query name="product.getAllByCompany">
+        <query>FROM ProductEntity p WHERE p.productGroup.company.id = :companyId ORDER BY p.priority</query>
+    </named-query>
     <named-query name="product.getAllEnabled">
         <query>FROM ProductEntity p WHERE p.enabled = TRUE ORDER BY p.priority</query>
     </named-query>
     <named-query name="product.getAllDisabled">
         <query>FROM ProductEntity p WHERE (p.enabled = FALSE OR p.enabled IS NULL) ORDER BY p.priority</query>
+    </named-query>
+    <named-query name="product.getAllEnabledByCompany">
+        <query>FROM ProductEntity p WHERE p.productGroup.company.id = :companyId AND p.enabled = TRUE ORDER BY p.priority</query>
+    </named-query>
+    <named-query name="product.getAllDisabledByCompany">
+        <query>FROM ProductEntity p WHERE p.productGroup.company.id = :companyId AND (p.enabled = FALSE OR p.enabled IS NULL) ORDER BY p.priority</query>
     </named-query>
 </entity-mappings>

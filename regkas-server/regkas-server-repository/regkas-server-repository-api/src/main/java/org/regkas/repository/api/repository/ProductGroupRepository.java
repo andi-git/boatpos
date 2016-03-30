@@ -1,9 +1,9 @@
 package org.regkas.repository.api.repository;
 
 import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
-import org.regkas.repository.api.builder.ProductBuilder;
+import org.boatpos.common.repository.api.values.Enabled;
 import org.regkas.repository.api.builder.ProductGroupBuilder;
-import org.regkas.repository.api.model.Product;
+import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.values.Name;
 
@@ -22,4 +22,20 @@ public interface ProductGroupRepository extends MasterDataRepositoryWithDto<Prod
      * @return the current {@link ProductGroup} with all attributes from the repository
      */
     Optional<ProductGroup> loadBy(Name name);
+
+    /**
+     * Load all {@link ProductGroup}s which belongs to the {@link Company}.
+     *
+     * @return all {@link ProductGroup}s which belongs to the {@link Company}
+     */
+    List<ProductGroup> loadBy(Company company);
+
+    /**
+     * Load all {@link ProductGroup}s which belongs to the {@link Company}.
+     *
+     * @param company the {@link Company} the {@link ProductGroup}s belong to
+     * @param enabled flag if the products should enabled or disabled
+     * @return all {@link ProductGroup}s which belongs to the {@link Company}
+     */
+    List<ProductGroup> loadBy(Company company, Enabled enabled);
 }

@@ -29,12 +29,12 @@ public class ProductGroupBean extends AbstractMasterDataBean {
     @NotNull
     @Valid
     @Expose
-    private List<ProductBean> products;
+    private List<SimpleProductBean> products;
 
     public ProductGroupBean() {
     }
 
-    public ProductGroupBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, Integer taxPercent, List<ProductBean> products) {
+    public ProductGroupBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, Integer taxPercent, List<SimpleProductBean> products) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.taxPercent = taxPercent;
@@ -57,11 +57,11 @@ public class ProductGroupBean extends AbstractMasterDataBean {
         this.taxPercent = taxPercent;
     }
 
-    public List<ProductBean> getProducts() {
+    public List<SimpleProductBean> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductBean> products) {
+    public void setProducts(List<SimpleProductBean> products) {
         this.products = products;
     }
 }

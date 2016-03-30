@@ -13,7 +13,12 @@ public class BoatRepositoryCore extends MasterDataRepositoryCore<Boat, BoatCore,
     @Override
     public Optional<Boat> loadBy(Name name) {
         checkNotNull(name, "'name' must not be null");
-        return loadByParameter("boat.getByName", (query) -> query.setParameter("name", name.get()));
+        return loadByParameter(queryName("getByName"), (query) -> query.setParameter("name", name.get()));
+    }
+
+    @Override
+    public Boat loadEBoot() {
+        return load(queryName("getEBoot")).get();
     }
 
     @Override

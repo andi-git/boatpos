@@ -169,7 +169,10 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public Receipt addReceiptElements(Set<ReceiptElement> receiptElements) {
         if (receiptElements != null) {
-            getEntity().setReceiptElements(receiptElements.stream().map(DomainModel::asEntity).collect(Collectors.toSet()));
+            receiptElements.stream().map(DomainModel::asEntity).forEach((re) -> re.setReceipt(getEntity()));
+            getEntity().setReceiptElements(receiptElements.stream()
+                    .map(DomainModel::asEntity)
+                    .collect(Collectors.toSet()));
         }
         return this;
     }

@@ -9,6 +9,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.util.stream.Collectors;
 
 /**
  * Mapping between {@link ProductGroupEntity} and {@link ProductGroupBean}.
@@ -22,5 +23,12 @@ public class ProductGroupMapping extends Mapping<ProductGroupEntity, ProductGrou
 
     public static ProductGroupMapping fromCDI() {
         return CDI.current().select(ProductGroupMapping.class).get();
+    }
+
+    @Override
+    public ProductGroupBean mapEntity(ProductGroupEntity entity) {
+        ProductGroupBean productGroupBean = super.mapEntity(entity);
+        productGroupBean.setProducts(productGroupBean.getProducts().stream().sorted((p1, p2) -> p1.getPriority().compareTo(p2.getPriority())).collect(Collectors.toList()));
+        return productGroupBean;
     }
 }

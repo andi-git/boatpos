@@ -1,8 +1,10 @@
 package org.regkas.repository.core.repository;
 
+import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.common.repository.core.respository.MasterDataRepositoryCore;
 import org.regkas.model.ProductEntity;
 import org.regkas.repository.api.builder.ProductBuilder;
+import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.repository.ProductRepository;
@@ -22,13 +24,26 @@ public class ProductRepositoryCore extends MasterDataRepositoryCore<Product, Pro
     @Override
     public Optional<Product> loadBy(Name name) {
         checkNotNull(name, "'name' must not be null");
-        return loadByParameter("product.getByName", (query) -> query.setParameter("name", name.get()));
+        return loadByParameter(queryName("getByName"), (query) -> query.setParameter("name", name.get()));
+    }
+
+    @Override
+    public List<Product> loadBy(Company company) {
+        checkNotNull(company, "'company' must not be null");
+        return loadAll(queryName("getAllByCompany"), ProductCore::new, (query) -> query.setParameter("companyId", company.getId().get()));
+    }
+
+    @Override
+    public List<Product> loadBy(Company company, Enabled enabled) {
+        checkNotNull(company, "'company' must not be null");
+        checkNotNull(enabled, "'enabled' must not be null");
+        return loadAll(queryName("getAll") + (enabled.get() ? "Enabled" : "Disabled") + "ByCompany", ProductCore::new, (query) -> query.setParameter("companyId", company.getId().get()));
     }
 
     @Override
     public List<Product> loadBy(ProductGroup productGroup) {
         checkNotNull(productGroup, "'productGroup' must not be null");
-        return loadAll("product.getByProductGroup", ProductCore::new, (query) -> query.setParameter("id", productGroup.getId().get()));
+        return loadAll(queryName("getByProductGroup"), ProductCore::new, (query) -> query.setParameter("id", productGroup.getId().get()));
     }
 
     @Override

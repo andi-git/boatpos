@@ -41,7 +41,7 @@ public class ReceiptMappingTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testMappingEntityToDto() {
         Receipt receipt = receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime())).get(0);
-        assertEquals("0000001", receipt.getReceiptId().get());
+        assertEquals("2015-0000001", receipt.getReceiptId().get());
         assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), receipt.getReceiptDate().get());
         assertEquals("RegKas1", receipt.getCashBox().getName().get());
         assertEquals("company", receipt.getCompany().getName().get());
@@ -56,7 +56,7 @@ public class ReceiptMappingTest extends EntityManagerProviderForRegkas {
             assertNotNull(receiptElement.getTotalPrice().get());
         }
         ReceiptBean receiptBean = receiptMapping.mapEntity(receipt.asEntity());
-        assertEquals("0000001", receiptBean.getReceiptId());
+        assertEquals("2015-0000001", receiptBean.getReceiptId());
         assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), receiptBean.getReceiptDate());
         assertEquals("RegKas1", receiptBean.getCashbox());
         assertEquals("company", receiptBean.getCompany().getName());

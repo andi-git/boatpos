@@ -9,6 +9,9 @@
     <named-query name="boat.getAll">
         <query>FROM BoatEntity b ORDER BY b.priority</query>
     </named-query>
+    <named-query name="boat.getEBoot">
+        <query>FROM BoatEntity b WHERE b.name = 'E-Boot'</query>
+    </named-query>
     <named-query name="boat.getAllEnabled">
         <query>FROM BoatEntity b WHERE enabled = TRUE ORDER BY b.priority</query>
     </named-query>

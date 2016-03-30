@@ -24,6 +24,11 @@ public class ReceiptTypeRepositoryCore extends MasterDataRepositoryCore<ReceiptT
     }
 
     @Override
+    public ReceiptType loadNullType() {
+        return load(queryName("getNullType")).get();
+    }
+
+    @Override
     protected String namedQueryPrefix() {
         return "receipttype";
     }

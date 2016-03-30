@@ -19,4 +19,11 @@ public interface ReceiptTypeRepository extends MasterDataRepository<ReceiptType,
      * @return the current {@link ReceiptType} with all attributes from the repository
      */
     Optional<ReceiptType> loadBy(Name name);
+
+    /**
+     * Get the null-type, e. g. the name is 'Null-Beleg'.
+     *
+     * @return the null-type
+     */
+    ReceiptType loadNullType();
 }

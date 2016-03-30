@@ -55,4 +55,10 @@ public class RepositoryTest implements EntityManagerProvider {
     public void testLoadByName() throws Exception {
         assertEquals("E-Boot", boatRepository.loadBy(new Name("E-Boot")).get().getName().get());
     }
+
+    @Test
+    @Transactional
+    public void testLoad() throws Exception {
+        assertEquals("E-Boot", boatRepository.loadEBoot().getName().get());
+    }
 }

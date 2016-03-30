@@ -6,4 +6,7 @@
     <named-query name="receipt.getBetween">
         <query>FROM ReceiptEntity r WHERE r.receiptDate BETWEEN :start AND :end ORDER BY id</query>
     </named-query>
+    <named-query name="receipt.getLastByCashBox">
+        <query>FROM ReceiptEntity r WHERE r.id IN (SELECT MAX(r2.id) FROM ReceiptEntity r2 WHERE r2.cashBox.id = :cashBoxId)</query>
+    </named-query>
 </entity-mappings>

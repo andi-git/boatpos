@@ -9,4 +9,6 @@ public interface BoatRepository extends MasterDataRepository<Boat, BoatBuilder> 
     BoatBuilder builder();
 
     Optional<Boat> loadBy(Name name);
+
+    Boat loadEBoot();
 }

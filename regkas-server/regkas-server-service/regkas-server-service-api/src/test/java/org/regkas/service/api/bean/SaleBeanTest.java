@@ -11,6 +11,6 @@ public class SaleBeanTest extends JavaBeanTest<SaleBean> {
 
     @Test
     public void testConstructor() {
-        new SaleBean(new ArrayList<>());
+        new SaleBean("pm", "rt", new ArrayList<>());
     }
 }

@@ -42,4 +42,8 @@ public abstract class MasterDataRepositoryCore<MODEL extends MasterData, MODELCO
     }
 
     protected abstract String namedQueryPrefix();
+
+    protected String queryName(String suffix) {
+        return namedQueryPrefix() + "." + suffix;
+    }
 }

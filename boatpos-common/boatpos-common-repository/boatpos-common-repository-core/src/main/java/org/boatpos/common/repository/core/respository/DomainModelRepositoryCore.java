@@ -90,6 +90,10 @@ public abstract class DomainModelRepositoryCore<MODEL extends DomainModel, MODEL
         return query.getResultList().stream().map(mapper::apply).collect(Collectors.toList());
     }
 
+    protected Optional<MODEL> load(String namedQuery) {
+        return loadByParameter(namedQuery, (query) -> {}, getTypeEntity(), getTypeEntity());
+    }
+
     protected Optional<MODEL> loadByParameter(String namedQuery, Consumer<TypedQuery> addParameter) {
         return loadByParameter(namedQuery, addParameter, getTypeEntity(), getTypeEntity());
     }

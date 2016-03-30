@@ -29,12 +29,12 @@ public class ReceiptEntity extends AbstractEntity {
     private LocalDateTime receiptDate;
 
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 0, max = 50)
     @Expose
     private String encryptedTurnoverValue;
 
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 0, max = 50)
     @Expose
     private String signatureValuePreviousReceipt;
 

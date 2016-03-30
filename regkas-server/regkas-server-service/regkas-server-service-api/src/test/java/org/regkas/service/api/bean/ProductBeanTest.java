@@ -9,6 +9,6 @@ public class ProductBeanTest extends JavaBeanTest<ProductBean> {
 
     @Test
     public void testConstructor() {
-        new ProductBean(1L, 1, true, 1, ' ', "", "", "name", BigDecimal.ONE);
+        new ProductBean(1L, 1, true, 1, ' ', "", "", "name", BigDecimal.ONE, new ProductGroupBean());
     }
 }
