@@ -41,7 +41,6 @@ public class AddressEntity extends AbstractEntity {
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Expose
     private Set<CompanyEntity> companies;
 
     public AddressEntity() {

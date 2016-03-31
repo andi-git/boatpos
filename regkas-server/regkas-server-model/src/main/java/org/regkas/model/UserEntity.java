@@ -24,7 +24,7 @@ public class UserEntity extends AbstractMasterDataEntity {
     private String name;
 
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 3, max = 100)
     @Expose
     private String password;
 
@@ -38,7 +38,7 @@ public class UserEntity extends AbstractMasterDataEntity {
     }
 
     public UserEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String password, CompanyEntity company) {
-        super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
+        super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.password = password;
         this.company = company;

@@ -28,7 +28,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,commons-codec</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -51,6 +51,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package org.regkas.service.core;
+package org.regkas.service.core.util;
 
 import org.boatpos.common.util.qualifiers.Current;
 

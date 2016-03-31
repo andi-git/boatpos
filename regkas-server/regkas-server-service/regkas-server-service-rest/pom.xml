@@ -9,9 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>regkas-server-service-core</artifactId>
+    <artifactId>regkas-server-service-rest</artifactId>
+
+    <packaging>war</packaging>
 
     <build>
+        <finalName>regkas-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -28,29 +31,62 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,commons-codec</includeArtifactIds>
+                            <includeArtifactIds>
+                                guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,commons-codec
+                            </includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.maven-war-plugin}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputFileNameMapping>@{artifactId}@.@{extension}@</outputFileNameMapping>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>deploy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>1.0.2.Final</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <port>10190</port>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- production -->
         <dependency>
             <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-service-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
             <artifactId>regkas-server-service-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.boatpos</groupId>
-            <artifactId>regkas-server-repository-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.boatpos</groupId>
-            <artifactId>boatpos-common-service-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -59,25 +95,19 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
+            <groupId>org.boatpos</groupId>
+            <artifactId>regkas-server-service-core</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.scijava</groupId>
-            <artifactId>jep</artifactId>
-        </dependency>
-
-        <!-- test -->
         <dependency>
             <groupId>org.boatpos</groupId>
             <artifactId>regkas-server-repository-core</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
+
+        <!-- test -->
         <dependency>
             <groupId>org.boatpos</groupId>
             <artifactId>regkas-server-test-model</artifactId>
@@ -85,9 +115,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${version.mockito}</version>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>boatpos-common-test-rest</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

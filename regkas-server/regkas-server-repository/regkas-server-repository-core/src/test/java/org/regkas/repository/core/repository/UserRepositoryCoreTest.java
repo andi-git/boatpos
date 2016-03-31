@@ -1,25 +1,20 @@
 package org.regkas.repository.core.repository;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.UserRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.PasswordPlain;
-import org.regkas.repository.core.builder.CashBoxBuilderCore;
-import org.regkas.repository.core.builder.UserBuilderCore;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 public class UserRepositoryCoreTest extends EntityManagerProviderForRegkas {
@@ -30,7 +25,13 @@ public class UserRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testLoadByName() throws NoSuchAlgorithmException {
-        assertEquals(new String(MessageDigest.getInstance("MD5").digest("abc123".getBytes())), userRepository.loadBy(new Name("Maria Musterfrau")).get().getPassword().get());
+        assertEquals(DigestUtils.sha1Hex("abc123"), userRepository.loadBy(new Name("Maria Musterfrau")).get().getPassword().get());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadAll() throws NoSuchAlgorithmException {
+        assertEquals(2, userRepository.loadAll().size());
     }
 
     @Test

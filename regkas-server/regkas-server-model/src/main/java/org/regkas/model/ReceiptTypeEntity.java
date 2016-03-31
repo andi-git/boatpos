@@ -29,7 +29,7 @@ public class ReceiptTypeEntity extends AbstractMasterDataEntity {
     }
 
     public ReceiptTypeEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name) {
-        super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
+        super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
     }
 

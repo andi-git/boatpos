@@ -12,6 +12,7 @@
     <modules>
         <module>regkas-server-service-api</module>
         <module>regkas-server-service-core</module>
+        <module>regkas-server-service-rest</module>
     </modules>
 
     <artifactId>regkas-server-service</artifactId>

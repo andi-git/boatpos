@@ -41,7 +41,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     }
 
     public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company) {
-        super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
+        super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
         this.company = company;

@@ -51,6 +51,7 @@
         <version.dozer>5.5.1</version.dozer>
         <version.dozer.jdk8>1.0.0</version.dozer.jdk8>
         <version.jep>2.4.2</version.jep>
+        <version.commons-codec>1.10</version.commons-codec>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.9.Final</version.arquillian-bom>
@@ -186,6 +187,11 @@
                 <artifactId>jep</artifactId>
                 <version>${version.jep}</version>
             </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${version.commons-codec}</version>
+            </dependency>
             <!-- test -->
             <dependency>
                 <groupId>junit</groupId>
@@ -195,7 +201,7 @@
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mocktio-core</artifactId>
+                <artifactId>mockito-core</artifactId>
                 <version>${version.mockito}</version>
                 <scope>test</scope>
             </dependency>

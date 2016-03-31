@@ -1,5 +1,6 @@
 package org.regkas.repository.core.repository;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.boatpos.common.repository.core.respository.MasterDataRepositoryCore;
 import org.regkas.model.UserEntity;
 import org.regkas.repository.api.builder.UserBuilder;
@@ -28,11 +29,15 @@ public class UserRepositoryCore extends MasterDataRepositoryCore<User, UserCore,
     public Boolean authenticate(Name name, PasswordPlain passwordPlain) {
         checkNotNull(name, "'name' must not be null");
         checkNotNull(passwordPlain, "'password' must not be null");
-        return loadByParameter("user.authenticate", (query) -> query.setParameter("name", name.get()).setParameter("password", passwordPlain.asMD5())).isPresent();
+        return loadByParameter("user.authenticate", (query) -> query.setParameter("name", name.get()).setParameter("password", asSHA1(passwordPlain))).isPresent();
     }
 
     @Override
     protected String namedQueryPrefix() {
         return "user";
+    }
+
+    private String asSHA1(PasswordPlain passwordPlain) {
+        return DigestUtils.sha1Hex(passwordPlain.get());
     }
 }

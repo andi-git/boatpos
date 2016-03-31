@@ -56,7 +56,7 @@ public class CompanyEntity extends AbstractMasterDataEntity {
     }
 
     public CompanyEntity(Long id, Integer version, Boolean enabled, int priority, String pictureUrlThumb, String pictureUrl, String name, AddressEntity address, String phone, String mail, String atu, Set<CashBoxEntity> cashBoxes, Set<UserEntity> users, Set<ProductGroupEntity> productGroups) {
-        super(id, version, enabled, priority, ' ', pictureUrl, pictureUrlThumb);
+        super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.address = address;
         this.phone = phone;
