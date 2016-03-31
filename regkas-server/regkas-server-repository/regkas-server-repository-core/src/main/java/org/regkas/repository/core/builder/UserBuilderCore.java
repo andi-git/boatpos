@@ -3,6 +3,7 @@ package org.regkas.repository.core.builder;
 import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.regkas.model.UserEntity;
 import org.regkas.repository.api.builder.UserBuilder;
+import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.PasswordPlain;

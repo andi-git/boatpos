@@ -37,8 +37,8 @@ public class UserRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void authenticate() throws Exception {
-        assertTrue(userRepository.authenticate(new Name("Maria Musterfrau"), new PasswordPlain("abc123")));
-        assertFalse(userRepository.authenticate(new Name("Maria"), new PasswordPlain("abc123")));
-        assertFalse(userRepository.authenticate(new Name("Maria Musterfrau"), new PasswordPlain("abc")));
+        assertTrue(userRepository.authenticate(new Name("Maria Musterfrau"), new PasswordPlain("abc123")).isPresent());
+        assertFalse(userRepository.authenticate(new Name("Maria"), new PasswordPlain("abc123")).isPresent());
+        assertFalse(userRepository.authenticate(new Name("Maria Musterfrau"), new PasswordPlain("abc")).isPresent());
     }
 }

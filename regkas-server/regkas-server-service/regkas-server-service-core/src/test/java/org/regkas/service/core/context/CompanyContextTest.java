@@ -1,4 +1,4 @@
-package org.regkas.service.core.util;
+package org.regkas.service.core.context;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.repository.CompanyRepository;
 import org.regkas.repository.api.values.Name;
+import org.regkas.service.core.context.CompanyContext;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

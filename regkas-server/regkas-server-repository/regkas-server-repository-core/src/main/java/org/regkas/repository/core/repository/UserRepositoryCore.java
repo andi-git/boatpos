@@ -26,10 +26,10 @@ public class UserRepositoryCore extends MasterDataRepositoryCore<User, UserCore,
     }
 
     @Override
-    public Boolean authenticate(Name name, PasswordPlain passwordPlain) {
+    public Optional<User> authenticate(Name name, PasswordPlain passwordPlain) {
         checkNotNull(name, "'name' must not be null");
         checkNotNull(passwordPlain, "'password' must not be null");
-        return loadByParameter("user.authenticate", (query) -> query.setParameter("name", name.get()).setParameter("password", asSHA1(passwordPlain))).isPresent();
+        return loadByParameter("user.authenticate", (query) -> query.setParameter("name", name.get()).setParameter("password", asSHA1(passwordPlain)));
     }
 
     @Override

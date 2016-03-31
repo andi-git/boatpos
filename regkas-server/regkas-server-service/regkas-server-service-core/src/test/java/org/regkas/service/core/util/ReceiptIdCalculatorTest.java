@@ -8,6 +8,7 @@ import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.core.DateTimeHelperMock;
+import org.regkas.service.core.context.CashBoxContext;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

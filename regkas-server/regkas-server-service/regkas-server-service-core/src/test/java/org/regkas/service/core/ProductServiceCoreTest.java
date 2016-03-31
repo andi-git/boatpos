@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.regkas.repository.api.repository.CompanyRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.ProductService;
-import org.regkas.service.core.util.CompanyContext;
+import org.regkas.service.core.context.CompanyContext;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

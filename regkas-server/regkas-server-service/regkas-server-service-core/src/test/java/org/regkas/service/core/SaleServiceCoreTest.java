@@ -15,9 +15,9 @@ import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ProductBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
-import org.regkas.service.core.util.CashBoxContext;
-import org.regkas.service.core.util.CompanyContext;
-import org.regkas.service.core.util.UserContext;
+import org.regkas.service.core.context.CashBoxContext;
+import org.regkas.service.core.context.CompanyContext;
+import org.regkas.service.core.context.UserContext;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

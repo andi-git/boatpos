@@ -17,7 +17,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class UserServiceRestTest extends FillDatabaseInOtherTransactionTest {
+public class AuthenticationServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @ArquillianResource
     private URL url;
@@ -34,8 +34,9 @@ public class UserServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testAuthenticate() throws Exception {
-        assertEquals(Response.Status.OK.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("user/authenticate/Maria%20Musterfrau/abc123")).get().getStatus());
-        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("user/authenticate/Maria/abc")).get().getStatus());
-        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("user/authenticate/Maria%20Musterfrau/abc")).get().getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("authenticate/Maria%20Musterfrau/abc123/RegKas1")).get().getStatus());
+        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("authenticate/Maria/abc/RegKas1")).get().getStatus());
+        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("authenticate/Maria%20Musterfrau/abc/RegKas1")).get().getStatus());
+        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), helper.createRestCall(url, (wt) -> wt.path("authenticate/Maria%20Musterfrau/abc123/Reg")).get().getStatus());
     }
 }

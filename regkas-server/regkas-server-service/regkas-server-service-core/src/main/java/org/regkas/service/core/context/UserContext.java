@@ -1,4 +1,4 @@
-package org.regkas.service.core.util;
+package org.regkas.service.core.context;
 
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.model.CashBox;

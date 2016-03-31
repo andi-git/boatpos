@@ -17,4 +17,8 @@ public interface User extends MasterData<User, UserEntity> {
     PasswordPlain getPassword();
 
     User setPassword(PasswordPlain passwordPlain);
+
+    Company getCompany();
+
+    User setCompany(Company company);
 }

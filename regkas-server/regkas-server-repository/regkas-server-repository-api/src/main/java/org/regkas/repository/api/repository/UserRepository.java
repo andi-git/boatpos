@@ -28,5 +28,5 @@ public interface UserRepository extends MasterDataRepository<User, UserBuilder> 
      * @param passwordPlain the {@link PasswordPlain} of the {@link User}
      * @return {@code true} it the user is authenticated, otherwise {@code false}
      */
-    Boolean authenticate(Name name, PasswordPlain passwordPlain);
+    Optional<User> authenticate(Name name, PasswordPlain passwordPlain);
 }

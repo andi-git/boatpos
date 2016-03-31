@@ -5,7 +5,7 @@ import org.regkas.service.api.bean.CredentialsBean;
 /**
  * Service for sales.
  */
-public interface UserService {
+public interface AuthenticationService {
 
     /**
      * Authenticate a user by credentials (username and password).

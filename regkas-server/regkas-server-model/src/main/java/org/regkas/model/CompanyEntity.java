@@ -41,15 +41,15 @@ public class CompanyEntity extends AbstractMasterDataEntity {
     private String atu;
 
     @Valid
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CashBoxEntity> cashBoxes;
 
     @Valid
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserEntity> users;
 
     @Valid
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductGroupEntity> productGroups;
 
     public CompanyEntity() {

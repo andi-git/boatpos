@@ -16,12 +16,17 @@ public class CredentialsBean {
     @Size(min = 3, max = 50)
     private String password;
 
+    @NotNull
+    @Size(min = 3, max = 50)
+    private String cashBoxId;
+
     public CredentialsBean() {
     }
 
-    public CredentialsBean(String username, String password) {
+    public CredentialsBean(String username, String password, String cashBoxId) {
         this.username = username;
         this.password = password;
+        this.cashBoxId = cashBoxId;
     }
 
     public String getUsername() {
@@ -38,5 +43,13 @@ public class CredentialsBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCashBoxId() {
+        return cashBoxId;
+    }
+
+    public void setCashBoxId(String cashBoxId) {
+        this.cashBoxId = cashBoxId;
     }
 }

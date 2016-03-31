@@ -3,6 +3,7 @@ package org.regkas.repository.core.model;
 import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.UserEntity;
+import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.PasswordPlain;
@@ -50,6 +51,17 @@ public class UserCore extends MasterDataCore<User, UserEntity> implements User {
     @Override
     public User setPassword(PasswordPlain passwordPlain) {
         getEntity().setPassword(SimpleValueObject.nullSafe(passwordPlain));
+        return this;
+    }
+
+    @Override
+    public Company getCompany() {
+        return new CompanyCore(getEntity().getCompany());
+    }
+
+    @Override
+    public User setCompany(Company company) {
+        if (company != null) getEntity().setCompany(company.asEntity());
         return this;
     }
 }

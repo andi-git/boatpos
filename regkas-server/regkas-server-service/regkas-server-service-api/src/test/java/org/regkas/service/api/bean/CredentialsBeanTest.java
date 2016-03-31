@@ -7,6 +7,6 @@ public class CredentialsBeanTest extends JavaBeanTest<CredentialsBean> {
 
     @Test
     public void testConstructor() {
-        new CredentialsBean("name", "password");
+        new CredentialsBean("name", "password", "regkas");
     }
 }
