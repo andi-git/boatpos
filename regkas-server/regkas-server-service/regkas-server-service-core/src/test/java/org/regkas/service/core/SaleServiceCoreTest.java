@@ -84,9 +84,19 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("company", bill.getCompany().getName());
         assertEquals(new BigDecimal("7.50"), bill.getSumTaxSetNormal());
         assertEquals(new BigDecimal("4.50"), bill.getSumTaxSetErmaessigt1());
-        assertEquals(new BigDecimal("0"), bill.getSumTaxSetErmaessigt2());
-        assertEquals(new BigDecimal("0"), bill.getSumTaxSetNull());
-        assertEquals(new BigDecimal("0"), bill.getSumTaxSetBesonders());
+        assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetErmaessigt2());
+        assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetNull());
+        assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetBesonders());
+        assertEquals(new BigDecimal("12.00"), bill.getSumTotal());
+        assertEquals(2, bill.getBillTaxSetElements().size());
+        assertEquals(20, bill.getBillTaxSetElements().get(0).getTaxPercent().intValue());
+        assertEquals(new BigDecimal("7.50"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
+        assertEquals(new BigDecimal("6.25"), bill.getBillTaxSetElements().get(0).getPricePreTax());
+        assertEquals(new BigDecimal("1.25"), bill.getBillTaxSetElements().get(0).getPriceTax());
+        assertEquals(10, bill.getBillTaxSetElements().get(1).getTaxPercent().intValue());
+        assertEquals(new BigDecimal("4.50"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
+        assertEquals(new BigDecimal("4.09"), bill.getBillTaxSetElements().get(1).getPricePreTax());
+        assertEquals(new BigDecimal("0.41"), bill.getBillTaxSetElements().get(1).getPriceTax());
 
         companyContext.clear();
         userContext.clear();

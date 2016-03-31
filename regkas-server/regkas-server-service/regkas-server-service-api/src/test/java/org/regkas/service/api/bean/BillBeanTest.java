@@ -1,5 +1,6 @@
 package org.regkas.service.api.bean;
 
+import com.google.common.collect.Lists;
 import org.boatpos.common.test.JavaBeanTest;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ public class BillBeanTest extends JavaBeanTest<BillBean> {
 
     @Test
     public void testConstructor() {
-        BillBean bill = new BillBean(new CompanyBean(),
+        new BillBean(new CompanyBean(),
                 "cashbox",
                 "id",
                 LocalDateTime.now(),
@@ -18,6 +19,8 @@ public class BillBeanTest extends JavaBeanTest<BillBean> {
                 BigDecimal.ONE,
                 BigDecimal.ONE,
                 BigDecimal.ONE,
+                BigDecimal.ONE,
+                Lists.newArrayList(),
                 BigDecimal.ONE);
     }
 }

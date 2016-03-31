@@ -6,6 +6,8 @@ import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representation of a bill / payment.
@@ -25,19 +27,19 @@ public class BillBean extends AbstractBean {
     private LocalDateTime receiptDateAndTime;
 
     //    @SerializedName("Betrag-Satz-Normal")
-    private BigDecimal sumTaxSetNormal = BigDecimal.ZERO;
+    private BigDecimal sumTaxSetNormal = new BigDecimal("0.00");
 
     //    @SerializedName("Betrag-Satz-Ermaessigt-1")
-    private BigDecimal sumTaxSetErmaessigt1 = BigDecimal.ZERO;
+    private BigDecimal sumTaxSetErmaessigt1 = new BigDecimal("0.00");
 
     //    @SerializedName("Betrag-Satz-Ermaessigt-2")
-    private BigDecimal sumTaxSetErmaessigt2 = BigDecimal.ZERO;
+    private BigDecimal sumTaxSetErmaessigt2 = new BigDecimal("0.00");
 
     //    @SerializedName("Betrag-Satz-Null")
-    private BigDecimal sumTaxSetNull = BigDecimal.ZERO;
+    private BigDecimal sumTaxSetNull = new BigDecimal("0.00");
 
     //    @SerializedName("Betrag-Satz-Besonders")
-    private BigDecimal sumTaxSetBesonders = BigDecimal.ZERO;
+    private BigDecimal sumTaxSetBesonders = new BigDecimal("0.00");
 
     //    @SerializedName("Stand-Umsatz-Zaehler-AES256-ICM")
     private String encryptedTurnoverValue;
@@ -50,10 +52,14 @@ public class BillBean extends AbstractBean {
 
     private CompanyBean company;
 
+    private List<BillTaxSetElementBean> billTaxSetElements = new ArrayList<>();
+
+    private BigDecimal sumTotal = new BigDecimal("0.00");
+
     public BillBean() {
     }
 
-    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, BigDecimal sumTaxSetNormal, BigDecimal sumTaxSetErmaessigt1, BigDecimal sumTaxSetErmaessigt2, BigDecimal sumTaxSetBesonderes, BigDecimal sumTaxSetNull) {
+    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, BigDecimal sumTaxSetNormal, BigDecimal sumTaxSetErmaessigt1, BigDecimal sumTaxSetErmaessigt2, BigDecimal sumTaxSetBesonderes, BigDecimal sumTaxSetNull, List<BillTaxSetElementBean> billTaxSetElements, BigDecimal sumTotal) {
         this.cashBoxID = cashBoxID;
         this.receiptIdentifier = receiptIdentifier;
         this.receiptDateAndTime = receiptDateAndTime;
@@ -63,6 +69,8 @@ public class BillBean extends AbstractBean {
         this.sumTaxSetErmaessigt2 = sumTaxSetErmaessigt2;
         this.sumTaxSetBesonders = sumTaxSetBesonderes;
         this.sumTaxSetNull = sumTaxSetNull;
+        this.billTaxSetElements = billTaxSetElements;
+        this.sumTotal = sumTotal;
     }
 
     public String getCashBoxID() {
@@ -159,5 +167,21 @@ public class BillBean extends AbstractBean {
 
     public void setCompany(CompanyBean company) {
         this.company = company;
+    }
+
+    public List<BillTaxSetElementBean> getBillTaxSetElements() {
+        return billTaxSetElements;
+    }
+
+    public void setBillTaxSetElements(List<BillTaxSetElementBean> billTaxSetElements) {
+        this.billTaxSetElements = billTaxSetElements;
+    }
+
+    public BigDecimal getSumTotal() {
+        return sumTotal;
+    }
+
+    public void setSumTotal(BigDecimal sumTotal) {
+        this.sumTotal = sumTotal;
     }
 }
