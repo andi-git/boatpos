@@ -57,7 +57,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void sale() throws Exception {
+    public void testSale() throws Exception {
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));

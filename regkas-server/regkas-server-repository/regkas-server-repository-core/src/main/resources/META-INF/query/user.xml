@@ -6,6 +6,9 @@
     <named-query name="user.getByName">
         <query>FROM UserEntity u WHERE u.name = :name</query>
     </named-query>
+    <named-query name="user.authenticate">
+        <query>FROM UserEntity u WHERE u.name = :name and u.password = :password</query>
+    </named-query>
     <named-query name="user.getAll">
         <query>FROM UserEntity u ORDER BY u.priority</query>
     </named-query>

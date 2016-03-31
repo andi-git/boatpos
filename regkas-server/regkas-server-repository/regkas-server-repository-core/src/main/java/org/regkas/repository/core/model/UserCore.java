@@ -5,7 +5,7 @@ import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.UserEntity;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.Password;
+import org.regkas.repository.api.values.PasswordPlain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -19,12 +19,12 @@ public class UserCore extends MasterDataCore<User, UserEntity> implements User {
                     PictureUrl pictureUrl,
                     PictureUrlThumb pictureUrlThumb,
                     Name name,
-                    Password password) {
+                    PasswordPlain passwordPlain) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
-        checkNotNull(password, "'password' must not be null");
+        checkNotNull(passwordPlain, "'password' must not be null");
         setName(name);
-        setPassword(password);
+        setPassword(passwordPlain);
     }
 
     public UserCore(UserEntity user) {
@@ -43,13 +43,13 @@ public class UserCore extends MasterDataCore<User, UserEntity> implements User {
     }
 
     @Override
-    public Password getPassword() {
-        return new Password(getEntity().getPassword());
+    public PasswordPlain getPassword() {
+        return new PasswordPlain(getEntity().getPassword());
     }
 
     @Override
-    public User setPassword(Password password) {
-        getEntity().setPassword(SimpleValueObject.nullSafe(password));
+    public User setPassword(PasswordPlain passwordPlain) {
+        getEntity().setPassword(SimpleValueObject.nullSafe(passwordPlain));
         return this;
     }
 }

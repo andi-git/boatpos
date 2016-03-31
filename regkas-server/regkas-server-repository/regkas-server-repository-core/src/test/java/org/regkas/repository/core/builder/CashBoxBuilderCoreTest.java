@@ -3,11 +3,8 @@ package org.regkas.repository.core.builder;
 import org.boatpos.common.repository.api.values.*;
 import org.junit.Test;
 import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.Password;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
-import org.regkas.repository.core.model.CashBoxCore;
 
 import static org.junit.Assert.assertEquals;
 

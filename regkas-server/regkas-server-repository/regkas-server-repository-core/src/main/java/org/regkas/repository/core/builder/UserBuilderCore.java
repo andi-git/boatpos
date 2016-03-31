@@ -5,7 +5,7 @@ import org.regkas.model.UserEntity;
 import org.regkas.repository.api.builder.UserBuilder;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.Password;
+import org.regkas.repository.api.values.PasswordPlain;
 import org.regkas.repository.core.model.UserCore;
 
 import javax.enterprise.context.Dependent;
@@ -17,11 +17,11 @@ public class UserBuilderCore
 
     private Name name;
 
-    private Password password;
+    private PasswordPlain passwordPlain;
 
     @Override
     public User build() {
-        return new UserCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, password);
+        return new UserCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, passwordPlain);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class UserBuilderCore
     }
 
     @Override
-    public UserBuilder add(Password password) {
-        this.password = password;
+    public UserBuilder add(PasswordPlain passwordPlain) {
+        this.passwordPlain = passwordPlain;
         return this;
     }
 }

@@ -16,7 +16,7 @@ public interface SampleDatabaseCreator {
      *
      * @param entityManager the current {@link EntityManager}
      */
-    void fillDatabase(EntityManager entityManager);
+    void fillDatabase(EntityManager entityManager) throws Exception;
 
     /**
      * Remove the data from database.

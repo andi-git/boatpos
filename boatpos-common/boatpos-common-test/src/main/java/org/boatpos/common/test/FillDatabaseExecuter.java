@@ -120,7 +120,7 @@ public class FillDatabaseExecuter {
         return CDI.current().select(SampleDatabaseCreator.class).get();
     }
 
-    private void insertDataIntoDatabase() {
+    private void insertDataIntoDatabase() throws Exception {
         log.debug("insert data into database");
         getSampleDatabaseCreator().fillDatabase(entityManager.get());
     }

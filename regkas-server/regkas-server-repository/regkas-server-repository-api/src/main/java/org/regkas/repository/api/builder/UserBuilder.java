@@ -4,7 +4,7 @@ import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.regkas.model.UserEntity;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.Password;
+import org.regkas.repository.api.values.PasswordPlain;
 
 /**
  * Builder for {@link User}.
@@ -13,5 +13,5 @@ public interface UserBuilder extends MasterDataBuilder<UserBuilder, User, UserEn
 
     UserBuilder add(Name name);
 
-    UserBuilder add(Password password);
+    UserBuilder add(PasswordPlain passwordPlain);
 }

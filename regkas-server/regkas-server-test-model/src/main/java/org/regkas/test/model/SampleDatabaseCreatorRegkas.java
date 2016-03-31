@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
@@ -26,16 +28,17 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
 
     @Override
     @SuppressWarnings("OctalInteger")
-    public void fillDatabase(EntityManager em) {
+    public void fillDatabase(EntityManager em) throws Exception {
         // clear cache and reset sequence for ids
         em.flush();
         em.clear();
         em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();
 
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
         AddressEntity address1 = new AddressEntity(null, null, "Street 1", "1220", "Vienna", "Austria", new HashSet<>());
         AddressEntity address2 = new AddressEntity(null, null, "Street 2", "1220", "Vienna", "Austria", new HashSet<>());
-        UserEntity user1 = new UserEntity(null, null, true, 1, "", "", "Maria Musterfrau", "abc123", null);
-        UserEntity user2 = new UserEntity(null, null, true, 2, "", "", "Max Mustermann", "xyz789", null);
+        UserEntity user1 = new UserEntity(null, null, true, 1, "", "", "Maria Musterfrau", new String(md5.digest("abc123".getBytes())), null);
+        UserEntity user2 = new UserEntity(null, null, true, 2, "", "", "Max Mustermann", new String(md5.digest("xyz789".getBytes())), null);
         CashBoxEntity cashBox1 = new CashBoxEntity(null, null, true, 1, "", "", "RegKas1", "123", null);
         CashBoxEntity cashBox2 = new CashBoxEntity(null, null, true, 2, "", "", "RegKas2", "456", null);
         CompanyEntity company = new CompanyEntity(null, null, true, 1, "", "", "company", address1, "+431123456789", "office@company.com", "atu123", Sets.newHashSet(cashBox1, cashBox2), Sets.newHashSet(user1, user2), Sets.newHashSet());

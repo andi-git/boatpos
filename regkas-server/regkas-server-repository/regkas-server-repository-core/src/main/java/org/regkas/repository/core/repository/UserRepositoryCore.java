@@ -6,6 +6,7 @@ import org.regkas.repository.api.builder.UserBuilder;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.repository.UserRepository;
 import org.regkas.repository.api.values.Name;
+import org.regkas.repository.api.values.PasswordPlain;
 import org.regkas.repository.core.builder.UserBuilderCore;
 import org.regkas.repository.core.model.UserCore;
 
@@ -21,6 +22,13 @@ public class UserRepositoryCore extends MasterDataRepositoryCore<User, UserCore,
     public Optional<User> loadBy(Name name) {
         checkNotNull(name, "'name' must not be null");
         return loadByParameter("user.getByName", (query) -> query.setParameter("name", name.get()));
+    }
+
+    @Override
+    public Boolean authenticate(Name name, PasswordPlain passwordPlain) {
+        checkNotNull(name, "'name' must not be null");
+        checkNotNull(passwordPlain, "'password' must not be null");
+        return loadByParameter("user.authenticate", (query) -> query.setParameter("name", name.get()).setParameter("password", passwordPlain.asMD5())).isPresent();
     }
 
     @Override
