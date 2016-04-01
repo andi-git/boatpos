@@ -6,11 +6,15 @@ import org.regkas.service.api.AuthenticationService;
 import org.regkas.service.api.bean.CredentialsBean;
 import org.regkas.service.api.context.ContextService;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Filter to authenticate the user.
@@ -34,7 +38,9 @@ public class AuthenticateUser implements ContainerRequestFilter {
         if (authenticationService.authenticate(new CredentialsBean(getUsername(requestContext), getPassword(requestContext), getCashBox(requestContext)))) {
             contextService.initContext(getUsername(requestContext), getCashBox(requestContext));
         } else {
-            log.warn("Authorization failure for user {} and cash-box {}", getUsername(requestContext), getCashBox(requestContext));
+            String message = "Authorization failure for user " + getUsername(requestContext) + " and cash-box " + getCashBox(requestContext);
+            log.warn(message);
+            throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).entity(message).build());
         }
     }
 

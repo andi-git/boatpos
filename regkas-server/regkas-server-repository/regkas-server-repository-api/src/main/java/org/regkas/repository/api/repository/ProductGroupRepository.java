@@ -4,6 +4,7 @@ import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.common.repository.api.values.Enabled;
 import org.regkas.repository.api.builder.ProductGroupBuilder;
 import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.values.Name;
 
@@ -22,6 +23,15 @@ public interface ProductGroupRepository extends MasterDataRepositoryWithDto<Prod
      * @return the current {@link ProductGroup} with all attributes from the repository
      */
     Optional<ProductGroup> loadBy(Name name);
+
+    /**
+     * Load all attributes based on the {@link Name} and {@link Company}.
+     *
+     * @param name    the {@link Name} of the {@link ProductGroup}
+     * @param company the {@link Company} the {@link ProductGroup}s belong to
+     * @return the current {@link ProductGroup} with all attributes from the repository
+     */
+    Optional<ProductGroup> loadBy(Name name, Company company);
 
     /**
      * Load all {@link ProductGroup}s which belongs to the {@link Company}.

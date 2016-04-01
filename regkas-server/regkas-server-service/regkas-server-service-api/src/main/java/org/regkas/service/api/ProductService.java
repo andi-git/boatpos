@@ -12,6 +12,14 @@ import java.util.List;
 public interface ProductService extends MasterDataService<ProductBean> {
 
     /**
+     * Get a the {@link ProductBean} for the current company by it's name.
+     *
+     * @param name the name of the product
+     * @return the {@link ProductBean} for the name for the current company
+     */
+    ProductBean getForCurrentCompany(String name);
+
+    /**
      * Get a {@link List} of all {@link ProductBean}s for the current company ordered by {@code priority}.
      *
      * @return a {@link List} of all {@link ProductBean}s for the current company ordered by {@code priority}

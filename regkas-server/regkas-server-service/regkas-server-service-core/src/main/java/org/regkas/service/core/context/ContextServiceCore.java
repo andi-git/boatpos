@@ -40,4 +40,9 @@ public class ContextServiceCore implements ContextService {
         companyContext.set(user.getCompany());
         cashBoxContext.set(cashBox);
     }
+
+    @Override
+    public int getContextId() {
+        return cashBoxContext.get().getId().get().intValue();
+    }
 }

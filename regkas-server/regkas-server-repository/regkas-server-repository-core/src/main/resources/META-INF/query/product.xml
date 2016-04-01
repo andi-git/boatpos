@@ -6,6 +6,12 @@
     <named-query name="product.getByName">
         <query>FROM ProductEntity p WHERE p.name = :name</query>
     </named-query>
+    <named-query name="product.getByNameAndCompany">
+        <query>FROM ProductEntity p WHERE p.name = :name AND p.productGroup.company.name = :company</query>
+    </named-query>
+    <named-query name="product.getGenericByProductGroup">
+        <query>FROM ProductEntity p WHERE p.productGroup.name = :productGroupName AND p.generic = TRUE</query>
+    </named-query>
     <named-query name="product.getByProductGroup">
         <query>FROM ProductEntity p WHERE p.productGroup.id = :id</query>
     </named-query>

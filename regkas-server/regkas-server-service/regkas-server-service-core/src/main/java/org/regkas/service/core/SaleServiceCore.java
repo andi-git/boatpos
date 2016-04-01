@@ -5,10 +5,7 @@ import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.*;
-import org.regkas.repository.api.repository.ProductRepository;
-import org.regkas.repository.api.repository.ReceiptElementRepository;
-import org.regkas.repository.api.repository.ReceiptRepository;
-import org.regkas.repository.api.repository.ReceiptTypeRepository;
+import org.regkas.repository.api.repository.*;
 import org.regkas.repository.api.values.*;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
@@ -53,6 +50,15 @@ public class SaleServiceCore implements SaleService {
     @Inject
     @Current
     private Company company;
+
+    @Inject
+    private CompanyRepository companyRepository;
+
+    @Inject
+    private CashBoxRepository cashBoxRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     @Override
     public BillBean sale(SaleBean sale) {

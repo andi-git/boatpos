@@ -5,6 +5,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.service.api.bean.ProductBean;
 import org.regkas.service.api.bean.ProductGroupBean;
 
 import javax.inject.Inject;
@@ -31,5 +32,23 @@ public class ProductGroupServiceRestTest extends FillDatabaseInOtherTransactionT
                 .readEntity(new GenericType<List<ProductGroupBean>>() {
                 });
         assertEquals(7, productGroups.size());
+    }
+
+    @Test
+    public void testGetByNameAndCompany() throws Exception {
+        ProductGroupBean productGroup = helper
+                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("productgroup/Snack"))
+                .get()
+                .readEntity(ProductGroupBean.class);
+        assertEquals("Snack", productGroup.getName());
+    }
+
+    @Test
+    public void testGetGenericProductFor() throws Exception {
+        ProductBean product = helper
+                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("productgroup/Snack/generic"))
+                .get()
+                .readEntity(ProductBean.class);
+        assertEquals("Snack", product.getName());
     }
 }

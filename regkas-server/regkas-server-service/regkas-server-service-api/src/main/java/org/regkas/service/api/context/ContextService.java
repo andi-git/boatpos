@@ -12,4 +12,6 @@ public interface ContextService {
      * @param cashBoxId the current cashBoxId
      */
     void initContext(String username, String cashBoxId);
+
+    int getContextId();
 }

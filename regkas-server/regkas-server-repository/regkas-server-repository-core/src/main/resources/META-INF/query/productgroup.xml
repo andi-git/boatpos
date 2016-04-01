@@ -6,6 +6,9 @@
     <named-query name="productgroup.getByName">
         <query>FROM ProductGroupEntity p WHERE p.name = :name</query>
     </named-query>
+    <named-query name="productgroup.getByNameAndCompany">
+        <query>FROM ProductGroupEntity p WHERE p.name = :name AND p.company.name = :company</query>
+    </named-query>
     <named-query name="productgroup.getAll">
         <query>FROM ProductGroupEntity p ORDER BY p.priority</query>
     </named-query>

@@ -29,6 +29,20 @@ public class ProductGroupServiceCoreTest extends EntityManagerProviderForRegkas 
 
     @Test
     @Transactional
+    public void testGetProductForCurrentCompanyByName() {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        assertEquals("Snack", productGroupService.getForCurrentCompany("Snack").getName());
+        companyContext.clear();
+    }
+
+    @Test
+    @Transactional
+    public void testGetGenericProductFor() {
+        assertEquals("Snack", productGroupService.getGenericProductFor("Snack").getName());
+    }
+
+    @Test
+    @Transactional
     public void testGetAll() {
         assertEquals(7, productGroupService.getAll().size());
     }

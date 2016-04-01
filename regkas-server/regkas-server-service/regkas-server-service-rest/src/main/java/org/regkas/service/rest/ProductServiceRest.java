@@ -25,4 +25,10 @@ public class ProductServiceRest {
     public Response getAll() {
         return Response.ok(productService.getAllForCurrentCompany()).build();
     }
+
+    @GET
+    @Path("/{name}")
+    public Response getProductByName(@PathParam("name") String name) {
+        return Response.ok(productService.getForCurrentCompany(name)).build();
+    }
 }

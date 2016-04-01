@@ -1,11 +1,13 @@
 package org.regkas.service.core.context;
 
+import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.util.qualifiers.Current;
-import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.repository.UserRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import java.util.Optional;
 
 /**
@@ -14,24 +16,27 @@ import java.util.Optional;
 @RequestScoped
 public class UserContext {
 
-    private User user;
+    @Inject
+    private UserRepository userRepository;
+
+    private DomainId id;
 
     public void set(User user) {
-        this.user = user;
+        if (user != null) this.id = user.getId();
     }
 
     public void set(Optional<User> user) {
-        if (user.isPresent()) this.user= user.get();
+        if (user.isPresent()) set(user.get());
     }
 
     public void clear() {
-        this.user = null;
+        this.id = null;
     }
 
     @Produces
     @Current
     @RequestScoped
     public User get() {
-        return this.user;
+        return id == null ? null : userRepository.loadBy(id).orElse(null);
     }
 }

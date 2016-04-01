@@ -24,6 +24,17 @@ public interface ProductRepository extends MasterDataRepositoryWithDto<Product, 
      */
     Optional<Product> loadBy(Name name);
 
+    Optional<Product> loadGenericBy(ProductGroup productGroup);
+
+    /**
+     * Load all attributes based on the {@link Name} and {@link Company}.
+     *
+     * @param name    the {@link Name} of the {@link Product}
+     * @param company the {@link Company} the {@link Product}s belong to
+     * @return the current {@link Product} with all attributes from the repository
+     */
+    Optional<Product> loadBy(Name name, Company company);
+
     /**
      * Load all {@link Product}s which belongs to the {@link Company}.
      *

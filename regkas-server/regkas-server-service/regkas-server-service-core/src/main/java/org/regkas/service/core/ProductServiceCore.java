@@ -1,21 +1,22 @@
 package org.regkas.service.core;
 
-import com.google.common.collect.Lists;
 import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.common.service.api.EnabledState;
-import org.boatpos.common.service.core.MasterDataHelper;
 import org.boatpos.common.service.core.MasterDataServiceCore;
 import org.boatpos.common.service.core.ModelDtoConverter;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.repository.ProductRepository;
+import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.ProductService;
 import org.regkas.service.api.bean.ProductBean;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 @RequestScoped
 public class ProductServiceCore extends MasterDataServiceCore<ProductBean> implements ProductService {
@@ -32,6 +33,13 @@ public class ProductServiceCore extends MasterDataServiceCore<ProductBean> imple
 
     protected MasterDataRepositoryWithDto getRepository() {
         return productRepository;
+    }
+
+    @Override
+    public ProductBean getForCurrentCompany(String name) {
+        Optional<Product> product = productRepository.loadBy(new Name(name), company);
+        Optional<ProductBean> convert = modelDtoConverter.convert(product);
+        return convert.orElse(new ProductBean());
     }
 
     @Override

@@ -33,6 +33,13 @@ public class ProductGroupRepositoryCore extends MasterDataRepositoryCore<Product
     }
 
     @Override
+    public Optional<ProductGroup> loadBy(Name name, Company company) {
+        checkNotNull(name, "'name' must not be null");
+        checkNotNull(company, "'company' must not be null");
+        return loadByParameter(queryName("getByNameAndCompany"), (query) -> query.setParameter("name", name.get()).setParameter("company", company.getName().get()));
+    }
+
+    @Override
     public List<ProductGroup> loadBy(Company company) {
         return loadAll(queryName("getAllByCompany"), ProductGroupCore::new, (query) -> query.setParameter("companyId", company.getId().get()));
     }
