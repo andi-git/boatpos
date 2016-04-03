@@ -14,29 +14,16 @@ import java.util.Optional;
  * Context for the {@link CashBox}.
  */
 @RequestScoped
-public class CashBoxContext {
+public class CashBoxContext extends DomainModelContext<CashBox> {
 
     @Inject
     private CashBoxRepository cashBoxRepository;
 
-    private DomainId id;
-
-    public void set(CashBox cashBox) {
-        if (cashBox != null) this.id = cashBox.getId();
-    }
-
-    public void set(Optional<CashBox> cashBox) {
-        if (cashBox.isPresent()) set(cashBox.get());
-    }
-
-    public void clear() {
-        this.id = null;
-    }
-
+    @Override
     @Produces
     @Current
     @RequestScoped
     public CashBox get() {
-        return id == null ? null : cashBoxRepository.loadBy(id).orElse(null);
+        return getId().isPresent() ? cashBoxRepository.loadBy(getId().get()).orElse(null) : null;
     }
 }

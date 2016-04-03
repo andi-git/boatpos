@@ -14,31 +14,16 @@ import java.util.Optional;
  * Context for the {@link Company}.
  */
 @RequestScoped
-public class CompanyContext {
+public class CompanyContext extends DomainModelContext<Company> {
 
     @Inject
     private CompanyRepository companyRepository;
 
-    private DomainId id;
-
-    public void set(Company company) {
-        if (company != null) {
-            this.id = company.getId();
-        }
-    }
-
-    public void set(Optional<Company> company) {
-        if (company.isPresent()) set(company.get());
-    }
-
-    public void clear() {
-        this.id = null;
-    }
-
+    @Override
     @Produces
     @Current
     @RequestScoped
     public Company get() {
-        return id == null ? null : companyRepository.loadBy(id).orElse(null);
+        return getId().isPresent() ? companyRepository.loadBy(getId().get()).orElse(null) : null;
     }
 }

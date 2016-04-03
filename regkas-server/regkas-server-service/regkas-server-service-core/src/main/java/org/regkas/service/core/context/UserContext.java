@@ -14,29 +14,16 @@ import java.util.Optional;
  * Context for the {@link User}.
  */
 @RequestScoped
-public class UserContext {
+public class UserContext extends DomainModelContext<User> {
 
     @Inject
     private UserRepository userRepository;
 
-    private DomainId id;
-
-    public void set(User user) {
-        if (user != null) this.id = user.getId();
-    }
-
-    public void set(Optional<User> user) {
-        if (user.isPresent()) set(user.get());
-    }
-
-    public void clear() {
-        this.id = null;
-    }
-
+    @Override
     @Produces
     @Current
     @RequestScoped
     public User get() {
-        return id == null ? null : userRepository.loadBy(id).orElse(null);
+        return getId().isPresent() ? userRepository.loadBy(getId().get()).orElse(null) : null;
     }
 }
