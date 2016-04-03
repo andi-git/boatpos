@@ -28,7 +28,7 @@ public class SampleDatabaseCreatorRegkasTest {
     public void testFillDatabase() throws Exception {
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
         sampleDatabaseCreator.fillDatabase(entityManager);
-        assertEquals(new BigInteger("1"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
+        assertEquals(new BigInteger("2"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
         sampleDatabaseCreator.clearDatabase(entityManager);
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
     }

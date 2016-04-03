@@ -26,7 +26,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     private String name;
 
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 0, max = 50)
     @Expose
     private String signatureCertificateSerialNumber;
 

@@ -114,6 +114,98 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.persist(receiptElement11);
         em.persist(receiptElement12);
         em.persist(receiptElement21);
+
+        // company Eppel
+        AddressEntity addressEppel = new AddressEntity(null, null, "Wagramerstraße 48a", "1220", "Wien", "Österreich", new HashSet<>());
+        UserEntity userEppel = new UserEntity(null, null, true, 1, "", "", "Eppel", DigestUtils.sha1Hex("test123"), null);
+        CashBoxEntity cashBoxEppelBootsvermietung = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBV", "", null);
+        CashBoxEntity cashBoxEppelBuffet = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBuffet", "", null);
+        CompanyEntity companyEppel = new CompanyEntity(null, null, true, 1, "", "", "EPPEL BOOTE", addressEppel, "+4312633530", "office@eppel-boote.at", "ATU63304105", Sets.newHashSet(cashBoxEppelBootsvermietung, cashBoxEppelBuffet), Sets.newHashSet(userEppel), Sets.newHashSet());
+        cashBoxEppelBootsvermietung.setCompany(companyEppel);
+        cashBoxEppelBuffet.setCompany(companyEppel);
+        companyEppel.getCashBoxes().add(cashBoxEppelBootsvermietung);
+        companyEppel.getCashBoxes().add(cashBoxEppelBuffet);
+        userEppel.setCompany(companyEppel);
+        companyEppel.getUsers().add(userEppel);
+        // product-groups and products Eppel Bootsvermietung
+        ProductGroupEntity productGroupEppelBVEBoot = new ProductGroupEntity(null, null, true, 1, 'a', "http://www.eppel-boote.at/boatpos/images/boat/eboot_2.jpg", "http://www.eppel-boote.at/boatpos/images/boat/eboot_2.jpg", "Elektroboot", taxSet1, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBVTretboot = new ProductGroupEntity(null, null, true, 1, 'b', "http://www.eppel-boote.at/boatpos/images/boat/tretboot_2.jpg", "http://www.eppel-boote.at/boatpos/images/boat/tretboot_2.jpg", "Treetboot", taxSet1, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBVRuderboot = new ProductGroupEntity(null, null, true, 1, 'c', "http://www.eppel-boote.at/boatpos/images/boat/ruderboot.jpg", "http://www.eppel-boote.at/boatpos/images/boat/ruderboot.jpg", "Ruderboot", taxSet1, companyEppel, new HashSet<>());
+        ProductEntity productEppelBVGenericEBoot = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/boatpos/images/boat/eboot_2.jpg", "http://www.eppel-boote.at/boatpos/images/boat/eboot_2.jpg", "Elektroboot", productGroupEppelBVEBoot, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBVGenericTretboot = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/boatpos/images/boat/tretboot_2.jpg", "http://www.eppel-boote.at/boatpos/images/boat/tretboot_2.jpg", "Tretboot", productGroupEppelBVTretboot, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBVGenericRuderboot = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/boatpos/images/boat/ruderboot.jpg", "http://www.eppel-boote.at/boatpos/images/boat/ruderboot.jpg", "Ruderboot", productGroupEppelBVRuderboot, new HashSet<>(), new BigDecimal("0.00"), true);
+        // generic products Eppel Bootsvermietung
+        ProductEntity productEppelBVE = new ProductEntity(null, null, true, 1, 'A', "http://www.eppel-boote.at/boatpos/images/boat/eboot_2.jpg", "http://www.eppel-boote.at/boatpos/images/boat/eboot_2.jpg", "Elektroboot", productGroupEppelBVEBoot, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productEppelBVT2 = new ProductEntity(null, null, true, 1, 'B', "http://www.eppel-boote.at/boatpos/images/boat/tretboot_2.jpg", "http://www.eppel-boote.at/boatpos/images/boat/tretboot_2.jpg", "Tretboot klein", productGroupEppelBVTretboot, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productEppelBVT4 = new ProductEntity(null, null, true, 1, 'C', "http://www.eppel-boote.at/boatpos/images/boat/tretboot_4.jpg", "http://www.eppel-boote.at/boatpos/images/boat/tretboot_4.jpg", "Tretboot groß", productGroupEppelBVTretboot, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productEppelBVTR = new ProductEntity(null, null, true, 1, 'D', "http://www.eppel-boote.at/boatpos/images/boat/tretboot_rutsche.jpg", "http://www.eppel-boote.at/boatpos/images/boat/tretboot_rutsche.jpg", "Tretboot Rutsche", productGroupEppelBVTretboot, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productEppelBVP = new ProductEntity(null, null, true, 1, 'E', "http://www.eppel-boote.at/boatpos/images/boat/ruderboot.jpg", "http://www.eppel-boote.at/boatpos/images/boat/ruderboot.jpg", "Pönt", productGroupEppelBVRuderboot, new HashSet<>(), new BigDecimal("0.00"), false);
+        // combine product-groups and products Eppel Bootsvermietung
+        productGroupEppelBVEBoot.getProducts().add(productEppelBVGenericEBoot);
+        productGroupEppelBVEBoot.getProducts().add(productEppelBVE);
+        productGroupEppelBVTretboot.getProducts().add(productEppelBVGenericTretboot);
+        productGroupEppelBVTretboot.getProducts().add(productEppelBVT2);
+        productGroupEppelBVTretboot.getProducts().add(productEppelBVT4);
+        productGroupEppelBVTretboot.getProducts().add(productEppelBVTR);
+        productGroupEppelBVRuderboot.getProducts().add(productEppelBVGenericRuderboot);
+        productGroupEppelBVRuderboot.getProducts().add(productEppelBVP);
+        // product-groups Eppel Buffet
+        ProductGroupEntity productGroupEppelBuffetSnack = new ProductGroupEntity(null, null, true, 1, 'a', "http://www.eppel-boote.at/regkas/images/buffet/snack.jpg", "http://www.eppel-boote.at/regkas/images/buffet/snack.jpg", "Snack", taxSet2, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBuffetEskimoeis = new ProductGroupEntity(null, null, true, 2, 'b', "http://www.eppel-boote.at/regkas/images/buffet/eis.jpg", "http://www.eppel-boote.at/regkas/images/buffet/eis.jpg", "Eskimoeis", taxSet2, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBuffetEismischgetraenk = new ProductGroupEntity(null, null, true, 3, 'c', "http://www.eppel-boote.at/regkas/images/buffet/eisgetraenk.jpg", "http://www.eppel-boote.at/regkas/images/buffet/eisgetraenk.jpg", "Eismischgetränk", taxSet2, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBuffetBier = new ProductGroupEntity(null, null, true, 4, 'd', "http://www.eppel-boote.at/regkas/images/buffet/bier.jpg", "http://www.eppel-boote.at/regkas/images/buffet/bier.jpg", "Bier", taxSet1, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBuffetWein = new ProductGroupEntity(null, null, true, 5, 'e', "http://www.eppel-boote.at/regkas/images/buffet/wein.jpg", "http://www.eppel-boote.at/regkas/images/buffet/wein.jpg", "Wein", taxSet1, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBuffetAlkfrei = new ProductGroupEntity(null, null, true, 6, 'f', "http://www.eppel-boote.at/regkas/images/buffet/alkfrei.jpg", "http://www.eppel-boote.at/regkas/images/buffet/alkfrei.jpg", "alkoholfreies Getränk", taxSet1, companyEppel, new HashSet<>());
+        ProductGroupEntity productGroupEppelBuffetKaffee = new ProductGroupEntity(null, null, true, 7, 'g', "http://www.eppel-boote.at/regkas/images/buffet/kaffee.jpg", "http://www.eppel-boote.at/regkas/images/buffet/kaffee.jpg", "Kaffee", taxSet1, companyEppel, new HashSet<>());
+        // generic products Eppel Buffet
+        ProductEntity productEppelBuffetGenericSnack = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/snack.jpg", "http://www.eppel-boote.at/regkas/images/buffet/snack.jpg", "Snack", productGroupEppelBuffetSnack, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBuffetGenericEskimoeis = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/eis.jpg", "http://www.eppel-boote.at/regkas/images/buffet/eis.jpg", "Eis", productGroupEppelBuffetEskimoeis, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBuffetGenericEismischgetraenk = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/eismischgetraenk.jpg", "http://www.eppel-boote.at/regkas/images/buffet/eismischgetraenk.jpg", "Eismischgetraenk", productGroupEppelBuffetEismischgetraenk, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBuffetGenericBier = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/bier.jpg", "http://www.eppel-boote.at/regkas/images/buffet/bier.jpg", "Snack", productGroupEppelBuffetBier, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBuffetGenericWein = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/wein.jpg", "http://www.eppel-boote.at/regkas/images/buffet/wein.jpg", "Wein", productGroupEppelBuffetWein, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBuffetGenericAlkfrei = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/alkfrei.jpg", "http://www.eppel-boote.at/regkas/images/buffet/alkfrei.jpg", "Wein", productGroupEppelBuffetAlkfrei, new HashSet<>(), new BigDecimal("0.00"), true);
+        ProductEntity productEppelBuffetGenericKaffee = new ProductEntity(null, null, true, 1, '#', "http://www.eppel-boote.at/regkas/images/buffet/kaffee.jpg", "http://www.eppel-boote.at/regkas/images/buffet/kaffee.jpg", "Kaffee", productGroupEppelBuffetKaffee, new HashSet<>(), new BigDecimal("0.00"), true);
+        // combine product-groups and products Eppel Bootsvermietung
+        productGroupEppelBuffetSnack.getProducts().add(productEppelBuffetGenericSnack);
+        productGroupEppelBuffetEskimoeis.getProducts().add(productEppelBuffetGenericEskimoeis);
+        productGroupEppelBuffetEismischgetraenk.getProducts().add(productEppelBuffetGenericEismischgetraenk);
+        productGroupEppelBuffetBier.getProducts().add(productEppelBuffetGenericBier);
+        productGroupEppelBuffetWein.getProducts().add(productEppelBuffetGenericWein);
+        productGroupEppelBuffetAlkfrei.getProducts().add(productEppelBuffetGenericAlkfrei);
+        productGroupEppelBuffetKaffee.getProducts().add(productEppelBuffetGenericKaffee);
+
+        // persist entities Bootsvermietung EPPEL
+        em.persist(addressEppel);
+        em.persist(userEppel);
+        em.persist(cashBoxEppelBootsvermietung);
+        em.persist(cashBoxEppelBuffet);
+        em.persist(companyEppel);
+        em.persist(productGroupEppelBVEBoot);
+        em.persist(productGroupEppelBVTretboot);
+        em.persist(productGroupEppelBVRuderboot);
+        em.persist(productEppelBVGenericEBoot);
+        em.persist(productEppelBVGenericTretboot);
+        em.persist(productEppelBVGenericRuderboot);
+        em.persist(productEppelBVE);
+        em.persist(productEppelBVT2);
+        em.persist(productEppelBVT4);
+        em.persist(productEppelBVTR);
+        em.persist(productEppelBVP);
+        em.persist(productGroupEppelBuffetSnack);
+        em.persist(productGroupEppelBuffetEskimoeis);
+        em.persist(productGroupEppelBuffetEismischgetraenk);
+        em.persist(productGroupEppelBuffetBier);
+        em.persist(productGroupEppelBuffetWein);
+        em.persist(productGroupEppelBuffetAlkfrei);
+        em.persist(productGroupEppelBuffetKaffee);
+        em.persist(productEppelBuffetGenericSnack);
+        em.persist(productEppelBuffetGenericEskimoeis);
+        em.persist(productEppelBuffetGenericEismischgetraenk);
+        em.persist(productEppelBuffetGenericBier);
+        em.persist(productEppelBuffetGenericWein);
+        em.persist(productEppelBuffetGenericAlkfrei);
+        em.persist(productEppelBuffetGenericKaffee);
+
         em.flush();
     }
 

@@ -62,9 +62,9 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
 
-        ProductBean snack = productRepository.loadBy(new Name("Snack")).get().asDto();
-        ProductBean cola = productRepository.loadBy(new Name("Cola")).get().asDto();
-        ProductBean cornetto = productRepository.loadBy(new Name("Cornetto")).get().asDto();
+        ProductBean snack = productRepository.loadBy(new Name("Snack"), companyContext.get()).get().asDto();
+        ProductBean cola = productRepository.loadBy(new Name("Cola"), companyContext.get()).get().asDto();
+        ProductBean cornetto = productRepository.loadBy(new Name("Cornetto"), companyContext.get()).get().asDto();
 
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");

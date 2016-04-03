@@ -31,7 +31,7 @@ public class UserRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testLoadAll() throws NoSuchAlgorithmException {
-        assertEquals(2, userRepository.loadAll().size());
+        assertEquals(3, userRepository.loadAll().size());
     }
 
     @Test

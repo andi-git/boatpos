@@ -14,7 +14,6 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
-
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -33,12 +32,6 @@ public class ProductRepositoryCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testLoadByName() {
-        assertEquals("Cola", productRepository.loadBy(new Name("Cola")).get().getName().get());
-    }
-
-    @Test
-    @Transactional
     public void testLoadByNameAndCompany() {
         Company company = companyRepository.loadBy(new Name("company")).get();
         assertEquals("Cola", productRepository.loadBy(new Name("Cola"), company).get().getName().get());
@@ -47,14 +40,14 @@ public class ProductRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testLoadGenericByProductGroup() {
-        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"));
+        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"), companyRepository.loadBy(new Name("company")).get());
         assertEquals("Snack", productRepository.loadGenericBy(productGroup.get()).get().getName().get());
     }
 
     @Test
     @Transactional
     public void testLoadByProductGroup() {
-        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"));
+        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"), companyRepository.loadBy(new Name("company")).get());
         assertEquals(2, productRepository.loadBy(productGroup.get()).size());
     }
 

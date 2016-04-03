@@ -4,6 +4,7 @@ import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.ProductGroupEntity;
+import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.model.TaxSet;
@@ -28,13 +29,16 @@ public class ProductGroupCore extends MasterDataCore<ProductGroup, ProductGroupE
                             PictureUrlThumb pictureUrlThumb,
                             Name name,
                             TaxSet taxSet,
+                            Company company,
                             List<Product> products)  {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(taxSet, "'taxSet' must not be null");
+        checkNotNull(company, "'company' must not be null");
         checkNotNull(products, "'products' must not be null");
         setName(name);
         setTaxSet(taxSet);
+        setCompany(company);
         addProducts(products);
     }
 
@@ -61,6 +65,17 @@ public class ProductGroupCore extends MasterDataCore<ProductGroup, ProductGroupE
     @Override
     public ProductGroup setTaxSet(TaxSet taxSet) {
         if (taxSet != null) getEntity().setTaxSet(taxSet.asEntity());
+        return this;
+    }
+
+    @Override
+    public Company getCompany() {
+        return new CompanyCore(getEntity().getCompany());
+    }
+
+    @Override
+    public ProductGroup setCompany(Company company) {
+        if (company != null) getEntity().setCompany(company.asEntity());
         return this;
     }
 

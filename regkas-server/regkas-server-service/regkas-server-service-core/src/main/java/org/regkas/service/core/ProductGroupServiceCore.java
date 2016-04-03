@@ -51,7 +51,7 @@ public class ProductGroupServiceCore extends MasterDataServiceCore<ProductGroupB
     @Override
     public ProductBean getGenericProductFor(String productGroupName) {
         ProductBean result = new ProductBean();
-        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name(productGroupName));
+        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name(productGroupName), company);
         if (productGroup.isPresent()) {
             Optional<Product> product = productRepository.loadGenericBy(productGroup.get());
             Optional<ProductBean> productBean = modelDtoConverter.convert(product);

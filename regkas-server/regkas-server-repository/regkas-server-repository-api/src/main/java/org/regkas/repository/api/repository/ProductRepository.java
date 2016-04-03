@@ -17,13 +17,11 @@ import java.util.Optional;
 public interface ProductRepository extends MasterDataRepositoryWithDto<Product, ProductBuilder> {
 
     /**
-     * Load all attributes based on the {@link Name}.
+     * Load the generic {@link Product} for a {@link ProductGroup}.
      *
-     * @param name the {@link Name} of the {@link Product}
-     * @return the current {@link Product} with all attributes from the repository
+     * @param productGroup the {@link ProductGroup} to load the generic {@link Product} for
+     * @return the generic {@link Product} for a {@link ProductGroup}
      */
-    Optional<Product> loadBy(Name name);
-
     Optional<Product> loadGenericBy(ProductGroup productGroup);
 
     /**

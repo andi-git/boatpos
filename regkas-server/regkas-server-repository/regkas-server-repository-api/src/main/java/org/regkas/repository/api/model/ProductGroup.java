@@ -21,6 +21,10 @@ public interface ProductGroup extends MasterDataWithDto<ProductGroup, ProductGro
 
     ProductGroup setTaxSet(TaxSet taxSet);
 
+    Company getCompany();
+
+    ProductGroup setCompany(Company company);
+
     List<Product> getProducts();
 
     ProductGroup addProducts(List<Product> products);

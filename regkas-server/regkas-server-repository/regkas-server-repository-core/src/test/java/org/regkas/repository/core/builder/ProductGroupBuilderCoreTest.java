@@ -29,6 +29,7 @@ public class ProductGroupBuilderCoreTest {
                 .add(new Priority(1))
                 .add(new Name("productgroup-name"))
                 .add(TaxSetBuilderCoreTest.build())
+                .add(CompanyBuilderCoreTest.build())
                 .add(ProductBuilderCoreTest.build())
                 .build();
     }

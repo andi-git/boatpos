@@ -17,14 +17,6 @@ import java.util.Optional;
 public interface ProductGroupRepository extends MasterDataRepositoryWithDto<ProductGroup, ProductGroupBuilder> {
 
     /**
-     * Load all attributes based on the {@link Name}.
-     *
-     * @param name the {@link Name} of the {@link ProductGroup}
-     * @return the current {@link ProductGroup} with all attributes from the repository
-     */
-    Optional<ProductGroup> loadBy(Name name);
-
-    /**
      * Load all attributes based on the {@link Name} and {@link Company}.
      *
      * @param name    the {@link Name} of the {@link ProductGroup}

@@ -3,7 +3,7 @@
              version="1.0">
     <persistence-unit name="regkas" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-        <!--<jta-data-source>java:jboss/datasources/boatpos</jta-data-source>-->
+        <!--<jta-data-source>java:jboss/datasources/regkas</jta-data-source>-->
         <class>org.regkas.model.AddressEntity</class>
         <class>org.regkas.model.CashBoxEntity</class>
         <class>org.regkas.model.CompanyEntity</class>
@@ -15,7 +15,7 @@
         <class>org.regkas.model.UserEntity</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="false"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->

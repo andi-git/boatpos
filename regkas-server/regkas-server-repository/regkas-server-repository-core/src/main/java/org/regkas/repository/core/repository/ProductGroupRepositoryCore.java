@@ -27,12 +27,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ProductGroupRepositoryCore extends MasterDataRepositoryCore<ProductGroup, ProductGroupCore, ProductGroupEntity, ProductGroupBuilder, ProductGroupBuilderCore> implements ProductGroupRepository {
 
     @Override
-    public Optional<ProductGroup> loadBy(Name name) {
-        checkNotNull(name, "'name' must not be null");
-        return loadByParameter(queryName("getByName"), (query) -> query.setParameter("name", name.get()));
-    }
-
-    @Override
     public Optional<ProductGroup> loadBy(Name name, Company company) {
         checkNotNull(name, "'name' must not be null");
         checkNotNull(company, "'company' must not be null");

@@ -28,12 +28,6 @@ public class ProductGroupRepositoryCoreTest extends EntityManagerProviderForRegk
 
     @Test
     @Transactional
-    public void testLoadByName() {
-        assertEquals("Snack", productGroupRepository.loadBy(new Name("Snack")).get().getName().get());
-    }
-
-    @Test
-    @Transactional
     public void testLoadByNameAndCompany() {
         Company company = companyRepository.loadBy(new Name("company")).get();
         assertEquals("Snack", productGroupRepository.loadBy(new Name("Snack"), company).get().getName().get());

@@ -22,22 +22,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ProductRepositoryCore extends MasterDataRepositoryCore<Product, ProductCore, ProductEntity, ProductBuilder, ProductBuilderCore> implements ProductRepository {
 
     @Override
-    public Optional<Product> loadBy(Name name) {
-        checkNotNull(name, "'name' must not be null");
-        return loadByParameter(queryName("getByName"), (query) -> query.setParameter("name", name.get()));
-    }
-
-    @Override
     public Optional<Product> loadGenericBy(ProductGroup productGroup) {
         checkNotNull(productGroup, "'name' must not be null");
-        return loadByParameter(queryName("getGenericByProductGroup"), (query) -> query.setParameter("productGroupName", productGroup.getName().get()));
+        return loadByParameter(queryName("getGenericByProductGroup"),
+                (query) -> query
+                        .setParameter("productGroupName", productGroup.getName().get())
+                        .setParameter("companyName", productGroup.getCompany().getName().get()));
     }
 
     @Override
     public Optional<Product> loadBy(Name name, Company company) {
         checkNotNull(name, "'name' must not be null");
         checkNotNull(company, "'company' must not be null");
-        return loadByParameter(queryName("getByNameAndCompany"), (query) -> query.setParameter("name", name.get()).setParameter("company", company.getName().get()));
+        return loadByParameter(queryName("getByNameAndCompany"),
+                (query) -> query
+                        .setParameter("name", name.get())
+                        .setParameter("company", company.getName().get()));
     }
 
     @Override
