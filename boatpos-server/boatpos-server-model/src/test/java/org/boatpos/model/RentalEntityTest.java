@@ -24,8 +24,8 @@ public class RentalEntityTest extends JavaBeanTest<RentalEntity> {
                 .setDepartTime(LocalDateTime.now())
                 .setPromotion(Optional.empty())
                 .build();
-        rentalEntity.setPaymentMethodBefore(PaymentMethod.CARD);
-        rentalEntity.setPaymentMethodAfter(PaymentMethod.CARD);
+        rentalEntity.setPaymentMethodBefore(PaymentMethod.Card);
+        rentalEntity.setPaymentMethodAfter(PaymentMethod.Card);
         rentalEntity.getPaymentMethodBefore();
         rentalEntity.getPaymentMethodAfter();
     }

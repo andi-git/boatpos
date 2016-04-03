@@ -7,6 +7,7 @@ import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.regkas.model.ReceiptEntity;
+import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
 import org.regkas.repository.api.values.ReceiptDate;
@@ -34,6 +35,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        ReceiptType receiptType,
                        CashBox cashBox,
                        PaymentMethod paymentMethod,
+                       TimeType timeType,
                        Set<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -45,6 +47,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         checkNotNull(receiptType, "'receiptType' must not be null");
         checkNotNull(cashBox, "'cashBox' must not be null");
         checkNotNull(paymentMethod, "'paymentMethod' must not be null");
+        checkNotNull(timeType, "'timeType' must not be null");
         checkNotNull(receiptElements, "'receiptElements' must not be null");
         setReceiptId(receiptId);
         setReceiptDate(receiptDate);
@@ -55,6 +58,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setReceiptType(receiptType);
         setCashBox(cashBox);
         setPaymentMethod(paymentMethod);
+        setTimeType(timeType);
         addReceiptElements(receiptElements);
     }
 
@@ -158,6 +162,17 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public Receipt setPaymentMethod(PaymentMethod paymentMethod) {
         if (paymentMethod != null) getEntity().setPaymentMethod(paymentMethod);
+        return this;
+    }
+    
+    @Override
+    public TimeType getTimeType() {
+        return getEntity().getTimeType();
+    }
+
+    @Override
+    public Receipt setTimeType(TimeType timeType) {
+        if (timeType != null) getEntity().setTimeType(timeType);
         return this;
     }
 

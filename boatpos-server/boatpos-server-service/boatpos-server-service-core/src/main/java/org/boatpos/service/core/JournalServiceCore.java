@@ -60,10 +60,10 @@ public class JournalServiceCore implements JournalService {
         for (Boat boat : boatRepository.loadAll(Enabled.TRUE)) {
             journalReportBean.addJournalReportItemBean(new JournalReportItemBean(
                     boat.getName().get(),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CASH)),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CARD)),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CASH)),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CARD)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.Cash)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.Card)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.Cash)),
+                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.Card)),
                     getBoatCountFor(boat, boatCountResult).intValue()));
         }
         return journalReportBean;

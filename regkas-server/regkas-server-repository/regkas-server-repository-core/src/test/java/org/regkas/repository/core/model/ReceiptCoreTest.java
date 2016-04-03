@@ -3,6 +3,7 @@ package org.regkas.repository.core.model;
 import com.google.common.collect.Sets;
 import org.boatpos.common.model.PaymentMethod;
 import org.junit.Test;
+import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.core.builder.ReceiptBuilderCoreTest;
 import org.regkas.repository.core.builder.ReceiptElementBuilderCoreTest;
@@ -23,7 +24,8 @@ public class ReceiptCoreTest {
         assertEquals("company-name", receipt.getCompany().getName().get());
         assertEquals("user-name", receipt.getUser().getName().get());
         assertEquals("cashbox-id", receipt.getCashBox().getName().get());
-        assertEquals(PaymentMethod.CASH, receipt.getPaymentMethod());
+        assertEquals(PaymentMethod.Cash, receipt.getPaymentMethod());
+        assertEquals(TimeType.Current, receipt.getTimeType());
 
         receipt.clearReceiptElements();
         receipt.addReceiptElement(ReceiptElementBuilderCoreTest.build());

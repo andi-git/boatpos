@@ -2,12 +2,10 @@ package org.regkas.repository.core.builder;
 
 import org.boatpos.common.model.PaymentMethod;
 import org.junit.Test;
+import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.Receipt;
-import org.regkas.repository.api.model.ReceiptElement;
 import org.regkas.repository.api.values.*;
-import org.regkas.repository.core.model.CashBoxCoreTest;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +27,8 @@ public class ReceiptBuilderCoreTest {
                 .add(UserBuilderCoreTest.build())
                 .add(ReceiptTypeBuilderCoreTest.build())
                 .add(CashBoxBuilderCoreTest.build())
-                .add(PaymentMethod.CASH)
+                .add(PaymentMethod.Cash)
+                .add(TimeType.Current)
                 .add(ReceiptElementBuilderCoreTest.build())
                 .build();
     }

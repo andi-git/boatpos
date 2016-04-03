@@ -3,6 +3,7 @@ package org.regkas.service.core;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.model.TimeType;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.repository.*;
@@ -68,6 +69,7 @@ public class SaleServiceCore implements SaleService {
                 .add(new EncryptedTurnoverValue(""))
                 .add(new SignatureValuePreviousReceipt(""))
                 .add(PaymentMethod.get(sale.getPaymentMethod()))
+                .add(TimeType.Current)
                 .add(receiptTypeRepository.loadBy(new Name(sale.getReceiptType())).orElseGet(() -> receiptTypeRepository.loadNullType()))
                 .add(cashBox)
                 .add(user)

@@ -71,10 +71,14 @@ public class ReceiptEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
+    @Expose
+    @Enumerated(EnumType.STRING)
+    private TimeType timeType;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, Set<ReceiptElementEntity> receiptElements) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, Set<ReceiptElementEntity> receiptElements) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -86,6 +90,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.receiptType = receiptType;
         this.receiptElements = receiptElements;
         this.paymentMethod = paymentMethod;
+        this.timeType = timeType;
     }
 
     public String getReceiptId() {
@@ -166,5 +171,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public TimeType getTimeType() {
+        return timeType;
+    }
+
+    public void setTimeType(TimeType timeType) {
+        this.timeType = timeType;
     }
 }
