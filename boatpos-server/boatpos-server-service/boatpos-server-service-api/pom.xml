@@ -26,6 +26,11 @@
             <artifactId>boatpos-common-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.boatpos</groupId>
+            <artifactId>regkas-server-service-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- test -->
         <dependency>

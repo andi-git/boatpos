@@ -1,6 +1,7 @@
 package org.boatpos.service.api;
 
 import org.boatpos.service.api.bean.*;
+import org.regkas.service.api.bean.BillBean;
 
 /**
  * Service to perform an arrival.

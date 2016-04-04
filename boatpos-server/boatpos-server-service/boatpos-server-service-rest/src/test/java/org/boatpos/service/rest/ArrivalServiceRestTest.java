@@ -7,6 +7,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.service.api.bean.BillBean;
 
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;

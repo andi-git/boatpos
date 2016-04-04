@@ -2,17 +2,21 @@ package org.boatpos.service.core;
 
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.util.qualifiers.Current;
 import org.boatpos.repository.api.model.PromotionAfter;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.PromotionAfterRepository;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.ArrivalService;
-import org.boatpos.service.api.bean.*;
-import org.boatpos.service.core.util.BillCreator;
+import org.boatpos.service.api.bean.AddPromotionBean;
+import org.boatpos.service.api.bean.ArrivalBean;
+import org.boatpos.service.api.bean.PaymentBean;
+import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.core.util.RegkasService;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
-import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.service.api.bean.BillBean;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -44,10 +48,10 @@ public class ArrivalServiceCore implements ArrivalService {
     private ArrivalTime arrivalTime;
 
     @Inject
-    private BillCreator billCreator;
+    private RentalBeanEnrichment rentalBeanEnrichment;
 
     @Inject
-    private RentalBeanEnrichment rentalBeanEnrichment;
+    private RegkasService regkasService;
 
     @Override
     public RentalBean arrive(ArrivalBean arrivalBean) {
@@ -84,16 +88,23 @@ public class ArrivalServiceCore implements ArrivalService {
 
     @Override
     public BillBean pay(PaymentBean paymentBean) {
+        // check rental
         DayId dayId = new DayId(paymentBean.getDayNumber());
         rentalLoader.checkIfRentalIsActive(dayId);
         Rental rental = rentalLoader.loadOnCurrentDayBy(dayId);
         if (rental.isFinished() != null && rental.isFinished().get()) {
             throw new IllegalStateException("Payment not possible - rental is already finished!");
         }
-        return billCreator.create(rental
-                .setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
+        // update rental
+        rental.setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
                 .setFinished(Finished.TRUE)
                 .setPaymentMethodAfter(PaymentMethod.get(paymentBean.getPaymentMethod()))
-                .persist());
+                .persist();
+        // create bill via regkas
+        try {
+            return regkasService.sale(paymentBean);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
