@@ -1,32 +1,23 @@
 package org.boatpos.common.service.rest;
 
-import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.core.MultivaluedMap;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CORSFilterTest {
 
     @SuppressWarnings("unchecked")
     @Test
     public void testFilter() throws Exception {
-        final Map<String, String> result = new HashMap<String, String>();
+        final Map<String, String> result = new HashMap<>();
         ContainerRequestContext requestContext = mock(ContainerRequestContext.class);
         ContainerResponseContext responseContext = mock(ContainerResponseContext.class);
         MultivaluedMap headers = mock(MultivaluedMap.class);
@@ -42,6 +33,6 @@ public class CORSFilterTest {
 
         assertEquals("*", result.get("Access-Control-Allow-Origin"));
         assertEquals("GET, POST, DELETE, PUT, OPTIONS, HEAD", result.get("Access-Control-Allow-Methods"));
-        assertEquals("Content-Type, Accept, X-Requested-With", result.get("Access-Control-Allow-Headers"));
+        assertEquals("Content-Type, Accept, X-Requested-With, username, password", result.get("Access-Control-Allow-Headers"));
     }
 }
