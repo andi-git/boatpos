@@ -4,6 +4,7 @@ import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.service.api.CommitmentService;
 import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.bean.CommitmentBean;
+import org.boatpos.service.rest.filter.Authenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Response;
 @Path("/commitment")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Authenticated
 public class CommitmentServiceRest {
 
     @Inject

@@ -7,6 +7,7 @@ import org.boatpos.service.api.bean.AddPromotionBean;
 import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.DepartureBean;
 import org.boatpos.service.api.bean.PaymentBean;
+import org.boatpos.service.rest.filter.Authenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Path("/departure")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Authenticated
 public class DepartureServiceRest {
 
     @Inject

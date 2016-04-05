@@ -2,6 +2,7 @@ package org.boatpos.service.rest;
 
 import org.boatpos.service.api.JournalService;
 import org.boatpos.common.util.datetime.DateTimeHelper;
+import org.boatpos.service.rest.filter.Authenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 @Path("/journal")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Authenticated
 public class JournalServiceRest {
 
     @Inject
