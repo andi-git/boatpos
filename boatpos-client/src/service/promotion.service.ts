@@ -1,9 +1,8 @@
-import {PromotionBefore} from '../model/promotion';
-import {Injectable} from 'angular2/core';
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import 'rxjs/add/operator/map';
+import {PromotionBefore} from "../model/promotion";
+import {Injectable} from "angular2/core";
+import {Http} from "angular2/http";
+import "rxjs/add/operator/map";
 import {ConfigService} from "./config.service";
-import {ObservableWrapper} from "angular2/src/facade/async";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
@@ -24,7 +23,7 @@ export class PromotionService {
     }
 
     private loadPromotionsBefore():Observable<Array<PromotionBefore>> {
-        return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/before/enabled')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/before/enabled', {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((promotions:Array<any>) => {
                 let result:Array<PromotionBefore> = [];

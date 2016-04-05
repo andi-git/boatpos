@@ -36,6 +36,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                         console.log("config loaded, fire event");
                         _this.backendUrl = config.backendUrl;
                         _this.printerUrl = config.printerUrl;
+                        _this.username = config.username;
+                        _this.password = config.password;
                         _this.configured.emit(config);
                     });
                 }
@@ -47,6 +49,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                 };
                 ConfigService.prototype.getPrinterUrl = function () {
                     return this.printerUrl;
+                };
+                ConfigService.prototype.getDefaultHeader = function () {
+                    var headers = new http_1.Headers();
+                    headers.append("Content-Type", "application/json");
+                    headers.append("username", this.username);
+                    headers.append("password", this.password);
+                    return headers;
                 };
                 ConfigService = __decorate([
                     core_1.Injectable(), 

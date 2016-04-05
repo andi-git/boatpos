@@ -43,7 +43,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 CommitmentService.prototype.loadCommitments = function () {
                     // call the rest-service
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled')
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled', { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (commitments) {
                         var result = [];

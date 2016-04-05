@@ -1,4 +1,4 @@
-System.register(['../model/boat', 'angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service"], function(exports_1) {
+System.register(["../model/boat", "angular2/core", "angular2/http", "rxjs/add/operator/map", "./config.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -41,7 +41,7 @@ System.register(['../model/boat', 'angular2/core', 'angular2/http', 'rxjs/add/op
                 }
                 BoatService.prototype.loadBoats = function () {
                     // call the rest-service
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled', { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (boats) {
                         var result = [];
@@ -55,7 +55,7 @@ System.register(['../model/boat', 'angular2/core', 'angular2/http', 'rxjs/add/op
                 };
                 BoatService.prototype.loadBoatCount = function () {
                     var _this = this;
-                    this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
+                    this.http.get(this.configService.getBackendUrl() + 'rest/boat/count', { headers: this.configService.getDefaultHeader() })
                         .map(function (res) {
                         return res.json();
                     })
@@ -127,7 +127,7 @@ System.register(['../model/boat', 'angular2/core', 'angular2/http', 'rxjs/add/op
                 };
                 BoatService.prototype.loadNextDayNumber = function () {
                     var _this = this;
-                    this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId')
+                    this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId', { headers: this.configService.getDefaultHeader() })
                         .map(function (res) {
                         return res.json();
                     })

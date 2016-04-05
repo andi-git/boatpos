@@ -1,11 +1,10 @@
-import {Injectable} from 'angular2/core';
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import 'rxjs/add/operator/map';
+import {Injectable} from "angular2/core";
+import {Http, Headers} from "angular2/http";
+import "rxjs/add/operator/map";
 import {ConfigService} from "./config.service";
 import {Observable} from "rxjs/Observable";
 import {Departure} from "../model/departure";
 import {Rental} from "../model/rental";
-import {Boat} from "../model/boat";
 import {Payment} from "../model/payment";
 import {Arrival} from "../model/arrival";
 import {Bill} from "../model/bill";
@@ -13,15 +12,12 @@ import {Bill} from "../model/bill";
 @Injectable()
 export class RentalService {
 
-    private headers:Headers = new Headers();
-
     constructor(private http:Http, private configService:ConfigService) {
-        this.headers.append('Content-Type', 'application/json');
     }
 
     depart(depart:Departure):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers: this.headers}
+                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers : this.configService.getDefaultHeader()}
             )
             .map(res => res.json())
             .map((rentalBean) => {
@@ -39,7 +35,7 @@ export class RentalService {
 
     payBefore(payment:Payment):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers: this.headers}
+                this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers : this.configService.getDefaultHeader()}
             )
             .map(res => res.json())
             .map((rentalBean) => {
@@ -49,7 +45,7 @@ export class RentalService {
 
     deleteRental(dayNumber:number):Observable<Rental> {
         return this.http.delete(
-                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
+                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers : this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -58,7 +54,7 @@ export class RentalService {
 
     undoDeleteRental(dayNumber:number):Observable<Rental> {
         return this.http.get(
-                this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers: this.headers})
+                this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers : this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -67,7 +63,7 @@ export class RentalService {
 
     getRental(dayNumber:number):Observable<Rental> {
         return this.http.get(
-                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.headers})
+                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers : this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -76,7 +72,7 @@ export class RentalService {
 
     arrive(dayNumber:number):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.headers})
+                this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers : this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -85,7 +81,7 @@ export class RentalService {
 
     payAfter(payment:Payment):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.headers}
+                this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers : this.configService.getDefaultHeader()}
             )
             .map(res => res.json())
             .map((billBean) => {
@@ -94,7 +90,7 @@ export class RentalService {
     }
 
     loadAllForCurrentDay():Observable<Array<Rental>> {
-        return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay', {headers : this.configService.getDefaultHeader()})
             // map the result to json
             .map(res => res.json())
             // map the result to Boat

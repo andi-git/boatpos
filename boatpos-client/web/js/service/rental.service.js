@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./config.service", "../model/rental", "../model/arrival", "../model/bill"], function(exports_1) {
+System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./config.service", "../model/rental", "../model/arrival", "../model/bill"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -36,11 +36,9 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 function RentalService(http, configService) {
                     this.http = http;
                     this.configService = configService;
-                    this.headers = new http_1.Headers();
-                    this.headers.append('Content-Type', 'application/json');
                 }
                 RentalService.prototype.depart = function (depart) {
-                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), { headers: this.headers })
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return rental_1.Rental.fromDepart(rentalBean.dayId, RentalService.createDate(rentalBean.day), rentalBean.boatBean, RentalService.createDateTime(rentalBean.departure), rentalBean.commitmentBeans, rentalBean.promotionBeforeBean, rentalBean.coupon, rentalBean.priceCalculatedBefore);
@@ -48,7 +46,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.payBefore = function (payment) {
                     var _this = this;
-                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), { headers: this.headers })
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return _this.convertRentalBeanToRental(rentalBean);
@@ -56,7 +54,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.deleteRental = function (dayNumber) {
                     var _this = this;
-                    return this.http.delete(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
+                    return this.http.delete(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return _this.convertRentalBeanToRental(rentalBean);
@@ -64,7 +62,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.undoDeleteRental = function (dayNumber) {
                     var _this = this;
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, { headers: this.headers })
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return _this.convertRentalBeanToRental(rentalBean);
@@ -72,7 +70,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.getRental = function (dayNumber) {
                     var _this = this;
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.headers })
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return _this.convertRentalBeanToRental(rentalBean);
@@ -80,7 +78,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.arrive = function (dayNumber) {
                     var _this = this;
-                    return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new arrival_1.Arrival(dayNumber)), { headers: this.headers })
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new arrival_1.Arrival(dayNumber)), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return _this.convertRentalBeanToRental(rentalBean);
@@ -88,7 +86,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.payAfter = function (payment) {
                     var _this = this;
-                    return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), { headers: this.headers })
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (billBean) {
                         return _this.convertBillBeanToBill(billBean);
@@ -96,7 +94,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 };
                 RentalService.prototype.loadAllForCurrentDay = function () {
                     var _this = this;
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay')
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay', { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentals) {
                         var result = [];

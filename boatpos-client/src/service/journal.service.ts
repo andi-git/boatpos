@@ -17,7 +17,7 @@ export class JournalService {
 
     public incomeCurrentDay():Observable<JournalReport> {
         // call the rest-service
-        return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/day')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/day', {headers : this.configService.getDefaultHeader()})
             // map the result to json
             .map(res => res.json())
             // map the result to Boat
@@ -47,7 +47,7 @@ export class JournalService {
             args += "/";
             args += day;
         }
-        return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args)
+        return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args, {headers : this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((journalReportBean:any) => {
                 let journalReport:JournalReport = new JournalReport();

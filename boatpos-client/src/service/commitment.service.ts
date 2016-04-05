@@ -26,7 +26,7 @@ export class CommitmentService {
 
     private loadCommitments():Observable<Array<Commitment>> {
         // call the rest-service
-        return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/commitment/enabled', {headers : this.configService.getDefaultHeader()})
             // map the result to json
             .map(res => res.json())
             // map the result to Boat

@@ -10,6 +10,8 @@ export class ConfigService {
 
     private backendUrl:string;
     private printerUrl:string;
+    private username:string;
+    private password:string;
     private configured:EventEmitter<Config> = new EventEmitter();
 
     constructor(private http:Http) {
@@ -23,6 +25,8 @@ export class ConfigService {
                 console.log("config loaded, fire event");
                 this.backendUrl = config.backendUrl;
                 this.printerUrl = config.printerUrl;
+                this.username = config.username;
+                this.password = config.password;
                 this.configured.emit(config);
             });
     }
@@ -37,5 +41,13 @@ export class ConfigService {
 
     getPrinterUrl():string {
         return this.printerUrl;
+    }
+
+    getDefaultHeader():Headers {
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("username", this.username);
+        headers.append("password", this.password);
+        return headers;
     }
 }

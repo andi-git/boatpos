@@ -40,7 +40,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                 }
                 JournalService.prototype.incomeCurrentDay = function () {
                     // call the rest-service
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/day')
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/day', { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (journalReportBean) {
                         var journalReport = new journalReport_1.JournalReport();
@@ -62,7 +62,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         args += "/";
                         args += day;
                     }
-                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args)
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args, { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (journalReportBean) {
                         var journalReport = new journalReport_1.JournalReport();

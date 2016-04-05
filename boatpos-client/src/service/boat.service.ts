@@ -1,9 +1,8 @@
-import {Boat, BoatCount} from '../model/boat';
-import {Injectable} from 'angular2/core';
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import 'rxjs/add/operator/map';
+import {Boat, BoatCount} from "../model/boat";
+import {Injectable} from "angular2/core";
+import {Http, RequestOptions} from "angular2/http";
+import "rxjs/add/operator/map";
 import {ConfigService} from "./config.service";
-import {ObservableWrapper} from "angular2/src/facade/async";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
@@ -27,7 +26,7 @@ export class BoatService {
 
     private loadBoats():Observable<Array<Boat>> {
         // call the rest-service
-        return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled')
+        return this.http.get(this.configService.getBackendUrl() + 'rest/boat/enabled', {headers : this.configService.getDefaultHeader()})
             // map the result to json
             .map(res => res.json())
             // map the result to Boat
@@ -51,7 +50,7 @@ export class BoatService {
     }
 
     private loadBoatCount() {
-        this.http.get(this.configService.getBackendUrl() + 'rest/boat/count')
+        this.http.get(this.configService.getBackendUrl() + 'rest/boat/count', {headers: this.configService.getDefaultHeader()})
             .map((res) => {
                 return res.json()
             })
@@ -137,7 +136,7 @@ export class BoatService {
     }
 
     private loadNextDayNumber() {
-        this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId')
+        this.http.get(this.configService.getBackendUrl() + 'rest/rental/nextId', {headers: this.configService.getDefaultHeader()})
             .map((res) => {
                 return res.json()
             })
