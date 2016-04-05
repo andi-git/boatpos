@@ -31,6 +31,8 @@ public class RegkasServiceTest {
 
     @Test
     public void createRestCall() throws Exception {
+        System.setProperty("boatpos.regkas.service.rest", "http://localhost:8280/regkas-service/rest");
         new RegkasService().createRestCall(webTarget -> webTarget);
+        System.clearProperty("boatpos.regkas.service.rest");
     }
 }

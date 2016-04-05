@@ -13,6 +13,7 @@ import org.regkas.service.api.bean.SaleBean;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -41,7 +42,7 @@ public class RegkasService {
         sale.setSaleElements(Lists.newArrayList(
                 new ReceiptElementBean(productBean, 1, rental.getPricePaidComplete().get()))
         );
-        return readEntity(createRestCall(webTarget -> webTarget.path("sale")).get(), BillBean.class);
+        return readEntity(createRestCall(webTarget -> webTarget.path("sale")).post(Entity.json(sale)), BillBean.class);
     }
 
     public <T> T readEntity(Response response, Class<T> type) {

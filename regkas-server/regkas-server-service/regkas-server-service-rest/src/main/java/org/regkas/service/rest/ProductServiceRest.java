@@ -1,6 +1,5 @@
 package org.regkas.service.rest;
 
-import org.boatpos.common.service.rest.RestHelper;
 import org.regkas.service.api.ProductService;
 import org.regkas.service.rest.filter.Authenticated;
 

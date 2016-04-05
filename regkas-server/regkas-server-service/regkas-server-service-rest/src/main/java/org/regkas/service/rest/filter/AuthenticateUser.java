@@ -38,7 +38,7 @@ public class AuthenticateUser implements ContainerRequestFilter {
         if (authenticationService.authenticate(new CredentialsBean(getUsername(requestContext), getPassword(requestContext), getCashBox(requestContext)))) {
             contextService.initContext(getUsername(requestContext), getCashBox(requestContext));
         } else {
-            String message = "Authorization failure for user " + getUsername(requestContext) + " and cash-box " + getCashBox(requestContext);
+            String message = "authorization failure for user '" + getUsername(requestContext) + "', password '" + getPassword(requestContext) + "', cash-box '" + getCashBox(requestContext) + "'";
             log.warn(message);
             throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).entity(message).build());
         }
