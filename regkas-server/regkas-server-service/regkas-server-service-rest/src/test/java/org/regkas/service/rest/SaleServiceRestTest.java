@@ -55,20 +55,24 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals("2015-0000003", bill.getReceiptIdentifier());
         assertEquals(dateTimeHelperMock.currentTime(), bill.getReceiptDateAndTime());
         assertEquals("company", bill.getCompany().getName());
+        assertEquals(new BigDecimal("12.00"), bill.getSumTotal());
         assertEquals(new BigDecimal("7.50"), bill.getSumTaxSetNormal());
         assertEquals(new BigDecimal("4.50"), bill.getSumTaxSetErmaessigt1());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetErmaessigt2());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetNull());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetBesonders());
-        assertEquals(new BigDecimal("12.00"), bill.getSumTotal());
-        assertEquals(2, bill.getBillTaxSetElements().size());
-        assertEquals(20, bill.getBillTaxSetElements().get(0).getTaxPercent().intValue());
-        assertEquals(new BigDecimal("7.50"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
-        assertEquals(new BigDecimal("6.25"), bill.getBillTaxSetElements().get(0).getPricePreTax());
-        assertEquals(new BigDecimal("1.25"), bill.getBillTaxSetElements().get(0).getPriceTax());
-        assertEquals(10, bill.getBillTaxSetElements().get(1).getTaxPercent().intValue());
-        assertEquals(new BigDecimal("4.50"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
-        assertEquals(new BigDecimal("4.09"), bill.getBillTaxSetElements().get(1).getPricePreTax());
-        assertEquals(new BigDecimal("0.41"), bill.getBillTaxSetElements().get(1).getPriceTax());
+        assertEquals(3, bill.getBillTaxSetElements().size());
+        assertEquals("Snack", bill.getBillTaxSetElements().get(0).getName());
+        assertEquals(new BigDecimal("2.50"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
+        assertEquals(new BigDecimal("2.27"), bill.getBillTaxSetElements().get(0).getPricePreTax());
+        assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(0).getPriceTax());
+        assertEquals("Eskimoeis", bill.getBillTaxSetElements().get(1).getName());
+        assertEquals(new BigDecimal("2.00"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
+        assertEquals(new BigDecimal("1.82"), bill.getBillTaxSetElements().get(1).getPricePreTax());
+        assertEquals(new BigDecimal("0.18"), bill.getBillTaxSetElements().get(1).getPriceTax());
+        assertEquals("alkoholfreies Getränk", bill.getBillTaxSetElements().get(2).getName());
+        assertEquals(new BigDecimal("7.50"), bill.getBillTaxSetElements().get(2).getPriceAfterTax());
+        assertEquals(new BigDecimal("6.25"), bill.getBillTaxSetElements().get(2).getPricePreTax());
+        assertEquals(new BigDecimal("1.25"), bill.getBillTaxSetElements().get(2).getPriceTax());
     }
 }

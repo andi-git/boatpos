@@ -11,17 +11,17 @@ import java.math.BigDecimal;
  */
 public enum TaxSet {
 
-    Normal("Satz-Normal", BillBean::setSumTaxSetNormal),
-    Ermaessigt1("Satz-Ermaessigt-1", BillBean::setSumTaxSetErmaessigt1),
-    Ermaessigt2("Satz-Ermaessigt-2", BillBean::setSumTaxSetErmaessigt2),
-    Null("Satz-Null", BillBean::setSumTaxSetNull),
-    Besonders("Satz-Besonders", BillBean::setSumTaxSetBesonders);
+    Normal("Satz-Normal", BillBean::setSumTaxSetNormal, BillBean::getSumTaxSetNormal),
+    Ermaessigt1("Satz-Ermaessigt-1", BillBean::setSumTaxSetErmaessigt1, BillBean::getSumTaxSetErmaessigt1),
+    Ermaessigt2("Satz-Ermaessigt-2", BillBean::setSumTaxSetErmaessigt2, BillBean::getSumTaxSetErmaessigt2),
+    Null("Satz-Null", BillBean::setSumTaxSetNull, BillBean::getSumTaxSetNull),
+    Besonders("Satz-Besonders", BillBean::setSumTaxSetBesonders, BillBean::getSumTaxSetBesonders);
 
     private final String taxName;
 
     private final SumTaxSetter sumTaxSetter;
 
-    private final TotalPriceCalculation totalPriceCalculation = ((receiptElement, taxSetElement) -> taxSetElement.getPriceAfterTax().add(receiptElement.getTotalPrice().get()));
+    private final SumTaxGetter sumTaxGetter;
 
     private final BillPriceSetter billPriceSetter = (billTaxSetElementBean, taxPercent, totalPrice) -> {
         billTaxSetElementBean.setPriceAfterTax(totalPrice);
@@ -35,21 +35,22 @@ public enum TaxSet {
         }
     };
 
-    TaxSet(String taxName, SumTaxSetter sumTaxSetter) {
+    TaxSet(String taxName, SumTaxSetter sumTaxSetter, SumTaxGetter sumTaxGetter) {
         this.taxName = taxName;
         this.sumTaxSetter = sumTaxSetter;
+        this.sumTaxGetter = sumTaxGetter;
     }
 
     public String getTaxName() {
         return taxName;
     }
 
-    public TotalPriceCalculation getTotalPriceCalculation() {
-        return totalPriceCalculation;
+    public SumTaxSetter sumTaxSetter() {
+        return sumTaxSetter;
     }
 
-    public SumTaxSetter getSumTaxSetter() {
-        return sumTaxSetter;
+    public SumTaxGetter sumTaxGetter() {
+        return sumTaxGetter;
     }
 
     public BillPriceSetter getBillPriceSetter() {
@@ -64,11 +65,11 @@ public enum TaxSet {
         boolean exists = false;
         // if there is already an existing tax-set-element
         for (BillTaxSetElementBean taxSetElement : bill.getBillTaxSetElements()) {
-            if (getTaxName().equals(taxSetElement.getName())) {
+            if (receiptElement.getProduct().getProductGroup().getName().get().equals(taxSetElement.getName())) {
                 // calculate total price
-                BigDecimal newTotalPrice = getTotalPriceCalculation().calculate(receiptElement, taxSetElement);
-                // update sum
-                getSumTaxSetter().set(bill, newTotalPrice);
+                BigDecimal newTotalPrice = taxSetElement.getPriceAfterTax().add(receiptElement.getTotalPrice().get());
+                // update sum of the tax
+                sumTaxSetter().set(bill, sumTaxGetter().get(bill).add(receiptElement.getTotalPrice().get()));
                 // update tax-set-element
                 getBillPriceSetter().set(taxSetElement, receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get(), newTotalPrice);
                 // update total-price
@@ -79,21 +80,26 @@ public enum TaxSet {
         }
         // if there is not an existing tax-set-element
         if (!exists) {
-            // set the sum
-            getSumTaxSetter().set(bill, receiptElement.getTotalPrice().get());
-            // set the concrete tax-set-element
-            org.regkas.repository.api.model.TaxSet taxSet = receiptElement.getProduct().getProductGroup().getTaxSet();
-            BillTaxSetElementBean billTaxSetElementBean = new BillTaxSetElementBean();
-            billTaxSetElementBean.setName(taxSet.getName().get());
-            billTaxSetElementBean.setTaxPercent(taxSet.getTaxPercent().get());
-            billTaxSetElementBean.setPriority(taxSet.getPriority().get());
-            getBillPriceSetter().set(billTaxSetElementBean, receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get(), receiptElement.getTotalPrice().get());
-            bill.getBillTaxSetElements().add(billTaxSetElementBean);
+            // create the tax-set-element (based on product-group)
+            BillTaxSetElementBean taxSetElement = convertToTaxSetElement(receiptElement);
+            bill.getBillTaxSetElements().add(taxSetElement);
             // sort the list
             bill.getBillTaxSetElements().sort((b1, b2) -> b1.getPriority().compareTo(b2.getPriority()));
-            // update total-price
+            // update the sum of the tax
+            sumTaxSetter().set(bill, sumTaxGetter().get(bill).add(receiptElement.getTotalPrice().get()));
+            // update total-sum
             bill.setSumTotal(bill.getSumTotal().add(receiptElement.getTotalPrice().get()));
+            bill.getBillTaxSetElements().forEach((tse) -> System.out.println(tse.getPriority() + ", " + tse.getTaxPercent()));
         }
+    }
+
+    private BillTaxSetElementBean convertToTaxSetElement(ReceiptElement receiptElement) {
+        BillTaxSetElementBean taxSetElement = new BillTaxSetElementBean();
+        taxSetElement.setName(receiptElement.getProduct().getProductGroup().getName().get());
+        taxSetElement.setTaxPercent(receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get());
+        taxSetElement.setPriority(receiptElement.getProduct().getProductGroup().getPriority().get());
+        getBillPriceSetter().set(taxSetElement, receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get(), receiptElement.getTotalPrice().get());
+        return taxSetElement;
     }
 
     public static TaxSet get(String taxName) {
@@ -108,15 +114,15 @@ public enum TaxSet {
     }
 
     @FunctionalInterface
-    interface TotalPriceCalculation {
-
-        BigDecimal calculate(ReceiptElement receiptElement, BillTaxSetElementBean taxSetElement);
-    }
-
-    @FunctionalInterface
     interface SumTaxSetter {
 
         void set(BillBean bill, BigDecimal totalPrice);
+    }
+
+    @FunctionalInterface
+    interface SumTaxGetter {
+
+        BigDecimal get(BillBean bill);
     }
 
     @FunctionalInterface

@@ -64,7 +64,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
         ProductBean snack = productRepository.loadBy(new Name("Snack"), companyContext.get()).get().asDto();
         ProductBean cola = productRepository.loadBy(new Name("Cola"), companyContext.get()).get().asDto();
-        ProductBean cornetto = productRepository.loadBy(new Name("Cornetto"), companyContext.get()).get().asDto();
+        ProductBean cornetto1 = productRepository.loadBy(new Name("Cornetto"), companyContext.get()).get().asDto();
+        ProductBean cornetto2 = productRepository.loadBy(new Name("Cornetto"), companyContext.get()).get().asDto();
 
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
@@ -72,7 +73,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         sale.setSaleElements(Lists.newArrayList(
                 new ReceiptElementBean(snack, 2, new BigDecimal("2.50")),
                 new ReceiptElementBean(cola, 3, new BigDecimal("7.50")),
-                new ReceiptElementBean(cornetto, 1, new BigDecimal("2.00")))
+                new ReceiptElementBean(cornetto1, 1, new BigDecimal("2.00")),
+                new ReceiptElementBean(cornetto2, 1, new BigDecimal("2.50")))
         );
 
         BillBean bill = saleService.sale(sale);
@@ -82,21 +84,25 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("2015-0000003", bill.getReceiptIdentifier());
         assertEquals(dateTimeHelperMock.currentTime(), bill.getReceiptDateAndTime());
         assertEquals("company", bill.getCompany().getName());
+        assertEquals(new BigDecimal("14.50"), bill.getSumTotal());
         assertEquals(new BigDecimal("7.50"), bill.getSumTaxSetNormal());
-        assertEquals(new BigDecimal("4.50"), bill.getSumTaxSetErmaessigt1());
+        assertEquals(new BigDecimal("7.00"), bill.getSumTaxSetErmaessigt1());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetErmaessigt2());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetNull());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetBesonders());
-        assertEquals(new BigDecimal("12.00"), bill.getSumTotal());
-        assertEquals(2, bill.getBillTaxSetElements().size());
-        assertEquals(20, bill.getBillTaxSetElements().get(0).getTaxPercent().intValue());
-        assertEquals(new BigDecimal("7.50"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
-        assertEquals(new BigDecimal("6.25"), bill.getBillTaxSetElements().get(0).getPricePreTax());
-        assertEquals(new BigDecimal("1.25"), bill.getBillTaxSetElements().get(0).getPriceTax());
-        assertEquals(10, bill.getBillTaxSetElements().get(1).getTaxPercent().intValue());
+        assertEquals(3, bill.getBillTaxSetElements().size());
+        assertEquals("Snack", bill.getBillTaxSetElements().get(0).getName());
+        assertEquals(new BigDecimal("2.50"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
+        assertEquals(new BigDecimal("2.27"), bill.getBillTaxSetElements().get(0).getPricePreTax());
+        assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(0).getPriceTax());
+        assertEquals("Eskimoeis", bill.getBillTaxSetElements().get(1).getName());
         assertEquals(new BigDecimal("4.50"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
         assertEquals(new BigDecimal("4.09"), bill.getBillTaxSetElements().get(1).getPricePreTax());
         assertEquals(new BigDecimal("0.41"), bill.getBillTaxSetElements().get(1).getPriceTax());
+        assertEquals("alkoholfreies Getränk", bill.getBillTaxSetElements().get(2).getName());
+        assertEquals(new BigDecimal("7.50"), bill.getBillTaxSetElements().get(2).getPriceAfterTax());
+        assertEquals(new BigDecimal("6.25"), bill.getBillTaxSetElements().get(2).getPricePreTax());
+        assertEquals(new BigDecimal("1.25"), bill.getBillTaxSetElements().get(2).getPriceTax());
 
         companyContext.clear();
         userContext.clear();
