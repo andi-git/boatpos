@@ -1,12 +1,11 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from "angular2/core";
 import {isPresent} from "angular2/src/facade/lang";
 import {Rental} from "./model/rental";
 import {ConfigService} from "./service/config.service";
-import {PrettyPrinter} from "./prettyprinter";
+import {PrettyPrinter, Align} from "./prettyprinter";
 import {Boat} from "./model/boat";
 import {Bill} from "./model/bill";
 import {JournalReport} from "./model/journalReport";
-import {Align} from "./prettyprinter";
 
 @Injectable()
 export class Printer {
@@ -55,19 +54,21 @@ export class Printer {
     }
 
     public printBill(bill:Bill) {
+        console.log(bill);
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();
         request = this.addLogo(builder, request);
-        request = this.printLine(builder, request, 3, 3, 'center', true, false, 'Rechnung');
+        request = this.printLine(builder, request, 2, 2, 'center', true, false, 'Rechnung');
+        request = this.printLine(builder, request, 1, 1, 'center', true, false, 'ID: ' + bill.receiptIdentifier + ", " + 'Kassa: ' + bill.cashBoxId);
+        request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Datum: ' + this.pp.printDate(bill.receiptDateAndTime) + ", " + this.pp.printTime(bill.receiptDateAndTime));
         request = this.blankLine(builder, request);
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, '*');
+        request = this.printCompanyDataBill(bill, builder, request);
         request = this.blankLine(builder, request);
-        request = this.printCompanyData(builder, request);
+        request = this.printTaxSetElements(bill, builder, request);
+        request = this.printSumTaxes(bill, builder, request);
+        request = this.blankLine(builder, request);
+        request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
         this.printPaper(builder, request);
     }
 
@@ -92,6 +93,47 @@ export class Printer {
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: +43 1 2633530');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: office@eppel-boote.at');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'web: www.eppel-boote.at');
+        return request;
+    }
+
+    private printCompanyDataBill(bill:Bill, builder:any, request:any):any {
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, bill.company.zip + ' ' + bill.company.city + ', ' + bill.company.street + ", " + bill.company.atu);
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: ' + bill.company.phone + ', web: www.eppel-boote.at');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: ' + bill.company.mail);
+        return request;
+    }
+
+    private printTaxSetElements(bill:Bill, builder:any, request:any):any {
+        request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produktgruppe', 16, 'left'));
+        request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 4, 'left'));
+        request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Netto', 8, 'right'));
+        request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('MWST', 6, 'right'));
+        request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 10, 'right'));
+        bill.taxSetElements.forEach(tse => {
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(tse.name, 16, 'left'));
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(tse.taxPercent + '%', 4, 'right'));
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.pricePreTax), 8, 'right'));
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax), 6, 'right'));
+            request = this.printText(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
+        });
+        request = this.printLine(builder, request, 1, 1, 'left', false, false, "   ---------------------------------------------");
+        request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
+        return request;
+    }
+
+    private printSumTaxes(bill:Bill, builder:any, request:any):any {
+        request = this.printSumTax("20", bill.sumTaxSetNormal, builder, request);
+        request = this.printSumTax("10", bill.sumTaxSetErmaessigt1, builder, request);
+        request = this.printSumTax("13", bill.sumTaxSetErmaessigt2, builder, request);
+        request = this.printSumTax(" 0", bill.sumTaxSetNull, builder, request);
+        request = this.printSumTax("19", bill.sumTaxSetBesonders, builder, request);
+        return request;
+    }
+
+    private printSumTax(taxPercent:string, sum:number, builder:any, request:any):any {
+        if (isPresent(sum) && sum > 0) {
+            request = this.printLine(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(taxPercent + '% MWST: ' + this.pp.ppPrice(sum), 40, 'right'));
+        }
         return request;
     }
 

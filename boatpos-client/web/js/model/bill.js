@@ -1,10 +1,28 @@
 System.register([], function(exports_1) {
-    var Bill;
+    var Bill, Company, TaxSetElement;
     return {
         setters:[],
         execute: function() {
             Bill = (function () {
-                function Bill() {
+                function Bill(cashBoxId, receiptIdentifier, receiptDateAndTime, sumTaxSetNormal, sumTaxSetErmaessigt1, sumTaxSetErmaessigt2, sumTaxSetNull, sumTaxSetBesonders, encryptedTurnoverValue, signatureCertificateSerialNumber, signatureValuePreviousReceipt, company, sumTotal, taxSetElements) {
+                    var _this = this;
+                    this.taxSetElements = [];
+                    this.cashBoxId = cashBoxId;
+                    this.receiptIdentifier = receiptIdentifier;
+                    this.receiptDateAndTime = receiptDateAndTime;
+                    this.sumTaxSetNormal = sumTaxSetNormal;
+                    this.sumTaxSetErmaessigt1 = sumTaxSetErmaessigt1;
+                    this.sumTaxSetErmaessigt2 = sumTaxSetErmaessigt2;
+                    this.sumTaxSetNull = sumTaxSetNull;
+                    this.sumTaxSetBesonders = sumTaxSetBesonders;
+                    this.encryptedTurnoverValue = encryptedTurnoverValue;
+                    this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
+                    this.signatureValuePreviousReceipt = signatureValuePreviousReceipt;
+                    this.company = company;
+                    this.sumTotal = sumTotal;
+                    if (taxSetElements != null) {
+                        taxSetElements.forEach(function (taxSetElement) { return _this.taxSetElements.push(taxSetElement); });
+                    }
                 }
                 Bill.prototype.toString = function () {
                     return JSON.stringify(this);
@@ -12,6 +30,38 @@ System.register([], function(exports_1) {
                 return Bill;
             })();
             exports_1("Bill", Bill);
+            Company = (function () {
+                function Company(name, street, zip, city, country, phone, mail, atu) {
+                    this.name = name;
+                    this.street = street;
+                    this.zip = zip;
+                    this.city = city;
+                    this.country = country;
+                    this.phone = phone;
+                    this.mail = mail;
+                    this.atu = atu;
+                }
+                Company.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
+                return Company;
+            })();
+            exports_1("Company", Company);
+            TaxSetElement = (function () {
+                function TaxSetElement(name, taxPercent, priority, pricePreTax, priceAfterTax, priceTax) {
+                    this.name = name;
+                    this.taxPercent = taxPercent;
+                    this.priority = priority;
+                    this.pricePreTax = pricePreTax;
+                    this.priceAfterTax = priceAfterTax;
+                    this.priceTax = priceTax;
+                }
+                TaxSetElement.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
+                return TaxSetElement;
+            })();
+            exports_1("TaxSetElement", TaxSetElement);
         }
     }
 });

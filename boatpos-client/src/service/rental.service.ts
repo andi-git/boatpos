@@ -1,5 +1,5 @@
 import {Injectable} from "angular2/core";
-import {Http, Headers} from "angular2/http";
+import {Http} from "angular2/http";
 import "rxjs/add/operator/map";
 import {ConfigService} from "./config.service";
 import {Observable} from "rxjs/Observable";
@@ -7,7 +7,7 @@ import {Departure} from "../model/departure";
 import {Rental} from "../model/rental";
 import {Payment} from "../model/payment";
 import {Arrival} from "../model/arrival";
-import {Bill} from "../model/bill";
+import {Bill, Company, TaxSetElement} from "../model/bill";
 
 @Injectable()
 export class RentalService {
@@ -17,7 +17,7 @@ export class RentalService {
 
     depart(depart:Departure):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers : this.configService.getDefaultHeader()}
+                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers: this.configService.getDefaultHeader()}
             )
             .map(res => res.json())
             .map((rentalBean) => {
@@ -35,7 +35,7 @@ export class RentalService {
 
     payBefore(payment:Payment):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers : this.configService.getDefaultHeader()}
+                this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
             )
             .map(res => res.json())
             .map((rentalBean) => {
@@ -45,7 +45,7 @@ export class RentalService {
 
     deleteRental(dayNumber:number):Observable<Rental> {
         return this.http.delete(
-                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers : this.configService.getDefaultHeader()})
+                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -54,7 +54,7 @@ export class RentalService {
 
     undoDeleteRental(dayNumber:number):Observable<Rental> {
         return this.http.get(
-                this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers : this.configService.getDefaultHeader()})
+                this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -63,7 +63,7 @@ export class RentalService {
 
     getRental(dayNumber:number):Observable<Rental> {
         return this.http.get(
-                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers : this.configService.getDefaultHeader()})
+                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -72,7 +72,7 @@ export class RentalService {
 
     arrive(dayNumber:number):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers : this.configService.getDefaultHeader()})
+                this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
@@ -81,7 +81,7 @@ export class RentalService {
 
     payAfter(payment:Payment):Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers : this.configService.getDefaultHeader()}
+                this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
             )
             .map(res => res.json())
             .map((billBean) => {
@@ -90,7 +90,7 @@ export class RentalService {
     }
 
     loadAllForCurrentDay():Observable<Array<Rental>> {
-        return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay', {headers : this.configService.getDefaultHeader()})
+        return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay', {headers: this.configService.getDefaultHeader()})
             // map the result to json
             .map(res => res.json())
             // map the result to Boat
@@ -127,7 +127,46 @@ export class RentalService {
     };
 
     private convertBillBeanToBill(billBean):Bill {
-        return new Bill();
+        let taxSetElements:Array<TaxSetElement> = [];
+        billBean.billTaxSetElements.forEach(tse => {
+           taxSetElements.push(new TaxSetElement(
+               tse.name,
+               tse.taxPercent,
+               tse.priority,
+               tse.pricePreTax,
+               tse.priceAfterTax,
+               tse.priceTax
+           ))
+        });
+        console.log(billBean);
+        console.log(billBean.company);
+        console.log(billBean.company.name);
+        console.log(billBean.company.taxPercent);
+        return new Bill(
+            billBean.cashBoxID,
+            billBean.receiptIdentifier,
+            RentalService.createDateTime(billBean.receiptDateAndTime),
+            billBean.sumTaxSetNormal,
+            billBean.sumTaxSetErmaessigt1,
+            billBean.sumTaxSetErmaessigt2,
+            billBean.sumTaxSetNull,
+            billBean.sumTaxSetBesonders,
+            billBean.encryptedTurnoverValue,
+            billBean.signatureCertificateSerialNumber,
+            billBean.signatureValuePreviousReceipt,
+            new Company(
+                billBean.company.name,
+                billBean.company.street,
+                billBean.company.zip,
+                billBean.company.city,
+                billBean.company.country,
+                billBean.company.phone,
+                billBean.company.mail,
+                billBean.company.atu
+            ),
+            billBean.sumTotal,
+            taxSetElements
+        );
     };
 
     public static createDate(jsonDate:string):Date {
