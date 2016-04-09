@@ -115,10 +115,6 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                     billBean.billTaxSetElements.forEach(function (tse) {
                         taxSetElements.push(new bill_1.TaxSetElement(tse.name, tse.taxPercent, tse.priority, tse.pricePreTax, tse.priceAfterTax, tse.priceTax));
                     });
-                    console.log(billBean);
-                    console.log(billBean.company);
-                    console.log(billBean.company.name);
-                    console.log(billBean.company.taxPercent);
                     return new bill_1.Bill(billBean.cashBoxID, billBean.receiptIdentifier, RentalService.createDateTime(billBean.receiptDateAndTime), billBean.sumTaxSetNormal, billBean.sumTaxSetErmaessigt1, billBean.sumTaxSetErmaessigt2, billBean.sumTaxSetNull, billBean.sumTaxSetBesonders, billBean.encryptedTurnoverValue, billBean.signatureCertificateSerialNumber, billBean.signatureValuePreviousReceipt, new bill_1.Company(billBean.company.name, billBean.company.street, billBean.company.zip, billBean.company.city, billBean.company.country, billBean.company.phone, billBean.company.mail, billBean.company.atu), billBean.sumTotal, taxSetElements);
                 };
                 ;

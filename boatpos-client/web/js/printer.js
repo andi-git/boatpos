@@ -68,7 +68,6 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     }
                 };
                 Printer.prototype.printBill = function (bill) {
-                    console.log(bill);
                     //noinspection TypeScriptUnresolvedFunction
                     var builder = new StarWebPrintBuilder();
                     var request = builder.createInitializationElement();

@@ -138,10 +138,6 @@ export class RentalService {
                tse.priceTax
            ))
         });
-        console.log(billBean);
-        console.log(billBean.company);
-        console.log(billBean.company.name);
-        console.log(billBean.company.taxPercent);
         return new Bill(
             billBean.cashBoxID,
             billBean.receiptIdentifier,

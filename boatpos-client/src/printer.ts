@@ -54,7 +54,6 @@ export class Printer {
     }
 
     public printBill(bill:Bill) {
-        console.log(bill);
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();

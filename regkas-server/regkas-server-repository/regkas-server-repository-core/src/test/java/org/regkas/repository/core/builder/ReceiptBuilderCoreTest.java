@@ -27,7 +27,7 @@ public class ReceiptBuilderCoreTest {
                 .add(UserBuilderCoreTest.build())
                 .add(ReceiptTypeBuilderCoreTest.build())
                 .add(CashBoxBuilderCoreTest.build())
-                .add(PaymentMethod.Cash)
+                .add(PaymentMethod.CASH)
                 .add(TimeType.Current)
                 .add(ReceiptElementBuilderCoreTest.build())
                 .build();

@@ -60,7 +60,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("44.80"), bill.getSumTaxSetNormal());
         rental = rentalService.get(new RentalDayNumberWrapper(3));
         assertTrue(rental.isFinished());
-        assertEquals(PaymentMethod.Card.toString(), rental.getPaymentMethodAfter());
+        assertEquals(PaymentMethod.CARD.toString(), rental.getPaymentMethodAfter());
 
         try {
             arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "cash"));

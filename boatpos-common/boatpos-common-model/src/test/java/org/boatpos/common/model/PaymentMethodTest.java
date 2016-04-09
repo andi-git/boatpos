@@ -14,15 +14,15 @@ public class PaymentMethodTest {
 
     @Test
     public void testGet() {
-        assertEquals(PaymentMethod.Cash, PaymentMethod.get("cash"));
-        assertEquals(PaymentMethod.Card, PaymentMethod.get("card"));
-        assertEquals(PaymentMethod.Cash, PaymentMethod.get("xxx"));
+        assertEquals(PaymentMethod.CASH, PaymentMethod.get("cash"));
+        assertEquals(PaymentMethod.CARD, PaymentMethod.get("card"));
+        assertEquals(PaymentMethod.CASH, PaymentMethod.get("xxx"));
     }
 
     @Test
     public void testGetOrNull() {
-        assertEquals(PaymentMethod.Cash, PaymentMethod.getOrNull("cash"));
-        assertEquals(PaymentMethod.Card, PaymentMethod.getOrNull("card"));
+        assertEquals(PaymentMethod.CASH, PaymentMethod.getOrNull("cash"));
+        assertEquals(PaymentMethod.CARD, PaymentMethod.getOrNull("card"));
         assertNull(PaymentMethod.getOrNull("xxx"));
     }
 }

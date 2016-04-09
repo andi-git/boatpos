@@ -5,8 +5,8 @@ package org.boatpos.common.model;
  */
 public enum PaymentMethod {
 
-    Cash("cash"),
-    Card("card");
+    CASH("cash"),
+    CARD("card");
 
     private final String string;
 
@@ -16,7 +16,7 @@ public enum PaymentMethod {
 
     public static PaymentMethod get(String paymentMethodString) {
         PaymentMethod result = getOrNull(paymentMethodString);
-        return result != null ? result : PaymentMethod.Cash;
+        return result != null ? result : PaymentMethod.CASH;
     }
 
     @Override

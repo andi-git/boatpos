@@ -89,7 +89,6 @@ public enum TaxSet {
             sumTaxSetter().set(bill, sumTaxGetter().get(bill).add(receiptElement.getTotalPrice().get()));
             // update total-sum
             bill.setSumTotal(bill.getSumTotal().add(receiptElement.getTotalPrice().get()));
-            bill.getBillTaxSetElements().forEach((tse) -> System.out.println(tse.getPriority() + ", " + tse.getTaxPercent()));
         }
     }
 

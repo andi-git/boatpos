@@ -24,7 +24,7 @@ public class ReceiptCoreTest {
         assertEquals("company-name", receipt.getCompany().getName().get());
         assertEquals("user-name", receipt.getUser().getName().get());
         assertEquals("cashbox-id", receipt.getCashBox().getName().get());
-        assertEquals(PaymentMethod.Cash, receipt.getPaymentMethod());
+        assertEquals(PaymentMethod.CASH, receipt.getPaymentMethod());
         assertEquals(TimeType.Current, receipt.getTimeType());
 
         receipt.clearReceiptElements();
