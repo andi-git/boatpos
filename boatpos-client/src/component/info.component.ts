@@ -8,7 +8,7 @@ import {InfoService} from "../service/info.service";
 })
 export class InfoComponent {
 
-    private info: String;
+    private info:string;
 
     constructor(private infoService:InfoService) {
         infoService.event().subscribe((info) => {

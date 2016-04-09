@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.boatpos</groupId>
     <artifactId>boatpos</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.1.0</version>
     <modules>
         <module>boatpos-server</module>
         <module>boatpos-client</module>
@@ -43,6 +43,7 @@
         <version.maven-jacoco-plugin>0.7.5.201505241946</version.maven-jacoco-plugin>
         <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
         <version.maven-war-plugin>2.6</version.maven-war-plugin>
+        <version.maven-assembly-plugin>2.6</version.maven-assembly-plugin>
         <!-- runtime -->
         <version.javaee-api>7.0</version.javaee-api>
         <version.slf4j-api>1.6.1</version.slf4j-api>

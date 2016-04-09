@@ -5,11 +5,31 @@
     <parent>
         <artifactId>boatpos</artifactId>
         <groupId>org.boatpos</groupId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>boatpos-client</artifactId>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${version.maven-assembly-plugin}</version>
+                <configuration>
+                    <descriptor>assembly.xml</descriptor>
+                    <finalName>boatpos-client-${project.version}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
