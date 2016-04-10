@@ -46,8 +46,8 @@ System.register(['angular2/core', "../../service/rental.service", "../../service
                 RentalsComponent = __decorate([
                     core_1.Component({
                         selector: 'rentals',
-                        templateUrl: "../../../html/component/rentals/rentals.component.html",
-                        styleUrls: ["../../../css/component/rentals/rentals.component.css"]
+                        templateUrl: "html/component/rentals/rentals.component.html",
+                        styleUrls: ["css/component/rentals/rentals.component.css"]
                     }), 
                     __metadata('design:paramtypes', [rental_service_1.RentalService, mode_service_1.ModeService])
                 ], RentalsComponent);

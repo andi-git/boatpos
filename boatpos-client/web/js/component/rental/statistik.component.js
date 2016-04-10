@@ -56,8 +56,8 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/c
                 StatistikComponent = __decorate([
                     core_1.Component({
                         selector: 'statistik',
-                        templateUrl: "../../../html/component/rental/statistik.component.html",
-                        styleUrls: ["../../../css/component/rental/statistik.component.css"]
+                        templateUrl: "html/component/rental/statistik.component.html",
+                        styleUrls: ["css/component/rental/statistik.component.css"]
                     }), 
                     __metadata('design:paramtypes', [boat_service_1.BoatService, config_service_1.ConfigService, prettyprinter_1.PrettyPrinter])
                 ], StatistikComponent);

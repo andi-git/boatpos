@@ -280,8 +280,8 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                 ActionComponent = __decorate([
                     core_1.Component({
                         selector: 'action',
-                        templateUrl: "../../../html/component/rental/action.component.html",
-                        styleUrls: ["../../../css/component/rental/action.component.css"],
+                        templateUrl: "html/component/rental/action.component.html",
+                        styleUrls: ["css/component/rental/action.component.css"],
                     }), 
                     __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, journal_service_1.JournalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer])
                 ], ActionComponent);

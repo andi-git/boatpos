@@ -6,8 +6,8 @@ import {PrettyPrinter} from "../../prettyprinter";
 
 @Component({
     selector: 'statistik',
-    templateUrl: "../../../html/component/rental/statistik.component.html",
-    styleUrls: ["../../../css/component/rental/statistik.component.css"]
+    templateUrl: "html/component/rental/statistik.component.html",
+    styleUrls: ["css/component/rental/statistik.component.css"]
 })
 export class StatistikComponent {
 

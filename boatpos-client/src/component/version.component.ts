@@ -4,8 +4,8 @@ import {ConfigService} from "../service/config.service";
 
 @Component({
     selector: 'version',
-    templateUrl: "../../../html/component/version.component.html",
-    styleUrls: ["../../../css/component/version.component.css"]
+    templateUrl: "html/component/version.component.html",
+    styleUrls: ["css/component/version.component.css"]
 })
 export class VersionComponent {
 

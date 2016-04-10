@@ -6,8 +6,8 @@ import {Mode} from "../../service/mode.service";
 
 @Component({
     selector: 'rentals',
-    templateUrl: "../../../html/component/rentals/rentals.component.html",
-    styleUrls: ["../../../css/component/rentals/rentals.component.css"]
+    templateUrl: "html/component/rentals/rentals.component.html",
+    styleUrls: ["css/component/rentals/rentals.component.css"]
 })
 export class RentalsComponent {
 

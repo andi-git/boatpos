@@ -64,8 +64,8 @@ System.register(['angular2/core', "../../service/commitment.service", "../../ser
                 CommitmentsComponent = __decorate([
                     core_1.Component({
                         selector: 'commitments',
-                        templateUrl: "../../../html/component/rental/commitments.component.html",
-                        styleUrls: ["../../../css/component/rental/commitments.component.css"]
+                        templateUrl: "html/component/rental/commitments.component.html",
+                        styleUrls: ["css/component/rental/commitments.component.css"]
                     }), 
                     __metadata('design:paramtypes', [commitment_service_1.CommitmentService, info_service_1.InfoService, core_1.NgZone, keybinding_service_1.KeyBindingService])
                 ], CommitmentsComponent);

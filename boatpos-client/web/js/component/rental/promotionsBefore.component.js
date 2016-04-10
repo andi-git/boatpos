@@ -67,8 +67,8 @@ System.register(['angular2/core', "../../service/promotion.service", "../../serv
                 PromotionsBeforeComponent = __decorate([
                     core_1.Component({
                         selector: 'promotionsBefore',
-                        templateUrl: "../../../html/component/rental/promotionsBefore.component.html",
-                        styleUrls: ["../../../css/component/rental/promotionsBefore.component.css"]
+                        templateUrl: "html/component/rental/promotionsBefore.component.html",
+                        styleUrls: ["css/component/rental/promotionsBefore.component.css"]
                     }), 
                     __metadata('design:paramtypes', [promotion_service_1.PromotionService, info_service_1.InfoService, core_1.NgZone, keybinding_service_1.KeyBindingService])
                 ], PromotionsBeforeComponent);

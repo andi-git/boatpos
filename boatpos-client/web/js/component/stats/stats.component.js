@@ -91,8 +91,8 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
                 StatsComponent = __decorate([
                     core_1.Component({
                         selector: 'stats',
-                        templateUrl: "../../../html/component/stats/stats.component.html",
-                        styleUrls: ["../../../css/component/stats/stats.component.css"]
+                        templateUrl: "html/component/stats/stats.component.html",
+                        styleUrls: ["css/component/stats/stats.component.css"]
                     }), 
                     __metadata('design:paramtypes', [mode_service_1.ModeService, journal_service_1.JournalService, printer_1.Printer])
                 ], StatsComponent);

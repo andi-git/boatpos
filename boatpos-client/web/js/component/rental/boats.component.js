@@ -68,8 +68,8 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                 BoatsComponent = __decorate([
                     core_1.Component({
                         selector: 'boats',
-                        templateUrl: "../../../html/component/rental/boats.component.html",
-                        styleUrls: ["../../../css/component/rental/boats.component.css"]
+                        templateUrl: "html/component/rental/boats.component.html",
+                        styleUrls: ["css/component/rental/boats.component.css"]
                     }), 
                     __metadata('design:paramtypes', [boat_service_1.BoatService, info_service_1.InfoService, keybinding_service_1.KeyBindingService, core_1.NgZone])
                 ], BoatsComponent);

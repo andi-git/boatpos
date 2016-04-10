@@ -6,8 +6,8 @@ import {PrettyPrinter} from "../../prettyprinter";
 
 @Component({
     selector: 'boatCount',
-    templateUrl: "../../../html/component/rental/boatCount.component.html",
-    styleUrls: ["../../../css/component/rental/boatCount.component.css"]
+    templateUrl: "html/component/rental/boatCount.component.html",
+    styleUrls: ["css/component/rental/boatCount.component.css"]
 })
 export class BoatCountComponent {
 

@@ -7,8 +7,8 @@ import {Printer} from "../../printer";
 
 @Component({
     selector: 'stats',
-    templateUrl: "../../../html/component/stats/stats.component.html",
-    styleUrls: ["../../../css/component/stats/stats.component.css"]
+    templateUrl: "html/component/stats/stats.component.html",
+    styleUrls: ["css/component/stats/stats.component.css"]
 })
 export class StatsComponent {
 

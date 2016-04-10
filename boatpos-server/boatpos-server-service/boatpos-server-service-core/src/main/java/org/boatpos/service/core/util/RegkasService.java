@@ -30,7 +30,7 @@ public class RegkasService {
     private RentalLoader rentalLoader;
 
     public ProductBean getProduct(Boat boat) throws Exception {
-        return readEntity(createRestCall(webTarget -> webTarget.path("product").path(boat.getName().get())).get(), ProductBean.class);
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get())).get(), ProductBean.class);
     }
 
     public BillBean sale(PaymentBean paymentBean) throws Exception {
@@ -42,7 +42,7 @@ public class RegkasService {
         sale.setSaleElements(Lists.newArrayList(
                 new ReceiptElementBean(productBean, 1, rental.getPricePaidComplete().get()))
         );
-        return readEntity(createRestCall(webTarget -> webTarget.path("sale")).post(Entity.json(sale)), BillBean.class);
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/sale")).post(Entity.json(sale)), BillBean.class);
     }
 
     public <T> T readEntity(Response response, Class<T> type) {

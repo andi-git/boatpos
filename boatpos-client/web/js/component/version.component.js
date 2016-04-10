@@ -32,8 +32,8 @@ System.register(['angular2/core', "../service/config.service"], function(exports
                 VersionComponent = __decorate([
                     core_1.Component({
                         selector: 'version',
-                        templateUrl: "../../../html/component/version.component.html",
-                        styleUrls: ["../../../css/component/version.component.css"]
+                        templateUrl: "html/component/version.component.html",
+                        styleUrls: ["css/component/version.component.css"]
                     }), 
                     __metadata('design:paramtypes', [config_service_1.ConfigService])
                 ], VersionComponent);

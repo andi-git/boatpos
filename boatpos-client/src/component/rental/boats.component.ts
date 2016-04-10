@@ -6,8 +6,8 @@ import {KeyBindingService} from "../../service/keybinding.service";
 
 @Component({
     selector: 'boats',
-    templateUrl: "../../../html/component/rental/boats.component.html",
-    styleUrls: ["../../../css/component/rental/boats.component.css"]
+    templateUrl: "html/component/rental/boats.component.html",
+    styleUrls: ["css/component/rental/boats.component.css"]
 })
 export class BoatsComponent {
 

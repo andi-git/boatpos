@@ -6,8 +6,8 @@ import {KeyBindingService} from "../../service/keybinding.service";
 
 @Component({
     selector: 'promotionsBefore',
-    templateUrl: "../../../html/component/rental/promotionsBefore.component.html",
-    styleUrls: ["../../../css/component/rental/promotionsBefore.component.css"]
+    templateUrl: "html/component/rental/promotionsBefore.component.html",
+    styleUrls: ["css/component/rental/promotionsBefore.component.css"]
 })
 export class PromotionsBeforeComponent {
 

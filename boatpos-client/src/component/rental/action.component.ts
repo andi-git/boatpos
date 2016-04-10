@@ -29,8 +29,8 @@ import {JournalService} from "../../service/journal.service";
 
 @Component({
     selector: 'action',
-    templateUrl: "../../../html/component/rental/action.component.html",
-    styleUrls: ["../../../css/component/rental/action.component.css"],
+    templateUrl: "html/component/rental/action.component.html",
+    styleUrls: ["css/component/rental/action.component.css"],
 })
 export class ActionComponent {
 

@@ -37,8 +37,8 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/c
                 BoatCountComponent = __decorate([
                     core_1.Component({
                         selector: 'boatCount',
-                        templateUrl: "../../../html/component/rental/boatCount.component.html",
-                        styleUrls: ["../../../css/component/rental/boatCount.component.css"]
+                        templateUrl: "html/component/rental/boatCount.component.html",
+                        styleUrls: ["css/component/rental/boatCount.component.css"]
                     }), 
                     __metadata('design:paramtypes', [boat_service_1.BoatService, config_service_1.ConfigService, prettyprinter_1.PrettyPrinter])
                 ], BoatCountComponent);
