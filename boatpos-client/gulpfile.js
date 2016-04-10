@@ -53,6 +53,8 @@ gulp.task('setup', function (done) {
 gulp.task('assets', function () {
     gulp.src(['./src/**/*.json'])
         .pipe(gulp.dest('./web'));
+    gulp.src(['./src/**/*.ico'])
+        .pipe(gulp.dest('./web'));
     gulp.src(['./src/**/*.html'])
         .pipe(gulp.dest('./web/html'));
     gulp.src(['./src/index.html'])
