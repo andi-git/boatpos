@@ -1,0 +1,66 @@
+<div class="header header-main">
+    Registrierkassa Buffet EPPEL
+</div>
+<div class="content-main-table">
+    <div class="content-main-row">
+        <div class="content-main-row-left">
+            <mainmenu></mainmenu>
+        </div>
+        <div class="content-main-row-right" *ngIf="mode === 'RENTAL'">
+            <div class="content-rental-table">
+                <div class="content-rental-row">
+                    <div class="content-rental-row-left">
+                        <div class="content-boat-table">
+                            <div class="content-boat-row">
+                                <div class="content-boat-row-left">
+                                    <div>
+                                        <boats></boats>
+                                    </div>
+                                </div>
+                                <div class="content-boat-row-right">
+                                    <div>
+                                        <boatCount></boatCount>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-commitment-promotion-table">
+                            <div class="content-commitment-promotion-row">
+                                <div class="content-commitment-promotion-row-left">
+                                    <div>
+                                        <commitments></commitments>
+                                    </div>
+                                </div>
+                                <div class="content-commitment-promotion-row-right">
+                                    <div>
+                                        <promotionsBefore></promotionsBefore>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-rental-row-right">
+                        <div class="content-boat-count">
+                            <statistik></statistik>
+                        </div>
+                        <div class="content-action">
+                            <action></action>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-main-row-right" *ngIf="mode === 'RENTALS'">
+            <div class="content-rentals-table">
+                <rentals></rentals>
+            </div>
+        </div>
+        <div class="content-main-row-right" *ngIf="mode === 'STATS'">
+            <div class="content-stats-table">
+                <stats></stats>
+            </div>
+        </div>
+    </div>
+</div>
+<info></info>
+<version></version>

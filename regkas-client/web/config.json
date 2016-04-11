@@ -1,0 +1,7 @@
+{
+  "name": "Development",
+  "backendUrl": "http://home.com:8180/regkas-server/",
+  "printerUrl": "192.168.0.23",
+  "username": "regkas",
+  "password": "test123"
+}

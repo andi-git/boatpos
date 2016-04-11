@@ -1,0 +1,152 @@
+/*
+ * divs: content-main
+ */
+.content-main-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-main-row {
+    display: table-row;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-main-row-left {
+    display: table-cell;
+    width: 7%;
+    padding: 0.5em 0.2em 0.5em 0.2em;
+    margin: 0 0 0 0;
+    border-radius: 20px 20px 20px 20px;
+    border: 3px solid black;
+    background-color: #E6E6E6;
+
+}
+.content-main-row-right {
+    display: table-cell;
+    width: 93%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/*
+ * divs: content-rental
+ */
+.content-rental-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-rental-row {
+    display: table-row;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-rental-row-left {
+    display: table-cell;
+    width: 70%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-rental-row-right {
+    display: table-cell;
+    width: 30%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/*
+ * divs: content-boat
+ */
+.content-boat-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-boat-row {
+    display: table-row;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-boat-row-left {
+    display: table-cell;
+    width: 60%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-boat-row-right {
+    display: table-cell;
+    width: 40%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/*
+ * divs: content-commitment-promotion
+ */
+.content-commitment-promotion-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-commitment-promotion-row {
+    display: table-row;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-commitment-promotion-row-left {
+    display: table-cell;
+    width: 50%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.content-commitment-promotion-row-right {
+    display: table-cell;
+    width: 50%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/*
+ * divs: content-rentals
+ */
+.content-rentals-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/*
+ * divs: content-stats
+ */
+.content-stats-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}

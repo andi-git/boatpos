@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>Bootsvermietung EPPEL - Registrierkasse</title>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+    <!-- 1. Load libraries -->
+    <script src="lib/angular2-polyfills.js"></script>
+    <script src="lib/system.src.js"></script>
+    <script src="lib/system.js"></script>
+    <script src="lib/Rx.js"></script>
+    <script src="lib/angular2.dev.js"></script>
+    <script src="lib/http.dev.js"></script>
+    <script src="lib/router.dev.js"></script>
+    <script src="lib/mousetrap.min.js"></script>
+    <script src="lib/StarWebPrintBuilder.js"></script>
+    <script src="lib/StarWebPrintTrader.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+        System.config({
+            defaultJSExtensions: true,
+            packages: {
+                angular2: {
+                    defaultExtension: false
+                },
+                rxjs: {
+                    defaultExtension: false
+                }
+            }
+        });
+        System.import('js/boot')
+                .then(null, console.error.bind(console));
+    </script>
+
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/regkas.css"/>
+</head>
+
+<!-- 3. Display the application -->
+<body>
+<my-app>
+    <p>Die Registrierkasse wird geladen...</p>
+    <img src="http://www.eppel-boote.at/boatpos/images/eppel_sonne_wolke_mit_schrift_small.png" />
+</my-app>
+</body>
+
+</html>
