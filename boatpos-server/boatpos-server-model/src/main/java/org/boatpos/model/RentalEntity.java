@@ -142,10 +142,13 @@ public class RentalEntity extends AbstractEntity {
     })
     private Set<CommitmentEntity> commitments;
 
+    @Expose
+    private String receiptId;
+
     public RentalEntity() {
     }
 
-    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate day, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethodBefore, PaymentMethod paymentMethodAfter, PromotionEntity promotion, Set<CommitmentEntity> commitments) {
+    public RentalEntity(Long id, Integer version, Integer dayId, LocalDate day, BoatEntity boat, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, Boolean finished, Boolean deleted, Boolean coupon, PaymentMethod paymentMethodBefore, PaymentMethod paymentMethodAfter, PromotionEntity promotion, Set<CommitmentEntity> commitments, String receiptId) {
         super(id, version);
         this.dayId = dayId;
         this.day = day;
@@ -163,6 +166,7 @@ public class RentalEntity extends AbstractEntity {
         this.paymentMethodAfter = paymentMethodAfter;
         this.promotion = promotion;
         this.commitments = commitments;
+        this.receiptId = receiptId;
     }
 
     public Integer getDayId() {
@@ -293,6 +297,14 @@ public class RentalEntity extends AbstractEntity {
         this.commitments = commitments;
     }
 
+    public String getReceiptId() {
+        return receiptId;
+    }
+
+    public void setReceiptId(String receiptId) {
+        this.receiptId = receiptId;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -345,7 +357,7 @@ public class RentalEntity extends AbstractEntity {
             checkNotNull(boat, "boat must not be null");
             checkNotNull(dayId, "dayId must not be null");
             checkNotNull(departTime, "departTime must not be null");
-            return new RentalEntity(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, null, null, null, false, false, false, null, null, promotion, commitments);
+            return new RentalEntity(null, null, dayId, LocalDate.from(departTime), boat, departTime, null, null, null, null, null, false, false, false, null, null, promotion, commitments, "");
         }
 
     }

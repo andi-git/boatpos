@@ -16,7 +16,7 @@ public class RentalEntityTest extends JavaBeanTest<RentalEntity> {
 
     @Test
     public void testConstructor() {
-        new RentalEntity(null, 1, 1, LocalDate.now(), null, LocalDateTime.now(), null, null, null, null, null, false, false, false, null, null, null, null);
+        new RentalEntity(null, 1, 1, LocalDate.now(), null, LocalDateTime.now(), null, null, null, null, null, false, false, false, null, null, null, null, "");
         RentalEntity rentalEntity = RentalEntity.builder()
                 .setDayId(1)
                 .setBoat(new BoatEntity())

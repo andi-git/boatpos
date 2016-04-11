@@ -268,6 +268,17 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity> implements
     }
 
     @Override
+    public ReceiptId getReceiptId() {
+        return new ReceiptId(getEntity().getReceiptId());
+    }
+
+    @Override
+    public Rental setReceiptId(ReceiptId receiptId) {
+        if (receiptId != null) getEntity().setReceiptId(receiptId.get());
+        return this;
+    }
+
+    @Override
     public void delete() {
         setDeleted(Deleted.TRUE);
         persist();

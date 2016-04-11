@@ -102,7 +102,9 @@ public class ArrivalServiceCore implements ArrivalService {
                 .persist();
         // create bill via regkas
         try {
-            return regkasService.sale(paymentBean);
+            BillBean billBean = regkasService.sale(paymentBean);
+            rental.setReceiptId(new ReceiptId(billBean.getReceiptIdentifier())).persist();
+            return billBean;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

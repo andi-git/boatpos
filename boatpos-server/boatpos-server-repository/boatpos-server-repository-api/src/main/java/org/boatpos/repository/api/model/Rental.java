@@ -86,4 +86,8 @@ public interface Rental extends DomainModelWithDto<Rental, RentalEntity, RentalB
     Rental clearCommitments();
 
     PricePaidComplete getPricePaidComplete();
+
+    ReceiptId getReceiptId();
+
+    Rental setReceiptId(ReceiptId receiptId);
 }
