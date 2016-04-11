@@ -11,7 +11,7 @@ System.register(["../prettyprinter", "angular2/src/facade/lang"], function(expor
             }],
         execute: function() {
             Rental = (function () {
-                function Rental(dayId, day, boat, departure, arrival, pricePaidAfter, pricePaidBefore, priceCalculatedAfter, priceCalculatedBefore, finished, deleted, coupon, promotionBefore, promotionAfter, commitments, timeOfTravel, timeOfTravelCalculated) {
+                function Rental(dayId, day, boat, departure, arrival, pricePaidAfter, pricePaidBefore, priceCalculatedAfter, priceCalculatedBefore, finished, deleted, coupon, promotionBefore, promotionAfter, commitments, timeOfTravel, timeOfTravelCalculated, receiptId) {
                     var _this = this;
                     this.commitments = [];
                     this.dayId = dayId;
@@ -33,9 +33,10 @@ System.register(["../prettyprinter", "angular2/src/facade/lang"], function(expor
                     }
                     this.timeOfTravel = timeOfTravel;
                     this.timeOfTravelCalculated = timeOfTravelCalculated;
+                    this.receiptId = receiptId;
                 }
                 Rental.fromDepart = function (dayId, day, boat, departure, commitments, promotionBefore, coupon, priceCalculatedBefore) {
-                    return new Rental(dayId, day, boat, departure, null, null, null, null, priceCalculatedBefore, null, null, coupon, promotionBefore, null, commitments, null, null);
+                    return new Rental(dayId, day, boat, departure, null, null, null, null, priceCalculatedBefore, null, null, coupon, promotionBefore, null, commitments, null, null, null);
                 };
                 Rental.prototype.toString = function () {
                     return JSON.stringify(this);

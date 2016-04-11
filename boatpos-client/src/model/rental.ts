@@ -23,6 +23,7 @@ export class Rental {
     commitments:Array<Commitment> = [];
     timeOfTravel:number;
     timeOfTravelCalculated:number;
+    receiptId:string;
 
     constructor(dayId:number,
                 day:Date,
@@ -40,7 +41,8 @@ export class Rental {
                 promotionAfter:PromotionAfter,
                 commitments:Array<Commitment>,
                 timeOfTravel:number,
-                timeOfTravelCalculated:number) {
+                timeOfTravelCalculated:number,
+                receiptId:string) {
         this.dayId = dayId;
         this.day = day;
         this.boat = boat;
@@ -60,6 +62,7 @@ export class Rental {
         }
         this.timeOfTravel = timeOfTravel;
         this.timeOfTravelCalculated = timeOfTravelCalculated;
+        this.receiptId = receiptId;
     }
 
     static fromDepart(dayId:number,
@@ -85,6 +88,7 @@ export class Rental {
             promotionBefore,
             null,
             commitments,
+            null,
             null,
             null
         );

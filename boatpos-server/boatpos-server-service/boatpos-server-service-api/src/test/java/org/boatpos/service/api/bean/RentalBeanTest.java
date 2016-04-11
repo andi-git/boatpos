@@ -11,6 +11,6 @@ public class RentalBeanTest extends JavaBeanTest<RentalBean> {
 
     @Test
     public void testConstructor() {
-        new RentalBean(1L, 1, 1, LocalDate.now(), BoatBeanTest.createBoatE(), LocalDateTime.now(), null, null, null, null, null, false, false, false, null, PromotionAfterBeanTest.createPromotionAfter(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis()), 0, 0, null, null);
+        new RentalBean(1L, 1, 1, LocalDate.now(), BoatBeanTest.createBoatE(), LocalDateTime.now(), null, null, null, null, null, false, false, false, null, PromotionAfterBeanTest.createPromotionAfter(), Sets.newHashSet(CommitmentBeanTest.createCommitmentAusweis()), 0, 0, null, null, "");
     }
 }

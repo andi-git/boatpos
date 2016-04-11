@@ -13,6 +13,7 @@
                 <th>Ankunft</th>
                 <th>bezahlt</th>
                 <th>Aktion</th>
+                <th>Rechnung</th>
             </tr>
             <tr *ngFor="#rental of rentalsCurrentDay" [class]="rental.style()">
                 <!--[class.selected]="boat.selected"-->
@@ -25,6 +26,7 @@
                 <td>{{rental.ppArrival()}}</td>
                 <td>{{rental.ppPricePaidComplete()}}</td>
                 <td>{{rental.ppPromotionComplete()}}</td>
+                <td>{{rental.receiptId}}</td>
             </tr>
         </table>
     </div>

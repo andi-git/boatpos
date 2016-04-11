@@ -143,11 +143,13 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     @Expose
     private String paymentMethodAfter;
 
+    @Expose
+    private String receiptId;
 
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated, String paymentMethodBefore, String paymentMethodAfter) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated, String paymentMethodBefore, String paymentMethodAfter, String receiptId) {
         super(id, version);
         this.dayId = dayId;
         this.day = day;
@@ -168,6 +170,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.timeOfTravelCalculated = timeOfTravelCalculated;
         this.paymentMethodBefore = paymentMethodBefore;
         this.paymentMethodAfter = paymentMethodAfter;
+        this.receiptId = receiptId;
     }
 
     public Integer getDayId() {
@@ -320,5 +323,13 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
 
     public void setPaymentMethodAfter(String paymentMethodAfter) {
         this.paymentMethodAfter = paymentMethodAfter;
+    }
+
+    public String getReceiptId() {
+        return receiptId;
+    }
+
+    public void setReceiptId(String receiptId) {
+        this.receiptId = receiptId;
     }
 }
