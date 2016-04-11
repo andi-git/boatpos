@@ -88,7 +88,7 @@ export class Printer {
 
     private printCompanyData(builder:any, request:any):any {
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Christiane Ahammer');
-        request = this.printLine(builder, request, 1, 1, 'center', false, false, '1220 Wien, Wagramertraße 48a');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, '1220 Wien, Wagramer Str. 48a');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: +43 1 2633530');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: office@eppel-boote.at');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'web: www.eppel-boote.at');
@@ -96,6 +96,7 @@ export class Printer {
     }
 
     private printCompanyDataBill(bill:Bill, builder:any, request:any):any {
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Christiane Ahammer');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, bill.company.zip + ' ' + bill.company.city + ', ' + bill.company.street + ", " + bill.company.atu);
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'tel: ' + bill.company.phone + ', web: www.eppel-boote.at');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: ' + bill.company.mail);
@@ -141,16 +142,17 @@ export class Printer {
         request = this.printLogo(builder, request, this.mapBoatToLogoName(rental.boat), 'center');
         request = this.printLine(builder, request, 3, 3, 'center', true, false, this.pp.pp3Pos(rental.dayId));
         // rental-data
-        request = this.printText(builder, request, 1, 2, 'left', false, true, 'Datum');
-        request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printDate(rental.day));
+        request = this.printText(builder, request, 1, 2, 'left', false, true, '   Datum');
+        request = this.printText(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printDate(rental.day));
+        request = this.printText(builder, request, 1, 2, 'left', false, false, ', ');
         request = this.printText(builder, request, 1, 2, 'left', false, true, 'Abfahrt');
         request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printTime(rental.departure));
-        request = this.printText(builder, request, 1, 2, 'left', false, true, 'Einsatz');
+        request = this.printText(builder, request, 1, 2, 'left', false, true, '   Einsatz');
         request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printCommitments(rental.commitments));
         if (isPresent(rental.pricePaidBefore)) {
-            request = this.printText(builder, request, 1, 2, 'left', false, true, 'Aktion');
+            request = this.printText(builder, request, 1, 2, 'left', false, true, '   Aktion');
             request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + rental.promotionBefore.name);
-            request = this.printText(builder, request, 1, 2, 'left', false, true, 'Bezahlt');
+            request = this.printText(builder, request, 1, 2, 'left', false, true, '   Bezahlt');
             request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.ppPrice(rental.pricePaidBefore, '€ '));
         }
         return request;
@@ -177,7 +179,7 @@ export class Printer {
     private add5MinuteInfo(builder:any, request:any):any {
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Hinweis: Es werden (für das Ein-/Aussteigen)');
-        request = this.printLine(builder, request, 1, 1, 'center', false, false, '5 Minuten auf Fahrzeit gutgeschrieben!');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, '5 Minuten auf die Fahrzeit gutgeschrieben!');
         return request;
     }
 
