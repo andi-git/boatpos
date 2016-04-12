@@ -1,11 +1,16 @@
+html {
+    height: 100%;
+}
+
 
 h1, h2, h3, h4, h5, p, body, input, button, body {
     font-family: "Arial Black", Gadget, sans-serif;
 }
 
 body {
-    margin: 1em 1em 1em 1em;
+    margin: 0 0 0 0;
     color: black;
+    height: 100%;
 }
 
 p, select {
@@ -98,8 +103,8 @@ p, select {
 
 .header-main {
     font-size: 2.5em;
-    padding: 0.2em 0 0.2em 0;
-    margin: 0.5em 0 0.5em 0;
+    padding: 0.1em 0 0.1em 0;
+    margin: 0.1em 0 0.1em 0;
     border: 3px solid #000000;
     background-color: #0101DF;
     color: #FFFFFF;

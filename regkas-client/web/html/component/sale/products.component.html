@@ -1,0 +1,16 @@
+<div class="container-products">
+
+    <img *ngFor="#rental of rentalsCurrentDay" [class]="rental.style()" >
+
+    <ul class="">
+        <li *ngFor="#productGroup of getProductGroups()"
+            (click)="click(productGroup)">
+            <img src="{{productGroup.pictureUrlThumb}}" height="60px"> {{productGroup.name}}
+        </li>
+    </ul>
+
+
+    <!--<button class="button button-cancel button-action-regkas" (click)="cancelLastElement()">Storno Element</button>-->
+    <!--<button class="button button-cancel button-action-regkas" (click)="cancelAllElements()">Storno alles</button>-->
+    <!--<button class="button button-ok button-action-regkas" (click)="bill()">Rechnung</button>-->
+</div>

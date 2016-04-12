@@ -1,66 +1,34 @@
-<div class="header header-main">
-    Registrierkassa Buffet EPPEL
-</div>
-<div class="content-main-table">
-    <div class="content-main-row">
-        <div class="content-main-row-left">
+<div class="container">
+    <div class="container-header">
+        <div class="header header-main">
+            Registrierkassa Buffet EPPEL
+        </div>
+        <div class="container-menu">
             <mainmenu></mainmenu>
         </div>
-        <div class="content-main-row-right" *ngIf="mode === 'RENTAL'">
-            <div class="content-rental-table">
-                <div class="content-rental-row">
-                    <div class="content-rental-row-left">
-                        <div class="content-boat-table">
-                            <div class="content-boat-row">
-                                <div class="content-boat-row-left">
-                                    <div>
-                                        <boats></boats>
-                                    </div>
-                                </div>
-                                <div class="content-boat-row-right">
-                                    <div>
-                                        <boatCount></boatCount>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content-commitment-promotion-table">
-                            <div class="content-commitment-promotion-row">
-                                <div class="content-commitment-promotion-row-left">
-                                    <div>
-                                        <commitments></commitments>
-                                    </div>
-                                </div>
-                                <div class="content-commitment-promotion-row-right">
-                                    <div>
-                                        <promotionsBefore></promotionsBefore>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content-rental-row-right">
-                        <div class="content-boat-count">
-                            <statistik></statistik>
-                        </div>
-                        <div class="content-action">
-                            <action></action>
-                        </div>
-                    </div>
+        <div class="container-sale" *ngIf="mode === 'REGKAS'">
+            <div class="container-sale-products_and_actions">
+                <div class="container-sale-products">
+                    <products></products>
+                </div>
+                <div class="container-sale-actions">
+                    <actions></actions>
+                </div>
+            </div>
+            <div class="container-sale-current_and_numbers">
+                <div class="container-sale-current">
+                    current
+                </div>
+                <div class="container-sale-numbers">
+                    <numbers></numbers>
                 </div>
             </div>
         </div>
-        <div class="content-main-row-right" *ngIf="mode === 'RENTALS'">
-            <div class="content-rentals-table">
-                <rentals></rentals>
-            </div>
+        <div class="container-info">
+            <info></info>
         </div>
-        <div class="content-main-row-right" *ngIf="mode === 'STATS'">
-            <div class="content-stats-table">
-                <stats></stats>
-            </div>
+        <div class="container-version">
+            <version></version>
         </div>
     </div>
 </div>
-<info></info>
-<version></version>

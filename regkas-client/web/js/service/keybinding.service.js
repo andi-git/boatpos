@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(["angular2/core"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -22,14 +22,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function KeyBindingService() {
                     // cache all key-bindings for main-dialog
                     this.keyBindingsForMain = {};
-                    // cache all key-bindings for dialog 'info'
-                    this.keyBindingsForDialogInfo = {};
-                    // cache all key-bindings for dialog 'deleted'
-                    this.keyBindingsForDialogDeleted = {};
-                    // cache all key-bindings for dialog 'promotion-pay'
-                    this.keyBindingsForDialogPromotionPay = {};
-                    // cache all key-bindings for dialog 'arrival'
-                    this.keyBindingsForDialogArrival = {};
                     this.mouseTrap = new Mousetrap();
                 }
                 KeyBindingService.prototype.bind = function (key, callback, action) {
@@ -46,26 +38,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         this.bind(key, keyBindings[key]);
                     }
                 };
-                KeyBindingService.prototype.addBindingForDialogInfo = function (keyBindings) {
-                    for (var key in keyBindings) {
-                        this.keyBindingsForDialogInfo[key] = keyBindings[key];
-                    }
-                };
-                KeyBindingService.prototype.addBindingForDialogDeleted = function (keyBindings) {
-                    for (var key in keyBindings) {
-                        this.keyBindingsForDialogDeleted[key] = keyBindings[key];
-                    }
-                };
-                KeyBindingService.prototype.addBindingForDialogPromotionPay = function (keyBindings) {
-                    for (var key in keyBindings) {
-                        this.keyBindingsForDialogPromotionPay[key] = keyBindings[key];
-                    }
-                };
-                KeyBindingService.prototype.addBindingForDialogArrival = function (keyBindings) {
-                    for (var key in keyBindings) {
-                        this.keyBindingsForDialogArrival[key] = keyBindings[key];
-                    }
-                };
                 KeyBindingService.prototype.setKeyBindings = function (keyBindings) {
                     this.mouseTrap.reset();
                     for (var key in keyBindings) {
@@ -74,18 +46,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 };
                 KeyBindingService.prototype.focusMain = function () {
                     this.setKeyBindings((this.keyBindingsForMain));
-                };
-                KeyBindingService.prototype.focusDialogInfo = function () {
-                    this.setKeyBindings(this.keyBindingsForDialogInfo);
-                };
-                KeyBindingService.prototype.focusDialogDeleted = function () {
-                    this.setKeyBindings(this.keyBindingsForDialogDeleted);
-                };
-                KeyBindingService.prototype.focusDialogPromotionPay = function () {
-                    this.setKeyBindings(this.keyBindingsForDialogPromotionPay);
-                };
-                KeyBindingService.prototype.focusDialogArrival = function () {
-                    this.setKeyBindings(this.keyBindingsForDialogArrival);
                 };
                 KeyBindingService = __decorate([
                     core_1.Injectable(), 

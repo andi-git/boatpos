@@ -12,13 +12,18 @@ import {Printer} from "./../printer";
 import {ModeService, Mode} from "./../service/mode.service";
 import {VersionComponent} from "./version.component";
 import {KeyBindingService} from "../service/keybinding.service";
+import {NumbersComponent} from "./sale/numbers.component";
+import {SaleService} from "../service/sale.service";
+import {ActionsComponent} from "./sale/actions.component";
+import {ProductService} from "../service/product.service";
+import {ProductComponent} from "./sale/products.component";
 
 @Component({
     selector: 'my-app',
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
-    directives: [InfoComponent, MenuComponent, VersionComponent],
-    providers: [ConfigService, InfoService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService]
+    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent],
+    providers: [InfoService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService]
 })
 export class AppComponent implements OnInit {
 

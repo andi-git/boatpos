@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs/Observable";
 import {Config} from "../model/config";
+import {isPresent} from "angular2/src/facade/lang";
 
 @Injectable()
 export class ConfigService {
@@ -12,6 +13,7 @@ export class ConfigService {
     private printerUrl:string;
     private username:string;
     private password:string;
+    private cashbox:string;
     private configured:EventEmitter<Config> = new EventEmitter();
 
     constructor(private http:Http) {
@@ -27,8 +29,17 @@ export class ConfigService {
                 this.printerUrl = config.printerUrl;
                 this.username = config.username;
                 this.password = config.password;
+                this.cashbox = config.cashbox;
+                console.log("++++++++");
                 this.configured.emit(config);
             });
+    }
+
+    isAlreadyConfigured():boolean {
+        return isPresent(this.backendUrl) &&
+            isPresent(this.printerUrl) &&
+            isPresent(this.username) &&
+            isPresent(this.password);
     }
 
     isConfigured():EventEmitter<Config> {
@@ -48,6 +59,7 @@ export class ConfigService {
         headers.append("Content-Type", "application/json");
         headers.append("username", this.username);
         headers.append("password", this.password);
+        headers.append("cashbox", this.cashbox);
         return headers;
     }
 }

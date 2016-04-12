@@ -1,7 +1,8 @@
 {
   "name": "Development",
-  "backendUrl": "http://home.com:8180/regkas-server/",
+  "backendUrl": "http://home.com:8280/regkas-server/",
   "printerUrl": "192.168.0.23",
-  "username": "regkas",
-  "password": "test123"
+  "username": "Eppel",
+  "password": "test123",
+  "cashbox": "RegKasEppelBuffet"
 }

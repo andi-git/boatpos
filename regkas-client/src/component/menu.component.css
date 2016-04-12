@@ -1,15 +1,23 @@
 .menu-container {
+    height: 100%;
+    padding: 0.1em 0.1em 0.1em 0.1em;
+    margin: 0.1em 0.1em 0.1em 0.1em;
     font-size: 1.5em;
     font-weight: bold;
     color: black;
     vertical-align: middle;
     text-align: center;
+    border: 3px solid #000000;
+    border-radius: 20px 20px 20px 20px;
+    background-color: #e6e6e6;
 }
 
-.menu-item, .menu-item:hover{
+.menu-item, .menu-item:hover {
     cursor: pointer;
     border-radius: 20px 20px 20px 20px;
     margin: 0.2em 0 0.2em 0;
+    width: 66px;
+    height: 66px;
 }
 
 .menu-item:hover {

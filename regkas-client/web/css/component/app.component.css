@@ -1,151 +1,101 @@
-/*
- * divs: content-main
- */
-.content-main-table {
-    display: table;
+.container {
+    float: left;
     width: 100%;
+    height: 100%;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
-.content-main-row {
-    display: table-row;
+
+.container-header {
+    float: left;
     width: 100%;
+    height: 8vh;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
-.content-main-row-left {
-    display: table-cell;
+
+.container-menu {
+    float: left;
     width: 7%;
-    padding: 0.5em 0.2em 0.5em 0.2em;
+    /*height: 100%;*/
+    height: 82vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
     margin: 0 0 0 0;
-    border-radius: 20px 20px 20px 20px;
-    border: 3px solid black;
-    background-color: #E6E6E6;
-
 }
-.content-main-row-right {
-    display: table-cell;
+
+.container-sale {
+    float: left;
     width: 93%;
+    height: 82vh;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
-
-/*
- * divs: content-rental
- */
-.content-rental-table {
-    display: table;
-    width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-rental-row {
-    display: table-row;
-    width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-rental-row-left {
-    display: table-cell;
+.container-sale-products_and_actions {
+    float: left;
     width: 70%;
+    height: 82vh;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
-.content-rental-row-right {
-    display: table-cell;
+.container-sale-products {
+    float: left;
+    width: 100%;
+    height: 75vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.container-sale-actions {
+    float: left;
+    width: 100%;
+    height: 7vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.container-sale-current_and_numbers {
+    float: left;
     width: 30%;
+    height: 82vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.container-sale-current {
+    float: left;
+    width: 100%;
+    height: 53vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.container-sale-numbers {
+    float: left;
+    width: 100%;
+    height: 29vh;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
 
-/*
- * divs: content-boat
- */
-.content-boat-table {
-    display: table;
+.container-info {
+    float: left;
     width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-boat-row {
-    display: table-row;
-    width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-boat-row-left {
-    display: table-cell;
-    width: 60%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-boat-row-right {
-    display: table-cell;
-    width: 40%;
+    height: 8vh;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
 
-/*
- * divs: content-commitment-promotion
- */
-.content-commitment-promotion-table {
-    display: table;
+.container-version {
+    float: left;
     width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-commitment-promotion-row {
-    display: table-row;
-    width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-commitment-promotion-row-left {
-    display: table-cell;
-    width: 50%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-.content-commitment-promotion-row-right {
-    display: table-cell;
-    width: 50%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-
-/*
- * divs: content-rentals
- */
-.content-rentals-table {
-    display: table;
-    width: 100%;
-    border: 0 solid black;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-}
-
-/*
- * divs: content-stats
- */
-.content-stats-table {
-    display: table;
-    width: 100%;
+    height: 2vh;
     border: 0 solid black;
     padding: 0 0 0 0;
     margin: 0 0 0 0;

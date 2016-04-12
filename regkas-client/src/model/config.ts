@@ -1,5 +1,7 @@
 export interface Config {
-    name: String;
+    username: String;
+    password: String;
+    cashBox: string;
     backendUrl: string;
-    printerUtr: string;
+    printerUrl: string;
 }
