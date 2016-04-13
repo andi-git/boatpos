@@ -1,0 +1,49 @@
+.container-receipt {
+    vertical-align: middle;
+    text-align: center;
+    margin: 0.3em 0.3em 0.3em 0.3em;
+}
+
+.container-receipt-elements {
+    height: 65%;
+    padding: 0.3em 0.3em 0.3em 0.3em;
+    margin: 0.3em 0.3em 0.3em 0.3em;
+    background-color: lightgrey;
+    border-radius: 20px 0 0 20px;
+    border: 3px solid black;
+    overflow-y: scroll;
+}
+
+.header-receipt {
+    font-size: 2em;
+    background-color: #81BEF7;
+}
+
+.header-receipt-sum {
+    text-align: right;
+    font-size: 4em;
+    padding: 0 2em 0 0;
+    background-color: #81BEF7;
+}
+
+.table-receipt-elements {
+    border: none;
+    width: 100%;
+}
+
+.tr-receipt-elements {
+    border: none;
+}
+
+.td-receipt-elements-product {
+    width: 70%;
+    border: none;
+    overflow: hidden;
+    font-size: 1.7em;
+}
+
+.td-receipt-elements-price {
+    border: none;
+    text-align: right;
+    font-size: 1.7em;
+}

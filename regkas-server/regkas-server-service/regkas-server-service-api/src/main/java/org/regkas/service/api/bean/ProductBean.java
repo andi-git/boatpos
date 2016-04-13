@@ -25,6 +25,10 @@ public class ProductBean extends AbstractMasterDataBean {
     private BigDecimal price;
 
     @NotNull
+    @Expose
+    private boolean generic;
+
+    @NotNull
     @Valid
     @Expose
     private ProductGroupBean productGroup;
@@ -32,10 +36,11 @@ public class ProductBean extends AbstractMasterDataBean {
     public ProductBean() {
     }
 
-    public ProductBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, BigDecimal price, ProductGroupBean productGroup) {
+    public ProductBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, BigDecimal price, boolean generic, ProductGroupBean productGroup) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.price = price;
+        this.generic = generic;
         this.productGroup = productGroup;
     }
 
@@ -53,6 +58,14 @@ public class ProductBean extends AbstractMasterDataBean {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public boolean isGeneric() {
+        return generic;
+    }
+
+    public void setGeneric(boolean generic) {
+        this.generic = generic;
     }
 
     public ProductGroupBean getProductGroup() {

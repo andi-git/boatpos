@@ -5,7 +5,7 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.ProductGroup;
-import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.ProductGroupRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.bean.ProductGroupBean;
@@ -23,7 +23,7 @@ public class ProductGroupMappingTest extends EntityManagerProviderForRegkas {
     private ProductGroupRepository productGroupRepository;
 
     @Inject
-    private CompanyRepository companyRepository;
+    private CashBoxRepository cashBoxRepository;
 
     @Inject
     private ProductGroupMapping productGroupMapping;
@@ -37,7 +37,7 @@ public class ProductGroupMappingTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testMappingEntityToDto() {
-        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"), companyRepository.loadBy(new Name("company")).get());
+        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name("Snack"), cashBoxRepository.loadBy(new Name("RegKas1")).get());
         assertEquals(2, productGroup.get().getProducts().size());
         ProductGroupBean productGroupBean = productGroupMapping.mapEntity(productGroup.get().asEntity());
         assertEquals("Snack", productGroupBean.getName());

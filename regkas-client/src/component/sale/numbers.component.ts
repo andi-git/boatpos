@@ -33,4 +33,8 @@ export class NumbersComponent {
     private getNumberInput():string {
         return this.saleService.getNumberInput();
     }
+
+    private deleteNumberInput() {
+        this.saleService.deleteNumberInput();
+    }
 }

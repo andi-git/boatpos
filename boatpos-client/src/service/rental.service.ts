@@ -106,7 +106,6 @@ export class RentalService {
     }
 
     private convertRentalBeanToRental(rentalBean):Rental {
-        console.log("--> " + rentalBean.receiptId);
         return new Rental(
             rentalBean.dayId,
             RentalService.createDate(rentalBean.day),

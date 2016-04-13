@@ -11,6 +11,7 @@ System.register(["angular2/src/facade/lang"], function(exports_1, context_1) {
         execute: function() {
             ProductGroup = (function () {
                 function ProductGroup(id, name, taxPercent, priority, pictureUrl, pictureUrlThumb, keyBinding, products) {
+                    var _this = this;
                     this.products = [];
                     this.id = id;
                     this.name = name;
@@ -20,7 +21,8 @@ System.register(["angular2/src/facade/lang"], function(exports_1, context_1) {
                     this.pictureUrlThumb = pictureUrlThumb;
                     this.keyBinding = keyBinding;
                     if (lang_1.isPresent(products)) {
-                        this.products.push(products);
+                        // this.products.push(products);
+                        products.forEach(function (p) { return _this.products.push(p); });
                     }
                 }
                 ProductGroup.prototype.toString = function () {

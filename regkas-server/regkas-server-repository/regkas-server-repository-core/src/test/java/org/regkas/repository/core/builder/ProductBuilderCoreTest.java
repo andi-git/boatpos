@@ -35,7 +35,7 @@ public class ProductBuilderCoreTest {
                         .add(new Priority(1))
                         .add(new Name("productgroup-name"))
                         .add(TaxSetBuilderCoreTest.build())
-                        .add(CompanyBuilderCoreTest.build())
+                        .add(CashBoxBuilderCoreTest.build())
                         .build())
                 .add(Generic.FALSE)
                 .build();

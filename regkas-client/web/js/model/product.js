@@ -6,7 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Product = (function () {
-                function Product(id, name, price, priority, pictureUrl, pictureUrlThumb, keyBinding, productGroup) {
+                function Product(id, name, price, priority, pictureUrl, pictureUrlThumb, keyBinding, generic) {
                     this.id = id;
                     this.name = name;
                     this.price = price;
@@ -14,7 +14,7 @@ System.register([], function(exports_1, context_1) {
                     this.pictureUrl = pictureUrl;
                     this.pictureUrlThumb = pictureUrlThumb;
                     this.keyBinding = keyBinding;
-                    this.productGroup = productGroup;
+                    this.generic = generic;
                 }
                 Product.prototype.toString = function () {
                     return JSON.stringify(this);

@@ -94,7 +94,7 @@ p, select {
     vertical-align: middle;
     text-align: center;
     padding: 0.2em 0 0.2em 1em;
-    margin: 0 0 0.1em 0;
+    margin: 0.1em 0.3em 0.1em 0.3em;
     background-color: white;
     border-radius: 20px 20px 20px 20px;
     border: 3px solid black;
@@ -104,7 +104,7 @@ p, select {
 .header-main {
     font-size: 2.5em;
     padding: 0.1em 0 0.1em 0;
-    margin: 0.1em 0 0.1em 0;
+    margin: 0.1em 0.3em 0.1em 0.3em;
     border: 3px solid #000000;
     background-color: #0101DF;
     color: #FFFFFF;
@@ -131,18 +131,18 @@ p, select {
     font-weight: normal;
 }
 
-li {
-    cursor: pointer;
-    position: relative;
-    background: linear-gradient(to right, #F5D0A9, white);
-    margin: .2em;
-    border-radius: 20px;
-    line-height: 1.3em;
-}
+/*li {*/
+    /*cursor: pointer;*/
+    /*position: relative;*/
+    /*background: linear-gradient(to right, #F5D0A9, white);*/
+    /*margin: .2em;*/
+    /*border-radius: 20px;*/
+    /*line-height: 1.3em;*/
+/*}*/
 
-li:hover {
-    background: linear-gradient(to right, #E6E6E6, white) !important;
-}
+/*li:hover {*/
+    /*background: linear-gradient(to right, #E6E6E6, white) !important;*/
+/*}*/
 
 .container-default {
     background-color: white;

@@ -6,7 +6,7 @@ import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.common.service.core.MasterDataServiceCore;
 import org.boatpos.common.service.core.ModelDtoConverter;
 import org.boatpos.common.util.qualifiers.Current;
-import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.repository.ProductGroupRepository;
@@ -35,7 +35,7 @@ public class ProductGroupServiceCore extends MasterDataServiceCore<ProductGroupB
 
     @Inject
     @Current
-    private Company company;
+    private CashBox cashBox;
 
     protected MasterDataRepositoryWithDto getRepository() {
         return productGroupRepository;
@@ -43,7 +43,7 @@ public class ProductGroupServiceCore extends MasterDataServiceCore<ProductGroupB
 
     @Override
     public ProductGroupBean getForCurrentCompany(String name) {
-        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name(name), company);
+        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name(name), cashBox);
         Optional<ProductGroupBean> convert = modelDtoConverter.convert(productGroup);
         return convert.orElse(new ProductGroupBean());
     }
@@ -51,7 +51,7 @@ public class ProductGroupServiceCore extends MasterDataServiceCore<ProductGroupB
     @Override
     public ProductBean getGenericProductFor(String productGroupName) {
         ProductBean result = new ProductBean();
-        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name(productGroupName), company);
+        Optional<ProductGroup> productGroup = productGroupRepository.loadBy(new Name(productGroupName), cashBox);
         if (productGroup.isPresent()) {
             Optional<Product> product = productRepository.loadGenericBy(productGroup.get());
             Optional<ProductBean> productBean = modelDtoConverter.convert(product);
@@ -62,7 +62,7 @@ public class ProductGroupServiceCore extends MasterDataServiceCore<ProductGroupB
 
     @Override
     public List<ProductGroupBean> getAllForCurrentCompany() {
-        return modelDtoConverter.convert(productGroupRepository.loadBy(company));
+        return modelDtoConverter.convert(productGroupRepository.loadBy(cashBox));
     }
 
     @SuppressWarnings("Duplicates")
@@ -70,11 +70,11 @@ public class ProductGroupServiceCore extends MasterDataServiceCore<ProductGroupB
     public List<ProductGroupBean> getAllForCurrentCompany(EnabledState enabledState) {
         List<ProductGroupBean> productGroupBeans;
         if (EnabledState.Enabled == enabledState) {
-            productGroupBeans = modelDtoConverter.convert(productGroupRepository.loadBy(company, Enabled.TRUE));
+            productGroupBeans = modelDtoConverter.convert(productGroupRepository.loadBy(cashBox, Enabled.TRUE));
         } else if (EnabledState.Disabled == enabledState) {
-            productGroupBeans = modelDtoConverter.convert(productGroupRepository.loadBy(company, Enabled.FALSE));
+            productGroupBeans = modelDtoConverter.convert(productGroupRepository.loadBy(cashBox, Enabled.FALSE));
         } else {
-            productGroupBeans = modelDtoConverter.convert(productGroupRepository.loadBy(company));
+            productGroupBeans = modelDtoConverter.convert(productGroupRepository.loadBy(cashBox));
         }
         return productGroupBeans;
     }

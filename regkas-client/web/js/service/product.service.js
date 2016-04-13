@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./config.service", "../model/product", "../model/productGroup", "angular2/src/facade/lang"], function(exports_1, context_1) {
+System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./config.service", "../model/product", "../model/productGroup", "angular2/src/facade/lang", "./keybinding.service", "./sale.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, config_service_1, product_1, productGroup_1, lang_1;
+    var core_1, http_1, config_service_1, product_1, productGroup_1, lang_1, keybinding_service_1, sale_service_1;
     var ProductService;
     return {
         setters:[
@@ -32,20 +32,32 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
             },
             function (lang_1_1) {
                 lang_1 = lang_1_1;
+            },
+            function (keybinding_service_1_1) {
+                keybinding_service_1 = keybinding_service_1_1;
+            },
+            function (sale_service_1_1) {
+                sale_service_1 = sale_service_1_1;
             }],
         execute: function() {
             ProductService = (function () {
                 // constructors do dependency injection in Angular2
-                function ProductService(http, configService) {
+                function ProductService(http, configService, keyBinding, saleService) {
                     var _this = this;
                     this.http = http;
                     this.configService = configService;
+                    this.keyBinding = keyBinding;
+                    this.saleService = saleService;
                     if (this.configService.isAlreadyConfigured() === true) {
-                        this.loadProductGroups().subscribe(function (productGroups) { return _this.productGroupsCache = productGroups; });
+                        this.loadProductGroups().subscribe(function (productGroups) {
+                            _this.productGroupsCache = productGroups;
+                            _this.addKeyBindings();
+                        });
                     }
                     else {
                         this.configService.isConfigured().subscribe(function (config) {
                             _this.loadProductGroups().subscribe(function (productGroups) { return _this.productGroupsCache = productGroups; });
+                            _this.addKeyBindings();
                         });
                     }
                 }
@@ -59,20 +71,34 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                             productGroupBeans.forEach(function (productGroupBean) {
                                 var products = [];
                                 if (lang_1.isPresent(productGroupBean.products)) {
-                                    productGroupBean.products.forEach(function (p) { return products.push(new product_1.Product(p.id, p.name, p.price, p.priority, p.pictureUrl, p.pictureUrlThumb, p.keyBinding, productGroupBean.name)); });
+                                    productGroupBean.products.forEach(function (p) { return products.push(new product_1.Product(p.id, p.name, p.totalPrice, p.priority, p.pictureUrl, p.pictureUrlThumb, p.keyBinding, p.generic)); });
                                 }
-                                result.push(new productGroup_1.ProductGroup(productGroupBean.id, productGroupBean.name, productGroupBean.price, productGroupBean.priority, productGroupBean.pictureUrl, productGroupBean.pictureUrlThumb, productGroupBean.keyBinding, products));
+                                result.push(new productGroup_1.ProductGroup(productGroupBean.id, productGroupBean.name, productGroupBean.totalPrice, productGroupBean.priority, productGroupBean.pictureUrl, productGroupBean.pictureUrlThumb, productGroupBean.keyBinding, products));
                             });
                         }
                         return result;
                     });
+                };
+                ProductService.prototype.addKeyBindings = function () {
+                    var _this = this;
+                    var map = {};
+                    this.productGroupsCache.forEach(function (pg) {
+                        pg.products.forEach(function (p) {
+                            if (lang_1.isPresent(p.keyBinding) && p.keyBinding != "" && p.keyBinding != "#") {
+                                map[p.keyBinding] = function (e) {
+                                    _this.saleService.chooseProduct(p);
+                                };
+                            }
+                        });
+                    });
+                    this.keyBinding.addBindingForMain(map);
                 };
                 ProductService.prototype.getProductGroups = function () {
                     return this.productGroupsCache;
                 };
                 ProductService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService, keybinding_service_1.KeyBindingService, sale_service_1.SaleService])
                 ], ProductService);
                 return ProductService;
             }());

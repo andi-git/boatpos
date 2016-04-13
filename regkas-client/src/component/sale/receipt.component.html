@@ -1,0 +1,17 @@
+<div class="container-receipt">
+    <div class="header header-receipt">
+        Rechnung
+    </div>
+    <div class="container-receipt-elements">
+        <table class="table-receipt-elements">
+            <tr class="tr-receipt-elements" *ngFor="#receiptElement of getReceiptElements()">
+                <td class="td-receipt-elements-product">{{receiptElement.amount}} x {{handlePG(receiptElement.product.name)}}</td>
+                <td class="td-receipt-elements-price">€</td>
+                <td class="td-receipt-elements-price">{{ppPrice(receiptElement.totalPrice)}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="header header-receipt-sum">
+        {{printSum()}}
+    </div>
+</div>

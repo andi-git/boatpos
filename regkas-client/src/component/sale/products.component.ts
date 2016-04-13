@@ -3,6 +3,7 @@ import {KeyBindingService} from "../../service/keybinding.service";
 import {SaleService} from "../../service/sale.service";
 import {ProductService} from "../../service/product.service";
 import {ProductGroup} from "../../model/productGroup";
+import {Product} from "../../model/product";
 
 @Component({
     selector: 'products',
@@ -12,24 +13,27 @@ import {ProductGroup} from "../../model/productGroup";
 export class ProductComponent {
 
     constructor(private productService:ProductService, private saleService:SaleService, private keyBinding:KeyBindingService) {
-        // let map:{[key:string]:((e:ExtendedKeyboardEvent, combo:string) => any)} = {
-        //     '*': () => {
-        //         this.bill();
-        //     },
-        //     '-': () => {
-        //         this.cancelLastElement();
-        //     },
-        //     '_': () => {
-        //         this.cancelAllElements();
-        //     }
-        // };
-        // this.keyBinding.addBindingForMain(map);
     }
 
     getProductGroups():Array<ProductGroup> {
-        console.log("#####");
         var productGroups = this.productService.getProductGroups();
-        console.log(productGroups);
         return productGroups;
+    }
+
+    getGenericProduct(productGroup:ProductGroup):Product {
+        for (var i = 0; i < productGroup.products.length; i++) {
+            if (productGroup.products[i].generic === true) {
+                return productGroup.products[i];
+            }
+        }
+        return null;
+    }
+
+    chooseProduct(product:Product) {
+        this.saleService.chooseProduct(product);
+    }
+
+    handlePG(s:string):string {
+        return s.replace("PG: ", "");
     }
 }

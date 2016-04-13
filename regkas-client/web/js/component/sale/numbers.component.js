@@ -50,6 +50,9 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                 NumbersComponent.prototype.getNumberInput = function () {
                     return this.saleService.getNumberInput();
                 };
+                NumbersComponent.prototype.deleteNumberInput = function () {
+                    this.saleService.deleteNumberInput();
+                };
                 NumbersComponent = __decorate([
                     core_1.Component({
                         selector: 'numbers',

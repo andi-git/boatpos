@@ -6,8 +6,8 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             ReceiptElement = (function () {
-                function ReceiptElement(price, amount, product) {
-                    this.price = price;
+                function ReceiptElement(totalPrice, amount, product) {
+                    this.totalPrice = totalPrice;
                     this.amount = amount;
                     this.product = product;
                 }

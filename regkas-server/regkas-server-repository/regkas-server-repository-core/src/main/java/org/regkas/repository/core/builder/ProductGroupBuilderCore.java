@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.boatpos.common.repository.core.builder.MasterDataBuilderCoreWithDto;
 import org.regkas.model.ProductGroupEntity;
 import org.regkas.repository.api.builder.ProductGroupBuilder;
-import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.model.TaxSet;
@@ -24,13 +24,13 @@ public class ProductGroupBuilderCore
 
     private TaxSet taxSet;
 
-    private Company company;
+    private CashBox cashBox;
 
     private List<Product> products = Lists.newArrayList();
 
     @Override
     public ProductGroup build() {
-        return new ProductGroupCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, taxSet, company, products);
+        return new ProductGroupCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, taxSet, cashBox, products);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class ProductGroupBuilderCore
     }
 
     @Override
-    public ProductGroupBuilder add(Company company) {
-        this.company = company;
+    public ProductGroupBuilder add(CashBox cashBox) {
+        this.cashBox = cashBox;
         return this;
     }
 

@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 public class ProductGroupServiceRestTest extends FillDatabaseInOtherTransactionTest {
@@ -50,5 +51,6 @@ public class ProductGroupServiceRestTest extends FillDatabaseInOtherTransactionT
                 .get()
                 .readEntity(ProductBean.class);
         assertEquals("Snack", product.getName());
+        assertTrue(product.isGeneric());
     }
 }

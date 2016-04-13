@@ -32,7 +32,7 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @Expose
-    private CompanyEntity company;
+    private CashBoxEntity cashBox;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,11 +41,11 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
     public ProductGroupEntity() {
     }
 
-    public ProductGroupEntity(Long id, Integer version, Boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity taxSet, CompanyEntity company, Set<ProductEntity> products) {
+    public ProductGroupEntity(Long id, Integer version, Boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, TaxSetEntity taxSet, CashBoxEntity cashBox, Set<ProductEntity> products) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.taxSet = taxSet;
-        this.company = company;
+        this.cashBox = cashBox;
         this.products = products;
     }
 
@@ -65,12 +65,12 @@ public class ProductGroupEntity extends AbstractMasterDataEntity {
         this.taxSet = taxSet;
     }
 
-    public CompanyEntity getCompany() {
-        return company;
+    public CashBoxEntity getCashBox() {
+        return cashBox;
     }
 
-    public void setCompany(CompanyEntity company) {
-        this.company = company;
+    public void setCashBox(CashBoxEntity cashBox) {
+        this.cashBox = cashBox;
     }
 
     public Set<ProductEntity> getProducts() {

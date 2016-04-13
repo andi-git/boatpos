@@ -6,11 +6,11 @@
     <named-query name="product.getByName">
         <query>FROM ProductEntity p WHERE p.name = :name</query>
     </named-query>
-    <named-query name="product.getByNameAndCompany">
-        <query>FROM ProductEntity p WHERE p.name = :name AND p.productGroup.company.name = :company</query>
+    <named-query name="product.getByNameAndCashBox">
+        <query>FROM ProductEntity p WHERE p.name = :name AND p.productGroup.cashBox.name = :cashBox</query>
     </named-query>
     <named-query name="product.getGenericByProductGroup">
-        <query>FROM ProductEntity p WHERE p.productGroup.name = :productGroupName AND p.productGroup.company.name = :companyName AND p.generic = TRUE</query>
+        <query>FROM ProductEntity p WHERE p.productGroup.name = :productGroupName AND p.productGroup.cashBox.name = :cashBoxName AND p.generic = TRUE</query>
     </named-query>
     <named-query name="product.getByProductGroup">
         <query>FROM ProductEntity p WHERE p.productGroup.id = :id</query>
@@ -18,8 +18,8 @@
     <named-query name="product.getAll">
         <query>FROM ProductEntity p ORDER BY p.priority</query>
     </named-query>
-    <named-query name="product.getAllByCompany">
-        <query>FROM ProductEntity p WHERE p.productGroup.company.id = :companyId ORDER BY p.priority</query>
+    <named-query name="product.getAllByCashBox">
+        <query>FROM ProductEntity p WHERE p.productGroup.cashBox.id = :cashBoxId ORDER BY p.priority</query>
     </named-query>
     <named-query name="product.getAllEnabled">
         <query>FROM ProductEntity p WHERE p.enabled = TRUE ORDER BY p.priority</query>
@@ -27,10 +27,10 @@
     <named-query name="product.getAllDisabled">
         <query>FROM ProductEntity p WHERE (p.enabled = FALSE OR p.enabled IS NULL) ORDER BY p.priority</query>
     </named-query>
-    <named-query name="product.getAllEnabledByCompany">
-        <query>FROM ProductEntity p WHERE p.productGroup.company.id = :companyId AND p.enabled = TRUE ORDER BY p.priority</query>
+    <named-query name="product.getAllEnabledByCashBox">
+        <query>FROM ProductEntity p WHERE p.productGroup.cashBox.id = :cashBoxId AND p.enabled = TRUE ORDER BY p.priority</query>
     </named-query>
-    <named-query name="product.getAllDisabledByCompany">
-        <query>FROM ProductEntity p WHERE p.productGroup.company.id = :companyId AND (p.enabled = FALSE OR p.enabled IS NULL) ORDER BY p.priority</query>
+    <named-query name="product.getAllDisabledByCashBox">
+        <query>FROM ProductEntity p WHERE p.productGroup.cashBox.id = :cashBoxId AND (p.enabled = FALSE OR p.enabled IS NULL) ORDER BY p.priority</query>
     </named-query>
 </entity-mappings>

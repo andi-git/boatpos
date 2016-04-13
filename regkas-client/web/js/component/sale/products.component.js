@@ -32,24 +32,24 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                     this.productService = productService;
                     this.saleService = saleService;
                     this.keyBinding = keyBinding;
-                    // let map:{[key:string]:((e:ExtendedKeyboardEvent, combo:string) => any)} = {
-                    //     '*': () => {
-                    //         this.bill();
-                    //     },
-                    //     '-': () => {
-                    //         this.cancelLastElement();
-                    //     },
-                    //     '_': () => {
-                    //         this.cancelAllElements();
-                    //     }
-                    // };
-                    // this.keyBinding.addBindingForMain(map);
                 }
                 ProductComponent.prototype.getProductGroups = function () {
-                    console.log("#####");
                     var productGroups = this.productService.getProductGroups();
-                    console.log(productGroups);
                     return productGroups;
+                };
+                ProductComponent.prototype.getGenericProduct = function (productGroup) {
+                    for (var i = 0; i < productGroup.products.length; i++) {
+                        if (productGroup.products[i].generic === true) {
+                            return productGroup.products[i];
+                        }
+                    }
+                    return null;
+                };
+                ProductComponent.prototype.chooseProduct = function (product) {
+                    this.saleService.chooseProduct(product);
+                };
+                ProductComponent.prototype.handlePG = function (s) {
+                    return s.replace("PG: ", "");
                 };
                 ProductComponent = __decorate([
                     core_1.Component({

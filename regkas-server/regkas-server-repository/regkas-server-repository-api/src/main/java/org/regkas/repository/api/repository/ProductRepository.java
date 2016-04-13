@@ -3,6 +3,7 @@ package org.regkas.repository.api.repository;
 import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.common.repository.api.values.Enabled;
 import org.regkas.repository.api.builder.ProductBuilder;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
@@ -28,27 +29,27 @@ public interface ProductRepository extends MasterDataRepositoryWithDto<Product, 
      * Load all attributes based on the {@link Name} and {@link Company}.
      *
      * @param name    the {@link Name} of the {@link Product}
-     * @param company the {@link Company} the {@link Product}s belong to
+     * @param cashBox the {@link CashBox} the {@link Product}s belong to
      * @return the current {@link Product} with all attributes from the repository
      */
-    Optional<Product> loadBy(Name name, Company company);
+    Optional<Product> loadBy(Name name, CashBox cashBox);
 
     /**
-     * Load all {@link Product}s which belongs to the {@link Company}.
+     * Load all {@link Product}s which belongs to the {@link CashBox}.
      *
-     * @param company the {@link Company} the {@link Product}s belong to
-     * @return all {@link Product}s which belongs to the {@link Company}
+     * @param cashBox the {@link CashBox} the {@link Product}s belong to
+     * @return all {@link Product}s which belongs to the {@link CashBox}
      */
-    List<Product> loadBy(Company company);
+    List<Product> loadBy(CashBox cashBox);
 
     /**
-     * Load all {@link Product}s which belongs to the {@link Company}.
+     * Load all {@link Product}s which belongs to the {@link CashBox}.
      *
-     * @param company the {@link Company} the {@link Product}s belong to
+     * @param cashBox the {@link CashBox} the {@link Product}s belong to
      * @param enabled flag if the products should enabled or disabled
-     * @return all {@link Product}s which belongs to the {@link Company}
+     * @return all {@link Product}s which belongs to the {@link CashBox}
      */
-    List<Product> loadBy(Company company, Enabled enabled);
+    List<Product> loadBy(CashBox cashBox, Enabled enabled);
 
     /**
      * Load all {@link Product}s of a {@link ProductGroup}.

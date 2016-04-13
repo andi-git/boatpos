@@ -23,13 +23,18 @@ public class SimpleProductBean extends AbstractMasterDataBean {
     @Expose
     private BigDecimal price;
 
+    @NotNull
+    @Expose
+    private boolean generic;
+
     public SimpleProductBean() {
     }
 
-    public SimpleProductBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, BigDecimal price) {
+    public SimpleProductBean(Long id, Integer version, boolean enabled, Integer priority, Character keyBinding, String pictureUrl, String pictureUrlThumb, String name, BigDecimal price, boolean generic) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         this.name = name;
         this.price = price;
+        this.generic = generic;
     }
 
     public String getName() {
@@ -46,5 +51,13 @@ public class SimpleProductBean extends AbstractMasterDataBean {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public boolean isGeneric() {
+        return generic;
+    }
+
+    public void setGeneric(boolean generic) {
+        this.generic = generic;
     }
 }

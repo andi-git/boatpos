@@ -1,16 +1,26 @@
 <div class="container-products">
 
-    <img *ngFor="#rental of rentalsCurrentDay" [class]="rental.style()" >
-
-    <ul class="">
-        <li *ngFor="#productGroup of getProductGroups()"
-            (click)="click(productGroup)">
-            <img src="{{productGroup.pictureUrlThumb}}" height="60px"> {{productGroup.name}}
-        </li>
-    </ul>
-
-
-    <!--<button class="button button-cancel button-action-regkas" (click)="cancelLastElement()">Storno Element</button>-->
-    <!--<button class="button button-cancel button-action-regkas" (click)="cancelAllElements()">Storno alles</button>-->
-    <!--<button class="button button-ok button-action-regkas" (click)="bill()">Rechnung</button>-->
+    <div class="tabs">
+        <div class="tab">
+            <input type="radio" name="css-tabs" id="tab-pg" checked class="tab-switch">
+            <label for="tab-pg" class="tab-label">Gruppen</label>
+            <div class="tab-content">
+                <div class="container-product" *ngFor="#productGroup of getProductGroups()">
+                    <div class="container-product-image" (click)="chooseProduct(getGenericProduct(productGroup))">
+                        <img src={{getGenericProduct(productGroup).pictureUrlThumb}} width="100px" height="100px" />
+                    </div>
+                    <div class="container-product-text">
+                        {{handlePG(getGenericProduct(productGroup).name)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab" *ngFor="#productGroup of getProductGroups()">
+            <input type="radio" name="css-tabs" [attr.id]="productGroup.id" class="tab-switch">
+            <label [attr.for]="productGroup.id" class="tab-label">
+                <img src={{productGroup.pictureUrlThumb}} width="60px" height="60px"/>
+            </label>
+            <div class="tab-content">{{productGroup.products.length}}</div>
+        </div>
+    </div>
 </div>

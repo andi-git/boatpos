@@ -5,15 +5,15 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.ProductService;
-import org.regkas.service.core.context.CompanyContext;
+import org.regkas.service.core.context.CashBoxContext;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class ProductServiceCoreTest extends EntityManagerProviderForRegkas {
@@ -22,17 +22,17 @@ public class ProductServiceCoreTest extends EntityManagerProviderForRegkas {
     private ProductService productService;
 
     @Inject
-    private CompanyRepository companyRepository;
+    private CashBoxRepository cashBoxRepository;
 
     @Inject
-    private CompanyContext companyContext;
+    private CashBoxContext cashBoxContext;
 
     @Test
     @Transactional
     public void testGetProductForCurrentCompanyByName() {
-        companyContext.set(companyRepository.loadBy(new Name("company")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         assertEquals("Cola", productService.getForCurrentCompany("Cola").getName());
-        companyContext.clear();
+        cashBoxContext.clear();
     }
 
     @Test
@@ -44,18 +44,18 @@ public class ProductServiceCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testGetAllByCompany() {
-        companyContext.set(companyRepository.loadBy(new Name("company")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         assertEquals(4, productService.getAllForCurrentCompany().size());
-        companyContext.clear();
+        cashBoxContext.clear();
     }
 
     @Test
     @Transactional
     public void testGetAllByCompanyEnabledDisabled() {
-        companyContext.set(companyRepository.loadBy(new Name("company")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         assertEquals(4, productService.getAllForCurrentCompany(EnabledState.All).size());
         assertEquals(4, productService.getAllForCurrentCompany(EnabledState.Enabled).size());
         assertEquals(0, productService.getAllForCurrentCompany(EnabledState.Disabled).size());
-        companyContext.clear();
+        cashBoxContext.clear();
     }
 }

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxjs/add/operator/toPromise', "angular2/src/facade/lang"], function(exports_1, context_1) {
+System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxjs/add/operator/toPromise", "angular2/src/facade/lang"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -44,7 +44,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                         _this.username = config.username;
                         _this.password = config.password;
                         _this.cashbox = config.cashbox;
-                        console.log("++++++++");
                         _this.configured.emit(config);
                     });
                 }

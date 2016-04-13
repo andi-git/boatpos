@@ -17,12 +17,13 @@ import {SaleService} from "../service/sale.service";
 import {ActionsComponent} from "./sale/actions.component";
 import {ProductService} from "../service/product.service";
 import {ProductComponent} from "./sale/products.component";
+import {ReceiptComponent} from "./sale/receipt.component";
 
 @Component({
     selector: 'my-app',
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
-    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent],
+    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent, ReceiptComponent],
     providers: [InfoService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService]
 })
 export class AppComponent implements OnInit {

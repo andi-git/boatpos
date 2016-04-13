@@ -1,14 +1,12 @@
 package org.regkas.repository.api.builder;
 
-import org.boatpos.common.repository.api.builder.MasterDataBuilder;
 import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 import org.regkas.model.ProductGroupEntity;
-import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.model.TaxSet;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.TaxPercent;
 import org.regkas.service.api.bean.ProductGroupBean;
 
 /**
@@ -20,7 +18,7 @@ public interface ProductGroupBuilder extends MasterDataBuilderWithDto<ProductGro
 
     ProductGroupBuilder add(TaxSet taxSet);
 
-    ProductGroupBuilder add(Company company);
+    ProductGroupBuilder add(CashBox cashBox);
 
     ProductGroupBuilder add(Product product);
 }

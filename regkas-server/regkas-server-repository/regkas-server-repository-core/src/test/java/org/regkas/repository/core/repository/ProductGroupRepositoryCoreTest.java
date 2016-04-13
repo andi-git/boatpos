@@ -5,6 +5,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.CompanyRepository;
@@ -24,22 +25,22 @@ public class ProductGroupRepositoryCoreTest extends EntityManagerProviderForRegk
     private ProductGroupRepository productGroupRepository;
 
     @Inject
-    private CompanyRepository companyRepository;
+    private CashBoxRepository cashBoxRepository;
 
     @Test
     @Transactional
     public void testLoadByNameAndCompany() {
-        Company company = companyRepository.loadBy(new Name("company")).get();
-        assertEquals("Snack", productGroupRepository.loadBy(new Name("Snack"), company).get().getName().get());
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertEquals("Snack", productGroupRepository.loadBy(new Name("Snack"), cashBox).get().getName().get());
     }
 
     @Test
     @Transactional
     public void testLoadByCompany() {
-        Company company = companyRepository.loadBy(new Name("company")).get();
-        assertEquals(7, productGroupRepository.loadBy(company).size());
-        assertEquals(7, productGroupRepository.loadBy(company, Enabled.TRUE).size());
-        assertEquals(0, productGroupRepository.loadBy(company, Enabled.FALSE).size());
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertEquals(7, productGroupRepository.loadBy(cashBox).size());
+        assertEquals(7, productGroupRepository.loadBy(cashBox, Enabled.TRUE).size());
+        assertEquals(0, productGroupRepository.loadBy(cashBox, Enabled.FALSE).size());
     }
 
 }

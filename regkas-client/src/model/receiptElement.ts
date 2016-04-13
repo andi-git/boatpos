@@ -2,12 +2,12 @@ import {Product} from "./product";
 
 export class ReceiptElement {
 
-    price:number;
+    totalPrice:number;
     amount:number;
     product:Product;
 
-    constructor(price:number, amount:number, product:Product) {
-        this.price = price;
+    constructor(totalPrice:number, amount:number, product:Product) {
+        this.totalPrice = totalPrice;
         this.amount = amount;
         this.product = product;
     }

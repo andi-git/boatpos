@@ -1,8 +1,7 @@
 package org.regkas.service.rest;
 
-import org.boatpos.common.service.rest.RestHelper;
 import org.regkas.service.api.ProductGroupService;
-import org.regkas.service.api.ProductService;
+import org.regkas.service.api.bean.ProductGroupBean;
 import org.regkas.service.rest.filter.Authenticated;
 
 import javax.ejb.Stateless;
@@ -10,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Stateless
 @Path("/productgroup")

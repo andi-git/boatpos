@@ -1,4 +1,4 @@
-System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_1, context_1) {
+System.register(["angular2/core", "angular2/src/facade/lang"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, lang_1, lang_2;
+    var core_1, lang_1;
     var PrettyPrinter, Align;
     return {
         setters:[
@@ -19,7 +19,6 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
             },
             function (lang_1_1) {
                 lang_1 = lang_1_1;
-                lang_2 = lang_1_1;
             }],
         execute: function() {
             PrettyPrinter = (function () {
@@ -43,39 +42,13 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                 };
                 PrettyPrinter.prototype.ppPrice = function (price, prefix) {
                     var result = lang_1.isPresent(prefix) ? prefix : "€ ";
-                    if (lang_1.isPresent(price) && lang_2.isNumber(price) && !isNaN(price)) {
+                    if (lang_1.isPresent(price) && lang_1.isNumber(price) && !isNaN(price)) {
                         result += price.toFixed(2);
                     }
                     else {
                         result += "0.00";
                     }
                     return result;
-                };
-                PrettyPrinter.prototype.printCommitments = function (commitments) {
-                    var commitmentString = "";
-                    if (lang_1.isPresent(commitments)) {
-                        var first_1 = true;
-                        commitments.forEach(function (commitment) {
-                            if (!first_1) {
-                                commitmentString += ", ";
-                            }
-                            commitmentString += commitment.name;
-                            first_1 = false;
-                        });
-                    }
-                    return commitmentString;
-                };
-                PrettyPrinter.prototype.printPromotions = function (promotionBefore, promotionAfter) {
-                    var promotionsString = "";
-                    var first = true;
-                    if (lang_1.isPresent(promotionBefore)) {
-                        promotionsString += promotionBefore.name;
-                    }
-                    if (lang_1.isPresent(promotionAfter)) {
-                        promotionsString += ", ";
-                        promotionsString += promotionAfter.name;
-                    }
-                    return promotionsString;
                 };
                 PrettyPrinter.prototype.printTime = function (date) {
                     var timeString = "";

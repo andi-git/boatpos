@@ -75,7 +75,7 @@ public class SaleServiceCore implements SaleService {
                 .add(user)
                 .add(company);
         for (ReceiptElementBean receiptElementBean : sale.getSaleElements()) {
-            Optional<Product> productOptional = productRepository.loadBy(new Name(receiptElementBean.getProduct().getName()), company);
+            Optional<Product> productOptional = productRepository.loadBy(new Name(receiptElementBean.getProduct().getName()), cashBox);
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {

@@ -3,6 +3,7 @@ package org.regkas.repository.api.repository;
 import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
 import org.boatpos.common.repository.api.values.Enabled;
 import org.regkas.repository.api.builder.ProductGroupBuilder;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
@@ -20,24 +21,24 @@ public interface ProductGroupRepository extends MasterDataRepositoryWithDto<Prod
      * Load all attributes based on the {@link Name} and {@link Company}.
      *
      * @param name    the {@link Name} of the {@link ProductGroup}
-     * @param company the {@link Company} the {@link ProductGroup}s belong to
+     * @param cashBox the {@link CashBox} the {@link ProductGroup}s belong to
      * @return the current {@link ProductGroup} with all attributes from the repository
      */
-    Optional<ProductGroup> loadBy(Name name, Company company);
+    Optional<ProductGroup> loadBy(Name name, CashBox cashBox);
 
     /**
-     * Load all {@link ProductGroup}s which belongs to the {@link Company}.
+     * Load all {@link ProductGroup}s which belongs to the {@link CashBox}.
      *
      * @return all {@link ProductGroup}s which belongs to the {@link Company}
      */
-    List<ProductGroup> loadBy(Company company);
+    List<ProductGroup> loadBy(CashBox cashBox);
 
     /**
-     * Load all {@link ProductGroup}s which belongs to the {@link Company}.
+     * Load all {@link ProductGroup}s which belongs to the {@link CashBox}.
      *
-     * @param company the {@link Company} the {@link ProductGroup}s belong to
+     * @param cashBox the {@link CashBox} the {@link ProductGroup}s belong to
      * @param enabled flag if the products should enabled or disabled
-     * @return all {@link ProductGroup}s which belongs to the {@link Company}
+     * @return all {@link ProductGroup}s which belongs to the {@link CashBox}
      */
-    List<ProductGroup> loadBy(Company company, Enabled enabled);
+    List<ProductGroup> loadBy(CashBox cashBox, Enabled enabled);
 }

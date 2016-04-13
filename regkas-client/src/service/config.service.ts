@@ -1,8 +1,7 @@
-import {Injectable, EventEmitter} from 'angular2/core';
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-import {Observable} from "rxjs/Observable";
+import {Injectable, EventEmitter} from "angular2/core";
+import {Http, Headers} from "angular2/http";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
 import {Config} from "../model/config";
 import {isPresent} from "angular2/src/facade/lang";
 
@@ -30,7 +29,6 @@ export class ConfigService {
                 this.username = config.username;
                 this.password = config.password;
                 this.cashbox = config.cashbox;
-                console.log("++++++++");
                 this.configured.emit(config);
             });
     }

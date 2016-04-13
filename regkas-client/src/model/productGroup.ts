@@ -20,8 +20,8 @@ export class ProductGroup {
         this.pictureUrlThumb = pictureUrlThumb;
         this.keyBinding = keyBinding;
         if (isPresent(products)) {
-            this.products.push(products);
-            // products.forEach(p -> this.products.push(p));
+            // this.products.push(products);
+            products.forEach(p => this.products.push(p));
         }
     }
 

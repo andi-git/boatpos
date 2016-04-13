@@ -4,7 +4,7 @@ import org.boatpos.common.repository.api.values.Enabled;
 import org.boatpos.common.repository.core.respository.MasterDataRepositoryCore;
 import org.regkas.model.ProductEntity;
 import org.regkas.repository.api.builder.ProductBuilder;
-import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Product;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.repository.ProductRepository;
@@ -27,30 +27,30 @@ public class ProductRepositoryCore extends MasterDataRepositoryCore<Product, Pro
         return loadByParameter(queryName("getGenericByProductGroup"),
                 (query) -> query
                         .setParameter("productGroupName", productGroup.getName().get())
-                        .setParameter("companyName", productGroup.getCompany().getName().get()));
+                        .setParameter("cashBoxName", productGroup.getCashBox().getName().get()));
     }
 
     @Override
-    public Optional<Product> loadBy(Name name, Company company) {
+    public Optional<Product> loadBy(Name name, CashBox cashBox) {
         checkNotNull(name, "'name' must not be null");
-        checkNotNull(company, "'company' must not be null");
-        return loadByParameter(queryName("getByNameAndCompany"),
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadByParameter(queryName("getByNameAndCashBox"),
                 (query) -> query
                         .setParameter("name", name.get())
-                        .setParameter("company", company.getName().get()));
+                        .setParameter("cashBox", cashBox.getName().get()));
     }
 
     @Override
-    public List<Product> loadBy(Company company) {
-        checkNotNull(company, "'company' must not be null");
-        return loadAll(queryName("getAllByCompany"), ProductCore::new, (query) -> query.setParameter("companyId", company.getId().get()));
+    public List<Product> loadBy(CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadAll(queryName("getAllByCashBox"), ProductCore::new, (query) -> query.setParameter("cashBoxId", cashBox.getId().get()));
     }
 
     @Override
-    public List<Product> loadBy(Company company, Enabled enabled) {
-        checkNotNull(company, "'company' must not be null");
+    public List<Product> loadBy(CashBox cashBox, Enabled enabled) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
         checkNotNull(enabled, "'enabled' must not be null");
-        return loadAll(queryName("getAll") + (enabled.get() ? "Enabled" : "Disabled") + "ByCompany", ProductCore::new, (query) -> query.setParameter("companyId", company.getId().get()));
+        return loadAll(queryName("getAll") + (enabled.get() ? "Enabled" : "Disabled") + "ByCashBox", ProductCore::new, (query) -> query.setParameter("cashBoxId", cashBox.getId().get()));
     }
 
     @Override
