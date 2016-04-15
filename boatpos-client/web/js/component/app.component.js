@@ -92,6 +92,7 @@ System.register(['angular2/core', "./../service/boat.service", "./../service/con
                 version_component_1 = version_component_1_1;
             }],
         execute: function() {
+            core_1.enableProdMode();
             AppComponent = (function () {
                 function AppComponent(modeService) {
                     var _this = this;

@@ -82,6 +82,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     request = this.printSumTaxes(bill, builder, request);
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
+                    request += builder.createQrCodeElement({ model: 'model2', level: 'level_l', cell: 3, data: 'https://www.eppel-boote.at' });
                     this.printPaper(builder, request);
                 };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
@@ -127,7 +128,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceTax), 6, 'right'));
                         request = _this.printText(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
                     });
-                    request = this.printLine(builder, request, 1, 1, 'left', false, false, "   ---------------------------------------------");
+                    request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                     request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
                     return request;
                 };
@@ -235,7 +236,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                         var builder = new StarWebPrintBuilder();
                         var request = builder.createInitializationElement();
                         request = this.addLogo(builder, request);
-                        request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen");
+                        request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Bootsvermietung");
                         request = this.blankLine(builder, request);
                         if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
                             request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));

@@ -107,7 +107,6 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                     });
                 };
                 RentalService.prototype.convertRentalBeanToRental = function (rentalBean) {
-                    console.log("--> " + rentalBean.receiptId);
                     return new rental_1.Rental(rentalBean.dayId, RentalService.createDate(rentalBean.day), rentalBean.boatBean, RentalService.createDateTime(rentalBean.departure), RentalService.createDateTime(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans, rentalBean.timeOfTravel, rentalBean.timeOfTravelCalculated, rentalBean.receiptId);
                 };
                 ;
