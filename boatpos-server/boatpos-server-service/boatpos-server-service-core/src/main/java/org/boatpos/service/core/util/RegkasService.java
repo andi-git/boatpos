@@ -1,6 +1,8 @@
 package org.boatpos.service.core.util;
 
 import com.google.common.collect.Lists;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.values.DayId;
@@ -29,6 +31,10 @@ public class RegkasService {
     @Inject
     private RentalLoader rentalLoader;
 
+    @Inject
+    @SLF4J
+    private LogWrapper log;
+
     public ProductBean getProduct(Boat boat) throws Exception {
         return readEntity(createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get())).get(), ProductBean.class);
     }
@@ -54,14 +60,23 @@ public class RegkasService {
 
     public Invocation.Builder addCredentials(Invocation.Builder builder) throws Exception {
         return builder
-                .header("username", System.getProperty("boatpos.regkas.service.username"))
-                .header("password", System.getProperty("boatpos.regkas.service.password"))
-                .header("cashbox", System.getProperty("boatpos.regkas.service.cashbox"));
+                .header("username", getNotNullableSystemProperty("boatpos.regkas.service.username"))
+                .header("password", getNotNullableSystemProperty("boatpos.regkas.service.password"))
+                .header("cashbox", getNotNullableSystemProperty("boatpos.regkas.service.cashbox"));
     }
 
     public Invocation.Builder createRestCall(Function<WebTarget, WebTarget> addPath) throws Exception {
-        WebTarget webTarget = ClientBuilder.newClient().target(System.getProperty("boatpos.regkas.service.rest"));
+        WebTarget webTarget = ClientBuilder.newClient().target(getNotNullableSystemProperty("boatpos.regkas.service.rest"));
         webTarget = addPath.apply(webTarget);
+        log.info("call rest on: " + webTarget.getUri());
         return addCredentials(webTarget.request().accept(MediaType.APPLICATION_JSON));
+    }
+
+    private String getNotNullableSystemProperty(String key) {
+        String value = System.getProperty(key);
+        if (value == null) {
+            throw new RuntimeException("unable to get system-property-value for key: '" + key + "'");
+        }
+        return value;
     }
 }

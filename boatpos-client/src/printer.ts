@@ -115,7 +115,7 @@ export class Printer {
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(tse.taxPercent + '%', 4, 'right'));
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.pricePreTax), 8, 'right'));
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax), 6, 'right'));
-            request = this.printText(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
+            request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
         });
         request += builder.createRuledLineElement({thickness:'medium', width:832});
         request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
@@ -143,17 +143,21 @@ export class Printer {
         request = this.printLogo(builder, request, this.mapBoatToLogoName(rental.boat), 'center');
         request = this.printLine(builder, request, 3, 3, 'center', true, false, this.pp.pp3Pos(rental.dayId));
         // rental-data
-        request = this.printText(builder, request, 1, 2, 'left', false, true, '   Datum');
+        request = this.printText(builder, request, 1, 2, 'left', false, false, '   ');
+        request = this.printText(builder, request, 1, 2, 'left', false, true, 'Datum');
         request = this.printText(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printDate(rental.day));
         request = this.printText(builder, request, 1, 2, 'left', false, false, ', ');
         request = this.printText(builder, request, 1, 2, 'left', false, true, 'Abfahrt');
         request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printTime(rental.departure));
-        request = this.printText(builder, request, 1, 2, 'left', false, true, '   Einsatz');
+        request = this.printText(builder, request, 1, 2, 'left', false, false, '   ');
+        request = this.printText(builder, request, 1, 2, 'left', false, true, 'Einsatz');
         request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.printCommitments(rental.commitments));
         if (isPresent(rental.pricePaidBefore)) {
-            request = this.printText(builder, request, 1, 2, 'left', false, true, '   Aktion');
+            request = this.printText(builder, request, 1, 2, 'left', false, false, '   ');
+            request = this.printText(builder, request, 1, 2, 'left', false, true, 'Aktion');
             request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + rental.promotionBefore.name);
-            request = this.printText(builder, request, 1, 2, 'left', false, true, '   Bezahlt');
+            request = this.printText(builder, request, 1, 2, 'left', false, false, '   ');
+            request = this.printText(builder, request, 1, 2, 'left', false, true, 'Bezahlt');
             request = this.printLine(builder, request, 1, 2, 'left', true, false, ': ' + this.pp.ppPrice(rental.pricePaidBefore, '€ '));
         }
         return request;
