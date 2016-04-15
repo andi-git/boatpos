@@ -46,7 +46,7 @@ public class ProductGroupServiceCoreTest extends EntityManagerProviderForRegkas 
     @Test
     @Transactional
     public void testGetAll() {
-        assertEquals(17, productGroupService.getAll().size());
+        assertEquals(20, productGroupService.getAll().size());
     }
 
     @Test
