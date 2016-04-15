@@ -4,9 +4,12 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.model.ReceiptElement;
+import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.DateTimeHelperMock;
 import org.regkas.service.api.bean.Period;
 import org.regkas.service.api.bean.ReceiptBean;
@@ -31,6 +34,9 @@ public class ReceiptMappingTest extends EntityManagerProviderForRegkas {
     @Inject
     private DateTimeHelperMock dateTimeHelper;
 
+    @Inject
+    private CashBoxRepository cashBoxRepository;
+
     @Test
     @Transactional
     public void testFromCDI() {
@@ -40,7 +46,8 @@ public class ReceiptMappingTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testMappingEntityToDto() {
-        Receipt receipt = receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime())).get(0);
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        Receipt receipt = receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime()), cashBox).get(0);
         assertEquals("2015-0000001", receipt.getReceiptId().get());
         assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), receipt.getReceiptDate().get());
         assertEquals("RegKas1", receipt.getCashBox().getName().get());

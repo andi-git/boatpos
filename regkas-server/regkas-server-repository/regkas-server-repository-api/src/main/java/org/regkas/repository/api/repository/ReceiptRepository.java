@@ -17,10 +17,11 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
     /**
      * Get all {@link Receipt}s for a {@link Period}.
      *
-     * @param period the {@link Period} to get the {@link Receipt}s for
+     * @param period  the {@link Period} to get the {@link Receipt}s for
+     * @param cashBox the {@link CashBox} to get the receipts for
      * @return all {@link Receipt}s for a certain {@link Period}
      */
-    List<Receipt> loadBy(Period period);
+    List<Receipt> loadBy(Period period, CashBox cashBox);
 
     /**
      * Get the last {@link Receipt} for a concrete {@link CashBox}.

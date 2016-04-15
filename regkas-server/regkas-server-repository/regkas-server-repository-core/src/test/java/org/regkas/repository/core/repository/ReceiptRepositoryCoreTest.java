@@ -32,9 +32,10 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testLoadByPeriod() {
-        assertEquals(2, receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime())).size());
-        assertEquals(2, receiptRepository.loadBy(Period.month(dateTimeHelper.currentTime())).size());
-        assertEquals(0, receiptRepository.loadBy(Period.day(LocalDateTime.of(1970, 1, 1, 0, 0))).size());
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertEquals(2, receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime()), cashBox).size());
+        assertEquals(2, receiptRepository.loadBy(Period.month(dateTimeHelper.currentTime()), cashBox).size());
+        assertEquals(0, receiptRepository.loadBy(Period.day(LocalDateTime.of(1970, 1, 1, 0, 0)), cashBox).size());
     }
 
     @Test

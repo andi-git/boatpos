@@ -20,13 +20,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, ReceiptCore, ReceiptEntity, ReceiptBuilder, ReceiptBuilderCore> implements ReceiptRepository {
 
     @Override
-    public List<Receipt> loadBy(Period period) {
+    public List<Receipt> loadBy(Period period, CashBox cashBox) {
         checkNotNull(period, "'period' must not be null");
-        return loadAll("receipt.getBetween",
+        return loadAll("receipt.getBetweenByCashBox",
                 ReceiptCore::new,
                 (query) -> query
                         .setParameter("start", period.getStartDay())
-                        .setParameter("end", period.getEndDay()));
+                        .setParameter("end", period.getEndDay())
+                        .setParameter("cashBoxId", cashBox.getId().get()));
     }
 
     @Override
