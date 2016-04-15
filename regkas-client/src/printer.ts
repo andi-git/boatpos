@@ -27,6 +27,7 @@ export class Printer {
         request = this.printSumTaxes(bill, builder, request);
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
+        request += builder.createQrCodeElement({model:'model2', level:'level_l', cell:3, data:'https://www.eppel-boote.at'});
         this.printPaper(builder, request);
     }
 
@@ -64,18 +65,18 @@ export class Printer {
 
     private printTaxSetElements(bill:Bill, builder:any, request:any):any {
         request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produktgruppe', 16, 'left'));
-        request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 4, 'left'));
+        request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 5, 'left'));
         request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Netto', 8, 'right'));
         request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('MWST', 6, 'right'));
         request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 10, 'right'));
         bill.taxSetElements.forEach(tse => {
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(tse.name, 16, 'left'));
-            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(tse.taxPercent + '%', 4, 'right'));
-            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.pricePreTax), 8, 'right'));
-            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax), 6, 'right'));
-            request = this.printText(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ' + tse.taxPercent + '%', 5, 'right'));
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.pricePreTax, ''), 8, 'right'));
+            request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax, ''), 6, 'right'));
+            request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
         });
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, "   ---------------------------------------------");
+        request += builder.createRuledLineElement({thickness:'medium', width:832});
         request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
         return request;
     }

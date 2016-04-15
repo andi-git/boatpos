@@ -1,4 +1,4 @@
-import {Component, OnInit} from "angular2/core";
+import {Component, OnInit, enableProdMode} from "angular2/core";
 import {ConfigService} from "./../service/config.service";
 import {HTTP_PROVIDERS} from "angular2/http";
 import {InfoComponent} from "./info.component";
@@ -18,6 +18,8 @@ import {ActionsComponent} from "./sale/actions.component";
 import {ProductService} from "../service/product.service";
 import {ProductComponent} from "./sale/products.component";
 import {ReceiptComponent} from "./sale/receipt.component";
+
+enableProdMode();
 
 @Component({
     selector: 'my-app',

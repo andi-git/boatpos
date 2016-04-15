@@ -68,6 +68,7 @@ export class Printer {
         request = this.printSumTaxes(bill, builder, request);
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
+        request += builder.createQrCodeElement({model:'model2', level:'level_l', cell:3, data:'https://www.eppel-boote.at'});
         this.printPaper(builder, request);
     }
 
@@ -116,7 +117,7 @@ export class Printer {
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax), 6, 'right'));
             request = this.printText(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
         });
-        request = this.printLine(builder, request, 1, 1, 'left', false, false, "   ---------------------------------------------");
+        request += builder.createRuledLineElement({thickness:'medium', width:832});
         request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
         return request;
     }

@@ -72,6 +72,7 @@ System.register(["angular2/core", "./../service/config.service", "angular2/http"
                 receipt_component_1 = receipt_component_1_1;
             }],
         execute: function() {
+            core_1.enableProdMode();
             AppComponent = (function () {
                 function AppComponent(modeService) {
                     var _this = this;

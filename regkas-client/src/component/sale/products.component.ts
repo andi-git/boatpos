@@ -4,6 +4,7 @@ import {SaleService} from "../../service/sale.service";
 import {ProductService} from "../../service/product.service";
 import {ProductGroup} from "../../model/productGroup";
 import {Product} from "../../model/product";
+import {PrettyPrinter} from "../../prettyprinter";
 
 @Component({
     selector: 'products',
@@ -12,7 +13,7 @@ import {Product} from "../../model/product";
 })
 export class ProductComponent {
 
-    constructor(private productService:ProductService, private saleService:SaleService, private keyBinding:KeyBindingService) {
+    constructor(private productService:ProductService, private saleService:SaleService, private keyBinding:KeyBindingService, private pp:PrettyPrinter) {
     }
 
     getProductGroups():Array<ProductGroup> {
@@ -35,5 +36,19 @@ export class ProductComponent {
 
     handlePG(s:string):string {
         return s.replace("PG: ", "");
+    }
+
+    ppPrice(price:number):string {
+        return this.pp.ppPrice(price, "");
+    }
+
+    getNonGenericProducts(productGroup:ProductGroup):Array<Product> {
+        let products:Array<Product> = [];
+        productGroup.products.forEach(p => {
+            if (p.generic === false) {
+                products.push(p);
+            }
+        });
+        return products;
     }
 }

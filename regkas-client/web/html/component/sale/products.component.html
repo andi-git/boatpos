@@ -7,7 +7,7 @@
             <div class="tab-content">
                 <div class="container-product" *ngFor="#productGroup of getProductGroups()">
                     <div class="container-product-image" (click)="chooseProduct(getGenericProduct(productGroup))">
-                        <img src={{getGenericProduct(productGroup).pictureUrlThumb}} width="100px" height="100px" />
+                        <img src={{getGenericProduct(productGroup).pictureUrlThumb}} width="100px" height="100px"/>
                     </div>
                     <div class="container-product-text">
                         {{handlePG(getGenericProduct(productGroup).name)}}
@@ -20,7 +20,19 @@
             <label [attr.for]="productGroup.id" class="tab-label">
                 <img src={{productGroup.pictureUrlThumb}} width="60px" height="60px"/>
             </label>
-            <div class="tab-content">{{productGroup.products.length}}</div>
+            <div class="tab-content">
+                <div class="container-product" *ngFor="#product of getNonGenericProducts(productGroup)">
+                    <div class="container-product-image" (click)="chooseProduct(product)">
+                        <img src={{product.pictureUrlThumb}} width="100px" height="100px"/>
+                    </div>
+                    <div class="container-product-text">
+                        {{product.name}}
+                    </div>
+                    <div class="container-product-text">
+                        {{ppPrice(product.price)}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

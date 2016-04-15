@@ -35,6 +35,9 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                         },
                         '<': function () {
                             _this.numberClick('<');
+                        },
+                        '>': function () {
+                            _this.deleteNumberInput();
                         }
                     };
                     for (var i = 0; i <= 9; i++) {

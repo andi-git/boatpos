@@ -71,7 +71,9 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                             productGroupBeans.forEach(function (productGroupBean) {
                                 var products = [];
                                 if (lang_1.isPresent(productGroupBean.products)) {
-                                    productGroupBean.products.forEach(function (p) { return products.push(new product_1.Product(p.id, p.name, p.totalPrice, p.priority, p.pictureUrl, p.pictureUrlThumb, p.keyBinding, p.generic)); });
+                                    productGroupBean.products.forEach(function (p) {
+                                        products.push(new product_1.Product(p.id, p.name, p.price, p.priority, p.pictureUrl, p.pictureUrlThumb, p.keyBinding, p.generic));
+                                    });
                                 }
                                 result.push(new productGroup_1.ProductGroup(productGroupBean.id, productGroupBean.name, productGroupBean.totalPrice, productGroupBean.priority, productGroupBean.pictureUrl, productGroupBean.pictureUrlThumb, productGroupBean.keyBinding, products));
                             });

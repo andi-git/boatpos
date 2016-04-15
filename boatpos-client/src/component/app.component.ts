@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, enableProdMode} from 'angular2/core';
 import {Boat} from './../model/boat';
 import {BoatService} from "./../service/boat.service";
 import {ConfigService} from "./../service/config.service";
@@ -29,6 +29,8 @@ import {Mode} from "./../service/mode.service";
 import {RentalsComponent} from "./rentals/rentals.component";
 import {StatsComponent} from "./stats/stats.component";
 import {VersionComponent} from "./version.component";
+
+enableProdMode();
 
 @Component({
     selector: 'my-app',

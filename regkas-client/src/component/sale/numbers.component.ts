@@ -16,6 +16,9 @@ export class NumbersComponent {
             },
             '<': () => {
                 this.numberClick('<');
+            },
+            '>': () => {
+                this.deleteNumberInput();
             }
         };
         for (var i = 0; i <= 9; i++) {

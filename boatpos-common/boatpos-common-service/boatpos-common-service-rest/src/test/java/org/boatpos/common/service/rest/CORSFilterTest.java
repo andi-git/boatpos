@@ -33,6 +33,6 @@ public class CORSFilterTest {
 
         assertEquals("*", result.get("Access-Control-Allow-Origin"));
         assertEquals("GET, POST, DELETE, PUT, OPTIONS, HEAD", result.get("Access-Control-Allow-Methods"));
-        assertEquals("Content-Type, Accept, X-Requested-With, username, password", result.get("Access-Control-Allow-Headers"));
+        assertEquals("Content-Type, Accept, X-Requested-With, username, password, cashbox", result.get("Access-Control-Allow-Headers"));
     }
 }

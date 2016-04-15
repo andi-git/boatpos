@@ -41,16 +41,18 @@ export class ProductService {
                     productGroupBeans.forEach((productGroupBean) => {
                         let products:Array<Product> = [];
                         if (isPresent(productGroupBean.products)) {
-                            productGroupBean.products.forEach(p => products.push(new Product(
-                                p.id,
-                                p.name,
-                                p.totalPrice,
-                                p.priority,
-                                p.pictureUrl,
-                                p.pictureUrlThumb,
-                                p.keyBinding,
-                                p.generic
-                            )))
+                            productGroupBean.products.forEach(p => {
+                                products.push(new Product(
+                                    p.id,
+                                    p.name,
+                                    p.price,
+                                    p.priority,
+                                    p.pictureUrl,
+                                    p.pictureUrlThumb,
+                                    p.keyBinding,
+                                    p.generic
+                                ))
+                            })
                         }
                         result.push(new ProductGroup(
                             productGroupBean.id,

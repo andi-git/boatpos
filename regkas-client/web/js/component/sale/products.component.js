@@ -1,4 +1,4 @@
-System.register(["angular2/core", "../../service/keybinding.service", "../../service/sale.service", "../../service/product.service"], function(exports_1, context_1) {
+System.register(["angular2/core", "../../service/keybinding.service", "../../service/sale.service", "../../service/product.service", "../../prettyprinter"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, keybinding_service_1, sale_service_1, product_service_1;
+    var core_1, keybinding_service_1, sale_service_1, product_service_1, prettyprinter_1;
     var ProductComponent;
     return {
         setters:[
@@ -25,13 +25,17 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
             },
             function (product_service_1_1) {
                 product_service_1 = product_service_1_1;
+            },
+            function (prettyprinter_1_1) {
+                prettyprinter_1 = prettyprinter_1_1;
             }],
         execute: function() {
             ProductComponent = (function () {
-                function ProductComponent(productService, saleService, keyBinding) {
+                function ProductComponent(productService, saleService, keyBinding, pp) {
                     this.productService = productService;
                     this.saleService = saleService;
                     this.keyBinding = keyBinding;
+                    this.pp = pp;
                 }
                 ProductComponent.prototype.getProductGroups = function () {
                     var productGroups = this.productService.getProductGroups();
@@ -51,13 +55,25 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                 ProductComponent.prototype.handlePG = function (s) {
                     return s.replace("PG: ", "");
                 };
+                ProductComponent.prototype.ppPrice = function (price) {
+                    return this.pp.ppPrice(price, "");
+                };
+                ProductComponent.prototype.getNonGenericProducts = function (productGroup) {
+                    var products = [];
+                    productGroup.products.forEach(function (p) {
+                        if (p.generic === false) {
+                            products.push(p);
+                        }
+                    });
+                    return products;
+                };
                 ProductComponent = __decorate([
                     core_1.Component({
                         selector: 'products',
                         templateUrl: "html/component/sale/products.component.html",
                         styleUrls: ["css/component/sale/products.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [product_service_1.ProductService, sale_service_1.SaleService, keybinding_service_1.KeyBindingService])
+                    __metadata('design:paramtypes', [product_service_1.ProductService, sale_service_1.SaleService, keybinding_service_1.KeyBindingService, prettyprinter_1.PrettyPrinter])
                 ], ProductComponent);
                 return ProductComponent;
             }());

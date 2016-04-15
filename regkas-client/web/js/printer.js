@@ -48,6 +48,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     request = this.printSumTaxes(bill, builder, request);
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
+                    request += builder.createQrCodeElement({ model: 'model2', level: 'level_l', cell: 3, data: 'https://www.eppel-boote.at' });
                     this.printPaper(builder, request);
                 };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
@@ -82,18 +83,18 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                 Printer.prototype.printTaxSetElements = function (bill, builder, request) {
                     var _this = this;
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produktgruppe', 16, 'left'));
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 4, 'left'));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 5, 'left'));
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Netto', 8, 'right'));
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('MWST', 6, 'right'));
                     request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 10, 'right'));
                     bill.taxSetElements.forEach(function (tse) {
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.name, 16, 'left'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.taxPercent + '%', 4, 'right'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.pricePreTax), 8, 'right'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceTax), 6, 'right'));
-                        request = _this.printText(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(' ' + tse.taxPercent + '%', 5, 'right'));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.pricePreTax, ''), 8, 'right'));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceTax, ''), 6, 'right'));
+                        request = _this.printLine(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
                     });
-                    request = this.printLine(builder, request, 1, 1, 'left', false, false, "   ---------------------------------------------");
+                    request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                     request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
                     return request;
                 };
