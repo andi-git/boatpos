@@ -1,6 +1,8 @@
 import {Component} from "angular2/core";
 import {KeyBindingService} from "../../service/keybinding.service";
 import {SaleService} from "../../service/sale.service";
+import {JournalService} from "../../service/journal.service";
+import {Printer} from "../../printer";
 
 @Component({
     selector: 'actions',
@@ -9,7 +11,7 @@ import {SaleService} from "../../service/sale.service";
 })
 export class ActionsComponent {
 
-    constructor(private saleService:SaleService, private keyBinding:KeyBindingService) {
+    constructor(private saleService:SaleService, private keyBinding:KeyBindingService, private journalService:JournalService, private printer:Printer) {
         let map:{[key:string]:((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             '*': () => {
                 this.bill();
@@ -19,6 +21,9 @@ export class ActionsComponent {
             },
             '_': () => {
                 this.cancelAllElements();
+            },
+            '~': () => {
+                this.journalService.incomeCurrentDay().subscribe((income) => this.printer.printIncome(income));
             }
         };
         this.keyBinding.addBindingForMain(map);

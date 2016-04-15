@@ -48,7 +48,12 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     request = this.printSumTaxes(bill, builder, request);
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
-                    request += builder.createQrCodeElement({ model: 'model2', level: 'level_l', cell: 3, data: 'https://www.eppel-boote.at' });
+                    request += builder.createQrCodeElement({
+                        model: 'model2',
+                        level: 'level_l',
+                        cell: 3,
+                        data: 'https://www.eppel-boote.at'
+                    });
                     this.printPaper(builder, request);
                 };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
@@ -144,6 +149,36 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     var trader = new StarWebPrintTrader({ url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage' });
                     // print
                     trader.sendMessage({ request: request });
+                };
+                Printer.prototype.printIncome = function (income) {
+                    var _this = this;
+                    if (lang_1.isPresent(income)) {
+                        console.log("print journal between " + this.pp.printDate(income.start) + " and " + this.pp.printDate(income.end));
+                        // noinspection TypeScriptUnresolvedFunction
+                        var builder = new StarWebPrintBuilder();
+                        var request = builder.createInitializationElement();
+                        request = this.addLogo(builder, request);
+                        request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Buffet");
+                        request = this.blankLine(builder, request);
+                        if (this.pp.printDate(income.start) === this.pp.printDate(income.end)) {
+                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(income.start));
+                        }
+                        else {
+                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(income.start) + " - " + this.pp.printDate(income.end));
+                        }
+                        request = this.blankLine(builder, request);
+                        if (lang_1.isPresent(income.incomeProductGroups)) {
+                            income.incomeProductGroups.forEach(function (ipg) {
+                                request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(ipg.name, 26, prettyprinter_1.Align.LEFT));
+                                request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + ipg.taxPercent + "%", 6, prettyprinter_1.Align.LEFT));
+                                request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + _this.pp.ppPrice(ipg.income), 10, prettyprinter_1.Align.RIGHT));
+                            });
+                        }
+                        request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, prettyprinter_1.Align.RIGHT));
+                        request = this.printLogo(builder, request, 13, 'center');
+                        this.printPaper(builder, request);
+                    }
                 };
                 Printer = __decorate([
                     core_1.Injectable(), 

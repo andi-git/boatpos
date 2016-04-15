@@ -38,6 +38,10 @@ System.register(['angular2/core', "./../service/mode.service", "./../service/inf
                     this.infoService.event().emit("'Registrierkassa' wird angezeigt.");
                     this.modeService.event().emit(mode_service_2.Mode.REGKAS);
                 };
+                MenuComponent.prototype.modeStats = function () {
+                    this.infoService.event().emit("'Statistiken' wird angezeigt.");
+                    this.modeService.event().emit(mode_service_2.Mode.STATS);
+                };
                 MenuComponent = __decorate([
                     core_1.Component({
                         selector: 'mainmenu',

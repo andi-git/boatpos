@@ -60,5 +60,6 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(7, income.getIncomeElements().size());
         assertEquals(new BigDecimal("11.00"), income.getIncomeElements().get(0).getIncome());
         assertEquals(10, income.getIncomeElements().get(0).getTaxPercent().intValue());
+        assertEquals(new BigDecimal("22.00"), income.getTotalIncome());
     }
 }

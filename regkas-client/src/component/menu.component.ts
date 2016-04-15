@@ -18,4 +18,9 @@ export class MenuComponent {
         this.infoService.event().emit("'Registrierkassa' wird angezeigt.");
         this.modeService.event().emit(Mode.REGKAS);
     }
+
+    private modeStats() {
+        this.infoService.event().emit("'Statistiken' wird angezeigt.");
+        this.modeService.event().emit(Mode.STATS);
+    }
 }

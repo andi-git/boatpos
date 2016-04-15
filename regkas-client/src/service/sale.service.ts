@@ -47,9 +47,7 @@ export class SaleService {
     }
 
     bill() {
-        console.log("bill");
         if (isPresent(this.receiptElements) && this.receiptElements.length > 0) {
-            console.log("bill #1");
             this.http.post(
                     this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale("CASH", "Standard-Beleg", this.receiptElements)), {headers: this.configService.getDefaultHeader()}
                 )

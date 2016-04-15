@@ -229,7 +229,7 @@ export class Printer {
             var builder = new StarWebPrintBuilder();
             var request = builder.createInitializationElement();
             request = this.addLogo(builder, request);
-            request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen");
+            request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Bootsvermietung");
             request = this.blankLine(builder, request);
             if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
                 request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));

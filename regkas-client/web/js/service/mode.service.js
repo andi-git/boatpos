@@ -45,6 +45,7 @@ System.register(['angular2/core', "./config.service"], function(exports_1, conte
             exports_1("ModeService", ModeService);
             (function (Mode) {
                 Mode[Mode["REGKAS"] = 0] = "REGKAS";
+                Mode[Mode["STATS"] = 1] = "STATS";
             })(Mode || (Mode = {}));
             exports_1("Mode", Mode);
         }

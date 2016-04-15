@@ -1,4 +1,4 @@
-System.register(["angular2/core", "../../service/keybinding.service", "../../service/sale.service"], function(exports_1, context_1) {
+System.register(["angular2/core", "../../service/keybinding.service", "../../service/sale.service", "../../service/journal.service", "../../printer"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, keybinding_service_1, sale_service_1;
+    var core_1, keybinding_service_1, sale_service_1, journal_service_1, printer_1;
     var ActionsComponent;
     return {
         setters:[
@@ -22,13 +22,21 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
             },
             function (sale_service_1_1) {
                 sale_service_1 = sale_service_1_1;
+            },
+            function (journal_service_1_1) {
+                journal_service_1 = journal_service_1_1;
+            },
+            function (printer_1_1) {
+                printer_1 = printer_1_1;
             }],
         execute: function() {
             ActionsComponent = (function () {
-                function ActionsComponent(saleService, keyBinding) {
+                function ActionsComponent(saleService, keyBinding, journalService, printer) {
                     var _this = this;
                     this.saleService = saleService;
                     this.keyBinding = keyBinding;
+                    this.journalService = journalService;
+                    this.printer = printer;
                     var map = {
                         '*': function () {
                             _this.bill();
@@ -38,6 +46,9 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                         },
                         '_': function () {
                             _this.cancelAllElements();
+                        },
+                        '~': function () {
+                            _this.journalService.incomeCurrentDay().subscribe(function (income) { return _this.printer.printIncome(income); });
                         }
                     };
                     this.keyBinding.addBindingForMain(map);
@@ -57,7 +68,7 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                         templateUrl: "html/component/sale/actions.component.html",
                         styleUrls: ["css/component/sale/actions.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [sale_service_1.SaleService, keybinding_service_1.KeyBindingService])
+                    __metadata('design:paramtypes', [sale_service_1.SaleService, keybinding_service_1.KeyBindingService, journal_service_1.JournalService, printer_1.Printer])
                 ], ActionsComponent);
                 return ActionsComponent;
             }());

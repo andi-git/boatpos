@@ -22,5 +22,6 @@ export class ModeService {
 }
 
 export enum Mode {
-    REGKAS
+    REGKAS,
+    STATS
 }

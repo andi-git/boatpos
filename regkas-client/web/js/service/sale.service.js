@@ -76,9 +76,7 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                 };
                 SaleService.prototype.bill = function () {
                     var _this = this;
-                    console.log("bill");
                     if (lang_1.isPresent(this.receiptElements) && this.receiptElements.length > 0) {
-                        console.log("bill #1");
                         this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale("CASH", "Standard-Beleg", this.receiptElements)), { headers: this.configService.getDefaultHeader() })
                             .map(function (res) { return res.json(); })
                             .map(function (billBean) {

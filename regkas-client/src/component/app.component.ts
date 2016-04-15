@@ -18,6 +18,8 @@ import {ActionsComponent} from "./sale/actions.component";
 import {ProductService} from "../service/product.service";
 import {ProductComponent} from "./sale/products.component";
 import {ReceiptComponent} from "./sale/receipt.component";
+import {JournalService} from "../service/journal.service";
+import {StatsComponent} from "./stats/stats.component";
 
 enableProdMode();
 
@@ -25,8 +27,8 @@ enableProdMode();
     selector: 'my-app',
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
-    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent, ReceiptComponent],
-    providers: [InfoService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService]
+    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent, ReceiptComponent, StatsComponent],
+    providers: [InfoService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService, JournalService]
 })
 export class AppComponent implements OnInit {
 

@@ -1,8 +1,9 @@
 import {Injectable} from "angular2/core";
 import {isPresent} from "angular2/src/facade/lang";
 import {ConfigService} from "./service/config.service";
-import {PrettyPrinter} from "./prettyprinter";
+import {PrettyPrinter, Align} from "./prettyprinter";
 import {Bill} from "./model/bill";
+import {Income} from "./model/income";
 // import {JournalReport} from "./model/journalReport";
 
 @Injectable()
@@ -27,7 +28,12 @@ export class Printer {
         request = this.printSumTaxes(bill, builder, request);
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
-        request += builder.createQrCodeElement({model:'model2', level:'level_l', cell:3, data:'https://www.eppel-boote.at'});
+        request += builder.createQrCodeElement({
+            model: 'model2',
+            level: 'level_l',
+            cell: 3,
+            data: 'https://www.eppel-boote.at'
+        });
         this.printPaper(builder, request);
     }
 
@@ -76,7 +82,7 @@ export class Printer {
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax, ''), 6, 'right'));
             request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
         });
-        request += builder.createRuledLineElement({thickness:'medium', width:832});
+        request += builder.createRuledLineElement({thickness: 'medium', width: 832});
         request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
         return request;
     }
@@ -135,49 +141,33 @@ export class Printer {
         trader.sendMessage({request: request});
     }
 
-    // printJournal(journalReport:JournalReport):void {
-    //     if (isPresent(journalReport)) {
-    //         console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end));
-    //         noinspection TypeScriptUnresolvedFunction
-            // var builder = new StarWebPrintBuilder();
-            // var request = builder.createInitializationElement();
-            // request = this.addLogo(builder, request);
-            // request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen");
-            // request = this.blankLine(builder, request);
-            // if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
-            //     request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
-            // } else {
-            //     request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
-            // }
-            // request = this.blankLine(builder, request);
-            // let sum:number = 0;
-            // request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
-            // journalReport.journalReportItems.forEach(jri => {
-            //     request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
-            //     request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(String(jri.count), 10, Align.RIGHT));
-            //     sum += jri.count;
-            // });
-            // request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(String(sum), 10, Align.RIGHT));
-            // request = this.blankLine(builder, request);
-            // sum = 0;
-            // request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
-            // journalReport.journalReportItems.forEach(jri => {
-            //     request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
-            //     request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, Align.RIGHT));
-            //     sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
-            // });
-            // request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
-            // request = this.blankLine(builder, request);
-            // sum = 0;
-            // request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
-            // journalReport.journalReportItems.forEach(jri => {
-            //     request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
-            //     request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, Align.RIGHT));
-            //     sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
-            // });
-            // request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
-            // request = this.printLogo(builder, request, 13, 'center');
-            // this.printPaper(builder, request);
-        // }
-    // }
+    printIncome(income:Income) {
+        if (isPresent(income)) {
+            console.log("print journal between " + this.pp.printDate(income.start) + " and " + this.pp.printDate(income.end));
+            // noinspection TypeScriptUnresolvedFunction
+            var builder = new StarWebPrintBuilder();
+            var request = builder.createInitializationElement();
+            request = this.addLogo(builder, request);
+            request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Buffet");
+            request = this.blankLine(builder, request);
+            if (this.pp.printDate(income.start) === this.pp.printDate(income.end)) {
+                request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(income.start));
+            } else {
+                request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(income.start) + " - " + this.pp.printDate(income.end));
+            }
+            request = this.blankLine(builder, request);
+
+            if (isPresent(income.incomeProductGroups)) {
+                income.incomeProductGroups.forEach(ipg => {
+                    request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(ipg.name, 26, Align.LEFT));
+                    request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength("  " + ipg.taxPercent + "%", 6, Align.LEFT));
+                    request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength("  " + this.pp.ppPrice(ipg.income), 10, Align.RIGHT));
+                });
+            }
+            request += builder.createRuledLineElement({thickness: 'medium', width: 832});
+            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, Align.RIGHT));
+            request = this.printLogo(builder, request, 13, 'center');
+            this.printPaper(builder, request);
+        }
+    }
 }
