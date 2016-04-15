@@ -68,7 +68,6 @@ public class RegkasService {
     public Invocation.Builder createRestCall(Function<WebTarget, WebTarget> addPath) throws Exception {
         WebTarget webTarget = ClientBuilder.newClient().target(getNotNullableSystemProperty("boatpos.regkas.service.rest"));
         webTarget = addPath.apply(webTarget);
-        log.info("call rest on: " + webTarget.getUri());
         return addCredentials(webTarget.request().accept(MediaType.APPLICATION_JSON));
     }
 
