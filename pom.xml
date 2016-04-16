@@ -51,7 +51,7 @@
         <version.guava>18.0</version.guava>
         <version.gson>2.4</version.gson>
         <version.dozer>5.5.1</version.dozer>
-        <version.dozer.jdk8>1.0.1-SNAPSHOT</version.dozer.jdk8>
+        <version.dozer.jdk8>1.0.1</version.dozer.jdk8>
         <version.jep>2.4.2</version.jep>
         <version.commons-codec>1.10</version.commons-codec>
         <!-- test -->
@@ -62,9 +62,9 @@
         <version.wildfly-dist>9.0.2.Final</version.wildfly-dist>
         <version.arquillian-suite-extension>1.1.2</version.arquillian-suite-extension>
         <version.arquillian-osgi>2.1.0.Final</version.arquillian-osgi>
-        <version.arquillian-jacoco>1.0.1.Alpha8</version.arquillian-jacoco>
+        <version.arquillian-jacoco>1.0.0.Alpha8</version.arquillian-jacoco>
         <version.arquillian-transaction>1.0.2.Final</version.arquillian-transaction>
-        <version.arquillian-rest-extension>1.0.1.Alpha4</version.arquillian-rest-extension>
+        <version.arquillian-rest-extension>1.0.0.Alpha4</version.arquillian-rest-extension>
         <version.jacoco>0.7.5.201505241946</version.jacoco>
         <version.javassist>3.18.2-GA</version.javassist>
         <version.mockito>2.0.43-beta</version.mockito>
