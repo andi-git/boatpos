@@ -168,16 +168,14 @@ export class Printer {
             return "20";
         } else if (boat.shortName === "T2") {
             return "21";
-        } else if (boat.shortName === "T2") {
-            return "22";
         } else if (boat.shortName === "T4") {
-            return "23";
+            return "22";
         } else if (boat.shortName === "TR") {
-            return "24";
+            return "23";
         } else if (boat.shortName === "L") {
-            return "25";
+            return "24";
         } else if (boat.shortName === "P") {
-            return "26";
+            return "25";
         }
     }
 

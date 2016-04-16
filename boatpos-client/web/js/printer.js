@@ -177,20 +177,17 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     else if (boat.shortName === "T2") {
                         return "21";
                     }
-                    else if (boat.shortName === "T2") {
+                    else if (boat.shortName === "T4") {
                         return "22";
                     }
-                    else if (boat.shortName === "T4") {
+                    else if (boat.shortName === "TR") {
                         return "23";
                     }
-                    else if (boat.shortName === "TR") {
+                    else if (boat.shortName === "L") {
                         return "24";
                     }
-                    else if (boat.shortName === "L") {
-                        return "25";
-                    }
                     else if (boat.shortName === "P") {
-                        return "26";
+                        return "25";
                     }
                 };
                 Printer.prototype.add5MinuteInfo = function (builder, request) {
