@@ -23,7 +23,6 @@ public class PriceCalculator {
     public static final long TIME_BONUS_IN_MINUTES = 5;
     private static final int SCALE_PRICE = 2;
     private static final int SCALE_CALCULATION = 10;
-    private static final MathContext MATH_CONTEXT_PRICE = new MathContext(SCALE_PRICE, RoundingMode.HALF_UP);
     private static final MathContext MATH_CONTEXT_CALCULATION = new MathContext(SCALE_CALCULATION, RoundingMode.HALF_UP);
     private static final BigDecimal ZERO = new BigDecimal("0.00");
 
@@ -152,7 +151,8 @@ public class PriceCalculator {
             priceCalculated = priceOneHour.get();
         } else {
             BigDecimal priceOneMinute = priceOneHour.get().divide(new BigDecimal("60"), SCALE_CALCULATION, BigDecimal.ROUND_HALF_UP);
-            priceCalculated = priceOneMinute.multiply(new BigDecimal(minutes, MATH_CONTEXT_PRICE), MATH_CONTEXT_CALCULATION);
+            BigDecimal multiplicand = new BigDecimal(minutes, MATH_CONTEXT_CALCULATION);
+            priceCalculated = priceOneMinute.multiply(multiplicand, MATH_CONTEXT_CALCULATION);
         }
         return new PriceCalculatedAfter(scalePrice(priceCalculated));
     }

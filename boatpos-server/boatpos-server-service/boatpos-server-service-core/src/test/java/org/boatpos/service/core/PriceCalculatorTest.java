@@ -14,10 +14,12 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("OctalInteger")
 @RunWith(Arquillian.class)
@@ -168,5 +170,40 @@ public class PriceCalculatorTest {
 
     private void assertCentRound(PriceCalculatedAfter priceCalculatedAfter, PriceCalculatedAfter expected) {
         assertEquals(expected, priceCalculator.round(priceCalculatedAfter));
+    }
+
+    @Test
+    public void testProductionOg20160416() {
+        Boat boat = mock(Boat.class);
+        when(boat.getPriceOneHour()).thenReturn(new PriceOneHour("14.00"));
+        when(boat.getPriceFortyFiveMinutes()).thenReturn(new PriceFortyFiveMinutes("12.00"));
+        when(boat.getPriceThirtyMinutes()).thenReturn(new PriceThirtyMinutes("8.00"));
+        assertCalculation("00.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 0), boat);
+        assertCalculation("00.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 4), boat);
+        assertCalculation("00.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 5), boat);
+        assertCalculation("08.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 6), boat);
+        assertCalculation("08.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 35), boat);
+        assertCalculation("12.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 36), boat);
+        assertCalculation("12.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 50), boat);
+        assertCalculation("14.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 12, 51), boat);
+        assertCalculation("14.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 5), boat);
+        assertCalculation("15.20", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 10), boat);
+        assertCalculation("16.30", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 15), boat);
+        assertCalculation("17.50", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 20), boat);
+        assertCalculation("18.70", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 25), boat);
+        assertCalculation("19.80", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 30), boat);
+        assertCalculation("21.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 35), boat);
+        assertCalculation("22.20", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 40), boat);
+        assertCalculation("23.30", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 45), boat);
+        assertCalculation("24.50", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 50), boat);
+        assertCalculation("25.70", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 13, 55), boat);
+        assertCalculation("26.80", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 14, 00), boat);
+        assertCalculation("28.00", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 14, 05), boat);
+        assertCalculation("29.20", new DepartureTime(2016, 4, 16, 12, 0), new ArrivalTime(2016, 4, 16, 14, 10), boat);
+    }
+
+    private void assertCalculation(String expected, DepartureTime departureTime, ArrivalTime arrivalTime, Boat boat) {
+        PriceCalculatedAfter calculate = priceCalculator.calculate(departureTime, arrivalTime, boat, Optional.empty());
+        assertEquals(new BigDecimal(expected), calculate.get());
     }
 }

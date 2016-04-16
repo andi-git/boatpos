@@ -28,7 +28,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,regkas-server-service-api</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,regkas-server-service-api,mockito-core,byte-buddy,objenesis</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -83,6 +83,12 @@
             <artifactId>boatpos-server-test-model</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+            <version>${version.mockito}</version>
         </dependency>
     </dependencies>
 </project>
