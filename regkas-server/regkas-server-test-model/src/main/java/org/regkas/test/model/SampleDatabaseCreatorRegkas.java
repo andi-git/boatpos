@@ -13,6 +13,7 @@ import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -75,8 +76,8 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         ReceiptTypeEntity receiptType3 = new ReceiptTypeEntity(null, null, true, 3, "", "", "Storno-Beleg");
         ReceiptTypeEntity receiptType4 = new ReceiptTypeEntity(null, null, true, 4, "", "", "Training-Beleg");
         ReceiptTypeEntity receiptType5 = new ReceiptTypeEntity(null, null, true, 5, "", "", "Null-Beleg");
-        ReceiptEntity receipt1 = new ReceiptEntity(null, null, "2015-0000001", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, TimeType.Current, new HashSet<>());
-        ReceiptEntity receipt2 = new ReceiptEntity(null, null, "2015-0000002", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, TimeType.Current, new HashSet<>());
+        ReceiptEntity receipt1 = new ReceiptEntity(null, null, "2015-0000001", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, TimeType.Current, new ArrayList<>());
+        ReceiptEntity receipt2 = new ReceiptEntity(null, null, "2015-0000002", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, TimeType.Current, new ArrayList<>());
         ReceiptElementEntity receiptElement11 = new ReceiptElementEntity(null, null, product2, receipt1, new BigDecimal("5.00"), 2);
         ReceiptElementEntity receiptElement12 = new ReceiptElementEntity(null, null, product3, receipt1, new BigDecimal("6.00"), 3);
         ReceiptElementEntity receiptElement21 = new ReceiptElementEntity(null, null, product4, receipt2, new BigDecimal("11.00"), 5);

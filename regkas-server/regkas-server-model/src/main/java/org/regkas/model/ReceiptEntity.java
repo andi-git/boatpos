@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Representation of a receipt.
@@ -65,7 +65,7 @@ public class ReceiptEntity extends AbstractEntity {
     @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Expose
-    private Set<ReceiptElementEntity> receiptElements;
+    private List<ReceiptElementEntity> receiptElements;
 
     @Expose
     @Enumerated(EnumType.STRING)
@@ -78,7 +78,7 @@ public class ReceiptEntity extends AbstractEntity {
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, Set<ReceiptElementEntity> receiptElements) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, List<ReceiptElementEntity> receiptElements) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -157,11 +157,11 @@ public class ReceiptEntity extends AbstractEntity {
         this.receiptType = receiptType;
     }
 
-    public Set<ReceiptElementEntity> getReceiptElements() {
+    public List<ReceiptElementEntity> getReceiptElements() {
         return receiptElements;
     }
 
-    public void setReceiptElements(Set<ReceiptElementEntity> receiptElements) {
+    public void setReceiptElements(List<ReceiptElementEntity> receiptElements) {
         this.receiptElements = receiptElements;
     }
 

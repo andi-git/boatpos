@@ -25,7 +25,7 @@ public class BillTaxSetElementBean extends AbstractBean {
     @NotNull
     @Min(0)
     @Expose
-    private Integer priority;
+    private Integer amount;
 
     @NotNull
     @Expose
@@ -43,10 +43,10 @@ public class BillTaxSetElementBean extends AbstractBean {
 
     }
 
-    public BillTaxSetElementBean(String name, Integer taxPercent, Integer priority, BigDecimal pricePreTax, BigDecimal priceAfterTax, BigDecimal priceTax) {
+    public BillTaxSetElementBean(String name, Integer taxPercent, Integer amount, BigDecimal pricePreTax, BigDecimal priceAfterTax, BigDecimal priceTax) {
         this.name = name;
         this.taxPercent = taxPercent;
-        this.priority = priority;
+        this.amount = amount;
         this.pricePreTax = pricePreTax;
         this.priceAfterTax = priceAfterTax;
         this.priceTax = priceTax;
@@ -68,12 +68,12 @@ public class BillTaxSetElementBean extends AbstractBean {
         this.taxPercent = taxPercent;
     }
 
-    public Integer getPriority() {
-        return priority;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public BigDecimal getPricePreTax() {

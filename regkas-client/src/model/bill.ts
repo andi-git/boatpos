@@ -91,20 +91,20 @@ export class TaxSetElement {
 
     name:string;
     taxPercent:number;
-    priority:number;
+    amount:number;
     pricePreTax:number;
     priceAfterTax:number;
     priceTax:number;
 
     constructor(name:string,
                 taxPercent:number,
-                priority:number,
+                amount:number,
                 pricePreTax:number,
                 priceAfterTax:number,
                 priceTax:number) {
         this.name = name;
         this.taxPercent = taxPercent;
-        this.priority = priority;
+        this.amount = amount;
         this.pricePreTax = pricePreTax;
         this.priceAfterTax = priceAfterTax;
         this.priceTax = priceTax;

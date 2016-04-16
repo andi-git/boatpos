@@ -62,41 +62,21 @@ public enum TaxSet {
     }
 
     private void addToBillInternal(ReceiptElement receiptElement, BillBean bill) {
-        boolean exists = false;
-        // if there is already an existing tax-set-element
-        for (BillTaxSetElementBean taxSetElement : bill.getBillTaxSetElements()) {
-            if (receiptElement.getProduct().getProductGroup().getName().get().equals(taxSetElement.getName())) {
-                // calculate total price
-                BigDecimal newTotalPrice = taxSetElement.getPriceAfterTax().add(receiptElement.getTotalPrice().get());
-                // update sum of the tax
-                sumTaxSetter().set(bill, sumTaxGetter().get(bill).add(receiptElement.getTotalPrice().get()));
-                // update tax-set-element
-                getBillPriceSetter().set(taxSetElement, receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get(), newTotalPrice);
-                // update total-price
-                bill.setSumTotal(bill.getSumTotal().add(receiptElement.getTotalPrice().get()));
-                exists = true;
-                break;
-            }
-        }
-        // if there is not an existing tax-set-element
-        if (!exists) {
-            // create the tax-set-element (based on product-group)
-            BillTaxSetElementBean taxSetElement = convertToTaxSetElement(receiptElement);
-            bill.getBillTaxSetElements().add(taxSetElement);
-            // sort the list
-            bill.getBillTaxSetElements().sort((b1, b2) -> b1.getPriority().compareTo(b2.getPriority()));
-            // update the sum of the tax
-            sumTaxSetter().set(bill, sumTaxGetter().get(bill).add(receiptElement.getTotalPrice().get()));
-            // update total-sum
-            bill.setSumTotal(bill.getSumTotal().add(receiptElement.getTotalPrice().get()));
-        }
+        // add relement to bill
+        bill.getBillTaxSetElements().add(convertToTaxSetElement(receiptElement));
+        // update tax sum
+        sumTaxSetter().set(bill, sumTaxGetter().get(bill).add(receiptElement.getTotalPrice().get()));
+        // update total sum
+        bill.setSumTotal(bill.getSumTotal().add(receiptElement.getTotalPrice().get()));
     }
 
     private BillTaxSetElementBean convertToTaxSetElement(ReceiptElement receiptElement) {
         BillTaxSetElementBean taxSetElement = new BillTaxSetElementBean();
-        taxSetElement.setName(receiptElement.getProduct().getProductGroup().getName().get());
+        taxSetElement.setName(receiptElement.getProduct().isGeneric().get() ?
+                receiptElement.getProduct().getProductGroup().getName().get() :
+                receiptElement.getProduct().getName().get());
         taxSetElement.setTaxPercent(receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get());
-        taxSetElement.setPriority(receiptElement.getProduct().getProductGroup().getPriority().get());
+        taxSetElement.setAmount(receiptElement.getAmount().get());
         getBillPriceSetter().set(taxSetElement, receiptElement.getProduct().getProductGroup().getTaxSet().getTaxPercent().get(), receiptElement.getTotalPrice().get());
         return taxSetElement;
     }

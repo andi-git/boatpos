@@ -79,6 +79,7 @@ public class SaleServiceCore implements SaleService {
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
+                System.out.println("add " + receiptElementBean.getProduct().getName());
                 receiptBuilder.add(receiptElementRepository
                         .builder()
                         .add(new Amount(receiptElementBean.getAmount()))
@@ -99,6 +100,7 @@ public class SaleServiceCore implements SaleService {
         bill.setSignatureCertificateSerialNumber("");
         bill.setSignatureValuePreviousReceipt("");
         for (ReceiptElement receiptElement : receipt.getReceiptElements()) {
+            System.out.println("add " + receiptElement.getProduct().getName().get() + ", " + receiptElement.getId().get());
             TaxSet.addToBill(receiptElement, bill);
         }
         return bill;

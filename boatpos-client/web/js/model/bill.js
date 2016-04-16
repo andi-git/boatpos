@@ -48,10 +48,10 @@ System.register([], function(exports_1) {
             })();
             exports_1("Company", Company);
             TaxSetElement = (function () {
-                function TaxSetElement(name, taxPercent, priority, pricePreTax, priceAfterTax, priceTax) {
+                function TaxSetElement(name, taxPercent, amount, pricePreTax, priceAfterTax, priceTax) {
                     this.name = name;
                     this.taxPercent = taxPercent;
-                    this.priority = priority;
+                    this.amount = amount;
                     this.pricePreTax = pricePreTax;
                     this.priceAfterTax = priceAfterTax;
                     this.priceTax = priceTax;

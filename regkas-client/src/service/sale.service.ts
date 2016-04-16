@@ -116,7 +116,7 @@ export class SaleService {
             taxSetElements.push(new TaxSetElement(
                 tse.name,
                 tse.taxPercent,
-                tse.priority,
+                tse.amount,
                 tse.pricePreTax,
                 tse.priceAfterTax,
                 tse.priceTax

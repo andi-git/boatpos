@@ -1,6 +1,6 @@
 package org.regkas.repository.core.model;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import org.boatpos.common.model.PaymentMethod;
 import org.junit.Test;
 import org.regkas.model.TimeType;
@@ -31,7 +31,7 @@ public class ReceiptCoreTest {
         receipt.addReceiptElement(ReceiptElementBuilderCoreTest.build());
         assertEquals(1, receipt.getReceiptElements().size());
         receipt.clearReceiptElements();
-        receipt.addReceiptElements(Sets.newHashSet(ReceiptElementBuilderCoreTest.build()));
+        receipt.addReceiptElements(Lists.newArrayList(ReceiptElementBuilderCoreTest.build()));
         assertEquals(1, receipt.getReceiptElements().size());
     }
 }

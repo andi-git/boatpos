@@ -13,7 +13,9 @@ import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.core.model.ReceiptCore;
 
 import javax.enterprise.context.Dependent;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Dependent
@@ -41,7 +43,7 @@ public class ReceiptBuilderCore
 
     private TimeType timeType;
 
-    private Set<ReceiptElement> receiptElements = new HashSet<>();
+    private List<ReceiptElement> receiptElements = new ArrayList<>();
 
     @Override
     public Receipt build() {

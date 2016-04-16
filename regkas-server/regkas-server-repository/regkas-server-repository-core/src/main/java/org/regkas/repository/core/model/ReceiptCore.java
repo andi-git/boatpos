@@ -17,7 +17,7 @@ import org.regkas.repository.core.mapping.ReceiptMapping;
 import org.regkas.service.api.bean.ReceiptBean;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,7 +36,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        CashBox cashBox,
                        PaymentMethod paymentMethod,
                        TimeType timeType,
-                       Set<ReceiptElement> receiptElements) {
+                       List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
         checkNotNull(receiptDate, "'receiptDate' must not be null");
@@ -164,7 +164,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         if (paymentMethod != null) getEntity().setPaymentMethod(paymentMethod);
         return this;
     }
-    
+
     @Override
     public TimeType getTimeType() {
         return getEntity().getTimeType();
@@ -177,17 +177,17 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     }
 
     @Override
-    public Set<ReceiptElement> getReceiptElements() {
-        return Collections.unmodifiableSet(getEntity().getReceiptElements().stream().map(ReceiptElementCore::new).collect(Collectors.toSet()));
+    public List<ReceiptElement> getReceiptElements() {
+        return Collections.unmodifiableList(getEntity().getReceiptElements().stream().map(ReceiptElementCore::new).collect(Collectors.toList()));
     }
 
     @Override
-    public Receipt addReceiptElements(Set<ReceiptElement> receiptElements) {
+    public Receipt addReceiptElements(List<ReceiptElement> receiptElements) {
         if (receiptElements != null) {
             receiptElements.stream().map(DomainModel::asEntity).forEach((re) -> re.setReceipt(getEntity()));
             getEntity().setReceiptElements(receiptElements.stream()
                     .map(DomainModel::asEntity)
-                    .collect(Collectors.toSet()));
+                    .collect(Collectors.toList()));
         }
         return this;
     }

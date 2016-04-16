@@ -10,6 +10,7 @@ import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.service.api.bean.ReceiptBean;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,9 +58,9 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     Receipt setTimeType(TimeType timeType);
 
-    Set<ReceiptElement> getReceiptElements();
+    List<ReceiptElement> getReceiptElements();
 
-    Receipt addReceiptElements(Set<ReceiptElement> receiptElements);
+    Receipt addReceiptElements(List<ReceiptElement> receiptElements);
 
     Receipt addReceiptElement(ReceiptElement receiptElement);
 
