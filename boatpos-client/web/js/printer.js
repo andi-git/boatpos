@@ -117,18 +117,18 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                 Printer.prototype.printTaxSetElements = function (bill, builder, request) {
                     var _this = this;
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('     ', 4, 'left'));
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produktgruppe', 16, 'left'));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produkt', 16, 'left'));
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 4, 'left'));
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Netto', 8, 'right'));
                     request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('MWST', 6, 'right'));
-                    request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 10, 'right'));
+                    request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 8, 'right'));
                     bill.taxSetElements.forEach(function (tse) {
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.amount + ' ', 4, 'left'));
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.name, 16, 'left'));
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.taxPercent + '%', 4, 'right'));
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.pricePreTax), 8, 'right'));
                         request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceTax), 6, 'right'));
-                        request = _this.printLine(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 10, 'right'));
+                        request = _this.printLine(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 8, 'right'));
                     });
                     request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                     request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
