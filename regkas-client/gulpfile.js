@@ -99,14 +99,14 @@ gulp.task('express', function () {
     var express = require('express');
     var app = express();
     app.use(require('connect-livereload')({
-        port: 35729
+        port: 35829
     }));
     app.use(express.static(__dirname + '/web'));
-    app.listen(4000, '0.0.0.0');
+    app.listen(4100, '0.0.0.0');
 });
 gulp.task('livereload', function () {
     tinylr = require('tiny-lr')();
-    tinylr.listen(35729);
+    tinylr.listen(35829);
 });
 gulp.task('watch.web', function () {
     gulp.watch('web/**', notifyLiveReload);

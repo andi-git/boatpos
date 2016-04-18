@@ -23,4 +23,12 @@ export class MenuComponent {
         this.infoService.event().emit("'Statistiken' wird angezeigt.");
         this.modeService.event().emit(Mode.STATS);
     }
+
+    private reload() {
+        location.reload();
+    }
+
+    private close() {
+        window.close();
+    }
 }

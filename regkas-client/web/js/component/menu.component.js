@@ -42,6 +42,12 @@ System.register(['angular2/core', "./../service/mode.service", "./../service/inf
                     this.infoService.event().emit("'Statistiken' wird angezeigt.");
                     this.modeService.event().emit(mode_service_2.Mode.STATS);
                 };
+                MenuComponent.prototype.reload = function () {
+                    location.reload();
+                };
+                MenuComponent.prototype.close = function () {
+                    window.close();
+                };
                 MenuComponent = __decorate([
                     core_1.Component({
                         selector: 'mainmenu',
