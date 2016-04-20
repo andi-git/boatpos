@@ -6,8 +6,8 @@ import {ConfigService} from "./../service/config.service";
 
 @Component({
     selector: 'mainmenu',
-    templateUrl: "../html/component/menu.component.html",
-    styleUrls: ["../css/component/menu.component.css"]
+    templateUrl: "html/component/menu.component.html",
+    styleUrls: ["css/component/menu.component.css"]
 })
 export class MenuComponent {
 
