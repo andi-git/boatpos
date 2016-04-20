@@ -53,8 +53,8 @@ System.register(['angular2/core', "./../service/mode.service", "./../service/inf
                 MenuComponent = __decorate([
                     core_1.Component({
                         selector: 'mainmenu',
-                        templateUrl: "../html/component/menu.component.html",
-                        styleUrls: ["../css/component/menu.component.css"]
+                        templateUrl: "html/component/menu.component.html",
+                        styleUrls: ["css/component/menu.component.css"]
                     }), 
                     __metadata('design:paramtypes', [mode_service_1.ModeService, info_service_1.InfoService, config_service_1.ConfigService])
                 ], MenuComponent);

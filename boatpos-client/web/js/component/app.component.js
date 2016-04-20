@@ -108,8 +108,8 @@ System.register(['angular2/core', "./../service/boat.service", "./../service/con
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
-                        templateUrl: "../html/component/app.component.html",
-                        styleUrls: ["../css/component/app.component.css"],
+                        templateUrl: "html/component/app.component.html",
+                        styleUrls: ["css/component/app.component.css"],
                         directives: [boats_component_1.BoatsComponent, commitments_component_1.CommitmentsComponent, promotionsBefore_component_1.PromotionsBeforeComponent, boatCount_component_1.BoatCountComponent, info_component_1.InfoComponent, menu_component_1.MenuComponent, action_component_1.ActionComponent, statistik_component_1.StatistikComponent, rentals_component_1.RentalsComponent, stats_component_1.StatsComponent, version_component_1.VersionComponent],
                         providers: [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, config_service_1.ConfigService, info_service_1.InfoService, rental_service_1.RentalService, http_1.HTTP_PROVIDERS, angular2_modal_1.Modal, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer, journal_service_1.JournalService, mode_service_1.ModeService]
                     }), 
