@@ -5,7 +5,7 @@
     <parent>
         <artifactId>regkas-server-service</artifactId>
         <groupId>org.boatpos</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -67,7 +67,7 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>1.0.2.Final</version>
+                        <version>${version.wildfly-maven-plugin}</version>
                         <executions>
                             <execution>
                                 <phase>install</phase>
