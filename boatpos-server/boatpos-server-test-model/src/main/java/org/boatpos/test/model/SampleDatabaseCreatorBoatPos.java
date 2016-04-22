@@ -62,6 +62,7 @@ public class SampleDatabaseCreatorBoatPos implements SampleDatabaseCreator {
         RentalEntity rental10 = new RentalEntity(null, 1, 6, LocalDate.of(2015, 7, 31), boat1, LocalDateTime.of(2015, 7, 31, 12, 00), LocalDateTime.of(2015, 7, 31, 13, 00), null, new BigDecimal("20.00"), null, new BigDecimal("20.00"), true, false, false, null, PaymentMethod.CASH, null, new HashSet<>(), null);
         RentalEntity rental11 = new RentalEntity(null, 1, 6, LocalDate.of(2015, 7, 31), boat1, LocalDateTime.of(2015, 7, 31, 13, 00), LocalDateTime.of(2015, 7, 31, 14, 00), null, new BigDecimal("20.00"), null, new BigDecimal("20.00"), true, false, false, null, PaymentMethod.CASH, null, new HashSet<>(), null);
         HolidayEntity holiday = new HolidayEntity(null, 1, LocalDate.of(2015, 8, 15), "Mariä Himmelfahrt");
+        PrinterEntity printer = new PrinterEntity(null, 0, "192.168.0.11", 1);
 
         boat1.getRentals().add(rental1);
         boat1.getRentals().add(rental3);
@@ -107,6 +108,7 @@ public class SampleDatabaseCreatorBoatPos implements SampleDatabaseCreator {
         em.persist(rental10);
         em.persist(rental11);
         em.persist(holiday);
+        em.persist(printer);
         em.flush();
     }
 
@@ -124,6 +126,7 @@ public class SampleDatabaseCreatorBoatPos implements SampleDatabaseCreator {
             em.createNativeQuery("DELETE FROM rental_commitment").executeUpdate();
             em.createNativeQuery("DELETE FROM promotion_rental").executeUpdate();
             em.createNativeQuery("DELETE FROM holiday").executeUpdate();
+            em.createNativeQuery("DELETE FROM printer").executeUpdate();
             em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
             // reset sequence for ids and clear cache
             em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();

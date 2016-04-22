@@ -9,6 +9,7 @@
         <mapping-file>META-INF/query/rental.xml</mapping-file>
         <mapping-file>META-INF/query/journal.xml</mapping-file>
         <mapping-file>META-INF/query/holiday.xml</mapping-file>
+        <mapping-file>META-INF/query/printer.xml</mapping-file>
         <class>org.boatpos.model.BoatEntity</class>
         <class>org.boatpos.model.RentalEntity</class>
         <class>org.boatpos.model.PromotionEntity</class>

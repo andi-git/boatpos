@@ -3,6 +3,7 @@ package org.regkas.repository.core.builder;
 import org.boatpos.common.repository.api.values.*;
 import org.junit.Test;
 import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.values.IpAddress;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
 
@@ -24,6 +25,7 @@ public class CashBoxBuilderCoreTest {
                 .add(new Priority(1))
                 .add(new Name("cashbox-id"))
                 .add(new SignatureCertificateSerialNumber("xyz"))
+                .add(new IpAddress("192.168.0.11"))
                 .build();
     }
 }

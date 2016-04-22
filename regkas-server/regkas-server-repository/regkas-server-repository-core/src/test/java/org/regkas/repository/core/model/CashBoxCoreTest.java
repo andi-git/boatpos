@@ -13,5 +13,6 @@ public class CashBoxCoreTest {
         CashBox cashBox = CashBoxBuilderCoreTest.build();
         assertEquals("cashbox-id", cashBox.getName().get());
         assertEquals("xyz", cashBox.getSignatureCertificateSerialNumber().get());
+        assertEquals("192.168.0.11", cashBox.getPrinterIpAddress().get());
     }
 }

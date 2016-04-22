@@ -1,15 +1,17 @@
-package org.regkas.model;
+package org.boatpos.model;
 
 import org.boatpos.common.test.JavaBeanTest;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.time.LocalDate;
+
 @RunWith(Arquillian.class)
-public class CashBoxEntityTest extends JavaBeanTest<CashBoxEntity> {
+public class PrinterEntityTest extends JavaBeanTest<PrinterEntity> {
 
     @Test
     public void testConstructor() {
-        new CashBoxEntity(1L, 1, true, 1, "", "", "name", "serial", new CompanyEntity(), "");
+        new PrinterEntity(1L, 1, "0.0.0.0", 1);
     }
 }

@@ -2,6 +2,7 @@ package org.regkas.repository.api.model;
 
 import org.boatpos.common.repository.api.model.MasterData;
 import org.regkas.model.CashBoxEntity;
+import org.regkas.repository.api.values.IpAddress;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
 
@@ -17,4 +18,8 @@ public interface CashBox extends MasterData<CashBox, CashBoxEntity> {
     SignatureCertificateSerialNumber getSignatureCertificateSerialNumber();
 
     CashBox setSignatureCertificateSerialNumber(SignatureCertificateSerialNumber signatureCertificateSerialNumber);
+
+    IpAddress getPrinterIpAddress();
+
+    CashBox setPrinterIpAddress(IpAddress printerIpAddress);
 }

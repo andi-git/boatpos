@@ -10,6 +10,7 @@ import org.boatpos.repository.api.repository.*;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.HolidayBean;
+import org.boatpos.service.api.bean.PrinterBean;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -257,6 +258,41 @@ public class TestUtil {
 
         public HolidayBean createDummyHolidayBean() {
             return new HolidayBean(1L, 1, LocalDate.of(2015, 5, 1), "Staatsfeiertag");
+        }
+    }
+
+
+    @Dependent
+    public static class PrinterUtil {
+
+        @Inject
+        @Current
+        private EntityManager entityManager;
+
+        @Inject
+        private DateTimeHelper dateTimeHelper;
+
+        @Inject
+        private PrinterRepository printerRepository;
+
+        @SuppressWarnings({"SqlNoDataSourceInspection", "SqlDialectInspection"})
+        public void assertDatabasePrinterCount(int count) {
+            assertEquals(count, ((BigInteger) entityManager.createNativeQuery("SELECT COUNT(*) FROM printer").getSingleResult()).intValue());
+        }
+
+        public Printer createDummyPrinter() {
+            return createDummyPrinterBuilder().build();
+        }
+
+        public PrinterBuilder createDummyPrinterBuilder() {
+            return printerRepository.builder()
+                    .add(new Version(1))
+                    .add(new IpAddress("192.168.0.11"))
+                    .add(new Priority(1));
+        }
+
+        public PrinterBean createDummyPrinterBean() {
+            return new PrinterBean(1L, 1, "192.168.0.11");
         }
     }
 }

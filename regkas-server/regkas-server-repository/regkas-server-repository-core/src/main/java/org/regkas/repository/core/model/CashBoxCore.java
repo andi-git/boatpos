@@ -4,6 +4,7 @@ import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.values.IpAddress;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
 
@@ -19,12 +20,15 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
                        PictureUrl pictureUrl,
                        PictureUrlThumb pictureUrlThumb,
                        Name name,
-                       SignatureCertificateSerialNumber signatureCertificateSerialNumber) {
+                       SignatureCertificateSerialNumber signatureCertificateSerialNumber,
+                       IpAddress printerIpAddress) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(signatureCertificateSerialNumber, "'signatureCertificateSerialNumber' must not be null");
+        checkNotNull(printerIpAddress, "'printerIpAddress' must not be null");
         setName(name);
         setSignatureCertificateSerialNumber(signatureCertificateSerialNumber);
+        setPrinterIpAddress(printerIpAddress);
     }
 
     public CashBoxCore(CashBoxEntity cashBox) {
@@ -50,6 +54,17 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
     @Override
     public CashBox setSignatureCertificateSerialNumber(SignatureCertificateSerialNumber signatureCertificateSerialNumber) {
         getEntity().setSignatureCertificateSerialNumber(SimpleValueObject.nullSafe(signatureCertificateSerialNumber));
+        return this;
+    }
+
+    @Override
+    public IpAddress getPrinterIpAddress() {
+        return new IpAddress(getEntity().getPrinterIpAddress());
+    }
+
+    @Override
+    public CashBox setPrinterIpAddress(IpAddress printerIpAddress) {
+        getEntity().setPrinterIpAddress(SimpleValueObject.nullSafe(printerIpAddress));
         return this;
     }
 }

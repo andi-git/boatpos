@@ -38,8 +38,8 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         AddressEntity address2 = new AddressEntity(null, null, "Street 2", "1220", "Vienna", "Austria", new HashSet<>());
         UserEntity user1 = new UserEntity(null, null, true, 1, "", "", "Maria Musterfrau", DigestUtils.sha1Hex("abc123"), null);
         UserEntity user2 = new UserEntity(null, null, true, 2, "", "", "Max Mustermann", DigestUtils.sha1Hex("xyz789"), null);
-        CashBoxEntity cashBox1 = new CashBoxEntity(null, null, true, 1, "", "", "RegKas1", "123", null);
-        CashBoxEntity cashBox2 = new CashBoxEntity(null, null, true, 2, "", "", "RegKas2", "456", null);
+        CashBoxEntity cashBox1 = new CashBoxEntity(null, null, true, 1, "", "", "RegKas1", "123", null, "192.168.0.11");
+        CashBoxEntity cashBox2 = new CashBoxEntity(null, null, true, 2, "", "", "RegKas2", "456", null, "192.168.0.21");
         CompanyEntity company = new CompanyEntity(null, null, true, 1, "", "", "company", address1, "+431123456789", "office@company.com", "atu123", Sets.newHashSet(cashBox1, cashBox2), Sets.newHashSet(user1, user2), Sets.newHashSet());
         cashBox1.setCompany(company);
         cashBox2.setCompany(company);
@@ -119,8 +119,8 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         // company Eppel
         AddressEntity addressEppel = new AddressEntity(null, null, "Wagramerstraße 48a", "1220", "Wien", "Österreich", new HashSet<>());
         UserEntity userEppel = new UserEntity(null, null, true, 1, "", "", "Eppel", DigestUtils.sha1Hex("test123"), null);
-        CashBoxEntity cashBoxEppelBootsvermietung = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBV", "", null);
-        CashBoxEntity cashBoxEppelBuffet = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBuffet", "", null);
+        CashBoxEntity cashBoxEppelBootsvermietung = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBV", "", null, "192.168.0.11");
+        CashBoxEntity cashBoxEppelBuffet = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBuffet", "", null, "192.168.0.12");
         CompanyEntity companyEppel = new CompanyEntity(null, null, true, 1, "", "", "EPPEL BOOTE", addressEppel, "+4312633530", "office@eppel-boote.at", "ATU63304105", Sets.newHashSet(cashBoxEppelBootsvermietung, cashBoxEppelBuffet), Sets.newHashSet(userEppel), Sets.newHashSet());
         cashBoxEppelBootsvermietung.setCompany(companyEppel);
         cashBoxEppelBuffet.setCompany(companyEppel);

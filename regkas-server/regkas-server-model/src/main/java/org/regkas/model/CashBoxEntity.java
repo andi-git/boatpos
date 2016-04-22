@@ -36,15 +36,20 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @Expose
     private CompanyEntity company;
 
+    @Size(min = 5, max = 15)
+    @Expose
+    private String printerIpAddress;
+
     public CashBoxEntity() {
 
     }
 
-    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company) {
+    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress) {
         super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
         this.company = company;
+        this.printerIpAddress = printerIpAddress;
     }
 
     public String getName() {
@@ -69,5 +74,13 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
 
     public void setCompany(CompanyEntity company) {
         this.company = company;
+    }
+
+    public String getPrinterIpAddress() {
+        return printerIpAddress;
+    }
+
+    public void setPrinterIpAddress(String printerIpAddress) {
+        this.printerIpAddress = printerIpAddress;
     }
 }
