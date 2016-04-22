@@ -5,18 +5,15 @@ import {Modal, ModalConfig, ICustomModal, ModalDialogInstance, ICustomModalCompo
 import {RentalService} from "service/rental.service";
 import {Rental} from "model/rental";
 import {isPresent} from "angular2/src/facade/lang";
-import {Boat} from "model/boat";
-import {PromotionBefore} from "model/promotion";
-import {PromotionAfter} from "model/promotion";
-import {Commitment} from "model/commitment";
 import {KeyBindingService} from "service/keybinding.service";
 import {PrettyPrinter} from "prettyprinter";
 import {Printer} from "printer";
 import {Bill} from "model/bill";
 import {Payment} from "../../model/payment";
+import {ModalDialogInstance, ICustomModalComponent, ICustomModal} from "angular2-modal/dist/angular2-modal";
 
 export class ModalArrivalContext {
-    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public printer:Printer, public pp:PrettyPrinter) {
+    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public printer:Printer, public pp:PrettyPrinter, public printerIp:string) {
     }
 }
 
@@ -150,6 +147,7 @@ export class ModalArrival implements ICustomModalComponent {
     private state:string;
     private rental:Rental;
     private commitmentReturn:boolean = false;
+    private printerIp:string;
 
     private price:string;
     private originalPrice:string;
@@ -167,6 +165,7 @@ export class ModalArrival implements ICustomModalComponent {
         this.rentalNumber = (<ModalArrivalContext>modelContentData).rentalNumber;
         this.printer = (<ModalArrivalContext>modelContentData).printer;
         this.pp = (<ModalArrivalContext>modelContentData).pp;
+        this.printerIp = (<ModalArrivalContext>modelContentData).printerIp;
         let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
@@ -349,7 +348,7 @@ export class ModalArrival implements ICustomModalComponent {
 
     private pay(payment:Payment) {
         this.rentalService.payAfter(payment).subscribe((bill:Bill) => {
-                this.printer.printBill(bill);
+                this.printer.printBill(bill, this.printerIp);
                 //noinspection TypeScriptUnresolvedFunction
                 this.dialog.close("ok");
             },

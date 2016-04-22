@@ -1,5 +1,5 @@
-import {Component, Inject, Injector, Renderer, ElementRef, KeyValueDiffers, IterableDiffers, provide, NgZone} from 'angular2/core';
-import {Boat} from '../../model/boat';
+import {Component} from "angular2/core";
+import {Boat} from "../../model/boat";
 import {BoatService} from "../../service/boat.service";
 import {InfoService} from "../../service/info.service";
 import {CommitmentService} from "../../service/commitment.service";
@@ -8,21 +8,16 @@ import {Commitment} from "../../model/commitment";
 import {PromotionBefore} from "../../model/promotion";
 import {Departure} from "../../model/departure";
 import {RentalService} from "../../service/rental.service";
-import {Rental} from "../../model/rental";
 //noinspection TypeScriptCheckImport
 import {Modal, ModalConfig, ICustomModal, ModalDialogInstance} from "lib/angular2-modal";
 import {ModalInfoContext, ModalDelete} from "./modalInfo";
 import {isPresent} from "angular2/src/facade/lang";
 import {KeyBindingService} from "../../service/keybinding.service";
-import {Injectable} from "angular2/core";
 import {ModalHandler} from "../../modalHandler";
-import {ModalDeletedContext} from "./modalDeleted";
-import {ModalDeleted} from "./modalDeleted";
+import {ModalDeletedContext, ModalDeleted} from "./modalDeleted";
 import {PrettyPrinter} from "../../prettyprinter";
-import {ModalPromotionPay} from "./modalPromotionPay";
-import {ModalPromotionPayContext} from "./modalPromotionPay";
-import {ModalArrival} from "./modalArrival";
-import {ModalArrivalContext} from "./modalArrival";
+import {ModalPromotionPay, ModalPromotionPayContext} from "./modalPromotionPay";
+import {ModalArrival, ModalArrivalContext} from "./modalArrival";
 import {ConfigService} from "../../service/config.service";
 import {Printer} from "../../printer";
 import {JournalService} from "../../service/journal.service";
@@ -47,8 +42,9 @@ export class ActionComponent {
                 private keyBinding:KeyBindingService,
                 private modalHandler:ModalHandler,
                 private pp:PrettyPrinter,
-                private printer:Printer) {
-        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
+                private printer:Printer,
+                private config:ConfigService) {
+        let map:{[key:string]:((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
             },
@@ -74,7 +70,7 @@ export class ActionComponent {
                 this.depart(this.boatService.getBoatByShortName('T4'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
             },
             'W': () => {
-                this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport));
+                this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
             }
         };
         for (var i = 0; i <= 9; i++) {
@@ -112,7 +108,7 @@ export class ActionComponent {
                                 this.resetUi();
                                 this.keyBinding.focusMain();
                                 if (isPresent(rental.pricePaidBefore) && rental.pricePaidBefore > 0) {
-                                    this.printer.printDepart(rental);
+                                    this.printer.printDepart(rental, this.config.getPrinterIp());
                                     this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                 } else {
                                     this.infoService.event().emit("Vermietung mit Nummer " + rental.dayId + " wurde abgebrochen (gelöscht).");
@@ -126,7 +122,7 @@ export class ActionComponent {
                             });
                         });
                     } else {
-                        this.printer.printDepart(rental);
+                        this.printer.printDepart(rental, this.config.getPrinterIp());
                         this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                         this.boatService.updateStats();
                         this.resetUi();
@@ -233,7 +229,7 @@ export class ActionComponent {
             this.infoService.event().emit("Verrechnung nicht möglich: keine Nummer eingegeben.")
         } else {
             this.infoService.event().emit("Verrechnung der Nummer " + this.rentalNumber + ".");
-            this.modalHandler.open(ModalArrival, new ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp)).then((resultPromise) => {
+            this.modalHandler.open(ModalArrival, new ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp, this.config.getPrinterIp())).then((resultPromise) => {
                 //noinspection TypeScriptUnresolvedVariable
                 return resultPromise.result.then((result) => {
                     this.lastModalResult = result;

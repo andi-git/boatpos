@@ -1,10 +1,7 @@
-import {Component, OnInit, enableProdMode} from 'angular2/core';
-import {Boat} from './../model/boat';
+import {Component, OnInit, enableProdMode} from "angular2/core";
 import {BoatService} from "./../service/boat.service";
 import {ConfigService} from "./../service/config.service";
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import {Config} from "./../model/config";
-import {Observable} from "rxjs/Observable";
+import {HTTP_PROVIDERS} from "angular2/http";
 import {BoatsComponent} from "./rental/boats.component";
 import {CommitmentsComponent} from "./rental/commitments.component";
 import {CommitmentService} from "./../service/commitment.service";
@@ -24,11 +21,11 @@ import {PrettyPrinter} from "./../prettyprinter";
 import {StatistikComponent} from "./rental/statistik.component";
 import {Printer} from "./../printer";
 import {JournalService} from "./../service/journal.service";
-import {ModeService} from "./../service/mode.service";
-import {Mode} from "./../service/mode.service";
+import {ModeService, Mode} from "./../service/mode.service";
 import {RentalsComponent} from "./rentals/rentals.component";
 import {StatsComponent} from "./stats/stats.component";
 import {VersionComponent} from "./version.component";
+import {ConfigComponent} from "./config/config.component";
 
 enableProdMode();
 
@@ -36,7 +33,7 @@ enableProdMode();
     selector: 'my-app',
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
-    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent, RentalsComponent, StatsComponent, VersionComponent],
+    directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent, RentalsComponent, StatsComponent, VersionComponent, ConfigComponent],
     providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, JournalService, ModeService]
 })
 export class AppComponent implements OnInit {

@@ -42,6 +42,10 @@ System.register(['angular2/core', "./../service/mode.service", "./../service/inf
                     this.infoService.event().emit("'Statistiken' wird angezeigt.");
                     this.modeService.event().emit(mode_service_2.Mode.STATS);
                 };
+                MenuComponent.prototype.modeConfig = function () {
+                    this.infoService.event().emit("'Konfiguration' wird angezeigt.");
+                    this.modeService.event().emit(mode_service_2.Mode.CONFIG);
+                };
                 MenuComponent.prototype.reload = function () {
                     location.reload();
                 };

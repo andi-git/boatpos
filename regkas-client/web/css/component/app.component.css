@@ -100,3 +100,21 @@
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
+
+.container-stats {
+    float: left;
+    width: 93%;
+    height: 82vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+.container-config {
+    float: left;
+    width: 93%;
+    height: 82vh;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}

@@ -24,8 +24,11 @@
                 </div>
             </div>
         </div>
-        <div class="container-sale" *ngIf="mode === 'STATS'">
+        <div class="container-stats" *ngIf="mode === 'STATS'">
             <stats></stats>
+        </div>
+        <div class="container-config" *ngIf="mode === 'CONFIG'">
+            <config></config>
         </div>
         <div class="container-info">
             <info></info>

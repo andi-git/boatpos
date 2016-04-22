@@ -1,33 +1,36 @@
-import {Injectable, EventEmitter} from 'angular2/core';
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-import {Observable} from "rxjs/Observable";
+import {Injectable, EventEmitter} from "angular2/core";
+import {Http, Headers} from "angular2/http";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
 import {Config} from "../model/config";
+import {Printer} from "../printer";
+import {IpAddress} from "../model/ipaddress";
 
 @Injectable()
 export class ConfigService {
 
-    private backendUrl:string;
-    private printerUrl:string;
-    private username:string;
-    private password:string;
+    private config:Config;
     private configured:EventEmitter<Config> = new EventEmitter();
 
-    constructor(private http:Http) {
+    constructor(private http:Http, private printer:Printer) {
         // load the config and fire an event when the config is loaded
         console.log("load config");
         this.http.get('config.json')
             .map((res) => {
                 return res.json();
             })
-            .subscribe((config) => {
+            .subscribe((configJson) => {
                 console.log("config loaded, fire event");
-                this.backendUrl = config.backendUrl;
-                this.printerUrl = config.printerUrl;
-                this.username = config.username;
-                this.password = config.password;
-                this.configured.emit(config);
+                this.config = new Config(configJson.backendUrl, configJson.username, configJson.password);
+                this.http.get(this.getBackendUrl() + 'rest/printer', {headers: this.getDefaultHeader()})
+                    .map(res => res.json())
+                    .map(printerBean => {
+                        this.config.printerIp = printerBean.ipAddress;
+                        return printerBean.ipAddress;
+                    }).subscribe(ipAddress => {
+                    this.config.printerIp = ipAddress;
+                    this.configured.emit(this.config);
+                });
             });
     }
 
@@ -36,18 +39,23 @@ export class ConfigService {
     }
 
     getBackendUrl():string {
-        return this.backendUrl;
+        return this.config.backendUrl;
     }
 
-    getPrinterUrl():string {
-        return this.printerUrl;
+    getPrinterIp():string {
+        return this.config.printerIp;
     }
 
     getDefaultHeader():Headers {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
-        headers.append("username", this.username);
-        headers.append("password", this.password);
+        headers.append("username", this.config.username);
+        headers.append("password", this.config.password);
         return headers;
+    }
+
+    savePrinterIp(ip:string) {
+        this.http.post(this.getBackendUrl() + 'rest/printer', JSON.stringify(new IpAddress(ip)), {headers: this.getDefaultHeader()})
+            .subscribe(this.config.printerIp = ip);
     }
 }

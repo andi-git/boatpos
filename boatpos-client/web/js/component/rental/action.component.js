@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../../service/boat.service", "../../service/info.service", "../../service/commitment.service", "../../service/promotion.service", "../../model/departure", "../../service/rental.service", "./modalInfo", "angular2/src/facade/lang", "../../service/keybinding.service", "../../modalHandler", "./modalDeleted", "../../prettyprinter", "./modalPromotionPay", "./modalArrival", "../../printer", "../../service/journal.service"], function(exports_1) {
+System.register(["angular2/core", "../../service/boat.service", "../../service/info.service", "../../service/commitment.service", "../../service/promotion.service", "../../model/departure", "../../service/rental.service", "./modalInfo", "angular2/src/facade/lang", "../../service/keybinding.service", "../../modalHandler", "./modalDeleted", "../../prettyprinter", "./modalPromotionPay", "./modalArrival", "../../service/config.service", "../../printer", "../../service/journal.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, modalDeleted_2, prettyprinter_1, modalPromotionPay_1, modalPromotionPay_2, modalArrival_1, modalArrival_2, printer_1, journal_service_1;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, prettyprinter_1, modalPromotionPay_1, modalArrival_1, config_service_1, printer_1, journal_service_1;
     var ActionComponent;
     return {
         setters:[
@@ -47,18 +47,18 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
             },
             function (modalDeleted_1_1) {
                 modalDeleted_1 = modalDeleted_1_1;
-                modalDeleted_2 = modalDeleted_1_1;
             },
             function (prettyprinter_1_1) {
                 prettyprinter_1 = prettyprinter_1_1;
             },
             function (modalPromotionPay_1_1) {
                 modalPromotionPay_1 = modalPromotionPay_1_1;
-                modalPromotionPay_2 = modalPromotionPay_1_1;
             },
             function (modalArrival_1_1) {
                 modalArrival_1 = modalArrival_1_1;
-                modalArrival_2 = modalArrival_1_1;
+            },
+            function (config_service_1_1) {
+                config_service_1 = config_service_1_1;
             },
             function (printer_1_1) {
                 printer_1 = printer_1_1;
@@ -68,7 +68,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, journalService, keyBinding, modalHandler, pp, printer) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, journalService, keyBinding, modalHandler, pp, printer, config) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
@@ -80,6 +80,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                     this.modalHandler = modalHandler;
                     this.pp = pp;
                     this.printer = printer;
+                    this.config = config;
                     var map = {
                         'K': function () {
                             _this.cancel();
@@ -106,7 +107,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                             _this.depart(_this.boatService.getBoatByShortName('T4'), [_this.commitmentService.getCommitmentByName('Ausweis')], null);
                         },
                         'W': function () {
-                            _this.journalService.incomeCurrentDay().subscribe(function (journalReport) { return _this.printer.printJournal(journalReport); });
+                            _this.journalService.incomeCurrentDay().subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                         }
                     };
                     for (var i = 0; i <= 9; i++) {
@@ -133,7 +134,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                         this.rentalService.depart(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
                             // check if a promotion is selected or not
                             if (lang_1.isPresent(rental.priceCalculatedBefore) && rental.priceCalculatedBefore > 0) {
-                                _this.modalHandler.open(modalPromotionPay_1.ModalPromotionPay, new modalPromotionPay_2.ModalPromotionPayContext(rental, _this.rentalService, _this.pp, _this.keyBinding)).then(function (resultPromise) {
+                                _this.modalHandler.open(modalPromotionPay_1.ModalPromotionPay, new modalPromotionPay_1.ModalPromotionPayContext(rental, _this.rentalService, _this.pp, _this.keyBinding)).then(function (resultPromise) {
                                     //noinspection TypeScriptUnresolvedVariable
                                     return resultPromise.result.then(function (result) {
                                         rental = result;
@@ -141,7 +142,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                                         _this.resetUi();
                                         _this.keyBinding.focusMain();
                                         if (lang_1.isPresent(rental.pricePaidBefore) && rental.pricePaidBefore > 0) {
-                                            _this.printer.printDepart(rental);
+                                            _this.printer.printDepart(rental, _this.config.getPrinterIp());
                                             _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                         }
                                         else {
@@ -157,7 +158,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                                 });
                             }
                             else {
-                                _this.printer.printDepart(rental);
+                                _this.printer.printDepart(rental, _this.config.getPrinterIp());
                                 _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
                                 _this.boatService.updateStats();
                                 _this.resetUi();
@@ -194,7 +195,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                 };
                 ActionComponent.prototype.showDialogDeleted = function (deletedInfo) {
                     var _this = this;
-                    this.modalHandler.open(modalDeleted_2.ModalDeleted, new modalDeleted_1.ModalDeletedContext(deletedInfo, this.keyBinding)).then(function (resultPromise) {
+                    this.modalHandler.open(modalDeleted_1.ModalDeleted, new modalDeleted_1.ModalDeletedContext(deletedInfo, this.keyBinding)).then(function (resultPromise) {
                         //noinspection TypeScriptUnresolvedVariable
                         return resultPromise.result.then(function (result) {
                             _this.lastModalResult = result;
@@ -261,7 +262,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                     }
                     else {
                         this.infoService.event().emit("Verrechnung der Nummer " + this.rentalNumber + ".");
-                        this.modalHandler.open(modalArrival_1.ModalArrival, new modalArrival_2.ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp)).then(function (resultPromise) {
+                        this.modalHandler.open(modalArrival_1.ModalArrival, new modalArrival_1.ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp, this.config.getPrinterIp())).then(function (resultPromise) {
                             //noinspection TypeScriptUnresolvedVariable
                             return resultPromise.result.then(function (result) {
                                 _this.lastModalResult = result;
@@ -283,7 +284,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                         templateUrl: "html/component/rental/action.component.html",
                         styleUrls: ["css/component/rental/action.component.css"],
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, journal_service_1.JournalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, journal_service_1.JournalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer, config_service_1.ConfigService])
                 ], ActionComponent);
                 return ActionComponent;
             })();

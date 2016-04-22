@@ -1,7 +1,5 @@
 {
-  "name": "Development",
   "backendUrl": "http://home.com:8180/boatpos-server/",
-  "printerUrl": "192.168.8.101",
   "username": "boatpos",
   "password": "test123"
 }

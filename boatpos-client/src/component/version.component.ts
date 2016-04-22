@@ -16,7 +16,7 @@ export class VersionComponent {
         // when configuration is finished, load and cache boats
         this.configService.isConfigured().subscribe((config) => {
             this.backend = this.configService.getBackendUrl();
-            this.printer = this.configService.getPrinterUrl();
+            this.printer = this.configService.getPrinterIp();
         });
     }
 }

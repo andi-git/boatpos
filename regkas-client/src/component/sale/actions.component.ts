@@ -3,6 +3,7 @@ import {KeyBindingService} from "../../service/keybinding.service";
 import {SaleService} from "../../service/sale.service";
 import {JournalService} from "../../service/journal.service";
 import {Printer} from "../../printer";
+import {ConfigService} from "../../service/config.service";
 
 @Component({
     selector: 'actions',
@@ -11,7 +12,7 @@ import {Printer} from "../../printer";
 })
 export class ActionsComponent {
 
-    constructor(private saleService:SaleService, private keyBinding:KeyBindingService, private journalService:JournalService, private printer:Printer) {
+    constructor(private saleService:SaleService, private keyBinding:KeyBindingService, private journalService:JournalService, private printer:Printer, private config:ConfigService) {
         let map:{[key:string]:((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             '*': () => {
                 this.bill();
@@ -23,7 +24,7 @@ export class ActionsComponent {
                 this.cancelAllElements();
             },
             '~': () => {
-                this.journalService.incomeCurrentDay().subscribe((income) => this.printer.printIncome(income));
+                this.journalService.incomeCurrentDay().subscribe((income) => this.printer.printIncome(income, this.config.getPrinterIp()));
             }
         };
         this.keyBinding.addBindingForMain(map);

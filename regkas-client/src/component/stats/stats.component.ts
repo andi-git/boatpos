@@ -3,6 +3,7 @@ import {ModeService} from "../../service/mode.service";
 import {JournalService} from "../../service/journal.service";
 import {Printer} from "../../printer";
 import {InfoService} from "../../service/info.service";
+import {ConfigService} from "../../service/config.service";
 
 @Component({
     selector: 'stats',
@@ -18,7 +19,7 @@ export class StatsComponent {
     private years:Array<number> = [];
     private currentYear:number;
 
-    constructor(private modeService:ModeService, private journalService:JournalService, private printer:Printer, private infoService:InfoService) {
+    constructor(private modeService:ModeService, private journalService:JournalService, private printer:Printer, private infoService:InfoService, private config:ConfigService) {
         console.log("constructor of StatsComponent");
         for (let i:number = 0; i < 31; i++) {
             this.days[i] = i + 1;
@@ -55,17 +56,17 @@ export class StatsComponent {
 
     incomeDay() {
         this.infoService.event().emit("Einnahmen werden gedruckt.");
-        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe((income) => this.printer.printIncome(income));
+        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe((income) => this.printer.printIncome(income, this.config.getPrinterIp()));
     }
 
     incomeMonth() {
         this.infoService.event().emit("Einnahmen werden gedruckt.");
-        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe((income) => this.printer.printIncome(income));
+        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe((income) => this.printer.printIncome(income, this.config.getPrinterIp()));
     }
 
     incomeYear() {
         this.infoService.event().emit("Einnahmen werden gedruckt.");
-        this.journalService.income(this.currentYear).subscribe((income) => this.printer.printIncome(income));
+        this.journalService.income(this.currentYear).subscribe((income) => this.printer.printIncome(income, this.config.getPrinterIp()));
     }
 
     convertMonth(month:string):number {

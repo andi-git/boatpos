@@ -57,6 +57,7 @@ System.register(['angular2/core', "./boat.service", "./commitment.service", "./p
                 Mode[Mode["RENTAL"] = 0] = "RENTAL";
                 Mode[Mode["RENTALS"] = 1] = "RENTALS";
                 Mode[Mode["STATS"] = 2] = "STATS";
+                Mode[Mode["CONFIG"] = 3] = "CONFIG";
             })(Mode || (Mode = {}));
             exports_1("Mode", Mode);
         }

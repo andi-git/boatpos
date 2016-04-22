@@ -28,7 +28,7 @@ System.register(["angular2/core", "../service/config.service"], function(exports
                     // when configuration is finished, load and cache boats
                     this.configService.isConfigured().subscribe(function (config) {
                         _this.backend = _this.configService.getBackendUrl();
-                        _this.printer = _this.configService.getPrinterUrl();
+                        _this.printer = _this.configService.getPrinterIp();
                     });
                 }
                 VersionComponent = __decorate([

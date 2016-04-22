@@ -1,6 +1,5 @@
 import {Injectable} from "angular2/core";
 import {isPresent} from "angular2/src/facade/lang";
-import {ConfigService} from "./service/config.service";
 import {PrettyPrinter, Align} from "./prettyprinter";
 import {Bill} from "./model/bill";
 import {Income} from "./model/income";
@@ -9,11 +8,11 @@ import {Income} from "./model/income";
 @Injectable()
 export class Printer {
 
-    constructor(private configService:ConfigService, private pp:PrettyPrinter) {
+    constructor(private pp:PrettyPrinter) {
 
     }
 
-    public printBill(bill:Bill) {
+    public printBill(bill:Bill, printerIp:string) {
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();
@@ -34,7 +33,7 @@ export class Printer {
             cell: 3,
             data: 'https://www.eppel-boote.at'
         });
-        this.printPaper(builder, request);
+        this.printPaper(builder, request, printerIp);
     }
 
     private convertFromNumberToLogoName(logoNumber:string):string {
@@ -134,16 +133,16 @@ export class Printer {
         return request;
     }
 
-    private printPaper(builder:any, request:any) {
+    private printPaper(builder:any, request:any, printerIp:string) {
         // cut
         request += builder.createCutPaperElement({feed: true});
         //noinspection TypeScriptUnresolvedFunction
-        var trader = new StarWebPrintTrader({url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage'});
+        var trader = new StarWebPrintTrader({url: 'http://' + printerIp + '/StarWebPRNT/SendMessage'});
         // print
         trader.sendMessage({request: request});
     }
 
-    printIncome(income:Income) {
+    printIncome(income:Income, printerIp:string) {
         if (isPresent(income)) {
             console.log("print journal between " + this.pp.printDate(income.start) + " and " + this.pp.printDate(income.end));
             // noinspection TypeScriptUnresolvedFunction
@@ -169,7 +168,22 @@ export class Printer {
             request += builder.createRuledLineElement({thickness: 'medium', width: 832});
             request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, Align.RIGHT));
             request = this.printLogo(builder, request, 13, 'center');
-            this.printPaper(builder, request);
+            this.printPaper(builder, request, printerIp);
         }
+    }
+
+
+    printTest(printerIp:string) {
+        console.log("test printer on " + printerIp);
+        //noinspection TypeScriptUnresolvedFunction
+        var builder = new StarWebPrintBuilder();
+        var request = builder.createInitializationElement();
+        request += builder.createTextElement({data:'Drucker für das Abrechnungssystem funktioniert!'});
+        // cut
+        request += builder.createCutPaperElement({feed: true});
+        //noinspection TypeScriptUnresolvedFunction
+        var trader = new StarWebPrintTrader({url: 'http://' + printerIp + '/StarWebPRNT/SendMessage'});
+        // print
+        trader.sendMessage({request: request});
     }
 }

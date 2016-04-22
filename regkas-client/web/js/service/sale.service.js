@@ -83,7 +83,7 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                             return _this.convertBillBeanToBill(billBean);
                         }).subscribe(function (bill) {
                             console.log("print bill");
-                            _this.printer.printBill(bill);
+                            _this.printer.printBill(bill, _this.configService.getPrinterIp());
                             _this.reset();
                             _this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
                         });

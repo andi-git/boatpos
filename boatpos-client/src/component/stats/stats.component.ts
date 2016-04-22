@@ -4,6 +4,7 @@ import {ModeService} from "../../service/mode.service";
 import {Mode} from "../../service/mode.service";
 import {JournalService} from "../../service/journal.service";
 import {Printer} from "../../printer";
+import {ConfigService} from "../../service/config.service";
 
 @Component({
     selector: 'stats',
@@ -19,7 +20,7 @@ export class StatsComponent {
     private years:Array<number> = [];
     private currentYear:number;
 
-    constructor(private modeService:ModeService, private journalService:JournalService, private printer:Printer) {
+    constructor(private modeService:ModeService, private journalService:JournalService, private printer:Printer, private config:ConfigService) {
         console.log("constructor of StatsComponent");
         for (let i:number = 0; i < 31; i++) {
             this.days[i] = i + 1;
@@ -55,15 +56,15 @@ export class StatsComponent {
     }
 
     incomeDay() {
-        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe((journalReport) => this.printer.printJournal(journalReport));
+        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
     }
 
     incomeMonth() {
-        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe((journalReport) => this.printer.printJournal(journalReport));
+        this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
     }
 
     incomeYear() {
-        this.journalService.income(this.currentYear).subscribe((journalReport) => this.printer.printJournal(journalReport));
+        this.journalService.income(this.currentYear).subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
     }
 
     convertMonth(month:string):number {

@@ -29,12 +29,13 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
             }],
         execute: function() {
             ModalArrivalContext = (function () {
-                function ModalArrivalContext(rentalNumber, rentalService, keyBinding, printer, pp) {
+                function ModalArrivalContext(rentalNumber, rentalService, keyBinding, printer, pp, printerIp) {
                     this.rentalNumber = rentalNumber;
                     this.rentalService = rentalService;
                     this.keyBinding = keyBinding;
                     this.printer = printer;
                     this.pp = pp;
+                    this.printerIp = printerIp;
                 }
                 return ModalArrivalContext;
             })();
@@ -52,6 +53,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     this.rentalNumber = modelContentData.rentalNumber;
                     this.printer = modelContentData.printer;
                     this.pp = modelContentData.pp;
+                    this.printerIp = modelContentData.printerIp;
                     var map = {
                         'K': function () {
                             _this.cancel();
@@ -218,7 +220,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                 ModalArrival.prototype.pay = function (payment) {
                     var _this = this;
                     this.rentalService.payAfter(payment).subscribe(function (bill) {
-                        _this.printer.printBill(bill);
+                        _this.printer.printBill(bill, _this.printerIp);
                         //noinspection TypeScriptUnresolvedFunction
                         _this.dialog.close("ok");
                     }, function () {

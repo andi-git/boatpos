@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../../service/mode.service", "../../service/journal.service", "../../printer"], function(exports_1) {
+System.register(['angular2/core', "../../service/mode.service", "../../service/journal.service", "../../printer", "../../service/config.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, mode_service_1, journal_service_1, printer_1;
+    var core_1, mode_service_1, journal_service_1, printer_1, config_service_1;
     var StatsComponent;
     return {
         setters:[
@@ -23,13 +23,17 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
             },
             function (printer_1_1) {
                 printer_1 = printer_1_1;
+            },
+            function (config_service_1_1) {
+                config_service_1 = config_service_1_1;
             }],
         execute: function() {
             StatsComponent = (function () {
-                function StatsComponent(modeService, journalService, printer) {
+                function StatsComponent(modeService, journalService, printer, config) {
                     this.modeService = modeService;
                     this.journalService = journalService;
                     this.printer = printer;
+                    this.config = config;
                     this.days = [];
                     this.months = [];
                     this.years = [];
@@ -65,15 +69,15 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
                 };
                 StatsComponent.prototype.incomeDay = function () {
                     var _this = this;
-                    this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport); });
+                    this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                 };
                 StatsComponent.prototype.incomeMonth = function () {
                     var _this = this;
-                    this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport); });
+                    this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                 };
                 StatsComponent.prototype.incomeYear = function () {
                     var _this = this;
-                    this.journalService.income(this.currentYear).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport); });
+                    this.journalService.income(this.currentYear).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                 };
                 StatsComponent.prototype.convertMonth = function (month) {
                     for (var i = 0; i < this.months.length; i++) {
@@ -94,7 +98,7 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
                         templateUrl: "html/component/stats/stats.component.html",
                         styleUrls: ["css/component/stats/stats.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [mode_service_1.ModeService, journal_service_1.JournalService, printer_1.Printer])
+                    __metadata('design:paramtypes', [mode_service_1.ModeService, journal_service_1.JournalService, printer_1.Printer, config_service_1.ConfigService])
                 ], StatsComponent);
                 return StatsComponent;
             })();

@@ -10,11 +10,11 @@ import {JournalReport} from "./model/journalReport";
 @Injectable()
 export class Printer {
 
-    constructor(private configService:ConfigService, private pp:PrettyPrinter) {
+    constructor(private pp:PrettyPrinter) {
 
     }
 
-    public printDepart(rental:Rental):void {
+    public printDepart(rental:Rental, printerIp:string):void {
         if (isPresent(rental)) {
             //noinspection TypeScriptUnresolvedFunction
             var builder = new StarWebPrintBuilder();
@@ -23,13 +23,13 @@ export class Printer {
             request = this.printCompanyData(builder, request, rental);
             request = this.addBoat(builder, request, rental);
             request = this.add5MinuteInfo(builder, request);
-            this.printPaper(builder, request);
+            this.printPaper(builder, request, printerIp);
 
-            setTimeout(() => this.printNumberForCommitment(rental), 3000);
+            setTimeout(() => this.printNumberForCommitment(rental, printerIp), 3000);
         }
     }
 
-    public printNumberForCommitment(rental:Rental) {
+    private printNumberForCommitment(rental:Rental, printerIp:string) {
         if (isPresent(rental) && isPresent(rental.commitments)) {
             let needPaper:boolean = false;
             rental.commitments.forEach((commitment) => {
@@ -48,12 +48,12 @@ export class Printer {
                 request = this.printLogo(builder, request, this.convertFromNumberToLogoName(dayIdString.charAt(0)), 'left');
                 request = this.blankLine(builder, request);
                 request = this.blankLine(builder, request);
-                this.printPaper(builder, request);
+                this.printPaper(builder, request, printerIp);
             }
         }
     }
 
-    public printBill(bill:Bill) {
+    public printBill(bill:Bill, printerIp:string) {
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();
@@ -69,7 +69,7 @@ export class Printer {
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
         request += builder.createQrCodeElement({model:'model2', level:'level_l', cell:3, data:'https://www.eppel-boote.at'});
-        this.printPaper(builder, request);
+        this.printPaper(builder, request, printerIp);
     }
 
     private convertFromNumberToLogoName(logoNumber:string):string {
@@ -217,16 +217,16 @@ export class Printer {
         return request;
     }
 
-    private printPaper(builder:any, request:any) {
+    private printPaper(builder:any, request:any, printerIp:string) {
         // cut
         request += builder.createCutPaperElement({feed: true});
         //noinspection TypeScriptUnresolvedFunction
-        var trader = new StarWebPrintTrader({url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage'});
+        var trader = new StarWebPrintTrader({url: 'http://' + printerIp + '/StarWebPRNT/SendMessage'});
         // print
         trader.sendMessage({request: request});
     }
 
-    printJournal(journalReport:JournalReport):void {
+    printJournal(journalReport:JournalReport, printerIp:string):void {
         if (isPresent(journalReport)) {
             console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end));
             //noinspection TypeScriptUnresolvedFunction
@@ -268,7 +268,21 @@ export class Printer {
             });
             request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
             request = this.printLogo(builder, request, 13, 'center');
-            this.printPaper(builder, request);
+            this.printPaper(builder, request, printerIp);
         }
+    }
+
+    printTest(printerIp:string) {
+        console.log("test printer on " + printerIp);
+        //noinspection TypeScriptUnresolvedFunction
+        var builder = new StarWebPrintBuilder();
+        var request = builder.createInitializationElement();
+        request += builder.createTextElement({data:'Drucker für das Abrechnungssystem funktioniert!'});
+        // cut
+        request += builder.createCutPaperElement({feed: true});
+        //noinspection TypeScriptUnresolvedFunction
+        var trader = new StarWebPrintTrader({url: 'http://' + printerIp + '/StarWebPRNT/SendMessage'});
+        // print
+        trader.sendMessage({request: request});
     }
 }

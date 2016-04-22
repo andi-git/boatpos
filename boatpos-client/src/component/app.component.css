@@ -150,3 +150,14 @@
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
+
+/*
+ * divs: content-config
+ */
+.content-config-table {
+    display: table;
+    width: 100%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}

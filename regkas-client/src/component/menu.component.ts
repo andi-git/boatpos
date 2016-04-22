@@ -24,6 +24,11 @@ export class MenuComponent {
         this.modeService.event().emit(Mode.STATS);
     }
 
+    private modeConfig() {
+        this.infoService.event().emit("'Konfiguration' wird angezeigt.");
+        this.modeService.event().emit(Mode.CONFIG);
+    }
+
     private reload() {
         location.reload();
     }

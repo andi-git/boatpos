@@ -56,7 +56,7 @@ export class SaleService {
                     return this.convertBillBeanToBill(billBean);
                 }).subscribe((bill:Bill) => {
                     console.log("print bill");
-                    this.printer.printBill(bill);
+                    this.printer.printBill(bill, this.configService.getPrinterIp());
                     this.reset();
                     this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
                 }

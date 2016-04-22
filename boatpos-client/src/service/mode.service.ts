@@ -28,5 +28,6 @@ export class ModeService {
 export enum Mode {
     RENTAL,
     RENTALS,
-    STATS
+    STATS,
+    CONFIG
 }

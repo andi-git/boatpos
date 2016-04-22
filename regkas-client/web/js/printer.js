@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.service", "./prettyprinter"], function(exports_1, context_1) {
+System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, lang_1, config_service_1, prettyprinter_1;
+    var core_1, lang_1, prettyprinter_1;
     var Printer;
     return {
         setters:[
@@ -20,20 +20,16 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
             function (lang_1_1) {
                 lang_1 = lang_1_1;
             },
-            function (config_service_1_1) {
-                config_service_1 = config_service_1_1;
-            },
             function (prettyprinter_1_1) {
                 prettyprinter_1 = prettyprinter_1_1;
             }],
         execute: function() {
             // import {JournalReport} from "./model/journalReport";
             Printer = (function () {
-                function Printer(configService, pp) {
-                    this.configService = configService;
+                function Printer(pp) {
                     this.pp = pp;
                 }
-                Printer.prototype.printBill = function (bill) {
+                Printer.prototype.printBill = function (bill, printerIp) {
                     //noinspection TypeScriptUnresolvedFunction
                     var builder = new StarWebPrintBuilder();
                     var request = builder.createInitializationElement();
@@ -54,7 +50,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                         cell: 3,
                         data: 'https://www.eppel-boote.at'
                     });
-                    this.printPaper(builder, request);
+                    this.printPaper(builder, request, printerIp);
                 };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
                     if (logoNumber === "0") {
@@ -144,15 +140,15 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                     });
                     return request;
                 };
-                Printer.prototype.printPaper = function (builder, request) {
+                Printer.prototype.printPaper = function (builder, request, printerIp) {
                     // cut
                     request += builder.createCutPaperElement({ feed: true });
                     //noinspection TypeScriptUnresolvedFunction
-                    var trader = new StarWebPrintTrader({ url: 'http://' + this.configService.getPrinterUrl() + '/StarWebPRNT/SendMessage' });
+                    var trader = new StarWebPrintTrader({ url: 'http://' + printerIp + '/StarWebPRNT/SendMessage' });
                     // print
                     trader.sendMessage({ request: request });
                 };
-                Printer.prototype.printIncome = function (income) {
+                Printer.prototype.printIncome = function (income, printerIp) {
                     var _this = this;
                     if (lang_1.isPresent(income)) {
                         console.log("print journal between " + this.pp.printDate(income.start) + " and " + this.pp.printDate(income.end));
@@ -179,12 +175,25 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./service/config.
                         request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                         request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, prettyprinter_1.Align.RIGHT));
                         request = this.printLogo(builder, request, 13, 'center');
-                        this.printPaper(builder, request);
+                        this.printPaper(builder, request, printerIp);
                     }
+                };
+                Printer.prototype.printTest = function (printerIp) {
+                    console.log("test printer on " + printerIp);
+                    //noinspection TypeScriptUnresolvedFunction
+                    var builder = new StarWebPrintBuilder();
+                    var request = builder.createInitializationElement();
+                    request += builder.createTextElement({ data: 'Drucker für das Abrechnungssystem funktioniert!' });
+                    // cut
+                    request += builder.createCutPaperElement({ feed: true });
+                    //noinspection TypeScriptUnresolvedFunction
+                    var trader = new StarWebPrintTrader({ url: 'http://' + printerIp + '/StarWebPRNT/SendMessage' });
+                    // print
+                    trader.sendMessage({ request: request });
                 };
                 Printer = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [config_service_1.ConfigService, prettyprinter_1.PrettyPrinter])
+                    __metadata('design:paramtypes', [prettyprinter_1.PrettyPrinter])
                 ], Printer);
                 return Printer;
             }());
