@@ -17,6 +17,7 @@
         <class>org.boatpos.model.PromotionBeforeEntity</class>
         <class>org.boatpos.model.CommitmentEntity</class>
         <class>org.boatpos.model.HolidayEntity</class>
+        <class>org.boatpos.model.PrinterEntity</class>
         <class>org.boatpos.common.model.LocalDateConverter</class>
         <class>org.boatpos.common.model.LocalDateTimeConverter</class>
         <properties>
