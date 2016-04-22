@@ -46,11 +46,19 @@ export class ConfigService {
     }
 
     getBackendUrl():string {
-        return this.config.backendUrl;
+        if (isPresent(this.config)) {
+            return this.config.backendUrl;
+        } else {
+            return "n/a";
+        }
     }
 
     getPrinterIp():string {
-        return this.config.printerIp;
+        if (isPresent(this.config)) {
+            return this.config.printerIp;
+        } else {
+            return "n/a";
+        }
     }
 
     getDefaultHeader():Headers {

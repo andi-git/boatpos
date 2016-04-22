@@ -5,6 +5,7 @@ import "rxjs/add/operator/toPromise";
 import {Config} from "../model/config";
 import {Printer} from "../printer";
 import {IpAddress} from "../model/ipaddress";
+import {isPresent} from "angular2/src/facade/lang";
 
 @Injectable()
 export class ConfigService {
@@ -39,11 +40,19 @@ export class ConfigService {
     }
 
     getBackendUrl():string {
-        return this.config.backendUrl;
+        if (isPresent(this.config)) {
+            return this.config.backendUrl;
+        } else {
+            return "n/a";
+        }
     }
 
     getPrinterIp():string {
-        return this.config.printerIp;
+        if (isPresent(this.config)) {
+            return this.config.printerIp;
+        } else {
+            return "n/a";
+        }
     }
 
     getDefaultHeader():Headers {

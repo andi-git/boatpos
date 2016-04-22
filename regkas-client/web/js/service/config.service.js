@@ -67,10 +67,20 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxj
                     return this.configured;
                 };
                 ConfigService.prototype.getBackendUrl = function () {
-                    return this.config.backendUrl;
+                    if (lang_1.isPresent(this.config)) {
+                        return this.config.backendUrl;
+                    }
+                    else {
+                        return "n/a";
+                    }
                 };
                 ConfigService.prototype.getPrinterIp = function () {
-                    return this.config.printerIp;
+                    if (lang_1.isPresent(this.config)) {
+                        return this.config.printerIp;
+                    }
+                    else {
+                        return "n/a";
+                    }
                 };
                 ConfigService.prototype.getDefaultHeader = function () {
                     var headers = new http_1.Headers();

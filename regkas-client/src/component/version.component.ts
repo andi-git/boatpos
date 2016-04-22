@@ -8,14 +8,17 @@ import {ConfigService} from "../service/config.service";
 })
 export class VersionComponent {
 
-    private backend:string;
-    private printer:string;
+    private config:ConfigService;
 
-    constructor(private configService:ConfigService) {
-        // when configuration is finished, load and cache boats
-        this.configService.isConfigured().subscribe((config) => {
-            this.backend = this.configService.getBackendUrl();
-            this.printer = this.configService.getPrinterIp();
-        });
+    constructor(private config:ConfigService) {
+        this.config = config;
+    }
+
+    printerIp():string {
+        return this.config.getPrinterIp();
+    }
+
+    backendUrl():string {
+        return this.config.getBackendUrl();
     }
 }

@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxjs/add/operator/toPromise", "../model/config", "../printer", "../model/ipaddress"], function(exports_1) {
+System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxjs/add/operator/toPromise", "../model/config", "../printer", "../model/ipaddress", "angular2/src/facade/lang"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxj
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, config_1, printer_1, ipaddress_1;
+    var core_1, http_1, config_1, printer_1, ipaddress_1, lang_1;
     var ConfigService;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxj
             },
             function (ipaddress_1_1) {
                 ipaddress_1 = ipaddress_1_1;
+            },
+            function (lang_1_1) {
+                lang_1 = lang_1_1;
             }],
         execute: function() {
             ConfigService = (function () {
@@ -60,10 +63,20 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxj
                     return this.configured;
                 };
                 ConfigService.prototype.getBackendUrl = function () {
-                    return this.config.backendUrl;
+                    if (lang_1.isPresent(this.config)) {
+                        return this.config.backendUrl;
+                    }
+                    else {
+                        return "n/a";
+                    }
                 };
                 ConfigService.prototype.getPrinterIp = function () {
-                    return this.config.printerIp;
+                    if (lang_1.isPresent(this.config)) {
+                        return this.config.printerIp;
+                    }
+                    else {
+                        return "n/a";
+                    }
                 };
                 ConfigService.prototype.getDefaultHeader = function () {
                     var headers = new http_1.Headers();

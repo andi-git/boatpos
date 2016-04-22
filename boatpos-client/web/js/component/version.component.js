@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../service/config.service"], function(exports_1) {
+System.register(["angular2/core", "../service/config.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,15 +20,16 @@ System.register(['angular2/core', "../service/config.service"], function(exports
             }],
         execute: function() {
             VersionComponent = (function () {
-                function VersionComponent(configService) {
-                    var _this = this;
-                    this.configService = configService;
-                    // when configuration is finished, load and cache boats
-                    this.configService.isConfigured().subscribe(function (config) {
-                        _this.backend = _this.configService.getBackendUrl();
-                        _this.printer = _this.configService.getPrinterIp();
-                    });
+                function VersionComponent(config) {
+                    this.config = config;
+                    this.config = config;
                 }
+                VersionComponent.prototype.printerIp = function () {
+                    return this.config.getPrinterIp();
+                };
+                VersionComponent.prototype.backendUrl = function () {
+                    return this.config.getBackendUrl();
+                };
                 VersionComponent = __decorate([
                     core_1.Component({
                         selector: 'version',
