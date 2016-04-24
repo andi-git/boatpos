@@ -7,3 +7,5 @@ target/
 
 # nodejs
 node_modules/
+node/
+etc/
