@@ -16,9 +16,16 @@ function createWindow() {
     session.fromPartition('persist:name').clearCache(function() {});
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    mainWindow = new BrowserWindow({
+        title: 'EPPEL Registrierkassa',
+        width: 800, 
+        height: 600,
+        zoomFactor: 0.77,
+        icon: 'icon.png'
+    });
     // mainWindow.setFullScreen(true);
     mainWindow.maximize();
+    mainWindow.setMenu(null);
 
     // and load the index.html of the app.
     mainWindow.loadURL('https://www.eppel-boote.at/regkas');
