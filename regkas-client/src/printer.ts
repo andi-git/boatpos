@@ -178,7 +178,9 @@ export class Printer {
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();
-        request += builder.createTextElement({data:'Drucker für das Abrechnungssystem funktioniert!'});
+        request += builder.createTextElement({
+            codepage: 'utf8',
+            data:'Drucker für die Registrierkassa funktioniert!\n\n'});
         // cut
         request += builder.createCutPaperElement({feed: true});
         //noinspection TypeScriptUnresolvedFunction
