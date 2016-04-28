@@ -6,11 +6,11 @@ var tsProject = ts.createProject('tsconfig.json');
 gulp.task('build',
     ['clean',
         'setup',
+        'assets',
         'ts']);
 
 gulp.task('clean', function () {
-    return gulp.src('web/', {read: false})
-        .pipe(clean());
+    gulp.src(['web/']).pipe(clean());
 });
 
 gulp.task('setup', function (done) {

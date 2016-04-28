@@ -72,6 +72,11 @@
         <version.jacoco>0.7.5.201505241946</version.jacoco>
         <version.javassist>3.18.2-GA</version.javassist>
         <version.mockito>2.0.43-beta</version.mockito>
+        <!-- node and npm -->
+        <node.version>v4.4.3</node.version>
+        <node.downloadRoot>https://nodejs.org/dist/</node.downloadRoot>
+        <npm.version>3.8.8</npm.version>
+        <npm.downloadRoot>https://registry.npmjs.org/npm/-/</npm.downloadRoot>
     </properties>
 
     <build>
