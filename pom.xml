@@ -12,6 +12,7 @@
         <module>regkas-client</module>
         <module>boatpos-client-browser</module>
         <module>regkas-client-browser</module>
+        <module>boatpos-deployment</module>
     </modules>
 
     <packaging>pom</packaging>
