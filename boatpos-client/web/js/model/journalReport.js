@@ -17,12 +17,20 @@ System.register([], function(exports_1) {
             })();
             exports_1("JournalReport", JournalReport);
             JournalReportItem = (function () {
-                function JournalReportItem(boatName, pricePaidBeforeCash, pricePaidBeforeCard, pricePaidAfterCash, pricePaidAfterCard, count) {
+                function JournalReportItem(boatName, pricePaidBeforeCash, pricePaidBeforeCashBeforeTax, pricePaidBeforeCashTax, pricePaidBeforeCard, pricePaidBeforeCardBeforeTax, pricePaidBeforeCardTax, pricePaidAfterCash, pricePaidAfterCashBeforeTax, pricePaidAfterCashTax, pricePaidAfterCard, pricePaidAfterCardBeforeTax, pricePaidAfterCardTax, count) {
                     this.boatName = boatName;
                     this.pricePaidBeforeCash = pricePaidBeforeCash;
+                    this.pricePaidBeforeCashBeforeTax = pricePaidBeforeCashBeforeTax;
+                    this.pricePaidBeforeCashTax = pricePaidBeforeCashTax;
                     this.pricePaidBeforeCard = pricePaidBeforeCard;
+                    this.pricePaidBeforeCardBeforeTax = pricePaidBeforeCardBeforeTax;
+                    this.pricePaidBeforeCardTax = pricePaidBeforeCardTax;
                     this.pricePaidAfterCash = pricePaidAfterCash;
+                    this.pricePaidAfterCashBeforeTax = pricePaidAfterCashBeforeTax;
+                    this.pricePaidAfterCashTax = pricePaidAfterCashTax;
                     this.pricePaidAfterCard = pricePaidAfterCard;
+                    this.pricePaidAfterCardBeforeTax = pricePaidAfterCardBeforeTax;
+                    this.pricePaidAfterCardTax = pricePaidAfterCardTax;
                     this.count = count;
                 }
                 JournalReportItem.prototype.toString = function () {

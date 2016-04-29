@@ -2,6 +2,8 @@ package org.boatpos.service.core;
 
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.repository.api.model.Boat;
 import org.boatpos.repository.api.repository.BoatRepository;
 import org.boatpos.repository.api.repository.JournalRepository;
@@ -11,8 +13,6 @@ import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;
-import org.boatpos.common.util.log.LogWrapper;
-import org.boatpos.common.util.log.SLF4J;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -58,12 +58,24 @@ public class JournalServiceCore implements JournalService {
         journalReportBean.setEnd(period.getEnd());
         List<BoatCountResult> boatCountResult = journalRepository.countBoatFor(period);
         for (Boat boat : boatRepository.loadAll(Enabled.TRUE)) {
+            BigDecimal incomeCashBefore = getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CASH));
+            BigDecimal incomeCardBefore = getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CARD));
+            BigDecimal incomeCashAfter = getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CASH));
+            BigDecimal incomeCardAfter = getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CARD));
             journalReportBean.addJournalReportItemBean(new JournalReportItemBean(
                     boat.getName().get(),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CASH)),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeBeforeFor(period, PaymentMethod.CARD)),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CASH)),
-                    getIncomeResultFor(boat, journalRepository.totalIncomeAfterFor(period, PaymentMethod.CARD)),
+                    incomeCashBefore,
+                    getBeforeTax(incomeCashBefore),
+                    getTax(incomeCashBefore),
+                    incomeCardBefore,
+                    getBeforeTax(incomeCardBefore),
+                    getTax(incomeCardBefore),
+                    incomeCashAfter,
+                    getBeforeTax(incomeCashAfter),
+                    getTax(incomeCashAfter),
+                    incomeCardAfter,
+                    getBeforeTax(incomeCardAfter),
+                    getTax(incomeCardAfter),
                     getBoatCountFor(boat, boatCountResult).intValue()));
         }
         return journalReportBean;
@@ -80,4 +92,13 @@ public class JournalServiceCore implements JournalService {
         checkNotNull(boatCountResult, "'boatCountResult' must not be null");
         return boatCountResult.stream().filter(bc -> bc.getBoatName().equals(boat.getName().get())).findFirst().orElse(new BoatCountResult("", 0L)).getCount();
     }
+
+    private BigDecimal getTax(BigDecimal price) {
+        return price.subtract(getBeforeTax(price));
+    }
+
+    private BigDecimal getBeforeTax(BigDecimal price) {
+        return price.divide(new BigDecimal("1.20"), 2, BigDecimal.ROUND_HALF_UP);
+    }
+
 }

@@ -47,7 +47,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         journalReport.start = rental_service_1.RentalService.createDate(journalReportBean.start);
                         journalReport.end = rental_service_1.RentalService.createDate(journalReportBean.end);
                         journalReportBean.journalReportItemBeans.forEach(function (jrib) {
-                            return journalReport.add(new journalReport_2.JournalReportItem(jrib.boatName, jrib.pricePaidBeforeCash, jrib.pricePaidBeforeCard, jrib.pricePaidAfterCash, jrib.pricePaidAfterCard, jrib.count));
+                            return journalReport.add(new journalReport_2.JournalReportItem(jrib.boatName, jrib.pricePaidBeforeCash, jrib.pricePaidBeforeCashBeforeTax, jrib.pricePaidBeforeCashTax, jrib.pricePaidBeforeCard, jrib.pricePaidBeforeCardBeforeTax, jrib.pricePaidBeforeCardTax, jrib.pricePaidAfterCash, jrib.pricePaidAfterCashBeforeTax, jrib.pricePaidAfterCashTax, jrib.pricePaidAfterCard, jrib.pricePaidAfterCardBeforeTax, jrib.pricePaidAfterCardTax, jrib.count));
                         });
                         return journalReport;
                     });
@@ -69,7 +69,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', "./c
                         journalReport.start = rental_service_1.RentalService.createDate(journalReportBean.start);
                         journalReport.end = rental_service_1.RentalService.createDate(journalReportBean.end);
                         journalReportBean.journalReportItemBeans.forEach(function (jrib) {
-                            return journalReport.add(new journalReport_2.JournalReportItem(jrib.boatName, jrib.pricePaidBeforeCash, jrib.pricePaidBeforeCard, jrib.pricePaidAfterCash, jrib.pricePaidAfterCard, jrib.count));
+                            return journalReport.add(new journalReport_2.JournalReportItem(jrib.boatName, jrib.pricePaidBeforeCash, jrib.pricePaidBeforeCashBeforeTax, jrib.pricePaidBeforeCashTax, jrib.pricePaidBeforeCard, jrib.pricePaidBeforeCardBeforeTax, jrib.pricePaidBeforeCardTax, jrib.pricePaidAfterCash, jrib.pricePaidAfterCashBeforeTax, jrib.pricePaidAfterCashTax, jrib.pricePaidAfterCard, jrib.pricePaidAfterCardBeforeTax, jrib.pricePaidAfterCardTax, jrib.count));
                         });
                         return journalReport;
                     });

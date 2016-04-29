@@ -1,8 +1,7 @@
 import {Injectable} from 'angular2/core';
-import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
+import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
 import {ConfigService} from "./config.service";
-import {ObservableWrapper} from "angular2/src/facade/async";
 import {Observable} from "rxjs/Observable";
 import {JournalReport} from "../model/journalReport";
 import {JournalReportItem} from "../model/journalReport";
@@ -28,9 +27,17 @@ export class JournalService {
                 journalReportBean.journalReportItemBeans.forEach(jrib =>
                     journalReport.add(new JournalReportItem(jrib.boatName,
                         jrib.pricePaidBeforeCash,
+                        jrib.pricePaidBeforeCashBeforeTax,
+                        jrib.pricePaidBeforeCashTax,
                         jrib.pricePaidBeforeCard,
+                        jrib.pricePaidBeforeCardBeforeTax,
+                        jrib.pricePaidBeforeCardTax,
                         jrib.pricePaidAfterCash,
+                        jrib.pricePaidAfterCashBeforeTax,
+                        jrib.pricePaidAfterCashTax,
                         jrib.pricePaidAfterCard,
+                        jrib.pricePaidAfterCardBeforeTax,
+                        jrib.pricePaidAfterCardTax,
                         jrib.count))
                 );
                 return journalReport;
@@ -56,9 +63,17 @@ export class JournalService {
                 journalReportBean.journalReportItemBeans.forEach(jrib =>
                     journalReport.add(new JournalReportItem(jrib.boatName,
                         jrib.pricePaidBeforeCash,
+                        jrib.pricePaidBeforeCashBeforeTax,
+                        jrib.pricePaidBeforeCashTax,
                         jrib.pricePaidBeforeCard,
+                        jrib.pricePaidBeforeCardBeforeTax,
+                        jrib.pricePaidBeforeCardTax,
                         jrib.pricePaidAfterCash,
+                        jrib.pricePaidAfterCashBeforeTax,
+                        jrib.pricePaidAfterCashTax,
                         jrib.pricePaidAfterCard,
+                        jrib.pricePaidAfterCardBeforeTax,
+                        jrib.pricePaidAfterCardTax,
                         jrib.count))
                 );
                 return journalReport;

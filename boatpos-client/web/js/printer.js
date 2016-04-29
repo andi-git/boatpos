@@ -254,22 +254,42 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(String(sum), 10, prettyprinter_1.Align.RIGHT));
                         request = this.blankLine(builder, request);
                         sum = 0;
+                        var sumBeforeTax = 0;
+                        var sumTax = 0;
                         request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
                         journalReport.journalReportItems.forEach(function (jri) {
                             request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
                             request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, prettyprinter_1.Align.RIGHT));
                             sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
+                            sumBeforeTax += (jri.pricePaidBeforeCashBeforeTax + jri.pricePaidAfterCashBeforeTax);
+                            sumTax += (jri.pricePaidBeforeCashTax + jri.pricePaidAfterCashTax);
                         });
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_1.Align.RIGHT));
+                        console.log(this.pp.ppPrice(sum));
+                        console.log(this.pp.ppPrice(sumTax));
+                        console.log(this.pp.ppPrice(sumBeforeTax));
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) +
+                            this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_1.Align.RIGHT) + " / " +
+                            this.pp.ppFixLength(this.pp.ppPrice(sumTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
+                            this.pp.ppFixLength(this.pp.ppPrice(sumBeforeTax), 10, prettyprinter_1.Align.RIGHT));
                         request = this.blankLine(builder, request);
                         sum = 0;
+                        sumBeforeTax = 0;
+                        sumTax = 0;
                         request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
                         journalReport.journalReportItems.forEach(function (jri) {
                             request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
                             request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, prettyprinter_1.Align.RIGHT));
                             sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
+                            sumBeforeTax += (jri.pricePaidBeforeCardBeforeTax + jri.pricePaidAfterCardBeforeTax);
+                            sumTax += (jri.pricePaidBeforeCardTax + jri.pricePaidAfterCardTax);
                         });
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_1.Align.RIGHT));
+                        console.log(this.pp.ppPrice(sum));
+                        console.log(this.pp.ppPrice(sumTax));
+                        console.log(this.pp.ppPrice(sumBeforeTax));
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) +
+                            this.pp.ppFixLength(this.pp.ppPrice(sum), 10, prettyprinter_1.Align.RIGHT) + " / " +
+                            this.pp.ppFixLength(this.pp.ppPrice(sumTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
+                            this.pp.ppFixLength(this.pp.ppPrice(sumBeforeTax), 10, prettyprinter_1.Align.RIGHT));
                         request = this.printLogo(builder, request, 13, 'center');
                         this.printPaper(builder, request, printerIp);
                     }

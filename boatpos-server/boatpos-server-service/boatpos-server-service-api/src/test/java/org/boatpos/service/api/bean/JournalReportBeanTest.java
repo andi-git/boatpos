@@ -14,7 +14,7 @@ public class JournalReportBeanTest {
         JournalReportBean journalReportBean = new JournalReportBean(LocalDate.now(), LocalDate.now(), Lists.newArrayList());
         journalReportBean.setJournalReportItemBeans(Lists.newArrayList());
         journalReportBean.getJournalReportItemBeans();
-        journalReportBean.addJournalReportItemBean(new JournalReportItemBean("boat1", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0));
+        journalReportBean.addJournalReportItemBean(new JournalReportItemBean("boat1", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

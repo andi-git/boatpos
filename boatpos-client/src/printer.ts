@@ -1,7 +1,6 @@
 import {Injectable} from "angular2/core";
 import {isPresent} from "angular2/src/facade/lang";
 import {Rental} from "./model/rental";
-import {ConfigService} from "./service/config.service";
 import {PrettyPrinter, Align} from "./prettyprinter";
 import {Boat} from "./model/boat";
 import {Bill} from "./model/bill";
@@ -251,22 +250,46 @@ export class Printer {
             request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(String(sum), 10, Align.RIGHT));
             request = this.blankLine(builder, request);
             sum = 0;
+            let sumBeforeTax = 0;
+            let sumTax = 0;
             request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
             journalReport.journalReportItems.forEach(jri => {
                 request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
                 request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, Align.RIGHT));
                 sum += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
+                sumBeforeTax += (jri.pricePaidBeforeCashBeforeTax + jri.pricePaidAfterCashBeforeTax);
+                sumTax += (jri.pricePaidBeforeCashTax + jri.pricePaidAfterCashTax);
             });
-            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
+            console.log(this.pp.ppPrice(sum));
+            console.log(this.pp.ppPrice(sumTax));
+            console.log(this.pp.ppPrice(sumBeforeTax));
+            request = this.printLine(builder, request, 1, 1, "left", true, false,
+                this.pp.ppFixLength("SUMME:", 18, Align.LEFT) +
+                this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT) + " / " +
+                this.pp.ppFixLength(this.pp.ppPrice(sumTax), 9, Align.RIGHT) + " / " +
+                this.pp.ppFixLength(this.pp.ppPrice(sumBeforeTax), 10, Align.RIGHT)
+            );
             request = this.blankLine(builder, request);
             sum = 0;
+            sumBeforeTax = 0;
+            sumTax = 0;
             request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
             journalReport.journalReportItems.forEach(jri => {
                 request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(jri.boatName + ":", 18, Align.LEFT));
                 request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, Align.RIGHT));
                 sum += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
+                sumBeforeTax += (jri.pricePaidBeforeCardBeforeTax + jri.pricePaidAfterCardBeforeTax);
+                sumTax += (jri.pricePaidBeforeCardTax + jri.pricePaidAfterCardTax);
             });
-            request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT));
+            console.log(this.pp.ppPrice(sum));
+            console.log(this.pp.ppPrice(sumTax));
+            console.log(this.pp.ppPrice(sumBeforeTax));
+            request = this.printLine(builder, request, 1, 1, "left", true, false,
+                this.pp.ppFixLength("SUMME:", 18, Align.LEFT) +
+                this.pp.ppFixLength(this.pp.ppPrice(sum), 10, Align.RIGHT) + " / " +
+                this.pp.ppFixLength(this.pp.ppPrice(sumTax), 9, Align.RIGHT) + " / " +
+                this.pp.ppFixLength(this.pp.ppPrice(sumBeforeTax), 10, Align.RIGHT)
+            );
             request = this.printLogo(builder, request, 13, 'center');
             this.printPaper(builder, request, printerIp);
         }
