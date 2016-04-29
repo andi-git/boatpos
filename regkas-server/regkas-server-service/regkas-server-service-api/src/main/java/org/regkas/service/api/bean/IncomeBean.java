@@ -26,16 +26,20 @@ public class IncomeBean extends AbstractBean {
     private List<ProductGroupIncomeBean> incomeElements;
 
     @Expose
+    private List<TaxElementBean> taxElements;
+
+    @Expose
     private BigDecimal totalIncome;
 
     public IncomeBean() {
     }
 
-    public IncomeBean(LocalDate start, LocalDate end, List<ProductGroupIncomeBean> incomeElements, BigDecimal totalIncome) {
+    public IncomeBean(LocalDate start, LocalDate end, List<ProductGroupIncomeBean> incomeElements, BigDecimal totalIncome, List<TaxElementBean> taxElements) {
         this.start = start;
         this.end = end;
         this.incomeElements = incomeElements;
         this.totalIncome = totalIncome;
+        this.taxElements = taxElements;
     }
 
     public LocalDate getStart() {
@@ -68,5 +72,13 @@ public class IncomeBean extends AbstractBean {
 
     public void setTotalIncome(BigDecimal totalIncome) {
         this.totalIncome = totalIncome;
+    }
+
+    public List<TaxElementBean> getTaxElements() {
+        return taxElements;
+    }
+
+    public void setTaxElements(List<TaxElementBean> taxElements) {
+        this.taxElements = taxElements;
     }
 }

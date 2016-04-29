@@ -156,9 +156,9 @@ export class Printer {
             } else {
                 request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(income.start) + " - " + this.pp.printDate(income.end));
             }
-            request = this.blankLine(builder, request);
 
             if (isPresent(income.incomeProductGroups)) {
+                request = this.blankLine(builder, request);
                 income.incomeProductGroups.forEach(ipg => {
                     request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(ipg.name, 26, Align.LEFT));
                     request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength("  " + ipg.taxPercent + "%", 6, Align.LEFT));
@@ -167,6 +167,19 @@ export class Printer {
             }
             request += builder.createRuledLineElement({thickness: 'medium', width: 832});
             request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, Align.RIGHT));
+
+            if (isPresent(income.taxElements)) {
+                request = this.blankLine(builder, request);
+                income.taxElements.forEach(te => {
+                    if (te.price > 0) {
+                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(te.taxPercent + "%", 6, Align.LEFT));
+                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength("  " + this.pp.ppPrice(te.price), 10, Align.RIGHT));
+                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(" /  " + this.pp.ppPrice(te.priceTax), 10, Align.RIGHT));
+                        request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(" /  " + this.pp.ppPrice(te.priceBeforeTax), 10, Align.RIGHT));
+                    }
+                });
+            }
+
             request = this.printLogo(builder, request, 13, 'center');
             this.printPaper(builder, request, printerIp);
         }
@@ -180,7 +193,8 @@ export class Printer {
         var request = builder.createInitializationElement();
         request += builder.createTextElement({
             codepage: 'utf8',
-            data:'Drucker für die Registrierkassa funktioniert!\n\n'});
+            data: 'Drucker für die Registrierkassa funktioniert!\n\n'
+        });
         // cut
         request += builder.createCutPaperElement({feed: true});
         //noinspection TypeScriptUnresolvedFunction

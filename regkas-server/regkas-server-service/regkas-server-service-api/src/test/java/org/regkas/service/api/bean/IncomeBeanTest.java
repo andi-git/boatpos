@@ -11,6 +11,6 @@ public class IncomeBeanTest extends JavaBeanTest<IncomeBean> {
 
     @Test
     public void testConstructor() {
-        new IncomeBean(LocalDate.now(), LocalDate.now(), new ArrayList<>(), BigDecimal.ONE);
+        new IncomeBean(LocalDate.now(), LocalDate.now(), new ArrayList<>(), BigDecimal.ONE, new ArrayList<>());
     }
 }

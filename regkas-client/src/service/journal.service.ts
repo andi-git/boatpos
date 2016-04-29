@@ -4,7 +4,7 @@ import "rxjs/add/operator/map";
 import {ConfigService} from "./config.service";
 import {isPresent} from "angular2/src/facade/lang";
 import {Observable} from "rxjs/Observable";
-import {Income, IncomeProductGroup} from "../model/income";
+import {Income, IncomeProductGroup, TaxElement} from "../model/income";
 
 @Injectable()
 export class JournalService {
@@ -44,11 +44,22 @@ export class JournalService {
                         pg.priority
                     ))
                 );
+                let taxElements:Array<TaxElement> = [];
+                incomeBean.taxElements.forEach(
+                    te => taxElements.push(new TaxElement(
+                        te.taxPercent,
+                        te.priority,
+                        te.price,
+                        te.priceBeforeTax,
+                        te.priceTax
+                    ))
+                );
                 return new Income(
                     JournalService.createDate(incomeBean.start),
                     JournalService.createDate(incomeBean.end),
                     incomeBean.totalIncome,
-                    incomeProductGroups);
+                    incomeProductGroups,
+                    taxElements);
             });
     }
 

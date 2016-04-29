@@ -164,8 +164,8 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         else {
                             request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(income.start) + " - " + this.pp.printDate(income.end));
                         }
-                        request = this.blankLine(builder, request);
                         if (lang_1.isPresent(income.incomeProductGroups)) {
+                            request = this.blankLine(builder, request);
                             income.incomeProductGroups.forEach(function (ipg) {
                                 request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(ipg.name, 26, prettyprinter_1.Align.LEFT));
                                 request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + ipg.taxPercent + "%", 6, prettyprinter_1.Align.LEFT));
@@ -174,6 +174,17 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         }
                         request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                         request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, prettyprinter_1.Align.RIGHT));
+                        if (lang_1.isPresent(income.taxElements)) {
+                            request = this.blankLine(builder, request);
+                            income.taxElements.forEach(function (te) {
+                                if (te.price > 0) {
+                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(te.taxPercent + "%", 6, prettyprinter_1.Align.LEFT));
+                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + _this.pp.ppPrice(te.price), 10, prettyprinter_1.Align.RIGHT));
+                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceTax), 10, prettyprinter_1.Align.RIGHT));
+                                    request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceBeforeTax), 10, prettyprinter_1.Align.RIGHT));
+                                }
+                            });
+                        }
                         request = this.printLogo(builder, request, 13, 'center');
                         this.printPaper(builder, request, printerIp);
                     }
@@ -185,7 +196,8 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     var request = builder.createInitializationElement();
                     request += builder.createTextElement({
                         codepage: 'utf8',
-                        data: 'Drucker für die Registrierkassa funktioniert!\n\n' });
+                        data: 'Drucker für die Registrierkassa funktioniert!\n\n'
+                    });
                     // cut
                     request += builder.createCutPaperElement({ feed: true });
                     //noinspection TypeScriptUnresolvedFunction

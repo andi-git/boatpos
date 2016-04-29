@@ -57,7 +57,9 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                         .map(function (incomeBean) {
                         var incomeProductGroups = [];
                         incomeBean.incomeElements.forEach(function (pg) { return incomeProductGroups.push(new income_1.IncomeProductGroup(pg.name, pg.income, pg.taxPercent, pg.priority)); });
-                        return new income_1.Income(JournalService.createDate(incomeBean.start), JournalService.createDate(incomeBean.end), incomeBean.totalIncome, incomeProductGroups);
+                        var taxElements = [];
+                        incomeBean.taxElements.forEach(function (te) { return taxElements.push(new income_1.TaxElement(te.taxPercent, te.priority, te.price, te.priceBeforeTax, te.priceTax)); });
+                        return new income_1.Income(JournalService.createDate(incomeBean.start), JournalService.createDate(incomeBean.end), incomeBean.totalIncome, incomeProductGroups, taxElements);
                     });
                 };
                 JournalService.createDate = function (jsonDate) {
