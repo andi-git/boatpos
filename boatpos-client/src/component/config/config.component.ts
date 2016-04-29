@@ -13,6 +13,7 @@ export class ConfigComponent {
 
     constructor(private config:ConfigService, private printer:Printer) {
         console.log("constructor of ConfigComponent");
+        this.possibleIps.push("192.168.8.100");
         this.possibleIps.push("192.168.8.101");
         this.possibleIps.push("192.168.8.102");
         this.possibleIps.push("192.168.8.103");
