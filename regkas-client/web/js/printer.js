@@ -50,6 +50,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         cell: 3,
                         data: 'https://www.eppel-boote.at'
                     });
+                    request += builder.createPeripheralElement({ channel: 1, on: 200, off: 200 });
                     this.printPaper(builder, request, printerIp);
                 };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
