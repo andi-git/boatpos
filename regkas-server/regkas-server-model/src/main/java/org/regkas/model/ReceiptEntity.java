@@ -29,12 +29,12 @@ public class ReceiptEntity extends AbstractEntity {
     private LocalDateTime receiptDate;
 
     @NotNull
-    @Size(min = 0, max = 50)
+    @Size(max = 50)
     @Expose
     private String encryptedTurnoverValue;
 
     @NotNull
-    @Size(min = 0, max = 50)
+    @Size(max = 50)
     @Expose
     private String signatureValuePreviousReceipt;
 
@@ -75,10 +75,13 @@ public class ReceiptEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private TimeType timeType;
 
+    @Size(max = 4096)
+    private String dep;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, List<ReceiptElementEntity> receiptElements) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, List<ReceiptElementEntity> receiptElements, String dep) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -91,6 +94,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.receiptElements = receiptElements;
         this.paymentMethod = paymentMethod;
         this.timeType = timeType;
+        this.dep = dep;
     }
 
     public String getReceiptId() {
@@ -179,5 +183,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setTimeType(TimeType timeType) {
         this.timeType = timeType;
+    }
+
+    public String getDep() {
+        return dep;
+    }
+
+    public void setDep(String dep) {
+        this.dep = dep;
     }
 }

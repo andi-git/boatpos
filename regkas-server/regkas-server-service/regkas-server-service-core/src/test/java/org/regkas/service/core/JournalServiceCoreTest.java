@@ -1,20 +1,32 @@
 package org.regkas.service.core;
 
+import com.google.common.io.ByteStreams;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.repository.CompanyRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.bean.IncomeBean;
 import org.regkas.service.api.bean.ProductGroupIncomeBean;
 import org.regkas.service.api.bean.TaxElementBean;
 import org.regkas.service.core.context.CashBoxContext;
+import org.regkas.service.core.context.CompanyContext;
+import org.regkas.service.core.serializer.DEPExport;
+import org.regkas.service.core.serializer.NonPrettyPrintingGson;
+import org.regkas.service.core.serializer.Serializer;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,7 +43,20 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
     private CashBoxContext cashBoxContext;
 
     @Inject
+    private CompanyRepository companyRepository;
+
+    @Inject
+    private CompanyContext companyContext;
+
+    @Inject
     private DateTimeHelperMock dateTimeHelperMock;
+
+    @Inject
+    private DateTimeHelperMock dateTimeHelper;
+
+    @Inject
+    @NonPrettyPrintingGson
+    private Serializer serializer;
 
     @Test
     @Transactional
@@ -77,5 +102,33 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(expectedPrice, taxElement.getPrice());
         assertEquals(expectedPriceBeforeTax, taxElement.getPriceBeforeTax());
         assertEquals(expectedPriceTax, taxElement.getPriceTax());
+    }
+
+    @Test
+    @Transactional
+    public void testDatenErfassungsProtokoll() throws Exception {
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        assertDEP(journalService.datenErfassungsProtokoll(2015), LocalDateTime.of(2015, 1, 1, 0, 0, 0), LocalDateTime.of(2015, 12, 31, 23, 59, 59, 999999999), 2);
+        assertDEP(journalService.datenErfassungsProtokoll(2015, 7), LocalDateTime.of(2015, 7, 1, 0, 0, 0), LocalDateTime.of(2015, 7, 31, 23, 59, 59, 999999999), 2);
+        assertDEP(journalService.datenErfassungsProtokoll(2015, 7, 1), LocalDateTime.of(2015, 7, 1, 0, 0, 0), LocalDateTime.of(2015, 7, 1, 23, 59, 59, 999999999), 2);
+        assertDEP(journalService.datenErfassungsProtokoll(2015, 7, 2), LocalDateTime.of(2015, 7, 2, 0, 0, 0), LocalDateTime.of(2015, 7, 2, 23, 59, 59, 999999999), 0);
+        cashBoxContext.clear();
+        companyContext.clear();
+    }
+
+    private void assertDEP(File file, LocalDateTime start, LocalDateTime end, int elements) throws IOException {
+        ZipFile zipFile = new ZipFile(file);
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        while (entries.hasMoreElements()) {
+            DEPExport depExport = serializer.deserialize(new String(ByteStreams.toByteArray(zipFile.getInputStream(entries.nextElement()))), DEPExport.class);
+            assertEquals("company", depExport.getCompany());
+            assertEquals("atu123", depExport.getAtu());
+            assertEquals("RegKas1", depExport.getCashBoxId());
+            assertEquals(dateTimeHelper.currentTime(), depExport.getCreated());
+            assertEquals(start, depExport.getFrom());
+            assertEquals(end, depExport.getTo());
+            assertEquals(elements, depExport.getCashBoxInstructionList().size());
+        }
     }
 }

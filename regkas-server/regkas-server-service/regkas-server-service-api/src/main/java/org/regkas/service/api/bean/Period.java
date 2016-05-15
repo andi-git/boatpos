@@ -1,5 +1,6 @@
 package org.regkas.service.api.bean;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -54,6 +55,10 @@ public class Period {
         return new Period(date, date);
     }
 
+    public static Period day(LocalDate date) {
+        return new Period(LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), 0, 0, 0), LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), 0, 0, 0));
+    }
+
     public static Period month(LocalDateTime date) {
         return new Period(
                 LocalDateTime.from(date).withDayOfMonth(1),
@@ -64,5 +69,9 @@ public class Period {
         return new Period(
                 LocalDateTime.from(date).withMonth(1).withDayOfMonth(1),
                 LocalDateTime.from(date).withMonth(12).withDayOfMonth(date.toLocalDate().lengthOfMonth()));
+    }
+
+    public static Period forever() {
+        return new Period(LocalDateTime.of(2015, 1, 1, 0, 0, 0, 0), LocalDateTime.of(2100, 12, 31, 23, 59, 59, 999999999));
     }
 }

@@ -20,6 +20,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.*;
 import java.util.function.Function;
 
 /**
@@ -51,21 +52,57 @@ public class RegkasService {
         return readEntity(createRestCall(webTarget -> webTarget.path("rest/sale")).post(Entity.json(sale)), BillBean.class);
     }
 
-    public <T> T readEntity(Response response, Class<T> type) {
+    public File getDEP(int year) {
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year)).get());
+    }
+
+    public File getDEP(int year, int month) {
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month)).get());
+    }
+
+    public File getDEP(int year, int month, int day) {
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month + "/" + day)).get());
+    }
+
+    File convert(Response response) {
+        return writeToFile(readEntity(response, InputStream.class), new File(System.getProperty("java.io.tmpdir"), getFileNameFromContentDisposition(response)));
+    }
+
+    String getFileNameFromContentDisposition(Response response) {
+        String contentDisposition = (String) response.getHeaders().get("Content-Disposition").get(0);
+        return contentDisposition.substring(contentDisposition.indexOf('"') + 1, contentDisposition.length() - 1);
+    }
+
+    File writeToFile(InputStream inputStream, File file) {
+        OutputStream outputStream;
+        try {
+            outputStream = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
+
+    private <T> T readEntity(Response response, Class<T> type) {
         if (Response.Status.OK.getStatusCode() != response.getStatus()) {
             throw new RuntimeException("error on calling regkas-service: " + response.getStatus());
         }
         return response.readEntity(type);
     }
 
-    public Invocation.Builder addCredentials(Invocation.Builder builder) throws Exception {
+    Invocation.Builder addCredentials(Invocation.Builder builder) {
         return builder
                 .header("username", getNotNullableSystemProperty("boatpos.regkas.service.username"))
                 .header("password", getNotNullableSystemProperty("boatpos.regkas.service.password"))
                 .header("cashbox", getNotNullableSystemProperty("boatpos.regkas.service.cashbox"));
     }
 
-    public Invocation.Builder createRestCall(Function<WebTarget, WebTarget> addPath) throws Exception {
+    Invocation.Builder createRestCall(Function<WebTarget, WebTarget> addPath) {
         WebTarget webTarget = ClientBuilder.newClient().target(getNotNullableSystemProperty("boatpos.regkas.service.rest"));
         webTarget = addPath.apply(webTarget);
         return addCredentials(webTarget.request().accept(MediaType.APPLICATION_JSON));

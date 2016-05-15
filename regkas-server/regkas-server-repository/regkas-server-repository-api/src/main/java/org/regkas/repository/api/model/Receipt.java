@@ -4,14 +4,10 @@ import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.regkas.model.ReceiptEntity;
 import org.regkas.model.TimeType;
-import org.regkas.repository.api.values.EncryptedTurnoverValue;
-import org.regkas.repository.api.values.ReceiptDate;
-import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.*;
 import org.regkas.service.api.bean.ReceiptBean;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * The domain model for a company.
@@ -57,6 +53,10 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
     TimeType getTimeType();
 
     Receipt setTimeType(TimeType timeType);
+
+    DEPString getDEP();
+
+    Receipt setDEP(DEPString dep);
 
     List<ReceiptElement> getReceiptElements();
 

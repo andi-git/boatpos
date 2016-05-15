@@ -13,9 +13,11 @@ import org.boatpos.repository.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;
+import org.boatpos.service.core.util.RegkasService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -35,6 +37,9 @@ public class JournalServiceCore implements JournalService {
     @SLF4J
     private LogWrapper log;
 
+    @Inject
+    private RegkasService regkasService;
+
     @Override
     public JournalReportBean totalIncomeFor(Integer year) {
         return totalIncomeFor(Period.year(LocalDate.of(year, 1, 1)));
@@ -48,6 +53,21 @@ public class JournalServiceCore implements JournalService {
     @Override
     public JournalReportBean totalIncomeFor(Integer year, Integer month, Integer dayOfMonth) {
         return totalIncomeFor(Period.day(LocalDate.of(year, month, dayOfMonth)));
+    }
+
+    @Override
+    public File datenErfassungsProtokoll(Integer year) {
+        return regkasService.getDEP(year);
+    }
+
+    @Override
+    public File datenErfassungsProtokoll(Integer year, Integer month) {
+        return regkasService.getDEP(year, month);
+    }
+
+    @Override
+    public File datenErfassungsProtokoll(Integer year, Integer month, Integer dayOfMonth) {
+        return regkasService.getDEP(year, month, dayOfMonth);
     }
 
     private JournalReportBean totalIncomeFor(Period period) {

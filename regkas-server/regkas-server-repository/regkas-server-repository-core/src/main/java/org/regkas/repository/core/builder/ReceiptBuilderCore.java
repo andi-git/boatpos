@@ -6,17 +6,12 @@ import org.regkas.model.ReceiptEntity;
 import org.regkas.model.TimeType;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.*;
-import org.regkas.repository.api.values.EncryptedTurnoverValue;
-import org.regkas.repository.api.values.ReceiptDate;
-import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.*;
 import org.regkas.repository.core.model.ReceiptCore;
 
 import javax.enterprise.context.Dependent;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Dependent
 public class ReceiptBuilderCore
@@ -43,11 +38,13 @@ public class ReceiptBuilderCore
 
     private TimeType timeType;
 
+    private DEPString dep;
+
     private List<ReceiptElement> receiptElements = new ArrayList<>();
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, timeType, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, timeType, dep, receiptElements);
     }
 
     @Override
@@ -107,6 +104,12 @@ public class ReceiptBuilderCore
     @Override
     public ReceiptBuilder add(TimeType timeType) {
         this.timeType = timeType;
+        return this;
+    }
+
+    @Override
+    public ReceiptBuilder add(DEPString dep) {
+        this.dep = dep;
         return this;
     }
 

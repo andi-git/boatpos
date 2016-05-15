@@ -4,6 +4,7 @@ import org.boatpos.common.repository.api.repository.DomainModelRepository;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
+import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.bean.Period;
 
 import java.util.List;
@@ -30,4 +31,29 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
      * @return the last {@link Receipt} for a concrete {@link CashBox}
      */
     Optional<Receipt> loadLastReceipt(CashBox cashBox);
+
+    /**
+     * Get the {@link Receipt} by it's {@link ReceiptId}.
+     *
+     * @param receiptId the {@link ReceiptId} of the {@link Receipt}
+     * @param cashBox   the {@link CashBox} to get the last receipt for
+     * @return the {@link Receipt}
+     */
+    Optional<Receipt> loadBy(ReceiptId receiptId, CashBox cashBox);
+
+    /**
+     * Load all DEPs that are within the {@link Period} for the {@link CashBox}.
+     *
+     * @param period  the {@link Period} to load the DEP for
+     * @param cashBox the {@link CashBox} to load the DEP for
+     * @return a {@link List} of all DEPs as {@link String} (JSON-format)
+     */
+    List<String> loadDEPFor(Period period, CashBox cashBox);
+
+    /**
+     * Load all available {@link Receipt}s without a DEP.
+     *
+     * @return a {@link List} of all availble {@link Receipt}s without a DEP
+     */
+    List<Receipt> loadAllWithoutDEP();
 }

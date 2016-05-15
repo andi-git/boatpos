@@ -1,5 +1,6 @@
 package org.boatpos.service.rest;
 
+import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.service.rest.filter.Authenticated;
@@ -22,6 +23,9 @@ public class JournalServiceRest {
 
     @Inject
     private DateTimeHelper dateTimeHelper;
+
+    @Inject
+    private RestHelper restHelper;
 
     @GET
     @Path("/income/year")
@@ -57,5 +61,23 @@ public class JournalServiceRest {
     @Path("/income/{year:[0-9]*}/{month:[0-9]*}/{day:[0-9]*}")
     public Response totalIncome(@PathParam("year") Integer year, @PathParam("month") Integer month, @PathParam("day") Integer day) {
         return Response.ok(journalService.totalIncomeFor(year, month, day)).build();
+    }
+
+    @GET
+    @Path("/income/{year:[0-9]*}")
+    public Response datenErfassungsProtokoll(@PathParam("year") Integer year) {
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year));
+    }
+
+    @GET
+    @Path("/income/{year:[0-9]*}/{month:[0-9]*}")
+    public Response datenErfassungsProtokoll(@PathParam("year") Integer year, @PathParam("month") Integer month) {
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year, month));
+    }
+
+    @GET
+    @Path("/income/{year:[0-9]*}/{month:[0-9]*}/{day:[0-9]*}")
+    public Response datenErfassungsProtokoll(@PathParam("year") Integer year, @PathParam("month") Integer month, @PathParam("day") Integer day) {
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year, month, day));
     }
 }

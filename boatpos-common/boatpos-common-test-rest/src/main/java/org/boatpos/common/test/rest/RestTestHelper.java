@@ -20,9 +20,13 @@ import static org.junit.Assert.assertEquals;
 public class RestTestHelper {
 
     public Invocation.Builder createRestCall(URL url, Function<WebTarget, WebTarget> addPath) throws Exception {
+        return createRestCall(url, addPath, MediaType.APPLICATION_JSON_TYPE);
+    }
+
+    public Invocation.Builder createRestCall(URL url, Function<WebTarget, WebTarget> addPath, MediaType mediaType) throws Exception {
         WebTarget webTarget = ClientBuilder.newClient().target(url.toURI()).path("rest");
         webTarget = addPath.apply(webTarget);
-        return webTarget.request().accept(MediaType.APPLICATION_JSON);
+        return webTarget.request().accept(mediaType);
     }
 
     public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count) throws Exception {

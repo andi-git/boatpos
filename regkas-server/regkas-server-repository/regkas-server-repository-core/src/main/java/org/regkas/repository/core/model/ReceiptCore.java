@@ -9,10 +9,7 @@ import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.regkas.model.ReceiptEntity;
 import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.*;
-import org.regkas.repository.api.values.EncryptedTurnoverValue;
-import org.regkas.repository.api.values.ReceiptDate;
-import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.*;
 import org.regkas.repository.core.mapping.ReceiptMapping;
 import org.regkas.service.api.bean.ReceiptBean;
 
@@ -36,6 +33,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        CashBox cashBox,
                        PaymentMethod paymentMethod,
                        TimeType timeType,
+                       DEPString dep,
                        List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -59,6 +57,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setCashBox(cashBox);
         setPaymentMethod(paymentMethod);
         setTimeType(timeType);
+        setDEP(dep);
         addReceiptElements(receiptElements);
     }
 
@@ -173,6 +172,17 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public Receipt setTimeType(TimeType timeType) {
         if (timeType != null) getEntity().setTimeType(timeType);
+        return this;
+    }
+
+    @Override
+    public DEPString getDEP() {
+        return new DEPString(getEntity().getDep());
+    }
+
+    @Override
+    public Receipt setDEP(DEPString dep) {
+        getEntity().setDep(SimpleValueObject.nullSafe(dep));
         return this;
     }
 

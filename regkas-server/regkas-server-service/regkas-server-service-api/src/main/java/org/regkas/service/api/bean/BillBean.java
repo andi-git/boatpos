@@ -1,6 +1,7 @@
 package org.regkas.service.api.bean;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import org.boatpos.common.service.api.bean.AbstractBean;
 import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
 
@@ -17,59 +18,64 @@ import java.util.List;
 public class BillBean extends AbstractBean {
 
     //REF TO SPECIFICATION: Detailspezifikation/Abs 4, Abs 5
-    //    @SerializedName("Kassen-ID")
+    @SerializedName("Kassen-ID")
     @Expose
     private String cashBoxID;
 
-    //    @SerializedName("Belegnummer")
+    @SerializedName("Belegnummer")
     @Expose
     private String receiptIdentifier;
 
-    //    @SerializedName("Beleg-Datum-Uhrzeit")
+    @SerializedName("Beleg-Datum-Uhrzeit")
     @Expose
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime receiptDateAndTime;
 
-    //    @SerializedName("Betrag-Satz-Normal")
+    @SerializedName("Betrag-Satz-Normal")
     @Expose
     private BigDecimal sumTaxSetNormal = new BigDecimal("0.00");
 
-    //    @SerializedName("Betrag-Satz-Ermaessigt-1")
+    @SerializedName("Betrag-Satz-Ermaessigt-1")
     @Expose
     private BigDecimal sumTaxSetErmaessigt1 = new BigDecimal("0.00");
 
-    //    @SerializedName("Betrag-Satz-Ermaessigt-2")
+    @SerializedName("Betrag-Satz-Ermaessigt-2")
     @Expose
     private BigDecimal sumTaxSetErmaessigt2 = new BigDecimal("0.00");
 
-    //    @SerializedName("Betrag-Satz-Null")
+    @SerializedName("Betrag-Satz-Null")
     @Expose
     private BigDecimal sumTaxSetNull = new BigDecimal("0.00");
 
-    //    @SerializedName("Betrag-Satz-Besonders")
+    @SerializedName("Betrag-Satz-Besonders")
     @Expose
     private BigDecimal sumTaxSetBesonders = new BigDecimal("0.00");
 
-    //    @SerializedName("Stand-Umsatz-Zaehler-AES256-ICM")
-    @Expose
+    @SerializedName("Stand-Umsatz-Zaehler-AES256-ICM")
+//    @Expose
     private String encryptedTurnoverValue;
 
-    //    @SerializedName("Zertifikat-Seriennummer")
-    @Expose
+    @SerializedName("Zertifikat-Seriennummer")
+//    @Expose
     private String signatureCertificateSerialNumber;
 
-    //    @SerializedName("Sig-Voriger-Beleg")
-    @Expose
+    @SerializedName("Sig-Voriger-Beleg")
+//    @Expose
     private String signatureValuePreviousReceipt;
 
-    @Expose
     private CompanyBean company;
 
+    @SerializedName("Belegelemente")
     @Expose
     private List<BillTaxSetElementBean> billTaxSetElements = new ArrayList<>();
 
+    @SerializedName("Gesamtbetrag")
     @Expose
     private BigDecimal sumTotal = new BigDecimal("0.00");
+
+    @SerializedName("Beleg-Art")
+    @Expose
+    private String receiptType = "Standard-Beleg";
 
     public BillBean() {
     }
@@ -198,5 +204,13 @@ public class BillBean extends AbstractBean {
 
     public void setSumTotal(BigDecimal sumTotal) {
         this.sumTotal = sumTotal;
+    }
+
+    public String getReceiptType() {
+        return receiptType;
+    }
+
+    public void setReceiptType(String receiptType) {
+        this.receiptType = receiptType;
     }
 }

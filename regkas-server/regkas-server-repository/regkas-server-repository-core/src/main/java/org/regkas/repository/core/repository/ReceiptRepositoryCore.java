@@ -6,6 +6,7 @@ import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.repository.core.builder.ReceiptBuilderCore;
 import org.regkas.repository.core.model.ReceiptCore;
 import org.regkas.service.api.bean.Period;
@@ -34,5 +35,31 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
     public Optional<Receipt> loadLastReceipt(CashBox cashBox) {
         checkNotNull(cashBox, "'cashBox' must not be null");
         return loadByParameter("receipt.getLastByCashBox", (query) -> query.setParameter("cashBoxId", cashBox.getId().get()));
+    }
+
+    @Override
+    public Optional<Receipt> loadBy(ReceiptId receiptId, CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        checkNotNull(receiptId, "'receiptId' must not be null");
+        return loadByParameter("receipt.getByReceiptId",
+                (query) -> query
+                        .setParameter("cashBoxId", cashBox.getId().get())
+                        .setParameter("receiptId", receiptId.get()));
+    }
+
+    @Override
+    public List<String> loadDEPFor(Period period, CashBox cashBox) {
+        checkNotNull(period, "'period' must not be null");
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return jpaHelper().createNamedQuery("receipt.getDEP", String.class)
+                .setParameter("start", period.getStartDay())
+                .setParameter("end", period.getEndDay())
+                .setParameter("cashBoxId", cashBox.getId().get())
+                .getResultList();
+    }
+
+    @Override
+    public List<Receipt> loadAllWithoutDEP() {
+        return super.loadAll("receipt.getAllWithoutDEP", ReceiptCore::new);
     }
 }

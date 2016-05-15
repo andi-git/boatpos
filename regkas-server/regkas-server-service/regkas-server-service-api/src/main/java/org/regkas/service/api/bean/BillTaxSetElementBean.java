@@ -1,6 +1,7 @@
 package org.regkas.service.api.bean;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import org.boatpos.common.service.api.bean.AbstractBean;
 
 import javax.validation.constraints.Max;
@@ -11,30 +12,36 @@ import java.math.BigDecimal;
 
 public class BillTaxSetElementBean extends AbstractBean {
 
+    @SerializedName("Produkt")
     @NotNull
     @Size(min = 3, max = 50)
     @Expose
     private String name;
 
+    @SerializedName("Steuersatz")
     @NotNull
     @Min(0)
     @Max(100)
     @Expose
     private Integer taxPercent;
 
+    @SerializedName("Anzahl")
     @NotNull
     @Min(0)
     @Expose
     private Integer amount;
 
+    @SerializedName("Netto")
     @NotNull
     @Expose
     private BigDecimal pricePreTax;
 
+    @SerializedName("Brutto")
     @NotNull
     @Expose
     private BigDecimal priceAfterTax;
 
+    @SerializedName("Steuer")
     @NotNull
     @Expose
     private BigDecimal priceTax;

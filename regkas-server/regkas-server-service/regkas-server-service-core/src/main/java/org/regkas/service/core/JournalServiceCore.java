@@ -7,17 +7,24 @@ import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.ProductGroup;
+import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.repository.ProductGroupRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.repository.TaxSetRepository;
+import org.regkas.repository.api.values.DEPString;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.bean.IncomeBean;
 import org.regkas.service.api.bean.Period;
 import org.regkas.service.api.bean.ProductGroupIncomeBean;
 import org.regkas.service.api.bean.TaxElementBean;
+import org.regkas.service.core.serializer.DEPExporter;
+import org.regkas.service.core.serializer.NonPrettyPrintingGson;
+import org.regkas.service.core.serializer.Serializer;
+import org.regkas.service.core.util.ReceiptToBillConverter;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,6 +55,16 @@ public class JournalServiceCore implements JournalService {
     @SLF4J
     private LogWrapper log;
 
+    @Inject
+    private DEPExporter depExporter;
+
+    @Inject
+    @NonPrettyPrintingGson
+    private Serializer serializer;
+
+    @Inject
+    private ReceiptToBillConverter receiptToBillConverter;
+
     @Override
     public IncomeBean totalIncomeFor(Integer year) {
         return totalIncomeFor(Period.year(LocalDateTime.of(year, 1, 1, 0, 0)));
@@ -61,6 +78,32 @@ public class JournalServiceCore implements JournalService {
     @Override
     public IncomeBean totalIncomeFor(Integer year, Integer month, Integer dayOfMonth) {
         return totalIncomeFor(Period.day(LocalDateTime.of(year, month, dayOfMonth, 0, 0)));
+    }
+
+    @Override
+    public File datenErfassungsProtokoll(Integer year) {
+        return depExporter.export(Period.year(LocalDateTime.of(year, 1, 1, 0, 0)));
+    }
+
+    @Override
+    public File datenErfassungsProtokoll(Integer year, Integer month) {
+        return depExporter.export(Period.month(LocalDateTime.of(year, month, 1, 0, 0)));
+    }
+
+    @Override
+    public File datenErfassungsProtokoll(Integer year, Integer month, Integer dayOfMonth) {
+        return depExporter.export(Period.day(LocalDateTime.of(year, month, dayOfMonth, 0, 0)));
+    }
+
+    @Override
+    public int updateReceipts() {
+        List<Receipt> receipts = receiptRepository.loadAllWithoutDEP();
+        int count = 0;
+        for (Receipt receipt : receipts) {
+            receipt.setDEP(new DEPString(serializer.serialize(receiptToBillConverter.convert(receipt)))).persist();
+            count++;
+        }
+        return count;
     }
 
     private IncomeBean totalIncomeFor(Period period) {

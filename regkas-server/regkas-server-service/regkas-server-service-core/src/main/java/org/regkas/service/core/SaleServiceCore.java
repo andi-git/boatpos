@@ -12,8 +12,10 @@ import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
+import org.regkas.service.core.serializer.NonPrettyPrintingGson;
+import org.regkas.service.core.serializer.Serializer;
 import org.regkas.service.core.util.ReceiptIdCalculator;
-import org.regkas.service.core.util.TaxSet;
+import org.regkas.service.core.util.ReceiptToBillConverter;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -53,13 +55,14 @@ public class SaleServiceCore implements SaleService {
     private Company company;
 
     @Inject
-    private CompanyRepository companyRepository;
-
-    @Inject
-    private CashBoxRepository cashBoxRepository;
-
-    @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private ReceiptToBillConverter receiptToBillConverter;
+
+    @Inject
+    @NonPrettyPrintingGson
+    private Serializer serializer;
 
     @Override
     public BillBean sale(SaleBean sale) {
@@ -79,7 +82,6 @@ public class SaleServiceCore implements SaleService {
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
-                System.out.println("add " + receiptElementBean.getProduct().getName());
                 receiptBuilder.add(receiptElementRepository
                         .builder()
                         .add(new Amount(receiptElementBean.getAmount()))
@@ -90,19 +92,8 @@ public class SaleServiceCore implements SaleService {
         }
 
         Receipt receipt = receiptBuilder.build().persist();
-
-        BillBean bill = new BillBean();
-        bill.setCompany(company.asDto());
-        bill.setCashBoxID(cashBox.getName().get());
-        bill.setReceiptIdentifier(receipt.getReceiptId().get());
-        bill.setReceiptDateAndTime(receipt.getReceiptDate().get());
-        bill.setEncryptedTurnoverValue("");
-        bill.setSignatureCertificateSerialNumber("");
-        bill.setSignatureValuePreviousReceipt("");
-        for (ReceiptElement receiptElement : receipt.getReceiptElements()) {
-            System.out.println("add " + receiptElement.getProduct().getName().get() + ", " + receiptElement.getId().get());
-            TaxSet.addToBill(receiptElement, bill);
-        }
+        BillBean bill = receiptToBillConverter.convert(receipt);
+        receipt.setDEP(new DEPString(serializer.serialize(bill))).persist();
         return bill;
     }
 }

@@ -1,9 +1,14 @@
 package org.boatpos.common.service.rest;
 
+import com.google.common.io.Files;
 import org.boatpos.common.service.api.bean.AbstractBean;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.util.Optional;
 
 /**
@@ -11,6 +16,10 @@ import java.util.Optional;
  */
 @Dependent
 public class RestHelper {
+
+    @Inject
+    @SLF4J
+    private LogWrapper log;
 
     /**
      * Create a {@link Response} with state {@link Response.Status#OK} when the assigned {@link Optional#isPresent()} is
@@ -40,4 +49,24 @@ public class RestHelper {
                 .entity(bean)
                 .build();
     }
+
+    /**
+     * Create the response based on a zip-file.
+     *
+     * @param file the zip-file
+     * @return the response
+     */
+    public Response createZipOutput(File file) {
+        try {
+            return Response
+                    .ok(Files.toByteArray(file))
+                    .type("application/zip")
+                    .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"")
+                    .build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
