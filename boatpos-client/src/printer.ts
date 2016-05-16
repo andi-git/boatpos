@@ -21,6 +21,7 @@ export class Printer {
             request = this.addLogo(builder, request);
             request = this.printCompanyData(builder, request, rental);
             request = this.addBoat(builder, request, rental);
+            request = this.addCommitmentReturnInfo(builder, request);
             request = this.add5MinuteInfo(builder, request);
             this.printPaper(builder, request, printerIp);
 
@@ -184,6 +185,13 @@ export class Printer {
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Hinweis: Es werden (für das Ein-/Aussteigen)');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, '5 Minuten auf die Fahrzeit gutgeschrieben!');
+        return request;
+    }
+
+    private addCommitmentReturnInfo(builder:any, request:any):any {
+        request = this.blankLine(builder, request);
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Achtung: Der Einsatz kann ausschließlich nach');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Vorlage dieses Belegs retourniert werden!');
         return request;
     }
 
