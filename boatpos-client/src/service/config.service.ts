@@ -63,6 +63,12 @@ export class ConfigService {
         return headers;
     }
 
+    addQueryParamCredentials(path:string):string {
+        return path +
+            "username=" + this.config.username + "&" +
+            "password=" + this.config.password
+    }
+
     savePrinterIp(ip:string) {
         this.http.post(this.getBackendUrl() + 'rest/printer', JSON.stringify(new IpAddress(ip)), {headers: this.getDefaultHeader()})
             .subscribe(this.config.printerIp = ip);

@@ -2,7 +2,7 @@ package org.boatpos.service.rest;
 
 import org.boatpos.service.api.RentalService;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
-import org.boatpos.service.rest.filter.Authenticated;
+import org.boatpos.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 @Path("/rental")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Authenticated
+@HeaderAuthenticated
 public class RentalServiceRest {
 
     @Inject

@@ -90,6 +90,12 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxj
                     headers.append("cashbox", this.config.cashBox);
                     return headers;
                 };
+                ConfigService.prototype.addQueryParamCredentials = function (path) {
+                    return path +
+                        "username=" + this.config.username + "&" +
+                        "password=" + this.config.password + "&" +
+                        "cashbox=" + this.config.cashBox;
+                };
                 ConfigService.prototype.savePrinterIp = function (ip) {
                     this.http.post(this.getBackendUrl() + 'rest/printer/ip', JSON.stringify(new ipaddress_1.IpAddress(ip)), { headers: this.getDefaultHeader() })
                         .subscribe(this.config.printerIp = ip);

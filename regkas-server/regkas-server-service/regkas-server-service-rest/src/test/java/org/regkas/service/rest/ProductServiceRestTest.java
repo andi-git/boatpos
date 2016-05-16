@@ -32,7 +32,7 @@ public class ProductServiceRestTest extends FillDatabaseInOtherTransactionTest {
     @Test
     public void testGetAll() throws Exception {
         List<ProductBean> products = helper
-                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("product"))
+                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product"))
                 .get()
                 .readEntity(new GenericType<List<ProductBean>>() {
                 });
@@ -42,7 +42,7 @@ public class ProductServiceRestTest extends FillDatabaseInOtherTransactionTest {
     @Test
     public void testGetByNameAndCompany() throws Exception {
         ProductBean product = helper
-                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("product/Cola"))
+                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cola"))
                 .get()
                 .readEntity(ProductBean.class);
         assertEquals("Cola", product.getName());

@@ -6,7 +6,7 @@ import org.boatpos.service.api.PromotionAfterService;
 import org.boatpos.service.api.PromotionBeforeService;
 import org.boatpos.service.api.bean.PromotionAfterBean;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
-import org.boatpos.service.rest.filter.Authenticated;
+import org.boatpos.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 @Path("/promotion")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Authenticated
+@HeaderAuthenticated
 public class PromotionServiceRest {
 
     @Inject

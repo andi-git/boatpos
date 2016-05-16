@@ -29,6 +29,7 @@ import java.util.function.Function;
 @Dependent
 public class RegkasService {
 
+    private static final MediaType MEDIA_TYPE_ZIP = new MediaType("application", "zip");
     @Inject
     private RentalLoader rentalLoader;
 
@@ -37,7 +38,7 @@ public class RegkasService {
     private LogWrapper log;
 
     public ProductBean getProduct(Boat boat) throws Exception {
-        return readEntity(createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get())).get(), ProductBean.class);
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get()), MediaType.APPLICATION_JSON_TYPE).get(), ProductBean.class);
     }
 
     public BillBean sale(PaymentBean paymentBean) throws Exception {
@@ -49,19 +50,19 @@ public class RegkasService {
         sale.setSaleElements(Lists.newArrayList(
                 new ReceiptElementBean(productBean, 1, rental.getPricePaidComplete().get()))
         );
-        return readEntity(createRestCall(webTarget -> webTarget.path("rest/sale")).post(Entity.json(sale)), BillBean.class);
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/sale"), MediaType.APPLICATION_JSON_TYPE).post(Entity.json(sale)), BillBean.class);
     }
 
     public File getDEP(int year) {
-        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year)).get());
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year), MEDIA_TYPE_ZIP).get());
     }
 
     public File getDEP(int year, int month) {
-        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month)).get());
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month), MEDIA_TYPE_ZIP).get());
     }
 
     public File getDEP(int year, int month, int day) {
-        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month + "/" + day)).get());
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month + "/" + day), MEDIA_TYPE_ZIP).get());
     }
 
     File convert(Response response) {
@@ -95,17 +96,25 @@ public class RegkasService {
         return response.readEntity(type);
     }
 
-    Invocation.Builder addCredentials(Invocation.Builder builder) {
+    Invocation.Builder addCredentialsHeader(Invocation.Builder builder) {
         return builder
                 .header("username", getNotNullableSystemProperty("boatpos.regkas.service.username"))
                 .header("password", getNotNullableSystemProperty("boatpos.regkas.service.password"))
                 .header("cashbox", getNotNullableSystemProperty("boatpos.regkas.service.cashbox"));
     }
 
-    Invocation.Builder createRestCall(Function<WebTarget, WebTarget> addPath) {
+    WebTarget addCredentialsQuery(WebTarget webTarget) {
+        return webTarget
+                .queryParam("username", getNotNullableSystemProperty("boatpos.regkas.service.username"))
+                .queryParam("password", getNotNullableSystemProperty("boatpos.regkas.service.password"))
+                .queryParam("cashbox", getNotNullableSystemProperty("boatpos.regkas.service.cashbox"));
+    }
+
+    Invocation.Builder createRestCall(Function<WebTarget, WebTarget> addPath, MediaType mediaType) {
         WebTarget webTarget = ClientBuilder.newClient().target(getNotNullableSystemProperty("boatpos.regkas.service.rest"));
         webTarget = addPath.apply(webTarget);
-        return addCredentials(webTarget.request().accept(MediaType.APPLICATION_JSON));
+        webTarget = addCredentialsQuery(webTarget);
+        return addCredentialsHeader(webTarget.request().accept(mediaType));
     }
 
     private String getNotNullableSystemProperty(String key) {

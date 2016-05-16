@@ -14,9 +14,7 @@ import java.io.IOException;
 /**
  * Filter to authenticate the user.
  */
-@Authenticated
-@Provider
-public class AuthenticateUser implements ContainerRequestFilter {
+public abstract class AuthenticateUser implements ContainerRequestFilter {
 
     @Inject
     @SLF4J
@@ -32,11 +30,7 @@ public class AuthenticateUser implements ContainerRequestFilter {
         }
     }
 
-    private String getUsername(ContainerRequestContext requestContext) {
-        return String.valueOf(requestContext.getHeaderString("username"));
-    }
+    protected abstract String getUsername(ContainerRequestContext requestContext);
 
-    private String getPassword(ContainerRequestContext requestContext) {
-        return String.valueOf(requestContext.getHeaderString("password"));
-    }
+    protected abstract String getPassword(ContainerRequestContext requestContext);
 }

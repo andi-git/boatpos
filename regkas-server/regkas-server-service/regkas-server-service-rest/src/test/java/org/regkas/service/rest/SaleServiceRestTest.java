@@ -33,10 +33,10 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testSale() throws Exception {
-        ProductBean snack = helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("product/Snack")).get().readEntity(ProductBean.class);
-        ProductBean cola = helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("product/Cola")).get().readEntity(ProductBean.class);
-        ProductBean cornetto1 = helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto")).get().readEntity(ProductBean.class);
-        ProductBean cornetto2 = helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto")).get().readEntity(ProductBean.class);
+        ProductBean snack = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Snack")).get().readEntity(ProductBean.class);
+        ProductBean cola = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cola")).get().readEntity(ProductBean.class);
+        ProductBean cornetto1 = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto")).get().readEntity(ProductBean.class);
+        ProductBean cornetto2 = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto")).get().readEntity(ProductBean.class);
 
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
@@ -48,7 +48,7 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
                 new ReceiptElementBean(cornetto2, 1, new BigDecimal("2.50")))
         );
 
-        Response response = helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("sale")).post(Entity.json(sale));
+        Response response = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("sale")).post(Entity.json(sale));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         BillBean bill = response.readEntity(BillBean.class);
 

@@ -8,8 +8,13 @@ import org.junit.runner.RunWith;
 import org.regkas.service.api.bean.IncomeBean;
 
 import javax.inject.Inject;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 
@@ -56,7 +61,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     private void testIncome(String path) throws Exception {
         IncomeBean income = helper
-                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path(path))
+                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path(path))
                 .get()
                 .readEntity(IncomeBean.class);
         assertEquals(7, income.getIncomeElements().size());
@@ -67,17 +72,24 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testDEPYear() throws Exception {
-        assertDEP(helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("journal/dep/2015")).get(), 605);
+        assertDEP(helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015")), new MediaType("application", "zip")).get(), 605);
     }
 
     @Test
     public void testDEPMonth() throws Exception {
-        assertDEP(helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("journal/dep/2015/7")).get(), 602);
+        assertDEP(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7")), new MediaType("application", "zip")).get(), 602);
     }
 
     @Test
     public void testDEPDay() throws Exception {
-        assertDEP(helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("journal/dep/2015/7/1")).get(), 599);
+        assertDEP(helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7/1")), new MediaType("application", "zip")).get(), 599);
+    }
+
+    private WebTarget addQueryParamCredentials(WebTarget webTarget) {
+        return webTarget
+                .queryParam("username", "Maria Musterfrau")
+                .queryParam("password", "abc123")
+                .queryParam("cashbox", "RegKas1");
     }
 
     private void assertDEP(Response response, int length) throws Exception {

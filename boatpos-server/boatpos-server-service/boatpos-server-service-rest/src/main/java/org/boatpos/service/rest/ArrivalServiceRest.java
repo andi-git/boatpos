@@ -2,19 +2,16 @@ package org.boatpos.service.rest;
 
 import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.service.api.ArrivalService;
-import org.boatpos.service.api.BoatService;
 import org.boatpos.service.api.bean.AddPromotionBean;
 import org.boatpos.service.api.bean.ArrivalBean;
-import org.boatpos.service.api.bean.BoatBean;
 import org.boatpos.service.api.bean.PaymentBean;
-import org.boatpos.service.rest.filter.Authenticated;
+import org.boatpos.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -22,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Path("/arrival")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Authenticated
+@HeaderAuthenticated
 public class ArrivalServiceRest {
 
     @Inject

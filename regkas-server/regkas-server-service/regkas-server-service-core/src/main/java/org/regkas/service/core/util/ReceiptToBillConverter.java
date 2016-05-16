@@ -16,18 +16,10 @@ import javax.inject.Inject;
 @RequestScoped
 public class ReceiptToBillConverter {
 
-    @Inject
-    @Current
-    private CashBox cashBox;
-
-    @Inject
-    @Current
-    private Company company;
-
     public BillBean convert(Receipt receipt) {
         BillBean bill = new BillBean();
-        bill.setCompany(company.asDto());
-        bill.setCashBoxID(cashBox.getName().get());
+        bill.setCompany(receipt.getCompany().asDto());
+        bill.setCashBoxID(receipt.getCashBox().getName().get());
         bill.setReceiptIdentifier(receipt.getReceiptId().get());
         bill.setReceiptDateAndTime(receipt.getReceiptDate().get());
         bill.setEncryptedTurnoverValue("");

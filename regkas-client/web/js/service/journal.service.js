@@ -40,9 +40,6 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                     return this.income(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, new Date(Date.now()).getDate());
                 };
                 JournalService.prototype.income = function (year, month, day) {
-                    console.log("year:  " + year);
-                    console.log("month: " + month);
-                    console.log("day:   " + day);
                     var args = year;
                     if (lang_1.isPresent(month)) {
                         args += "/";
@@ -67,6 +64,20 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                 };
                 JournalService.createDateTime = function (jsonDateTime) {
                     return new Date(jsonDateTime);
+                };
+                JournalService.prototype.dep = function (year, month, day) {
+                    var args = year;
+                    if (lang_1.isPresent(month)) {
+                        args += "/";
+                        args += month;
+                    }
+                    if (lang_1.isPresent(day)) {
+                        args += "/";
+                        args += day;
+                    }
+                    // return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args, {headers: this.configService.getDefaultHeader()})
+                    //     .map(res => new Blob([res], {type: 'application/zip'}));
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/dep/' + args, { headers: this.configService.getDefaultHeader() });
                 };
                 JournalService = __decorate([
                     core_1.Injectable(), 

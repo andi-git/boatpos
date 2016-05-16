@@ -4,7 +4,7 @@ import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.service.api.BoatService;
 import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.bean.BoatBean;
-import org.boatpos.service.rest.filter.Authenticated;
+import org.boatpos.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @Path("/boat")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Authenticated
+@HeaderAuthenticated
 public class BoatServiceRest {
 
     @Inject

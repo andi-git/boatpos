@@ -1,4 +1,4 @@
-package org.boatpos.service.rest.filter;
+package org.regkas.service.rest.filter;
 
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.ElementType;
@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-public @interface Authenticated {
+public @interface HeaderAuthenticated {
 }

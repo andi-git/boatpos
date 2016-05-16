@@ -2,7 +2,7 @@ package org.regkas.service.rest;
 
 import org.regkas.service.api.PrinterService;
 import org.regkas.service.api.bean.IpAddressBean;
-import org.regkas.service.rest.filter.Authenticated;
+import org.regkas.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 @Path("/printer")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Authenticated
+@HeaderAuthenticated
 public class PrinterServiceRest {
 
     @Inject

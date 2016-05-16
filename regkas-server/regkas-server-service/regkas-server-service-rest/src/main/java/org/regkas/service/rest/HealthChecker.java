@@ -1,6 +1,6 @@
 package org.regkas.service.rest;
 
-import org.regkas.service.api.JournalService;
+import org.regkas.service.api.ReceiptService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 public class HealthChecker {
 
     @Inject
-    private JournalService journalService;
+    private ReceiptService receiptService;
 
     @GET
     @Path("/ping")
@@ -30,6 +30,6 @@ public class HealthChecker {
     @GET
     @Path("/update/receipts")
     public Response updateReceipt() {
-        return Response.ok("updated receipts: " + journalService.updateReceipts()).build();
+        return Response.ok("updated receipts: " + receiptService.updateReceipts()).build();
     }
 }

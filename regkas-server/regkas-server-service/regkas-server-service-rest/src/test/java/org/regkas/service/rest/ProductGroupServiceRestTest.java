@@ -28,7 +28,7 @@ public class ProductGroupServiceRestTest extends FillDatabaseInOtherTransactionT
     @Test
     public void testGetAll() throws Exception {
         List<ProductGroupBean> productGroups = helper
-                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("productgroup"))
+                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("productgroup"))
                 .get()
                 .readEntity(new GenericType<List<ProductGroupBean>>() {
                 });
@@ -38,7 +38,7 @@ public class ProductGroupServiceRestTest extends FillDatabaseInOtherTransactionT
     @Test
     public void testGetByNameAndCompany() throws Exception {
         ProductGroupBean productGroup = helper
-                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("productgroup/Snack"))
+                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("productgroup/Snack"))
                 .get()
                 .readEntity(ProductGroupBean.class);
         assertEquals("Snack", productGroup.getName());
@@ -47,7 +47,7 @@ public class ProductGroupServiceRestTest extends FillDatabaseInOtherTransactionT
     @Test
     public void testGetGenericProductFor() throws Exception {
         ProductBean product = helper
-                .createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("productgroup/Snack/generic"))
+                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("productgroup/Snack/generic"))
                 .get()
                 .readEntity(ProductBean.class);
         assertEquals("Snack", product.getName());

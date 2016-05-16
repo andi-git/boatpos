@@ -3,6 +3,7 @@ package org.boatpos.service.core.util;
 import com.google.common.io.Files;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,16 @@ public class RegkasServiceTest {
     @Before
     public void before() {
         regkasService = new RegkasService();
+        System.setProperty("boatpos.regkas.service.username", "x");
+        System.setProperty("boatpos.regkas.service.password", "x");
+        System.setProperty("boatpos.regkas.service.cashbox", "x");
+    }
+
+    @After
+    public void after() {
+        System.clearProperty("boatpos.regkas.service.username");
+        System.clearProperty("boatpos.regkas.service.password");
+        System.clearProperty("boatpos.regkas.service.cashbox");
     }
 
     @Test
@@ -46,27 +57,20 @@ public class RegkasServiceTest {
     }
 
     @Test
-    public void addCredentials() throws Exception {
-        System.setProperty("boatpos.regkas.service.username", "x");
-        System.setProperty("boatpos.regkas.service.password", "x");
-        System.setProperty("boatpos.regkas.service.cashbox", "x");
-        regkasService.addCredentials(ClientBuilder.newClient().target("").request());
-        System.clearProperty("boatpos.regkas.service.username");
-        System.clearProperty("boatpos.regkas.service.password");
-        System.clearProperty("boatpos.regkas.service.cashbox");
+    public void addCredentialsHeader() throws Exception {
+        regkasService.addCredentialsHeader(ClientBuilder.newClient().target("").request());
+    }
+
+    @Test
+    public void addCredentialsQuery() throws Exception {
+        regkasService.addCredentialsQuery(ClientBuilder.newClient().target(""));
     }
 
     @Test
     public void createRestCall() throws Exception {
-        System.setProperty("boatpos.regkas.service.username", "x");
-        System.setProperty("boatpos.regkas.service.password", "x");
-        System.setProperty("boatpos.regkas.service.cashbox", "x");
         System.setProperty("boatpos.regkas.service.rest", "http://localhost:8280/regkas-service/rest");
-        regkasService.createRestCall(webTarget -> webTarget);
+        regkasService.createRestCall(webTarget -> webTarget, MediaType.APPLICATION_JSON_TYPE);
         System.clearProperty("boatpos.regkas.service.rest");
-        System.clearProperty("boatpos.regkas.service.username");
-        System.clearProperty("boatpos.regkas.service.password");
-        System.clearProperty("boatpos.regkas.service.cashbox");
     }
 
     @Test

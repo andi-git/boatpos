@@ -85,6 +85,11 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "rxj
                     headers.append("password", this.config.password);
                     return headers;
                 };
+                ConfigService.prototype.addQueryParamCredentials = function (path) {
+                    return path +
+                        "username=" + this.config.username + "&" +
+                        "password=" + this.config.password;
+                };
                 ConfigService.prototype.savePrinterIp = function (ip) {
                     this.http.post(this.getBackendUrl() + 'rest/printer', JSON.stringify(new ipaddress_1.IpAddress(ip)), { headers: this.getDefaultHeader() })
                         .subscribe(this.config.printerIp = ip);

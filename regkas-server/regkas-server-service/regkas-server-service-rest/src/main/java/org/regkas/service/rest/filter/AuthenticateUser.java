@@ -6,7 +6,6 @@ import org.regkas.service.api.AuthenticationService;
 import org.regkas.service.api.bean.CredentialsBean;
 import org.regkas.service.api.context.ContextService;
 
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -14,14 +13,11 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Filter to authenticate the user.
  */
-@Authenticated
-@Provider
-public class AuthenticateUser implements ContainerRequestFilter {
+public abstract class AuthenticateUser implements ContainerRequestFilter {
 
     @Inject
     private AuthenticationService authenticationService;
@@ -44,15 +40,9 @@ public class AuthenticateUser implements ContainerRequestFilter {
         }
     }
 
-    private String getUsername(ContainerRequestContext requestContext) {
-        return String.valueOf(requestContext.getHeaderString("username"));
-    }
+    protected abstract String getUsername(ContainerRequestContext requestContext);
 
-    private String getPassword(ContainerRequestContext requestContext) {
-        return String.valueOf(requestContext.getHeaderString("password"));
-    }
+    protected abstract String getPassword(ContainerRequestContext requestContext);
 
-    private String getCashBox(ContainerRequestContext requestContext) {
-        return String.valueOf(requestContext.getHeaderString("cashbox"));
-    }
+    protected abstract String getCashBox(ContainerRequestContext requestContext);
 }

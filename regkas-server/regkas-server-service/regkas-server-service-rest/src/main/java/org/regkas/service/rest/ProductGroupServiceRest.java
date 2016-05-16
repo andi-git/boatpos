@@ -1,21 +1,19 @@
 package org.regkas.service.rest;
 
 import org.regkas.service.api.ProductGroupService;
-import org.regkas.service.api.bean.ProductGroupBean;
-import org.regkas.service.rest.filter.Authenticated;
+import org.regkas.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Stateless
 @Path("/productgroup")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Authenticated
+@HeaderAuthenticated
 public class ProductGroupServiceRest {
 
     @Inject

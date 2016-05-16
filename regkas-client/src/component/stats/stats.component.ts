@@ -83,4 +83,28 @@ export class StatsComponent {
         this.currentMonth = this.months[new Date(Date.now()).getMonth()];
         this.currentYear = new Date(Date.now()).getFullYear();
     }
+
+    depDay() {
+        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
+            + this.currentYear + "/"
+            + this.convertMonth(this.currentMonth) + "/"
+            + this.currentDay + "?"));
+    }
+
+    depMonth() {
+        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
+            + this.currentYear + "/"
+            + this.convertMonth(this.currentMonth) + "?"));
+    }
+
+    depYear() {
+        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
+            + this.currentYear + "?"));
+    }
+
+    resetDep() {
+        this.currentDay = new Date(Date.now()).getDate();
+        this.currentMonth = this.months[new Date(Date.now()).getMonth()];
+        this.currentYear = new Date(Date.now()).getFullYear();
+    }
 }

@@ -92,6 +92,26 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
                     this.currentMonth = this.months[new Date(Date.now()).getMonth()];
                     this.currentYear = new Date(Date.now()).getFullYear();
                 };
+                StatsComponent.prototype.depDay = function () {
+                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
+                        + this.currentYear + "/"
+                        + this.convertMonth(this.currentMonth) + "/"
+                        + this.currentDay + "?"));
+                };
+                StatsComponent.prototype.depMonth = function () {
+                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
+                        + this.currentYear + "/"
+                        + this.convertMonth(this.currentMonth) + "?"));
+                };
+                StatsComponent.prototype.depYear = function () {
+                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
+                        + this.currentYear + "?"));
+                };
+                StatsComponent.prototype.resetDep = function () {
+                    this.currentDay = new Date(Date.now()).getDate();
+                    this.currentMonth = this.months[new Date(Date.now()).getMonth()];
+                    this.currentYear = new Date(Date.now()).getFullYear();
+                };
                 StatsComponent = __decorate([
                     core_1.Component({
                         selector: 'stats',

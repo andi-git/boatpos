@@ -25,14 +25,14 @@ public class PrinterServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testLoadIp() throws Exception {
-        Response response = helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).get();
+        Response response = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).get();
         assertEquals("192.168.0.11", response.readEntity(IpAddressBean.class).getIpAddress());
     }
 
     @Test
     public void testSaveIp() throws Exception {
-        assertEquals("192.168.0.11", helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).get().readEntity(IpAddressBean.class).getIpAddress());
-        helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).post(Entity.json(new IpAddressBean("192.168.0.12")));
-        assertEquals("192.168.0.12", helper.createRestCallWithCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).get().readEntity(IpAddressBean.class).getIpAddress());
+        assertEquals("192.168.0.11", helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).get().readEntity(IpAddressBean.class).getIpAddress());
+        helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).post(Entity.json(new IpAddressBean("192.168.0.12")));
+        assertEquals("192.168.0.12", helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("printer/ip")).get().readEntity(IpAddressBean.class).getIpAddress());
     }
 }

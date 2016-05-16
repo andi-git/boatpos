@@ -20,9 +20,6 @@ export class JournalService {
     }
 
     public income(year:number, month:number, day:number):Observable<Income> {
-        console.log("year:  " + year);
-        console.log("month: " + month);
-        console.log("day:   " + day);
         let args:string = year;
         if (isPresent(month)) {
             args += "/";
@@ -69,5 +66,20 @@ export class JournalService {
 
     public static createDateTime(jsonDateTime:string):Date {
         return new Date(jsonDateTime);
+    }
+
+    dep(year:number, month:number, day:number):Observable {
+        let args:string = year;
+        if (isPresent(month)) {
+            args += "/";
+            args += month;
+        }
+        if (isPresent(day)) {
+            args += "/";
+            args += day;
+        }
+        // return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args, {headers: this.configService.getDefaultHeader()})
+        //     .map(res => new Blob([res], {type: 'application/zip'}));
+        return this.http.get(this.configService.getBackendUrl() + 'rest/journal/dep/' + args, {headers: this.configService.getDefaultHeader()});
     }
 }
