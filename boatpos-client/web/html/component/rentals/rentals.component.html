@@ -1,5 +1,16 @@
 <div class="container-default rentals-container">
     <h2 class="header rentals-header">Vermietungen am heutigen Tag</h2>
+    <select [ngModel]="datePicker.getCurrentDay()" (ngModelChange)="dayChange($event)">
+        <option *ngFor="#day of datePicker.getDays()">{{day}}</option>
+    </select>
+    <select [ngModel]="datePicker.getCurrentMonthAsString()" (ngModelChange)="monthChange($event)">
+        <option *ngFor="#month of datePicker.getMonthsAsString()">{{month}}</option>
+    </select>
+    <select [ngModel]="datePicker.getCurrentYear()" (ngModelChange)="yearChange($event)">
+        <option *ngFor="#year of datePicker.getYears()">{{year}}</option>
+    </select>
+    <button class="buttonSmall button-ok" (click)="selectDate()">Ausw&auml;hlen</button>
+    <button class="buttonSmall button-cancel" (click)="resetDate()">Zur&uuml;cksetzen</button>
     <p class="explanation"><span class="rental-default">unterwegs</span> <span
             class="rental-finished">abgerechnet</span> <span class="rental-deleted">gelöscht</span></p>
     <div class="container-default rentals-container-table">

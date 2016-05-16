@@ -105,6 +105,22 @@ export class RentalService {
             })
     }
 
+    loadAllFor(year:number, month:number, day:number):Observable<Array<Rental>> {
+        return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + year + '/' + month + '/' + day, {headers: this.configService.getDefaultHeader()})
+            // map the result to json
+            .map(res => res.json())
+            // map the result to Boat
+            .map((rentals:Array<any>) => {
+                let result:Array<Rental> = [];
+                if (rentals) {
+                    rentals.forEach((rental) => {
+                        result.push(this.convertRentalBeanToRental(rental));
+                    });
+                }
+                return result;
+            })
+    }
+
     private convertRentalBeanToRental(rentalBean):Rental {
         return new Rental(
             rentalBean.dayId,

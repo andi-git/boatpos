@@ -106,6 +106,20 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                         return result;
                     });
                 };
+                RentalService.prototype.loadAllFor = function (year, month, day) {
+                    var _this = this;
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + year + '/' + month + '/' + day, { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) { return res.json(); })
+                        .map(function (rentals) {
+                        var result = [];
+                        if (rentals) {
+                            rentals.forEach(function (rental) {
+                                result.push(_this.convertRentalBeanToRental(rental));
+                            });
+                        }
+                        return result;
+                    });
+                };
                 RentalService.prototype.convertRentalBeanToRental = function (rentalBean) {
                     return new rental_1.Rental(rentalBean.dayId, RentalService.createDate(rentalBean.day), rentalBean.boatBean, RentalService.createDateTime(rentalBean.departure), RentalService.createDateTime(rentalBean.arrival), rentalBean.pricePaidAfter, rentalBean.pricePaidBefore, rentalBean.priceCalculatedAfter, rentalBean.priceCalculatedBefore, rentalBean.finished, rentalBean.deleted, rentalBean.coupon, rentalBean.promotionBeforeBean, rentalBean.promotionAfterBean, rentalBean.commitmentBeans, rentalBean.timeOfTravel, rentalBean.timeOfTravelCalculated, rentalBean.receiptId);
                 };

@@ -77,12 +77,15 @@ System.register(["../prettyprinter", "angular2/src/facade/lang"], function(expor
                 };
                 Rental.prototype.ppTimeOfTravel = function () {
                     var result = "";
-                    if (lang_1.isPresent(this.timeOfTravel) || this.timeOfTravel > 0) {
+                    if (this.deleted === false && lang_1.isPresent(this.timeOfTravel) && this.timeOfTravel > 0) {
                         if (this.timeOfTravel > 60) {
                             result += Math.floor(this.timeOfTravel / 60);
                             result += " Std ";
+                            result += this.timeOfTravel % 60;
                         }
-                        result += this.timeOfTravel % 60;
+                        else {
+                            result += this.timeOfTravel;
+                        }
                         result += " Min";
                     }
                     return result;

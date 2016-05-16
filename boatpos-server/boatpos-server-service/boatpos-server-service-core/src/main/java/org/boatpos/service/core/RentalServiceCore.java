@@ -1,5 +1,9 @@
 package org.boatpos.service.core;
 
+import org.boatpos.common.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
+import org.boatpos.common.util.qualifiers.Current;
 import org.boatpos.repository.api.model.Rental;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.Day;
@@ -11,13 +15,10 @@ import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
-import org.boatpos.common.util.datetime.DateTimeHelper;
-import org.boatpos.common.util.log.LogWrapper;
-import org.boatpos.common.util.log.SLF4J;
-import org.boatpos.common.util.qualifiers.Current;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -77,6 +78,11 @@ public class RentalServiceCore implements RentalService {
     @Override
     public List<RentalBean> getAllCurrentDay() {
         return rentalRepository.loadAll(Period.day(dateTimeHelper.currentDate())).stream().map(rental -> rentalBeanEnrichment.asDto(rental)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RentalBean> getAll(LocalDate date) {
+        return rentalRepository.loadAll(Period.day(date)).stream().map(rental -> rentalBeanEnrichment.asDto(rental)).collect(Collectors.toList());
     }
 
     private static class ThrowExceptionRentalNotAvailable implements Supplier<Rental> {

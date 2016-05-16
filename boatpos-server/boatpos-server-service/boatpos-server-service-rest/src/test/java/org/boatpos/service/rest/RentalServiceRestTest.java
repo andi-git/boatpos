@@ -2,9 +2,9 @@ package org.boatpos.service.rest;
 
 import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
 import org.boatpos.common.test.rest.RestTestHelper;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
-import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
@@ -65,6 +65,20 @@ public class RentalServiceRestTest extends FillDatabaseInOtherTransactionTest {
     public void testGetAllForCurrentDay() throws Exception {
         List<RentalBean> rentalBeans = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/currentDay")).get().readEntity(new GenericType<List<RentalBean>>() {
         });
+        assertEquals(5, rentalBeans.size());
+    }
+
+    @Test
+    public void testGetAll() throws Exception {
+        List<RentalBean> rentalBeans = helper
+                .createRestCall(url, (webTarget) -> webTarget
+                        .path("rental")
+                        .path(String.valueOf(dateTimeHelper.currentDate().getYear()))
+                        .path(String.valueOf(dateTimeHelper.currentDate().getMonth().getValue()))
+                        .path(String.valueOf(dateTimeHelper.currentDate().getDayOfMonth())))
+                .get()
+                .readEntity(new GenericType<List<RentalBean>>() {
+                });
         assertEquals(5, rentalBeans.size());
     }
 }

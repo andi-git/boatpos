@@ -24,6 +24,9 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Inject
     private RentalService rentalService;
 
+    @Inject
+    private DateTimeHelperMock dateTimeHelper;
+
     @Test
     @Transactional
     public void testGet() throws Exception {
@@ -69,6 +72,15 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Transactional
     public void testGetAllForCurrentDay() {
         List<RentalBean> rentalBeans = rentalService.getAllCurrentDay();
+        assertEquals(5, rentalBeans.size());
+        assertEquals(1, rentalBeans.get(0).getDayId().intValue());
+        assertEquals(130, rentalBeans.get(0).getTimeOfTravel().intValue());
+    }
+
+    @Test
+    @Transactional
+    public void testGetAllForDate() {
+        List<RentalBean> rentalBeans = rentalService.getAll(dateTimeHelper.currentDate());
         assertEquals(5, rentalBeans.size());
         assertEquals(1, rentalBeans.get(0).getDayId().intValue());
         assertEquals(130, rentalBeans.get(0).getTimeOfTravel().intValue());

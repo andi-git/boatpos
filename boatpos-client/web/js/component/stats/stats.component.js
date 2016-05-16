@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../../service/mode.service", "../../service/journal.service", "../../printer", "../../service/config.service"], function(exports_1) {
+System.register(["angular2/core", "../../service/journal.service", "../../printer", "../../service/config.service", "../../model/datePicker", "../../service/info.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,15 +8,12 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, mode_service_1, journal_service_1, printer_1, config_service_1;
+    var core_1, journal_service_1, printer_1, config_service_1, datePicker_1, info_service_1;
     var StatsComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (mode_service_1_1) {
-                mode_service_1 = mode_service_1_1;
             },
             function (journal_service_1_1) {
                 journal_service_1 = journal_service_1_1;
@@ -26,91 +23,74 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
             },
             function (config_service_1_1) {
                 config_service_1 = config_service_1_1;
+            },
+            function (datePicker_1_1) {
+                datePicker_1 = datePicker_1_1;
+            },
+            function (info_service_1_1) {
+                info_service_1 = info_service_1_1;
             }],
         execute: function() {
             StatsComponent = (function () {
-                function StatsComponent(modeService, journalService, printer, config) {
-                    this.modeService = modeService;
+                function StatsComponent(journalService, printer, config, info) {
                     this.journalService = journalService;
                     this.printer = printer;
                     this.config = config;
-                    this.days = [];
-                    this.months = [];
-                    this.years = [];
+                    this.info = info;
+                    this.datePickerIncome = new datePicker_1.DatePicker();
+                    this.datePickerDep = new datePicker_1.DatePicker();
                     console.log("constructor of StatsComponent");
-                    for (var i = 0; i < 31; i++) {
-                        this.days[i] = i + 1;
-                    }
-                    this.months.push("Jänner");
-                    this.months.push("Februar");
-                    this.months.push("März");
-                    this.months.push("April");
-                    this.months.push("Mai");
-                    this.months.push("Juni");
-                    this.months.push("Juli");
-                    this.months.push("August");
-                    this.months.push("September");
-                    this.months.push("Oktober");
-                    this.months.push("November");
-                    this.months.push("Dezember");
-                    for (var i = 0; i < 10; i++) {
-                        this.years[i] = i + 2016;
-                    }
-                    this.resetIncome();
                 }
-                StatsComponent.prototype.dayChange = function (day) {
-                    this.currentDay = day;
+                StatsComponent.prototype.dayIncomeChange = function (day) {
+                    this.datePickerIncome.setCurrentDay(day);
                 };
-                StatsComponent.prototype.monthChange = function (month) {
-                    this.currentMonth = month;
+                StatsComponent.prototype.monthIncomeChange = function (month) {
+                    this.datePickerIncome.setCurrentMonth(month);
                 };
-                StatsComponent.prototype.yearChange = function (year) {
-                    this.currentYear = year;
+                StatsComponent.prototype.yearIncomeChange = function (year) {
+                    this.datePickerIncome.setCurrentYear(year);
+                };
+                StatsComponent.prototype.dayDepChange = function (day) {
+                    this.datePickerDep.setCurrentDay(day);
+                };
+                StatsComponent.prototype.monthDepChange = function (month) {
+                    this.datePickerDep.setCurrentMonth(month);
+                };
+                StatsComponent.prototype.yearDepChange = function (year) {
+                    this.datePickerDep.setCurrentYear(year);
                 };
                 StatsComponent.prototype.incomeDay = function () {
                     var _this = this;
-                    this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth), this.currentDay).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
+                    this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentDay() + ". " + this.datePickerIncome.getCurrentMonthAsString() + " " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
+                    this.journalService.income(this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber(), this.datePickerIncome.getCurrentDay()).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                 };
                 StatsComponent.prototype.incomeMonth = function () {
                     var _this = this;
-                    this.journalService.income(this.currentYear, this.convertMonth(this.currentMonth)).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
+                    this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentMonthAsString() + " " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
+                    this.journalService.income(this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber()).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                 };
                 StatsComponent.prototype.incomeYear = function () {
                     var _this = this;
-                    this.journalService.income(this.currentYear).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
-                };
-                StatsComponent.prototype.convertMonth = function (month) {
-                    for (var i = 0; i < this.months.length; i++) {
-                        if (this.months[i] == month) {
-                            return i + 1;
-                        }
-                    }
-                    return 0;
-                };
-                StatsComponent.prototype.resetIncome = function () {
-                    this.currentDay = new Date(Date.now()).getDate();
-                    this.currentMonth = this.months[new Date(Date.now()).getMonth()];
-                    this.currentYear = new Date(Date.now()).getFullYear();
+                    this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
+                    this.journalService.income(this.datePickerIncome.getCurrentYear()).subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
                 };
                 StatsComponent.prototype.depDay = function () {
+                    this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentDay() + ". " + this.datePickerDep.getCurrentMonthAsString() + " " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
                     window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-                        + this.currentYear + "/"
-                        + this.convertMonth(this.currentMonth) + "/"
-                        + this.currentDay + "?"));
+                        + this.datePickerDep.getCurrentYear() + "/"
+                        + this.datePickerDep.getCurrentMonthAsNumber() + "/"
+                        + this.datePickerDep.getCurrentDay() + "?"));
                 };
                 StatsComponent.prototype.depMonth = function () {
+                    this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentMonthAsString() + " " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
                     window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-                        + this.currentYear + "/"
-                        + this.convertMonth(this.currentMonth) + "?"));
+                        + this.datePickerDep.getCurrentYear() + "/"
+                        + this.datePickerDep.getCurrentMonthAsNumber() + "?"));
                 };
                 StatsComponent.prototype.depYear = function () {
+                    this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
                     window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-                        + this.currentYear + "?"));
-                };
-                StatsComponent.prototype.resetDep = function () {
-                    this.currentDay = new Date(Date.now()).getDate();
-                    this.currentMonth = this.months[new Date(Date.now()).getMonth()];
-                    this.currentYear = new Date(Date.now()).getFullYear();
+                        + this.datePickerDep.getCurrentYear() + "?"));
                 };
                 StatsComponent = __decorate([
                     core_1.Component({
@@ -118,7 +98,7 @@ System.register(['angular2/core', "../../service/mode.service", "../../service/j
                         templateUrl: "html/component/stats/stats.component.html",
                         styleUrls: ["css/component/stats/stats.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [mode_service_1.ModeService, journal_service_1.JournalService, printer_1.Printer, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [journal_service_1.JournalService, printer_1.Printer, config_service_1.ConfigService, info_service_1.InfoService])
                 ], StatsComponent);
                 return StatsComponent;
             })();

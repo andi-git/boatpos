@@ -3,6 +3,7 @@ package org.boatpos.service.api;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -47,4 +48,12 @@ public interface RentalService {
      * @return all rentals of the current day
      */
     List<RentalBean> getAllCurrentDay();
+
+    /**
+     * Get all rentals for a specified date.
+     *
+     * @param date the date
+     * @return all rentals for the specified date
+     */
+    List<RentalBean> getAll(LocalDate date);
 }

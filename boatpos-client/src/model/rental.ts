@@ -138,12 +138,14 @@ export class Rental {
 
     ppTimeOfTravel():string {
         let result:string = "";
-        if (isPresent(this.timeOfTravel) || this.timeOfTravel > 0) {
+        if (this.deleted === false && isPresent(this.timeOfTravel) && this.timeOfTravel > 0) {
             if (this.timeOfTravel > 60) {
                 result += Math.floor(this.timeOfTravel / 60);
-                result += " Std "
+                result += " Std ";
+                result += this.timeOfTravel % 60;
+            } else {
+                result += this.timeOfTravel;
             }
-            result += this.timeOfTravel % 60;
             result += " Min";
         }
         return result;
