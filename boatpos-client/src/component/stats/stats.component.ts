@@ -4,6 +4,9 @@ import {Printer} from "../../printer";
 import {ConfigService} from "../../service/config.service";
 import {DatePicker} from "../../model/datePicker";
 import {InfoService} from "../../service/info.service";
+import {ModalHandler} from "../../modalHandler";
+import {ModalIncome, ModalIncomeContext} from "./modalIncome";
+import {PrettyPrinter} from "../../prettyprinter";
 
 @Component({
     selector: 'stats',
@@ -15,7 +18,7 @@ export class StatsComponent {
     private datePickerIncome = new DatePicker();
     private datePickerDep = new DatePicker();
 
-    constructor(private journalService:JournalService, private printer:Printer, private config:ConfigService, private info:InfoService) {
+    constructor(private journalService:JournalService, private printer:Printer, private config:ConfigService, private info:InfoService, private modalHandler:ModalHandler, private pp:PrettyPrinter) {
         console.log("constructor of StatsComponent");
     }
 
@@ -45,17 +48,20 @@ export class StatsComponent {
 
     incomeDay() {
         this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentDay() + ". " + this.datePickerIncome.getCurrentMonthAsString() + " " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
-        this.journalService.income(this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber(), this.datePickerIncome.getCurrentDay()).subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
+        this.modalHandler.open(ModalIncome, new ModalIncomeContext(this.journalService, this.pp, this.printer, this.config, this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber(), this.datePickerIncome.getCurrentDay())).then((resultPromise) => {
+        });
     }
 
     incomeMonth() {
         this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentMonthAsString() + " " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
-        this.journalService.income(this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber()).subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
+        this.modalHandler.open(ModalIncome, new ModalIncomeContext(this.journalService, this.pp, this.printer, this.config, this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber())).then((resultPromise) => {
+        });
     }
 
     incomeYear() {
         this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
-        this.journalService.income(this.datePickerIncome.getCurrentYear()).subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
+        this.modalHandler.open(ModalIncome, new ModalIncomeContext(this.journalService, this.pp, this.printer, this.config, this.datePickerIncome.getCurrentYear())).then((resultPromise) => {
+        });
     }
 
     depDay() {
