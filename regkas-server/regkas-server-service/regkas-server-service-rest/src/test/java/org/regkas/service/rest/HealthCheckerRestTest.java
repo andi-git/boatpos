@@ -28,11 +28,4 @@ public class HealthCheckerRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("OK", response.readEntity(String.class));
     }
-
-    @Test
-    public void testUpdateReceipts() throws Exception {
-        Response response = helper.createRestCall(url, wt -> wt.path("/update/receipts"), MediaType.TEXT_PLAIN_TYPE).get();
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        assertEquals("updated receipts: 0", response.readEntity(String.class));
-    }
 }
