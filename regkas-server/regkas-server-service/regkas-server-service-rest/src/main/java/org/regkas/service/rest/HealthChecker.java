@@ -18,18 +18,9 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.TEXT_PLAIN)
 public class HealthChecker {
 
-    @Inject
-    private ReceiptService receiptService;
-
     @GET
     @Path("/ping")
     public Response ping() {
         return Response.ok("OK").build();
-    }
-
-    @GET
-    @Path("/update/receipts")
-    public Response updateReceipt() {
-        return Response.ok("updated receipts: " + receiptService.updateReceipts()).build();
     }
 }
