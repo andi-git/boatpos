@@ -30,15 +30,7 @@ System.register(["angular2/core", "../../service/config.service", "../../printer
                     this.printer = printer;
                     this.possibleIps = [];
                     console.log("constructor of ConfigComponent");
-                    this.possibleIps.push("192.168.8.100");
-                    this.possibleIps.push("192.168.8.101");
-                    this.possibleIps.push("192.168.8.102");
-                    this.possibleIps.push("192.168.8.103");
-                    this.possibleIps.push("192.168.8.104");
-                    this.possibleIps.push("192.168.8.105");
-                    this.possibleIps.push("192.168.8.106");
-                    this.possibleIps.push("192.168.8.107");
-                    this.possibleIps.push("192.168.8.108");
+                    this.possibleIps.push("192.168.8.11");
                 }
                 ConfigComponent.prototype.printerIp = function () {
                     return this.config.getPrinterIp();

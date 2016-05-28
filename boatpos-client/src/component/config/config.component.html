@@ -8,18 +8,5 @@
                 <td class="table-no-style"><button class="buttonSmall button-info" (click)="testIp(printerIp())">Test</button></td>
             </tr>
         </table>
-        <table class="table-no-style">
-            <tr class="table-no-style" *ngFor="#possibleIp of getPossibleIps()">
-                <td class="table-no-style">
-                    <button class="buttonSmall button-info" (click)="testIp(possibleIp)">Test</button>
-                </td>
-                <td class="table-no-style">
-                    <p>{{possibleIp}}</p>
-                </td>
-                <td class="table-no-style">
-                    <button class="buttonSmall button-ok" (click)="useIp(possibleIp)">OK</button>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>
