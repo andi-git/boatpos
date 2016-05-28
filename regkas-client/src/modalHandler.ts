@@ -1,6 +1,7 @@
 import {Renderer, provide, Injector, Injectable} from "angular2/core";
 //noinspection TypeScriptCheckImport
 import {Modal, ModalConfig, ICustomModal, ModalDialogInstance} from "lib/angular2-modal";
+import {ModalDialogInstance, Modal} from "angular2-modal/dist/angular2-modal";
 
 @Injectable()
 export class ModalHandler {
