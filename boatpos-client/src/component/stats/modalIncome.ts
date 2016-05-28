@@ -8,10 +8,10 @@ import {ICustomModalComponent, ModalDialogInstance, ICustomModal} from "angular2
 import {PrettyPrinter} from "../../prettyprinter";
 import {JournalReport} from "../../model/journalReport";
 import {isPresent} from "angular2/src/facade/lang";
-import {Config} from "../../model/config";
+import {ConfigService} from "../../service/config.service";
 
 export class ModalIncomeContext {
-    constructor(public journalService:JournalService, public pp:PrettyPrinter, public printer:Printer, public config:Config, public year:number, public month:number, public day:number) {
+    constructor(public journalService:JournalService, public pp:PrettyPrinter, public printer:Printer, public config:ConfigService, public year:number, public month:number, public day:number) {
     }
 }
 
@@ -91,7 +91,7 @@ export class ModalIncome implements ICustomModalComponent {
     private day:number;
     private report:JournalReport;
     private loaded:boolean = false;
-    private config:Config;
+    private config:ConfigService;
 
     constructor(dialog:ModalDialogInstance, modelContentData:ICustomModal) {
         this.dialog = dialog;
@@ -302,7 +302,7 @@ export class ModalIncome implements ICustomModalComponent {
     }
 
     print($event) {
-        this.printer.printJournal(this.report, this.config.printerIp);
+        this.printer.printJournal(this.report, this.config.getPrinterIp());
     }
 
     cancel() {

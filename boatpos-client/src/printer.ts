@@ -14,6 +14,7 @@ export class Printer {
     }
 
     public printDepart(rental:Rental, printerIp:string):void {
+        console.log("print repart on " + printerIp);
         if (isPresent(rental)) {
             //noinspection TypeScriptUnresolvedFunction
             var builder = new StarWebPrintBuilder();
@@ -54,6 +55,7 @@ export class Printer {
     }
 
     public printBill(bill:Bill, printerIp:string) {
+        console.log("print bill on " + printerIp);
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();
@@ -68,7 +70,12 @@ export class Printer {
         request = this.printSumTaxes(bill, builder, request);
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
-        request += builder.createQrCodeElement({model:'model2', level:'level_l', cell:3, data:'https://www.eppel-boote.at'});
+        request += builder.createQrCodeElement({
+            model: 'model2',
+            level: 'level_l',
+            cell: 3,
+            data: 'https://www.eppel-boote.at'
+        });
         this.printPaper(builder, request, printerIp);
     }
 
@@ -119,7 +126,7 @@ export class Printer {
             request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceTax), 6, 'right'));
             request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength(this.pp.ppPrice(tse.priceAfterTax), 8, 'right'));
         });
-        request += builder.createRuledLineElement({thickness:'medium', width:832});
+        request += builder.createRuledLineElement({thickness: 'medium', width: 832});
         request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
         return request;
     }
@@ -234,8 +241,9 @@ export class Printer {
     }
 
     printJournal(journalReport:JournalReport, printerIp:string):void {
+        console.log("print journal on " + printerIp);
         if (isPresent(journalReport)) {
-            console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end));
+            console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end) + " on " + printerIp);
             //noinspection TypeScriptUnresolvedFunction
             var builder = new StarWebPrintBuilder();
             var request = builder.createInitializationElement();
@@ -311,7 +319,8 @@ export class Printer {
         var request = builder.createInitializationElement();
         request += builder.createTextElement({
             codepage: 'utf8',
-            data:'Drucker für das Abrechnungssystem funktioniert!\n\n'});
+            data: 'Drucker für das Abrechnungssystem funktioniert!\n\n'
+        });
         // cut
         request += builder.createCutPaperElement({feed: true});
         //noinspection TypeScriptUnresolvedFunction

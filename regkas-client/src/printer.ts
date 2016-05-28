@@ -13,6 +13,7 @@ export class Printer {
     }
 
     public printBill(bill:Bill, printerIp:string) {
+        console.log("print bill on " + printerIp);
         //noinspection TypeScriptUnresolvedFunction
         var builder = new StarWebPrintBuilder();
         var request = builder.createInitializationElement();
@@ -144,6 +145,7 @@ export class Printer {
     }
 
     printIncome(income:Income, printerIp:string) {
+        console.log("print income on " + printerIp);
         if (isPresent(income)) {
             console.log("print journal between " + this.pp.printDate(income.start) + " and " + this.pp.printDate(income.end));
             // noinspection TypeScriptUnresolvedFunction

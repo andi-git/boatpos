@@ -28,6 +28,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 }
                 Printer.prototype.printDepart = function (rental, printerIp) {
                     var _this = this;
+                    console.log("print repart on " + printerIp);
                     if (lang_1.isPresent(rental)) {
                         //noinspection TypeScriptUnresolvedFunction
                         var builder = new StarWebPrintBuilder();
@@ -65,6 +66,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     }
                 };
                 Printer.prototype.printBill = function (bill, printerIp) {
+                    console.log("print bill on " + printerIp);
                     //noinspection TypeScriptUnresolvedFunction
                     var builder = new StarWebPrintBuilder();
                     var request = builder.createInitializationElement();
@@ -79,7 +81,12 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     request = this.printSumTaxes(bill, builder, request);
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
-                    request += builder.createQrCodeElement({ model: 'model2', level: 'level_l', cell: 3, data: 'https://www.eppel-boote.at' });
+                    request += builder.createQrCodeElement({
+                        model: 'model2',
+                        level: 'level_l',
+                        cell: 3,
+                        data: 'https://www.eppel-boote.at'
+                    });
                     this.printPaper(builder, request, printerIp);
                 };
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
@@ -236,8 +243,9 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 };
                 Printer.prototype.printJournal = function (journalReport, printerIp) {
                     var _this = this;
+                    console.log("print journal on " + printerIp);
                     if (lang_1.isPresent(journalReport)) {
-                        console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end));
+                        console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end) + " on " + printerIp);
                         //noinspection TypeScriptUnresolvedFunction
                         var builder = new StarWebPrintBuilder();
                         var request = builder.createInitializationElement();
@@ -307,7 +315,8 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     var request = builder.createInitializationElement();
                     request += builder.createTextElement({
                         codepage: 'utf8',
-                        data: 'Drucker für das Abrechnungssystem funktioniert!\n\n' });
+                        data: 'Drucker für das Abrechnungssystem funktioniert!\n\n'
+                    });
                     // cut
                     request += builder.createCutPaperElement({ feed: true });
                     //noinspection TypeScriptUnresolvedFunction

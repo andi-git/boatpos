@@ -30,6 +30,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     this.pp = pp;
                 }
                 Printer.prototype.printBill = function (bill, printerIp) {
+                    console.log("print bill on " + printerIp);
                     //noinspection TypeScriptUnresolvedFunction
                     var builder = new StarWebPrintBuilder();
                     var request = builder.createInitializationElement();
@@ -151,6 +152,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 };
                 Printer.prototype.printIncome = function (income, printerIp) {
                     var _this = this;
+                    console.log("print income on " + printerIp);
                     if (lang_1.isPresent(income)) {
                         console.log("print journal between " + this.pp.printDate(income.start) + " and " + this.pp.printDate(income.end));
                         // noinspection TypeScriptUnresolvedFunction

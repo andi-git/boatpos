@@ -227,7 +227,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     this.dialog.close(true);
                 };
                 ModalIncome.prototype.print = function ($event) {
-                    this.printer.printJournal(this.report, this.config.printerIp);
+                    this.printer.printJournal(this.report, this.config.getPrinterIp());
                 };
                 ModalIncome.prototype.cancel = function () {
                     //noinspection TypeScriptUnresolvedFunction
