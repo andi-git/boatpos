@@ -9,6 +9,7 @@
         <mapping-file>META-INF/query/product.xml</mapping-file>
         <mapping-file>META-INF/query/productgroup.xml</mapping-file>
         <mapping-file>META-INF/query/receipt.xml</mapping-file>
+        <mapping-file>META-INF/query/receiptelement.xml</mapping-file>
         <mapping-file>META-INF/query/receipttype.xml</mapping-file>
         <mapping-file>META-INF/query/user.xml</mapping-file>
         <class>org.regkas.model.AddressEntity</class>

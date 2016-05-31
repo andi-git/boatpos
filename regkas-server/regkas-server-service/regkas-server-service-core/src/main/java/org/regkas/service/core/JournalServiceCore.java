@@ -8,7 +8,7 @@ import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.repository.ProductGroupRepository;
-import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.repository.ReceiptElementRepository;
 import org.regkas.repository.api.repository.TaxSetRepository;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.bean.IncomeBean;
@@ -34,7 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class JournalServiceCore implements JournalService {
 
     @Inject
-    private ReceiptRepository receiptRepository;
+    private ReceiptElementRepository receiptElementRepository;
 
     @Inject
     private TaxSetRepository taxSetRepository;
@@ -93,12 +93,11 @@ public class JournalServiceCore implements JournalService {
         productGroups.stream().forEach(pg -> productGroupIncomes.put(pg.getId(),
                 new ProductGroupIncomeBean(pg.getName().get(), new BigDecimal("0.00"), pg.getTaxSet().getTaxPercent().get(), pg.getPriority().get())
         ));
-        receiptRepository.loadBy(period, cashBox).stream().forEach(r -> r.getReceiptElements().stream().forEach(
-                re -> {
-                    ProductGroupIncomeBean productGroupIncome = productGroupIncomes.get(re.getProduct().getProductGroup().getId());
-                    productGroupIncome.setIncome(productGroupIncome.getIncome().add(re.getTotalPrice().get()));
-                }
-        ));
+
+        // add income for every product-group
+        receiptElementRepository.incomeByProductGroupFor(period, cashBox).stream().forEach(e -> {
+            productGroupIncomes.get(e.getId()).setIncome(e.getPricePaid().get());
+        });
 
         // add total-income
         List<ProductGroupIncomeBean> productGroupIncomeBean = productGroupIncomes.values().stream().sorted((o1, o2) -> o1.getPriority().compareTo(o2.getPriority())).collect(Collectors.toList());
@@ -126,5 +125,4 @@ public class JournalServiceCore implements JournalService {
     private BigDecimal getBeforeTax(BigDecimal price) {
         return price.divide(new BigDecimal("1.20"), 2, BigDecimal.ROUND_HALF_UP);
     }
-
 }
