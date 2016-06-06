@@ -24,6 +24,7 @@ export class Printer {
             request = this.addBoat(builder, request, rental);
             request = this.addCommitmentReturnInfo(builder, request);
             request = this.add5MinuteInfo(builder, request);
+            request = this.addMyRental(builder, request, rental);
             this.printPaper(builder, request, printerIp);
 
             setTimeout(() => this.printNumberForCommitment(rental, printerIp), 3000);
@@ -192,6 +193,22 @@ export class Printer {
         request = this.blankLine(builder, request);
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Hinweis: Es werden (für das Ein-/Aussteigen)');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, '5 Minuten auf die Fahrzeit gutgeschrieben!');
+        return request;
+    }
+
+    private addMyRental(builder:any, request:any, rental:Rental):any {
+        request = this.blankLine(builder, request);
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, '*** NEU *** NEU *** NEU *** NEU *** NEU *** NEU *** NEU ***');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Alle Infos zu deiner Bootsfahrt jetzt online!');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'QR-Code am Smartphone einscannen und dem Link folgen!');
+        let myRentalUrl:string = 'https://www.eppel-boote.at/myrental/index.php?id=' + rental.myRentalId;
+        console.log("myRentalUrl: " + myRentalUrl);
+        request += builder.createQrCodeElement({
+            model: 'model2',
+            level: 'level_l',
+            cell: 4,
+            data: myRentalUrl
+        });
         return request;
     }
 

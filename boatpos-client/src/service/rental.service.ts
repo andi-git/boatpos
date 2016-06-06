@@ -29,7 +29,8 @@ export class RentalService {
                     rentalBean.commitmentBeans,
                     rentalBean.promotionBeforeBean,
                     rentalBean.coupon,
-                    rentalBean.priceCalculatedBefore);
+                    rentalBean.priceCalculatedBefore,
+                    rentalBean.myRentalId);
             });
     }
 
@@ -140,7 +141,8 @@ export class RentalService {
             rentalBean.commitmentBeans,
             rentalBean.timeOfTravel,
             rentalBean.timeOfTravelCalculated,
-            rentalBean.receiptId);
+            rentalBean.receiptId,
+            rentalBean.myRentalId);
     };
 
     private convertBillBeanToBill(billBean):Bill {
