@@ -81,4 +81,11 @@ public class RentalServiceRestTest extends FillDatabaseInOtherTransactionTest {
                 });
         assertEquals(5, rentalBeans.size());
     }
+
+
+    @Test
+    public void testGetByDateAndDayId() throws Exception {
+        RentalBean rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/2015/7/1/1")).get().readEntity(RentalBean.class);
+        assertEquals("E", rentalBean.getBoatBean().getShortName());
+    }
 }

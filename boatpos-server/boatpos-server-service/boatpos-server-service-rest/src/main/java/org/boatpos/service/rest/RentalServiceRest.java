@@ -36,19 +36,25 @@ public class RentalServiceRest {
     @GET
     @Path("/{dayId:[0-9]*}")
     public Response get(@PathParam("dayId") Integer dayId) {
-        return Response.ok(rentalService.get(new RentalDayNumberWrapper(dayId))).build();
+        return Response.ok(rentalService.get(RentalDayNumberWrapper.of(dayId))).build();
+    }
+
+    @GET
+    @Path("/{year:[0-9]*}/{month:[0-9]*}/{day:[0-9]*}/{dayId:[0-9]*}")
+    public Response getByDateAndDayId(@PathParam("year") Integer year, @PathParam("month") Integer month, @PathParam("day") Integer day, @PathParam("dayId") Integer dayId) {
+        return Response.ok(rentalService.get(LocalDate.of(year, month, day), RentalDayNumberWrapper.of(dayId))).build();
     }
 
     @DELETE
     @Path("/{dayId:[0-9]*}")
     public Response delete(@PathParam("dayId") Integer dayId) {
-        return Response.ok(rentalService.delete(new RentalDayNumberWrapper(dayId))).build();
+        return Response.ok(rentalService.delete(RentalDayNumberWrapper.of(dayId))).build();
     }
 
     @GET
     @Path("/undoDelete/{dayId:[0-9]*}")
     public Response undoDelete(@PathParam("dayId") Integer dayId) {
-        return Response.ok(rentalService.undoDelete(new RentalDayNumberWrapper(dayId))).build();
+        return Response.ok(rentalService.undoDelete(RentalDayNumberWrapper.of(dayId))).build();
     }
 
     @GET

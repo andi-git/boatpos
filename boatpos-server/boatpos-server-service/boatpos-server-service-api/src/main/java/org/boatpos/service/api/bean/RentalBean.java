@@ -146,10 +146,13 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
     @Expose
     private String receiptId;
 
+    @Expose
+    private String myRentalId;
+
     public RentalBean() {
     }
 
-    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated, String paymentMethodBefore, String paymentMethodAfter, String receiptId) {
+    public RentalBean(Long id, Integer version, Integer dayId, LocalDate day, BoatBean boatBean, LocalDateTime departure, LocalDateTime arrival, BigDecimal priceCalculatedBefore, BigDecimal priceCalculatedAfter, BigDecimal pricePaidBefore, BigDecimal pricePaidAfter, boolean finished, boolean deleted, boolean coupon, PromotionBeforeBean promotionBeforeBean, PromotionAfterBean promotionAfterBean, Set<CommitmentBean> commitmentBeans, Integer timeOfTravel, Integer timeOfTravelCalculated, String paymentMethodBefore, String paymentMethodAfter, String receiptId, String myRentalId) {
         super(id, version);
         this.dayId = dayId;
         this.day = day;
@@ -171,6 +174,7 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
         this.paymentMethodBefore = paymentMethodBefore;
         this.paymentMethodAfter = paymentMethodAfter;
         this.receiptId = receiptId;
+        this.myRentalId = myRentalId;
     }
 
     public Integer getDayId() {
@@ -331,5 +335,13 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
 
     public void setReceiptId(String receiptId) {
         this.receiptId = receiptId;
+    }
+
+    public String getMyRentalId() {
+        return myRentalId;
+    }
+
+    public void setMyRentalId(String myRentalId) {
+        this.myRentalId = myRentalId;
     }
 }

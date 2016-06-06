@@ -32,6 +32,7 @@ public class RegkasServiceTest {
         System.setProperty("boatpos.regkas.service.username", "x");
         System.setProperty("boatpos.regkas.service.password", "x");
         System.setProperty("boatpos.regkas.service.cashbox", "x");
+        System.setProperty("empty", "");
     }
 
     @After
@@ -39,6 +40,7 @@ public class RegkasServiceTest {
         System.clearProperty("boatpos.regkas.service.username");
         System.clearProperty("boatpos.regkas.service.password");
         System.clearProperty("boatpos.regkas.service.cashbox");
+        System.clearProperty("empty");
     }
 
     @Test
@@ -90,6 +92,16 @@ public class RegkasServiceTest {
         File file = new File(System.getProperty("java.io.tmpdir"), "test.txt");
         file = regkasService.writeToFile(new ByteArrayInputStream("test".getBytes()), file);
         assertEquals("test", Files.toString(file, Charset.defaultCharset()));
+    }
+
+    @Test
+    public void testGetNotNullableSystemProperty() {
+        regkasService.getNotNullableSystemProperty("boatpos.regkas.service.username");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testGetNotNullableSystemPropertyException() {
+        regkasService.getNotNullableSystemProperty("empty");
     }
 
     private Response callRESTService() throws Exception {

@@ -23,6 +23,10 @@ public class RentalDayNumberWrapper extends AbstractBean {
         this.dayNumber = dayNumber;
     }
 
+    public static RentalDayNumberWrapper of(Integer dayNumber) {
+        return new RentalDayNumberWrapper(dayNumber);
+    }
+
     public Integer getDayNumber() {
         return dayNumber;
     }

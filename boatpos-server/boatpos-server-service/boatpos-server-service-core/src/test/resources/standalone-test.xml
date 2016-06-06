@@ -30,8 +30,6 @@
         <extension module="org.wildfly.extension.undertow"/>
     </extensions>
     <system-properties>
-        <property name="boatpos.username" value="boatpos" />
-        <property name="boatpos.password" value="test123" />
         <property name="boatpos.myrental.key" value="1111222233334444"/>
     </system-properties>
     <management>

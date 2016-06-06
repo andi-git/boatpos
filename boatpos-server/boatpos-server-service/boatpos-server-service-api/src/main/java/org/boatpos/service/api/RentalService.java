@@ -56,4 +56,14 @@ public interface RentalService {
      * @return all rentals for the specified date
      */
     List<RentalBean> getAll(LocalDate date);
+
+    /**
+     * Get a rental by it's id for a specific date
+     *
+     * @param date                   the date to get the rental of
+     * @param rentalDayNumberWrapper the id of the rental
+     * @return the rental
+     */
+    RentalBean get(LocalDate date, RentalDayNumberWrapper rentalDayNumberWrapper);
+
 }

@@ -85,6 +85,14 @@ public class RentalServiceCore implements RentalService {
         return rentalRepository.loadAll(Period.day(date)).stream().map(rental -> rentalBeanEnrichment.asDto(rental)).collect(Collectors.toList());
     }
 
+    @Override
+    public RentalBean get(LocalDate date, RentalDayNumberWrapper rentalDayNumberWrapper) {
+        DayId dayId = new DayId(rentalDayNumberWrapper.getDayNumber());
+        return rentalBeanEnrichment
+                .asDto(rentalRepository.loadBy(new Day(date), dayId)
+                        .orElseGet(new ThrowExceptionRentalNotAvailable(dayId)));
+    }
+
     private static class ThrowExceptionRentalNotAvailable implements Supplier<Rental> {
 
         private final DayId dayId;

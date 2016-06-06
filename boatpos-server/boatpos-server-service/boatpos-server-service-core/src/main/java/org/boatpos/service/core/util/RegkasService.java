@@ -75,9 +75,8 @@ public class RegkasService {
     }
 
     File writeToFile(InputStream inputStream, File file) {
-        OutputStream outputStream;
         try {
-            outputStream = new FileOutputStream(file);
+            OutputStream outputStream = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -117,9 +116,9 @@ public class RegkasService {
         return addCredentialsHeader(webTarget.request().accept(mediaType));
     }
 
-    private String getNotNullableSystemProperty(String key) {
+    String getNotNullableSystemProperty(String key) {
         String value = System.getProperty(key);
-        if (value == null) {
+        if (value == null || "".equals(value)) {
             throw new RuntimeException("unable to get system-property-value for key: '" + key + "'");
         }
         return value;

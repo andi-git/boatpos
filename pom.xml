@@ -13,6 +13,7 @@
         <module>boatpos-client-browser</module>
         <module>regkas-client-browser</module>
         <module>boatpos-deployment</module>
+        <module>boatpos-php</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -59,6 +60,7 @@
         <version.dozer.jdk8>1.0.1</version.dozer.jdk8>
         <version.jep>2.4.2</version.jep>
         <version.commons-codec>1.10</version.commons-codec>
+        <version.commons-lang3>3.4</version.commons-lang3>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.9.Final</version.arquillian-bom>
@@ -208,6 +210,11 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${version.commons-codec}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons-lang3}</version>
             </dependency>
             <!-- test -->
             <dependency>

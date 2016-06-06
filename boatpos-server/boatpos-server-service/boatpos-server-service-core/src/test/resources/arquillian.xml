@@ -12,6 +12,7 @@
             <property name="jbossHome">target/wildfly-9.0.2.Final</property>
             <property name="managementPort">10090</property>
             <property name="allowConnectingToRunningServer">true</property>
+            <property name="serverConfig">../../../../target/test-classes/standalone-test.xml</property>
         </configuration>
     </container>
 </arquillian>

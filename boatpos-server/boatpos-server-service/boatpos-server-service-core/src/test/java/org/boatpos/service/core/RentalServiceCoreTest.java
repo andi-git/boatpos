@@ -85,4 +85,18 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(1, rentalBeans.get(0).getDayId().intValue());
         assertEquals(130, rentalBeans.get(0).getTimeOfTravel().intValue());
     }
+
+    @Test
+    @Transactional
+    public void testGetGetByDateAndDayId() {
+        RentalBean rentalBean = rentalService.get(dateTimeHelper.currentDate(), new RentalDayNumberWrapper(1));
+        assertEquals("E", rentalBean.getBoatBean().getShortName());
+        assertEquals("GwLtkrFX3ehALyQoR1I8bg%3D%3D", rentalBean.getMyRentalId());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testGetGetByDateAndDayIdException() {
+        rentalService.get(dateTimeHelper.currentDate(), new RentalDayNumberWrapper(999));
+    }
 }

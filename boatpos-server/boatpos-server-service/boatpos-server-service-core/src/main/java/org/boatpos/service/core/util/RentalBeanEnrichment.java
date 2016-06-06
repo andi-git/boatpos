@@ -22,6 +22,9 @@ public class RentalBeanEnrichment {
     @Inject
     private PriceCalculator priceCalculator;
 
+    @Inject
+    private MyRentalCrypt myRentalCrypt;
+
     public RentalBean asDto(Rental rental) {
         RentalBean rentalBean = rental.asDto();
         
@@ -39,6 +42,10 @@ public class RentalBeanEnrichment {
         if (!rental.getPriceCalculatedAfter().isPresent()) {
             rentalBean.setPriceCalculatedAfter(priceCalculator.calculate(rental.getDepartureTime(), tmpArrivalTime, rental.getBoat(), rental.getPromotion()).get());
         }
+
+        // add id for myrental
+        rentalBean.setMyRentalId(myRentalCrypt.encryptHtmlSafe(rental));
+
         return rentalBean;
     }
 }
