@@ -305,11 +305,11 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     printTimeOfTravel():string {
-        return (isPresent(this.rental)) ? this.rental.timeOfTravel + " Minuten" : "";
+        return (isPresent(this.rental)) ? this.rental.ppTimeOfTravel() : "";
     }
 
     printTimeOfTravelCalculated():string {
-        return (isPresent(this.rental)) ? this.rental.timeOfTravelCalculated + " Minuten" : "";
+        return (isPresent(this.rental)) ? this.rental.ppTimeOfTravelCalculated() : "";
     }
 
     close($event) {

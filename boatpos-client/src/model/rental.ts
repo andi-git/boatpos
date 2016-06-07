@@ -142,14 +142,22 @@ export class Rental {
     }
 
     ppTimeOfTravel():string {
+        return this.ppTime(this.timeOfTravel);
+    }
+
+    ppTimeOfTravelCalculated():string {
+        return this.ppTime(this.timeOfTravelCalculated);
+    }
+
+    ppTime(time:number):string {
         let result:string = "";
-        if (this.deleted === false && isPresent(this.timeOfTravel) && this.timeOfTravel > 0) {
-            if (this.timeOfTravel > 60) {
-                result += Math.floor(this.timeOfTravel / 60);
+        if (this.deleted === false && isPresent(time) && time > 0) {
+            if (time > 60) {
+                result += Math.floor(time / 60);
                 result += " Std ";
-                result += this.timeOfTravel % 60;
+                result += time % 60;
             } else {
-                result += this.timeOfTravel;
+                result += time;
             }
             result += " Min";
         }

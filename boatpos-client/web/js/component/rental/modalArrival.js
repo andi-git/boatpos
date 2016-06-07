@@ -183,10 +183,10 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     return result;
                 };
                 ModalArrival.prototype.printTimeOfTravel = function () {
-                    return (lang_1.isPresent(this.rental)) ? this.rental.timeOfTravel + " Minuten" : "";
+                    return (lang_1.isPresent(this.rental)) ? this.rental.ppTimeOfTravel() : "";
                 };
                 ModalArrival.prototype.printTimeOfTravelCalculated = function () {
-                    return (lang_1.isPresent(this.rental)) ? this.rental.timeOfTravelCalculated + " Minuten" : "";
+                    return (lang_1.isPresent(this.rental)) ? this.rental.ppTimeOfTravelCalculated() : "";
                 };
                 ModalArrival.prototype.close = function ($event) {
                     $event.stopPropagation();
