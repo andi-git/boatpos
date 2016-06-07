@@ -13,7 +13,7 @@ $day = $dateExploded[2];
 $dayId = $myRentalIdExploded[1];
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "http://home.com:8180/boatpos-server/rest/rental/$year/$month/$day/$dayId");
+curl_setopt($curl, CURLOPT_URL, "$backend/rest/rental/$year/$month/$day/$dayId");
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
     'Content-Type: application/json',
