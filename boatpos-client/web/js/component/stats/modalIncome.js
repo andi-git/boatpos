@@ -63,7 +63,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                         return this.pp.printDate(this.report.start) + " - " + this.pp.printDate(this.report.end);
                     }
                 };
-                ModalIncome.prototype.getCount = function (name) {
+                ModalIncome.prototype.getCountForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -83,7 +83,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getCashBeforeTax = function (name) {
+                ModalIncome.prototype.getCashBeforeTaxForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -103,7 +103,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getCashTax = function (name) {
+                ModalIncome.prototype.getCashTaxForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -123,7 +123,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getCashAfterTax = function (name) {
+                ModalIncome.prototype.getCashAfterTaxForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -143,7 +143,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getCardBeforeTax = function (name) {
+                ModalIncome.prototype.getCardBeforeTaxForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -163,7 +163,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getCardTax = function (name) {
+                ModalIncome.prototype.getCardTaxForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -183,7 +183,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getCardAfterTax = function (name) {
+                ModalIncome.prototype.getCardAfterTaxForBoat = function (name) {
                     var result = 0;
                     if (lang_1.isPresent(this.report)) {
                         this.report.journalReportItems.forEach(function (item) {
@@ -203,20 +203,20 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     }
                     return result;
                 };
-                ModalIncome.prototype.getSumBeforeTax = function (name) {
-                    return this.getCashBeforeTax(name) + this.getCardBeforeTax(name);
+                ModalIncome.prototype.getSumBeforeTaxForBoat = function (name) {
+                    return this.getCashBeforeTaxForBoat(name) + this.getCardBeforeTaxForBoat(name);
                 };
                 ModalIncome.prototype.getSumBeforeTax = function () {
                     return this.getCashBeforeTax() + this.getCardBeforeTax();
                 };
-                ModalIncome.prototype.getSumTax = function (name) {
-                    return this.getCashTax(name) + this.getCardTax(name);
+                ModalIncome.prototype.getSumTaxForBoat = function (name) {
+                    return this.getCashTaxForBoat(name) + this.getCardTaxForBoat(name);
                 };
                 ModalIncome.prototype.getSumTax = function () {
                     return this.getCashTax() + this.getCardTax();
                 };
-                ModalIncome.prototype.getSumAfterTax = function (name) {
-                    return this.getCashAfterTax(name) + this.getCardAfterTax(name);
+                ModalIncome.prototype.getSumAfterTaxForBoat = function (name) {
+                    return this.getCashAfterTaxForBoat(name) + this.getCardAfterTaxForBoat(name);
                 };
                 ModalIncome.prototype.getSumAfterTax = function () {
                     return this.getCashAfterTax() + this.getCardAfterTax();
@@ -237,7 +237,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     core_1.Component({
                         selector: 'modal-content',
                         directives: [common_1.NgIf, common_1.NgFor],
-                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Einnahmen: {{ppDate()}}</h2>\n        </div>\n        <div class=\"modal-body\">\n            <table class=\"table-no-style\">\n                <tr>\n                    <td class=\"button-ok\">Boot</td>\n                    <td class=\"button-ok\">Anzahl</td>\n                    <td class=\"button-ok\">Bar</td>\n                    <td class=\"button-ok\">Karte</td>\n                    <td class=\"button-ok\">Summe</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">E-Boot</td>\n                    <td valign=\"top\">{{getCount('E-Boot')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTax('E-Boot'))}}<br/>{{pp.ppPrice(getCashTax('E-Boot'))}}<br/>{{pp.ppPrice(getCashAfterTax('E-Boot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTax('E-Boot'))}}<br/>{{pp.ppPrice(getCardTax('E-Boot'))}}<br/>{{pp.ppPrice(getCardAfterTax('E-Boot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTax('E-Boot'))}}<br/>{{pp.ppPrice(getSumTax('E-Boot'))}}<br/>{{pp.ppPrice(getSumAfterTax('E-Boot'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Tretboot klein</td>\n                    <td valign=\"top\">{{getCount('Tretboot klein')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashAfterTax('Tretboot klein'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardAfterTax('Tretboot klein'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumAfterTax('Tretboot klein'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Tretboot gro\u00DF</td>\n                    <td valign=\"top\">{{getCount('Tretboot gro\u00DF')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTax('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCashTax('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCashAfterTax('Tretboot gro\u00DF'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTax('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCardTax('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCardAfterTax('Tretboot gro\u00DF'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTax('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getSumTax('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getSumAfterTax('Tretboot gro\u00DF'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Tretboot Rutsche</td>\n                    <td valign=\"top\">{{getCount('Tretboot Rutsche')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashAfterTax('Tretboot Rutsche'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardAfterTax('Tretboot Rutsche'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumAfterTax('Tretboot Rutsche'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Liegeboot</td>\n                    <td valign=\"top\">{{getCount('Liegeboot')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCashTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCashAfterTax('Liegeboot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCardTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCardAfterTax('Liegeboot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTax('Liegeboot'))}}<br/>{{pp.ppPrice(getSumTax('Liegeboot'))}}<br/>{{pp.ppPrice(getSumAfterTax('Liegeboot'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\" class=\"button-action\">Summe</td>\n                    <td valign=\"top\" class=\"button-action\">{{getCountSum()}}</td>\n                    <td align=\"right\" valign=\"top\" class=\"button-action\">{{pp.ppPrice(getCashBeforeTax())}}<br/>{{pp.ppPrice(getCashTax())}}<br/>{{pp.ppPrice(getCashAfterTax())}}</td>\n                    <td align=\"right\" valign=\"top\" class=\"button-action\">{{pp.ppPrice(getCardBeforeTax())}}<br/>{{pp.ppPrice(getCardTax())}}<br/>{{pp.ppPrice(getCardAfterTax())}}</td>\n                    <td align=\"right\" valign=\"top\" class=\"button-cancel\">{{pp.ppPrice(getSumBeforeTax())}}<br/>{{pp.ppPrice(getSumTax())}}<br/>{{pp.ppPrice(getSumAfterTax())}}</td>\n                </tr>\n            </table>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"print($event)\">Drucken</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
+                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Einnahmen: {{ppDate()}}</h2>\n        </div>\n        <div class=\"modal-body\">\n            <table class=\"table-no-style\">\n                <tr>\n                    <td class=\"button-ok\">Boot</td>\n                    <td class=\"button-ok\">Anzahl</td>\n                    <td class=\"button-ok\">Bar</td>\n                    <td class=\"button-ok\">Karte</td>\n                    <td class=\"button-ok\">Summe</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">E-Boot</td>\n                    <td valign=\"top\">{{getCountForBoat('E-Boot')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('E-Boot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('E-Boot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('E-Boot'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Tretboot klein</td>\n                    <td valign=\"top\">{{getCountForBoat('Tretboot klein')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Tretboot klein'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Tretboot klein'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Tretboot klein'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Tretboot gro\u00DF</td>\n                    <td valign=\"top\">{{getCountForBoat('Tretboot gro\u00DF')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTaxForBoat('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Tretboot gro\u00DF'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTaxForBoat('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Tretboot gro\u00DF'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTaxForBoat('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Tretboot gro\u00DF'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Tretboot gro\u00DF'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Tretboot Rutsche</td>\n                    <td valign=\"top\">{{getCountForBoat('Tretboot Rutsche')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Tretboot Rutsche'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Tretboot Rutsche'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Tretboot Rutsche'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\">Liegeboot</td>\n                    <td valign=\"top\">{{getCountForBoat('Liegeboot')}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCashBeforeTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Liegeboot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getCardBeforeTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Liegeboot'))}}</td>\n                    <td align=\"right\" valign=\"top\">{{pp.ppPrice(getSumBeforeTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Liegeboot'))}}</td>\n                </tr>\n                <tr>\n                    <td valign=\"top\" class=\"button-action\">Summe</td>\n                    <td valign=\"top\" class=\"button-action\">{{getCountSum()}}</td>\n                    <td align=\"right\" valign=\"top\" class=\"button-action\">{{pp.ppPrice(getCashBeforeTax())}}<br/>{{pp.ppPrice(getCashTax())}}<br/>{{pp.ppPrice(getCashAfterTax())}}</td>\n                    <td align=\"right\" valign=\"top\" class=\"button-action\">{{pp.ppPrice(getCardBeforeTax())}}<br/>{{pp.ppPrice(getCardTax())}}<br/>{{pp.ppPrice(getCardAfterTax())}}</td>\n                    <td align=\"right\" valign=\"top\" class=\"button-cancel\">{{pp.ppPrice(getSumBeforeTax())}}<br/>{{pp.ppPrice(getSumTax())}}<br/>{{pp.ppPrice(getSumAfterTax())}}</td>\n                </tr>\n            </table>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"print($event)\">Drucken</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof angular2_modal_1.ModalDialogInstance !== 'undefined' && angular2_modal_1.ModalDialogInstance) === 'function' && _a) || Object, (typeof (_b = typeof angular2_modal_1.ICustomModal !== 'undefined' && angular2_modal_1.ICustomModal) === 'function' && _b) || Object])
                 ], ModalIncome);

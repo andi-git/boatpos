@@ -33,38 +33,38 @@ export class ModalIncomeContext {
                 </tr>
                 <tr>
                     <td valign="top">E-Boot</td>
-                    <td valign="top">{{getCount('E-Boot')}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTax('E-Boot'))}}<br/>{{pp.ppPrice(getCashTax('E-Boot'))}}<br/>{{pp.ppPrice(getCashAfterTax('E-Boot'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTax('E-Boot'))}}<br/>{{pp.ppPrice(getCardTax('E-Boot'))}}<br/>{{pp.ppPrice(getCardAfterTax('E-Boot'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTax('E-Boot'))}}<br/>{{pp.ppPrice(getSumTax('E-Boot'))}}<br/>{{pp.ppPrice(getSumAfterTax('E-Boot'))}}</td>
+                    <td valign="top">{{getCountForBoat('E-Boot')}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('E-Boot'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('E-Boot'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('E-Boot'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('E-Boot'))}}</td>
                 </tr>
                 <tr>
                     <td valign="top">Tretboot klein</td>
-                    <td valign="top">{{getCount('Tretboot klein')}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashAfterTax('Tretboot klein'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardAfterTax('Tretboot klein'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumTax('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumAfterTax('Tretboot klein'))}}</td>
+                    <td valign="top">{{getCountForBoat('Tretboot klein')}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Tretboot klein'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Tretboot klein'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Tretboot klein'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Tretboot klein'))}}</td>
                 </tr>
                 <tr>
                     <td valign="top">Tretboot groß</td>
-                    <td valign="top">{{getCount('Tretboot groß')}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTax('Tretboot groß'))}}<br/>{{pp.ppPrice(getCashTax('Tretboot groß'))}}<br/>{{pp.ppPrice(getCashAfterTax('Tretboot groß'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTax('Tretboot groß'))}}<br/>{{pp.ppPrice(getCardTax('Tretboot groß'))}}<br/>{{pp.ppPrice(getCardAfterTax('Tretboot groß'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTax('Tretboot groß'))}}<br/>{{pp.ppPrice(getSumTax('Tretboot groß'))}}<br/>{{pp.ppPrice(getSumAfterTax('Tretboot groß'))}}</td>
+                    <td valign="top">{{getCountForBoat('Tretboot groß')}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTaxForBoat('Tretboot groß'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Tretboot groß'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Tretboot groß'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTaxForBoat('Tretboot groß'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Tretboot groß'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Tretboot groß'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTaxForBoat('Tretboot groß'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Tretboot groß'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Tretboot groß'))}}</td>
                 </tr>
                 <tr>
                     <td valign="top">Tretboot Rutsche</td>
-                    <td valign="top">{{getCount('Tretboot Rutsche')}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashAfterTax('Tretboot Rutsche'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardAfterTax('Tretboot Rutsche'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumTax('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumAfterTax('Tretboot Rutsche'))}}</td>
+                    <td valign="top">{{getCountForBoat('Tretboot Rutsche')}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Tretboot Rutsche'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Tretboot Rutsche'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Tretboot Rutsche'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Tretboot Rutsche'))}}</td>
                 </tr>
                 <tr>
                     <td valign="top">Liegeboot</td>
-                    <td valign="top">{{getCount('Liegeboot')}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCashTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCashAfterTax('Liegeboot'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCardTax('Liegeboot'))}}<br/>{{pp.ppPrice(getCardAfterTax('Liegeboot'))}}</td>
-                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTax('Liegeboot'))}}<br/>{{pp.ppPrice(getSumTax('Liegeboot'))}}<br/>{{pp.ppPrice(getSumAfterTax('Liegeboot'))}}</td>
+                    <td valign="top">{{getCountForBoat('Liegeboot')}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCashBeforeTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCashTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCashAfterTaxForBoat('Liegeboot'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getCardBeforeTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCardTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getCardAfterTaxForBoat('Liegeboot'))}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getSumBeforeTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getSumTaxForBoat('Liegeboot'))}}<br/>{{pp.ppPrice(getSumAfterTaxForBoat('Liegeboot'))}}</td>
                 </tr>
                 <tr>
                     <td valign="top" class="button-action">Summe</td>
@@ -117,7 +117,7 @@ export class ModalIncome implements ICustomModalComponent {
         }
     }
 
-    getCount(name:string):number {
+    getCountForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -139,7 +139,7 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getCashBeforeTax(name:string):number {
+    getCashBeforeTaxForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -161,7 +161,7 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getCashTax(name:string):number {
+    getCashTaxForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -183,7 +183,7 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getCashAfterTax(name:string):number {
+    getCashAfterTaxForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -205,7 +205,7 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getCardBeforeTax(name:string):number {
+    getCardBeforeTaxForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -227,7 +227,7 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getCardTax(name:string):number {
+    getCardTaxForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -249,7 +249,7 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getCardAfterTax(name:string):number {
+    getCardAfterTaxForBoat(name:string):number {
         let result:number = 0;
         if (isPresent(this.report)) {
             this.report.journalReportItems.forEach(item => {
@@ -271,24 +271,24 @@ export class ModalIncome implements ICustomModalComponent {
         return result;
     }
 
-    getSumBeforeTax(name:string):number {
-        return this.getCashBeforeTax(name) + this.getCardBeforeTax(name);
+    getSumBeforeTaxForBoat(name:string):number {
+        return this.getCashBeforeTaxForBoat(name) + this.getCardBeforeTaxForBoat(name);
     }
 
     getSumBeforeTax():number {
         return this.getCashBeforeTax() + this.getCardBeforeTax();
     }
 
-    getSumTax(name:string):number {
-        return this.getCashTax(name) + this.getCardTax(name);
+    getSumTaxForBoat(name:string):number {
+        return this.getCashTaxForBoat(name) + this.getCardTaxForBoat(name);
     }
 
     getSumTax():number {
         return this.getCashTax() + this.getCardTax();
     }
 
-    getSumAfterTax(name:string):number {
-        return this.getCashAfterTax(name) + this.getCardAfterTax(name);
+    getSumAfterTaxForBoat(name:string):number {
+        return this.getCashAfterTaxForBoat(name) + this.getCardAfterTaxForBoat(name);
     }
 
     getSumAfterTax():number {
