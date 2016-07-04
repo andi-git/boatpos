@@ -25,6 +25,14 @@ public interface ArrivalService {
     RentalBean addPromotion(AddPromotionBean addPromotionBean);
 
     /**
+     * Remove all promotions-after of a rental.
+     *
+     * @param removePromotionsAfterBean the promotion-after
+     * @return the current rental
+     */
+    RentalBean removePromotionsAfter(RemovePromotionsAfterBean removePromotionsAfterBean);
+
+    /**
      * Perform a payment after the rental.
      *
      * @param paymentBean the bill of the payment

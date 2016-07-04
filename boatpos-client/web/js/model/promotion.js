@@ -1,5 +1,5 @@
 System.register([], function(exports_1) {
-    var PromotionBefore, PromotionAfter;
+    var PromotionBefore, PromotionAfter, AddPromotion, RemovePromotionsAfter;
     return {
         setters:[],
         execute: function() {
@@ -40,6 +40,27 @@ System.register([], function(exports_1) {
                 return PromotionAfter;
             })();
             exports_1("PromotionAfter", PromotionAfter);
+            AddPromotion = (function () {
+                function AddPromotion(dayNumber, promotionId) {
+                    this.dayNumber = dayNumber;
+                    this.promotionId = promotionId;
+                }
+                AddPromotion.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
+                return AddPromotion;
+            })();
+            exports_1("AddPromotion", AddPromotion);
+            RemovePromotionsAfter = (function () {
+                function RemovePromotionsAfter(dayNumber) {
+                    this.dayNumber = dayNumber;
+                }
+                RemovePromotionsAfter.prototype.toString = function () {
+                    return JSON.stringify(this);
+                };
+                return RemovePromotionsAfter;
+            })();
+            exports_1("RemovePromotionsAfter", RemovePromotionsAfter);
         }
     }
 });

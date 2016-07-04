@@ -68,3 +68,31 @@ export class PromotionAfter {
         return JSON.stringify(this);
     }
 }
+
+export class AddPromotion {
+
+    public dayNumber:number;
+    public promotionId:number;
+
+    constructor(dayNumber:number, promotionId:number) {
+        this.dayNumber = dayNumber;
+        this.promotionId = promotionId;
+    }
+
+    toString():string {
+        return JSON.stringify(this);
+    }
+}
+
+export class RemovePromotionsAfter {
+
+    public dayNumber:number;
+
+    constructor(dayNumber:number) {
+        this.dayNumber = dayNumber;
+    }
+
+    toString():string {
+        return JSON.stringify(this);
+    }
+}

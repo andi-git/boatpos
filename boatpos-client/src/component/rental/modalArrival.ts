@@ -1,5 +1,5 @@
-import {Component, provide, ElementRef, Injector} from 'angular2/core';
-import {NgIf} from 'angular2/common';
+import {Component} from "angular2/core";
+import {NgIf} from "angular2/common";
 //noinspection TypeScriptCheckImport
 import {Modal, ModalConfig, ICustomModal, ModalDialogInstance, ICustomModalComponent} from "lib/angular2-modal";
 import {RentalService} from "service/rental.service";
@@ -11,9 +11,10 @@ import {Printer} from "printer";
 import {Bill} from "model/bill";
 import {Payment} from "../../model/payment";
 import {ModalDialogInstance, ICustomModalComponent, ICustomModal} from "angular2-modal/dist/angular2-modal";
+import {PromotionService} from "../../service/promotion.service";
 
 export class ModalArrivalContext {
-    constructor(public rentalNumber:number, public rentalService:RentalService, public keyBinding:KeyBindingService, public printer:Printer, public pp:PrettyPrinter, public printerIp:string) {
+    constructor(public rentalNumber:number, public rentalService:RentalService, public promotionService:PromotionService, public keyBinding:KeyBindingService, public printer:Printer, public pp:PrettyPrinter, public printerIp:string) {
     }
 }
 
@@ -66,6 +67,7 @@ export class ModalArrivalContext {
             <p>Vermietung mit Nummer {{rentalNumber}} wurde bereits abgerechnet!</p>
         </div>
         <div class="modal-footer">
+            <button class="buttonSmall button-action" (click)="holliKnolli()" *ngIf="state === 'ok'">HK</button>
             <button class="buttonSmall button-action" (click)="reset()" *ngIf="state === 'ok'">Zurücksetzen</button>
             <button class="buttonSmall button-ok" (click)="payCash()" *ngIf="state === 'ok'">Bar</button>
             <button class="buttonSmall button-ok" (click)="payCard()" *ngIf="state === 'ok'">Karte</button>
@@ -141,6 +143,7 @@ export class ModalArrival implements ICustomModalComponent {
     private dialog:ModalDialogInstance;
     private keyBinding:KeyBindingService;
     private rentalService:RentalService;
+    private promotionService:PromotionService;
     private printer:Printer;
     private pp:PrettyPrinter;
     private rentalNumber:number;
@@ -162,11 +165,12 @@ export class ModalArrival implements ICustomModalComponent {
         this.dialog = dialog;
         this.keyBinding = (<ModalArrivalContext>modelContentData).keyBinding;
         this.rentalService = (<ModalArrivalContext>modelContentData).rentalService;
+        this.promotionService = (<ModalArrivalContext>modelContentData).promotionService;
         this.rentalNumber = (<ModalArrivalContext>modelContentData).rentalNumber;
         this.printer = (<ModalArrivalContext>modelContentData).printer;
         this.pp = (<ModalArrivalContext>modelContentData).pp;
         this.printerIp = (<ModalArrivalContext>modelContentData).printerIp;
-        let map:{[key: string] : ((e:ExtendedKeyboardEvent, combo:string) => any)} = {
+        let map:{[key:string]:((e:ExtendedKeyboardEvent, combo:string) => any)} = {
             'K': () => {
                 this.cancel();
             },
@@ -185,6 +189,9 @@ export class ModalArrival implements ICustomModalComponent {
             '.': () => {
                 this.addToPrice('.');
             }
+        };
+        map[this.promotionService.getHolliKnolli().keyBinding] = (e) => {
+            this.holliKnolli();
         };
         for (var i = 0; i <= 9; i++) {
             map[i] = (e) => {
@@ -209,7 +216,8 @@ export class ModalArrival implements ICustomModalComponent {
                     this.price = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
                     this.isOriginalPrice = true;
                     this.originalPrice = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
-                    // add special warning if commitment has to be returned and add the return value for special commitments
+                    // add special warning if commitment has to be returned and add the return value for special
+                    // commitments
                     if (isPresent(this.rental && isPresent(this.rental.commitments))) {
                         this.rental.commitments.forEach((commitment) => {
                             // return commitment
@@ -249,9 +257,9 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     private calculateReturnMoney() {
-            if (Number.parseFloat(this.getMoney) - Number.parseFloat(this.price) > 0) {
-                this.returnMoney = this.pp.ppPrice(Number.parseFloat(this.getMoney) - Number.parseFloat(this.price), "");
-            }
+        if (Number.parseFloat(this.getMoney) - Number.parseFloat(this.price) > 0) {
+            this.returnMoney = this.pp.ppPrice(Number.parseFloat(this.getMoney) - Number.parseFloat(this.price), "");
+        }
     }
 
     getBoatName():string {
@@ -366,6 +374,22 @@ export class ModalArrival implements ICustomModalComponent {
             this.inputMethod = InputMethod.PriceToPay;
             this.classInputPrice = "input input-arrival-price-selected";
             this.classInputGetMoney = "input input-get-money";
+        }
+    }
+
+    private holliKnolli() {
+        if (isPresent(this.rental.promotionAfter)) {
+            this.rentalService.removeHolliKnolli(this.rental).subscribe(rental => {
+                this.rental = rental;
+                this.originalPrice = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
+                this.reset();
+            });
+        } else {
+            this.rentalService.addHolliKnolli(this.rental).subscribe(rental => {
+                this.rental = rental;
+                this.originalPrice = this.pp.ppPrice(this.rental.priceCalculatedAfter, "");
+                this.reset();
+            });
         }
     }
 }

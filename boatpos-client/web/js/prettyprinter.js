@@ -65,12 +65,13 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                 };
                 PrettyPrinter.prototype.printPromotions = function (promotionBefore, promotionAfter) {
                     var promotionsString = "";
-                    var first = true;
                     if (lang_1.isPresent(promotionBefore)) {
                         promotionsString += promotionBefore.name;
                     }
-                    if (lang_1.isPresent(promotionAfter)) {
+                    if (lang_1.isPresent(promotionBefore) && lang_1.isPresent(promotionAfter)) {
                         promotionsString += ", ";
+                    }
+                    if (lang_1.isPresent(promotionAfter)) {
                         promotionsString += promotionAfter.name;
                     }
                     return promotionsString;

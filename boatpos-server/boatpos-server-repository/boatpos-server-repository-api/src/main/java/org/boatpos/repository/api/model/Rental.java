@@ -77,6 +77,8 @@ public interface Rental extends DomainModelWithDto<Rental, RentalEntity, RentalB
 
     Rental setPromotion(Promotion promotion);
 
+    Rental removePromotion();
+
     Set<Commitment> getCommitments();
 
     Rental addCommitments(Set<Commitment> commitments);

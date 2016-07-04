@@ -35,6 +35,7 @@ System.register(["../model/promotion", "angular2/core", "angular2/http", "rxjs/a
                     this.configService.isConfigured().subscribe(function (config) {
                         console.log("constructor of PromotionService");
                         _this.loadPromotionsBefore().subscribe(function (promotionsBefore) { return _this.promotionsBeforeCache = promotionsBefore; });
+                        _this.loadPromotionHolliKnolli().subscribe(function (promotionHolliKnolli) { return _this.promotionHolliKnolliCache = promotionHolliKnolli; });
                     });
                 }
                 PromotionService.prototype.getPromotionsBefore = function () {
@@ -51,6 +52,13 @@ System.register(["../model/promotion", "angular2/core", "angular2/http", "rxjs/a
                             });
                         }
                         return result;
+                    });
+                };
+                PromotionService.prototype.loadPromotionHolliKnolli = function () {
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/after/name/HolliKnolli', { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) { return res.json(); })
+                        .map(function (holliKnolli) {
+                        return new promotion_1.PromotionAfter(holliKnolli.id, holliKnolli.name, holliKnolli.enabled, holliKnolli.priority, holliKnolli.keyBinding, holliKnolli.pictureUrl, holliKnolli.pictureUrlThumb);
                     });
                 };
                 PromotionService.prototype.getPromotionBeforeByKeyBinding = function (keyBinding) {
@@ -75,6 +83,9 @@ System.register(["../model/promotion", "angular2/core", "angular2/http", "rxjs/a
                         }
                     });
                     return selectedPromotionBefore;
+                };
+                PromotionService.prototype.getHolliKnolli = function () {
+                    return this.promotionHolliKnolliCache;
                 };
                 PromotionService = __decorate([
                     core_1.Injectable(), 

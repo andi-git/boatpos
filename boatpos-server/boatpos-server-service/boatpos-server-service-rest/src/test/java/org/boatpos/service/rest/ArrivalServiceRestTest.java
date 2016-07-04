@@ -57,4 +57,20 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertTrue(rentalBean.isFinished());
         assertEquals("cash", rentalBean.getPaymentMethodAfter());
     }
+
+    @Test
+    public void testRemovePromotionsAfter() throws Exception {
+        Response response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/arrive")).post(Entity.json(new ArrivalBean(3)));
+        RentalBean rentalBean = response.readEntity(RentalBean.class);
+        assertEquals(new BigDecimal("44.80"), rentalBean.getPriceCalculatedAfter());
+
+        Long promotionId = helper.createRestCall(url, (wt) -> wt.path("promotion/after/name/HolliKnolli")).get().readEntity(PromotionAfterBean.class).getId();
+        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/promotion")).post(Entity.json(new AddPromotionBean(3, promotionId)));
+        rentalBean = response.readEntity(RentalBean.class);
+        assertEquals(new BigDecimal("22.40"), rentalBean.getPriceCalculatedAfter());
+
+        response = helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/promotion")).put(Entity.json(new RemovePromotionsAfterBean(3)));
+        rentalBean = response.readEntity(RentalBean.class);
+        assertEquals(new BigDecimal("44.80"), rentalBean.getPriceCalculatedAfter());
+    }
 }

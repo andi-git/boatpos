@@ -8,11 +8,13 @@ import {Rental} from "../model/rental";
 import {Payment} from "../model/payment";
 import {Arrival} from "../model/arrival";
 import {Bill, Company, TaxSetElement} from "../model/bill";
+import {PromotionService} from "./promotion.service";
+import {AddPromotion, RemovePromotionsAfter} from "../model/promotion";
 
 @Injectable()
 export class RentalService {
 
-    constructor(private http:Http, private configService:ConfigService) {
+    constructor(private http:Http, private configService:ConfigService, private promotionService:PromotionService) {
     }
 
     depart(depart:Departure):Observable<Rental> {
@@ -74,6 +76,24 @@ export class RentalService {
     arrive(dayNumber:number):Observable<Rental> {
         return this.http.post(
                 this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.configService.getDefaultHeader()})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return this.convertRentalBeanToRental(rentalBean);
+            });
+    }
+
+    addHolliKnolli(rental:Rental):Observable<Rental> {
+        return this.http.post(
+            this.configService.getBackendUrl() + 'rest/arrival/promotion', JSON.stringify(new AddPromotion(rental.dayId, this.promotionService.getHolliKnolli().id)), {headers: this.configService.getDefaultHeader()})
+            .map(res => res.json())
+            .map((rentalBean) => {
+                return this.convertRentalBeanToRental(rentalBean);
+            });
+    }
+
+    removeHolliKnolli(rental:Rental):Observable<Rental> {
+        return this.http.put(
+            this.configService.getBackendUrl() + 'rest/arrival/promotion', JSON.stringify(new RemovePromotionsAfter(rental.dayId)), {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);

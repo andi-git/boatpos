@@ -9,10 +9,7 @@ import org.boatpos.repository.api.repository.PromotionAfterRepository;
 import org.boatpos.repository.api.repository.RentalRepository;
 import org.boatpos.repository.api.values.*;
 import org.boatpos.service.api.ArrivalService;
-import org.boatpos.service.api.bean.AddPromotionBean;
-import org.boatpos.service.api.bean.ArrivalBean;
-import org.boatpos.service.api.bean.PaymentBean;
-import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.api.bean.*;
 import org.boatpos.service.core.util.RegkasService;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
@@ -83,6 +80,22 @@ public class ArrivalServiceCore implements ArrivalService {
             }
         } else {
             throw new RuntimeException("unable to add a promotion because rental with dayId " + addPromotionBean.getDayNumber() + " doesn't exist");
+        }
+    }
+
+    @Override
+    public RentalBean removePromotionsAfter(RemovePromotionsAfterBean removePromotionsAfterBean) {
+        checkNotNull(removePromotionsAfterBean);
+        DayId dayId = new DayId(removePromotionsAfterBean.getDayNumber());
+        rentalLoader.checkIfRentalIsActive(dayId);
+        Optional<Rental> rentalOptional = rentalRepository.loadBy(day, dayId);
+        if (rentalOptional.isPresent()) {
+            Rental rental = rentalOptional.get();
+            rental.removePromotion();
+            rental.setPriceCalculatedAfter(priceCalculator.calculate(rental));
+            return rentalBeanEnrichment.asDto(rental.persist());
+        } else {
+            throw new RuntimeException("unable to add a promotion because rental with dayId " + dayId.get() + " doesn't exist");
         }
     }
 

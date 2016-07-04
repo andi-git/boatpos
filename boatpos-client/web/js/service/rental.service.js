@@ -1,4 +1,4 @@
-System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./config.service", "../model/rental", "../model/arrival", "../model/bill"], function(exports_1) {
+System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./config.service", "../model/rental", "../model/arrival", "../model/bill", "./promotion.service", "../model/promotion"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, config_service_1, rental_1, arrival_1, bill_1;
+    var core_1, http_1, config_service_1, rental_1, arrival_1, bill_1, promotion_service_1, promotion_1;
     var RentalService;
     return {
         setters:[
@@ -30,12 +30,19 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
             },
             function (bill_1_1) {
                 bill_1 = bill_1_1;
+            },
+            function (promotion_service_1_1) {
+                promotion_service_1 = promotion_service_1_1;
+            },
+            function (promotion_1_1) {
+                promotion_1 = promotion_1_1;
             }],
         execute: function() {
             RentalService = (function () {
-                function RentalService(http, configService) {
+                function RentalService(http, configService, promotionService) {
                     this.http = http;
                     this.configService = configService;
+                    this.promotionService = promotionService;
                 }
                 RentalService.prototype.depart = function (depart) {
                     return this.http.post(this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), { headers: this.configService.getDefaultHeader() })
@@ -79,6 +86,22 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                 RentalService.prototype.arrive = function (dayNumber) {
                     var _this = this;
                     return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new arrival_1.Arrival(dayNumber)), { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) { return res.json(); })
+                        .map(function (rentalBean) {
+                        return _this.convertRentalBeanToRental(rentalBean);
+                    });
+                };
+                RentalService.prototype.addHolliKnolli = function (rental) {
+                    var _this = this;
+                    return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/promotion', JSON.stringify(new promotion_1.AddPromotion(rental.dayId, this.promotionService.getHolliKnolli().id)), { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) { return res.json(); })
+                        .map(function (rentalBean) {
+                        return _this.convertRentalBeanToRental(rentalBean);
+                    });
+                };
+                RentalService.prototype.removeHolliKnolli = function (rental) {
+                    var _this = this;
+                    return this.http.put(this.configService.getBackendUrl() + 'rest/arrival/promotion', JSON.stringify(new promotion_1.RemovePromotionsAfter(rental.dayId)), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) { return res.json(); })
                         .map(function (rentalBean) {
                         return _this.convertRentalBeanToRental(rentalBean);
@@ -140,7 +163,7 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                 };
                 RentalService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService, promotion_service_1.PromotionService])
                 ], RentalService);
                 return RentalService;
             })();

@@ -79,12 +79,28 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertNull(rental.getPromotionAfterBean());
         assertNull(rental.getPricePaidAfter());
 
-        rental = arrivalService.addPromotion(new AddPromotionBean(3, promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
+        rental = arrivalService.addPromotion(new AddPromotionBean(rental.getDayId(), promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
         assertEquals(new BigDecimal("22.40"), rental.getPriceCalculatedAfter());
         assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
         assertNull(rental.getPricePaidAfter());
 
         BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("22.40"), "card"));
         assertEquals(new BigDecimal("22.40"), bill.getSumTaxSetNormal());
+    }
+
+    @Test
+    @Transactional
+    public void testRemovePromotionAndPay() {
+        RentalBean rental = arrivalService.arrive(new ArrivalBean(3));
+
+        rental = arrivalService.addPromotion(new AddPromotionBean(rental.getDayId(), promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
+        assertEquals(new BigDecimal("22.40"), rental.getPriceCalculatedAfter());
+        assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
+        assertNull(rental.getPricePaidAfter());
+
+        rental = arrivalService.removePromotionsAfter(new RemovePromotionsAfterBean(rental.getDayId()));
+        assertEquals(new BigDecimal("44.80"), rental.getPriceCalculatedAfter());
+        assertNull(rental.getPromotionAfterBean());
+        assertNull(rental.getPricePaidAfter());
     }
 }

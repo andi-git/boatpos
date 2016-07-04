@@ -1,20 +1,24 @@
-import {PromotionBefore} from "../model/promotion";
+import {PromotionBefore, PromotionAfter, AddPromotion} from "../model/promotion";
 import {Injectable} from "angular2/core";
 import {Http} from "angular2/http";
 import "rxjs/add/operator/map";
 import {ConfigService} from "./config.service";
 import {Observable} from "rxjs/Observable";
+import {Rental} from "../model/rental";
 
 @Injectable()
 export class PromotionService {
 
     private promotionsBeforeCache:Array<PromotionBefore>;
 
+    private promotionHolliKnolliCache:PromotionAfter;
+
     constructor(private http:Http, private configService:ConfigService) {
         // when configuration is finished, load and cache promotions
         this.configService.isConfigured().subscribe((config) => {
             console.log("constructor of PromotionService");
-            this.loadPromotionsBefore().subscribe(promotionsBefore => this.promotionsBeforeCache = promotionsBefore)
+            this.loadPromotionsBefore().subscribe(promotionsBefore => this.promotionsBeforeCache = promotionsBefore);
+            this.loadPromotionHolliKnolli().subscribe(promotionHolliKnolli => this.promotionHolliKnolliCache = promotionHolliKnolli);
         });
     }
 
@@ -44,6 +48,21 @@ export class PromotionService {
             });
     }
 
+    loadPromotionHolliKnolli():Observable<PromotionAfter> {
+        return this.http.get(this.configService.getBackendUrl() + 'rest/promotion/after/name/HolliKnolli', {headers: this.configService.getDefaultHeader()})
+            .map(res => res.json())
+            .map((holliKnolli) => {
+                return new PromotionAfter(
+                    holliKnolli.id,
+                    holliKnolli.name,
+                    holliKnolli.enabled,
+                    holliKnolli.priority,
+                    holliKnolli.keyBinding,
+                    holliKnolli.pictureUrl,
+                    holliKnolli.pictureUrlThumb);
+            });
+    }
+
     getPromotionBeforeByKeyBinding(keyBinding:string):PromotionBefore {
         let promotionBefore:PromotionBefore = null;
         this.getPromotionsBefore().forEach((p) => {
@@ -68,5 +87,9 @@ export class PromotionService {
             }
         });
         return selectedPromotionBefore;
+    }
+
+    getHolliKnolli():PromotionAfter {
+        return this.promotionHolliKnolliCache;
     }
 }

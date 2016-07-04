@@ -78,7 +78,7 @@ public class PromotionServiceRest {
         return Response.ok(promotionAfterService.getAll(mapInputToEnabledState(state))).build();
     }
 
-    private EnabledState mapInputToEnabledState(@PathParam("state") String state) {
+    private EnabledState mapInputToEnabledState(String state) {
         EnabledState enabledState = EnabledState.All;
         if ("enabled".equals(state)) {
             enabledState = EnabledState.Enabled;

@@ -54,12 +54,13 @@ export class PrettyPrinter {
 
     printPromotions(promotionBefore:PromotionBefore, promotionAfter:PromotionAfter):string {
         let promotionsString:string = "";
-        let first:boolean = true;
         if (isPresent(promotionBefore)) {
             promotionsString += promotionBefore.name;
         }
-        if (isPresent(promotionAfter)) {
+        if (isPresent(promotionBefore) && isPresent(promotionAfter)) {
             promotionsString += ", ";
+        }
+        if (isPresent(promotionAfter)) {
             promotionsString += promotionAfter.name;
         }
         return promotionsString;

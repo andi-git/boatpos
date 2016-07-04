@@ -5,6 +5,7 @@ import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.bean.AddPromotionBean;
 import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.PaymentBean;
+import org.boatpos.service.api.bean.RemovePromotionsAfterBean;
 import org.boatpos.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
@@ -37,9 +38,16 @@ public class ArrivalServiceRest {
 
     @POST
     @Path("/promotion")
-    public Response getByName(AddPromotionBean addPromotionBean) {
+    public Response addPromotion(AddPromotionBean addPromotionBean) {
         checkNotNull(addPromotionBean, "'addPromotion' must not be null");
         return Response.ok(arrivalService.addPromotion(addPromotionBean)).build();
+    }
+
+    @PUT
+    @Path("/promotion")
+    public Response removePromotions(RemovePromotionsAfterBean removePromotionsAfterBean) {
+        checkNotNull(removePromotionsAfterBean, "'removePromotionsAfterBean' must not be null");
+        return Response.ok(arrivalService.removePromotionsAfter(removePromotionsAfterBean)).build();
     }
 
     @POST

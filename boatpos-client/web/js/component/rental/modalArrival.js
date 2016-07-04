@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angular2/src/facade/lang", "../../model/payment"], function(exports_1) {
+System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angular2/src/facade/lang", "../../model/payment"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -29,9 +29,10 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
             }],
         execute: function() {
             ModalArrivalContext = (function () {
-                function ModalArrivalContext(rentalNumber, rentalService, keyBinding, printer, pp, printerIp) {
+                function ModalArrivalContext(rentalNumber, rentalService, promotionService, keyBinding, printer, pp, printerIp) {
                     this.rentalNumber = rentalNumber;
                     this.rentalService = rentalService;
+                    this.promotionService = promotionService;
                     this.keyBinding = keyBinding;
                     this.printer = printer;
                     this.pp = pp;
@@ -50,6 +51,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                     this.dialog = dialog;
                     this.keyBinding = modelContentData.keyBinding;
                     this.rentalService = modelContentData.rentalService;
+                    this.promotionService = modelContentData.promotionService;
                     this.rentalNumber = modelContentData.rentalNumber;
                     this.printer = modelContentData.printer;
                     this.pp = modelContentData.pp;
@@ -73,6 +75,9 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                         '.': function () {
                             _this.addToPrice('.');
                         }
+                    };
+                    map[this.promotionService.getHolliKnolli().keyBinding] = function (e) {
+                        _this.holliKnolli();
                     };
                     for (var i = 0; i <= 9; i++) {
                         map[i] = function (e) {
@@ -99,7 +104,8 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                             _this.price = _this.pp.ppPrice(_this.rental.priceCalculatedAfter, "");
                             _this.isOriginalPrice = true;
                             _this.originalPrice = _this.pp.ppPrice(_this.rental.priceCalculatedAfter, "");
-                            // add special warning if commitment has to be returned and add the return value for special commitments
+                            // add special warning if commitment has to be returned and add the return value for special
+                            // commitments
                             if (lang_1.isPresent(_this.rental && lang_1.isPresent(_this.rental.commitments))) {
                                 _this.rental.commitments.forEach(function (commitment) {
                                     // return commitment
@@ -239,11 +245,28 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                         this.classInputGetMoney = "input input-get-money";
                     }
                 };
+                ModalArrival.prototype.holliKnolli = function () {
+                    var _this = this;
+                    if (lang_1.isPresent(this.rental.promotionAfter)) {
+                        this.rentalService.removeHolliKnolli(this.rental).subscribe(function (rental) {
+                            _this.rental = rental;
+                            _this.originalPrice = _this.pp.ppPrice(_this.rental.priceCalculatedAfter, "");
+                            _this.reset();
+                        });
+                    }
+                    else {
+                        this.rentalService.addHolliKnolli(this.rental).subscribe(function (rental) {
+                            _this.rental = rental;
+                            _this.originalPrice = _this.pp.ppPrice(_this.rental.priceCalculatedAfter, "");
+                            _this.reset();
+                        });
+                    }
+                };
                 ModalArrival = __decorate([
                     core_1.Component({
                         selector: 'modal-content',
                         directives: [common_1.NgIf],
-                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Verrechnung Nummer {{rentalNumber}}</h2>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'ok'\">\n            <p><span class=\"text-grey\">Boot:</span> {{getBoatName()}}</p>\n            <p><span class=\"text-grey\">Einsatz:</span> {{getCommitments()}} <span [hidden]=\"!commitmentReturn\" class=\"commitment-return\">{{getCommitmentReturnString()}}</span></p>\n            <p><span class=\"text-grey\">Datum:</span> {{printDay()}}</p>\n            <p><span class=\"text-grey\">Abfahrt:</span> {{printDeparture()}}</p>\n            <p><span class=\"text-grey\">Ankunft:</span> {{printArrival()}}</p>\n            <p><span class=\"text-grey\">Fahrzeit:</span> {{printTimeOfTravel()}} (verrechnet: {{printTimeOfTravelCalculated()}})</p>\n            <p><span class=\"text-grey\">Aktion bevor:</span> {{printPromotionBefore()}}</p>\n            <p><span class=\"text-grey\">Preis bereits bezahlt:</span> {{printPricePaidBefore()}}</p>\n            <p><span class=\"text-grey\">Aktion danach:</span> {{printPromotionAfter()}}</p>\n            <div class=\"container-money\">\n                <table class=\"table-no-style\">\n                    <tr class=\"table-no-style\">\n                        <td valign=\"top\" class=\"table-no-style\">\n                            <div class=\"container-price-to-pay\">\n                                <span class=\"text-normal\">Zu bezahlender Betrag:</span>\n                                <input [class]=\"classInputPrice\" [(ngModel)]=\"price\" placeholder=\"Preis\"/>\n                            </div>\n                        </td>\n                        <td class=\"table-no-style\">\n                            <div class=\"container-get-money\">\n                                <span class=\"text-small\">Bezahlter Betrag:</span>\n                                <input [class]=\"classInputGetMoney\" [(ngModel)]=\"getMoney\" placeholder=\"Bezahlt\"/>\n                            </div>\n                            <div class=\"container-return-money\">\n                                <span class=\"text-small\">Betrag retour:</span>\n                                <input class=\"input input-return-money\" [(ngModel)]=\"returnMoney\" placeholder=\"Retour\"/>\n                            </div>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'na'\">\n            <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'del'\">\n            <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'alf'\">\n            <p>Vermietung mit Nummer {{rentalNumber}} wurde bereits abgerechnet!</p>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"reset()\" *ngIf=\"state === 'ok'\">Zur\u00FCcksetzen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"payCash()\" *ngIf=\"state === 'ok'\">Bar</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"payCard()\" *ngIf=\"state === 'ok'\">Karte</button>\n            <button class=\"buttonSmall button-cancel\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
+                        template: "<div class=\"modal-header\">\n        <h2 class=\"header header-main\">Verrechnung Nummer {{rentalNumber}}</h2>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'ok'\">\n            <p><span class=\"text-grey\">Boot:</span> {{getBoatName()}}</p>\n            <p><span class=\"text-grey\">Einsatz:</span> {{getCommitments()}} <span [hidden]=\"!commitmentReturn\" class=\"commitment-return\">{{getCommitmentReturnString()}}</span></p>\n            <p><span class=\"text-grey\">Datum:</span> {{printDay()}}</p>\n            <p><span class=\"text-grey\">Abfahrt:</span> {{printDeparture()}}</p>\n            <p><span class=\"text-grey\">Ankunft:</span> {{printArrival()}}</p>\n            <p><span class=\"text-grey\">Fahrzeit:</span> {{printTimeOfTravel()}} (verrechnet: {{printTimeOfTravelCalculated()}})</p>\n            <p><span class=\"text-grey\">Aktion bevor:</span> {{printPromotionBefore()}}</p>\n            <p><span class=\"text-grey\">Preis bereits bezahlt:</span> {{printPricePaidBefore()}}</p>\n            <p><span class=\"text-grey\">Aktion danach:</span> {{printPromotionAfter()}}</p>\n            <div class=\"container-money\">\n                <table class=\"table-no-style\">\n                    <tr class=\"table-no-style\">\n                        <td valign=\"top\" class=\"table-no-style\">\n                            <div class=\"container-price-to-pay\">\n                                <span class=\"text-normal\">Zu bezahlender Betrag:</span>\n                                <input [class]=\"classInputPrice\" [(ngModel)]=\"price\" placeholder=\"Preis\"/>\n                            </div>\n                        </td>\n                        <td class=\"table-no-style\">\n                            <div class=\"container-get-money\">\n                                <span class=\"text-small\">Bezahlter Betrag:</span>\n                                <input [class]=\"classInputGetMoney\" [(ngModel)]=\"getMoney\" placeholder=\"Bezahlt\"/>\n                            </div>\n                            <div class=\"container-return-money\">\n                                <span class=\"text-small\">Betrag retour:</span>\n                                <input class=\"input input-return-money\" [(ngModel)]=\"returnMoney\" placeholder=\"Retour\"/>\n                            </div>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'na'\">\n            <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'del'\">\n            <p>Keine Vermietung mit Nummer {{rentalNumber}} vorhanden!</p>\n        </div>\n        <div class=\"modal-body\" *ngIf=\"state === 'alf'\">\n            <p>Vermietung mit Nummer {{rentalNumber}} wurde bereits abgerechnet!</p>\n        </div>\n        <div class=\"modal-footer\">\n            <button class=\"buttonSmall button-action\" (click)=\"holliKnolli()\" *ngIf=\"state === 'ok'\">HK</button>\n            <button class=\"buttonSmall button-action\" (click)=\"reset()\" *ngIf=\"state === 'ok'\">Zur\u00FCcksetzen</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"payCash()\" *ngIf=\"state === 'ok'\">Bar</button>\n            <button class=\"buttonSmall button-ok\" (click)=\"payCard()\" *ngIf=\"state === 'ok'\">Karte</button>\n            <button class=\"buttonSmall button-cancel\" (click)=\"close($event)\">Schlie\u00DFen</button>\n        </div>",
                         styles: ["\n        .input-arrival-price {\n            font-size: 7em;\n            font-weight: 900;\n            line-height: 2em;\n        }\n\n        .input-arrival-price-selected {\n            font-size: 7em;\n            font-weight: 900;\n            line-height: 2em;\n            background-color: #81BEF7;\n        }\n\n        .input-get-money {\n            font-size: 4em;\n            font-weight: 200;\n        }\n\n        .input-get-money-selected {\n            font-size: 4em;\n            font-weight: 200;\n            background-color: #81BEF7;\n        }\n\n        .input-return-money {\n            font-size: 4em;\n            font-weight: 200;\n        }\n\n        .container-money {\n        }\n\n        .container-price-to-pay {\n            margin: 0 1em 0 0;\n        }\n\n        .container-get-money {\n        }\n\n        .container-return-money {\n        }\n\n        .text-normal {\n            font-size: 2em;\n        }\n\n        .text-small {\n            font-size: 1.5em;\n        }\n\n        .commitment-return {\n            font-size: 1em;\n            color: black;\n            vertical-align: middle;\n            text-align: center;\n            padding: 0 0.5em 0 0.5em;\n            margin: 0 0 0 0;\n            background-color: white;\n            border-radius: 20px 20px 20px 20px;\n            border: 2px solid black;\n            background-color: #ff5050;\n        }\n        "],
                     }), 
                     __metadata('design:paramtypes', [(typeof (_a = typeof angular2_modal_1.ModalDialogInstance !== 'undefined' && angular2_modal_1.ModalDialogInstance) === 'function' && _a) || Object, (typeof (_b = typeof angular2_modal_1.ICustomModal !== 'undefined' && angular2_modal_1.ICustomModal) === 'function' && _b) || Object])

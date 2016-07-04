@@ -236,6 +236,12 @@ public class RentalCore extends DomainModelCore<Rental, RentalEntity> implements
     }
 
     @Override
+    public Rental removePromotion() {
+        getEntity().setPromotion(null);
+        return this;
+    }
+
+    @Override
     public Set<Commitment> getCommitments() {
         return Collections.unmodifiableSet(getEntity().getCommitments().stream().map(CommitmentCore::new).collect(Collectors.toSet()));
     }

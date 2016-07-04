@@ -262,7 +262,7 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                     }
                     else {
                         this.infoService.event().emit("Verrechnung der Nummer " + this.rentalNumber + ".");
-                        this.modalHandler.open(modalArrival_1.ModalArrival, new modalArrival_1.ModalArrivalContext(this.rentalNumber, this.rentalService, this.keyBinding, this.printer, this.pp, this.config.getPrinterIp())).then(function (resultPromise) {
+                        this.modalHandler.open(modalArrival_1.ModalArrival, new modalArrival_1.ModalArrivalContext(this.rentalNumber, this.rentalService, this.promotionService, this.keyBinding, this.printer, this.pp, this.config.getPrinterIp())).then(function (resultPromise) {
                             //noinspection TypeScriptUnresolvedVariable
                             return resultPromise.result.then(function (result) {
                                 _this.lastModalResult = result;
