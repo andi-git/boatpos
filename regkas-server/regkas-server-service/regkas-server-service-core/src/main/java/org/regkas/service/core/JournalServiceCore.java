@@ -10,6 +10,7 @@ import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.repository.ProductGroupRepository;
 import org.regkas.repository.api.repository.ReceiptElementRepository;
 import org.regkas.repository.api.repository.TaxSetRepository;
+import org.regkas.repository.api.values.TaxPercent;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.bean.IncomeBean;
 import org.regkas.service.api.bean.Period;
@@ -32,6 +33,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @RequestScoped
 public class JournalServiceCore implements JournalService {
+
+    private static final BigDecimal PRICE_ZERO = new BigDecimal("0.00");
 
     @Inject
     private ReceiptElementRepository receiptElementRepository;
@@ -91,19 +94,17 @@ public class JournalServiceCore implements JournalService {
         List<ProductGroup> productGroups = productGroupRepository.loadBy(cashBox, Enabled.TRUE);
         Map<DomainId, ProductGroupIncomeBean> productGroupIncomes = new HashMap<>();
         productGroups.stream().forEach(pg -> productGroupIncomes.put(pg.getId(),
-                new ProductGroupIncomeBean(pg.getName().get(), new BigDecimal("0.00"), pg.getTaxSet().getTaxPercent().get(), pg.getPriority().get())
+                new ProductGroupIncomeBean(pg.getName().get(), PRICE_ZERO, pg.getTaxSet().getTaxPercent().get(), pg.getPriority().get())
         ));
 
         // add income for every product-group
-        receiptElementRepository.incomeByProductGroupFor(period, cashBox).stream().forEach(e -> {
-            productGroupIncomes.get(e.getId()).setIncome(e.getPricePaid().get());
-        });
+        receiptElementRepository.incomeByProductGroupFor(period, cashBox).stream().forEach(e -> productGroupIncomes.get(e.getId()).setIncome(e.getPricePaid().get()));
 
         // add total-income
         List<ProductGroupIncomeBean> productGroupIncomeBean = productGroupIncomes.values().stream().sorted((o1, o2) -> o1.getPriority().compareTo(o2.getPriority())).collect(Collectors.toList());
         BigDecimal sum = productGroupIncomes.values().stream()
                 .map(ProductGroupIncomeBean::getIncome)
-                .reduce(new BigDecimal("0.00"), BigDecimal::add);
+                .reduce(PRICE_ZERO, BigDecimal::add);
 
         // add prices split by tax-sets
         List<TaxElementBean> taxElements = new ArrayList<>();
@@ -111,18 +112,24 @@ public class JournalServiceCore implements JournalService {
             BigDecimal incomeForTaxSet = productGroupIncomes.values().stream()
                     .filter(pgi -> pgi.getTaxPercent() == taxSet.getTaxPercent().get().intValue())
                     .map(ProductGroupIncomeBean::getIncome)
-                    .reduce(new BigDecimal("0.00"), BigDecimal::add);
-            taxElements.add(new TaxElementBean(taxSet.getTaxPercent().get(), taxSet.getPriority().get(), incomeForTaxSet, getBeforeTax(incomeForTaxSet), getTax(incomeForTaxSet)));
+                    .reduce(PRICE_ZERO, BigDecimal::add);
+            taxElements.add(new TaxElementBean(taxSet.getTaxPercent().get(), taxSet.getPriority().get(), incomeForTaxSet, getBeforeTax(incomeForTaxSet, taxSet.getTaxPercent()), getTax(incomeForTaxSet, taxSet.getTaxPercent())));
         });
 
         return new IncomeBean(period.getStartDay().toLocalDate(), period.getEndDay().toLocalDate(), productGroupIncomeBean, sum, taxElements);
     }
 
-    private BigDecimal getTax(BigDecimal price) {
-        return price.subtract(getBeforeTax(price));
+    private BigDecimal getTax(BigDecimal price, TaxPercent taxPercent) {
+        if (!taxPercent.isPresent() || taxPercent.get() == 0) {
+            return PRICE_ZERO;
+        }
+        return price.subtract(getBeforeTax(price, taxPercent));
     }
 
-    private BigDecimal getBeforeTax(BigDecimal price) {
-        return price.divide(new BigDecimal("1.20"), 2, BigDecimal.ROUND_HALF_UP);
+    private BigDecimal getBeforeTax(BigDecimal price, TaxPercent taxPercent) {
+        if (!taxPercent.isPresent() || taxPercent.get() == 0) {
+            return price;
+        }
+        return price.divide(taxPercent.asDivisor(), 2, BigDecimal.ROUND_HALF_UP);
     }
 }
