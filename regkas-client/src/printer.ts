@@ -176,9 +176,9 @@ export class Printer {
                 income.taxElements.forEach(te => {
                     if (te.price > 0) {
                         request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(te.taxPercent + "%", 6, Align.LEFT));
-                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength("  " + this.pp.ppPrice(te.price), 10, Align.RIGHT));
-                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(" /  " + this.pp.ppPrice(te.priceTax), 10, Align.RIGHT));
-                        request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(" /  " + this.pp.ppPrice(te.priceBeforeTax), 10, Align.RIGHT));
+                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength("  " + this.pp.ppPrice(te.price), 12, Align.RIGHT));
+                        request = this.printText(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(" /  " + this.pp.ppPrice(te.priceTax), 14, Align.RIGHT));
+                        request = this.printLine(builder, request, 1, 1, "left", false, false, this.pp.ppFixLength(" /  " + this.pp.ppPrice(te.priceBeforeTax), 14, Align.RIGHT));
                     }
                 });
             }

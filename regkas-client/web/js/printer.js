@@ -182,9 +182,9 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                             income.taxElements.forEach(function (te) {
                                 if (te.price > 0) {
                                     request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(te.taxPercent + "%", 6, prettyprinter_1.Align.LEFT));
-                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + _this.pp.ppPrice(te.price), 10, prettyprinter_1.Align.RIGHT));
-                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceTax), 10, prettyprinter_1.Align.RIGHT));
-                                    request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceBeforeTax), 10, prettyprinter_1.Align.RIGHT));
+                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + _this.pp.ppPrice(te.price), 12, prettyprinter_1.Align.RIGHT));
+                                    request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceTax), 14, prettyprinter_1.Align.RIGHT));
+                                    request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceBeforeTax), 14, prettyprinter_1.Align.RIGHT));
                                 }
                             });
                         }
