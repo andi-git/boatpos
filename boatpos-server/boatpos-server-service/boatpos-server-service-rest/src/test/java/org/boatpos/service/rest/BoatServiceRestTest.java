@@ -30,6 +30,9 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
     @Inject
     private RestTestHelper helper;
 
+    private GenericType<List<BoatBean>> boatGenericTypeList = new GenericType<List<BoatBean>>() {
+    };
+
     @Test
     public void testGetById() throws Exception {
         Response response = helper.createRestCall(url, (wt) -> wt.path("boat/name/E")).get();
@@ -63,13 +66,13 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         });
         assertEquals(6, boats.size());
         assertEquals("E", boats.get(0).getShortName());
-        helper.assertCount(url, "boat", 5, EnabledState.Enabled);
-        helper.assertCount(url, "boat", 1, EnabledState.Disabled);
+        helper.assertCount(url, "boat", 5, EnabledState.Enabled, boatGenericTypeList);
+        helper.assertCount(url, "boat", 1, EnabledState.Disabled, boatGenericTypeList);
     }
 
     @Test
     public void testSave() throws Exception {
-        helper.assertCount(url, "boat", 6);
+        helper.assertCount(url, "boat", 6, boatGenericTypeList);
 
         BoatBean boat = new BoatBean(null, null, "TG", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, 'a', "s_________", "l_________");
         Response response = helper.createRestCall(url, (wt) -> wt.path("boat")).post(Entity.json(boat));
@@ -77,18 +80,18 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         BoatBean result = response.readEntity(BoatBean.class);
         assertNotNull(result.getId());
         assertEquals(0, result.getVersion().intValue());
-        helper.assertCount(url, "boat", 7);
+        helper.assertCount(url, "boat", 7, boatGenericTypeList);
 
         boat = new BoatBean(-1L, null, "xxxx", "Tretboot groß", new BigDecimal("10.1"), new BigDecimal("6.1"), new BigDecimal("8.1"), 10, 5, true, 'a', "s_________", "l_________");
         response = helper.createRestCall(url, (wt) -> wt.path("boat")).post(Entity.json(boat));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 
-        helper.assertCount(url, "boat", 7);
+        helper.assertCount(url, "boat", 7, boatGenericTypeList);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        helper.assertCount(url, "boat", 6);
+        helper.assertCount(url, "boat", 6, boatGenericTypeList);
 
         Response response = helper.createRestCall(url, (wt) -> wt.path("boat/name/E")).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -109,23 +112,23 @@ public class BoatServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals("EBOOT", boat.getName());
         assertEquals(2, boat.getVersion().intValue());
 
-        helper.assertCount(url, "boat", 6);
+        helper.assertCount(url, "boat", 6, boatGenericTypeList);
     }
 
     @Test
     public void testEnable() throws Exception {
-        helper.assertCount(url, "boat", 5, EnabledState.Enabled);
+        helper.assertCount(url, "boat", 5, EnabledState.Enabled, boatGenericTypeList);
         Long idToEnable = helper.createRestCall(url, (webTarget) -> webTarget.path("boat/name/P")).get().readEntity(BoatBean.class).getId();
         helper.createRestCall(url, (wt) -> wt.path("boat/enable/" + idToEnable)).put(null);
-        helper.assertCount(url, "boat", 6, EnabledState.Enabled);
+        helper.assertCount(url, "boat", 6, EnabledState.Enabled, boatGenericTypeList);
     }
 
     @Test
     public void testDisable() throws Exception {
-        helper.assertCount(url, "boat", 1, EnabledState.Disabled);
+        helper.assertCount(url, "boat", 1, EnabledState.Disabled, boatGenericTypeList);
         Long idToDisable = helper.createRestCall(url, (webTarget) -> webTarget.path("boat/name/E")).get().readEntity(BoatBean.class).getId();
         helper.createRestCall(url, (wt) -> wt.path("boat/disable/" + idToDisable)).put(null);
-        helper.assertCount(url, "boat", 4, EnabledState.Enabled);
+        helper.assertCount(url, "boat", 4, EnabledState.Enabled, boatGenericTypeList);
     }
 
     @Test

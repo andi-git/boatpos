@@ -28,6 +28,9 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
     @Inject
     private RestTestHelper helper;
 
+    private GenericType<List<CommitmentBean>> commitmentGenericTypeList = new GenericType<List<CommitmentBean>>() {
+    };
+
     @Test
     public void testGetById() throws Exception {
         Response response = helper.createRestCall(url, (wt) -> wt.path("commitment/name/Ausweis")).get();
@@ -57,13 +60,13 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         });
         assertEquals(6, commitments.size());
         assertEquals("Ausweis", commitments.get(0).getName());
-        helper.assertCount(url, "commitment", 5, EnabledState.Enabled);
-        helper.assertCount(url, "commitment", 1, EnabledState.Disabled);
+        helper.assertCount(url, "commitment", 5, EnabledState.Enabled, commitmentGenericTypeList);
+        helper.assertCount(url, "commitment", 1, EnabledState.Disabled, commitmentGenericTypeList);
     }
 
     @Test
     public void testSave() throws Exception {
-        helper.assertCount(url, "commitment", 6);
+        helper.assertCount(url, "commitment", 6, commitmentGenericTypeList);
 
         CommitmentBean commitment = new CommitmentBean(null, null, "Pass", true, 10, true, 'a', "", "");
         Response response = helper.createRestCall(url, (wt) -> wt.path("commitment")).post(Entity.json(commitment));
@@ -71,18 +74,18 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         CommitmentBean result = response.readEntity(CommitmentBean.class);
         assertNotNull(result.getId());
         assertEquals(0, result.getVersion().intValue());
-        helper.assertCount(url, "commitment", 7);
+        helper.assertCount(url, "commitment", 7, commitmentGenericTypeList);
 
         commitment = new CommitmentBean(-1L, null, null, true, 10, true, 'a', "", "");
         response = helper.createRestCall(url, (wt) -> wt.path("commitment")).post(Entity.json(commitment));
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
 
-        helper.assertCount(url, "commitment", 7);
+        helper.assertCount(url, "commitment", 7, commitmentGenericTypeList);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        helper.assertCount(url, "commitment", 6);
+        helper.assertCount(url, "commitment", 6, commitmentGenericTypeList);
 
         Response response = helper.createRestCall(url, (wt) -> wt.path("commitment/name/Ausweis")).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -103,22 +106,22 @@ public class CommitmentServiceRestTest extends FillDatabaseInOtherTransactionTes
         assertEquals("AUSWEIS", commitment.getName());
         assertEquals(2, commitment.getVersion().intValue());
 
-        helper.assertCount(url, "commitment", 6);
+        helper.assertCount(url, "commitment", 6, commitmentGenericTypeList);
     }
 
     @Test
     public void testEnable() throws Exception {
-        helper.assertCount(url, "commitment", 5, EnabledState.Enabled);
+        helper.assertCount(url, "commitment", 5, EnabledState.Enabled, commitmentGenericTypeList);
         Long idToEnable = helper.createRestCall(url, (webTarget) -> webTarget.path("commitment/name/Kinderwagen")).get().readEntity(CommitmentBean.class).getId();
         helper.createRestCall(url, (wt) -> wt.path("commitment/enable/" + idToEnable)).put(null);
-        helper.assertCount(url, "commitment", 6, EnabledState.Enabled);
+        helper.assertCount(url, "commitment", 6, EnabledState.Enabled, commitmentGenericTypeList);
     }
 
     @Test
     public void testDisable() throws Exception {
-        helper.assertCount(url, "commitment", 1, EnabledState.Disabled);
+        helper.assertCount(url, "commitment", 1, EnabledState.Disabled, commitmentGenericTypeList);
         Long idToDisable = helper.createRestCall(url, (webTarget) -> webTarget.path("commitment/name/Ausweis")).get().readEntity(CommitmentBean.class).getId();
         helper.createRestCall(url, (wt) -> wt.path("commitment/disable/" + idToDisable)).put(null);
-        helper.assertCount(url, "commitment", 4, EnabledState.Enabled);
+        helper.assertCount(url, "commitment", 4, EnabledState.Enabled, commitmentGenericTypeList);
     }
 }

@@ -29,11 +29,11 @@ public class RestTestHelper {
         return webTarget.request().accept(mediaType);
     }
 
-    public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count) throws Exception {
-        assertCount(url, subPath, count, EnabledState.All);
+    public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count, GenericType<List<T>> genericTypeList) throws Exception {
+        assertCount(url, subPath, count, EnabledState.All, genericTypeList);
     }
 
-    public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count, EnabledState enabledState) throws Exception {
+    public <T extends AbstractMasterDataBean> void assertCount(URL url, String subPath, int count, EnabledState enabledState, GenericType<List<T>> genericTypeList) throws Exception {
         String state = "";
         if (EnabledState.Enabled == enabledState) {
             state = "/enabled";
@@ -43,8 +43,7 @@ public class RestTestHelper {
         final String finalState = state;
         Response response = createRestCall(url, (wt) -> wt.path(subPath).path(finalState)).get();
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        assertEquals(count, response.readEntity(new GenericType<List<T>>() {
-        }).size());
+        assertEquals(count, response.readEntity(genericTypeList).size());
     }
 
 }

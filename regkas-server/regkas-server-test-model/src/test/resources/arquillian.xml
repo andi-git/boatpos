@@ -8,9 +8,9 @@
     </engine>
     <container qualifier="wildfly-managed" default="true">
         <configuration>
-            <property name="javaVmArguments">-Djboss.socket.binding.port-offset=200</property>
-            <property name="jbossHome">target/wildfly-9.0.2.Final</property>
-            <property name="managementPort">10190</property>
+            <property name="javaVmArguments">-Djboss.socket.binding.port-offset=100</property>
+            <property name="jbossHome">target/wildfly-10.1.0.Final</property>
+            <property name="managementPort">10090</property>
             <property name="allowConnectingToRunningServer">true</property>
         </configuration>
     </container>

@@ -66,8 +66,9 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${version.maven-assembly-plugin}</version>
                 <configuration>
-                    <descriptor>assembly.xml</descriptor>
-                    <finalName>regkas-client-${project.version}</finalName>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
