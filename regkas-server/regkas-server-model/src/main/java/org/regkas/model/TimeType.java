@@ -1,5 +1,7 @@
 package org.regkas.model;
 
+import java.util.Optional;
+
 /**
  * The type of the tome for the receipt.
  */
@@ -16,8 +18,7 @@ public enum TimeType {
     }
 
     public static TimeType get(String timeTypeString) {
-        TimeType result = getOrNull(timeTypeString);
-        return result != null ? result : TimeType.Current;
+        return getOrNull(timeTypeString).orElse(Current);
     }
 
     @Override
@@ -25,11 +26,11 @@ public enum TimeType {
         return string;
     }
 
-    public static TimeType getOrNull(String timeTypeString) {
-        TimeType result = null;
+    public static Optional<TimeType> getOrNull(String timeTypeString) {
+        Optional<TimeType> result = Optional.empty();
         for (TimeType timeType : values()) {
             if (timeType.string.equalsIgnoreCase(timeTypeString)) {
-                result = timeType;
+                result = Optional.of(timeType);
                 break;
             }
         }

@@ -73,12 +73,8 @@ public class RentalRepositoryCore extends DomainModelRepositoryCore<Rental, Rent
                 .add(departureTime)
                 .add(boat)
                 .add(commitments);
-        if (promotion.isPresent()) {
-            builder.add(promotion.get());
-        }
-        if (priceCalculatedBefore.isPresent()) {
-            builder.add(priceCalculatedBefore.get());
-        }
+        promotion.ifPresent(builder::add);
+        priceCalculatedBefore.ifPresent(builder::add);
         return builder.build().persist();
     }
 

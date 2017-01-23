@@ -1,9 +1,7 @@
 package org.regkas.service.rest;
 
-import org.regkas.service.api.ReceiptService;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
