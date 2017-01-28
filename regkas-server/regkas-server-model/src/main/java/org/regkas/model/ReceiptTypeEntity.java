@@ -3,8 +3,7 @@ package org.regkas.model;
 import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractMasterDataEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,11 +13,13 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
 @Table(name = "receiptType")
-public class ReceiptTypeEntity extends AbstractMasterDataEntity {
+@DiscriminatorColumn(name = "name", discriminatorType = DiscriminatorType.STRING)
+public abstract class ReceiptTypeEntity extends AbstractMasterDataEntity {
 
     @NotNull
     @Size(min = 3, max = 50)
     @Expose
+    @Column(updatable = false, insertable = false)
     private String name;
 
     public ReceiptTypeEntity() {

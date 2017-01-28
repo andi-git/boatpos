@@ -7,12 +7,15 @@ import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.regkas.model.ReceiptEntity;
+import org.regkas.model.ReceiptTypeEntity;
 import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.values.*;
+import org.regkas.repository.core.builder.ReceiptTypeBuilderHolder;
 import org.regkas.repository.core.mapping.ReceiptMapping;
 import org.regkas.service.api.bean.ReceiptBean;
 
+import javax.enterprise.inject.spi.CDI;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -131,14 +134,20 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ReceiptType getReceiptType() {
-        return new ReceiptTypeCore(getEntity().getReceiptType());
+        return CDI.current().select(ReceiptTypeBuilderHolder.class).get()
+                .getReceiptTypeFor(getEntity().getReceiptType())
+                .orElseThrow(() -> new RuntimeException("\"no builder available for \" + getEntity().getReceiptType().getClass().getName()"));
     }
 
     @Override
     public Receipt setReceiptType(ReceiptType receiptType) {
-        if (receiptType != null) getEntity().setReceiptType(receiptType.asEntity());
+        if (receiptType != null) {
+            ReceiptTypeEntity entity = (ReceiptTypeEntity) receiptType.asEntity();
+            getEntity().setReceiptType(entity);
+        }
         return this;
     }
 

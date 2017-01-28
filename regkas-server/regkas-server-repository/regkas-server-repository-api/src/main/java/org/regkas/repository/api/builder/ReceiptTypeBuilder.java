@@ -1,19 +1,15 @@
 package org.regkas.repository.api.builder;
 
 import org.boatpos.common.repository.api.builder.MasterDataBuilder;
-import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
 import org.regkas.model.ReceiptTypeEntity;
-import org.regkas.model.TaxSetEntity;
-import org.regkas.repository.api.model.ProductGroup;
 import org.regkas.repository.api.model.ReceiptType;
-import org.regkas.repository.api.model.TaxSet;
-import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.TaxPercent;
 
 /**
  * Builder for {@link ReceiptType}.
  */
-public interface ReceiptTypeBuilder extends MasterDataBuilder<ReceiptTypeBuilder, ReceiptType, ReceiptTypeEntity> {
+public interface ReceiptTypeBuilder<MODEL extends ReceiptType, ENTITY extends ReceiptTypeEntity> extends MasterDataBuilder<ReceiptTypeBuilder, MODEL, ENTITY> {
 
-    ReceiptTypeBuilder add(Name name);
+    boolean canHandle(Class<ENTITY> receiptTypeEntityClass);
+
+    ReceiptType build(ENTITY receiptTypeEntity);
 }

@@ -46,5 +46,7 @@ public class BuilderTest implements EntityManagerProvider {
                         .getName().get());
         assertEquals("dummy", boatBuilder.from(BoatBean.createDummyWithoutId1()).getName().get());
         assertEquals("dummy", boatBuilder.from(BoatEntity.createDummyWithoutId1()).getName().get());
+        assertEquals(BoatEntity.class, boatBuilder.getEntityClass());
+        assertEquals(BoatCore.class, boatBuilder.getDomainModelCoreClass());
     }
 }

@@ -7,9 +7,11 @@ import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.builder.ReceiptTypeBuilderCore;
+import org.regkas.repository.core.builder.ReceiptTypeBuilderHolder;
 import org.regkas.repository.core.model.ReceiptTypeCore;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -17,15 +19,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Dependent
 public class ReceiptTypeRepositoryCore extends MasterDataRepositoryCore<ReceiptType, ReceiptTypeCore, ReceiptTypeEntity, ReceiptTypeBuilder, ReceiptTypeBuilderCore> implements ReceiptTypeRepository {
 
+    @Inject
+    private ReceiptTypeBuilderHolder receiptTypeBuilderHolder;
+
     @Override
     public Optional<ReceiptType> loadBy(Name name) {
         checkNotNull(name, "'name' must not be null");
-        return loadByParameter("receipttype.getByName", (query) -> query.setParameter("name", name.get()));
-    }
-
-    @Override
-    public ReceiptType loadNullType() {
-        return load(queryName("getNullType")).get();
+        return receiptTypeBuilderHolder.getReceiptTypeFor(
+                jpaHelper().getSingleResult(
+                        jpaHelper()
+                                .createNamedQuery("receipttype.getByName", ReceiptTypeEntity.class)
+                                .setParameter("name", name.get())
+                                .getResultList())
+                        .orElseThrow(() -> new RuntimeException("unable to get receipt-type '" + name.get() + "' from database")));
     }
 
     @Override

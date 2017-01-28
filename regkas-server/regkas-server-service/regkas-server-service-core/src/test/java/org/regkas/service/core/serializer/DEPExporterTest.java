@@ -15,7 +15,7 @@ import org.regkas.service.core.DateTimeHelperMock;
 import org.regkas.service.core.context.CashBoxContext;
 import org.regkas.service.core.context.CompanyContext;
 import org.regkas.service.core.context.UserContext;
-import org.regkas.service.core.util.ReceiptToBillConverter;
+import org.regkas.service.core.receipt.ReceiptToBillConverter;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

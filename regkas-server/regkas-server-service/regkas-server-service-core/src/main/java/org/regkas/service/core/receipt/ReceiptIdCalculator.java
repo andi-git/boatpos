@@ -1,4 +1,4 @@
-package org.regkas.service.core.util;
+package org.regkas.service.core.receipt;
 
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;

@@ -1,0 +1,1 @@
+- add receipt-types: jahr, monat

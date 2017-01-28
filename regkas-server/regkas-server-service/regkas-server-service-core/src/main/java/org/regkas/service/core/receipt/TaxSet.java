@@ -1,4 +1,4 @@
-package org.regkas.service.core.util;
+package org.regkas.service.core.receipt;
 
 import org.regkas.repository.api.model.ReceiptElement;
 import org.regkas.service.api.bean.BillBean;

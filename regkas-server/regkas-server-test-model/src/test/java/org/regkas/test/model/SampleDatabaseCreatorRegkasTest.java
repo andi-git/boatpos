@@ -4,6 +4,9 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.model.ReceiptEntity;
+import org.regkas.model.ReceiptTypeEntity;
+import org.regkas.model.ReceiptTypeStandardEntity;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -29,6 +32,8 @@ public class SampleDatabaseCreatorRegkasTest {
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
         sampleDatabaseCreator.fillDatabase(entityManager);
         assertEquals(new BigInteger("2"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
+        System.out.println(entityManager.createQuery("FROM ReceiptTypeEntity r WHERE name='Standard-Beleg'", ReceiptTypeEntity.class).getSingleResult().getClass().getName());
+        System.out.println(entityManager.createQuery("FROM ReceiptEntity r WHERE r.receiptId='2015-0000001'", ReceiptEntity.class).getSingleResult().getReceiptType().getClass().getName());
         sampleDatabaseCreator.clearDatabase(entityManager);
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
     }

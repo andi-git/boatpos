@@ -11,6 +11,13 @@
         <class>org.regkas.model.ReceiptElementEntity</class>
         <class>org.regkas.model.ReceiptEntity</class>
         <class>org.regkas.model.ReceiptTypeEntity</class>
+        <class>org.regkas.model.ReceiptTypeJahrEntity</class>
+        <class>org.regkas.model.ReceiptTypeMonatEntity</class>
+        <class>org.regkas.model.ReceiptTypeNullEntity</class>
+        <class>org.regkas.model.ReceiptTypeStandardEntity</class>
+        <class>org.regkas.model.ReceiptTypeStartEntity</class>
+        <class>org.regkas.model.ReceiptTypeStornoEntity</class>
+        <class>org.regkas.model.ReceiptTypeTrainingEntity</class>
         <class>org.regkas.model.TaxSetEntity</class>
         <class>org.regkas.model.UserEntity</class>
         <properties>

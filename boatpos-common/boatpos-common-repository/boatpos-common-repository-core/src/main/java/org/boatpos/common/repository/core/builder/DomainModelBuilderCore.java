@@ -8,6 +8,7 @@ import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity>
         implements DomainModelBuilder<BUILDER, MODEL, ENTITY> {
@@ -30,12 +31,19 @@ public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder,
         return (Class<MODELCORE>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
     }
 
+    @SuppressWarnings("unchecked")
+    protected Class<ENTITY> getEntityClass() {
+        return (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[3];
+    }
+
+    @Override
     public BUILDER add(DomainId id) {
         this.id = id;
         //noinspection unchecked
         return (BUILDER) this;
     }
 
+    @Override
     public BUILDER add(Version version) {
         this.version = version;
         //noinspection unchecked

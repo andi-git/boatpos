@@ -4,26 +4,21 @@ import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.regkas.model.ReceiptTypeEntity;
 import org.regkas.repository.api.builder.ReceiptTypeBuilder;
 import org.regkas.repository.api.model.ReceiptType;
-import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.model.ReceiptTypeCore;
 
-import javax.enterprise.context.Dependent;
-
-@Dependent
-public class ReceiptTypeBuilderCore
-        extends MasterDataBuilderCore<ReceiptTypeBuilder, ReceiptType, ReceiptTypeCore, ReceiptTypeEntity>
-        implements ReceiptTypeBuilder {
-
-    private Name name;
+// BUILDER and MODEL are not used, but are required in the superclass when getting the classes dynamically
+@SuppressWarnings("unused")
+public abstract class ReceiptTypeBuilderCore<BUILDER extends ReceiptTypeBuilder, MODEL extends ReceiptType, MODELCORE extends ReceiptTypeCore, ENTITY extends ReceiptTypeEntity>
+        extends MasterDataBuilderCore<ReceiptTypeBuilder, ReceiptType, MODELCORE, ENTITY>
+        implements ReceiptTypeBuilder<ReceiptType, ENTITY> {
 
     @Override
     public ReceiptType build() {
-        return new ReceiptTypeCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name);
+        return null;
     }
 
     @Override
-    public ReceiptTypeBuilder add(Name name) {
-        this.name = name;
-        return this;
+    public boolean canHandle(Class<ENTITY> receiptTypeEntityClass) {
+        return getEntityClass() == receiptTypeEntityClass;
     }
 }

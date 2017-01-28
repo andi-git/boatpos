@@ -1,4 +1,4 @@
-package org.regkas.service.core.util;
+package org.regkas.service.core.receipt;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -9,6 +9,7 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.core.DateTimeHelperMock;
 import org.regkas.service.core.context.CashBoxContext;
+import org.regkas.service.core.receipt.ReceiptIdCalculator;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

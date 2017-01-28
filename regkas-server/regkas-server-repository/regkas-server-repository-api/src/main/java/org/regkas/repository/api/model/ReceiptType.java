@@ -7,9 +7,7 @@ import org.regkas.repository.api.values.Name;
 /**
  * The domain model for a receipt-type.
  */
-public interface ReceiptType extends MasterData<ReceiptType, ReceiptTypeEntity> {
+public interface ReceiptType<MODEL extends ReceiptType, ENTITY extends ReceiptTypeEntity> extends MasterData<MODEL, ENTITY> {
 
     Name getName();
-
-    ReceiptType setName(Name name);
 }

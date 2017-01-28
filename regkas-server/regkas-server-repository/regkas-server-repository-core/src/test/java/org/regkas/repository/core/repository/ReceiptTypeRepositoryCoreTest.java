@@ -27,10 +27,4 @@ public class ReceiptTypeRepositoryCoreTest extends EntityManagerProviderForRegka
     public void testLoadByName() {
         assertEquals("Start-Beleg", receiptTypeRepository.loadBy(new Name("Start-Beleg")).get().getName().get());
     }
-
-    @Test
-    @Transactional
-    public void testLoadNullType() {
-        assertEquals("Null-Beleg", receiptTypeRepository.loadNullType().getName().get());
-    }
 }

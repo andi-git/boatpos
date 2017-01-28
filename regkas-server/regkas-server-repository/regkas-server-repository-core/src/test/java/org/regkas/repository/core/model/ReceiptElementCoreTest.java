@@ -2,9 +2,7 @@ package org.regkas.repository.core.model;
 
 import org.junit.Test;
 import org.regkas.repository.api.model.ReceiptElement;
-import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.core.builder.ReceiptElementBuilderCoreTest;
-import org.regkas.repository.core.builder.ReceiptTypeBuilderCoreTest;
 
 import java.math.BigDecimal;
 

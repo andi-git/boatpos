@@ -7,4 +7,8 @@ public interface BoatBuilder extends MasterDataBuilderWithDto<BoatBuilder, Boat,
     BoatBuilder add(Name name);
 
     BoatBuilder add(Price price);
+
+    Class<BoatCore> getDomainModelCoreClass();
+
+    Class<BoatEntity> getEntityClass();
 }
