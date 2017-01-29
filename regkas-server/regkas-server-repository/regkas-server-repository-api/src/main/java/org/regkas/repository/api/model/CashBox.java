@@ -2,6 +2,7 @@ package org.regkas.repository.api.model;
 
 import org.boatpos.common.repository.api.model.MasterData;
 import org.regkas.model.CashBoxEntity;
+import org.regkas.repository.api.values.AESKeyBase64;
 import org.regkas.repository.api.values.IpAddress;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
@@ -22,4 +23,8 @@ public interface CashBox extends MasterData<CashBox, CashBoxEntity> {
     IpAddress getPrinterIpAddress();
 
     CashBox setPrinterIpAddress(IpAddress printerIpAddress);
+
+    AESKeyBase64 getAesKeyBase64();
+
+    CashBox setAesKeyBase64(AESKeyBase64 aesKeyBase64);
 }

@@ -4,6 +4,7 @@ import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.builder.CashBoxBuilder;
 import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.values.AESKeyBase64;
 import org.regkas.repository.api.values.IpAddress;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
@@ -19,10 +20,11 @@ public class CashBoxBuilderCore
     private Name name;
     private SignatureCertificateSerialNumber signatureCertificateSerialNumber;
     private IpAddress printerIpAddress;
+    private AESKeyBase64 aesKeyBase64;
 
     @Override
     public CashBox build() {
-        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress);
+        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64);
     }
 
     @Override
@@ -40,6 +42,12 @@ public class CashBoxBuilderCore
     @Override
     public CashBoxBuilder add(IpAddress printerIpAddress) {
         this.printerIpAddress = printerIpAddress;
+        return this;
+    }
+
+    @Override
+    public CashBoxBuilder add(AESKeyBase64 aesKeyBase64) {
+        this.aesKeyBase64 = aesKeyBase64;
         return this;
     }
 }

@@ -29,5 +29,8 @@ public class CryptoUtilTest {
         CryptoUtil.AESKey aesKey = cryptoUtil.createAESKey();
         assertEquals(32, aesKey.asByteArray().length);
         assertEquals(44, aesKey.asBase64EncodedString().length());
+//        for (int i=0; i<10; i++) {
+//            System.out.println(cryptoUtil.createAESKey().asBase64EncodedString());
+//        }
     }
 }

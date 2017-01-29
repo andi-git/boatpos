@@ -4,6 +4,7 @@ import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.values.AESKeyBase64;
 import org.regkas.repository.api.values.IpAddress;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
@@ -21,14 +22,17 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
                        PictureUrlThumb pictureUrlThumb,
                        Name name,
                        SignatureCertificateSerialNumber signatureCertificateSerialNumber,
-                       IpAddress printerIpAddress) {
+                       IpAddress printerIpAddress,
+                       AESKeyBase64 aesKeyBase64) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(signatureCertificateSerialNumber, "'signatureCertificateSerialNumber' must not be null");
         checkNotNull(printerIpAddress, "'printerIpAddress' must not be null");
+        checkNotNull(aesKeyBase64, "'aesKeyBas64' must not be null");
         setName(name);
         setSignatureCertificateSerialNumber(signatureCertificateSerialNumber);
         setPrinterIpAddress(printerIpAddress);
+        setAesKeyBase64(aesKeyBase64);
     }
 
     public CashBoxCore(CashBoxEntity cashBox) {
@@ -65,6 +69,17 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
     @Override
     public CashBox setPrinterIpAddress(IpAddress printerIpAddress) {
         getEntity().setPrinterIpAddress(SimpleValueObject.nullSafe(printerIpAddress));
+        return this;
+    }
+
+    @Override
+    public AESKeyBase64 getAesKeyBase64() {
+        return new AESKeyBase64(getEntity().getAesKeyBase64());
+    }
+
+    @Override
+    public CashBox setAesKeyBase64(AESKeyBase64 aesKeyBase64) {
+        getEntity().setAesKeyBase64(SimpleValueObject.nullSafe(aesKeyBase64));
         return this;
     }
 }
