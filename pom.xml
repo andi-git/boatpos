@@ -44,6 +44,7 @@
         <!-- plugin -->
         <version.maven-copiler-plugin>3.6.0</version.maven-copiler-plugin>
         <version.maven-surefire-plugin>2.19.1</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>2.19.1</version.maven-failsafe-plugin>
         <version.maven-dependency-plugin>3.0.0</version.maven-dependency-plugin>
         <version.maven-jacoco-plugin>0.7.8</version.maven-jacoco-plugin>
         <version.coveralls-maven-plugin>4.3.0</version.coveralls-maven-plugin>
@@ -280,7 +281,7 @@
                         <executions>
                             <execution>
                                 <id>unpack</id>
-                                <phase>generate-test-resources</phase>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>unpack</goal>
                                 </goals>
@@ -301,8 +302,36 @@
                         </executions>
                     </plugin>
                     <plugin>
+                        <!-- deactivate surefire-plugin -> for arquillian-tests the packages are required -->
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${version.maven-surefire-plugin}</version>
+                        <!-- https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
+                        <configuration>
+                            <reuseForks>true</reuseForks>
+                            <forkCount>1</forkCount>
+                            <excludes>
+                                <exclude>**/*</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <!-- run all tests with the failsafe-plugin in phase integration-test -->
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.maven-failsafe-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>arquillian-tests</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**.*</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
                         <!-- https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
                         <configuration>
                             <reuseForks>true</reuseForks>
