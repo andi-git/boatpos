@@ -37,6 +37,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        PaymentMethod paymentMethod,
                        TimeType timeType,
                        DEPString dep,
+                       TotalPrice totalPrice,
                        List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -50,6 +51,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         checkNotNull(paymentMethod, "'paymentMethod' must not be null");
         checkNotNull(timeType, "'timeType' must not be null");
         checkNotNull(receiptElements, "'receiptElements' must not be null");
+        checkNotNull(totalPrice, "'totalPrice' must not be null");
         setReceiptId(receiptId);
         setReceiptDate(receiptDate);
         setEncryptedTurnoverValue(encryptedTurnoverValue);
@@ -61,6 +63,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setPaymentMethod(paymentMethod);
         setTimeType(timeType);
         setDEP(dep);
+        setTotalPrice(totalPrice);
         addReceiptElements(receiptElements);
     }
 
@@ -192,6 +195,17 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public Receipt setDEP(DEPString dep) {
         getEntity().setDep(SimpleValueObject.nullSafe(dep));
+        return this;
+    }
+
+    @Override
+    public TotalPrice getTotalPrice() {
+        return new TotalPrice(getEntity().getTotalPrice());
+    }
+
+    @Override
+    public Receipt setTotalPrice(TotalPrice totalPrice) {
+        getEntity().setTotalPrice(SimpleValueObject.nullSafe(totalPrice));
         return this;
     }
 

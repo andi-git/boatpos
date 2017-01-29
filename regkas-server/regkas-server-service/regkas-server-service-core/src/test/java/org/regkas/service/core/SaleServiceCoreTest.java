@@ -70,6 +70,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
 
+        assertEquals(1300, cashBoxContext.get().getTurnoverCountCent().get().intValue());
+
         ProductBean snack = productRepository.loadBy(new Name("Snack"), cashBoxContext.get()).get().asDto();
         ProductBean cola = productRepository.loadBy(new Name("Cola"), cashBoxContext.get()).get().asDto();
         ProductBean cornetto1 = productRepository.loadBy(new Name("Cornetto"), cashBoxContext.get()).get().asDto();
@@ -130,10 +132,13 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("0.00"), dep.getSumTaxSetErmaessigt2());
         assertEquals(new BigDecimal("0.00"), dep.getSumTaxSetNull());
         assertEquals(new BigDecimal("0.00"), dep.getSumTaxSetBesonders());
+        assertEquals(new BigDecimal("14.50"), storedReceipt.getTotalPrice().get());
 
         companyContext.clear();
         userContext.clear();
         cashBoxContext.clear();
+
+        assertEquals(2750, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
     }
 
     public static String compress(String str) throws Exception {

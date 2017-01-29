@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -78,10 +79,13 @@ public class ReceiptEntity extends AbstractEntity {
     @Size(max = 4096)
     private String dep;
 
+    @Expose
+    private BigDecimal totalPrice;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, List<ReceiptElementEntity> receiptElements, String dep) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, TimeType timeType, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -95,6 +99,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.paymentMethod = paymentMethod;
         this.timeType = timeType;
         this.dep = dep;
+        this.totalPrice = totalPrice;
     }
 
     public String getReceiptId() {
@@ -191,5 +196,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setDep(String dep) {
         this.dep = dep;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

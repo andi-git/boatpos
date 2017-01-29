@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,17 +45,22 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @NotNull
     private String aesKeyBase64;
 
+    @Min(0)
+    @NotNull
+    private Integer turnoverCountCent;
+
     public CashBoxEntity() {
 
     }
 
-    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64) {
+    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Integer turnoverCountCent) {
         super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
         this.company = company;
         this.printerIpAddress = printerIpAddress;
         this.aesKeyBase64 = aesKeyBase64;
+        this.turnoverCountCent = turnoverCountCent;
     }
 
     public String getName() {
@@ -95,5 +101,13 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
 
     public void setAesKeyBase64(String aesKeyBase64) {
         this.aesKeyBase64 = aesKeyBase64;
+    }
+
+    public Integer getTurnoverCountCent() {
+        return turnoverCountCent;
+    }
+
+    public void setTurnoverCountCent(Integer turnoverCountCent) {
+        this.turnoverCountCent = turnoverCountCent;
     }
 }

@@ -4,10 +4,7 @@ import org.boatpos.common.repository.api.values.*;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.values.AESKeyBase64;
-import org.regkas.repository.api.values.IpAddress;
-import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
+import org.regkas.repository.api.values.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -23,16 +20,19 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
                        Name name,
                        SignatureCertificateSerialNumber signatureCertificateSerialNumber,
                        IpAddress printerIpAddress,
-                       AESKeyBase64 aesKeyBase64) {
+                       AESKeyBase64 aesKeyBase64,
+                       TotalPriceCent totalPriceCent) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(signatureCertificateSerialNumber, "'signatureCertificateSerialNumber' must not be null");
         checkNotNull(printerIpAddress, "'printerIpAddress' must not be null");
         checkNotNull(aesKeyBase64, "'aesKeyBas64' must not be null");
+        checkNotNull(totalPriceCent, "'totalPriceCent' must not be null");
         setName(name);
         setSignatureCertificateSerialNumber(signatureCertificateSerialNumber);
         setPrinterIpAddress(printerIpAddress);
         setAesKeyBase64(aesKeyBase64);
+        setTurnoverCountCent(totalPriceCent);
     }
 
     public CashBoxCore(CashBoxEntity cashBox) {
@@ -80,6 +80,21 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
     @Override
     public CashBox setAesKeyBase64(AESKeyBase64 aesKeyBase64) {
         getEntity().setAesKeyBase64(SimpleValueObject.nullSafe(aesKeyBase64));
+        return this;
+    }
+
+    @Override
+    public TotalPriceCent getTurnoverCountCent() {
+        return new TotalPriceCent(getEntity().getTurnoverCountCent());
+    }
+
+    @Override
+    public void addCentsToTurnoverCount(TotalPriceCent centsToAdd) {
+        setTurnoverCountCent(getTurnoverCountCent().add(centsToAdd)).persist();
+    }
+
+    private CashBox setTurnoverCountCent(TotalPriceCent totalPriceCent) {
+        getEntity().setTurnoverCountCent(SimpleValueObject.nullSafe(totalPriceCent));
         return this;
     }
 }

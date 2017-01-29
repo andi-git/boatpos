@@ -40,11 +40,13 @@ public class ReceiptBuilderCore
 
     private DEPString dep;
 
+    private TotalPrice totalPrice;
+
     private List<ReceiptElement> receiptElements = new ArrayList<>();
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, timeType, dep, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, timeType, dep, totalPrice, receiptElements);
     }
 
     @Override
@@ -110,6 +112,12 @@ public class ReceiptBuilderCore
     @Override
     public ReceiptBuilder add(DEPString dep) {
         this.dep = dep;
+        return this;
+    }
+
+    @Override
+    public ReceiptBuilder add(TotalPrice totalPrice) {
+        this.totalPrice = totalPrice;
         return this;
     }
 

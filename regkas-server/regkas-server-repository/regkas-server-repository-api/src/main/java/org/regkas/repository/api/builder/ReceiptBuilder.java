@@ -34,5 +34,7 @@ public interface ReceiptBuilder extends DomainModelBuilder<ReceiptBuilder, Recei
 
     ReceiptBuilder add(DEPString dep);
 
+    ReceiptBuilder add(TotalPrice totalPrice);
+
     ReceiptBuilder add(ReceiptElement receiptElement);
 }

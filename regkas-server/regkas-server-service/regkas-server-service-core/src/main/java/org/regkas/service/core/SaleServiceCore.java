@@ -1,6 +1,7 @@
 package org.regkas.service.core;
 
 import org.boatpos.common.model.PaymentMethod;
+import org.boatpos.common.repository.api.values.SimpleBigDecimalObject;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.model.TimeType;
@@ -17,9 +18,12 @@ import org.regkas.service.core.receipt.ReceiptToBillConverter;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
 import org.regkas.service.core.serializer.NonPrettyPrintingGson;
 import org.regkas.service.core.serializer.Serializer;
+import org.regkas.service.core.util.TotalPriceEuroToCentConverter;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @RequestScoped
@@ -68,6 +72,9 @@ public class SaleServiceCore implements SaleService {
     @NonPrettyPrintingGson
     private Serializer serializer;
 
+    @Inject
+    private TotalPriceEuroToCentConverter totalPriceEuroToCentConverter;
+
     @Override
     public BillBean sale(SaleBean sale) {
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
@@ -82,23 +89,27 @@ public class SaleServiceCore implements SaleService {
                 .add(cashBox)
                 .add(user)
                 .add(company);
+        TotalPrice totalPrice = new TotalPrice(SimpleBigDecimalObject.ZERO);
         for (ReceiptElementBean receiptElementBean : sale.getSaleElements()) {
             Optional<Product> productOptional = productRepository.loadBy(new Name(receiptElementBean.getProduct().getName()), cashBox);
             if (!productOptional.isPresent()) {
                 throw new RuntimeException("unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
+                TotalPrice totalPriceForElement = new TotalPrice(receiptElementBean.getTotalPrice());
+                totalPrice = totalPrice.add(totalPriceForElement);
                 receiptBuilder.add(receiptElementRepository
                         .builder()
                         .add(new Amount(receiptElementBean.getAmount()))
-                        .add(new TotalPrice(receiptElementBean.getTotalPrice()))
+                        .add(totalPriceForElement)
                         .add(productOptional.get())
                         .build());
             }
         }
-
+        receiptBuilder.add(totalPrice);
         Receipt receipt = receiptBuilder.build().persist();
         BillBean bill = receiptToBillConverter.convert(receipt);
         receipt.setDEP(new DEPString(serializer.serialize(bill))).persist();
+        cashBox.addCentsToTurnoverCount(totalPriceEuroToCentConverter.convert(totalPrice));
         return bill;
     }
 }

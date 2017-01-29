@@ -4,10 +4,7 @@ import org.boatpos.common.repository.core.builder.MasterDataBuilderCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.builder.CashBoxBuilder;
 import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.values.AESKeyBase64;
-import org.regkas.repository.api.values.IpAddress;
-import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
+import org.regkas.repository.api.values.*;
 import org.regkas.repository.core.model.CashBoxCore;
 
 import javax.enterprise.context.Dependent;
@@ -21,10 +18,11 @@ public class CashBoxBuilderCore
     private SignatureCertificateSerialNumber signatureCertificateSerialNumber;
     private IpAddress printerIpAddress;
     private AESKeyBase64 aesKeyBase64;
+    private TotalPriceCent totalPriceCent;
 
     @Override
     public CashBox build() {
-        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64);
+        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64, totalPriceCent);
     }
 
     @Override
@@ -48,6 +46,12 @@ public class CashBoxBuilderCore
     @Override
     public CashBoxBuilder add(AESKeyBase64 aesKeyBase64) {
         this.aesKeyBase64 = aesKeyBase64;
+        return this;
+    }
+
+    @Override
+    public CashBoxBuilder add(TotalPriceCent totalPriceCent) {
+        this.totalPriceCent = totalPriceCent;
         return this;
     }
 }

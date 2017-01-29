@@ -2,9 +2,7 @@ package org.regkas.repository.api.repository;
 
 import org.boatpos.common.repository.api.repository.MasterDataRepository;
 import org.regkas.repository.api.builder.CashBoxBuilder;
-import org.regkas.repository.api.builder.UserBuilder;
 import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.Name;
 
 import java.util.Optional;

@@ -6,6 +6,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -14,6 +15,6 @@ public class ReceiptEntityTest extends JavaBeanTest<ReceiptEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeStandardEntity(), PaymentMethod.CASH, TimeType.Current, new ArrayList<>(), "");
+        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeStandardEntity(), PaymentMethod.CASH, TimeType.Current, new ArrayList<>(), "", BigDecimal.ZERO);
     }
 }

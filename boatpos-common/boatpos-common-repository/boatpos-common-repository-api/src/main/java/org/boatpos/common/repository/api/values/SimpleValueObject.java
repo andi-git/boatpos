@@ -3,6 +3,7 @@ package org.boatpos.common.repository.api.values;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 
 /**
@@ -28,8 +29,13 @@ public abstract class SimpleValueObject<SVO extends SimpleValueObject, T extends
         return value != null ? value : other;
     }
 
+    @Override
     @SuppressWarnings("CloneDoesntCallSuperClone")
     public SVO clone() {
+        return newInstance(value);
+    }
+
+    public SVO newInstance(T value) {
         try {
             //noinspection unchecked
             return (SVO) type.getDeclaredConstructor(value.getClass()).newInstance(value);

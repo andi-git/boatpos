@@ -58,6 +58,10 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     Receipt setDEP(DEPString dep);
 
+    TotalPrice getTotalPrice();
+
+    Receipt setTotalPrice(TotalPrice totalPrice);
+
     List<ReceiptElement> getReceiptElements();
 
     Receipt addReceiptElements(List<ReceiptElement> receiptElements);

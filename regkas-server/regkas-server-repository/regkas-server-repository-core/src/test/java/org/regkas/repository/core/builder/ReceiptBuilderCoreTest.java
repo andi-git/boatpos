@@ -50,6 +50,7 @@ public class ReceiptBuilderCoreTest extends EntityManagerProviderForRegkas {
                     .add(PaymentMethod.CASH)
                     .add(TimeType.Current)
                     .add(ReceiptElementBuilderCoreTest.build())
+                    .add(new TotalPrice("0.00"))
                     .build();
         }
     }

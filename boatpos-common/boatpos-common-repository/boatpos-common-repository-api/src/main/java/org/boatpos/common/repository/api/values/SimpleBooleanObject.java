@@ -9,6 +9,7 @@ public abstract class SimpleBooleanObject<SVO extends SimpleBooleanObject> exten
         super(value);
     }
 
+    @Override
     public Boolean get() {
         return value == null ? Boolean.FALSE : value;
     }
