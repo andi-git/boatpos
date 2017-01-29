@@ -94,6 +94,18 @@ public class LogWrapper {
         }
     }
 
+    public void error(String message, Exception e) {
+        if (log.isErrorEnabled()) {
+            log.error(message, e);
+        }
+    }
+
+    public void error(Exception e) {
+        if (log.isErrorEnabled()) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
     public void error(String message, Supplier<Object> supplier) {
         if (log.isErrorEnabled()) {
             log.error(message, supplier.get());

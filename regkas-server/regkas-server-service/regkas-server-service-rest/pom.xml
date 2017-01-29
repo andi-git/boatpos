@@ -32,7 +32,7 @@
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
                             <includeArtifactIds>
-                                guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,commons-codec
+                                guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,commons-codec,,bcpkix-jdk15on,bcprov-jdk15on
                             </includeArtifactIds>
                         </configuration>
                     </execution>

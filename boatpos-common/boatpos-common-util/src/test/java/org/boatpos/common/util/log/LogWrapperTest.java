@@ -47,5 +47,7 @@ public class LogWrapperTest {
         logWrapper.error("test {}", () -> "error");
         logWrapper.error("test {} {}", Arrays.asList(() -> "error", () -> "error2"));
         logWrapper.error("test {}", "error");
+        logWrapper.error("test", new RuntimeException());
+        logWrapper.error(new RuntimeException());
     }
 }
