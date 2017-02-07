@@ -26,7 +26,7 @@ public class DateTimeHelperMock extends DateTimeHelper {
 
     @Override
     public LocalDateTime currentTime() {
-        return LocalDateTime.of(2015, 7, 1, 15, 0);
+        return time;
     }
 
     public void setDate(LocalDate date) {

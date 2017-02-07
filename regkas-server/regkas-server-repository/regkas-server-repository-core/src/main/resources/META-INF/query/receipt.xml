@@ -7,12 +7,14 @@
         <query>
             FROM ReceiptEntity r
             WHERE r.receiptDate BETWEEN :start AND :end
-            AND   r.cashBox.id = :cashBoxId
+            AND r.cashBox.id = :cashBoxId
             ORDER BY id
         </query>
     </named-query>
     <named-query name="receipt.getLastByCashBox">
-        <query>FROM ReceiptEntity r WHERE r.id IN (SELECT MAX(r2.id) FROM ReceiptEntity r2 WHERE r2.cashBox.id = :cashBoxId)</query>
+        <query>FROM ReceiptEntity r WHERE r.id IN (SELECT MAX(r2.id) FROM ReceiptEntity r2 WHERE r2.cashBox.id =
+            :cashBoxId)
+        </query>
     </named-query>
     <named-query name="receipt.getByReceiptId">
         <query>FROM ReceiptEntity r WHERE r.receiptId = :receiptId AND r.cashBox.id = :cashBoxId</query>
@@ -22,11 +24,19 @@
             SELECT r.dep
             FROM ReceiptEntity r
             WHERE r.receiptDate BETWEEN :start AND :end
-            AND   r.cashBox.id = :cashBoxId
+            AND r.cashBox.id = :cashBoxId
             ORDER BY r.id
         </query>
     </named-query>
     <named-query name="receipt.getAllWithoutDEP">
         <query>FROM ReceiptEntity r WHERE r.dep = '' OR r.dep IS EMPTY OR r.dep IS NULL</query>
+    </named-query>
+    <named-query name="receipt.getAllWithReceiptTypeSortedDescending">
+        <query>
+            FROM ReceiptEntity r
+            WHERE r.receiptType IS NOT NULL AND r.receiptType.name = :receiptTypeName
+            AND r.cashBox.id = :cashBoxId
+            ORDER BY r.receiptDate DESC
+        </query>
     </named-query>
 </entity-mappings>

@@ -6,6 +6,7 @@ import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.repository.core.builder.ReceiptBuilderCore;
 import org.regkas.repository.core.model.ReceiptCore;
@@ -61,5 +62,38 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
     @Override
     public List<Receipt> loadAllWithoutDEP() {
         return super.loadAll("receipt.getAllWithoutDEP", ReceiptCore::new);
+    }
+
+    @Override
+    public Optional<Receipt> loadLatestWithReceiptTypeStart(CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadLatestWithReceiptType(new Name("Start-Beleg"), cashBox);
+    }
+
+    @Override
+    public Optional<Receipt> loadLatestWithReceiptTypeMonat(CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadLatestWithReceiptType(new Name("Monats-Beleg"), cashBox);
+    }
+
+    @Override
+    public Optional<Receipt> loadLatestWithReceiptTypeJahr(CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadLatestWithReceiptType(new Name("Jahres-Beleg"), cashBox);
+    }
+
+    private Optional<Receipt> loadLatestWithReceiptType(Name receiptTypeName, CashBox cashBox) {
+        checkNotNull(cashBox, "'receiptTypeName' must not be null");
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        Optional<Receipt> receipt = Optional.empty();
+        List<ReceiptEntity> receiptList = jpaHelper()
+                .createNamedQuery("receipt.getAllWithReceiptTypeSortedDescending", ReceiptEntity.class)
+                .setParameter("receiptTypeName", receiptTypeName.get())
+                .setParameter("cashBoxId", cashBox.getId().get())
+                .getResultList();
+        if (receiptList.size() > 0) {
+            receipt = Optional.of(new ReceiptCore(receiptList.get(0)));
+        }
+        return receipt;
     }
 }

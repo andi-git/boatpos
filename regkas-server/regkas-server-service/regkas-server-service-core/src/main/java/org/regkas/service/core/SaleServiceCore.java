@@ -20,10 +20,8 @@ import org.regkas.service.core.serializer.NonPrettyPrintingGson;
 import org.regkas.service.core.serializer.Serializer;
 import org.regkas.service.core.util.TotalPriceEuroToCentConverter;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @RequestScoped

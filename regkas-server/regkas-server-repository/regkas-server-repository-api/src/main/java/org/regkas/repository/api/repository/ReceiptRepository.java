@@ -2,8 +2,7 @@ package org.regkas.repository.api.repository;
 
 import org.boatpos.common.repository.api.repository.DomainModelRepository;
 import org.regkas.repository.api.builder.ReceiptBuilder;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Receipt;
+import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.bean.Period;
 
@@ -56,4 +55,28 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
      * @return a {@link List} of all availble {@link Receipt}s without a DEP
      */
     List<Receipt> loadAllWithoutDEP();
+
+    /**
+     * Load the latest {@link Receipt} with {@link ReceiptTypeStart}.
+     *
+     * @param cashBox the current {@link CashBox}
+     * @return the latest {@link Receipt} with {@link ReceiptTypeStart}
+     */
+    Optional<Receipt> loadLatestWithReceiptTypeStart(CashBox cashBox);
+
+    /**
+     * Load the latest {@link Receipt} with {@link ReceiptTypeMonat}.
+     *
+     * @param cashBox the current {@link CashBox}
+     * @return the latest {@link Receipt} with {@link ReceiptTypeMonat}
+     */
+    Optional<Receipt> loadLatestWithReceiptTypeMonat(CashBox cashBox);
+
+    /**
+     * Load the latest {@link Receipt} with {@link ReceiptTypeJahr}.
+     *
+     * @param cashBox the current {@link CashBox}
+     * @return the latest {@link Receipt} with {@link ReceiptTypeJahr}
+     */
+    Optional<Receipt> loadLatestWithReceiptTypeJahr(CashBox cashBox);
 }
