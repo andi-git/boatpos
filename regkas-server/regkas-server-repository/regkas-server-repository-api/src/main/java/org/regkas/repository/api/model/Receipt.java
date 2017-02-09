@@ -3,7 +3,6 @@ package org.regkas.repository.api.model;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.regkas.model.ReceiptEntity;
-import org.regkas.model.TimeType;
 import org.regkas.repository.api.values.*;
 import org.regkas.service.api.bean.ReceiptBean;
 
@@ -49,10 +48,6 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
     PaymentMethod getPaymentMethod();
 
     Receipt setPaymentMethod(PaymentMethod paymentMethod);
-
-    TimeType getTimeType();
-
-    Receipt setTimeType(TimeType timeType);
 
     DEPString getDEP();
 

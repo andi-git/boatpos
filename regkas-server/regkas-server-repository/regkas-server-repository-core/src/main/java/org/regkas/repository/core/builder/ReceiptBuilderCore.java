@@ -3,7 +3,6 @@ package org.regkas.repository.core.builder;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
 import org.regkas.model.ReceiptEntity;
-import org.regkas.model.TimeType;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.*;
 import org.regkas.repository.api.values.*;
@@ -36,8 +35,6 @@ public class ReceiptBuilderCore
 
     private PaymentMethod paymentMethod;
 
-    private TimeType timeType;
-
     private DEPString dep;
 
     private TotalPrice totalPrice;
@@ -46,7 +43,7 @@ public class ReceiptBuilderCore
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, timeType, dep, totalPrice, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, receiptElements);
     }
 
     @Override
@@ -100,12 +97,6 @@ public class ReceiptBuilderCore
     @Override
     public ReceiptBuilder add(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
-        return this;
-    }
-
-    @Override
-    public ReceiptBuilder add(TimeType timeType) {
-        this.timeType = timeType;
         return this;
     }
 

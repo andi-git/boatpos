@@ -5,7 +5,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
@@ -48,7 +47,6 @@ public class ReceiptBuilderCoreTest extends EntityManagerProviderForRegkas {
                     .add(receiptType)
                     .add(CashBoxBuilderCoreTest.build())
                     .add(PaymentMethod.CASH)
-                    .add(TimeType.Current)
                     .add(ReceiptElementBuilderCoreTest.build())
                     .add(new TotalPrice("0.00"))
                     .build();

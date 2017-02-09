@@ -27,13 +27,13 @@ public class ReceiptServiceRest {
     private ContextService contextService;
 
     @GET
-    @Path("/print/start")
+    @Path("/start/check")
     public Response printStart() {
         return Response.ok(!receiptService.isStartReceiptCreated()).build();
     }
 
     @GET
-    @Path("/print/month")
+    @Path("/month/check")
     public Response printMonth() {
         return Response.ok(receiptService.shouldCreateMonthReceipt()).build();
     }

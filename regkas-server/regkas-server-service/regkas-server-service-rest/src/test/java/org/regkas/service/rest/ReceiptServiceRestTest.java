@@ -28,13 +28,13 @@ public class ReceiptServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testPrintStart() throws Exception {
-        assertTrue(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/print/start")).get().readEntity(Boolean.class));
+        assertTrue(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/start/check")).get().readEntity(Boolean.class));
     }
 
     @Test
     public void testPrintMonth() throws Exception {
-        assertFalse(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/print/month")).get().readEntity(Boolean.class));
+        assertFalse(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/month/check")).get().readEntity(Boolean.class));
         dateTimeHelper.setTime(LocalDateTime.of(2015, 8, 1, 12, 0, 0));
-        assertTrue(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/print/month")).get().readEntity(Boolean.class));
+        assertTrue(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/month/check")).get().readEntity(Boolean.class));
     }
 }

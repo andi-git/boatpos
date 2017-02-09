@@ -5,7 +5,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.model.TimeType;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Company;
@@ -115,7 +114,6 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
                 .add(PaymentMethod.CASH)
                 .add(new EncryptedTurnoverValue(""))
                 .add(new SignatureValuePreviousReceipt(""))
-                .add(TimeType.Current)
                 .build()
                 .persist();
     }

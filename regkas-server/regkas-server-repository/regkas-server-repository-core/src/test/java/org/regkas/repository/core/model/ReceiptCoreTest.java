@@ -6,7 +6,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.model.TimeType;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.core.builder.ReceiptBuilderCoreTest;
 import org.regkas.repository.core.builder.ReceiptElementBuilderCoreTest;
@@ -36,7 +35,6 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("user-name", receipt.getUser().getName().get());
         assertEquals("cashbox-id", receipt.getCashBox().getName().get());
         assertEquals(PaymentMethod.CASH, receipt.getPaymentMethod());
-        assertEquals(TimeType.Current, receipt.getTimeType());
 
         receipt.clearReceiptElements();
         receipt.addReceiptElement(ReceiptElementBuilderCoreTest.build());
