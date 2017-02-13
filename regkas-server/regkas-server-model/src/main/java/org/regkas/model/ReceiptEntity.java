@@ -68,6 +68,7 @@ public class ReceiptEntity extends AbstractEntity {
     @Expose
     private List<ReceiptElementEntity> receiptElements;
 
+    @NotNull
     @Expose
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
@@ -78,10 +79,15 @@ public class ReceiptEntity extends AbstractEntity {
     @Expose
     private BigDecimal totalPrice;
 
+    @NotNull
+    @Size(min = 5, max = 6)
+    @Expose
+    private String suiteId;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -95,6 +101,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.paymentMethod = paymentMethod;
         this.dep = dep;
         this.totalPrice = totalPrice;
+        this.suiteId = suiteId;
     }
 
     public String getReceiptId() {
@@ -191,5 +198,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getSuiteId() {
+        return suiteId;
+    }
+
+    public void setSuiteId(String suiteId) {
+        this.suiteId = suiteId;
     }
 }

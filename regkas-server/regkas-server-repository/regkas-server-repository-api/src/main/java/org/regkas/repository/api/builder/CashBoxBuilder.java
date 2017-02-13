@@ -19,4 +19,6 @@ public interface CashBoxBuilder extends MasterDataBuilder<CashBoxBuilder, CashBo
     CashBoxBuilder add(AESKeyBase64 aesKeyBase64);
 
     CashBoxBuilder add(TotalPriceCent totalPriceCent);
+
+    CashBoxBuilder add(CertificationServiceProvider certificationServiceProvider);
 }

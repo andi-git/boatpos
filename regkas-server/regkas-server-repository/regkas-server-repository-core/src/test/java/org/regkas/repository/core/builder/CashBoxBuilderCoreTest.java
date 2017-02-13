@@ -26,6 +26,7 @@ public class CashBoxBuilderCoreTest {
                 .add(new IpAddress("192.168.0.11"))
                 .add(new AESKeyBase64("AnnGNHy7KpYchyMR3GrtCCdXDmxiZp3ucA7gdWnSOVM="))
                 .add(new TotalPriceCent(123))
+                .add(new CertificationServiceProvider("AT0"))
                 .build();
     }
 }

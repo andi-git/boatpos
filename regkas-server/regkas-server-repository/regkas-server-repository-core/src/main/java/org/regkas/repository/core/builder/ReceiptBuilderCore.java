@@ -39,11 +39,13 @@ public class ReceiptBuilderCore
 
     private TotalPrice totalPrice;
 
+    private SuiteId suiteId;
+
     private List<ReceiptElement> receiptElements = new ArrayList<>();
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, suiteId, receiptElements);
     }
 
     @Override
@@ -109,6 +111,12 @@ public class ReceiptBuilderCore
     @Override
     public ReceiptBuilder add(TotalPrice totalPrice) {
         this.totalPrice = totalPrice;
+        return this;
+    }
+
+    @Override
+    public ReceiptBuilder add(SuiteId suiteId) {
+        this.suiteId = suiteId;
         return this;
     }
 

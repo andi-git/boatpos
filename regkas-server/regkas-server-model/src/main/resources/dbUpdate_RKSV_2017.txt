@@ -3,3 +3,5 @@
   - insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 7, 'Jahres-Beleg')
 - drop column timetype from receipt:
   - alter table receipt drop column timetype
+- add certificationServiceProvider to CashBox
+  - TODO

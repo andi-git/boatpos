@@ -21,18 +21,21 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
                        SignatureCertificateSerialNumber signatureCertificateSerialNumber,
                        IpAddress printerIpAddress,
                        AESKeyBase64 aesKeyBase64,
-                       TotalPriceCent totalPriceCent) {
+                       TotalPriceCent totalPriceCent,
+                       CertificationServiceProvider certificationServiceProvider) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(signatureCertificateSerialNumber, "'signatureCertificateSerialNumber' must not be null");
         checkNotNull(printerIpAddress, "'printerIpAddress' must not be null");
         checkNotNull(aesKeyBase64, "'aesKeyBas64' must not be null");
         checkNotNull(totalPriceCent, "'totalPriceCent' must not be null");
+        checkNotNull(certificationServiceProvider, "'certificationServiceProvider' must not be null");
         setName(name);
         setSignatureCertificateSerialNumber(signatureCertificateSerialNumber);
         setPrinterIpAddress(printerIpAddress);
         setAesKeyBase64(aesKeyBase64);
         setTurnoverCountCent(totalPriceCent);
+        setCertificationServiceProvider(certificationServiceProvider);
     }
 
     public CashBoxCore(CashBoxEntity cashBox) {
@@ -98,8 +101,18 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
         setTurnoverCountCent(getTurnoverCountCent().subtract(centsToSubtract)).persist();
     }
 
+    @Override
+    public CertificationServiceProvider getCertificationServiceProvider() {
+        return new CertificationServiceProvider(getEntity().getCertificationServiceProvider());
+    }
+
     private CashBox setTurnoverCountCent(TotalPriceCent totalPriceCent) {
         getEntity().setTurnoverCountCent(SimpleValueObject.nullSafe(totalPriceCent));
+        return this;
+    }
+
+    private CashBox setCertificationServiceProvider(CertificationServiceProvider certificationServiceProvider) {
+        getEntity().setCertificationServiceProvider(SimpleValueObject.nullSafe(certificationServiceProvider));
         return this;
     }
 }

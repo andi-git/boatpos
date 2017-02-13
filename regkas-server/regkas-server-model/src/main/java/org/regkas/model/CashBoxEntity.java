@@ -43,17 +43,24 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
 
     @Size(min = 44, max = 44)
     @NotNull
+    @Expose
     private String aesKeyBase64;
 
     @Min(0)
     @NotNull
+    @Expose
     private Integer turnoverCountCent;
+
+    @NotNull
+    @Size(min = 3, max = 3)
+    @Expose
+    private String certificationServiceProvider;
 
     public CashBoxEntity() {
 
     }
 
-    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Integer turnoverCountCent) {
+    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Integer turnoverCountCent, String certificationServiceProvider) {
         super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
@@ -61,6 +68,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
         this.printerIpAddress = printerIpAddress;
         this.aesKeyBase64 = aesKeyBase64;
         this.turnoverCountCent = turnoverCountCent;
+        this.certificationServiceProvider = certificationServiceProvider;
     }
 
     public String getName() {
@@ -109,5 +117,13 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
 
     public void setTurnoverCountCent(Integer turnoverCountCent) {
         this.turnoverCountCent = turnoverCountCent;
+    }
+
+    public String getCertificationServiceProvider() {
+        return certificationServiceProvider;
+    }
+
+    public void setCertificationServiceProvider(String certificationServiceProvider) {
+        this.certificationServiceProvider = certificationServiceProvider;
     }
 }

@@ -36,6 +36,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        PaymentMethod paymentMethod,
                        DEPString dep,
                        TotalPrice totalPrice,
+                       SuiteId suiteId,
                        List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -49,6 +50,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         checkNotNull(paymentMethod, "'paymentMethod' must not be null");
         checkNotNull(receiptElements, "'receiptElements' must not be null");
         checkNotNull(totalPrice, "'totalPrice' must not be null");
+        checkNotNull(suiteId, "'suiteId' must not be null");
         setReceiptId(receiptId);
         setReceiptDate(receiptDate);
         setEncryptedTurnoverValue(encryptedTurnoverValue);
@@ -60,6 +62,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setPaymentMethod(paymentMethod);
         setDEP(dep);
         setTotalPrice(totalPrice);
+        setSuiteId(suiteId);
         addReceiptElements(receiptElements);
     }
 
@@ -195,6 +198,17 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     }
 
     @Override
+    public SuiteId getSuiteId() {
+        return new SuiteId(getEntity().getSuiteId());
+    }
+
+    @Override
+    public Receipt setSuiteId(SuiteId suiteId) {
+        getEntity().setSuiteId(SimpleValueObject.nullSafe(suiteId));
+        return this;
+    }
+
+    @Override
     public List<ReceiptElement> getReceiptElements() {
         return Collections.unmodifiableList(getEntity().getReceiptElements().stream().map(ReceiptElementCore::new).collect(Collectors.toList()));
     }
@@ -223,7 +237,6 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         getEntity().getReceiptElements().clear();
         return this;
     }
-
 
     @Override
     public ReceiptBean asDto() {

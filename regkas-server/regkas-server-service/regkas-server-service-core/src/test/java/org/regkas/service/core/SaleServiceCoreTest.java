@@ -134,6 +134,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("0.00"), dep.getSumTaxSetNull());
         assertEquals(new BigDecimal("0.00"), dep.getSumTaxSetBesonders());
         assertEquals(new BigDecimal("14.50"), storedReceipt.getTotalPrice().get());
+        assertEquals("R1-AT0", storedReceipt.getSuiteId().get());
 
         companyContext.clear();
         userContext.clear();

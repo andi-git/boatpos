@@ -96,6 +96,7 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
         assertFalse(receiptService.shouldCreateMonthReceipt());
         dateTimeHelper.setTime(LocalDateTime.of(2015, 9, 1, 12, 0, 0));
         assertTrue(receiptService.shouldCreateMonthReceipt());
+        dateTimeHelper.resetTime();
     }
 
     private void insertReceipt(ReceiptType receiptType, ReceiptId receiptId, ReceiptDate receiptDate) {
@@ -114,6 +115,7 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
                 .add(PaymentMethod.CASH)
                 .add(new EncryptedTurnoverValue(""))
                 .add(new SignatureValuePreviousReceipt(""))
+                .add(new SuiteId("R1-AT0"))
                 .build()
                 .persist();
     }

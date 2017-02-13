@@ -22,6 +22,7 @@ import org.regkas.repository.api.values.EncryptedTurnoverValue;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.SuiteId;
 import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
@@ -95,7 +96,8 @@ public class SaleServiceCore implements SaleService {
                 .add(receiptType)
                 .add(cashBox)
                 .add(user)
-                .add(company);
+                .add(company)
+                .add(new SuiteId(cashBox.getCertificationServiceProvider()));
         TotalPrice totalPrice = new TotalPrice(SimpleBigDecimalObject.ZERO);
         for (ReceiptElementBean receiptElementBean : sale.getSaleElements()) {
             Optional<Product> productOptional = productRepository.loadBy(new Name(receiptElementBean.getProduct().getName()), cashBox);

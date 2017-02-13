@@ -140,6 +140,7 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
                 .add(PaymentMethod.CASH)
                 .add(new EncryptedTurnoverValue(""))
                 .add(new SignatureValuePreviousReceipt(""))
+                .add(new SuiteId("R1-AT0"))
                 .build()
                 .persist();
     }

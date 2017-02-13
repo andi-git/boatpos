@@ -57,6 +57,10 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     Receipt setTotalPrice(TotalPrice totalPrice);
 
+    SuiteId getSuiteId();
+
+    Receipt setSuiteId(SuiteId suiteId);
+
     List<ReceiptElement> getReceiptElements();
 
     Receipt addReceiptElements(List<ReceiptElement> receiptElements);

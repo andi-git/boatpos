@@ -19,10 +19,11 @@ public class CashBoxBuilderCore
     private IpAddress printerIpAddress;
     private AESKeyBase64 aesKeyBase64;
     private TotalPriceCent totalPriceCent;
+    private CertificationServiceProvider certificationServiceProvider;
 
     @Override
     public CashBox build() {
-        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64, totalPriceCent);
+        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64, totalPriceCent, certificationServiceProvider);
     }
 
     @Override
@@ -52,6 +53,12 @@ public class CashBoxBuilderCore
     @Override
     public CashBoxBuilder add(TotalPriceCent totalPriceCent) {
         this.totalPriceCent = totalPriceCent;
+        return this;
+    }
+
+    @Override
+    public CashBoxBuilder add(CertificationServiceProvider certificationServiceProvider) {
+        this.certificationServiceProvider = certificationServiceProvider;
         return this;
     }
 }
