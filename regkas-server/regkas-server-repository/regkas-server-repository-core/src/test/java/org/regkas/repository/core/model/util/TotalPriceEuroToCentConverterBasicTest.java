@@ -1,18 +1,18 @@
-package org.regkas.service.core.util;
+package org.regkas.repository.core.model.util;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.model.util.TotalPriceEuroToCentConverter;
 import org.regkas.repository.api.values.TotalPrice;
 
 import javax.inject.Inject;
-
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class TotalPriceEuroToCentConverterTest {
+public class TotalPriceEuroToCentConverterBasicTest {
 
     @Inject
     private TotalPriceEuroToCentConverter totalPriceEuroToCentConverter;

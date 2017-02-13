@@ -5,9 +5,24 @@ import org.boatpos.common.repository.api.values.SimpleBigDecimalObject;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.builder.ReceiptBuilder;
-import org.regkas.repository.api.model.*;
-import org.regkas.repository.api.repository.*;
-import org.regkas.repository.api.values.*;
+import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.Product;
+import org.regkas.repository.api.model.Receipt;
+import org.regkas.repository.api.model.ReceiptType;
+import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.repository.ProductRepository;
+import org.regkas.repository.api.repository.ReceiptElementRepository;
+import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.repository.ReceiptTypeRepository;
+import org.regkas.repository.api.repository.UserRepository;
+import org.regkas.repository.api.values.Amount;
+import org.regkas.repository.api.values.DEPString;
+import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.Name;
+import org.regkas.repository.api.values.ReceiptDate;
+import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
@@ -17,7 +32,6 @@ import org.regkas.service.core.receipt.ReceiptToBillConverter;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
 import org.regkas.service.core.serializer.NonPrettyPrintingGson;
 import org.regkas.service.core.serializer.Serializer;
-import org.regkas.service.core.util.TotalPriceEuroToCentConverter;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -69,9 +83,6 @@ public class SaleServiceCore implements SaleService {
     @NonPrettyPrintingGson
     private Serializer serializer;
 
-    @Inject
-    private TotalPriceEuroToCentConverter totalPriceEuroToCentConverter;
-
     @Override
     public BillBean sale(SaleBean sale) {
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
@@ -105,7 +116,9 @@ public class SaleServiceCore implements SaleService {
         Receipt receipt = receiptBuilder.build().persist();
         BillBean bill = receiptToBillConverter.convert(receipt);
         receipt.setDEP(new DEPString(serializer.serialize(bill))).persist();
-        cashBox.addCentsToTurnoverCount(totalPriceEuroToCentConverter.convert(totalPrice));
+
+        receiptType.getUpdateTurnoverCounter().updateTurnOver(cashBox, totalPrice);
+
         return bill;
     }
 }

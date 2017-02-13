@@ -93,6 +93,11 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
         setTurnoverCountCent(getTurnoverCountCent().add(centsToAdd)).persist();
     }
 
+    @Override
+    public void subtractCentsFromTurnoverCount(TotalPriceCent centsToSubtract) {
+        setTurnoverCountCent(getTurnoverCountCent().subtract(centsToSubtract)).persist();
+    }
+
     private CashBox setTurnoverCountCent(TotalPriceCent totalPriceCent) {
         getEntity().setTurnoverCountCent(SimpleValueObject.nullSafe(totalPriceCent));
         return this;

@@ -28,4 +28,6 @@ public interface CashBox extends MasterData<CashBox, CashBoxEntity> {
     TotalPriceCent getTurnoverCountCent();
 
     void addCentsToTurnoverCount(TotalPriceCent totalPriceCent);
+
+    void subtractCentsFromTurnoverCount(TotalPriceCent totalPriceCent);
 }

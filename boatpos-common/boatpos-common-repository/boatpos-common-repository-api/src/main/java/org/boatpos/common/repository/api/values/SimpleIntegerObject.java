@@ -25,4 +25,14 @@ public abstract class SimpleIntegerObject<SVO extends SimpleIntegerObject> exten
     public SVO add(SVO valueToAdd) {
         return newInstance(get() + valueToAdd.get());
     }
+
+    /**
+     * Create a new instance with the subtracted values.
+     *
+     * @param valueToAdd the value to subtract
+     * @return a new instance where the value is subtracted.
+     */
+    public SVO subtract(SVO valueToAdd) {
+        return newInstance(get() - valueToAdd.get());
+    }
 }

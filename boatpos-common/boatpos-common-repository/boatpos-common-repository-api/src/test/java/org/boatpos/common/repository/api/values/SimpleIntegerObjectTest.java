@@ -24,6 +24,20 @@ public class SimpleIntegerObjectTest {
         assertEquals(3, value3.add(new MySimpleIntegerObject(null)).get().intValue());
     }
 
+    @Test
+    public void testSubtract() throws Exception {
+        MySimpleIntegerObject value6 = new MySimpleIntegerObject(6);
+        MySimpleIntegerObject value2 = new MySimpleIntegerObject(2);
+        assertEquals(value6, value6);
+        assertEquals(value2, value2);
+        assertNotEquals(value6, value2);
+        MySimpleIntegerObject value4 = value6.subtract(value2);
+        assertEquals(4, value4.get().intValue());
+        assertNotEquals(value6, value4);
+        assertNotEquals(value2, value4);
+        assertEquals(6, value6.subtract (new MySimpleIntegerObject(null)).get().intValue());
+    }
+
     private static class MySimpleIntegerObject extends SimpleIntegerObject<MySimpleIntegerObject> {
 
         public MySimpleIntegerObject(Integer value) {
