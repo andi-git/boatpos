@@ -8,12 +8,10 @@ import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.core.model.updateturnovercounter.UpdateTurnoverCounterNothing;
+import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterNothing;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
-
-import java.lang.reflect.Proxy;
 
 import static org.junit.Assert.assertEquals;
 

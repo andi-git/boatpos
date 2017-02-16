@@ -1,9 +1,9 @@
-package org.regkas.repository.core.model.util;
+package org.regkas.repository.core.util;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.model.util.TotalPriceEuroToCentConverter;
+import org.regkas.repository.api.util.TotalPriceEuroToCentConverter;
 import org.regkas.repository.api.values.TotalPrice;
 
 import javax.inject.Inject;

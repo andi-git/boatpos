@@ -1,4 +1,4 @@
-package org.regkas.repository.core.model.updateturnovercounter;
+package org.regkas.repository.core.turnovercounter;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;

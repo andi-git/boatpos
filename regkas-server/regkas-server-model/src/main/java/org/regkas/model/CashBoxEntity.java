@@ -12,8 +12,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static javax.swing.text.StyleConstants.Size;
-
 /**
  * Entity of a cash-box.
  */
@@ -49,7 +47,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @Min(0)
     @NotNull
     @Expose
-    private Integer turnoverCountCent;
+    private Long turnoverCountCent;
 
     @NotNull
     @Size(min = 3, max = 3)
@@ -60,7 +58,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
 
     }
 
-    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Integer turnoverCountCent, String certificationServiceProvider) {
+    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Long turnoverCountCent, String certificationServiceProvider) {
         super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
@@ -111,11 +109,11 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
         this.aesKeyBase64 = aesKeyBase64;
     }
 
-    public Integer getTurnoverCountCent() {
+    public Long getTurnoverCountCent() {
         return turnoverCountCent;
     }
 
-    public void setTurnoverCountCent(Integer turnoverCountCent) {
+    public void setTurnoverCountCent(Long turnoverCountCent) {
         this.turnoverCountCent = turnoverCountCent;
     }
 

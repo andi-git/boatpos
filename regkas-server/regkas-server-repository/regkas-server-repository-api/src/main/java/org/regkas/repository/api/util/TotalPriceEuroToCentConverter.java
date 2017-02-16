@@ -1,4 +1,4 @@
-package org.regkas.repository.api.model.util;
+package org.regkas.repository.api.util;
 
 import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.repository.api.values.TotalPriceCent;

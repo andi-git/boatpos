@@ -1,4 +1,4 @@
-package org.regkas.repository.api.model.updateturnovercounter;
+package org.regkas.repository.api.turnovercounter;
 
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.values.TotalPrice;

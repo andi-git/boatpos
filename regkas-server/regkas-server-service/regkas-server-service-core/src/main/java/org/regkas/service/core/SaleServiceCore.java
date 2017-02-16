@@ -3,6 +3,8 @@ package org.regkas.service.core;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.SimpleBigDecimalObject;
 import org.boatpos.common.util.datetime.DateTimeHelper;
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.CashBox;
@@ -84,6 +86,10 @@ public class SaleServiceCore implements SaleService {
     @NonPrettyPrintingGson
     private Serializer serializer;
 
+    @Inject
+    @SLF4J
+    private LogWrapper log;
+
     @Override
     public BillBean sale(SaleBean sale) {
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
@@ -115,11 +121,15 @@ public class SaleServiceCore implements SaleService {
             }
         }
         receiptBuilder.add(totalPrice);
-        Receipt receipt = receiptBuilder.build().persist();
-        BillBean bill = receiptToBillConverter.convert(receipt);
-        receipt.setDEP(new DEPString(serializer.serialize(bill))).persist();
+        Receipt receipt = receiptBuilder.build();
 
         receiptType.getUpdateTurnoverCounter().updateTurnOver(cashBox, totalPrice);
+        receipt.setEncryptedTurnoverValue(receiptType.getEncryptTurnoverCounter().encryptTurnoverCounter(receipt.getReceiptId(), cashBox));
+
+        BillBean bill = receiptToBillConverter.convert(receipt);
+        receipt.setDEP(new DEPString(serializer.serialize(bill)));
+
+        receipt.persist();
 
         return bill;
     }

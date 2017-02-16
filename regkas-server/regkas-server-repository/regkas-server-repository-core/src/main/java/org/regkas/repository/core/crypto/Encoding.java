@@ -1,11 +1,11 @@
-package org.regkas.service.core.util;
+package org.regkas.repository.core.crypto;
 
 import org.apache.commons.codec.binary.Base64;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class EncodingHelper {
+public class Encoding {
 
     public String base64Encode(byte[] data, boolean isUrlSafe) {
         Base64 encoder = new Base64(isUrlSafe);

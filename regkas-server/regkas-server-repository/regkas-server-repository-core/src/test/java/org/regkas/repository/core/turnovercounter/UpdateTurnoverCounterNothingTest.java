@@ -1,4 +1,4 @@
-package org.regkas.repository.core.model.updateturnovercounter;
+package org.regkas.repository.core.turnovercounter;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -15,10 +15,10 @@ import javax.inject.Inject;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class UpdateTurnoverCounterAddTest extends EntityManagerProviderForRegkas {
+public class UpdateTurnoverCounterNothingTest extends EntityManagerProviderForRegkas {
 
     @Inject
-    private UpdateTurnoverCounterAdd updateTurnoverCounterAdd;
+    private UpdateTurnoverCounterNothing updateTurnoverCounterNothing;
 
     @Inject
     private CashBoxRepository cashBoxRepository;
@@ -28,8 +28,8 @@ public class UpdateTurnoverCounterAddTest extends EntityManagerProviderForRegkas
     public void testUpdateTurnOver() throws Exception {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         assertEquals(1300, cashBox.getTurnoverCountCent().get().intValue());
-        updateTurnoverCounterAdd.updateTurnOver(cashBox, new TotalPrice("12.00"));
-        assertEquals(2500, cashBox.getTurnoverCountCent().get().intValue());
+        updateTurnoverCounterNothing.updateTurnOver(cashBox, new TotalPrice("12.00"));
+        assertEquals(1300, cashBox.getTurnoverCountCent().get().intValue());
     }
 
 }
