@@ -20,8 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 @ApplicationScoped
 public class Crypto {
 
-    private static final int TURNOVER_COUNTER_LENGTH_IN_BYTES = 5;
-
     @Inject
     @SLF4J
     private LogWrapper log;
@@ -29,8 +27,12 @@ public class Crypto {
     @Inject
     private Encoding encoding;
 
+    @Inject
+    private TurnoverCounterLenthInBytes turnoverCounterLenthInBytes;
+
     @PostConstruct
     private void init() {
+        log.info("add security provider: " + BouncyCastleProvider.class.getName());
         Security.addProvider(new BouncyCastleProvider());
     }
 
@@ -60,7 +62,7 @@ public class Crypto {
 
         //now the turnover counter is represented in two's-complement representation (negative values are possible)
         //length is defined by the respective implementation (min. 5 bytes)
-        byte[] turnOverCounterByteRep = get2ComplementRepForLong(turnoverCounter.get(), TURNOVER_COUNTER_LENGTH_IN_BYTES);
+        byte[] turnOverCounterByteRep = get2ComplementRepForLong(turnoverCounter.get(), turnoverCounterLenthInBytes.get());
 
         //two's-complement representation is copied to the data array, and inserted at index 0
         System.arraycopy(turnOverCounterByteRep, 0, data, 0, turnOverCounterByteRep.length);
@@ -92,10 +94,10 @@ public class Crypto {
         // extract bytes that will be stored in the receipt (only bytes 0-7)
         // cryptographic NOTE: this is only possible due to the use of the CTR
         // mode, would not work for ECB/CBC etc. modes
-        final byte[] encryptedTurnOverValue = new byte[TURNOVER_COUNTER_LENGTH_IN_BYTES]; // or 5 bytes if min.
+        final byte[] encryptedTurnOverValue = new byte[turnoverCounterLenthInBytes.get()]; // or 5 bytes if min.
         // turnover length is
         // used
-        System.arraycopy(encryptedTurnOverValueComplete, 0, encryptedTurnOverValue, 0, TURNOVER_COUNTER_LENGTH_IN_BYTES);
+        System.arraycopy(encryptedTurnOverValueComplete, 0, encryptedTurnOverValue, 0, turnoverCounterLenthInBytes.get());
 
         // encode result as BASE64
         return new EncryptedTurnoverValue(encoding.base64Encode(encryptedTurnOverValue, false));
@@ -122,5 +124,13 @@ public class Crypto {
         //truncating the 8-bytes long representation
         System.arraycopy(longRep, 8 - numberOfBytesFor2ComplementRepresentation, byteRep, 0, numberOfBytesFor2ComplementRepresentation);
         return byteRep;
+    }
+
+    @ApplicationScoped
+    public static class TurnoverCounterLenthInBytes {
+
+        public int get() {
+            return 8;
+        }
     }
 }

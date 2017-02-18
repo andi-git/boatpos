@@ -41,10 +41,12 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         CashBoxEntity cashBox1 = new CashBoxEntity(null, null, true, 1, "", "", "RegKas1", "123", null, "192.168.0.11", "ONRcz49yLDIo2FgwNhe9Q5fSiZFEies97uRMzeAAPkI=", 1300L, "AT0");
         CashBoxEntity cashBox2 = new CashBoxEntity(null, null, true, 2, "", "", "RegKas2", "456", null, "192.168.0.21", "TyoYsvuuaDLWB40VZiLwUxEsELJHzfBkuLO6cP8Oz/Q=", 2500L, "AT0");
         CashBoxEntity cashBoxStart = new CashBoxEntity(null, null, true, 3, "", "", "RegKasStart", "111", null, "192.168.0.21", "TyoYsvuuaDLWB40VZiLwUxEsELJHzfBkuLO6cP8Oz/Q=", 0L, "AT0");
+        CashBoxEntity demoCashBox817 = new CashBoxEntity(null, null, true, 3, "", "", "DEMO-CASH-BOX817", "111", null, "192.168.0.21", "RCsRmHn5tkLQrRpiZq2ucwPpwvHJLiMgLvwrwEImddI=", 8733L, "AT0");
         CompanyEntity company = new CompanyEntity(null, null, true, 1, "", "", "company", address1, "+431123456789", "office@company.com", "atu123", Sets.newHashSet(cashBox1, cashBox2), Sets.newHashSet(user1, user2), Sets.newHashSet());
         cashBox1.setCompany(company);
         cashBox2.setCompany(company);
         cashBoxStart.setCompany(company);
+        demoCashBox817.setCompany(company);
         company.getCashBoxes().add(cashBox1);
         company.getCashBoxes().add(cashBox2);
         user1.setCompany(company);
@@ -93,6 +95,7 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.persist(cashBox1);
         em.persist(cashBox2);
         em.persist(cashBoxStart);
+        em.persist(demoCashBox817);
         em.persist(user1);
         em.persist(user2);
         em.persist(address1);

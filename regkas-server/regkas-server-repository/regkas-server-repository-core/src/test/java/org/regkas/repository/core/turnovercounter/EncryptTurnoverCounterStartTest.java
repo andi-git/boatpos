@@ -27,6 +27,6 @@ public class EncryptTurnoverCounterStartTest extends EntityManagerProviderForReg
     @Transactional
     public void testEncryptTurnoverCounter() throws Exception {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKasStart")).get();
-        assertEquals("BrhOvns=", encryptTurnoverCounterStart.encryptTurnoverCounter(new ReceiptId("001"), cashBox).get());
+        assertEquals("BrhOvns92T8=", encryptTurnoverCounterStart.encryptTurnoverCounter(new ReceiptId("001"), cashBox).get());
     }
 }

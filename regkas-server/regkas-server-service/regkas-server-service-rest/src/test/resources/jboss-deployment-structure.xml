@@ -4,5 +4,8 @@
         <dependencies>
             <module name="org.hibernate"/>
         </dependencies>
+        <resources>
+            <resource-root path="WEB-INF/lib/bcprov-jdk15on-1.56.jar" use-physical-code-source="true"/>
+        </resources>
     </deployment>
 </jboss-deployment-structure>
