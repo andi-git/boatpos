@@ -12,13 +12,13 @@ import java.util.Set;
 /**
  * The domain model for a tax-set.
  */
-public interface TaxSet extends MasterDataWithDto<TaxSet, TaxSetEntity, TaxSetBean> {
+public interface TaxSet<MODEL extends TaxSet, ENTITY extends TaxSetEntity> extends MasterDataWithDto<MODEL, ENTITY, TaxSetBean> {
 
     Name getName();
 
-    TaxSet setName(Name name);
-
     TaxPercent getTaxPercent();
 
-    TaxSet setTaxPercent(TaxPercent taxPercent);
+    TotalPrice getTaxOf(TotalPrice totalPriceWithTax);
+
+    TotalPrice getPriceWithoutTaxOf(TotalPrice totalPriceWithTax);
 }

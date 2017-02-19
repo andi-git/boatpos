@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public class ReceiptTypeBuilderHolderTest extends EntityManagerProviderForRegkas {
 
-
     @Inject
     private ReceiptTypeBuilderHolder receiptTypeBuilderHolder;
 

@@ -1,29 +1,45 @@
 package org.regkas.repository.core.builder;
 
-import org.boatpos.common.repository.api.values.*;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.ReceiptElement;
-import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.values.Amount;
-import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.TotalPrice;
+import org.regkas.test.model.EntityManagerProviderForRegkas;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 
-public class ReceiptElementBuilderCoreTest {
+@RunWith(Arquillian.class)
+public class ReceiptElementBuilderCoreTest extends EntityManagerProviderForRegkas {
+
+    @Inject
+    private ReceiptElementProducer receiptElementProducer;
 
     @Test
+    @Transactional
     public void testBuild() throws Exception {
-        assertEquals("product-name", build().getProduct().getName().get());
+        assertEquals("product-name", receiptElementProducer.getReceiptElement().getProduct().getName().get());
     }
 
-    public static ReceiptElement build() {
-        return new ReceiptElementBuilderCore()
-                .add(ProductBuilderCoreTest.build())
-                .add(new Amount(2))
-                .add(new TotalPrice(new BigDecimal("6.00")))
-                .build();
+    @Dependent
+    public static class ReceiptElementProducer {
+
+        @Inject
+        private ProductBuilderCoreTest.ProductProducer productProducer;
+
+        public ReceiptElement getReceiptElement() {
+            return new ReceiptElementBuilderCore()
+                    .add(productProducer.getProduct())
+                    .add(new Amount(2))
+                    .add(new TotalPrice(new BigDecimal("6.00")))
+                    .build();
+        }
+
     }
 }

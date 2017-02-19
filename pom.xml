@@ -62,8 +62,8 @@
         <version.jep>2.4.2</version.jep>
         <version.commons-codec>1.10</version.commons-codec>
         <version.commons-lang3>3.5</version.commons-lang3>
-        <version.bcpkix-jdk15on>1.56</version.bcpkix-jdk15on>
-        <version.bcprov-jdk15on>1.56</version.bcprov-jdk15on>
+        <version.bcpkix-jdk15on>1.52</version.bcpkix-jdk15on> <!-- version of wildfly-modules -->
+        <version.bcprov-jdk15on>1.52</version.bcprov-jdk15on> <!-- version of wildfly-modules -->
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.11.Final</version.arquillian-bom>
@@ -223,11 +223,13 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk15on</artifactId>
                 <version>${version.bcpkix-jdk15on}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${version.bcprov-jdk15on}</version>
+                <scope>provided</scope>
             </dependency>
             <!-- test -->
             <dependency>

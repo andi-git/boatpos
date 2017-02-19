@@ -62,6 +62,10 @@ public abstract class SimpleValueObject<SVO extends SimpleValueObject, T extends
         return type.getName() + ": " + String.valueOf(value);
     }
 
+    public String asStringForSignature() {
+        return String.valueOf(value);
+    }
+
     @Override
     public int compareTo(SimpleValueObject<SVO, T> o) {
         //noinspection unchecked

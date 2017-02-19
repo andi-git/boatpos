@@ -4,6 +4,7 @@ import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.regkas.model.ReceiptEntity;
 import org.regkas.repository.api.values.*;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptBean;
 
 import java.util.List;
@@ -57,6 +58,12 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     Receipt setTotalPrice(TotalPrice totalPrice);
 
+    <T extends TaxSet> TotalPrice getTotalPriceAfterTaxOf(Class<T> taxSet);
+
+    <T extends TaxSet> TotalPrice getTotalTaxOf(Class<T> taxSet);
+
+    <T extends TaxSet> TotalPrice getTotalPriceBeforeTaxOf(Class<T> taxSet);
+
     SuiteId getSuiteId();
 
     Receipt setSuiteId(SuiteId suiteId);
@@ -68,4 +75,8 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
     Receipt addReceiptElement(ReceiptElement receiptElement);
 
     Receipt clearReceiptElements();
+
+    ReceiptString getReceiptString();
+
+    BillBean asBillBean();
 }

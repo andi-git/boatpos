@@ -6,6 +6,7 @@ import org.regkas.model.ReceiptElementEntity;
 import org.regkas.repository.api.values.Amount;
 import org.regkas.repository.api.values.Price;
 import org.regkas.repository.api.values.TotalPrice;
+import org.regkas.service.api.bean.BillTaxSetElementBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
 
 /**
@@ -19,9 +20,15 @@ public interface ReceiptElement extends DomainModelWithDto<ReceiptElement, Recei
 
     TotalPrice getTotalPrice();
 
+    TotalPrice getTotalPriceBeforeTax();
+
+    TotalPrice getTotalPriceTax();
+
     ReceiptElement setTotalPrice(TotalPrice price);
 
     Amount getAmount();
 
     ReceiptElement setAmount(Amount amount);
+
+    BillTaxSetElementBean asBillTaxSetElementBean();
 }

@@ -1,14 +1,27 @@
 package org.regkas.repository.core.model;
 
 import org.boatpos.common.repository.api.model.DomainModel;
-import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.repository.api.values.KeyBinding;
+import org.boatpos.common.repository.api.values.PictureUrl;
+import org.boatpos.common.repository.api.values.PictureUrlThumb;
+import org.boatpos.common.repository.api.values.Priority;
+import org.boatpos.common.repository.api.values.SimpleValueObject;
+import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.ProductGroupEntity;
-import org.regkas.repository.api.model.*;
+import org.regkas.model.TaxSetEntity;
+import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.model.Product;
+import org.regkas.repository.api.model.ProductGroup;
+import org.regkas.repository.api.model.TaxSet;
 import org.regkas.repository.api.values.Name;
+import org.regkas.repository.core.builder.TaxSetBuilderHolder;
 import org.regkas.repository.core.mapping.ProductGroupMapping;
 import org.regkas.service.api.bean.ProductGroupBean;
 
+import javax.enterprise.inject.spi.CDI;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +40,7 @@ public class ProductGroupCore extends MasterDataCore<ProductGroup, ProductGroupE
                             Name name,
                             TaxSet taxSet,
                             CashBox cashBox,
-                            List<Product> products)  {
+                            List<Product> products) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(taxSet, "'taxSet' must not be null");
@@ -56,12 +69,17 @@ public class ProductGroupCore extends MasterDataCore<ProductGroup, ProductGroupE
 
     @Override
     public TaxSet getTaxSet() {
-        return new TaxSetCore(getEntity().getTaxSet());
+        return CDI.current().select(TaxSetBuilderHolder.class).get()
+                .getTaxSetFor(getEntity().getTaxSet())
+                .orElseThrow(() -> new RuntimeException("no builder available for " + getEntity().getTaxSet().getClass().getName()));
     }
 
     @Override
     public ProductGroup setTaxSet(TaxSet taxSet) {
-        if (taxSet != null) getEntity().setTaxSet(taxSet.asEntity());
+        if (taxSet != null) {
+            TaxSetEntity entity = (TaxSetEntity) taxSet.asEntity();
+            getEntity().setTaxSet(entity);
+        }
         return this;
     }
 

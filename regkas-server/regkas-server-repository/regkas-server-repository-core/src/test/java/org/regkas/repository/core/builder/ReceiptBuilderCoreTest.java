@@ -35,8 +35,10 @@ public class ReceiptBuilderCoreTest extends EntityManagerProviderForRegkas {
         @Inject
         private ReceiptTypeRepository receiptTypeRepository;
 
+        @Inject
+        private ReceiptElementBuilderCoreTest.ReceiptElementProducer receiptElementProducer;
+
         public Receipt getReceipt() {
-            ReceiptType receiptType = receiptTypeRepository.loadBy(new Name("Standard-Beleg")).get();
             return new ReceiptBuilderCore()
                     .add(new ReceiptId("receipt-id"))
                     .add(new ReceiptDate(LocalDateTime.now()))
@@ -44,10 +46,10 @@ public class ReceiptBuilderCoreTest extends EntityManagerProviderForRegkas {
                     .add(new SignatureValuePreviousReceipt("svpr"))
                     .add(CompanyBuilderCoreTest.build())
                     .add(UserBuilderCoreTest.build())
-                    .add(receiptType)
+                    .add(receiptTypeRepository.loadBy(new Name("Standard-Beleg")).get())
                     .add(CashBoxBuilderCoreTest.build())
                     .add(PaymentMethod.CASH)
-                    .add(ReceiptElementBuilderCoreTest.build())
+                    .add(receiptElementProducer.getReceiptElement())
                     .add(new TotalPrice("0.00"))
                     .add(new SuiteId("R1-AT0"))
                     .build();

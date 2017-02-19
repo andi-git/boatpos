@@ -15,7 +15,6 @@ import org.regkas.service.core.DateTimeHelperMock;
 import org.regkas.service.core.context.CashBoxContext;
 import org.regkas.service.core.context.CompanyContext;
 import org.regkas.service.core.context.UserContext;
-import org.regkas.service.core.receipt.ReceiptToBillConverter;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
@@ -56,9 +55,6 @@ public class DEPExporterTest extends EntityManagerProviderForRegkas {
 
     @Inject
     private ReceiptRepository receiptRepository;
-
-    @Inject
-    private ReceiptToBillConverter receiptToBillConverter;
 
     @Inject
     @NonPrettyPrintingGson

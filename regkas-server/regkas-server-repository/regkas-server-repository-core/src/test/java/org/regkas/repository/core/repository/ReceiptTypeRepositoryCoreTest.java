@@ -1,9 +1,12 @@
 package org.regkas.repository.core.repository;
 
+import org.boatpos.common.repository.api.values.Enabled;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.model.ReceiptType;
+import org.regkas.repository.api.model.TaxSet;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.values.Name;
@@ -26,5 +29,18 @@ public class ReceiptTypeRepositoryCoreTest extends EntityManagerProviderForRegka
     @Transactional
     public void testLoadByName() {
         assertEquals("Start-Beleg", receiptTypeRepository.loadBy(new Name("Start-Beleg")).get().getName().get());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadAll() {
+        assertEquals(7, receiptTypeRepository.loadAll().size());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadAllEnabledDisable() {
+        assertEquals(7, receiptTypeRepository.loadAll(Enabled.TRUE).size());
+        assertEquals(0, receiptTypeRepository.loadAll(Enabled.FALSE).size());
     }
 }

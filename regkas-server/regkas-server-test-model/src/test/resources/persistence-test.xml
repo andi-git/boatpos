@@ -18,7 +18,11 @@
         <class>org.regkas.model.ReceiptTypeStartEntity</class>
         <class>org.regkas.model.ReceiptTypeStornoEntity</class>
         <class>org.regkas.model.ReceiptTypeTrainingEntity</class>
-        <class>org.regkas.model.TaxSetEntity</class>
+        <class>org.regkas.model.TaxSetNormalEntity</class>
+        <class>org.regkas.model.TaxSetErmaessigt1Entity</class>
+        <class>org.regkas.model.TaxSetErmaessigt2Entity</class>
+        <class>org.regkas.model.TaxSetNullEntity</class>
+        <class>org.regkas.model.TaxSetBesondersEntity</class>
         <class>org.regkas.model.UserEntity</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>

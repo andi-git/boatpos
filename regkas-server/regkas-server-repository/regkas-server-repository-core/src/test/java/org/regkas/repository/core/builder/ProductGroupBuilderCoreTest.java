@@ -1,36 +1,57 @@
 package org.regkas.repository.core.builder;
 
-import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.repository.api.values.KeyBinding;
+import org.boatpos.common.repository.api.values.PictureUrl;
+import org.boatpos.common.repository.api.values.PictureUrlThumb;
+import org.boatpos.common.repository.api.values.Priority;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
-import org.regkas.model.ProductGroupEntity;
-import org.regkas.repository.api.model.Product;
+import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.ProductGroup;
+import org.regkas.repository.api.repository.TaxSetRepository;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.Price;
-import org.regkas.repository.core.model.ProductGroupCore;
+import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-import java.math.BigDecimal;
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProductGroupBuilderCoreTest {
+@RunWith(Arquillian.class)
+public class ProductGroupBuilderCoreTest extends EntityManagerProviderForRegkas {
+
+    @Inject
+    private ProductGroupProducer productGroupProducer;
 
     @Test
+    @Transactional
     public void testBuild() throws Exception {
-        assertEquals("productgroup-name", build().getName().get());
+        assertEquals("productgroup-name", productGroupProducer.getProductGroup().getName().get());
     }
 
-    public static ProductGroup build() {
-        return new ProductGroupBuilderCore()
-                .add(Enabled.TRUE)
-                .add(new KeyBinding(' '))
-                .add(new PictureUrl(""))
-                .add(new PictureUrlThumb(""))
-                .add(new Priority(1))
-                .add(new Name("productgroup-name"))
-                .add(TaxSetBuilderCoreTest.build())
-                .add(CashBoxBuilderCoreTest.build())
-                .add(ProductBuilderCoreTest.build())
-                .build();
+    @Dependent
+    public static class ProductGroupProducer {
+
+        @Inject
+        private TaxSetRepository taxSetRepository;
+
+        @Inject
+        private ProductBuilderCoreTest.ProductProducer productProducer;
+
+        public ProductGroup getProductGroup() {
+            return new ProductGroupBuilderCore()
+                    .add(Enabled.TRUE)
+                    .add(new KeyBinding(' '))
+                    .add(new PictureUrl(""))
+                    .add(new PictureUrlThumb(""))
+                    .add(new Priority(1))
+                    .add(new Name("productgroup-name"))
+                    .add(taxSetRepository.loadBy(new Name("Satz-Normal")).get())
+                    .add(CashBoxBuilderCoreTest.build())
+                    .add(productProducer.getProduct())
+                    .build();
+        }
     }
 }

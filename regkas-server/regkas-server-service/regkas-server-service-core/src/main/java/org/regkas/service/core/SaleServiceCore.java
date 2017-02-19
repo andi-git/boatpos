@@ -31,7 +31,6 @@ import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 import org.regkas.service.core.receipt.ReceiptIdCalculator;
-import org.regkas.service.core.receipt.ReceiptToBillConverter;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
 import org.regkas.service.core.serializer.NonPrettyPrintingGson;
 import org.regkas.service.core.serializer.Serializer;
@@ -75,9 +74,6 @@ public class SaleServiceCore implements SaleService {
 
     @Inject
     private UserRepository userRepository;
-
-    @Inject
-    private ReceiptToBillConverter receiptToBillConverter;
 
     @Inject
     private ReceiptTypeConverter receiptTypeConverter;
@@ -126,7 +122,7 @@ public class SaleServiceCore implements SaleService {
         receiptType.getUpdateTurnoverCounter().updateTurnOver(cashBox, totalPrice);
         receipt.setEncryptedTurnoverValue(receiptType.getEncryptTurnoverCounter().encryptTurnoverCounter(receipt.getReceiptId(), cashBox));
 
-        BillBean bill = receiptToBillConverter.convert(receipt);
+        BillBean bill = receipt.asBillBean();
         receipt.setDEP(new DEPString(serializer.serialize(bill)));
 
         receipt.persist();

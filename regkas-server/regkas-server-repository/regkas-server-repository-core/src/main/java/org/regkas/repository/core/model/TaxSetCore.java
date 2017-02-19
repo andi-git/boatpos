@@ -1,35 +1,20 @@
 package org.regkas.repository.core.model;
 
-import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.TaxSetEntity;
 import org.regkas.repository.api.model.TaxSet;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.TaxPercent;
+import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.repository.core.mapping.TaxSetMapping;
 import org.regkas.service.api.bean.TaxSetBean;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.math.BigDecimal;
 
-public class TaxSetCore extends MasterDataCore<TaxSet, TaxSetEntity> implements TaxSet {
+public abstract class TaxSetCore<MODEL extends TaxSet, ENTITY extends TaxSetEntity> extends MasterDataCore<MODEL, ENTITY> implements TaxSet<MODEL, ENTITY> {
 
-    public TaxSetCore(DomainId id,
-                      Version version,
-                      Enabled enabled,
-                      Priority priority,
-                      KeyBinding keyBinding,
-                      PictureUrl pictureUrl,
-                      PictureUrlThumb pictureUrlThumb,
-                      Name name,
-                      TaxPercent taxPercent) {
-        super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
-        checkNotNull(name, "'name' must not be null");
-        checkNotNull(taxPercent, "'taxPercent' must not be null");
-        setName(name);
-        setTaxPercent(taxPercent);
-    }
-
-    public TaxSetCore(TaxSetEntity taxSet) {
+    public TaxSetCore(ENTITY taxSet) {
         super(taxSet);
     }
 
@@ -38,8 +23,7 @@ public class TaxSetCore extends MasterDataCore<TaxSet, TaxSetEntity> implements 
         return new Name(getEntity().getName());
     }
 
-    @Override
-    public TaxSet setName(Name name) {
+    protected TaxSet setName(Name name) {
         getEntity().setName(SimpleValueObject.nullSafe(name));
         return this;
     }
@@ -49,10 +33,20 @@ public class TaxSetCore extends MasterDataCore<TaxSet, TaxSetEntity> implements 
         return new TaxPercent(getEntity().getTaxPercent());
     }
 
-    @Override
-    public TaxSet setTaxPercent(TaxPercent taxPercent) {
+    protected TaxSet setTaxPercent(TaxPercent taxPercent) {
         getEntity().setTaxPercent(SimpleValueObject.nullSafe(taxPercent));
         return this;
+    }
+
+    @Override
+    public TotalPrice getPriceWithoutTaxOf(TotalPrice totalPriceWithTax) {
+        BigDecimal divisor = new BigDecimal("1.00").add(new BigDecimal(getTaxPercent().get() + ".00").divide(new BigDecimal("100.00"), 2, BigDecimal.ROUND_HALF_UP));
+        return new TotalPrice(totalPriceWithTax.get().divide(divisor, 2, BigDecimal.ROUND_HALF_UP));
+    }
+
+    @Override
+    public TotalPrice getTaxOf(TotalPrice totalPriceWithTax) {
+        return new TotalPrice(totalPriceWithTax.get().subtract(getPriceWithoutTaxOf(totalPriceWithTax).get()));
     }
 
     @Override

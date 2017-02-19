@@ -54,11 +54,11 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         company.getUsers().add(user1);
         company.getUsers().add(user2);
 
-        TaxSetEntity taxSet1 = new TaxSetEntity(null, null, true, 1, "", "", "Satz-Normal", 20, new HashSet<>());
-        TaxSetEntity taxSet2 = new TaxSetEntity(null, null, true, 2, "", "", "Satz-Ermaessigt-1", 10, new HashSet<>());
-        TaxSetEntity taxSet3 = new TaxSetEntity(null, null, true, 3, "", "", "Satz-Ermaessigt-2", 13, new HashSet<>());
-        TaxSetEntity taxSet4 = new TaxSetEntity(null, null, true, 4, "", "", "Satz-Null", 0, new HashSet<>());
-        TaxSetEntity taxSet5 = new TaxSetEntity(null, null, true, 5, "", "", "Satz-Besonders", 19, new HashSet<>());
+        TaxSetEntity taxSet1 = new TaxSetNormalEntity(null, null, true, 1, "", "", "Satz-Normal", 20, new HashSet<>());
+        TaxSetEntity taxSet2 = new TaxSetErmaessigt1Entity(null, null, true, 2, "", "", "Satz-Ermaessigt-1", 10, new HashSet<>());
+        TaxSetEntity taxSet3 = new TaxSetErmaessigt2Entity(null, null, true, 3, "", "", "Satz-Ermaessigt-2", 13, new HashSet<>());
+        TaxSetEntity taxSet4 = new TaxSetNullEntity(null, null, true, 4, "", "", "Satz-Null", 0, new HashSet<>());
+        TaxSetEntity taxSet5 = new TaxSetBesondersEntity(null, null, true, 5, "", "", "Satz-Besonders", 19, new HashSet<>());
         ProductGroupEntity productGroup1 = new ProductGroupEntity(null, null, true, 1, 'a', "", "", "Snack", taxSet2, cashBox1, new HashSet<>());
         ProductGroupEntity productGroup2 = new ProductGroupEntity(null, null, true, 2, 'b', "", "", "Eskimoeis", taxSet2, cashBox1, new HashSet<>());
         ProductGroupEntity productGroup3 = new ProductGroupEntity(null, null, true, 3, 'c', "", "", "Eismischgetränk", taxSet2, cashBox1, new HashSet<>());

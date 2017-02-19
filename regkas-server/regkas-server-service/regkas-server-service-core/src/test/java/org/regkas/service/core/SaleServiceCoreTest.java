@@ -27,6 +27,7 @@ import java.util.zip.GZIPOutputStream;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
@@ -140,6 +141,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("ONRcz49yLDIo2FgwNhe9Q5fSiZFEies97uRMzeAAPkI=", storedReceipt.getCashBox().getAesKeyBase64().get());
         assertEquals("AT0", storedReceipt.getCashBox().getCertificationServiceProvider().get());
         assertEquals("123", storedReceipt.getCashBox().getSignatureCertificateSerialNumber().get());
+        assertEquals("", storedReceipt.getSignatureValuePreviousReceipt().get()); // TODO implement this
+        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_", storedReceipt.getReceiptString().get());
 
         companyContext.clear();
         userContext.clear();

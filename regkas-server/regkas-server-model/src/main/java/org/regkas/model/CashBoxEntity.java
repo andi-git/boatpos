@@ -24,6 +24,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @Expose
     private String name;
 
+    // TODO is specific for company, not for cashbox
     @NotNull
     @Size(min = 0, max = 50)
     @Expose
@@ -49,6 +50,7 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @Expose
     private Long turnoverCountCent;
 
+    // TODO is specific for company, not for cashbox
     @NotNull
     @Size(min = 3, max = 3)
     @Expose

@@ -31,4 +31,9 @@ public abstract class SimpleBigDecimalObject<SVO extends SimpleBigDecimalObject>
     public SVO add(SVO valueToAdd) {
         return newInstance(get().add(valueToAdd.get()));
     }
+
+    @Override
+    public String asStringForSignature() {
+        return String.valueOf(value).replaceAll("\\.", ",");
+    }
 }

@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,11 +23,13 @@ import java.util.Set;
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "taxset")
-public class TaxSetEntity extends AbstractMasterDataEntity {
+@DiscriminatorColumn(name = "name", discriminatorType = DiscriminatorType.STRING)
+public abstract class TaxSetEntity extends AbstractMasterDataEntity {
 
     @NotNull
     @Size(min = 3, max = 50)
     @Expose
+    @Column(updatable = false, insertable = false)
     private String name;
 
     @NotNull

@@ -8,10 +8,10 @@ import org.junit.runner.RunWith;
 import java.util.HashSet;
 
 @RunWith(Arquillian.class)
-public class TaxSetEntityTest extends JavaBeanTest<TaxSetEntity> {
+public class TaxSetEntityNormalTest extends JavaBeanTest<TaxSetNormalEntity> {
 
     @Test
     public void testConstructor() {
-        new TaxSetEntity(1L, 1, true, 1, "", "", "name", 20, new HashSet<>());
+        new TaxSetNormalEntity(1L, 1, true, 1, "", "", "name", 20, new HashSet<>());
     }
 }

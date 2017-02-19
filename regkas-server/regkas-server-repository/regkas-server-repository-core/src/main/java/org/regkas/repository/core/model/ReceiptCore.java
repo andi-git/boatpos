@@ -8,15 +8,35 @@ import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 import org.regkas.model.ReceiptEntity;
 import org.regkas.model.ReceiptTypeEntity;
-import org.regkas.repository.api.model.*;
-import org.regkas.repository.api.values.*;
+import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.Receipt;
+import org.regkas.repository.api.model.ReceiptElement;
+import org.regkas.repository.api.model.ReceiptType;
+import org.regkas.repository.api.model.TaxSet;
+import org.regkas.repository.api.model.TaxSetBesonders;
+import org.regkas.repository.api.model.TaxSetErmaessigt1;
+import org.regkas.repository.api.model.TaxSetErmaessigt2;
+import org.regkas.repository.api.model.TaxSetNormal;
+import org.regkas.repository.api.model.TaxSetNull;
+import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.values.DEPString;
+import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.ReceiptDate;
+import org.regkas.repository.api.values.ReceiptId;
+import org.regkas.repository.api.values.ReceiptString;
+import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.SuiteId;
+import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.repository.core.builder.ReceiptTypeBuilderHolder;
 import org.regkas.repository.core.mapping.ReceiptMapping;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptBean;
 
 import javax.enterprise.inject.spi.CDI;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -141,7 +161,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     public ReceiptType getReceiptType() {
         return CDI.current().select(ReceiptTypeBuilderHolder.class).get()
                 .getReceiptTypeFor(getEntity().getReceiptType())
-                .orElseThrow(() -> new RuntimeException("\"no builder available for \" + getEntity().getReceiptType().getClass().getName()"));
+                .orElseThrow(() -> new RuntimeException("no builder available for " + getEntity().getReceiptType().getClass().getName()));
     }
 
     @Override
@@ -198,6 +218,31 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     }
 
     @Override
+    public <T extends TaxSet> TotalPrice getTotalPriceAfterTaxOf(Class<T> taxSet) {
+        return getTotalPriceOfTax(taxSet, ReceiptElement::getTotalPrice);
+    }
+
+    @Override
+    public <T extends TaxSet> TotalPrice getTotalTaxOf(Class<T> taxSet) {
+        return getTotalPriceOfTax(taxSet, ReceiptElement::getTotalPriceTax);
+    }
+
+    @Override
+    public <T extends TaxSet> TotalPrice getTotalPriceBeforeTaxOf(Class<T> taxSet) {
+        return getTotalPriceOfTax(taxSet, ReceiptElement::getTotalPriceBeforeTax);
+    }
+
+    private <T extends TaxSet> TotalPrice getTotalPriceOfTax(Class<T> taxSet, Function<ReceiptElement, TotalPrice> getTotalPrice) {
+        TotalPrice totalPrice = TotalPrice.ZERO;
+        for (ReceiptElement receiptElement : getReceiptElements()) {
+            if (taxSet.isAssignableFrom(receiptElement.getProduct().getProductGroup().getTaxSet().getClass())) {
+                totalPrice = totalPrice.add(getTotalPrice.apply(receiptElement));
+            }
+        }
+        return totalPrice;
+    }
+
+    @Override
     public SuiteId getSuiteId() {
         return new SuiteId(getEntity().getSuiteId());
     }
@@ -236,6 +281,46 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     public Receipt clearReceiptElements() {
         getEntity().getReceiptElements().clear();
         return this;
+    }
+
+    @Override
+    public ReceiptString getReceiptString() {
+        return new ReceiptString.Builder()
+                .addSuiteId(getSuiteId())
+                .addCashBoxName(getCashBox().getName())
+                .addReceiptId(getReceiptId())
+                .addReceiptDate(getReceiptDate())
+                .addTotalPriceTaxNormal(getTotalPriceAfterTaxOf(TaxSetNormal.class))
+                .addTotalPriceTaxErmaessigt1(getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class))
+                .addTotalPriceTaxErmaessigt2(getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class))
+                .addTotalPriceTaxNull(getTotalPriceAfterTaxOf(TaxSetNull.class))
+                .addTotalPriceTaxBesonders(getTotalPriceAfterTaxOf(TaxSetBesonders.class))
+                .addEncryptedTurnoverValue(getEncryptedTurnoverValue())
+                .addSignatureCertificateSerialNumber(getCashBox().getSignatureCertificateSerialNumber())
+                .addSignatureValuePreviousReceipt(getSignatureValuePreviousReceipt())
+                .build();
+    }
+
+    @Override
+    public BillBean asBillBean() {
+        BillBean bill = new BillBean();
+        bill.setCompany(getCompany().asDto());
+        bill.setCashBoxID(getCashBox().getName().get());
+        bill.setReceiptIdentifier(getReceiptId().get());
+        bill.setReceiptDateAndTime(getReceiptDate().get());
+        bill.setEncryptedTurnoverValue(getEncryptedTurnoverValue().get());
+        bill.setSignatureCertificateSerialNumber(getCashBox().getSignatureCertificateSerialNumber().get());
+        bill.setSignatureValuePreviousReceipt(getSignatureValuePreviousReceipt().get());
+        bill.setSumTotal(getTotalPrice().get());
+        bill.setSumTaxSetNormal(getTotalPriceAfterTaxOf(TaxSetNormal.class).get());
+        bill.setSumTaxSetErmaessigt1(getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class).get());
+        bill.setSumTaxSetErmaessigt2(getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class).get());
+        bill.setSumTaxSetNull(getTotalPriceAfterTaxOf(TaxSetNull.class).get());
+        bill.setSumTaxSetBesonders(getTotalPriceAfterTaxOf(TaxSetBesonders.class).get());
+        for (ReceiptElement receiptElement : getReceiptElements()) {
+            bill.getBillTaxSetElements().add(receiptElement.asBillTaxSetElementBean());
+        }
+        return bill;
     }
 
     @Override

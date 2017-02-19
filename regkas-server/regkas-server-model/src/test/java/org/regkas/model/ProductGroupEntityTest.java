@@ -12,6 +12,6 @@ public class ProductGroupEntityTest extends JavaBeanTest<ProductGroupEntity> {
 
     @Test
     public void testConstructor() {
-        new ProductGroupEntity(1L, 1, true, 1, 'a', "", "", "name", new TaxSetEntity(), new CashBoxEntity(), new HashSet<>());
+        new ProductGroupEntity(1L, 1, true, 1, 'a', "", "", "name", new TaxSetNormalEntity(), new CashBoxEntity(), new HashSet<>());
     }
 }
