@@ -84,10 +84,14 @@ public class ReceiptEntity extends AbstractEntity {
     @Expose
     private String suiteId;
 
+    @Size(max = 256)
+    @Expose
+    private String jwsCompactRepresentation;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId, String jwsCompactRepresentation) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -102,6 +106,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.dep = dep;
         this.totalPrice = totalPrice;
         this.suiteId = suiteId;
+        this.jwsCompactRepresentation = jwsCompactRepresentation;
     }
 
     public String getReceiptId() {
@@ -206,5 +211,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setSuiteId(String suiteId) {
         this.suiteId = suiteId;
+    }
+
+    public String getJwsCompactRepresentation() {
+        return jwsCompactRepresentation;
+    }
+
+    public void setJwsCompactRepresentation(String jwsCompactRepresentation) {
+        this.jwsCompactRepresentation = jwsCompactRepresentation;
     }
 }

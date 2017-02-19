@@ -33,7 +33,7 @@ public abstract class SimpleBigDecimalObject<SVO extends SimpleBigDecimalObject>
     }
 
     @Override
-    public String asStringForSignature() {
+    public String asStringToBeSigned() {
         return String.valueOf(value).replaceAll("\\.", ",");
     }
 }

@@ -120,6 +120,7 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("company", bill.getCompany().getName());
         assertEquals("RegKas1", bill.getCashBoxID());
         assertEquals("2015-0000001", bill.getReceiptIdentifier());
+        assertEquals("Standard-Beleg", bill.getReceiptType());
         assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), bill.getReceiptDateAndTime());
         assertEquals("12345", bill.getEncryptedTurnoverValue());
         assertEquals("123", bill.getSignatureCertificateSerialNumber());
@@ -141,6 +142,7 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("6.00"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
         assertEquals(new BigDecimal("5.45"), bill.getBillTaxSetElements().get(1).getPricePreTax());
         assertEquals(new BigDecimal("0.55"), bill.getBillTaxSetElements().get(1).getPriceTax());
+        assertEquals("jws123", bill.getJwsCompact());
     }
 
 
@@ -162,6 +164,6 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
                 "_12345" +
                 "_123" +
                 "_sign";
-        assertEquals(expectedReceiptString, receipt.getReceiptString().get());
+        assertEquals(expectedReceiptString, receipt.getDataToBeSigned().get());
     }
 }

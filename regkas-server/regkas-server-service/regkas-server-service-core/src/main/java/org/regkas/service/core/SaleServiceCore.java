@@ -21,6 +21,7 @@ import org.regkas.repository.api.repository.UserRepository;
 import org.regkas.repository.api.values.Amount;
 import org.regkas.repository.api.values.DEPString;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.JWSCompactRepresentation;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
@@ -89,6 +90,23 @@ public class SaleServiceCore implements SaleService {
     @Override
     public BillBean sale(SaleBean sale) {
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
+
+        Receipt receipt = buildReceiptBasedOnSaleBean(sale, receiptType);
+
+        updateTurnoverCounter(receiptType, receipt.getTotalPrice());
+        encryptTurnoverCounter(receiptType, receipt);
+        setSignatureValueOfPreviousReceipt(receiptType, receipt);
+        signReceipt(receipt);
+
+        BillBean bill = receipt.asBillBean();
+        receipt.setDEP(new DEPString(serializer.serialize(bill)));
+
+        receipt.persist();
+
+        return bill;
+    }
+
+    private Receipt buildReceiptBasedOnSaleBean(SaleBean sale, ReceiptType receiptType) {
         ReceiptBuilder receiptBuilder = receiptRepository.builder()
                 .add(receiptIdCalculator.getNextReceiptId())
                 .add(new ReceiptDate(dateTimeHelper.currentTime()))
@@ -117,16 +135,22 @@ public class SaleServiceCore implements SaleService {
             }
         }
         receiptBuilder.add(totalPrice);
-        Receipt receipt = receiptBuilder.build();
+        return receiptBuilder.build();
+    }
 
-        receiptType.getUpdateTurnoverCounter().updateTurnOver(cashBox, totalPrice);
+    private void setSignatureValueOfPreviousReceipt(ReceiptType receiptType, Receipt receipt) {
+        receipt.setSignatureValuePreviousReceipt(receiptType.calculateChainValue(cashBox));
+    }
+
+    private void encryptTurnoverCounter(ReceiptType receiptType, Receipt receipt) {
         receipt.setEncryptedTurnoverValue(receiptType.getEncryptTurnoverCounter().encryptTurnoverCounter(receipt.getReceiptId(), cashBox));
+    }
 
-        BillBean bill = receipt.asBillBean();
-        receipt.setDEP(new DEPString(serializer.serialize(bill)));
+    private void updateTurnoverCounter(ReceiptType receiptType, TotalPrice totalPrice) {
+        receiptType.getUpdateTurnoverCounter().updateTurnOver(cashBox, totalPrice);
+    }
 
-        receipt.persist();
-
-        return bill;
+    private void signReceipt(Receipt receipt) {
+        receipt.setJWSCompactRepresentation(new JWSCompactRepresentation("")); // TODO implement this
     }
 }

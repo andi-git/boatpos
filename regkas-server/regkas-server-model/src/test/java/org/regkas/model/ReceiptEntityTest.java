@@ -15,6 +15,6 @@ public class ReceiptEntityTest extends JavaBeanTest<ReceiptEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeStandardEntity(), PaymentMethod.CASH, new ArrayList<>(), "", BigDecimal.ZERO, "");
+        new ReceiptEntity(1L, 1, "name", LocalDateTime.now(), "turnoverValue", "signatureValue", new CompanyEntity(), new CashBoxEntity(), new UserEntity(), new ReceiptTypeStandardEntity(), PaymentMethod.CASH, new ArrayList<>(), "", BigDecimal.ZERO, "", "");
     }
 }

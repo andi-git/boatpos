@@ -62,7 +62,7 @@ public abstract class SimpleValueObject<SVO extends SimpleValueObject, T extends
         return type.getName() + ": " + String.valueOf(value);
     }
 
-    public String asStringForSignature() {
+    public String asStringToBeSigned() {
         return String.valueOf(value);
     }
 

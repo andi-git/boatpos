@@ -76,7 +76,11 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     Receipt clearReceiptElements();
 
-    ReceiptString getReceiptString();
+    DataToBeSigned getDataToBeSigned();
 
     BillBean asBillBean();
+
+    Receipt setJWSCompactRepresentation(JWSCompactRepresentation jwsCompactRepresentation);
+
+    JWSCompactRepresentation getJWSCompactRepresentation();
 }

@@ -25,6 +25,9 @@ public class AES {
     private Encoding encoding;
 
     @Inject
+    private Crypto.MessageDigestSHA256 messageDigestSHA256;
+
+    @Inject
     @SLF4J
     private LogWrapper log;
 
@@ -43,13 +46,12 @@ public class AES {
 
     public SecretKey convertBase64KeyToSecretKey(final String base64AESKey) {
         final byte[] rawAesKey = encoding.base64Decode(base64AESKey, false);
-        final SecretKeySpec aesKey = new SecretKeySpec(rawAesKey, "AES");
-        return aesKey;
+        return new SecretKeySpec(rawAesKey, "AES");
     }
 
-    public String calcCheckSumFromKey(String base64AESKey) throws NoSuchAlgorithmException {
+    public String calcCheckSumFromKey(String base64AESKey) {
         //calculate SHA256 hash of AES key
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        MessageDigest md = messageDigestSHA256.get();
         md.update(base64AESKey.getBytes());
         byte[] hashValue = md.digest();
 

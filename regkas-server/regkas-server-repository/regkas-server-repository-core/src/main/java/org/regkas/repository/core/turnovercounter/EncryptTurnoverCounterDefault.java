@@ -22,28 +22,15 @@ public class EncryptTurnoverCounterDefault implements EncryptTurnoverCounter {
     private Crypto crypto;
 
     @Inject
+    private Crypto.MessageDigestSHA256 messageDigestSHA256;
+
+    @Inject
     @SLF4J
     private LogWrapper log;
 
     @Override
     public EncryptedTurnoverValue encryptTurnoverCounter(ReceiptId receiptId, CashBox cashBox) {
         IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter = new IVToEncryptTurnoverCounter(cashBox.getName(), receiptId);
-        byte[] concatenatedHashValue = createConcatenatedHashValue(ivToEncryptTurnoverCounter);
-        return crypto.encryptCTR(concatenatedHashValue, cashBox.getTurnoverCountCent(), new AES.AESKey(cashBox.getAesKeyBase64()));
+        return crypto.encryptCTR(ivToEncryptTurnoverCounter, cashBox.getTurnoverCountCent(), new AES.AESKey(cashBox.getAesKeyBase64()));
     }
-
-    private byte[] createConcatenatedHashValue(IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter) {
-        MessageDigest messageDigest;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            log.error(e);
-            throw new RuntimeException(e);
-        }
-        byte[] hashValue = messageDigest.digest(ivToEncryptTurnoverCounter.get().getBytes());
-        byte[] concatenatedHashValue = new byte[16];
-        System.arraycopy(hashValue, 0, concatenatedHashValue, 0, 16);
-        return concatenatedHashValue;
-    }
-
 }

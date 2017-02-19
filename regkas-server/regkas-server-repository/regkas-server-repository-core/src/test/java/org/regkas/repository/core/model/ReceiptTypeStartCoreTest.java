@@ -5,7 +5,9 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.ReceiptType;
+import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterNothing;
@@ -15,11 +17,15 @@ import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeStartCoreTest extends EntityManagerProviderForRegkas {
 
     @Inject
     private ReceiptTypeRepository receiptTypeRepository;
+
+    @Inject
+    private CashBoxRepository cashBoxRepository;
 
     private ReceiptType receiptType;
 
@@ -39,5 +45,12 @@ public class ReceiptTypeStartCoreTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void getGetUpdateTurnoverCounter() {
         assertEquals(UpdateTurnoverCounterNothing.class, receiptType.getUpdateTurnoverCounter().getClass().getSuperclass());
+    }
+
+    @Test
+    @Transactional
+    public void getGetInputForChainCalculation() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertEquals("x1OpVx19rNQ=", receiptType.calculateChainValue(cashBox).get());
     }
 }

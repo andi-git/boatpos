@@ -22,9 +22,10 @@ import org.regkas.repository.api.model.TaxSetNull;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.values.DEPString;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.JWSCompactRepresentation;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.api.values.ReceiptString;
+import org.regkas.repository.api.values.DataToBeSigned;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.SuiteId;
 import org.regkas.repository.api.values.TotalPrice;
@@ -57,6 +58,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        DEPString dep,
                        TotalPrice totalPrice,
                        SuiteId suiteId,
+                       JWSCompactRepresentation jwsCompactRepresentation,
                        List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -83,6 +85,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setDEP(dep);
         setTotalPrice(totalPrice);
         setSuiteId(suiteId);
+        setJWSCompactRepresentation(jwsCompactRepresentation);
         addReceiptElements(receiptElements);
     }
 
@@ -284,8 +287,8 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     }
 
     @Override
-    public ReceiptString getReceiptString() {
-        return new ReceiptString.Builder()
+    public DataToBeSigned getDataToBeSigned() {
+        return new DataToBeSigned.Builder()
                 .addSuiteId(getSuiteId())
                 .addCashBoxName(getCashBox().getName())
                 .addReceiptId(getReceiptId())
@@ -308,6 +311,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         bill.setCashBoxID(getCashBox().getName().get());
         bill.setReceiptIdentifier(getReceiptId().get());
         bill.setReceiptDateAndTime(getReceiptDate().get());
+        bill.setReceiptType(getReceiptType().getName().get());
         bill.setEncryptedTurnoverValue(getEncryptedTurnoverValue().get());
         bill.setSignatureCertificateSerialNumber(getCashBox().getSignatureCertificateSerialNumber().get());
         bill.setSignatureValuePreviousReceipt(getSignatureValuePreviousReceipt().get());
@@ -320,7 +324,19 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         for (ReceiptElement receiptElement : getReceiptElements()) {
             bill.getBillTaxSetElements().add(receiptElement.asBillTaxSetElementBean());
         }
+        bill.setJwsCompact(getJWSCompactRepresentation().get());
         return bill;
+    }
+
+    @Override
+    public Receipt setJWSCompactRepresentation(JWSCompactRepresentation jwsCompactRepresentation) {
+        getEntity().setJwsCompactRepresentation(SimpleValueObject.nullSafe(jwsCompactRepresentation));
+        return this;
+    }
+
+    @Override
+    public JWSCompactRepresentation getJWSCompactRepresentation() {
+        return new JWSCompactRepresentation(getEntity().getJwsCompactRepresentation());
     }
 
     @Override

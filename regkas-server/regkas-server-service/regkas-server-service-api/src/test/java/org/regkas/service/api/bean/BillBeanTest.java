@@ -21,6 +21,8 @@ public class BillBeanTest extends JavaBeanTest<BillBean> {
                 BigDecimal.ONE,
                 BigDecimal.ONE,
                 Lists.newArrayList(),
-                BigDecimal.ONE);
+                BigDecimal.ONE,
+                "Standard-Beleg",
+                "");
     }
 }

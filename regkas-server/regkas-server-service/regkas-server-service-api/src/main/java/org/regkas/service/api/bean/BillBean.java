@@ -77,10 +77,14 @@ public class BillBean extends AbstractBean {
     @Expose
     private String receiptType = "Standard-Beleg";
 
+    @SerializedName("JWS-Kompakt")
+    @Expose
+    private String jwsCompact;
+
     public BillBean() {
     }
 
-    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, BigDecimal sumTaxSetNormal, BigDecimal sumTaxSetErmaessigt1, BigDecimal sumTaxSetErmaessigt2, BigDecimal sumTaxSetBesonderes, BigDecimal sumTaxSetNull, List<BillTaxSetElementBean> billTaxSetElements, BigDecimal sumTotal) {
+    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, BigDecimal sumTaxSetNormal, BigDecimal sumTaxSetErmaessigt1, BigDecimal sumTaxSetErmaessigt2, BigDecimal sumTaxSetBesonderes, BigDecimal sumTaxSetNull, List<BillTaxSetElementBean> billTaxSetElements, BigDecimal sumTotal, String receiptType, String jwsCompact) {
         this.cashBoxID = cashBoxID;
         this.receiptIdentifier = receiptIdentifier;
         this.receiptDateAndTime = receiptDateAndTime;
@@ -92,6 +96,8 @@ public class BillBean extends AbstractBean {
         this.sumTaxSetNull = sumTaxSetNull;
         this.billTaxSetElements = billTaxSetElements;
         this.sumTotal = sumTotal;
+        this.receiptType = receiptType;
+        this.jwsCompact = jwsCompact;
     }
 
     public String getCashBoxID() {
@@ -212,5 +218,13 @@ public class BillBean extends AbstractBean {
 
     public void setReceiptType(String receiptType) {
         this.receiptType = receiptType;
+    }
+
+    public String getJwsCompact() {
+        return jwsCompact;
+    }
+
+    public void setJwsCompact(String jwsCompact) {
+        this.jwsCompact = jwsCompact;
     }
 }

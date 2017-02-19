@@ -14,6 +14,7 @@ import java.util.ArrayList;
 @Specializes
 public class RegkasServiceMock extends RegkasService {
 
+    @Override
     public BillBean sale(PaymentBean paymentBean) throws Exception {
         return new BillBean(
                 new CompanyBean(),
@@ -26,6 +27,8 @@ public class RegkasServiceMock extends RegkasService {
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
                 new ArrayList<>(),
-                paymentBean.getValue());
+                paymentBean.getValue(),
+                "Standard-Beleg",
+                "");
     }
 }

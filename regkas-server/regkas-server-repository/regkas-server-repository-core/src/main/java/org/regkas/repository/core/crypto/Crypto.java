@@ -4,6 +4,9 @@ import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.IVToEncryptTurnoverCounter;
+import org.regkas.repository.api.values.InputForChainCalculation;
+import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.TotalPriceCent;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +15,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
@@ -28,7 +32,10 @@ public class Crypto {
     private Encoding encoding;
 
     @Inject
-    private TurnoverCounterLenthInBytes turnoverCounterLenthInBytes;
+    private TurnoverCounterLengthInBytes turnoverCounterLengthInBytes;
+
+    @Inject
+    private MessageDigestSHA256 messageDigestSHA256;
 
     @PostConstruct
     private void init() {
@@ -45,10 +52,11 @@ public class Crypto {
         return false;
     }
 
-    public EncryptedTurnoverValue encryptCTR(final byte[] concatenatedHashValue, TotalPriceCent turnoverCounter, final AES.AESKey aesKey) {
+    public EncryptedTurnoverValue encryptCTR(IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter, TotalPriceCent turnoverCounter, AES.AESKey aesKey) {
+
         // extract bytes 0-15 from hash value
         final ByteBuffer byteBufferIV = ByteBuffer.allocate(16);
-        byteBufferIV.put(concatenatedHashValue);
+        byteBufferIV.put(createConcatenatedHashValue(ivToEncryptTurnoverCounter));
         final byte[] IV = byteBufferIV.array();
 
         // prepare data
@@ -62,7 +70,7 @@ public class Crypto {
 
         //now the turnover counter is represented in two's-complement representation (negative values are possible)
         //length is defined by the respective implementation (min. 5 bytes)
-        byte[] turnOverCounterByteRep = get2ComplementRepForLong(turnoverCounter.get(), turnoverCounterLenthInBytes.get());
+        byte[] turnOverCounterByteRep = get2ComplementRepForLong(turnoverCounter.get());
 
         //two's-complement representation is copied to the data array, and inserted at index 0
         System.arraycopy(turnOverCounterByteRep, 0, data, 0, turnOverCounterByteRep.length);
@@ -94,18 +102,17 @@ public class Crypto {
         // extract bytes that will be stored in the receipt (only bytes 0-7)
         // cryptographic NOTE: this is only possible due to the use of the CTR
         // mode, would not work for ECB/CBC etc. modes
-        final byte[] encryptedTurnOverValue = new byte[turnoverCounterLenthInBytes.get()]; // or 5 bytes if min.
+        final byte[] encryptedTurnOverValue = new byte[turnoverCounterLengthInBytes.get()]; // or 5 bytes if min.
         // turnover length is
         // used
-        System.arraycopy(encryptedTurnOverValueComplete, 0, encryptedTurnOverValue, 0, turnoverCounterLenthInBytes.get());
+        System.arraycopy(encryptedTurnOverValueComplete, 0, encryptedTurnOverValue, 0, turnoverCounterLengthInBytes.get());
 
         // encode result as BASE64
         return new EncryptedTurnoverValue(encoding.base64Encode(encryptedTurnOverValue, false));
     }
 
-    public byte[] get2ComplementRepForLong(long value, int numberOfBytesFor2ComplementRepresentation) {
-        checkArgument(numberOfBytesFor2ComplementRepresentation >= 1 && (numberOfBytesFor2ComplementRepresentation <= 8),
-                "numberOfBytesFor2ComplementRepresentation should be >= 1 and <= 8: " + numberOfBytesFor2ComplementRepresentation);
+    public byte[] get2ComplementRepForLong(long value) {
+        System.out.println(value);
 
         //create byte buffer, max length 8 bytes (equal to long representation)
         ByteBuffer byteBuffer = ByteBuffer.allocate(8);
@@ -113,24 +120,72 @@ public class Crypto {
         byte[] longRep = byteBuffer.array();
 
         //if given length for encoding is equal to 8, we are done
-        if (numberOfBytesFor2ComplementRepresentation == 8) {
+        if (turnoverCounterLengthInBytes.get() == 8) {
             return longRep;
         }
 
         //if given length of encoding is less than 8 bytes, we truncate the representation (of course one needs to be sure
         //that the given long value is not larger than the created byte array
-        byte[] byteRep = new byte[numberOfBytesFor2ComplementRepresentation];
+        byte[] byteRep = new byte[turnoverCounterLengthInBytes.get()];
 
         //truncating the 8-bytes long representation
-        System.arraycopy(longRep, 8 - numberOfBytesFor2ComplementRepresentation, byteRep, 0, numberOfBytesFor2ComplementRepresentation);
+        System.arraycopy(longRep, 8 - turnoverCounterLengthInBytes.get(), byteRep, 0, turnoverCounterLengthInBytes.get());
         return byteRep;
     }
 
+    public byte[] createConcatenatedHashValue(IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter) {
+        MessageDigest messageDigest = messageDigestSHA256.get();
+        byte[] hashValue = messageDigest.digest(ivToEncryptTurnoverCounter.get().getBytes());
+        byte[] concatenatedHashValue = new byte[16];
+        System.arraycopy(hashValue, 0, concatenatedHashValue, 0, 16);
+        return concatenatedHashValue;
+    }
+
+    public SignatureValuePreviousReceipt calculateChainValue(InputForChainCalculation inputForChainCalculation) {
+        //Detailspezifikation Abs 4 "Sig-Voriger-Beleg"
+        //if the first receipt is stored, then the cashbox-identifier is hashed and is used as chaining value
+        //otherwise the complete last receipt is hased and the result is used as chaining value
+
+        MessageDigest md = messageDigestSHA256.get();
+        md.update(inputForChainCalculation.get().getBytes());
+        byte[] digest = md.digest();
+
+        //extract number of bytes (N, defined in RKsuite) from hash value
+        int bytesToExtract = turnoverCounterLengthInBytes.get();
+        byte[] conDigest = new byte[bytesToExtract];
+        System.arraycopy(digest, 0, conDigest, 0, bytesToExtract);
+
+        //encode value as BASE64 String ==> chainValue
+        return new SignatureValuePreviousReceipt(encoding.base64Encode(conDigest, false));
+    }
+
     @ApplicationScoped
-    public static class TurnoverCounterLenthInBytes {
+    public static class TurnoverCounterLengthInBytes {
+
+        private static final int NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION = 8;
 
         public int get() {
+            //noinspection ConstantConditions
+            checkArgument(NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION >= 1 && (NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION <= 8),
+                    "numberOfBytesFor2ComplementRepresentation should be >= 1 and <= 8: " + NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION);
             return 8;
+        }
+    }
+
+    @ApplicationScoped
+    public static class MessageDigestSHA256 {
+
+        @Inject
+        @SLF4J
+        private LogWrapper log;
+
+        public MessageDigest get() {
+            try {
+                return MessageDigest.getInstance("SHA-256");
+            } catch (NoSuchAlgorithmException e) {
+                log.error(e);
+                throw new RuntimeException(e);
+            }
         }
     }
 }

@@ -41,11 +41,13 @@ public class ReceiptBuilderCore
 
     private SuiteId suiteId;
 
+    private JWSCompactRepresentation jwsCompactRepresentation;
+
     private List<ReceiptElement> receiptElements = new ArrayList<>();
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, suiteId, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, suiteId, jwsCompactRepresentation, receiptElements);
     }
 
     @Override
@@ -117,6 +119,12 @@ public class ReceiptBuilderCore
     @Override
     public ReceiptBuilder add(SuiteId suiteId) {
         this.suiteId = suiteId;
+        return this;
+    }
+
+    @Override
+    public ReceiptBuilder add(JWSCompactRepresentation jwsCompactRepresentation) {
+        this.jwsCompactRepresentation = jwsCompactRepresentation;
         return this;
     }
 

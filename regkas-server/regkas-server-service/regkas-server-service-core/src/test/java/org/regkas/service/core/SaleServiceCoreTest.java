@@ -124,7 +124,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(3).getPriceTax());
 
         Receipt storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
-        assertEquals("{\"Kassen-ID\":\"RegKas1\",\"Belegnummer\":\"2015-0000003\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T15:00:00\",\"Betrag-Satz-Normal\":7.50,\"Betrag-Satz-Ermaessigt-1\":7.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":0.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Snack\",\"Steuersatz\":10,\"Anzahl\":2,\"Netto\":2.27,\"Brutto\":2.50,\"Steuer\":0.23},{\"Produkt\":\"Cola\",\"Steuersatz\":20,\"Anzahl\":3,\"Netto\":6.25,\"Brutto\":7.50,\"Steuer\":1.25},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":1,\"Netto\":1.82,\"Brutto\":2.00,\"Steuer\":0.18},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":1,\"Netto\":2.27,\"Brutto\":2.50,\"Steuer\":0.23}],\"Gesamtbetrag\":14.50,\"Beleg-Art\":\"Standard-Beleg\"}", storedReceipt.getDEP().get());
+        assertEquals("{\"Kassen-ID\":\"RegKas1\",\"Belegnummer\":\"2015-0000003\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T15:00:00\",\"Betrag-Satz-Normal\":7.50,\"Betrag-Satz-Ermaessigt-1\":7.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":0.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Snack\",\"Steuersatz\":10,\"Anzahl\":2,\"Netto\":2.27,\"Brutto\":2.50,\"Steuer\":0.23},{\"Produkt\":\"Cola\",\"Steuersatz\":20,\"Anzahl\":3,\"Netto\":6.25,\"Brutto\":7.50,\"Steuer\":1.25},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":1,\"Netto\":1.82,\"Brutto\":2.00,\"Steuer\":0.18},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":1,\"Netto\":2.27,\"Brutto\":2.50,\"Steuer\":0.23}],\"Gesamtbetrag\":14.50,\"Beleg-Art\":\"Standard-Beleg\",\"JWS-Kompakt\":\"\"}", storedReceipt.getDEP().get());
         BillBean dep = serializer.deserialize(storedReceipt.getDEP().get(), BillBean.class);
         assertEquals("RegKas1", dep.getCashBoxID());
         assertEquals("2015-0000003", dep.getReceiptIdentifier());
@@ -141,8 +141,9 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("ONRcz49yLDIo2FgwNhe9Q5fSiZFEies97uRMzeAAPkI=", storedReceipt.getCashBox().getAesKeyBase64().get());
         assertEquals("AT0", storedReceipt.getCashBox().getCertificationServiceProvider().get());
         assertEquals("123", storedReceipt.getCashBox().getSignatureCertificateSerialNumber().get());
-        assertEquals("", storedReceipt.getSignatureValuePreviousReceipt().get()); // TODO implement this
-        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_", storedReceipt.getReceiptString().get());
+        assertEquals("9jDAZ9vSoqA=", storedReceipt.getSignatureValuePreviousReceipt().get());
+        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_9jDAZ9vSoqA=", storedReceipt.getDataToBeSigned().get());
+        assertEquals("", storedReceipt.getJWSCompactRepresentation().get()); // TODO implement this
 
         companyContext.clear();
         userContext.clear();

@@ -6,9 +6,9 @@ import org.boatpos.common.repository.api.values.SimpleValueObject;
  * A String-based representation of a signature.
  */
 @SuppressWarnings("unused")
-public class ReceiptString extends SimpleValueObject<ReceiptString, String> {
+public class DataToBeSigned extends SimpleValueObject<DataToBeSigned, String> {
 
-    private ReceiptString(String value) {
+    private DataToBeSigned(String value) {
         super(value);
     }
 
@@ -102,7 +102,7 @@ public class ReceiptString extends SimpleValueObject<ReceiptString, String> {
             if (value == null || value.get() == null) {
                 throw new IllegalArgumentException("");
             }
-            return value.asStringForSignature();
+            return value.asStringToBeSigned();
         }
 
         private <SVO extends SimpleValueObject, T extends Comparable> void appendWithPrefix(StringBuilder sb, SimpleValueObject<SVO, T> value) {
@@ -110,7 +110,7 @@ public class ReceiptString extends SimpleValueObject<ReceiptString, String> {
             sb.append(getMandatoryAsString(value));
         }
 
-        public ReceiptString build() {
+        public DataToBeSigned build() {
             StringBuilder sb = new StringBuilder();
             appendWithPrefix(sb, suiteId);
             appendWithPrefix(sb, cashBoxName);
@@ -124,7 +124,7 @@ public class ReceiptString extends SimpleValueObject<ReceiptString, String> {
             appendWithPrefix(sb, encryptedTurnoverValue);
             appendWithPrefix(sb, signatureCertificateSerialNumber);
             appendWithPrefix(sb, signatureValuePreviousReceipt);
-            return new ReceiptString(sb.toString());
+            return new DataToBeSigned(sb.toString());
         }
     }
 }
