@@ -10,6 +10,6 @@ public class CashBoxEntityTest extends JavaBeanTest<CashBoxEntity> {
 
     @Test
     public void testConstructor() {
-        new CashBoxEntity(1L, 1, true, 1, "", "", "name", "serial", new CompanyEntity(), "", "", 0L, "");
+        new CashBoxEntity(1L, 1, true, 1, "", "", "name", "serial", new CompanyEntity(), "", "", 0L, "", "", "");
     }
 }

@@ -6,9 +6,9 @@ import org.boatpos.common.repository.api.values.SimpleValueObject;
  * A String-based representation of a signature.
  */
 @SuppressWarnings("unused")
-public class DataToBeSigned extends SimpleValueObject<DataToBeSigned, String> {
+public class JWSPayload extends SimpleValueObject<JWSPayload, String> {
 
-    private DataToBeSigned(String value) {
+    public JWSPayload(String value) {
         super(value);
     }
 
@@ -110,7 +110,7 @@ public class DataToBeSigned extends SimpleValueObject<DataToBeSigned, String> {
             sb.append(getMandatoryAsString(value));
         }
 
-        public DataToBeSigned build() {
+        public JWSPayload build() {
             StringBuilder sb = new StringBuilder();
             appendWithPrefix(sb, suiteId);
             appendWithPrefix(sb, cashBoxName);
@@ -124,7 +124,7 @@ public class DataToBeSigned extends SimpleValueObject<DataToBeSigned, String> {
             appendWithPrefix(sb, encryptedTurnoverValue);
             appendWithPrefix(sb, signatureCertificateSerialNumber);
             appendWithPrefix(sb, signatureValuePreviousReceipt);
-            return new DataToBeSigned(sb.toString());
+            return new JWSPayload(sb.toString());
         }
     }
 }

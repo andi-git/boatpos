@@ -1,4 +1,4 @@
-package org.regkas.service.core.serializer;
+package org.regkas.repository.api.serializer;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.ElementType;

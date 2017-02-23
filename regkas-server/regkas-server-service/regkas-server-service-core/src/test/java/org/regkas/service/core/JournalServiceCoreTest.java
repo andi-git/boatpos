@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.bean.IncomeBean;
@@ -15,8 +17,6 @@ import org.regkas.service.api.bean.TaxElementBean;
 import org.regkas.service.core.context.CashBoxContext;
 import org.regkas.service.core.context.CompanyContext;
 import org.regkas.service.core.serializer.DEPExport;
-import org.regkas.service.core.serializer.NonPrettyPrintingGson;
-import org.regkas.service.core.serializer.Serializer;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

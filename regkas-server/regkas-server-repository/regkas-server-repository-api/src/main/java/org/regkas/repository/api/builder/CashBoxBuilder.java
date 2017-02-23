@@ -21,4 +21,8 @@ public interface CashBoxBuilder extends MasterDataBuilder<CashBoxBuilder, CashBo
     CashBoxBuilder add(TotalPriceCent totalPriceCent);
 
     CashBoxBuilder add(CertificationServiceProvider certificationServiceProvider);
+
+    CashBoxBuilder add(RkOnlineUsername rkOnlineUsername);
+
+    CashBoxBuilder add(RkOnlinePassword rkOnlinePassword);
 }

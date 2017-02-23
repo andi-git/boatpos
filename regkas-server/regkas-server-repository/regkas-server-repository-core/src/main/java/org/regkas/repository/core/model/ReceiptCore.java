@@ -25,7 +25,7 @@ import org.regkas.repository.api.values.EncryptedTurnoverValue;
 import org.regkas.repository.api.values.JWSCompactRepresentation;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.api.values.DataToBeSigned;
+import org.regkas.repository.api.values.JWSPayload;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.SuiteId;
 import org.regkas.repository.api.values.TotalPrice;
@@ -287,8 +287,8 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     }
 
     @Override
-    public DataToBeSigned getDataToBeSigned() {
-        return new DataToBeSigned.Builder()
+    public JWSPayload getDataToBeSigned() {
+        return new JWSPayload.Builder()
                 .addSuiteId(getSuiteId())
                 .addCashBoxName(getCashBox().getName())
                 .addReceiptId(getReceiptId())

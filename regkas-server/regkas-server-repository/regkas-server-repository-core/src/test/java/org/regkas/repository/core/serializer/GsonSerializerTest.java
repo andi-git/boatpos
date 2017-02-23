@@ -1,10 +1,12 @@
-package org.regkas.service.core.serializer;
+package org.regkas.repository.core.serializer;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;

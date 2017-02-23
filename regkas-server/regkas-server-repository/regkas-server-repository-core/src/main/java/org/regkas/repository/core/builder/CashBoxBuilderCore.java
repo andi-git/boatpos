@@ -20,10 +20,12 @@ public class CashBoxBuilderCore
     private AESKeyBase64 aesKeyBase64;
     private TotalPriceCent totalPriceCent;
     private CertificationServiceProvider certificationServiceProvider;
+    private RkOnlineUsername rkOnlineUsername;
+    private RkOnlinePassword rkOnlinePassword;
 
     @Override
     public CashBox build() {
-        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64, totalPriceCent, certificationServiceProvider);
+        return new CashBoxCore(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb, name, signatureCertificateSerialNumber, printerIpAddress, aesKeyBase64, totalPriceCent, certificationServiceProvider, rkOnlineUsername, rkOnlinePassword);
     }
 
     @Override
@@ -59,6 +61,18 @@ public class CashBoxBuilderCore
     @Override
     public CashBoxBuilder add(CertificationServiceProvider certificationServiceProvider) {
         this.certificationServiceProvider = certificationServiceProvider;
+        return this;
+    }
+
+    @Override
+    public CashBoxBuilder add(RkOnlineUsername rkOnlineUsername) {
+        this.rkOnlineUsername = rkOnlineUsername;
+        return this;
+    }
+
+    @Override
+    public CashBoxBuilder add(RkOnlinePassword rkOnlinePassword) {
+        this.rkOnlinePassword = rkOnlinePassword;
         return this;
     }
 }

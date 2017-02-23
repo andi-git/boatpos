@@ -3,5 +3,19 @@
   - insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 7, 'Jahres-Beleg')
 - drop column timetype from receipt:
   - alter table receipt drop column timetype
+- add aesKeyBase64 to CashBox
+  - TODO
+- add turnoverCountCent to CashBox
+  - TODO
+- add totalPrice to Receipt
+  - TODO
+- remove timeType from Receipt
+  - TODO
 - add certificationServiceProvider to CashBox
   - TODO
+- add suiteId to Receipt
+  - TODO
+- add rkOnlineUsername to CashBox
+  - TODO
+- add rkOnlinePassword to CashBox
+  - TODOSim

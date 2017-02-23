@@ -56,11 +56,21 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @Expose
     private String certificationServiceProvider;
 
+    @Size(min = 0, max = 64)
+    @NotNull
+    @Expose
+    private String rkOnlineUsername;
+
+    @Size(min = 0, max = 64)
+    @NotNull
+    @Expose
+    private String rkOnlinePassword;
+
     public CashBoxEntity() {
 
     }
 
-    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Long turnoverCountCent, String certificationServiceProvider) {
+    public CashBoxEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, String signatureCertificateSerialNumber, CompanyEntity company, String printerIpAddress, String aesKeyBase64, Long turnoverCountCent, String certificationServiceProvider, String rkOnlineUsername, String rkOnlinePassword) {
         super(id, version, enabled, priority, '#', pictureUrl, pictureUrlThumb);
         this.name = name;
         this.signatureCertificateSerialNumber = signatureCertificateSerialNumber;
@@ -69,6 +79,8 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
         this.aesKeyBase64 = aesKeyBase64;
         this.turnoverCountCent = turnoverCountCent;
         this.certificationServiceProvider = certificationServiceProvider;
+        this.rkOnlineUsername = rkOnlineUsername;
+        this.rkOnlinePassword = rkOnlinePassword;
     }
 
     public String getName() {
@@ -125,5 +137,21 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
 
     public void setCertificationServiceProvider(String certificationServiceProvider) {
         this.certificationServiceProvider = certificationServiceProvider;
+    }
+
+    public String getRkOnlineUsername() {
+        return rkOnlineUsername;
+    }
+
+    public void setRkOnlineUsername(String rkOnlineUsername) {
+        this.rkOnlineUsername = rkOnlineUsername;
+    }
+
+    public String getRkOnlinePassword() {
+        return rkOnlinePassword;
+    }
+
+    public void setRkOnlinePassword(String rkOnlinePassword) {
+        this.rkOnlinePassword = rkOnlinePassword;
     }
 }

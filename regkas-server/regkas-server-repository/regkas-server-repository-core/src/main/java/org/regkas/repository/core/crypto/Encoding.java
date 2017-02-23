@@ -16,4 +16,8 @@ public class Encoding {
         Base64 decoder = new Base64(isUrlSafe);
         return decoder.decode(base64Data);
     }
+
+    public String base64DecodeAsString(String base64Data, boolean isUrlSafe) {
+        return new String(base64Decode(base64Data, isUrlSafe));
+    }
 }

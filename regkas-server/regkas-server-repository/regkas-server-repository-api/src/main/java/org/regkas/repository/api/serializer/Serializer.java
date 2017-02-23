@@ -1,4 +1,4 @@
-package org.regkas.service.core.serializer;
+package org.regkas.repository.api.serializer;
 
 /**
  * Serialize and deserialize objects.

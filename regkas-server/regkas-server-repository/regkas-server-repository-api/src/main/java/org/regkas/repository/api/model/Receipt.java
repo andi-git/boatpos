@@ -76,7 +76,7 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     Receipt clearReceiptElements();
 
-    DataToBeSigned getDataToBeSigned();
+    JWSPayload getDataToBeSigned();
 
     BillBean asBillBean();
 

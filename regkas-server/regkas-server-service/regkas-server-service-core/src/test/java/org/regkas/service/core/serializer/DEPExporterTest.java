@@ -9,6 +9,8 @@ import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.CompanyRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.repository.UserRepository;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.values.Name;
 import org.regkas.service.api.bean.Period;
 import org.regkas.service.core.DateTimeHelperMock;

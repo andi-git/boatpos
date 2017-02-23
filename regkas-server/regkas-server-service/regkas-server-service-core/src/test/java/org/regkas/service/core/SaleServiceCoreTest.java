@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.repository.*;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.SaleService;
@@ -15,8 +17,6 @@ import org.regkas.service.api.bean.*;
 import org.regkas.service.core.context.CashBoxContext;
 import org.regkas.service.core.context.CompanyContext;
 import org.regkas.service.core.context.UserContext;
-import org.regkas.service.core.serializer.NonPrettyPrintingGson;
-import org.regkas.service.core.serializer.Serializer;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

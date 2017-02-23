@@ -27,6 +27,8 @@ public class CashBoxBuilderCoreTest {
                 .add(new AESKeyBase64("AnnGNHy7KpYchyMR3GrtCCdXDmxiZp3ucA7gdWnSOVM="))
                 .add(new TotalPriceCent(123L))
                 .add(new CertificationServiceProvider("AT0"))
+                .add(new RkOnlineUsername("username"))
+                .add(new RkOnlinePassword("password"))
                 .build();
     }
 }

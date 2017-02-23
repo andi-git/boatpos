@@ -79,6 +79,10 @@ public abstract class SimpleValueObject<SVO extends SimpleValueObject, T extends
         return null;
     }
 
+    public static <SVO extends SimpleValueObject, T extends Comparable> boolean notNull(SimpleValueObject<SVO, T> simpleValueObject) {
+        return simpleValueObject != null && simpleValueObject.get() != null;
+    }
+
     public boolean isPresent() {
         return value != null;
     }

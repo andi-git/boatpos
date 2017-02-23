@@ -1,10 +1,24 @@
 package org.regkas.repository.core.model;
 
-import org.boatpos.common.repository.api.values.*;
+import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.repository.api.values.KeyBinding;
+import org.boatpos.common.repository.api.values.PictureUrl;
+import org.boatpos.common.repository.api.values.PictureUrlThumb;
+import org.boatpos.common.repository.api.values.Priority;
+import org.boatpos.common.repository.api.values.SimpleValueObject;
+import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.values.*;
+import org.regkas.repository.api.values.AESKeyBase64;
+import org.regkas.repository.api.values.CertificationServiceProvider;
+import org.regkas.repository.api.values.IpAddress;
+import org.regkas.repository.api.values.Name;
+import org.regkas.repository.api.values.RkOnlinePassword;
+import org.regkas.repository.api.values.RkOnlineUsername;
+import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
+import org.regkas.repository.api.values.TotalPriceCent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -22,7 +36,9 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
                        IpAddress printerIpAddress,
                        AESKeyBase64 aesKeyBase64,
                        TotalPriceCent totalPriceCent,
-                       CertificationServiceProvider certificationServiceProvider) {
+                       CertificationServiceProvider certificationServiceProvider,
+                       RkOnlineUsername rkOnlineUsername,
+                       RkOnlinePassword rkOnlinePassword) {
         super(id, version, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb);
         checkNotNull(name, "'name' must not be null");
         checkNotNull(signatureCertificateSerialNumber, "'signatureCertificateSerialNumber' must not be null");
@@ -30,12 +46,16 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
         checkNotNull(aesKeyBase64, "'aesKeyBas64' must not be null");
         checkNotNull(totalPriceCent, "'totalPriceCent' must not be null");
         checkNotNull(certificationServiceProvider, "'certificationServiceProvider' must not be null");
+        checkNotNull(getRkOnlineUsername(), "'rkOnlineUsername' must not be null");
+        checkNotNull(getRkOnlinePassword(), "'rkOnlinePassword' must not be null");
         setName(name);
         setSignatureCertificateSerialNumber(signatureCertificateSerialNumber);
         setPrinterIpAddress(printerIpAddress);
         setAesKeyBase64(aesKeyBase64);
         setTurnoverCountCent(totalPriceCent);
         setCertificationServiceProvider(certificationServiceProvider);
+        setRkOnlineUsername(rkOnlineUsername);
+        setRkOnlinePassword(rkOnlinePassword);
     }
 
     public CashBoxCore(CashBoxEntity cashBox) {
@@ -104,6 +124,28 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
     @Override
     public CertificationServiceProvider getCertificationServiceProvider() {
         return new CertificationServiceProvider(getEntity().getCertificationServiceProvider());
+    }
+
+    @Override
+    public CashBox setRkOnlineUsername(RkOnlineUsername rkOnlineUsername) {
+        getEntity().setRkOnlineUsername(SimpleValueObject.nullSafe(rkOnlineUsername));
+        return this;
+    }
+
+    @Override
+    public RkOnlineUsername getRkOnlineUsername() {
+        return new RkOnlineUsername(getEntity().getRkOnlineUsername());
+    }
+
+    @Override
+    public CashBox setRkOnlinePassword(RkOnlinePassword rkOnlinePassword) {
+        getEntity().setRkOnlineUsername(SimpleValueObject.nullSafe(rkOnlinePassword));
+        return this;
+    }
+
+    @Override
+    public RkOnlinePassword getRkOnlinePassword() {
+        return new RkOnlinePassword(getEntity().getRkOnlinePassword());
     }
 
     private CashBox setTurnoverCountCent(TotalPriceCent totalPriceCent) {

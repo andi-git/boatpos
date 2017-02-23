@@ -18,6 +18,8 @@ import org.regkas.repository.api.repository.ReceiptElementRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.repository.UserRepository;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.values.Amount;
 import org.regkas.repository.api.values.DEPString;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
@@ -33,8 +35,6 @@ import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 import org.regkas.service.core.receipt.ReceiptIdCalculator;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
-import org.regkas.service.core.serializer.NonPrettyPrintingGson;
-import org.regkas.service.core.serializer.Serializer;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

@@ -32,4 +32,12 @@ public interface CashBox extends MasterData<CashBox, CashBoxEntity> {
     void subtractCentsFromTurnoverCount(TotalPriceCent totalPriceCent);
 
     CertificationServiceProvider getCertificationServiceProvider();
+
+    CashBox setRkOnlineUsername(RkOnlineUsername rkOnlineUsername);
+
+    RkOnlineUsername getRkOnlineUsername();
+
+    CashBox setRkOnlinePassword(RkOnlinePassword rkOnlinePassword);
+
+    RkOnlinePassword getRkOnlinePassword();
 }

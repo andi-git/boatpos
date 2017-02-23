@@ -1,7 +1,9 @@
-package org.regkas.service.core.serializer;
+package org.regkas.repository.core.serializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.LocalDateTime;
