@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
@@ -106,6 +107,6 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, bytesRead);
         }
-        assertEquals(length, file.length());
+        assertTrue(file.length() >= (length - 1) && file.length() <= (length + 1));
     }
 }
