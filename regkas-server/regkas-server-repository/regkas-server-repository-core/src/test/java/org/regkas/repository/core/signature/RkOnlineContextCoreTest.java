@@ -45,6 +45,7 @@ public class RkOnlineContextCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testEnvironment() throws Exception {
+        RkOnlineContext rkOnlineContext = new RkOnlineContextCore();
         assertEquals(Environment.PROD, rkOnlineContext.getEnvironment());
         rkOnlineContext.setEnvironment(Environment.TEST);
         assertEquals(Environment.TEST, rkOnlineContext.getEnvironment());
