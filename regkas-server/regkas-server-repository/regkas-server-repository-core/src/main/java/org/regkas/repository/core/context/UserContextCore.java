@@ -1,20 +1,16 @@
-package org.regkas.service.core.context;
+package org.regkas.repository.core.context;
 
-import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.repository.api.context.UserContext;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.repository.UserRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import java.util.Optional;
 
-/**
- * Context for the {@link User}.
- */
 @RequestScoped
-public class UserContext extends DomainModelContext<User> {
+public class UserContextCore extends DomainModelContext<User> implements UserContext {
 
     @Inject
     private UserRepository userRepository;

@@ -5,6 +5,8 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.repository.CashBoxRepository;
 import org.regkas.repository.api.repository.CompanyRepository;
 import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
@@ -14,8 +16,6 @@ import org.regkas.service.api.JournalService;
 import org.regkas.service.api.bean.IncomeBean;
 import org.regkas.service.api.bean.ProductGroupIncomeBean;
 import org.regkas.service.api.bean.TaxElementBean;
-import org.regkas.service.core.context.CashBoxContext;
-import org.regkas.service.core.context.CompanyContext;
 import org.regkas.service.core.serializer.DEPExport;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 

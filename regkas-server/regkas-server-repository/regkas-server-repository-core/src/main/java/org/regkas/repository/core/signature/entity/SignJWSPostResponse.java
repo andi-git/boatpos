@@ -5,13 +5,13 @@ import com.google.gson.annotations.Expose;
 public class SignJWSPostResponse {
 
     @Expose
-    private String compactJwsRepresentation;
+    private String result;
 
-    public String getCompactJwsRepresentation() {
-        return compactJwsRepresentation;
+    public String getResult() {
+        return result;
     }
 
-    public void setCompactJwsRepresentation(String compactJwsRepresentation) {
-        this.compactJwsRepresentation = compactJwsRepresentation;
+    public void setResult(String result) {
+        this.result = result;
     }
 }

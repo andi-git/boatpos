@@ -5,27 +5,27 @@ import com.google.gson.annotations.Expose;
 public class SessionPutResponse {
 
     @Expose
-    private String sessionId;
+    private String sessionid;
 
     @Expose
-    private String sessionKey;
+    private String sessionkey;
 
     public SessionPutResponse() {
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public String getSessionid() {
+        return sessionid;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setSessionid(String sessionid) {
+        this.sessionid = sessionid;
     }
 
-    public String getSessionKey() {
-        return sessionKey;
+    public String getSessionkey() {
+        return sessionkey;
     }
 
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
+    public void setSessionkey(String sessionkey) {
+        this.sessionkey = sessionkey;
     }
 }

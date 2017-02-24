@@ -1,4 +1,4 @@
-package org.regkas.service.core.context;
+package org.regkas.repository.core.context;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.repository.UserRepository;
 import org.regkas.repository.api.values.Name;
-import org.regkas.service.core.context.UserContext;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
@@ -15,10 +14,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(Arquillian.class)
-public class UserContextTest extends EntityManagerProviderForRegkas {
+public class UserContextCoreTest extends EntityManagerProviderForRegkas {
 
     @Inject
-    private UserContext userContext;
+    private UserContextCore userContext;
 
     @Inject
     private UserRepository userRepository;

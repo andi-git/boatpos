@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 public class SignJWSPostRequest {
 
     @Expose
-    private String password;
+    private String sessionkey;
 
     @Expose
     private String jws_payload;
@@ -13,17 +13,17 @@ public class SignJWSPostRequest {
     public SignJWSPostRequest() {
     }
 
-    public SignJWSPostRequest(String password, String jws_payload) {
-        this.password = password;
+    public SignJWSPostRequest(String sessionkey, String jws_payload) {
+        this.sessionkey = sessionkey;
         this.jws_payload = jws_payload;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSessionkey() {
+        return sessionkey;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSessionkey(String sessionkey) {
+        this.sessionkey = sessionkey;
     }
 
     public String getJws_payload() {

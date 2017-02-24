@@ -1,20 +1,16 @@
-package org.regkas.service.core.context;
+package org.regkas.repository.core.context;
 
-import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.repository.api.context.CashBoxContext;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.repository.CashBoxRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import java.util.Optional;
 
-/**
- * Context for the {@link CashBox}.
- */
 @RequestScoped
-public class CashBoxContext extends DomainModelContext<CashBox> {
+public class CashBoxContextCore extends DomainModelContext<CashBox> implements CashBoxContext {
 
     @Inject
     private CashBoxRepository cashBoxRepository;

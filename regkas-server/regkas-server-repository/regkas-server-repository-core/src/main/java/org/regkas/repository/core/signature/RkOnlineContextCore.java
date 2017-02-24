@@ -1,23 +1,38 @@
 package org.regkas.repository.core.signature;
 
+import org.boatpos.common.util.datetime.DateTimeHelper;
+import org.regkas.repository.api.context.CashBoxContext;
 import org.regkas.repository.api.signature.Environment;
 import org.regkas.repository.api.signature.RkOnlineContext;
 import org.regkas.repository.api.values.RkOnlinePassword;
+import org.regkas.repository.api.values.RkOnlineSession;
 import org.regkas.repository.api.values.RkOnlineUsername;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Context for the environment of RK Online.
  */
-@RequestScoped
+@ApplicationScoped
 public class RkOnlineContextCore implements RkOnlineContext {
 
     private Environment environment = Environment.PROD;
 
-    private RkOnlineUsername rkOnlineUsername;
+    @Inject
+    private CashBoxContext cashBoxContext;
 
-    private RkOnlinePassword rkOnlinePassword;
+    @Inject
+    private DateTimeHelper dateTimeHelper;
+
+    /**
+     * Multiple cash-boxes (within the same company) can share the same rk-online-credentials.
+     * So the caching of the session must be application-scoped.
+     */
+    private final Map<RkOnlineUsername, RkOnlineSession> rkOnlineSessions = new ConcurrentHashMap<>();
 
     @Override
     public void setEnvironment(Environment environment) {
@@ -31,21 +46,47 @@ public class RkOnlineContextCore implements RkOnlineContext {
 
     @Override
     public RkOnlineUsername getRkOnlineUsername() {
-        return rkOnlineUsername;
-    }
-
-    @Override
-    public void setRkOnlineUsername(RkOnlineUsername rkOnlineUsername) {
-        this.rkOnlineUsername = rkOnlineUsername;
+        return cashBoxContext.get().getRkOnlineUsername();
     }
 
     @Override
     public RkOnlinePassword getRkOnlinePassword() {
-        return rkOnlinePassword;
+        return cashBoxContext.get().getRkOnlinePassword();
     }
 
     @Override
-    public void setRkOnlinePassword(RkOnlinePassword rkOnlinePassword) {
-        this.rkOnlinePassword = rkOnlinePassword;
+    public void setSession(RkOnlineSession session) {
+        rkOnlineSessions.put(getRkOnlineUsername(), session);
+    }
+
+    @Override
+    public Optional<RkOnlineSession.Id> getRkOnlineSessionId() {
+        RkOnlineSession rkOnlineSession = rkOnlineSessions.get(getRkOnlineUsername());
+        return rkOnlineSession != null ? Optional.of(rkOnlineSession.getId()) : Optional.empty();
+    }
+
+    @Override
+    public Optional<RkOnlineSession.Key> getRkOnlineSessionKey() {
+        RkOnlineSession rkOnlineSession = rkOnlineSessions.get(getRkOnlineUsername());
+        return rkOnlineSession != null ? Optional.of(rkOnlineSession.getKey()) : Optional.empty();
+    }
+
+    @Override
+    public void action() {
+        RkOnlineSession rkOnlineSession = rkOnlineSessions.get(getRkOnlineUsername());
+        if (rkOnlineSession != null) {
+            rkOnlineSession.setLastAction(new RkOnlineSession.LastAction(dateTimeHelper.currentTime()));
+        }
+    }
+
+    @Override
+    public Optional<RkOnlineSession.LastAction> getLastAction() {
+        RkOnlineSession rkOnlineSession = rkOnlineSessions.get(getRkOnlineUsername());
+        return rkOnlineSession != null ? Optional.of(rkOnlineSession.getLastAction()) : Optional.empty();
+    }
+
+    @Override
+    public void resetSessions() {
+        rkOnlineSessions.clear();
     }
 }

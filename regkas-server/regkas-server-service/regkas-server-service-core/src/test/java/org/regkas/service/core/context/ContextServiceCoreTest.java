@@ -4,6 +4,9 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.context.CompanyContext;
+import org.regkas.repository.api.context.UserContext;
 import org.regkas.service.api.context.ContextService;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 

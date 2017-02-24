@@ -1,4 +1,4 @@
-package org.regkas.service.core.context;
+package org.regkas.repository.core.context;
 
 import org.boatpos.common.repository.api.model.DomainModel;
 import org.boatpos.common.repository.api.values.DomainId;
@@ -17,7 +17,7 @@ abstract class DomainModelContext<MODEL extends DomainModel> {
     }
 
     public void set(Optional<MODEL> domainModel) {
-        if (domainModel.isPresent()) set(domainModel.get());
+        domainModel.ifPresent(this::set);
     }
 
     public void clear() {

@@ -1,5 +1,8 @@
 package org.regkas.service.core.context;
 
+import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.context.CompanyContext;
+import org.regkas.repository.api.context.UserContext;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.repository.CashBoxRepository;

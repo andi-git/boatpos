@@ -1,20 +1,16 @@
-package org.regkas.service.core.context;
+package org.regkas.repository.core.context;
 
-import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.repository.CompanyRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import java.util.Optional;
 
-/**
- * Context for the {@link Company}.
- */
 @RequestScoped
-public class CompanyContext extends DomainModelContext<Company> {
+public class CompanyContextCore extends DomainModelContext<Company> implements CompanyContext {
 
     @Inject
     private CompanyRepository companyRepository;
