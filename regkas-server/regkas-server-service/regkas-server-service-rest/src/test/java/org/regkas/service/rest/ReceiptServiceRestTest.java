@@ -36,5 +36,6 @@ public class ReceiptServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertFalse(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/month/check")).get().readEntity(Boolean.class));
         dateTimeHelper.setTime(LocalDateTime.of(2015, 8, 1, 12, 0, 0));
         assertTrue(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/month/check")).get().readEntity(Boolean.class));
+        dateTimeHelper.resetTime();
     }
 }

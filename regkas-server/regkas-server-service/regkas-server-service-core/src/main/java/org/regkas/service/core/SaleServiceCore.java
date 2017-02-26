@@ -16,14 +16,10 @@ import org.regkas.repository.api.model.User;
 import org.regkas.repository.api.repository.ProductRepository;
 import org.regkas.repository.api.repository.ReceiptElementRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
-import org.regkas.repository.api.repository.ReceiptTypeRepository;
-import org.regkas.repository.api.repository.UserRepository;
-import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
-import org.regkas.repository.api.serializer.Serializer;
+import org.regkas.repository.api.signature.RkOnlineResourceFactory;
+import org.regkas.repository.api.signature.SignatureDeviceNotAvailableException;
 import org.regkas.repository.api.values.Amount;
-import org.regkas.repository.api.values.DEPString;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
-import org.regkas.repository.api.values.JWSCompactRepresentation;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
@@ -50,9 +46,6 @@ public class SaleServiceCore implements SaleService {
     private ReceiptIdCalculator receiptIdCalculator;
 
     @Inject
-    private ReceiptTypeRepository receiptTypeRepository;
-
-    @Inject
     private ReceiptElementRepository receiptElementRepository;
 
     @Inject
@@ -74,18 +67,14 @@ public class SaleServiceCore implements SaleService {
     private Company company;
 
     @Inject
-    private UserRepository userRepository;
-
-    @Inject
     private ReceiptTypeConverter receiptTypeConverter;
-
-    @Inject
-    @NonPrettyPrintingGson
-    private Serializer serializer;
 
     @Inject
     @SLF4J
     private LogWrapper log;
+
+    @Inject
+    private RkOnlineResourceFactory rkOnlineResourceFactory;
 
     @Override
     public BillBean sale(SaleBean sale) {
@@ -97,13 +86,9 @@ public class SaleServiceCore implements SaleService {
         encryptTurnoverCounter(receiptType, receipt);
         setSignatureValueOfPreviousReceipt(receiptType, receipt);
         signReceipt(receipt);
-
-        BillBean bill = receipt.asBillBean();
-        receipt.setDEP(new DEPString(serializer.serialize(bill)));
-
         receipt.persist();
 
-        return bill;
+        return receipt.asBillBean();
     }
 
     private Receipt buildReceiptBasedOnSaleBean(SaleBean sale, ReceiptType receiptType) {
@@ -151,6 +136,12 @@ public class SaleServiceCore implements SaleService {
     }
 
     private void signReceipt(Receipt receipt) {
-        receipt.setJWSCompactRepresentation(new JWSCompactRepresentation("")); // TODO implement this
+        try {
+            receipt.setCompactJWSRepresentation(rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned()));
+        } catch (SignatureDeviceNotAvailableException e) {
+            log.error(e);
+            throw new RuntimeException(e);
+            // TODO set "Signatureinrichtung ausgefallen"
+        }
     }
 }

@@ -71,7 +71,7 @@ public class ReceiptTypeStandardCoreTest extends EntityManagerProviderForRegkas 
     @Transactional
     public void getGetInputForChainCalculation() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
-        assertEquals("9jDAZ9vSoqA=", receiptType.calculateChainValue(cashBox).get());
+        assertEquals("dpzooBjO1F4=", receiptType.calculateChainValue(cashBox).get());
     }
 
 }

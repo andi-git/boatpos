@@ -19,6 +19,7 @@ public class GsonSerializer implements Serializer {
 //                .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTimeSerializer())
+                .disableHtmlEscaping()
                 .create();
     }
 

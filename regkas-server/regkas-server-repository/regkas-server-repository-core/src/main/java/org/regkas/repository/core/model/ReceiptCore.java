@@ -20,21 +20,28 @@ import org.regkas.repository.api.model.TaxSetErmaessigt2;
 import org.regkas.repository.api.model.TaxSetNormal;
 import org.regkas.repository.api.model.TaxSetNull;
 import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
+import org.regkas.repository.api.signature.CompactJWSRepresentation;
 import org.regkas.repository.api.values.DEPString;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
-import org.regkas.repository.api.values.JWSCompactRepresentation;
+import org.regkas.repository.api.values.JWSPayload;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.api.values.JWSPayload;
+import org.regkas.repository.api.values.ReceiptMachineReadableRepresentation;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.SuiteId;
 import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.repository.core.builder.ReceiptTypeBuilderHolder;
+import org.regkas.repository.core.crypto.Encoding;
 import org.regkas.repository.core.mapping.ReceiptMapping;
+import org.regkas.repository.core.signature.CompactJWSRepresentationCore;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptBean;
 
 import javax.enterprise.inject.spi.CDI;
+import java.lang.annotation.Annotation;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -58,7 +65,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
                        DEPString dep,
                        TotalPrice totalPrice,
                        SuiteId suiteId,
-                       JWSCompactRepresentation jwsCompactRepresentation,
+                       CompactJWSRepresentation compactJwsRepresentation,
                        List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
@@ -85,7 +92,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         setDEP(dep);
         setTotalPrice(totalPrice);
         setSuiteId(suiteId);
-        setJWSCompactRepresentation(jwsCompactRepresentation);
+        setCompactJWSRepresentation(compactJwsRepresentation);
         addReceiptElements(receiptElements);
     }
 
@@ -308,14 +315,15 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     public BillBean asBillBean() {
         BillBean bill = new BillBean();
         bill.setCompany(getCompany().asDto());
-        bill.setCashBoxID(getCashBox().getName().get());
-        bill.setReceiptIdentifier(getReceiptId().get());
-        bill.setReceiptDateAndTime(getReceiptDate().get());
-        bill.setReceiptType(getReceiptType().getName().get());
-        bill.setEncryptedTurnoverValue(getEncryptedTurnoverValue().get());
-        bill.setSignatureCertificateSerialNumber(getCashBox().getSignatureCertificateSerialNumber().get());
-        bill.setSignatureValuePreviousReceipt(getSignatureValuePreviousReceipt().get());
-        bill.setSumTotal(getTotalPrice().get());
+        bill.setCashBoxID(SimpleValueObject.nullSafe(getCashBox().getName()));
+        bill.setReceiptIdentifier(SimpleValueObject.nullSafe(getReceiptId()));
+        LocalDateTime receiptDateAndTime = SimpleValueObject.nullSafe(getReceiptDate());
+        bill.setReceiptDateAndTime(receiptDateAndTime);
+        bill.setReceiptType(SimpleValueObject.nullSafe(getReceiptType().getName()));
+        bill.setEncryptedTurnoverValue(SimpleValueObject.nullSafe(getEncryptedTurnoverValue()));
+        bill.setSignatureCertificateSerialNumber(SimpleValueObject.nullSafe(getCashBox().getSignatureCertificateSerialNumber()));
+        bill.setSignatureValuePreviousReceipt(SimpleValueObject.nullSafe(getSignatureValuePreviousReceipt()));
+        bill.setSumTotal(SimpleValueObject.nullSafe(getTotalPrice()));
         bill.setSumTaxSetNormal(getTotalPriceAfterTaxOf(TaxSetNormal.class).get());
         bill.setSumTaxSetErmaessigt1(getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class).get());
         bill.setSumTaxSetErmaessigt2(getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class).get());
@@ -324,23 +332,55 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         for (ReceiptElement receiptElement : getReceiptElements()) {
             bill.getBillTaxSetElements().add(receiptElement.asBillTaxSetElementBean());
         }
-        bill.setJwsCompact(getJWSCompactRepresentation().get());
+        if (getCompactJwsRepresentation() != null) {
+            bill.setJwsCompact(getCompactJwsRepresentation().getMachineReadableRepresentation());
+        }
         return bill;
     }
 
     @Override
-    public Receipt setJWSCompactRepresentation(JWSCompactRepresentation jwsCompactRepresentation) {
-        getEntity().setJwsCompactRepresentation(SimpleValueObject.nullSafe(jwsCompactRepresentation));
+    public Receipt setCompactJWSRepresentation(CompactJWSRepresentation compactJwsRepresentation) {
+        if (compactJwsRepresentation != null) {
+            getEntity().setCompactJwsRepresentation(compactJwsRepresentation.getCompactJwsRepresentation());
+            getEntity().setMachineReadableRepresentation(compactJwsRepresentation.getMachineReadableRepresentation());
+        }
         return this;
     }
 
     @Override
-    public JWSCompactRepresentation getJWSCompactRepresentation() {
-        return new JWSCompactRepresentation(getEntity().getJwsCompactRepresentation());
+    public CompactJWSRepresentation getCompactJwsRepresentation() {
+        return new CompactJWSRepresentationCore(getEntity().getCompactJwsRepresentation(), CDI.current().select(Encoding.class).get());
+    }
+
+    @Override
+    public ReceiptMachineReadableRepresentation getReceiptMachineReadableRepresentation() {
+        return new ReceiptMachineReadableRepresentation(getEntity().getMachineReadableRepresentation());
     }
 
     @Override
     public ReceiptBean asDto() {
         return ReceiptMapping.fromCDI().mapEntity(getEntity());
+    }
+
+    @Override
+    public Receipt persist() {
+        if (!getDEP().isPresent() || "".equals(getDEP().get())) {
+            setDEP(new DEPString(getSerializer().serialize(asBillBean())));
+        }
+        return super.persist();
+    }
+
+    @Override
+    public Receipt persistWithoutCreatingDEP() {
+        return super.persist();
+    }
+
+    private Serializer getSerializer() {
+        return CDI.current().select(Serializer.class, new NonPrettyPrintingGson() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return NonPrettyPrintingGson.class;
+            }
+        }).get();
     }
 }

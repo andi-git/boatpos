@@ -112,8 +112,6 @@ public class Crypto {
     }
 
     public byte[] get2ComplementRepForLong(long value) {
-        System.out.println(value);
-
         //create byte buffer, max length 8 bytes (equal to long representation)
         ByteBuffer byteBuffer = ByteBuffer.allocate(8);
         byteBuffer.putLong(value);

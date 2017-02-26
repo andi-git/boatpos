@@ -84,14 +84,18 @@ public class ReceiptEntity extends AbstractEntity {
     @Expose
     private String suiteId;
 
-    @Size(max = 256)
+    @Size(max = 512)
     @Expose
-    private String jwsCompactRepresentation;
+    private String machineReadableRepresentation;
+
+    @Size(max = 512)
+    @Expose
+    private String compactJwsRepresentation;
 
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId, String jwsCompactRepresentation) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId, String machineReadableRepresentation, String compactJwsRepresentation) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -106,7 +110,8 @@ public class ReceiptEntity extends AbstractEntity {
         this.dep = dep;
         this.totalPrice = totalPrice;
         this.suiteId = suiteId;
-        this.jwsCompactRepresentation = jwsCompactRepresentation;
+        this.machineReadableRepresentation = machineReadableRepresentation;
+        this.compactJwsRepresentation = compactJwsRepresentation;
     }
 
     public String getReceiptId() {
@@ -213,11 +218,19 @@ public class ReceiptEntity extends AbstractEntity {
         this.suiteId = suiteId;
     }
 
-    public String getJwsCompactRepresentation() {
-        return jwsCompactRepresentation;
+    public String getMachineReadableRepresentation() {
+        return machineReadableRepresentation;
     }
 
-    public void setJwsCompactRepresentation(String jwsCompactRepresentation) {
-        this.jwsCompactRepresentation = jwsCompactRepresentation;
+    public void setMachineReadableRepresentation(String jwsCompactRepresentation) {
+        this.machineReadableRepresentation = jwsCompactRepresentation;
+    }
+
+    public String getCompactJwsRepresentation() {
+        return compactJwsRepresentation;
+    }
+
+    public void setCompactJwsRepresentation(String compactJwsRepresentation) {
+        this.compactJwsRepresentation = compactJwsRepresentation;
     }
 }

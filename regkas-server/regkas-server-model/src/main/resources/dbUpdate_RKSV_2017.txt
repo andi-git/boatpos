@@ -18,4 +18,8 @@
 - add rkOnlineUsername to CashBox
   - TODO
 - add rkOnlinePassword to CashBox
-  - TODOSim
+  - TODO
+- add machineReadableRepresentation to Receipt
+  - TODO
+- add compactJwsRepresentation to Receipt
+  - TODO

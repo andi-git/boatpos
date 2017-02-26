@@ -3,7 +3,16 @@ package org.regkas.repository.api.model;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.model.DomainModelWithDto;
 import org.regkas.model.ReceiptEntity;
-import org.regkas.repository.api.values.*;
+import org.regkas.repository.api.signature.CompactJWSRepresentation;
+import org.regkas.repository.api.values.DEPString;
+import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.JWSPayload;
+import org.regkas.repository.api.values.ReceiptDate;
+import org.regkas.repository.api.values.ReceiptId;
+import org.regkas.repository.api.values.ReceiptMachineReadableRepresentation;
+import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.SuiteId;
+import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptBean;
 
@@ -80,7 +89,11 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
 
     BillBean asBillBean();
 
-    Receipt setJWSCompactRepresentation(JWSCompactRepresentation jwsCompactRepresentation);
+    Receipt setCompactJWSRepresentation(CompactJWSRepresentation compactJwsRepresentation);
 
-    JWSCompactRepresentation getJWSCompactRepresentation();
+    CompactJWSRepresentation getCompactJwsRepresentation();
+
+    ReceiptMachineReadableRepresentation getReceiptMachineReadableRepresentation();
+
+    Receipt persistWithoutCreatingDEP();
 }

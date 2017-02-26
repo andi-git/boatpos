@@ -81,10 +81,10 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
 
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         Optional<Receipt> receipt = receiptRepository.loadBy(new ReceiptId("2015-0000002"), cashBox);
-        receipt.get().setDEP(new DEPString("")).persist();
+        receipt.get().setDEP(new DEPString("")).persistWithoutCreatingDEP();
         assertEquals(1, receiptRepository.loadAllWithoutDEP().size());
 
-        receipt.get().setDEP(null).persist();
+        receipt.get().setDEP(null).persistWithoutCreatingDEP();
         assertEquals(1, receiptRepository.loadAllWithoutDEP().size());
     }
 

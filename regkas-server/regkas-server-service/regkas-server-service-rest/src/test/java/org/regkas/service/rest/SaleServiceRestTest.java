@@ -4,8 +4,11 @@ import com.google.common.collect.Lists;
 import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.signature.Environment;
+import org.regkas.repository.api.signature.RkOnlineContext;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ProductBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
@@ -30,6 +33,16 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Inject
     private DateTimeHelperMock dateTimeHelperMock;
+
+    @Inject
+    private RkOnlineContext rkOnlineContext;
+
+    @Override
+    @Before
+    public void before() throws Exception {
+        super.before();
+        rkOnlineContext.setEnvironment(Environment.TEST);
+    }
 
     @Test
     public void testSale() throws Exception {
@@ -83,5 +96,7 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(new BigDecimal("2.50"), bill.getBillTaxSetElements().get(3).getPriceAfterTax());
         assertEquals(new BigDecimal("2.27"), bill.getBillTaxSetElements().get(3).getPricePreTax());
         assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(3).getPriceTax());
+        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_dpzooBjO1F4=_", bill.getJwsCompact().substring(0, bill.getJwsCompact().lastIndexOf('_') + 1));
+        assertEquals(88, bill.getJwsCompact().substring(bill.getJwsCompact().lastIndexOf('_') + 1).length());
     }
 }

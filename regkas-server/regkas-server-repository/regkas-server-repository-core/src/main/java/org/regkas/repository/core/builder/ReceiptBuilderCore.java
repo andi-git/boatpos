@@ -5,6 +5,7 @@ import org.boatpos.common.repository.core.builder.DomainModelBuilderCore;
 import org.regkas.model.ReceiptEntity;
 import org.regkas.repository.api.builder.ReceiptBuilder;
 import org.regkas.repository.api.model.*;
+import org.regkas.repository.api.signature.CompactJWSRepresentation;
 import org.regkas.repository.api.values.*;
 import org.regkas.repository.core.model.ReceiptCore;
 
@@ -41,13 +42,13 @@ public class ReceiptBuilderCore
 
     private SuiteId suiteId;
 
-    private JWSCompactRepresentation jwsCompactRepresentation;
+    private CompactJWSRepresentation compactJwsRepresentation;
 
     private List<ReceiptElement> receiptElements = new ArrayList<>();
 
     @Override
     public Receipt build() {
-        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, suiteId, jwsCompactRepresentation, receiptElements);
+        return new ReceiptCore(id, version, receiptId, receiptDate, encryptedTurnoverValue, signatureValuePreviousReceipt, company, user, receiptType, cashBox, paymentMethod, dep, totalPrice, suiteId, compactJwsRepresentation, receiptElements);
     }
 
     @Override
@@ -123,8 +124,8 @@ public class ReceiptBuilderCore
     }
 
     @Override
-    public ReceiptBuilder add(JWSCompactRepresentation jwsCompactRepresentation) {
-        this.jwsCompactRepresentation = jwsCompactRepresentation;
+    public ReceiptBuilder add(CompactJWSRepresentation compactJwsRepresentation) {
+        this.compactJwsRepresentation = compactJwsRepresentation;
         return this;
     }
 

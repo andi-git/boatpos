@@ -29,7 +29,7 @@ public class AESTest {
         assertEquals(32, aesKey.asByteArray().length);
         assertEquals(44, aesKey.asBase64Encoded().get().length());
 //        for (int i=0; i<10; i++) {
-//            System.out.println(crypto.createAESKey().asBase64EncodedString());
+//            System.out.println(aes.createAESKey().asBase64Encoded().get());
 //        }
     }
 

@@ -40,6 +40,11 @@ public class CompactJWSRepresentationCore implements CompactJWSRepresentation {
     }
 
     @Override
+    public String getMachineReadableRepresentation() {
+        return getPayload() + "_" + getSignature();
+    }
+
+    @Override
     public String getSignature() {
         return encoding.base64Encode(encoding.base64Decode(getSignatureOriginal(), true), false);
     }

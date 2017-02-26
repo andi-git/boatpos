@@ -1,31 +1,43 @@
-
 package org.regkas.service.core;
 
 import com.google.common.collect.Lists;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.context.CashBoxContext;
 import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.context.UserContext;
 import org.regkas.repository.api.model.Receipt;
-import org.regkas.repository.api.repository.*;
+import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.repository.ProductRepository;
+import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.repository.UserRepository;
 import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
 import org.regkas.repository.api.serializer.Serializer;
+import org.regkas.repository.api.signature.Environment;
+import org.regkas.repository.api.signature.RkOnlineContext;
+import org.regkas.repository.api.signature.RkOnlineResourceFactory;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.SaleService;
-import org.regkas.service.api.bean.*;
+import org.regkas.service.api.bean.BillBean;
+import org.regkas.service.api.bean.ProductBean;
+import org.regkas.service.api.bean.ReceiptElementBean;
+import org.regkas.service.api.bean.SaleBean;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.zip.GZIPOutputStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
@@ -56,18 +68,30 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
     private ProductRepository productRepository;
 
     @Inject
-    private DateTimeHelperMock dateTimeHelperMock;
-
-    @Inject
     private ReceiptRepository receiptRepository;
 
     @Inject
     @NonPrettyPrintingGson
     private Serializer serializer;
 
+    @Inject
+    private RkOnlineResourceFactory rkOnlineResourceFactory;
+
+    @Inject
+    private RkOnlineContext rkOnlineContext;
+
+    @Inject
+    private DateTimeHelperMock dateTimeHelper;
+
+    @Before
+    public void before() {
+        rkOnlineContext.setEnvironment(Environment.TEST);
+    }
+
     @Test
     @Transactional
     public void testSale() throws Exception {
+//        rkOnlineResourceFactory.setRkOnlineResourceSignature(new RkOnlineResourceSignatureMock());
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
@@ -93,7 +117,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
         assertEquals("RegKas1", bill.getCashBoxID());
         assertEquals("2015-0000003", bill.getReceiptIdentifier());
-        assertEquals(dateTimeHelperMock.currentTime(), bill.getReceiptDateAndTime());
+        assertTrue(bill.getReceiptDateAndTime().until(dateTimeHelper.currentTime(), ChronoUnit.SECONDS) < 10);
         assertEquals("company", bill.getCompany().getName());
         assertEquals(new BigDecimal("14.50"), bill.getSumTotal());
         assertEquals(new BigDecimal("7.50"), bill.getSumTaxSetNormal());
@@ -124,11 +148,10 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(3).getPriceTax());
 
         Receipt storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
-        assertEquals("{\"Kassen-ID\":\"RegKas1\",\"Belegnummer\":\"2015-0000003\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T15:00:00\",\"Betrag-Satz-Normal\":7.50,\"Betrag-Satz-Ermaessigt-1\":7.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":0.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Snack\",\"Steuersatz\":10,\"Anzahl\":2,\"Netto\":2.27,\"Brutto\":2.50,\"Steuer\":0.23},{\"Produkt\":\"Cola\",\"Steuersatz\":20,\"Anzahl\":3,\"Netto\":6.25,\"Brutto\":7.50,\"Steuer\":1.25},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":1,\"Netto\":1.82,\"Brutto\":2.00,\"Steuer\":0.18},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":1,\"Netto\":2.27,\"Brutto\":2.50,\"Steuer\":0.23}],\"Gesamtbetrag\":14.50,\"Beleg-Art\":\"Standard-Beleg\",\"JWS-Kompakt\":\"\"}", storedReceipt.getDEP().get());
         BillBean dep = serializer.deserialize(storedReceipt.getDEP().get(), BillBean.class);
         assertEquals("RegKas1", dep.getCashBoxID());
         assertEquals("2015-0000003", dep.getReceiptIdentifier());
-        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0, 0), dep.getReceiptDateAndTime());
+        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), dep.getReceiptDateAndTime());
         assertEquals(new BigDecimal("7.50"), dep.getSumTaxSetNormal());
         assertEquals(new BigDecimal("7.00"), dep.getSumTaxSetErmaessigt1());
         assertEquals(new BigDecimal("0.00"), dep.getSumTaxSetErmaessigt2());
@@ -141,15 +164,21 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("ONRcz49yLDIo2FgwNhe9Q5fSiZFEies97uRMzeAAPkI=", storedReceipt.getCashBox().getAesKeyBase64().get());
         assertEquals("AT0", storedReceipt.getCashBox().getCertificationServiceProvider().get());
         assertEquals("123", storedReceipt.getCashBox().getSignatureCertificateSerialNumber().get());
-        assertEquals("9jDAZ9vSoqA=", storedReceipt.getSignatureValuePreviousReceipt().get());
-        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_9jDAZ9vSoqA=", storedReceipt.getDataToBeSigned().get());
-        assertEquals("", storedReceipt.getJWSCompactRepresentation().get()); // TODO implement this
+        assertEquals("dpzooBjO1F4=", storedReceipt.getSignatureValuePreviousReceipt().get());
+        assertEquals("eyJhbGciOiJFUzI1NiJ9", storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[0]);
+        assertEquals("X1IxLUFUMF9SZWdLYXMxXzIwMTUtMDAwMDAwM18yMDE1LTA3LTAxVDE1OjAwOjAwXzcsNTBfNywwMF8wLDAwXzAsMDBfMCwwMF9HRmNTbmJWV2ZJdz1fMTIzX2Rwem9vQmpPMUY0PQ", storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[1]);
+        assertEquals(86, storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[2].length());
+
+        String machineReadableRepresentation = storedReceipt.getReceiptMachineReadableRepresentation().get();
+        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_dpzooBjO1F4=_", machineReadableRepresentation.substring(0, machineReadableRepresentation.lastIndexOf('_') + 1));
+        assertEquals(88, machineReadableRepresentation.substring(machineReadableRepresentation.lastIndexOf('_') + 1).length());
 
         companyContext.clear();
         userContext.clear();
         cashBoxContext.clear();
 
         assertEquals(2750, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
+        rkOnlineResourceFactory.resetRkOnlineResourceSignature();
     }
 
     public static String compress(String str) throws Exception {
@@ -157,7 +186,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
             return str;
         }
         System.out.println("String length : " + str.length());
-        ByteArrayOutputStream obj=new ByteArrayOutputStream();
+        ByteArrayOutputStream obj = new ByteArrayOutputStream();
         GZIPOutputStream gzip = new GZIPOutputStream(obj);
         gzip.write(str.getBytes("UTF-8"));
         gzip.close();

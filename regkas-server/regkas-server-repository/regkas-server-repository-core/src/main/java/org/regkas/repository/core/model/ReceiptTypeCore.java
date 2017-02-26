@@ -37,7 +37,7 @@ public abstract class ReceiptTypeCore<MODEL extends ReceiptType, ENTITY extends 
     protected InputForChainCalculation getInputForChainCalculation(CashBox cashBox) {
         Optional<Receipt> receipt = fromCDI(ReceiptRepository.class).loadLastReceipt(cashBox);
         if (receipt.isPresent()) {
-            return new InputForChainCalculation(receipt.get().getJWSCompactRepresentation().get());
+            return new InputForChainCalculation(receipt.get().getCompactJwsRepresentation().getCompactJwsRepresentation());
         } else {
             throw new RuntimeException("no last receipt available to get the input for chain-calculation");
         }

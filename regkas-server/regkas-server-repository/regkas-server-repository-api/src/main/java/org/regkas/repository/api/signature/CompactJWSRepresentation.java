@@ -13,4 +13,6 @@ public interface CompactJWSRepresentation {
     String getSignature();
 
     String getSignatureOriginal();
+
+    String getMachineReadableRepresentation();
 }

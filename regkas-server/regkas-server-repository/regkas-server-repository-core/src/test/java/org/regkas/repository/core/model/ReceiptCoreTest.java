@@ -142,7 +142,6 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("6.00"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
         assertEquals(new BigDecimal("5.45"), bill.getBillTaxSetElements().get(1).getPricePreTax());
         assertEquals(new BigDecimal("0.55"), bill.getBillTaxSetElements().get(1).getPriceTax());
-        assertEquals("jws123", bill.getJwsCompact());
     }
 
 
