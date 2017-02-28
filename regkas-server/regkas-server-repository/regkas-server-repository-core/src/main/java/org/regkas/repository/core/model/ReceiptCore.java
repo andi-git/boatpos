@@ -29,6 +29,7 @@ import org.regkas.repository.api.values.JWSPayload;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.repository.api.values.ReceiptMachineReadableRepresentation;
+import org.regkas.repository.api.values.SignatureDeviceAvailable;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.SuiteId;
 import org.regkas.repository.api.values.TotalPrice;
@@ -343,18 +344,24 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         if (compactJwsRepresentation != null) {
             getEntity().setCompactJwsRepresentation(compactJwsRepresentation.getCompactJwsRepresentation());
             getEntity().setMachineReadableRepresentation(compactJwsRepresentation.getMachineReadableRepresentation());
+            getEntity().setSignatureDeviceAvailable(compactJwsRepresentation.isSignatureDeviceAvailable());
         }
         return this;
     }
 
     @Override
     public CompactJWSRepresentation getCompactJwsRepresentation() {
-        return new CompactJWSRepresentationCore(getEntity().getCompactJwsRepresentation(), CDI.current().select(Encoding.class).get());
+        return CompactJWSRepresentationCore.fromRealCompactJwsRepresentation(getEntity().getCompactJwsRepresentation(), CDI.current().select(Encoding.class).get());
     }
 
     @Override
     public ReceiptMachineReadableRepresentation getReceiptMachineReadableRepresentation() {
         return new ReceiptMachineReadableRepresentation(getEntity().getMachineReadableRepresentation());
+    }
+
+    @Override
+    public SignatureDeviceAvailable getSignatureDeviceAvailable() {
+        return new SignatureDeviceAvailable(getEntity().getSignatureDeviceAvailable());
     }
 
     @Override

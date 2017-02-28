@@ -1,5 +1,10 @@
 package org.regkas.repository.core.signature;
 
+import static org.junit.Assert.assertEquals;
+
+import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,13 +12,7 @@ import org.regkas.repository.api.signature.CompactJWSRepresentation;
 import org.regkas.repository.api.signature.RkOnlineResourceFactory;
 import org.regkas.repository.api.signature.RkOnlineResourceSession;
 import org.regkas.repository.api.signature.RkOnlineResourceSignature;
-import org.regkas.repository.api.signature.SignatureDeviceNotAvailableException;
 import org.regkas.repository.api.values.JWSPayload;
-
-import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
-
-import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 public class RkOnlineResourceFactoryCoreTest {
@@ -43,7 +42,7 @@ public class RkOnlineResourceFactoryCoreTest {
     private static final class MockRkOnlineResourceSignature implements RkOnlineResourceSignature {
 
         @Override
-        public CompactJWSRepresentation sign(JWSPayload jwsPayload) throws SignatureDeviceNotAvailableException {
+        public CompactJWSRepresentation sign(JWSPayload jwsPayload) {
             return null;
         }
     }
@@ -52,7 +51,7 @@ public class RkOnlineResourceFactoryCoreTest {
 
         @Override
         public void loginSession() {
-            
+
         }
     }
 }

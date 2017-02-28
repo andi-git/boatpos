@@ -92,10 +92,13 @@ public class ReceiptEntity extends AbstractEntity {
     @Expose
     private String compactJwsRepresentation;
 
+    @Expose
+    private Boolean signatureDeviceAvailable;
+
     public ReceiptEntity() {
     }
 
-    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId, String machineReadableRepresentation, String compactJwsRepresentation) {
+    public ReceiptEntity(Long id, Integer version, String receiptId, LocalDateTime receiptDate, String encryptedTurnoverValue, String signatureValuePreviousReceipt, CompanyEntity company, CashBoxEntity cashBox, UserEntity user, ReceiptTypeEntity receiptType, PaymentMethod paymentMethod, List<ReceiptElementEntity> receiptElements, String dep, BigDecimal totalPrice, String suiteId, String machineReadableRepresentation, String compactJwsRepresentation, Boolean signatureDeviceAvailable) {
         super(id, version);
         this.receiptId = receiptId;
         this.receiptDate = receiptDate;
@@ -112,6 +115,7 @@ public class ReceiptEntity extends AbstractEntity {
         this.suiteId = suiteId;
         this.machineReadableRepresentation = machineReadableRepresentation;
         this.compactJwsRepresentation = compactJwsRepresentation;
+        this.signatureDeviceAvailable = signatureDeviceAvailable;
     }
 
     public String getReceiptId() {
@@ -232,5 +236,13 @@ public class ReceiptEntity extends AbstractEntity {
 
     public void setCompactJwsRepresentation(String compactJwsRepresentation) {
         this.compactJwsRepresentation = compactJwsRepresentation;
+    }
+
+    public Boolean getSignatureDeviceAvailable() {
+        return signatureDeviceAvailable;
+    }
+
+    public void setSignatureDeviceAvailable(Boolean signatureDeviceNotAvailable) {
+        this.signatureDeviceAvailable = signatureDeviceNotAvailable;
     }
 }

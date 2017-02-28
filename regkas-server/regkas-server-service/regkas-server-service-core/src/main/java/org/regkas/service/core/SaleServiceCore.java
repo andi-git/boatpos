@@ -1,5 +1,10 @@
 package org.regkas.service.core;
 
+import java.util.Optional;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.SimpleBigDecimalObject;
 import org.boatpos.common.util.datetime.DateTimeHelper;
@@ -17,7 +22,6 @@ import org.regkas.repository.api.repository.ProductRepository;
 import org.regkas.repository.api.repository.ReceiptElementRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.signature.RkOnlineResourceFactory;
-import org.regkas.repository.api.signature.SignatureDeviceNotAvailableException;
 import org.regkas.repository.api.values.Amount;
 import org.regkas.repository.api.values.EncryptedTurnoverValue;
 import org.regkas.repository.api.values.Name;
@@ -31,10 +35,6 @@ import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 import org.regkas.service.core.receipt.ReceiptIdCalculator;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import java.util.Optional;
 
 @RequestScoped
 public class SaleServiceCore implements SaleService {
@@ -92,26 +92,29 @@ public class SaleServiceCore implements SaleService {
     }
 
     private Receipt buildReceiptBasedOnSaleBean(SaleBean sale, ReceiptType receiptType) {
-        ReceiptBuilder receiptBuilder = receiptRepository.builder()
-                .add(receiptIdCalculator.getNextReceiptId())
-                .add(new ReceiptDate(dateTimeHelper.currentTime()))
-                .add(new EncryptedTurnoverValue(""))
-                .add(new SignatureValuePreviousReceipt(""))
-                .add(PaymentMethod.get(sale.getPaymentMethod()))
-                .add(receiptType)
-                .add(cashBox)
-                .add(user)
-                .add(company)
-                .add(new SuiteId(cashBox.getCertificationServiceProvider()));
+        ReceiptBuilder receiptBuilder = receiptRepository
+            .builder()
+            .add(receiptIdCalculator.getNextReceiptId())
+            .add(new ReceiptDate(dateTimeHelper.currentTime()))
+            .add(new EncryptedTurnoverValue(""))
+            .add(new SignatureValuePreviousReceipt(""))
+            .add(PaymentMethod.get(sale.getPaymentMethod()))
+            .add(receiptType)
+            .add(cashBox)
+            .add(user)
+            .add(company)
+            .add(new SuiteId(cashBox.getCertificationServiceProvider()));
         TotalPrice totalPrice = new TotalPrice(SimpleBigDecimalObject.ZERO);
         for (ReceiptElementBean receiptElementBean : sale.getSaleElements()) {
             Optional<Product> productOptional = productRepository.loadBy(new Name(receiptElementBean.getProduct().getName()), cashBox);
-            if (!productOptional.isPresent()) {
-                throw new RuntimeException("unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
+            if ( !productOptional.isPresent()) {
+                throw new RuntimeException(
+                    "unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
                 TotalPrice totalPriceForElement = new TotalPrice(receiptElementBean.getTotalPrice());
                 totalPrice = totalPrice.add(totalPriceForElement);
-                receiptBuilder.add(receiptElementRepository
+                receiptBuilder.add(
+                    receiptElementRepository
                         .builder()
                         .add(new Amount(receiptElementBean.getAmount()))
                         .add(totalPriceForElement)
@@ -136,12 +139,6 @@ public class SaleServiceCore implements SaleService {
     }
 
     private void signReceipt(Receipt receipt) {
-        try {
-            receipt.setCompactJWSRepresentation(rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned()));
-        } catch (SignatureDeviceNotAvailableException e) {
-            log.error(e);
-            throw new RuntimeException(e);
-            // TODO set "Signatureinrichtung ausgefallen"
-        }
+        receipt.setCompactJWSRepresentation(rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned()));
     }
 }

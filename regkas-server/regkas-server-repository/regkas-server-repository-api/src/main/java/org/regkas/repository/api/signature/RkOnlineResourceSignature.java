@@ -4,5 +4,5 @@ import org.regkas.repository.api.values.JWSPayload;
 
 public interface RkOnlineResourceSignature {
 
-    CompactJWSRepresentation sign(JWSPayload jwsPayload) throws SignatureDeviceNotAvailableException;
+    CompactJWSRepresentation sign(JWSPayload jwsPayload);
 }

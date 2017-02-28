@@ -1,8 +1,18 @@
 package org.regkas.service.core;
 
-import com.google.common.collect.Lists;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +30,8 @@ import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.signature.Environment;
 import org.regkas.repository.api.signature.RkOnlineContext;
 import org.regkas.repository.api.signature.RkOnlineResourceFactory;
+import org.regkas.repository.api.signature.RkOnlineResourceSession;
+import org.regkas.repository.api.signature.SignatureDeviceNotAvailableException;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.SaleService;
@@ -29,17 +41,9 @@ import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-import javax.inject.Inject;
-import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.zip.GZIPOutputStream;
+import com.google.common.collect.Lists;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-@SuppressWarnings("OptionalGetWithoutIsPresent")
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal"})
 @RunWith(Arquillian.class)
 public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
@@ -83,37 +87,36 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
     @Inject
     private DateTimeHelperMock dateTimeHelper;
 
+    private String expectedProtectedHeader = "eyJhbGciOiJFUzI1NiJ9";
+
+    private String expectedPayloadEncoded = "_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_dpzooBjO1F4=";
+
+    private String expectedPayloadDecoded = "X1IxLUFUMF9SZWdLYXMxXzIwMTUtMDAwMDAwM18yMDE1LTA3LTAxVDE1OjAwOjAwXzcsNTBfNywwMF8wLDAwXzAsMDBfMCwwMF9HRmNTbmJWV2ZJdz1fMTIzX2Rwem9vQmpPMUY0PQ";
+
+    private String expectedSignatureWhenDeviceIsNotAvailable = "U2ljaGVyaGVpdHNlaW5yaWNodHVuZyBhdXNnZWZhbGxlbg==";
+
     @Before
     public void before() {
         rkOnlineContext.setEnvironment(Environment.TEST);
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+    }
+
+    @After
+    public void after() {
+        companyContext.clear();
+        userContext.clear();
+        cashBoxContext.clear();
     }
 
     @Test
     @Transactional
     public void testSale() throws Exception {
-//        rkOnlineResourceFactory.setRkOnlineResourceSignature(new RkOnlineResourceSignatureMock());
-        companyContext.set(companyRepository.loadBy(new Name("company")));
-        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
-        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
 
         assertEquals(1300, cashBoxContext.get().getTurnoverCountCent().get().intValue());
 
-        ProductBean snack = productRepository.loadBy(new Name("Snack"), cashBoxContext.get()).get().asDto();
-        ProductBean cola = productRepository.loadBy(new Name("Cola"), cashBoxContext.get()).get().asDto();
-        ProductBean cornetto1 = productRepository.loadBy(new Name("Cornetto"), cashBoxContext.get()).get().asDto();
-        ProductBean cornetto2 = productRepository.loadBy(new Name("Cornetto"), cashBoxContext.get()).get().asDto();
-
-        SaleBean sale = new SaleBean();
-        sale.setPaymentMethod("cash");
-        sale.setReceiptType("Standard-Beleg");
-        sale.setSaleElements(Lists.newArrayList(
-                new ReceiptElementBean(snack, 2, new BigDecimal("2.50")),
-                new ReceiptElementBean(cola, 3, new BigDecimal("7.50")),
-                new ReceiptElementBean(cornetto1, 1, new BigDecimal("2.00")),
-                new ReceiptElementBean(cornetto2, 1, new BigDecimal("2.50")))
-        );
-
-        BillBean bill = saleService.sale(sale);
+        BillBean bill = saleService.sale(createSale());
 
         assertEquals("RegKas1", bill.getCashBoxID());
         assertEquals("2015-0000003", bill.getReceiptIdentifier());
@@ -165,33 +168,56 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals("AT0", storedReceipt.getCashBox().getCertificationServiceProvider().get());
         assertEquals("123", storedReceipt.getCashBox().getSignatureCertificateSerialNumber().get());
         assertEquals("dpzooBjO1F4=", storedReceipt.getSignatureValuePreviousReceipt().get());
-        assertEquals("eyJhbGciOiJFUzI1NiJ9", storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[0]);
-        assertEquals("X1IxLUFUMF9SZWdLYXMxXzIwMTUtMDAwMDAwM18yMDE1LTA3LTAxVDE1OjAwOjAwXzcsNTBfNywwMF8wLDAwXzAsMDBfMCwwMF9HRmNTbmJWV2ZJdz1fMTIzX2Rwem9vQmpPMUY0PQ", storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[1]);
+        assertEquals(expectedProtectedHeader, storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[0]);
+        assertEquals(expectedPayloadDecoded, storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[1]);
         assertEquals(86, storedReceipt.getCompactJwsRepresentation().getCompactJwsRepresentation().split("\\.")[2].length());
+        assertTrue(storedReceipt.getSignatureDeviceAvailable().get());
 
         String machineReadableRepresentation = storedReceipt.getReceiptMachineReadableRepresentation().get();
-        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_dpzooBjO1F4=_", machineReadableRepresentation.substring(0, machineReadableRepresentation.lastIndexOf('_') + 1));
+        assertEquals(expectedPayloadEncoded, machineReadableRepresentation.substring(0, machineReadableRepresentation.lastIndexOf('_')));
         assertEquals(88, machineReadableRepresentation.substring(machineReadableRepresentation.lastIndexOf('_') + 1).length());
-
-        companyContext.clear();
-        userContext.clear();
-        cashBoxContext.clear();
 
         assertEquals(2750, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
         rkOnlineResourceFactory.resetRkOnlineResourceSignature();
     }
 
-    public static String compress(String str) throws Exception {
-        if (str == null || str.length() == 0) {
-            return str;
+    @Test
+    @Transactional
+    public void testSaleWhenSignatureDeviceIsNotAvailable() throws Exception {
+        rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
+
+        BillBean bill = saleService.sale(createSale());
+        Receipt storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
+
+        assertEquals(expectedProtectedHeader, storedReceipt.getCompactJwsRepresentation().getProtectedHeader());
+        assertEquals(expectedPayloadEncoded, storedReceipt.getCompactJwsRepresentation().getPayload());
+        assertEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
+
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+    }
+
+    private SaleBean createSale() {
+        ProductBean snack = productRepository.loadBy(new Name("Snack"), cashBoxContext.get()).get().asDto();
+        ProductBean cola = productRepository.loadBy(new Name("Cola"), cashBoxContext.get()).get().asDto();
+        ProductBean cornetto1 = productRepository.loadBy(new Name("Cornetto"), cashBoxContext.get()).get().asDto();
+        ProductBean cornetto2 = productRepository.loadBy(new Name("Cornetto"), cashBoxContext.get()).get().asDto();
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Standard-Beleg");
+        sale.setSaleElements(
+            Lists.newArrayList(
+                new ReceiptElementBean(snack, 2, new BigDecimal("2.50")),
+                new ReceiptElementBean(cola, 3, new BigDecimal("7.50")),
+                new ReceiptElementBean(cornetto1, 1, new BigDecimal("2.00")),
+                new ReceiptElementBean(cornetto2, 1, new BigDecimal("2.50"))));
+        return sale;
+    }
+
+    private static class RkOnlineResourceSessionThrowingException implements RkOnlineResourceSession {
+
+        @Override
+        public void loginSession() throws SignatureDeviceNotAvailableException {
+            throw new SignatureDeviceNotAvailableException("just to throw the exception");
         }
-        System.out.println("String length : " + str.length());
-        ByteArrayOutputStream obj = new ByteArrayOutputStream();
-        GZIPOutputStream gzip = new GZIPOutputStream(obj);
-        gzip.write(str.getBytes("UTF-8"));
-        gzip.close();
-        String outStr = obj.toString("UTF-8");
-        System.out.println("Output String length : " + outStr.length());
-        return outStr;
     }
 }

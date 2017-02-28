@@ -10,6 +10,7 @@ import org.regkas.repository.api.values.JWSPayload;
 import org.regkas.repository.api.values.ReceiptDate;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.repository.api.values.ReceiptMachineReadableRepresentation;
+import org.regkas.repository.api.values.SignatureDeviceAvailable;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.SuiteId;
 import org.regkas.repository.api.values.TotalPrice;
@@ -92,6 +93,8 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
     Receipt setCompactJWSRepresentation(CompactJWSRepresentation compactJwsRepresentation);
 
     CompactJWSRepresentation getCompactJwsRepresentation();
+
+    SignatureDeviceAvailable getSignatureDeviceAvailable();
 
     ReceiptMachineReadableRepresentation getReceiptMachineReadableRepresentation();
 

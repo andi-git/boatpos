@@ -1,5 +1,16 @@
 package org.regkas.repository.core.signature;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Optional;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -14,16 +25,6 @@ import org.regkas.repository.api.values.RkOnlineSession;
 import org.regkas.repository.core.crypto.Encoding;
 import org.regkas.repository.core.signature.entity.SignJWSPostRequest;
 import org.regkas.repository.core.signature.entity.SignJWSPostResponse;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 @ApplicationScoped
 public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature {
@@ -52,19 +53,21 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
     private ResponseStateChecker responseStateChecker;
 
     @Override
-    public CompactJWSRepresentation sign(JWSPayload jwsPayload) throws SignatureDeviceNotAvailableException {
+    public CompactJWSRepresentation sign(JWSPayload jwsPayload) {
         checkNotNull(SimpleValueObject.notNull(jwsPayload), "'jwsPayload' must not be null");
-        Response response = rkOnlineSessionHandling.withinActiveSession(() -> {
-            Optional<RkOnlineSession.Key> key = rkOnlineContext.getRkOnlineSessionKey();
-            if (!key.isPresent()) {
-                SignatureDeviceNotAvailableException signatureDeviceNotAvailableException = new SignatureDeviceNotAvailableException("no rk-online-session active");
-                log.error(signatureDeviceNotAvailableException);
-                throw signatureDeviceNotAvailableException;
-            }
-            SignJWSPostRequest signJWSPostRequest = new SignJWSPostRequest(key.get().get(), jwsPayload.get());
-            log.info("call {}", RkOnlineRestResource.SignJWS.getURL(rkOnlineContext));
-            log.info("body {}", () -> serializer.serialize(signJWSPostRequest));
-            return ClientBuilder
+        try {
+            Response response = rkOnlineSessionHandling.withinActiveSession(() -> {
+                Optional<RkOnlineSession.Key> key = rkOnlineContext.getRkOnlineSessionKey();
+                if ( !key.isPresent()) {
+                    SignatureDeviceNotAvailableException signatureDeviceNotAvailableException = new SignatureDeviceNotAvailableException(
+                        "no rk-online-session active");
+                    log.error(signatureDeviceNotAvailableException);
+                    throw signatureDeviceNotAvailableException;
+                }
+                SignJWSPostRequest signJWSPostRequest = new SignJWSPostRequest(key.get().get(), jwsPayload.get());
+                log.info("call {}", RkOnlineRestResource.SignJWS.getURL(rkOnlineContext));
+                log.info("body {}", () -> serializer.serialize(signJWSPostRequest));
+                return ClientBuilder
                     .newBuilder()
                     .sslContext(sslContectCreator.createSSLContext())
                     .build()
@@ -72,11 +75,16 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
                     .request()
                     .accept(MediaType.APPLICATION_JSON_TYPE)
                     .post(Entity.json(signJWSPostRequest));
-        });
-        responseStateChecker.checkResponseState(response);
+            });
+            responseStateChecker.checkResponseState(response);
 
-        SignJWSPostResponse signJWSPostResponse = response.readEntity(SignJWSPostResponse.class);
-        log.info("response from rk-online: {}", () -> serializer.serialize(signJWSPostResponse));
-        return new CompactJWSRepresentationCore(signJWSPostResponse.getResult(), encoding);
+            SignJWSPostResponse signJWSPostResponse = response.readEntity(SignJWSPostResponse.class);
+            log.info("response from rk-online: {}", () -> serializer.serialize(signJWSPostResponse));
+            return CompactJWSRepresentationCore.fromRealCompactJwsRepresentation(signJWSPostResponse.getResult(), encoding);
+
+        } catch (SignatureDeviceNotAvailableException e) {
+            log.error(e);
+            return CompactJWSRepresentationCore.whenSignatureDeviceIsNotAvailable(jwsPayload, encoding);
+        }
     }
 }
