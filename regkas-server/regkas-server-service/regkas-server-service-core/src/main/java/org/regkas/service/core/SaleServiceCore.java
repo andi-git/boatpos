@@ -5,8 +5,10 @@ import java.util.Optional;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
+import com.google.common.collect.Lists;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.repository.api.values.SimpleBigDecimalObject;
+import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -78,17 +80,33 @@ public class SaleServiceCore implements SaleService {
 
     @Override
     public BillBean sale(SaleBean sale) {
+        Optional<Receipt> lastReceiptOptional = receiptRepository.loadLastReceipt(cashBox);
+        Receipt receipt = createReceipt(sale);
+        BillBean billBean = receipt.asBillBean();
+        if (lastReceiptOptional.isPresent() && nullReceiptMustBeCreated(receipt, lastReceiptOptional.get())) {
+            Receipt nullReceipt = createReceipt(createNullSale());
+            billBean.setNullBill(nullReceipt.asBillBean());
+        }
+        return billBean;
+    }
+
+    @Override
+    public SaleBean createNullSale() {
+        return new SaleBean("cash", "Null-Beleg", Lists.newArrayList());
+    }
+
+    private Receipt createReceipt(SaleBean sale) {
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
-
         Receipt receipt = buildReceiptBasedOnSaleBean(sale, receiptType);
-
         updateTurnoverCounter(receiptType, receipt.getTotalPrice());
         encryptTurnoverCounter(receiptType, receipt);
         setSignatureValueOfPreviousReceipt(receiptType, receipt);
         signReceipt(receipt);
-        receipt.persist();
+        return receipt.persist();
+    }
 
-        return receipt.asBillBean();
+    private boolean nullReceiptMustBeCreated(Receipt currentReceipt, Receipt lastReceipt) {
+        return SimpleValueObject.nullSafe(currentReceipt.getSignatureDeviceAvailable()) && !SimpleValueObject.nullSafe(lastReceipt.getSignatureDeviceAvailable());
     }
 
     private Receipt buildReceiptBasedOnSaleBean(SaleBean sale, ReceiptType receiptType) {

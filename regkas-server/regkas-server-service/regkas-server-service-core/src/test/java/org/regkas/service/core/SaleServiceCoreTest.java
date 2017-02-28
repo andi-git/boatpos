@@ -1,7 +1,9 @@
 package org.regkas.service.core;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
@@ -97,7 +99,10 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Before
     public void before() {
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+        rkOnlineResourceFactory.resetRkOnlineResourceSignature();
         rkOnlineContext.setEnvironment(Environment.TEST);
+        rkOnlineContext.resetSessions();
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
@@ -194,6 +199,63 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
 
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
+    }
+
+    @Test
+    @Transactional
+    public void testSaleWithNullReceipt() throws Exception {
+        rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
+
+        BillBean bill = saleService.sale(createSale());
+        Receipt storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
+        assertEquals(2750, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
+        assertEquals(expectedPayloadEncoded, storedReceipt.getCompactJwsRepresentation().getPayload());
+        assertEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
+        assertNull(bill.getNullBill());
+        System.out.println(bill);
+
+        bill = saleService.sale(createSale());
+        storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
+        assertEquals(4200, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
+        assertEquals(
+            "_R1-AT0_RegKas1_2015-0000004_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_HbazrfakqjI=_123_EvYwLdR4uNc=",
+            storedReceipt.getCompactJwsRepresentation().getPayload());
+        assertEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
+        assertNull(bill.getNullBill());
+
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+
+        bill = saleService.sale(createSale());
+        storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
+        assertEquals(5650, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
+        assertEquals(
+            "_R1-AT0_RegKas1_2015-0000005_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_Myra5avKkxs=_123_1dl3KaiYnAQ=",
+            storedReceipt.getCompactJwsRepresentation().getPayload());
+        assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
+        assertNotEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
+        assertNotNull(bill.getNullBill());
+        storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getNullBill().getReceiptIdentifier()), cashBoxContext.get()).get();
+        assertEquals(
+            "_R1-AT0_RegKas1_2015-0000006_2015-07-01T15:00:00_0,00_0,00_0,00_0,00_0,00_bsH02gJiJH4=_123",
+            storedReceipt
+                .getCompactJwsRepresentation()
+                .getPayload()
+                .substring(0, storedReceipt.getCompactJwsRepresentation().getPayload().lastIndexOf('_')));
+        assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
+        assertNotEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
+
+        bill = saleService.sale(createSale());
+        storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
+        assertEquals(7100, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
+        assertEquals(
+            "_R1-AT0_RegKas1_2015-0000007_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_6LReYsW6VPs=_123",
+                storedReceipt
+                        .getCompactJwsRepresentation()
+                        .getPayload()
+                        .substring(0, storedReceipt.getCompactJwsRepresentation().getPayload().lastIndexOf('_')));
+        assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
+        assertNotEquals(expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
+        assertNull(bill.getNullBill());
     }
 
     private SaleBean createSale() {

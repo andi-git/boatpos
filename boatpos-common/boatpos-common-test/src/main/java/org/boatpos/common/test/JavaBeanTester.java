@@ -69,7 +69,7 @@ public class JavaBeanTester {
         assertFalse(baseType.getName() + " must not be abstract", isAbstract(baseType));
         Object object = baseType.newInstance();
         for (Field field : currentType.getDeclaredFields()) {
-            if (!isJacocoField(field) && !isAbstract(field.getType()) && !field.getType().isEnum()) {
+            if (!isJacocoField(field) && !isAbstract(field.getType()) && !field.getType().isEnum() && field.getType() != baseType) {
                 SimpleType simpleType = SimpleType.get(field.getType());
                 Object testValue;
                 if (simpleType == SimpleType.NoSimpleType && isBeanOfThisProject(field.getType())) {

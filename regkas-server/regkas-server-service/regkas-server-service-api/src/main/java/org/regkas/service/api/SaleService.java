@@ -15,4 +15,11 @@ public interface SaleService {
      * @return the bill of the sale
      */
     BillBean sale(SaleBean sale);
+
+    /**
+     * Create a {@link SaleBean} for a null-receipt.
+     * 
+     * @return a {@link SaleBean} for a null-receipt
+     */
+    SaleBean createNullSale();
 }

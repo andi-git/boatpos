@@ -52,15 +52,15 @@ public class BillBean extends AbstractBean {
     private BigDecimal sumTaxSetBesonders = new BigDecimal("0.00");
 
     @SerializedName("Stand-Umsatz-Zaehler-AES256-ICM")
-//    @Expose
+    @Expose
     private String encryptedTurnoverValue;
 
     @SerializedName("Zertifikat-Seriennummer")
-//    @Expose
+    @Expose
     private String signatureCertificateSerialNumber;
 
     @SerializedName("Sig-Voriger-Beleg")
-//    @Expose
+    @Expose
     private String signatureValuePreviousReceipt;
 
     private CompanyBean company;
@@ -80,6 +80,8 @@ public class BillBean extends AbstractBean {
     @SerializedName("JWS-Kompakt")
     @Expose
     private String jwsCompact;
+
+    private BillBean nullBill;
 
     public BillBean() {
     }
@@ -226,5 +228,13 @@ public class BillBean extends AbstractBean {
 
     public void setJwsCompact(String jwsCompact) {
         this.jwsCompact = jwsCompact;
+    }
+
+    public BillBean getNullBill() {
+        return nullBill;
+    }
+
+    public void setNullBill(BillBean nullBill) {
+        this.nullBill = nullBill;
     }
 }
