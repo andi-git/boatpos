@@ -84,6 +84,7 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
 
         } catch (SignatureDeviceNotAvailableException e) {
             log.error(e);
+            rkOnlineContext.resetSessions();
             return CompactJWSRepresentationCore.whenSignatureDeviceIsNotAvailable(jwsPayload, encoding);
         }
     }

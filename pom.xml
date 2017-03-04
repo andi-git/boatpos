@@ -62,6 +62,7 @@
         <version.jep>2.4.2</version.jep>
         <version.commons-codec>1.10</version.commons-codec>
         <version.commons-lang3>3.5</version.commons-lang3>
+        <version.commons-email>1.4</version.commons-email>
         <version.bcpkix-jdk15on>1.52</version.bcpkix-jdk15on> <!-- version of wildfly-modules -->
         <version.bcprov-jdk15on>1.52</version.bcprov-jdk15on> <!-- version of wildfly-modules -->
         <!-- test -->
@@ -243,6 +244,11 @@
                 <artifactId>mockito-core</artifactId>
                 <version>${version.mockito}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${version.commons-email}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
