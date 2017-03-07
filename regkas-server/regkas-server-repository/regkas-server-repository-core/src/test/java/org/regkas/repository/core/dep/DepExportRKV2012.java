@@ -1,16 +1,18 @@
-package org.regkas.service.core.serializer;
-
-import com.google.gson.annotations.Expose;
-import org.regkas.service.api.bean.BillBean;
+package org.regkas.repository.core.dep;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.regkas.service.api.bean.BillBean;
+
+import com.google.gson.annotations.Expose;
+
 /**
  * Representation of the DEP-export.
  */
-public class DEPExport {
+@SuppressWarnings("unused")
+public class DepExportRKV2012 {
 
     @Expose
     private String company;
@@ -33,7 +35,7 @@ public class DEPExport {
     @Expose
     private List<BillBean> cashBoxInstructionList = new ArrayList<>();
 
-    public DEPExport() {
+    public DepExportRKV2012() {
     }
 
     public String getCompany() {

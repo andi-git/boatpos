@@ -1,16 +1,8 @@
 package org.regkas.service.rest;
 
-import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.regkas.service.api.bean.IncomeBean;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import javax.inject.Inject;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -18,8 +10,18 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import javax.inject.Inject;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.regkas.service.api.bean.IncomeBean;
 
 @RunWith(Arquillian.class)
 public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
@@ -61,10 +63,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
     }
 
     private void testIncome(String path) throws Exception {
-        IncomeBean income = helper
-                .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path(path))
-                .get()
-                .readEntity(IncomeBean.class);
+        IncomeBean income = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path(path)).get().readEntity(IncomeBean.class);
         assertEquals(7, income.getIncomeElements().size());
         assertEquals(new BigDecimal("11.00"), income.getIncomeElements().get(0).getIncome());
         assertEquals(10, income.getIncomeElements().get(0).getTaxPercent().intValue());
@@ -73,24 +72,41 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testDEPYear() throws Exception {
-        assertDEP(helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015")), new MediaType("application", "zip")).get(), 605);
+        assertDEP(
+            helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015")), new MediaType("application", "zip")).get(),
+            605);
     }
 
     @Test
     public void testDEPMonth() throws Exception {
-        assertDEP(helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7")), new MediaType("application", "zip")).get(), 602);
+        assertDEP(
+            helper
+                .createRestCallWithHeaderCredentialsForTestUser(
+                    url,
+                    (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7")),
+                    new MediaType("application", "zip"))
+                .get(),
+            602);
     }
 
     @Test
     public void testDEPDay() throws Exception {
-        assertDEP(helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7/1")), new MediaType("application", "zip")).get(), 599);
+        assertDEP(
+            helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7/1")), new MediaType("application", "zip")).get(),
+            599);
+    }
+
+    @Test
+    public void testDEPRKSV() throws Exception {
+        helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/environment/test")).put(Entity.json(null)).readEntity(
+            String.class);
+        assertDEP(
+            helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/rksv")), new MediaType("application", "zip")).get(),
+            2880);
     }
 
     private WebTarget addQueryParamCredentials(WebTarget webTarget) {
-        return webTarget
-                .queryParam("username", "Maria Musterfrau")
-                .queryParam("password", "abc123")
-                .queryParam("cashbox", "RegKas1");
+        return webTarget.queryParam("username", "Maria Musterfrau").queryParam("password", "abc123").queryParam("cashbox", "RegKas1");
     }
 
     private void assertDEP(Response response, int length) throws Exception {
@@ -107,6 +123,6 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, bytesRead);
         }
-        assertTrue(file.length() >= (length - 1) && file.length() <= (length + 1));
+        assertTrue(file.length() >= (length - 30) && file.length() <= (length + 30));
     }
 }

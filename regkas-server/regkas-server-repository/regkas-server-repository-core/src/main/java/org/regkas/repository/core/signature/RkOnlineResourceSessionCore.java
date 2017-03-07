@@ -50,8 +50,8 @@ public class RkOnlineResourceSessionCore implements RkOnlineResourceSession {
     public void loginSession() throws SignatureDeviceNotAvailableException {
         String url = RkOnlineRestResource.Session.getURL(rkOnlineContext);
         SessionPutRequest request = new SessionPutRequest(rkOnlineContext.getRkOnlinePassword().get());
-        log.info("call {}", url);
-        log.info("body {}", () -> serializer.serialize(request));
+        log.debug("call {}", url);
+        log.debug("body {}", () -> serializer.serialize(request));
         Response response = ClientBuilder
                 .newBuilder()
                 .sslContext(sslContectCreator.createSSLContext())
@@ -62,7 +62,7 @@ public class RkOnlineResourceSessionCore implements RkOnlineResourceSession {
                 .put(Entity.json(request));
         responseStateChecker.checkResponseState(response);
         SessionPutResponse sessionPutResponse = response.readEntity(SessionPutResponse.class);
-        log.info("response from rk-online: {}", () -> serializer.serialize(sessionPutResponse));
+        log.debug("response from rk-online: {}", () -> serializer.serialize(sessionPutResponse));
         rkOnlineContext.setSession(
                 new RkOnlineSession(
                         new RkOnlineSession.Id(sessionPutResponse.getSessionid()),

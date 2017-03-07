@@ -1,5 +1,13 @@
 package org.regkas.repository.core.signature;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDateTime;
+
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
@@ -18,14 +26,6 @@ import org.regkas.repository.api.values.RkOnlineSession;
 import org.regkas.repository.core.DateTimeHelperMock;
 import org.regkas.repository.core.crypto.Encoding;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
-
-import javax.inject.Inject;
-
-import java.time.LocalDateTime;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
@@ -60,6 +60,7 @@ public class RkOnlineResourceSignatureCoreTest extends EntityManagerProviderForR
     @After
     public void after() {
         dateTimeHelper.resetTime();
+        rkOnlineContext.resetSessions();
     }
 
     @Test
@@ -67,16 +68,24 @@ public class RkOnlineResourceSignatureCoreTest extends EntityManagerProviderForR
     public void testSign() throws Exception {
         assertFalse(rkOnlineContext.getRkOnlineSessionId().isPresent());
 
-        CompactJWSRepresentation compactJWSRepresentation = rkOnlineResourceSignature.sign(new JWSPayload("_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="));
+        CompactJWSRepresentation compactJWSRepresentation = rkOnlineResourceSignature.sign(
+            new JWSPayload(
+                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="));
         assertEquals("eyJhbGciOiJFUzI1NiJ9", compactJWSRepresentation.getProtectedHeader());
-        assertEquals("X1IxLUFUMTAwX0NBU0hCT1gtREVNTy0xX0NBU0hCT1gtREVNTy0xLVJlY2VpcHQtSUQtODJfMjAxNi0wMy0xMVQwNDoyNDo0Nl8wLDAwXzAsMDBfMCwwMF8wLDAwXzAsMDBfTkxvaVNITDNic009X2VlZTI1NzU3OWIwMzMwMmZfY2c4aE5VNWlodG89", compactJWSRepresentation.getPayloadOriginal());
-        assertEquals("_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto=", compactJWSRepresentation.getPayload());
+        assertEquals(
+            "X1IxLUFUMTAwX0NBU0hCT1gtREVNTy0xX0NBU0hCT1gtREVNTy0xLVJlY2VpcHQtSUQtODJfMjAxNi0wMy0xMVQwNDoyNDo0Nl8wLDAwXzAsMDBfMCwwMF8wLDAwXzAsMDBfTkxvaVNITDNic009X2VlZTI1NzU3OWIwMzMwMmZfY2c4aE5VNWlodG89",
+            compactJWSRepresentation.getPayloadOriginal());
+        assertEquals(
+            "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto=",
+            compactJWSRepresentation.getPayload());
         assertEquals(86, compactJWSRepresentation.getSignatureOriginal().length());
         assertEquals(88, compactJWSRepresentation.getSignature().length());
         assertTrue(rkOnlineContext.getRkOnlineSessionId().isPresent());
         RkOnlineSession.Id sessionIdFromFirstCall = rkOnlineContext.getRkOnlineSessionId().get();
 
-        compactJWSRepresentation = rkOnlineResourceSignature.sign(new JWSPayload("_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="));
+        compactJWSRepresentation = rkOnlineResourceSignature.sign(
+            new JWSPayload(
+                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="));
         RkOnlineSession.Id sessionIdFromSecondCall = rkOnlineContext.getRkOnlineSessionId().get();
         assertEquals(sessionIdFromFirstCall, sessionIdFromSecondCall);
     }

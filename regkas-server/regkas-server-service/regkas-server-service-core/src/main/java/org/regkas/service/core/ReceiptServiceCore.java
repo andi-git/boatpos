@@ -5,6 +5,8 @@ import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.signature.Environment;
+import org.regkas.repository.api.signature.RkOnlineContext;
 import org.regkas.service.api.ReceiptService;
 
 import javax.enterprise.context.RequestScoped;
@@ -27,6 +29,9 @@ public class ReceiptServiceCore implements ReceiptService {
     @Inject
     private DateTimeHelper dateTimeHelper;
 
+    @Inject
+    private RkOnlineContext rkOnlineContext;
+
     @Override
     public Boolean isStartReceiptCreated() {
         return receiptRepository.loadLatestWithReceiptTypeStart(cashBox).isPresent();
@@ -40,6 +45,16 @@ public class ReceiptServiceCore implements ReceiptService {
             shouldCreateMonthReceipt = true;
         }
         return shouldCreateMonthReceipt;
+    }
+
+    @Override
+    public String getCurrentRkOnlineEnvironment() {
+        return rkOnlineContext.getEnvironment().getName();
+    }
+
+    @Override
+    public void setRkOnlineEnvironment(String environment) {
+        rkOnlineContext.setEnvironment(Environment.get(environment));
     }
 
     private boolean diffGreaterEqualsOneMonth(LocalDateTime currentDateTime, Receipt receipt) {

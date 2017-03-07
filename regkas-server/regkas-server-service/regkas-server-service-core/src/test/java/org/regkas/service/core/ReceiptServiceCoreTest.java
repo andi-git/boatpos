@@ -24,6 +24,7 @@ import org.regkas.test.model.EntityManagerProviderForRegkas;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -97,6 +98,15 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
         dateTimeHelper.setTime(LocalDateTime.of(2015, 9, 1, 12, 0, 0));
         assertTrue(receiptService.shouldCreateMonthReceipt());
         dateTimeHelper.resetTime();
+    }
+
+    @Test
+    @Transactional
+    public void testGetSetEnvironment() {
+        receiptService.setRkOnlineEnvironment("prod");
+        assertEquals("prod", receiptService.getCurrentRkOnlineEnvironment());
+        receiptService.setRkOnlineEnvironment("test");
+        assertEquals("test", receiptService.getCurrentRkOnlineEnvironment());
     }
 
     private void insertReceipt(ReceiptType receiptType, ReceiptId receiptId, ReceiptDate receiptDate) {

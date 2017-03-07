@@ -82,6 +82,34 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
         return loadLatestWithReceiptType(new Name("Jahres-Beleg"), cashBox);
     }
 
+    @Override
+    public List<String> loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period period, CashBox cashBox) {
+        checkNotNull(period, "'period' must not be null");
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationWhereSignatureDeviceIsAvailableBetweenByCashBox", String.class)
+                .setParameter("start", period.getStartDay())
+                .setParameter("end", period.getEndDay())
+                .setParameter("cashBoxId", cashBox.getId().get())
+                .getResultList();
+    }
+
+    @Override
+    public List<String> loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period period, CashBox cashBox) {
+        checkNotNull(period, "'period' must not be null");
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationWhereSignatureDeviceIsNotAvailableBetweenByCashBox", String.class)
+                .setParameter("start", period.getStartDay())
+                .setParameter("end", period.getEndDay())
+                .setParameter("cashBoxId", cashBox.getId().get())
+                .getResultList();
+    }
+
+    @Override
+    public Optional<Receipt> loadLastWithSignatureDeviceNotAvailable(CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadByParameter("receipt.getLastWhereSignatureDeviceIsNotAvailable", (query) -> query.setParameter("cashBoxId", cashBox.getId().get()));
+    }
+
     private Optional<Receipt> loadLatestWithReceiptType(Name receiptTypeName, CashBox cashBox) {
         checkNotNull(cashBox, "'receiptTypeName' must not be null");
         checkNotNull(cashBox, "'cashBox' must not be null");

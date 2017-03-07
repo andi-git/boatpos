@@ -12,8 +12,12 @@
         </query>
     </named-query>
     <named-query name="receipt.getLastByCashBox">
-        <query>FROM ReceiptEntity r WHERE r.id IN (SELECT MAX(r2.id) FROM ReceiptEntity r2 WHERE r2.cashBox.id =
-            :cashBoxId)
+        <query>
+            FROM ReceiptEntity r
+            WHERE r.id IN
+            (SELECT MAX(r2.id)
+            FROM ReceiptEntity r2
+            WHERE r2.cashBox.id = :cashBoxId)
         </query>
     </named-query>
     <named-query name="receipt.getByReceiptId">
@@ -37,6 +41,36 @@
             WHERE r.receiptType IS NOT NULL AND r.receiptType.name = :receiptTypeName
             AND r.cashBox.id = :cashBoxId
             ORDER BY r.receiptDate DESC
+        </query>
+    </named-query>
+    <named-query name="receipt.getCompactJWSRepresentationWhereSignatureDeviceIsAvailableBetweenByCashBox">
+        <query>
+            SELECT r.compactJwsRepresentation
+            FROM ReceiptEntity r
+            WHERE r.receiptDate BETWEEN :start AND :end
+            AND r.cashBox.id = :cashBoxId
+            AND r.signatureDeviceAvailable = TRUE
+            ORDER BY id
+        </query>
+    </named-query>
+    <named-query name="receipt.getCompactJWSRepresentationWhereSignatureDeviceIsNotAvailableBetweenByCashBox">
+        <query>
+            SELECT r.compactJwsRepresentation
+            FROM ReceiptEntity r
+            WHERE r.receiptDate BETWEEN :start AND :end
+            AND r.cashBox.id = :cashBoxId
+            AND (r.signatureDeviceAvailable = FALSE OR r.signatureDeviceAvailable IS NULL)
+            ORDER BY id
+        </query>
+    </named-query>
+    <named-query name="receipt.getLastWhereSignatureDeviceIsNotAvailable">
+        <query>
+            FROM ReceiptEntity r
+            WHERE r.id IN
+            (SELECT MAX(r2.id)
+            FROM ReceiptEntity r2
+            WHERE (r2.signatureDeviceAvailable = FALSE OR r2.signatureDeviceAvailable IS NULL)
+            AND r2.cashBox.id = :cashBoxId)
         </query>
     </named-query>
 </entity-mappings>

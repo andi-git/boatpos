@@ -39,6 +39,7 @@ public class RkOnlineRestResourceTest extends EntityManagerProviderForRegkas {
         rkOnlineContext.setSession(new RkOnlineSession(new RkOnlineSession.Id("123"), new RkOnlineSession.Key("456"), new RkOnlineSession.LastAction(LocalDateTime.now())));
         assertEquals("https://hs-abnahme.a-trust.at/asignrkonline/v2/Session/123/Sign/JWS", RkOnlineRestResource.SignJWS.getURL(rkOnlineContext));
         assertEquals("https://hs-abnahme.a-trust.at/asignrkonline/v2/Session/u123456789", RkOnlineRestResource.Session.getURL(rkOnlineContext));
+        assertEquals("https://hs-abnahme.a-trust.at/asignrkonline/v2/u123456789/Certificate", RkOnlineRestResource.Certificate.getURL(rkOnlineContext));
     }
 
 }

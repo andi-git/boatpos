@@ -71,7 +71,7 @@ public class Period {
                 LocalDateTime.from(date).withMonth(12).withDayOfMonth(date.toLocalDate().lengthOfMonth()));
     }
 
-    public static Period forever() {
-        return new Period(LocalDateTime.of(2015, 1, 1, 0, 0, 0, 0), LocalDateTime.of(2100, 12, 31, 23, 59, 59, 999999999));
+    public static Period untilNow() {
+        return new Period(LocalDateTime.of(2015, 1, 1, 0, 0, 0, 0), LocalDateTime.now());
     }
 }

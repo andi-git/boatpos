@@ -65,8 +65,8 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
                     throw signatureDeviceNotAvailableException;
                 }
                 SignJWSPostRequest signJWSPostRequest = new SignJWSPostRequest(key.get().get(), jwsPayload.get());
-                log.info("call {}", RkOnlineRestResource.SignJWS.getURL(rkOnlineContext));
-                log.info("body {}", () -> serializer.serialize(signJWSPostRequest));
+                log.debug("call {}", RkOnlineRestResource.SignJWS.getURL(rkOnlineContext));
+                log.debug("body {}", () -> serializer.serialize(signJWSPostRequest));
                 return ClientBuilder
                     .newBuilder()
                     .sslContext(sslContectCreator.createSSLContext())
@@ -79,7 +79,7 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
             responseStateChecker.checkResponseState(response);
 
             SignJWSPostResponse signJWSPostResponse = response.readEntity(SignJWSPostResponse.class);
-            log.info("response from rk-online: {}", () -> serializer.serialize(signJWSPostResponse));
+            log.debug("response from rk-online: {}", () -> serializer.serialize(signJWSPostResponse));
             return CompactJWSRepresentationCore.fromRealCompactJwsRepresentation(signJWSPostResponse.getResult(), encoding);
 
         } catch (SignatureDeviceNotAvailableException e) {

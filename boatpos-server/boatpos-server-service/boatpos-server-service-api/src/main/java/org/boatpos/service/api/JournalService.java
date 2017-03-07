@@ -63,4 +63,6 @@ public interface JournalService {
      * @return the zipped {@link File} of the data-export
      */
     File datenErfassungsProtokoll(Integer year, Integer month, Integer dayOfMonth);
+
+    File datenErfassungsProtokollRKSV();
 }

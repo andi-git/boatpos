@@ -2,6 +2,7 @@ package org.regkas.repository.core.signature.entity;
 
 import com.google.gson.annotations.Expose;
 
+@SuppressWarnings("unused")
 public class SessionPutRequest {
 
     @Expose

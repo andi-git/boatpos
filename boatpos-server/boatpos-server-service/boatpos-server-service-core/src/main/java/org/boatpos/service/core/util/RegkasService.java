@@ -65,6 +65,10 @@ public class RegkasService {
         return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year + "/" + month + "/" + day), MEDIA_TYPE_ZIP).get());
     }
 
+    public File getDEPRKSV() {
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/rksv"), MEDIA_TYPE_ZIP).get());
+    }
+
     File convert(Response response) {
         return writeToFile(readEntity(response, InputStream.class), new File(System.getProperty("java.io.tmpdir"), getFileNameFromContentDisposition(response)));
     }

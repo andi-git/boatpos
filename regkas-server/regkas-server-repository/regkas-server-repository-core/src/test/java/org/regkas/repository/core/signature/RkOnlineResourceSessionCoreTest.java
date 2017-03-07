@@ -2,6 +2,7 @@ package org.regkas.repository.core.signature;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +40,11 @@ public class RkOnlineResourceSessionCoreTest extends EntityManagerProviderForReg
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         rkOnlineContext.resetSessions();
         rkOnlineContext.setEnvironment(Environment.TEST);
+    }
+
+    @After
+    public void after() {
+        rkOnlineContext.resetSessions();
     }
 
     @Test

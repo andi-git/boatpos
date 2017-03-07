@@ -1,16 +1,20 @@
 package org.regkas.service.rest;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.rest.filter.HeaderAuthenticated;
 import org.regkas.service.rest.filter.QueryParamAuthenticated;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Stateless
 @Path("/journal")
@@ -38,14 +42,22 @@ public class JournalServiceRest {
     @Path("/income/month")
     @HeaderAuthenticated
     public Response totalIncomeCurrentMonth() {
-        return Response.ok(journalService.totalIncomeFor(dateTimeHelper.currentDate().getYear(), dateTimeHelper.currentDate().getMonthValue())).build();
+        return Response
+            .ok(journalService.totalIncomeFor(dateTimeHelper.currentDate().getYear(), dateTimeHelper.currentDate().getMonthValue()))
+            .build();
     }
 
     @GET
     @Path("/income/day")
     @HeaderAuthenticated
     public Response totalIncomeCurrentDay() {
-        return Response.ok(journalService.totalIncomeFor(dateTimeHelper.currentDate().getYear(), dateTimeHelper.currentDate().getMonthValue(), dateTimeHelper.currentDate().getDayOfMonth())).build();
+        return Response
+            .ok(
+                journalService.totalIncomeFor(
+                    dateTimeHelper.currentDate().getYear(),
+                    dateTimeHelper.currentDate().getMonthValue(),
+                    dateTimeHelper.currentDate().getDayOfMonth()))
+            .build();
     }
 
     @GET
@@ -74,7 +86,7 @@ public class JournalServiceRest {
     @Produces({"application/zip"})
     @QueryParamAuthenticated
     public Response datenErfassungsProtokoll(@PathParam("year") Integer year) {
-        return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year));
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokollRKV2012(year));
     }
 
     @GET
@@ -82,7 +94,7 @@ public class JournalServiceRest {
     @Produces({"application/zip"})
     @QueryParamAuthenticated
     public Response datenErfassungsProtokoll(@PathParam("year") Integer year, @PathParam("month") Integer month) {
-        return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year, month));
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokollRKV2012(year, month));
     }
 
     @GET
@@ -90,6 +102,14 @@ public class JournalServiceRest {
     @Produces("application/zip")
     @QueryParamAuthenticated
     public Response datenErfassungsProtokoll(@PathParam("year") Integer year, @PathParam("month") Integer month, @PathParam("day") Integer day) {
-        return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year, month, day));
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokollRKV2012(year, month, day));
+    }
+
+    @GET
+    @Path("/dep/rksv")
+    @Produces("application/zip")
+    @QueryParamAuthenticated
+    public Response datenErfassungsProtokollRKSV() {
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokollRKSV());
     }
 }

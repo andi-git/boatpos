@@ -42,7 +42,7 @@ public interface JournalService {
      * @param year the year
      * @return the zipped {@link File} of the data-export
      */
-    File datenErfassungsProtokoll(Integer year);
+    File datenErfassungsProtokollRKV2012(Integer year);
 
     /**
      * Get the data-export. The returned {@link File} is zipped and contains the data.
@@ -51,7 +51,7 @@ public interface JournalService {
      * @param month the month (1-based: 1...12)
      * @return the zipped {@link File} of the data-export
      */
-    File datenErfassungsProtokoll(Integer year, Integer month);
+    File datenErfassungsProtokollRKV2012(Integer year, Integer month);
 
     /**
      * Get the data-export. The returned {@link File} is zipped and contains the data.
@@ -61,5 +61,7 @@ public interface JournalService {
      * @param dayOfMonth the day-of-month (1-based: 1...28/31)
      * @return the zipped {@link File} of the data-export
      */
-    File datenErfassungsProtokoll(Integer year, Integer month, Integer dayOfMonth);
+    File datenErfassungsProtokollRKV2012(Integer year, Integer month, Integer dayOfMonth);
+
+    File datenErfassungsProtokollRKSV();
 }

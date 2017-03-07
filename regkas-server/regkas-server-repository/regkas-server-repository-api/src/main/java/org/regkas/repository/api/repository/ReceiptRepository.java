@@ -79,4 +79,10 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
      * @return the latest {@link Receipt} with {@link ReceiptTypeJahr}
      */
     Optional<Receipt> loadLatestWithReceiptTypeJahr(CashBox cashBox);
+
+    List<String> loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period period, CashBox cashBox);
+
+    List<String> loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period period, CashBox cashBox);
+
+    Optional<Receipt> loadLastWithSignatureDeviceNotAvailable(CashBox cashBox);
 }

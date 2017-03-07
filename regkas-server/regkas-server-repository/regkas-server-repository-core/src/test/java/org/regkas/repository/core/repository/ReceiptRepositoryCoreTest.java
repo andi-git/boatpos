@@ -1,23 +1,42 @@
 package org.regkas.repository.core.repository;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import javax.inject.Inject;
+
 import org.boatpos.common.model.PaymentMethod;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.builder.ReceiptBuilder;
-import org.regkas.repository.api.model.*;
-import org.regkas.repository.api.repository.*;
-import org.regkas.repository.api.values.*;
+import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.model.Company;
+import org.regkas.repository.api.model.Receipt;
+import org.regkas.repository.api.model.ReceiptType;
+import org.regkas.repository.api.model.User;
+import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.repository.ReceiptTypeRepository;
+import org.regkas.repository.api.repository.UserRepository;
+import org.regkas.repository.api.values.DEPString;
+import org.regkas.repository.api.values.EncryptedTurnoverValue;
+import org.regkas.repository.api.values.Name;
+import org.regkas.repository.api.values.ReceiptDate;
+import org.regkas.repository.api.values.ReceiptId;
+import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
+import org.regkas.repository.api.values.SuiteId;
+import org.regkas.repository.api.values.TotalPrice;
 import org.regkas.repository.core.DateTimeHelperMock;
 import org.regkas.service.api.bean.Period;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
-
-import javax.inject.Inject;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
@@ -129,19 +148,44 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
         Company company = companyRepository.loadBy(new Name("company")).get();
         User user = userRepository.loadBy(new Name("Maria Musterfrau")).get();
         receiptBuilder
-                .add(receiptId)
-                .add(company)
-                .add(cashBox)
-                .add(user)
-                .add(receiptType)
-                .add(receiptDate)
-                .add(new TotalPrice("11.00"))
-                .add(new DEPString("dep"))
-                .add(PaymentMethod.CASH)
-                .add(new EncryptedTurnoverValue(""))
-                .add(new SignatureValuePreviousReceipt(""))
-                .add(new SuiteId("R1-AT0"))
-                .build()
-                .persist();
+            .add(receiptId)
+            .add(company)
+            .add(cashBox)
+            .add(user)
+            .add(receiptType)
+            .add(receiptDate)
+            .add(new TotalPrice("11.00"))
+            .add(new DEPString("dep"))
+            .add(PaymentMethod.CASH)
+            .add(new EncryptedTurnoverValue(""))
+            .add(new SignatureValuePreviousReceipt(""))
+            .add(new SuiteId("R1-AT0"))
+            .build()
+            .persist();
+    }
+
+    @Test
+    @Transactional
+    public void testLoadCompactJWSRepresentationsWithSignatureDeviceAvailable() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        List<String> compactJwsRepresentations = receiptRepository.loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period.untilNow(), cashBox);
+        assertEquals(2, compactJwsRepresentations.size());
+        assertEquals("xxx.jws123.sss", compactJwsRepresentations.get(0));
+        assertEquals("xxx.jws456.sss", compactJwsRepresentations.get(1));
+    }
+
+    @Test
+    @Transactional
+    public void testLoadCompactJWSRepresentationsWithSignatureDeviceNotAvailable() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        List<String> compactJwsRepresentations = receiptRepository.loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period.untilNow(), cashBox);
+        assertEquals(0, compactJwsRepresentations.size());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadLastWithSignatureDeviceNotAvailable() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertFalse(receiptRepository.loadLastWithSignatureDeviceNotAvailable(cashBox).isPresent());
     }
 }

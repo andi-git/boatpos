@@ -1,25 +1,8 @@
 package org.regkas.service.core;
 
-import com.google.common.io.ByteStreams;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.regkas.repository.api.context.CashBoxContext;
-import org.regkas.repository.api.context.CompanyContext;
-import org.regkas.repository.api.repository.CashBoxRepository;
-import org.regkas.repository.api.repository.CompanyRepository;
-import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
-import org.regkas.repository.api.serializer.Serializer;
-import org.regkas.repository.api.values.Name;
-import org.regkas.service.api.JournalService;
-import org.regkas.service.api.bean.IncomeBean;
-import org.regkas.service.api.bean.ProductGroupIncomeBean;
-import org.regkas.service.api.bean.TaxElementBean;
-import org.regkas.service.core.serializer.DEPExport;
-import org.regkas.test.model.EntityManagerProviderForRegkas;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,7 +11,42 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static org.junit.Assert.assertEquals;
+import javax.inject.Inject;
+
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.context.CompanyContext;
+import org.regkas.repository.api.context.UserContext;
+import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.repository.CompanyRepository;
+import org.regkas.repository.api.repository.UserRepository;
+import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
+import org.regkas.repository.api.serializer.Serializer;
+import org.regkas.repository.api.signature.Environment;
+import org.regkas.repository.api.signature.RkOnlineContext;
+import org.regkas.repository.api.signature.RkOnlineResourceFactory;
+import org.regkas.repository.api.values.Name;
+import org.regkas.service.api.JournalService;
+import org.regkas.service.api.SaleService;
+import org.regkas.service.api.bean.IncomeBean;
+import org.regkas.service.api.bean.ProductGroupIncomeBean;
+import org.regkas.service.api.bean.TaxElementBean;
+import org.regkas.service.core.dep.DepExportRKSV;
+import org.regkas.service.core.dep.DepExportRKV2012;
+import org.regkas.service.core.email.MailSenderFactory;
+import org.regkas.service.core.email.MailSenderMock;
+import org.regkas.service.core.financialoffice.FinancialOfficeSenderFactory;
+import org.regkas.service.core.financialoffice.FinancialOfficeSenderMock;
+import org.regkas.service.core.receipt.FirstSale;
+import org.regkas.service.core.receipt.RkOnlineResourceSessionThrowingException;
+import org.regkas.test.model.EntityManagerProviderForRegkas;
+
+import com.google.common.io.ByteStreams;
 
 @RunWith(Arquillian.class)
 public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
@@ -49,6 +67,12 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
     private CompanyContext companyContext;
 
     @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private UserContext userContext;
+
+    @Inject
     private DateTimeHelperMock dateTimeHelperMock;
 
     @Inject
@@ -58,10 +82,57 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
     @NonPrettyPrintingGson
     private Serializer serializer;
 
+    @Inject
+    private RkOnlineContext rkOnlineContext;
+
+    @Inject
+    private RkOnlineResourceFactory rkOnlineResourceFactory;
+
+    @Inject
+    private MailSenderFactory mailSenderFactory;
+
+    @Inject
+    private FinancialOfficeSenderFactory financialOfficeSenderFactory;
+
+    protected MailSenderMock mailSenderMock = new MailSenderMock();
+
+    protected FinancialOfficeSenderMock financialOfficeSenderMock = new FinancialOfficeSenderMock();
+
+    @Inject
+    private FirstSale firstSale;
+
+    @Inject
+    private SaleService saleService;
+
+    @Before
+    public void before() {
+        mailSenderMock.reset();
+        mailSenderFactory.setMailSender(mailSenderMock);
+        financialOfficeSenderMock.reset();
+        financialOfficeSenderFactory.setFinancialOfficeSender(financialOfficeSenderMock);
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+        rkOnlineResourceFactory.resetRkOnlineResourceSignature();
+        rkOnlineContext.setEnvironment(Environment.TEST);
+        rkOnlineContext.resetSessions();
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+
+    }
+
+    @After
+    public void after() {
+        mailSenderFactory.reset();
+        financialOfficeSenderFactory.reset();
+        companyContext.clear();
+        cashBoxContext.clear();
+        companyContext.clear();
+        userContext.clear();
+    }
+
     @Test
     @Transactional
     public void testIncome() throws Exception {
-        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         IncomeBean income = journalService.totalIncomeFor(2015);
         assertEquals(new BigDecimal("22.00"), income.getTotalIncome());
         assertEquals(7, income.getIncomeElements().size());
@@ -88,7 +159,6 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(7, income.getIncomeElements().size());
         assertEquals(new BigDecimal("11.00"), income.getIncomeElements().get(0).getIncome());
         assertEquals(10, income.getIncomeElements().get(0).getTaxPercent().intValue());
-        cashBoxContext.clear();
     }
 
     private void assertIncomeElement(ProductGroupIncomeBean incomeElement, String expectedName, int expectedTaxPercent, BigDecimal expectedIncome) {
@@ -97,7 +167,12 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(expectedIncome, incomeElement.getIncome());
     }
 
-    private void assertTaxElement(TaxElementBean taxElement, int expectedTaxPercent, BigDecimal expectedPrice, BigDecimal expectedPriceBeforeTax, BigDecimal expectedPriceTax) {
+    private void assertTaxElement(
+            TaxElementBean taxElement,
+            int expectedTaxPercent,
+            BigDecimal expectedPrice,
+            BigDecimal expectedPriceBeforeTax,
+            BigDecimal expectedPriceTax) {
         assertEquals(expectedTaxPercent, taxElement.getTaxPercent().intValue());
         assertEquals(expectedPrice, taxElement.getPrice());
         assertEquals(expectedPriceBeforeTax, taxElement.getPriceBeforeTax());
@@ -106,22 +181,35 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testDatenErfassungsProtokoll() throws Exception {
-        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
-        companyContext.set(companyRepository.loadBy(new Name("company")));
-        assertDEP(journalService.datenErfassungsProtokoll(2015), LocalDateTime.of(2015, 1, 1, 0, 0, 0), LocalDateTime.of(2015, 12, 31, 23, 59, 59, 999999999), 2);
-        assertDEP(journalService.datenErfassungsProtokoll(2015, 7), LocalDateTime.of(2015, 7, 1, 0, 0, 0), LocalDateTime.of(2015, 7, 31, 23, 59, 59, 999999999), 2);
-        assertDEP(journalService.datenErfassungsProtokoll(2015, 7, 1), LocalDateTime.of(2015, 7, 1, 0, 0, 0), LocalDateTime.of(2015, 7, 1, 23, 59, 59, 999999999), 2);
-        assertDEP(journalService.datenErfassungsProtokoll(2015, 7, 2), LocalDateTime.of(2015, 7, 2, 0, 0, 0), LocalDateTime.of(2015, 7, 2, 23, 59, 59, 999999999), 0);
-        cashBoxContext.clear();
-        companyContext.clear();
+    public void testDatenErfassungsProtokollRKV2012() throws Exception {
+        assertDEP(
+            journalService.datenErfassungsProtokollRKV2012(2015),
+            LocalDateTime.of(2015, 1, 1, 0, 0, 0),
+            LocalDateTime.of(2015, 12, 31, 23, 59, 59, 999999999),
+            2);
+        assertDEP(
+            journalService.datenErfassungsProtokollRKV2012(2015, 7),
+            LocalDateTime.of(2015, 7, 1, 0, 0, 0),
+            LocalDateTime.of(2015, 7, 31, 23, 59, 59, 999999999),
+            2);
+        assertDEP(
+            journalService.datenErfassungsProtokollRKV2012(2015, 7, 1),
+            LocalDateTime.of(2015, 7, 1, 0, 0, 0),
+            LocalDateTime.of(2015, 7, 1, 23, 59, 59, 999999999),
+            2);
+        assertDEP(
+            journalService.datenErfassungsProtokollRKV2012(2015, 7, 2),
+            LocalDateTime.of(2015, 7, 2, 0, 0, 0),
+            LocalDateTime.of(2015, 7, 2, 23, 59, 59, 999999999),
+            0);
     }
 
     private void assertDEP(File file, LocalDateTime start, LocalDateTime end, int elements) throws IOException {
         ZipFile zipFile = new ZipFile(file);
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
         while (entries.hasMoreElements()) {
-            DEPExport depExport = serializer.deserialize(new String(ByteStreams.toByteArray(zipFile.getInputStream(entries.nextElement()))), DEPExport.class);
+            DepExportRKV2012 depExport = serializer
+                .deserialize(new String(ByteStreams.toByteArray(zipFile.getInputStream(entries.nextElement()))), DepExportRKV2012.class);
             assertEquals("company", depExport.getCompany());
             assertEquals("atu123", depExport.getAtu());
             assertEquals("RegKas1", depExport.getCashBoxId());
@@ -129,6 +217,32 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
             assertEquals(start, depExport.getFrom());
             assertEquals(end, depExport.getTo());
             assertEquals(elements, depExport.getCashBoxInstructionList().size());
+        }
+    }
+
+    @Test
+    @Transactional
+    public void testDatenErfassungsProtokollRKSV() throws Exception {
+        rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
+        saleService.sale(firstSale.createDefaultSale());
+        saleService.sale(firstSale.createDefaultSale());
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+        saleService.sale(firstSale.createDefaultSale());
+        saleService.sale(firstSale.createDefaultSale());
+
+        File file = journalService.datenErfassungsProtokollRKSV();
+        ZipFile zipFile = new ZipFile(file);
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        while (entries.hasMoreElements()) {
+            String content = new String(ByteStreams.toByteArray(zipFile.getInputStream(entries.nextElement())));
+            DepExportRKSV depExport = serializer.deserialize(content, DepExportRKSV.class);
+            assertTrue(depExport.getBelegeGruppe().get(0).getSignaturzertifikat().length() > 1);
+            assertEquals(2, depExport.getBelegeGruppe().get(0).getZertifizierungsstellen().size());
+            assertEquals(5, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
+            assertEquals("", depExport.getBelegeGruppe().get(1).getSignaturzertifikat());
+            assertEquals(0, depExport.getBelegeGruppe().get(1).getZertifizierungsstellen().size());
+            assertEquals(2, depExport.getBelegeGruppe().get(1).getBelegeKompakt().size());
+
         }
     }
 }

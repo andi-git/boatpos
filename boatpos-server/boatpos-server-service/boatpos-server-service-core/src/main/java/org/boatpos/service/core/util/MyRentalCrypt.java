@@ -8,12 +8,14 @@ import org.boatpos.repository.api.values.DayId;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.NoSuchAlgorithmException;
 import java.time.format.DateTimeFormatter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -33,12 +35,17 @@ public class MyRentalCrypt {
     private Cipher cipherToDecrypt;
 
     @PostConstruct
-    private void init() throws Exception {
+    private void init() throws RuntimeException {
         SecretKeySpec skey = new SecretKeySpec(System.getProperty("boatpos.myrental.key").getBytes(), "AES");
-        cipherToEncrypt = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipherToEncrypt.init(Cipher.ENCRYPT_MODE, skey);
-        cipherToDecrypt = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipherToDecrypt.init(Cipher.DECRYPT_MODE, skey);
+        try {
+            cipherToEncrypt = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipherToEncrypt.init(Cipher.ENCRYPT_MODE, skey);
+            cipherToDecrypt = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipherToDecrypt.init(Cipher.DECRYPT_MODE, skey);
+        } catch (Exception e) {
+            log.error(e);
+            throw new RuntimeException(e);
+        }
     }
 
     public String encrypt(String input) {

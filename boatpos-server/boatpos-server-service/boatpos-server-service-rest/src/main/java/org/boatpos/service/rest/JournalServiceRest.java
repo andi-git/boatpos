@@ -92,4 +92,12 @@ public class JournalServiceRest {
     public Response datenErfassungsProtokoll(@PathParam("year") Integer year, @PathParam("month") Integer month, @PathParam("day") Integer day) {
         return restHelper.createZipOutput(journalService.datenErfassungsProtokoll(year, month, day));
     }
+
+    @GET
+    @Path("/dep/rksv")
+    @QueryParamAuthenticated
+    @Produces("application/zip")
+    public Response datenErfassungsProtokollRKSV() {
+        return restHelper.createZipOutput(journalService.datenErfassungsProtokollRKSV());
+    }
 }

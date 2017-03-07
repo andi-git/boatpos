@@ -1,5 +1,14 @@
 package org.boatpos.service.rest;
 
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
+import java.net.URL;
+
+import javax.inject.Inject;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
 import org.boatpos.common.test.rest.RestTestHelper;
 import org.boatpos.service.api.bean.JournalReportBean;
@@ -7,12 +16,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.net.URL;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
@@ -25,13 +28,19 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForYear() throws Exception {
-        JournalReportBean journalReportBean = helper.createRestCall(url, (wt) -> wt.path("journal/income/2015")).get().readEntity(JournalReportBean.class);
+        JournalReportBean journalReportBean = helper
+            .createRestCall(url, (wt) -> wt.path("journal/income/2015"))
+            .get()
+            .readEntity(JournalReportBean.class);
         assertYear(journalReportBean);
     }
 
     @Test
     public void testTotalIncomeForCurrentYear() throws Exception {
-        JournalReportBean journalReportBean = helper.createRestCall(url, (wt) -> wt.path("journal/income/year")).get().readEntity(JournalReportBean.class);
+        JournalReportBean journalReportBean = helper
+            .createRestCall(url, (wt) -> wt.path("journal/income/year"))
+            .get()
+            .readEntity(JournalReportBean.class);
         assertYear(journalReportBean);
     }
 
@@ -47,13 +56,19 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForMonth() throws Exception {
-        JournalReportBean journalReportBean = helper.createRestCall(url, (wt) -> wt.path("journal/income/2015/7")).get().readEntity(JournalReportBean.class);
+        JournalReportBean journalReportBean = helper
+            .createRestCall(url, (wt) -> wt.path("journal/income/2015/7"))
+            .get()
+            .readEntity(JournalReportBean.class);
         assertMonth(journalReportBean);
     }
 
     @Test
     public void testTotalIncomeForCurrentMonth() throws Exception {
-        JournalReportBean journalReportBean = helper.createRestCall(url, (wt) -> wt.path("journal/income/month")).get().readEntity(JournalReportBean.class);
+        JournalReportBean journalReportBean = helper
+            .createRestCall(url, (wt) -> wt.path("journal/income/month"))
+            .get()
+            .readEntity(JournalReportBean.class);
         assertMonth(journalReportBean);
     }
 
@@ -69,13 +84,19 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForDay() throws Exception {
-        JournalReportBean journalReportBean = helper.createRestCall(url, (wt) -> wt.path("journal/income/2015/7/1")).get().readEntity(JournalReportBean.class);
+        JournalReportBean journalReportBean = helper
+            .createRestCall(url, (wt) -> wt.path("journal/income/2015/7/1"))
+            .get()
+            .readEntity(JournalReportBean.class);
         assertDay(journalReportBean);
     }
 
     @Test
     public void testTotalIncomeForCurrentDay() throws Exception {
-        JournalReportBean journalReportBean = helper.createRestCall(url, (wt) -> wt.path("journal/income/day")).get().readEntity(JournalReportBean.class);
+        JournalReportBean journalReportBean = helper
+            .createRestCall(url, (wt) -> wt.path("journal/income/day"))
+            .get()
+            .readEntity(JournalReportBean.class);
         assertDay(journalReportBean);
     }
 
@@ -87,5 +108,49 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(0, journalReportBean.getJournalReportItemBeans().get(1).getCount().intValue());
         assertEquals(new BigDecimal("12.60"), journalReportBean.getJournalReportItemBeans().get(2).getPricePaidAfterCash());
         assertEquals(1, journalReportBean.getJournalReportItemBeans().get(2).getCount().intValue());
+    }
+
+    @Test
+    public void testDatenerfassungprotokollRKSV() throws Exception {
+        assertEquals(
+            Response.Status.OK,
+            helper
+                .createRestCall(
+                    url,
+                    (wt) -> wt.path("journal/dep/rksv").queryParam("username", "boatpos").queryParam("password", "test123"),
+                    new MediaType("application", "zip"))
+                .get()
+                .getStatusInfo());
+    }
+
+    @Test
+    public void testDatenerfassungprotokoll() throws Exception {
+        assertEquals(
+            Response.Status.OK,
+            helper
+                .createRestCall(
+                    url,
+                    (wt) -> wt.path("journal/dep/2015").queryParam("username", "boatpos").queryParam("password", "test123"),
+                    new MediaType("application", "zip"))
+                .get()
+                .getStatusInfo());
+        assertEquals(
+            Response.Status.OK,
+            helper
+                .createRestCall(
+                    url,
+                    (wt) -> wt.path("journal/dep/2015/7").queryParam("username", "boatpos").queryParam("password", "test123"),
+                    new MediaType("application", "zip"))
+                .get()
+                .getStatusInfo());
+        assertEquals(
+            Response.Status.OK,
+            helper
+                .createRestCall(
+                    url,
+                    (wt) -> wt.path("journal/dep/2015/7/1").queryParam("username", "boatpos").queryParam("password", "test123"),
+                    new MediaType("application", "zip"))
+                .get()
+                .getStatusInfo());
     }
 }

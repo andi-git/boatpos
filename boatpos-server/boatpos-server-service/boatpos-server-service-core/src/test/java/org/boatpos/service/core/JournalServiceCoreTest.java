@@ -69,4 +69,18 @@ public class JournalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("12.60"), journalReportBean.getJournalReportItemBeans().get(2).getPricePaidAfterCash());
         assertEquals(1, journalReportBean.getJournalReportItemBeans().get(2).getCount().intValue());
     }
+
+    @Test
+    @Transactional
+    public void testDatenErfassungsProtokollRKSV() {
+        assertEquals("depRKSV", journalService.datenErfassungsProtokollRKSV().getName());
+    }
+
+    @Test
+    @Transactional
+    public void testDatenErfassungsProtokoll() {
+        assertEquals("depYear", journalService.datenErfassungsProtokoll(2015).getName());
+        assertEquals("depYearMonth", journalService.datenErfassungsProtokoll(2015, 7).getName());
+        assertEquals("depYearMonthDay", journalService.datenErfassungsProtokoll(2015, 7, 1).getName());
+    }
 }

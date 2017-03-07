@@ -18,4 +18,8 @@ public interface ReceiptService {
      * @return {@code true} if the month-receipt for the last month should be created
      */
     Boolean shouldCreateMonthReceipt();
+
+    String getCurrentRkOnlineEnvironment();
+
+    void setRkOnlineEnvironment(String environment);
 }

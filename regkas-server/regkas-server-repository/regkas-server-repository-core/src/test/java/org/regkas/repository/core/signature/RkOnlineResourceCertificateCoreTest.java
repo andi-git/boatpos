@@ -1,0 +1,72 @@
+package org.regkas.repository.core.signature;
+
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDateTime;
+
+import javax.inject.Inject;
+
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.signature.Environment;
+import org.regkas.repository.api.signature.RkOnlineContext;
+import org.regkas.repository.api.signature.RkOnlineResourceCertificate;
+import org.regkas.repository.api.values.Certificate;
+import org.regkas.repository.api.values.Name;
+import org.regkas.repository.core.DateTimeHelperMock;
+import org.regkas.test.model.EntityManagerProviderForRegkas;
+
+@SuppressWarnings("OptionalGetWithoutIsPresent")
+@RunWith(Arquillian.class)
+public class RkOnlineResourceCertificateCoreTest extends EntityManagerProviderForRegkas {
+
+    @Inject
+    private RkOnlineResourceCertificate rkOnlineResourceCertificate;
+
+    @Inject
+    private RkOnlineContext rkOnlineContext;
+
+    @Inject
+    private CashBoxContext cashBoxContext;
+
+    @Inject
+    private CashBoxRepository cashBoxRepository;
+
+    @Inject
+    private DateTimeHelperMock dateTimeHelper;
+
+    @Before
+    public void before() {
+        rkOnlineContext.resetSessions();
+        rkOnlineContext.setEnvironment(Environment.TEST);
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("DEMO-CASH-BOX817")));
+        dateTimeHelper.setTime(LocalDateTime::now);
+    }
+
+    @After
+    public void after() {
+        dateTimeHelper.resetTime();
+        rkOnlineContext.resetSessions();
+    }
+
+    @Test
+    @Transactional
+    public void testLoadCertificate() throws Exception {
+        Certificate certificate = rkOnlineResourceCertificate.loadCertificate();
+        assertEquals(
+            "MIIEvTCCA6WgAwIBAgIEIVm59jANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBgwCQVQxSDBGBgNVBAoMP0EtVHJ1c3QgR2VzLiBmLiBTaWNoZXJoZWl0c3N5c3RlbWUgaW0gZWxla3RyLiBEYXRlbnZlcmtlaHIgR21iSDEjMCEGA1UECwwaYS1zaWduLVByZW1pdW0tVGVzdC1TaWctMDIxIzAhBgNVBAMMGmEtc2lnbi1QcmVtaXVtLVRlc3QtU2lnLTAyMB4XDTE2MDMxMDE0NDczOVoXDTIwMDUxMDE0NDczOVowYzELMAkGA1UEBgwCQVQxGTAXBgNVBAMMEFVJRDogQVRVMTIzNDU2NzgxFDASBgNVBAQMC0FUVTEyMzQ1Njc4MQwwCgYDVQQqDANVSUQxFTATBgNVBAUMDDUyOTkxMjU1MjI4NjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABDmCCjepLRPT+MvR4CHqycC25UNfFaFcyqCL8lwEVsUVk10bmQn290u20foEaa075geQvJokWbTwTQqLgORYVVejggIDMIIB/zCBhAYIKwYBBQUHAQEEeDB2MEYGCCsGAQUFBzAChjpodHRwOi8vd3d3LmEtdHJ1c3QuYXQvY2VydHMvYS1zaWduLVByZW1pdW0tVGVzdC1TaWctMDIuY3J0MCwGCCsGAQUFBzABhiBodHRwOi8vb2NzcC10ZXN0LmEtdHJ1c3QuYXQvb2NzcDAOBgNVHQ8BAf8EBAMCBsAwJwYIKwYBBQUHAQMBAf8EGDAWMAgGBgQAjkYBATAKBggrBgEFBQcLATCBrgYDVR0fBIGmMIGjMIGgoIGdoIGahoGXbGRhcDovL2xkYXAtdGVzdC5hLXRydXN0LmF0L291PWEtc2lnbi1QcmVtaXVtLVRlc3QtU2lnLTAyIChTSEEtMjU2KSxvPUEtVHJ1c3QsYz1BVD9jZXJ0aWZpY2F0ZXJldm9jYXRpb25saXN0P2Jhc2U/b2JqZWN0Y2xhc3M9ZWlkQ2VydGlmaWNhdGlvbkF1dGhvcml0eTAJBgNVHRMEAjAAMFkGA1UdIARSMFAwCAYGBACLMAEBMEQGBiooABEBCzA6MDgGCCsGAQUFBwIBFixodHRwOi8vd3d3LmEtdHJ1c3QuYXQvZG9jcy9jcC9hLXNpZ24tUHJlbWl1bTATBgNVHSMEDDAKgAhGBp+OQY4VvTARBgNVHQ4ECgQITEStzGF8AcEwDQYJKoZIhvcNAQELBQADggEBADKLJSnaG7sMsX0USrzLHRXuWPKCrOXbLfXmnmlAN2+2Pzd/wAXXL1G2dpRpyspoC4QxLVQrUQE+WQae94lXdI7yFwVk8Y5bR+K/bY/EfNSPiwSyxXtYOnMrH+s9szH5nCG4aRGxys5hrbxfyS8GHXqv8V6cUlddCYkwXL4XXBpSxh9UofVOA1+mtKEtESg9ifcayV6TwBOHmzg7GZe0IY32VIpjaJQA8LQU1YDARx+yfuxtc4KBk3o5ZaVmZ4xyX/elUTLQX8aMnT7sIbhA3+FFvaD70iYp+9kZL9LO9bzfS/yv0xmPjFLVQ817DwTHM1ZFGk5d6WRGBIm7fjq8QuM=",
+            certificate.getSignaturzertifikat());
+        assertEquals(
+            "MIIEATCCAumgAwIBAgIEOWntwTANBgkqhkiG9w0BAQUFADCBlTELMAkGA1UEBhMCQVQxSDBGBgNVBAoMP0EtVHJ1c3QgR2VzLiBmLiBTaWNoZXJoZWl0c3N5c3RlbWUgaW0gZWxla3RyLiBEYXRlbnZlcmtlaHIgR21iSDEdMBsGA1UECwwUQS1UcnVzdC1UZXN0LVF1YWwtMDIxHTAbBgNVBAMMFEEtVHJ1c3QtVGVzdC1RdWFsLTAyMB4XDTE0MTEyNDE0NDkxN1oXDTI0MTExODEzNDkxN1owgaExCzAJBgNVBAYTAkFUMUgwRgYDVQQKDD9BLVRydXN0IEdlcy4gZi4gU2ljaGVyaGVpdHNzeXN0ZW1lIGltIGVsZWt0ci4gRGF0ZW52ZXJrZWhyIEdtYkgxIzAhBgNVBAsMGmEtc2lnbi1QcmVtaXVtLVRlc3QtU2lnLTAyMSMwIQYDVQQDDBphLXNpZ24tUHJlbWl1bS1UZXN0LVNpZy0wMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANwJSfWpRaziThddTTup72CltlXl8oc7HQoK2SWsYQwZGAd5nJZbwbI4K8VFKlNnK72Zl8UhmQ2FxhzS6u+Q+qEzJOM2xTfA2NB6A9/KFpTJXUjvCHgRvW16EEF9YpYXxKTSK+QrYCXAC5rL6SuYOzgA7Q1ivq+zLbyXxroux2zVEBIiaBGpZhOHGDFJk6h/4QelIqzd2TIDCRzvhmLDVmhqX2C1NQb5kZuMgrxxOhG5Cr1F8solkwyu43JiM+apY4bZJVQBwi9ATBMz5tfdoLRslQy1BCQ4X+b6u/2856gucU+1e/wa5pB9Ff0eP+xy+j2DZOXLNd8m/IQvnshjNusCAwEAAaNLMEkwDwYDVR0TAQH/BAUwAwEB/zARBgNVHQ4ECgQIRgafjkGOFb0wEwYDVR0jBAwwCoAIQg8xWXA9iecwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBBQUAA4IBAQBq/owq5eGvhxegchLvnMjPnE9gTYIHEvMq8DN6h2J7pTEhKG2o09LLn/pNHWRjKENU/LqZBIAJ5zebm5XqzB631BYcuu1abyPFfpMdAL9X4zFuDvg9EGaTir2c81XaBYzVSLN7fxmNLKSmMwUt0JQQyqpe3V9iyoBE/WcQyKmKaEp7mCZsGFBm6KmJgqD6TPb7X9bWUr3yx6Z5gek71f3vQi69m1x811azXlxu1i/XFnVpzxkrKRXJWC+wnQRxXmU7YnMzYPOA7UOpUG6J+7tYi29hY3EpMgyXM/T/BL5MdyzBefbPVzLHng5zVaXNpO0ENCrlUyi1m3Yd/7QPDdJM",
+            certificate.getZertifizierungsstellen().get(0));
+        assertEquals(
+            "MIID4DCCAsigAwIBAgIEOWntvzANBgkqhkiG9w0BAQUFADCBlTELMAkGA1UEBhMCQVQxSDBGBgNVBAoMP0EtVHJ1c3QgR2VzLiBmLiBTaWNoZXJoZWl0c3N5c3RlbWUgaW0gZWxla3RyLiBEYXRlbnZlcmtlaHIgR21iSDEdMBsGA1UECwwUQS1UcnVzdC1UZXN0LVF1YWwtMDIxHTAbBgNVBAMMFEEtVHJ1c3QtVGVzdC1RdWFsLTAyMB4XDTE0MTEyNDE0NDc0N1oXDTI0MTExODEzNDc0N1owgZUxCzAJBgNVBAYTAkFUMUgwRgYDVQQKDD9BLVRydXN0IEdlcy4gZi4gU2ljaGVyaGVpdHNzeXN0ZW1lIGltIGVsZWt0ci4gRGF0ZW52ZXJrZWhyIEdtYkgxHTAbBgNVBAsMFEEtVHJ1c3QtVGVzdC1RdWFsLTAyMR0wGwYDVQQDDBRBLVRydXN0LVRlc3QtUXVhbC0wMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANMBok2fNNtIEcf7Sw47vprkUeti6Y64Rc5rrAjh7cGwo4Jp5LyfvEVdv9AMNiuOX7ywd1xW99UZWtZ8MzXvWM5M6trLkeBYnCukwc9DqawXcuXXCYwgTuisFTmYO6GVJNr1iE/LJdSKbu5AVDS3FwXixqyJkjv/xWIwU4q86oATW8++8wb6Lu+fQlhBbn3Kqpavt6K+lwWSCb+8vIhB47IlKhJZwGqXfGV9l9dDgKYUbZiv3BBa+MRBUTvIcahEKz8hG2E8W4EgCwzISMpeStJtRHo/tJnA90KfSBTcz0txrxpHwqFgKwJvgW6nIjY1Sv5MfY5YJiEWv0d7UUkvlScCAwEAAaM2MDQwDwYDVR0TAQH/BAUwAwEB/zARBgNVHQ4ECgQIQg8xWXA9iecwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBBQUAA4IBAQApqSvkQyfbO2yDWewHwo1Zl32uGz41KMP5FYtA3BIcqh89paHwrW9KfcrybdUIneVz4iSnpyrDrS4LavfP8h/Hl1kRmVZRUBsOJRvqc1fiC2B6IJRHrmayb/DbXuyoOsk7Sr8M9xtAD3SzJCRkBrtjz/U/xQdU9TfV9SQyPN3qI+SR25/LRZDhOKcIFJduVpTYzbnKTIkl3OUrHXVq5xddxX6XP8bUjT+SqGiDf15H6N5flNBsvolMSo0OoQXFiDuY33frQSrSbHbA2p/MptwxA8JgGh4lrbgZZxjTvpO1wATBLDc3wGZkNuy+tNrrHAmE08B7fiExULHxzfaZEWSF",
+            certificate.getZertifizierungsstellen().get(1));
+    }
+}
