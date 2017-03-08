@@ -31,7 +31,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,commons-codec,commons-email</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,commons-codec,commons-email,commons-io</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>

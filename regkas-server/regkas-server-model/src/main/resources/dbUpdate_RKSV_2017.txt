@@ -26,3 +26,9 @@
   - TODO
 - add signatureMandatory to ReceiptType
   - TODO
+
+
+
+
+- add system-properties for e-mail
+- add system-property for daily dep-export

@@ -11,6 +11,7 @@ import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.MasterDataCore;
 import org.regkas.model.CashBoxEntity;
 import org.regkas.repository.api.model.CashBox;
+import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.values.AESKeyBase64;
 import org.regkas.repository.api.values.CertificationServiceProvider;
 import org.regkas.repository.api.values.IpAddress;
@@ -19,6 +20,9 @@ import org.regkas.repository.api.values.RkOnlinePassword;
 import org.regkas.repository.api.values.RkOnlineUsername;
 import org.regkas.repository.api.values.SignatureCertificateSerialNumber;
 import org.regkas.repository.api.values.TotalPriceCent;
+import org.regkas.repository.core.builder.CompanyBuilderCore;
+
+import javax.enterprise.inject.spi.CDI;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -146,6 +150,11 @@ public class CashBoxCore extends MasterDataCore<CashBox, CashBoxEntity> implemen
     @Override
     public RkOnlinePassword getRkOnlinePassword() {
         return new RkOnlinePassword(getEntity().getRkOnlinePassword());
+    }
+
+    @Override
+    public Company getCompany() {
+        return CDI.current().select(CompanyBuilderCore.class).get().from(getEntity().getCompany());
     }
 
     private CashBox setTurnoverCountCent(TotalPriceCent totalPriceCent) {

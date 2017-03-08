@@ -40,4 +40,6 @@ public interface CashBox extends MasterData<CashBox, CashBoxEntity> {
     CashBox setRkOnlinePassword(RkOnlinePassword rkOnlinePassword);
 
     RkOnlinePassword getRkOnlinePassword();
+
+    Company getCompany();
 }

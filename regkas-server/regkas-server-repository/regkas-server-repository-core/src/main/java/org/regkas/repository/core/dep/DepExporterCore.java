@@ -18,10 +18,9 @@ import javax.inject.Inject;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
-import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.dep.DepExporter;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Company;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.signature.RkOnlineResourceCertificate;
 import org.regkas.repository.api.values.Certificate;
@@ -38,18 +37,18 @@ public class DepExporterCore implements DepExporter {
     private ReceiptRepository receiptRepository;
 
     @Inject
-    @Current
-    private CashBox cashBox;
-
-    @Inject
-    @Current
-    private Company company;
-
-    @Inject
     private DateTimeHelper dateTimeHelper;
 
     @Inject
     private RkOnlineResourceCertificate rkOnlineResourceCertificate;
+
+    // use the context because of the call from the timer-ejb
+    @Inject
+    private CashBoxContext cashBoxContext;
+
+    // use the context because of the call from the timer-ejb
+    @Inject
+    private CompanyContext companyContext;
 
     @Override
     public File exportBasedOnRKV2012(Period period) {
@@ -61,9 +60,9 @@ public class DepExporterCore implements DepExporter {
             zos.putNextEntry(new ZipEntry(fileName + ".json"));
 
             writeLine(zos, "{");
-            writeLine(zos, "  \"company\": \"" + company.getName().get() + "\",");
-            writeLine(zos, "  \"atu\": \"" + company.getATU().get() + "\",");
-            writeLine(zos, "  \"cashBoxId\": \"" + cashBox.getName().get() + "\",");
+            writeLine(zos, "  \"company\": \"" + companyContext.get().getName().get() + "\",");
+            writeLine(zos, "  \"atu\": \"" + companyContext.get().getATU().get() + "\",");
+            writeLine(zos, "  \"cashBoxId\": \"" + cashBoxContext.get().getName().get() + "\",");
             writeLine(zos, "  \"created\": \"" + dateTimeHelper.currentTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
             writeLine(zos, "  \"from\": \"" + period.getStartDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
             writeLine(zos, "  \"to\": \"" + period.getEndDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
@@ -71,7 +70,7 @@ public class DepExporterCore implements DepExporter {
 
             LocalDate currentDay = period.getStartDay().toLocalDate();
             while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
-                List<String> deps = receiptRepository.loadDEPFor(Period.day(currentDay), cashBox);
+                List<String> deps = receiptRepository.loadDEPFor(Period.day(currentDay), cashBoxContext.get());
                 for (int i = 0; i < deps.size(); i++ ) {
                     writeLine(zos, "    " + deps.get(i) + (i < (deps.size() - 1) ? "," : ""));
                 }
@@ -121,8 +120,9 @@ public class DepExporterCore implements DepExporter {
             addBelegeKompakt(
                 period,
                 zos,
-                (currentDay) -> receiptRepository.loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period.day(currentDay), cashBox));
-            if (receiptRepository.loadLastWithSignatureDeviceNotAvailable(cashBox).isPresent()) {
+                (currentDay) -> receiptRepository
+                    .loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period.day(currentDay), cashBoxContext.get()));
+            if (receiptRepository.loadLastWithSignatureDeviceNotAvailable(cashBoxContext.get()).isPresent()) {
                 writeLine(zos, "    },");
                 writeLine(zos, "    {");
                 writeLine(zos, "      \"Signaturzertifikat\": " + "\"\",");
@@ -130,7 +130,8 @@ public class DepExporterCore implements DepExporter {
                 addBelegeKompakt(
                     period,
                     zos,
-                    (currentDay) -> receiptRepository.loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period.day(currentDay), cashBox));
+                    (currentDay) -> receiptRepository
+                        .loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period.day(currentDay), cashBoxContext.get()));
             }
             writeLine(zos, "    }");
             writeLine(zos, "  ]");
@@ -172,9 +173,9 @@ public class DepExporterCore implements DepExporter {
     private String createFileName(String prefix, Period period) {
         return prefix +
             "_" +
-            company.getName().get().replaceAll(" ", "") +
+            companyContext.get().getName().get().replaceAll(" ", "") +
             "_" +
-            cashBox.getName().get() +
+            cashBoxContext.get().getName().get() +
             "_" +
             period.getStartDay().format(DateTimeFormatter.ISO_DATE) +
             "_" +
