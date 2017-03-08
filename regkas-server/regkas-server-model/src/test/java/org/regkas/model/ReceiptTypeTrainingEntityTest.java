@@ -10,6 +10,6 @@ public class ReceiptTypeTrainingEntityTest extends JavaBeanTest<ReceiptTypeTrain
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeTrainingEntity(1L, 1, true, 1, "", "", "name");
+        new ReceiptTypeTrainingEntity(1L, 1, true, 1, "", "", "name", false);
     }
 }

@@ -6,10 +6,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class ReceiptTypeStartStornoTest extends JavaBeanTest<ReceiptTypeStornoEntity> {
+public class ReceiptTypeSammelTest extends JavaBeanTest<ReceiptTypeSammelEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeStornoEntity(1L, 1, true, 1, "", "", "name", false);
+        new ReceiptTypeSammelEntity(1L, 1, true, 1, "", "", "name", false);
     }
 }

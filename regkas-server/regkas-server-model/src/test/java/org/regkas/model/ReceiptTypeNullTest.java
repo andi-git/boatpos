@@ -10,6 +10,6 @@ public class ReceiptTypeNullTest extends JavaBeanTest<ReceiptTypeNullEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeNullEntity(1L, 1, true, 1, "", "", "name");
+        new ReceiptTypeNullEntity(1L, 1, true, 1, "", "", "name", false);
     }
 }

@@ -27,7 +27,11 @@ public class JPAHelper {
         } else if (collection.size() == 1) {
             return Optional.ofNullable(collection.iterator().next());
         } else {
-            throw new NonUniqueResultException("multiple entities of " + collection.iterator().next().getClass().getName() + " available");
+            String message = "multiple entities of " + collection.iterator().next().getClass().getName() + " available: ";
+            for (T c : collection) {
+                message += c.getClass().getName() + ", ";
+            }
+            throw new NonUniqueResultException(message);
         }
     }
 

@@ -15,11 +15,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.context.CashBoxContext;
+import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.signature.CompactJWSRepresentation;
 import org.regkas.repository.api.signature.Environment;
 import org.regkas.repository.api.signature.RkOnlineContext;
+import org.regkas.repository.api.signature.RkOnlineResourceFactory;
 import org.regkas.repository.api.signature.RkOnlineResourceSignature;
+import org.regkas.repository.api.signature.SignatureDeviceNotAvailableException;
 import org.regkas.repository.api.values.JWSPayload;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.RkOnlineSession;
@@ -49,6 +53,12 @@ public class RkOnlineResourceSignatureCoreTest extends EntityManagerProviderForR
     @Inject
     private DateTimeHelperMock dateTimeHelper;
 
+    @Inject
+    private ReceiptTypeRepository receiptTypeRepository;
+
+    @Inject
+    private RkOnlineResourceFactory rkOnlineResourceFactory;
+
     @Before
     public void before() {
         rkOnlineContext.resetSessions();
@@ -61,16 +71,21 @@ public class RkOnlineResourceSignatureCoreTest extends EntityManagerProviderForR
     public void after() {
         dateTimeHelper.resetTime();
         rkOnlineContext.resetSessions();
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+        rkOnlineResourceFactory.resetRkOnlineResourceSignature();
     }
 
     @Test
     @Transactional
     public void testSign() throws Exception {
+        ReceiptType receiptType = receiptTypeRepository.loadBy(new Name("Standard-Beleg")).get();
+
         assertFalse(rkOnlineContext.getRkOnlineSessionId().isPresent());
 
         CompactJWSRepresentation compactJWSRepresentation = rkOnlineResourceSignature.sign(
             new JWSPayload(
-                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="));
+                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="),
+            receiptType);
         assertEquals("eyJhbGciOiJFUzI1NiJ9", compactJWSRepresentation.getProtectedHeader());
         assertEquals(
             "X1IxLUFUMTAwX0NBU0hCT1gtREVNTy0xX0NBU0hCT1gtREVNTy0xLVJlY2VpcHQtSUQtODJfMjAxNi0wMy0xMVQwNDoyNDo0Nl8wLDAwXzAsMDBfMCwwMF8wLDAwXzAsMDBfTkxvaVNITDNic009X2VlZTI1NzU3OWIwMzMwMmZfY2c4aE5VNWlodG89",
@@ -85,8 +100,25 @@ public class RkOnlineResourceSignatureCoreTest extends EntityManagerProviderForR
 
         compactJWSRepresentation = rkOnlineResourceSignature.sign(
             new JWSPayload(
-                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="));
+                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="),
+            receiptType);
         RkOnlineSession.Id sessionIdFromSecondCall = rkOnlineContext.getRkOnlineSessionId().get();
         assertEquals(sessionIdFromFirstCall, sessionIdFromSecondCall);
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testSignWithSignatureDeviceDamagedAndSignatureIsMandatory() throws Exception {
+        ReceiptType receiptType = receiptTypeRepository.loadBy(new Name("Start-Beleg")).get();
+        MockRkOnlineResourceSession rkOnlineResourceSession = new MockRkOnlineResourceSession();
+        rkOnlineResourceSession.setRunInLoginSession(() -> {
+            throw new SignatureDeviceNotAvailableException("");
+        });
+        rkOnlineResourceFactory.setRkOnlineResourceSession(rkOnlineResourceSession);
+
+        rkOnlineResourceSignature.sign(
+            new JWSPayload(
+                "_R1-AT100_CASHBOX-DEMO-1_CASHBOX-DEMO-1-Receipt-ID-82_2016-03-11T04:24:46_0,00_0,00_0,00_0,00_0,00_NLoiSHL3bsM=_eee257579b03302f_cg8hNU5ihto="),
+            receiptType);
     }
 }

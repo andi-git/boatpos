@@ -13,7 +13,7 @@ public class ReceiptTypeStornoEntity extends ReceiptTypeEntity {
     public ReceiptTypeStornoEntity() {
     }
 
-    public ReceiptTypeStornoEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name) {
-        super(id, version, enabled, priority, pictureUrl, pictureUrlThumb, name);
+    public ReceiptTypeStornoEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, Boolean signatureMandatory) {
+        super(id, version, enabled, priority, pictureUrl, pictureUrlThumb, name, signatureMandatory);
     }
 }

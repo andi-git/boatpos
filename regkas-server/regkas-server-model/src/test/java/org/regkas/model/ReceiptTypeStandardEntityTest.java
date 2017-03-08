@@ -10,6 +10,6 @@ public class ReceiptTypeStandardEntityTest extends JavaBeanTest<ReceiptTypeStand
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeStandardEntity(1L, 1, true, 1, "", "", "name");
+        new ReceiptTypeStandardEntity(1L, 1, true, 1, "", "", "name", false);
     }
 }

@@ -5,6 +5,7 @@ import org.regkas.model.ReceiptTypeEntity;
 import org.regkas.repository.api.turnovercounter.EncryptTurnoverCounter;
 import org.regkas.repository.api.turnovercounter.UpdateTurnoverCounter;
 import org.regkas.repository.api.values.Name;
+import org.regkas.repository.api.values.SignatureMandatory;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 
 /**
@@ -13,6 +14,8 @@ import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 public interface ReceiptType<MODEL extends ReceiptType, ENTITY extends ReceiptTypeEntity> extends MasterData<MODEL, ENTITY> {
 
     Name getName();
+
+    SignatureMandatory getSignatureMandatory();
 
     UpdateTurnoverCounter getUpdateTurnoverCounter();
 

@@ -8,6 +8,7 @@ import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.values.InputForChainCalculation;
 import org.regkas.repository.api.values.Name;
+import org.regkas.repository.api.values.SignatureMandatory;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.core.crypto.Crypto;
 
@@ -23,6 +24,11 @@ public abstract class ReceiptTypeCore<MODEL extends ReceiptType, ENTITY extends 
     @Override
     public Name getName() {
         return new Name(getEntity().getName());
+    }
+
+    @Override
+    public SignatureMandatory getSignatureMandatory() {
+        return new SignatureMandatory(getEntity().getSignatureMandatory());
     }
 
     protected <T> T fromCDI(Class<T> type) {

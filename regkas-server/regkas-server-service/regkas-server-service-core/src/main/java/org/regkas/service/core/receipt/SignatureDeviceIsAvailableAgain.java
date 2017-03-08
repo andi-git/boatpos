@@ -42,7 +42,7 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
         notifyCompany(billBean);
         notifyFinancialOffice(billBean);
         Receipt nullReceipt = createNullReceipt();
-        billBean.setNullBill(nullReceipt.asBillBean());
+        billBean.setSammelBeleg(nullReceipt.asBillBean());
         return billBean;
     }
 

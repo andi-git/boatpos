@@ -81,7 +81,7 @@ public class BillBean extends AbstractBean {
     @Expose
     private String jwsCompact;
 
-    private BillBean nullBill;
+    private BillBean sammelBeleg;
 
     public BillBean() {
     }
@@ -230,11 +230,11 @@ public class BillBean extends AbstractBean {
         this.jwsCompact = jwsCompact;
     }
 
-    public BillBean getNullBill() {
-        return nullBill;
+    public BillBean getSammelBeleg() {
+        return sammelBeleg;
     }
 
-    public void setNullBill(BillBean nullBill) {
-        this.nullBill = nullBill;
+    public void setSammelBeleg(BillBean sammelBeleg) {
+        this.sammelBeleg = sammelBeleg;
     }
 }

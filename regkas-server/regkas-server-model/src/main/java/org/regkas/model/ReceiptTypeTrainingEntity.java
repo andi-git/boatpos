@@ -13,7 +13,7 @@ public class ReceiptTypeTrainingEntity extends ReceiptTypeEntity {
     public ReceiptTypeTrainingEntity() {
     }
 
-    public ReceiptTypeTrainingEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name) {
-        super(id, version, enabled, priority, pictureUrl, pictureUrlThumb, name);
+    public ReceiptTypeTrainingEntity(Long id, Integer version, Boolean enabled, Integer priority, String pictureUrl, String pictureUrlThumb, String name, Boolean signatureMandatory) {
+        super(id, version, enabled, priority, pictureUrl, pictureUrlThumb, name, signatureMandatory);
     }
 }

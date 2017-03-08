@@ -32,7 +32,7 @@ public class SignatureDeviceIsStillDamangedTest extends HandleSignatureDeviceAva
     public void testHandle() throws Exception {
         BillBean billBean = new BillBean();
         billBean = signatureDeviceIsStillDamaged.handle(billBean);
-        assertNull(billBean.getNullBill());
+        assertNull(billBean.getSammelBeleg());
         assertTrue(mailSenderMock.isSendCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());

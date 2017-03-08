@@ -10,6 +10,6 @@ public class ReceiptTypeMonatTest extends JavaBeanTest<ReceiptTypeMonatEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeMonatEntity(1L, 1, true, 1, "", "", "name");
+        new ReceiptTypeMonatEntity(1L, 1, true, 1, "", "", "name", true);
     }
 }

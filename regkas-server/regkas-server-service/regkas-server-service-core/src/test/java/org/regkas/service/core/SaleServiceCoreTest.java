@@ -154,7 +154,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(2750, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
         assertEquals(FirstSale.expectedPayloadEncoded, storedReceipt.getCompactJwsRepresentation().getPayload());
         assertEquals(FirstSale.expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
-        assertNull(bill.getNullBill());
+        assertNull(bill.getSammelBeleg());
         assertTrue(mailSenderMock.isSendCalled());
         assertTrue(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
@@ -169,7 +169,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
             "_R1-AT0_RegKas1_2015-0000004_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_HbazrfakqjI=_123_EvYwLdR4uNc=",
             storedReceipt.getCompactJwsRepresentation().getPayload());
         assertEquals(FirstSale.expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
-        assertNull(bill.getNullBill());
+        assertNull(bill.getSammelBeleg());
         assertTrue(mailSenderMock.isSendCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
@@ -186,8 +186,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
             storedReceipt.getCompactJwsRepresentation().getPayload());
         assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
         assertNotEquals(FirstSale.expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
-        assertNotNull(bill.getNullBill());
-        storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getNullBill().getReceiptIdentifier()), cashBoxContext.get()).get();
+        assertNotNull(bill.getSammelBeleg());
+        storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getSammelBeleg().getReceiptIdentifier()), cashBoxContext.get()).get();
         assertEquals(
             "_R1-AT0_RegKas1_2015-0000006_2015-07-01T15:00:00_0,00_0,00_0,00_0,00_0,00_bsH02gJiJH4=_123",
             storedReceipt
@@ -214,7 +214,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
                 .substring(0, storedReceipt.getCompactJwsRepresentation().getPayload().lastIndexOf('_')));
         assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
         assertNotEquals(FirstSale.expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
-        assertNull(bill.getNullBill());
+        assertNull(bill.getSammelBeleg());
         assertFalse(mailSenderMock.isSendCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());

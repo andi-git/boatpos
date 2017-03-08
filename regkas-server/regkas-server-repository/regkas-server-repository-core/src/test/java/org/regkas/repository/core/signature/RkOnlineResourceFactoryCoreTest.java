@@ -2,17 +2,12 @@ package org.regkas.repository.core.signature;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.signature.CompactJWSRepresentation;
 import org.regkas.repository.api.signature.RkOnlineResourceFactory;
-import org.regkas.repository.api.signature.RkOnlineResourceSession;
-import org.regkas.repository.api.signature.RkOnlineResourceSignature;
-import org.regkas.repository.api.values.JWSPayload;
 
 @RunWith(Arquillian.class)
 public class RkOnlineResourceFactoryCoreTest {
@@ -38,20 +33,4 @@ public class RkOnlineResourceFactoryCoreTest {
         assertEquals(RkOnlineResourceSessionCore.class, rkOnlineResourceFactory.getRkOnlineResourceSession().getClass().getSuperclass());
     }
 
-    @Alternative
-    private static final class MockRkOnlineResourceSignature implements RkOnlineResourceSignature {
-
-        @Override
-        public CompactJWSRepresentation sign(JWSPayload jwsPayload) {
-            return null;
-        }
-    }
-
-    private static final class MockRkOnlineResourceSession implements RkOnlineResourceSession {
-
-        @Override
-        public void loginSession() {
-
-        }
-    }
 }

@@ -1,6 +1,7 @@
-- add receipt-types: jahr, monat
+- add receipt-types: jahr, monat, schluss, sammel WITH signatureMadatory
   - insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 6, 'Monats-Beleg')
   - insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 7, 'Jahres-Beleg')
+  - TODO
 - drop column timetype from receipt:
   - alter table receipt drop column timetype
 - add aesKeyBase64 to CashBox
@@ -22,4 +23,6 @@
 - add machineReadableRepresentation to Receipt
   - TODO
 - add compactJwsRepresentation to Receipt
+  - TODO
+- add signatureMandatory to ReceiptType
   - TODO

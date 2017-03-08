@@ -21,7 +21,7 @@ public class ReceiptTypeBuilderHolderTest extends EntityManagerProviderForRegkas
     @Test
     @Transactional
     public void getAvaiableBuilders() throws Exception {
-        assertEquals(7, receiptTypeBuilderHolder.getAvaiableBuilders().size());
+        assertEquals(9, receiptTypeBuilderHolder.getAvaiableBuilders().size());
     }
 
     @Test
@@ -34,5 +34,7 @@ public class ReceiptTypeBuilderHolderTest extends EntityManagerProviderForRegkas
         assertEquals(ReceiptTypeStartCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeStartEntity()).get().getClass());
         assertEquals(ReceiptTypeStornoCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeStornoEntity()).get().getClass());
         assertEquals(ReceiptTypeTrainingCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeTrainingEntity()).get().getClass());
+        assertEquals(ReceiptTypeSchlussCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeSchlussEntity()).get().getClass());
+        assertEquals(ReceiptTypeSammelCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeSammelEntity()).get().getClass());
     }
 }

@@ -34,13 +34,13 @@ public class ReceiptTypeRepositoryCoreTest extends EntityManagerProviderForRegka
     @Test
     @Transactional
     public void testLoadAll() {
-        assertEquals(7, receiptTypeRepository.loadAll().size());
+        assertEquals(9, receiptTypeRepository.loadAll().size());
     }
 
     @Test
     @Transactional
     public void testLoadAllEnabledDisable() {
-        assertEquals(7, receiptTypeRepository.loadAll(Enabled.TRUE).size());
+        assertEquals(9, receiptTypeRepository.loadAll(Enabled.TRUE).size());
         assertEquals(0, receiptTypeRepository.loadAll(Enabled.FALSE).size());
     }
 }

@@ -83,33 +83,33 @@ public class ReceiptCreator {
 
     private Receipt buildReceiptBasedOnSaleBean(SaleBean sale, ReceiptType receiptType) {
         ReceiptBuilder receiptBuilder = receiptRepository
-                .builder()
-                .add(receiptIdCalculator.getNextReceiptId())
-                .add(new ReceiptDate(dateTimeHelper.currentTime()))
-                .add(new EncryptedTurnoverValue(""))
-                .add(new SignatureValuePreviousReceipt(""))
-                .add(PaymentMethod.get(sale.getPaymentMethod()))
-                .add(receiptType)
-                .add(cashBox)
-                .add(user)
-                .add(company)
-                .add(new SuiteId(cashBox.getCertificationServiceProvider()));
+            .builder()
+            .add(receiptIdCalculator.getNextReceiptId())
+            .add(new ReceiptDate(dateTimeHelper.currentTime()))
+            .add(new EncryptedTurnoverValue(""))
+            .add(new SignatureValuePreviousReceipt(""))
+            .add(PaymentMethod.get(sale.getPaymentMethod()))
+            .add(receiptType)
+            .add(cashBox)
+            .add(user)
+            .add(company)
+            .add(new SuiteId(cashBox.getCertificationServiceProvider()));
         TotalPrice totalPrice = new TotalPrice(SimpleBigDecimalObject.ZERO);
         for (ReceiptElementBean receiptElementBean : sale.getSaleElements()) {
             Optional<Product> productOptional = productRepository.loadBy(new Name(receiptElementBean.getProduct().getName()), cashBox);
             if ( !productOptional.isPresent()) {
                 throw new RuntimeException(
-                        "unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
+                    "unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
                 TotalPrice totalPriceForElement = new TotalPrice(receiptElementBean.getTotalPrice());
                 totalPrice = totalPrice.add(totalPriceForElement);
                 receiptBuilder.add(
-                        receiptElementRepository
-                                .builder()
-                                .add(new Amount(receiptElementBean.getAmount()))
-                                .add(totalPriceForElement)
-                                .add(productOptional.get())
-                                .build());
+                    receiptElementRepository
+                        .builder()
+                        .add(new Amount(receiptElementBean.getAmount()))
+                        .add(totalPriceForElement)
+                        .add(productOptional.get())
+                        .build());
             }
         }
         receiptBuilder.add(totalPrice);
@@ -129,7 +129,8 @@ public class ReceiptCreator {
     }
 
     private void signReceipt(Receipt receipt) {
-        receipt.setCompactJWSRepresentation(rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned()));
+        receipt.setCompactJWSRepresentation(
+            rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned(), receipt.getReceiptType()));
     }
 
 }

@@ -10,6 +10,6 @@ public class ReceiptTypeStartEntityTest extends JavaBeanTest<ReceiptTypeStartEnt
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeStartEntity(1L, 1, true, 1, "", "", "name");
+        new ReceiptTypeStartEntity(1L, 1, true, 1, "", "", "name", true);
     }
 }

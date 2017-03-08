@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
+import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
 import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.signature.CompactJWSRepresentation;
@@ -53,7 +54,7 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
     private ResponseStateChecker responseStateChecker;
 
     @Override
-    public CompactJWSRepresentation sign(JWSPayload jwsPayload) {
+    public CompactJWSRepresentation sign(JWSPayload jwsPayload, ReceiptType receiptType) {
         checkNotNull(SimpleValueObject.notNull(jwsPayload), "'jwsPayload' must not be null");
         try {
             Response response = rkOnlineSessionHandling.withinActiveSession(() -> {
@@ -85,7 +86,11 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
         } catch (SignatureDeviceNotAvailableException e) {
             log.error(e);
             rkOnlineContext.resetSessions();
-            return CompactJWSRepresentationCore.whenSignatureDeviceIsNotAvailable(jwsPayload, encoding);
+            if (SimpleValueObject.nullSafe(receiptType.getSignatureMandatory())) {
+                throw new RuntimeException("signature is mandatory for " + receiptType.getName().get(), e);
+            } else {
+                return CompactJWSRepresentationCore.whenSignatureDeviceIsNotAvailable(jwsPayload, encoding);
+            }
         }
     }
 }

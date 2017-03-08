@@ -32,7 +32,7 @@ public class SignatureDeviceIsDamagedFirstTimeTest extends HandleSignatureDevice
     public void testHandle() throws Exception {
         BillBean billBean = new BillBean();
         billBean = signatureDeviceIsDamagedFirstTime.handle(billBean);
-        assertNull(billBean.getNullBill());
+        assertNull(billBean.getSammelBeleg());
         assertTrue(mailSenderMock.isSendCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
         assertTrue(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());

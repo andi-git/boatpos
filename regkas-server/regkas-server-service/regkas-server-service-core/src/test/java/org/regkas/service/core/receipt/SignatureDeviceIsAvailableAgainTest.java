@@ -33,7 +33,7 @@ public class SignatureDeviceIsAvailableAgainTest extends HandleSignatureDeviceAv
     public void testHandle() throws Exception {
         BillBean billBean = new BillBean();
         billBean = signatureDeviceIsAvailableAgain.handle(billBean);
-        assertNotNull(billBean.getNullBill());
+        assertNotNull(billBean.getSammelBeleg());
         assertTrue(mailSenderMock.isSendCalled());
         assertTrue(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());

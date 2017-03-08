@@ -16,6 +16,7 @@ import org.regkas.test.model.EntityManagerProviderForRegkas;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -41,6 +42,7 @@ public class ReceiptTypeStandardCoreTest extends EntityManagerProviderForRegkas 
     public void testGetStandardBelegFromDatabase() {
         assertEquals(ReceiptTypeStandardCore.class, receiptType.getClass());
         assertEquals("Standard-Beleg", receiptType.getName().get());
+        assertFalse(receiptType.getSignatureMandatory().get());
     }
 
     @Test(expected = NullPointerException.class)

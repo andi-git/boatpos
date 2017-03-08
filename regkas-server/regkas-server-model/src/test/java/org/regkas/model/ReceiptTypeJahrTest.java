@@ -10,6 +10,6 @@ public class ReceiptTypeJahrTest extends JavaBeanTest<ReceiptTypeJahrEntity> {
 
     @Test
     public void testConstructor() {
-        new ReceiptTypeJahrEntity(1L, 1, true, 1, "", "", "name");
+        new ReceiptTypeJahrEntity(1L, 1, true, 1, "", "", "name", true);
     }
 }
