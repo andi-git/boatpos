@@ -83,10 +83,21 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
     }
 
     @Override
+    public List<String> loadCompactJWSRepresentations(Period period, CashBox cashBox) {
+        checkNotNull(period, "'period' must not be null");
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationsBetweenByCashBox", String.class)
+                .setParameter("start", period.getStartDay())
+                .setParameter("end", period.getEndDay())
+                .setParameter("cashBoxId", cashBox.getId().get())
+                .getResultList();
+    }
+
+    @Override
     public List<String> loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period period, CashBox cashBox) {
         checkNotNull(period, "'period' must not be null");
         checkNotNull(cashBox, "'cashBox' must not be null");
-        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationWhereSignatureDeviceIsAvailableBetweenByCashBox", String.class)
+        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationsWhereSignatureDeviceIsAvailableBetweenByCashBox", String.class)
                 .setParameter("start", period.getStartDay())
                 .setParameter("end", period.getEndDay())
                 .setParameter("cashBoxId", cashBox.getId().get())
@@ -97,7 +108,7 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
     public List<String> loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period period, CashBox cashBox) {
         checkNotNull(period, "'period' must not be null");
         checkNotNull(cashBox, "'cashBox' must not be null");
-        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationWhereSignatureDeviceIsNotAvailableBetweenByCashBox", String.class)
+        return jpaHelper().createNamedQuery("receipt.getCompactJWSRepresentationsWhereSignatureDeviceIsNotAvailableBetweenByCashBox", String.class)
                 .setParameter("start", period.getStartDay())
                 .setParameter("end", period.getEndDay())
                 .setParameter("cashBoxId", cashBox.getId().get())

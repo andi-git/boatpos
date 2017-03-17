@@ -130,7 +130,51 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.persist(receiptElement12);
         em.persist(receiptElement21);
 
-        // company Eppel
+        /*
+         * Test Suite 01
+         */
+
+        UserEntity userDemo01 = new UserEntity(null, null, true, 2, "", "", "User Demo01", DigestUtils.sha1Hex("xyz789"), null);
+        CashBoxEntity cashBoxDemo01 = new CashBoxEntity(null, null, true, 4, "", "", "CASHBOX-DEMO-1", "37C76F3D", null, "192.168.0.21", "WQRtiiya3hYh/Uz44Bv3x8ETl1nrH6nCdErn69g5/lU=", 0L, "AT100", "u123456789", "123456789");
+        CompanyEntity companyDemo01 = new CompanyEntity(null, null, true, 2, "", "", "company demo 01", address1, "+431123456789", "office@company.com", "U:ATU12345678", Sets.newHashSet(cashBoxDemo01), Sets.newHashSet(userDemo01), Sets.newHashSet());
+        cashBoxDemo01.setCompany(companyDemo01);
+        companyDemo01.getCashBoxes().add(cashBoxDemo01);
+        userDemo01.setCompany(companyDemo01);
+        companyDemo01.getUsers().add(userDemo01);
+        em.persist(companyDemo01);
+        em.persist(cashBoxDemo01);
+        em.persist(userDemo01);
+        ProductGroupEntity productGroupStandard = new ProductGroupEntity(null, null, true, 8, 'h', "", "", "Standard", taxSet1, cashBoxDemo01, new HashSet<>());
+        ProductGroupEntity productGroupErmaessigt1 = new ProductGroupEntity(null, null, true, 8, 'h', "", "", "Ermaessigt1", taxSet2, cashBoxDemo01, new HashSet<>());
+        ProductGroupEntity productGroupErmaessigt2 = new ProductGroupEntity(null, null, true, 8, 'h', "", "", "Ermaessigt2", taxSet3, cashBoxDemo01, new HashSet<>());
+        ProductGroupEntity productGroupNull = new ProductGroupEntity(null, null, true, 9, 'i', "", "", "Null", taxSet4, cashBoxDemo01, new HashSet<>());
+        ProductGroupEntity productGroupBesonders = new ProductGroupEntity(null, null, true, 10, 'j', "", "", "Besonders", taxSet5, cashBoxDemo01, new HashSet<>());
+        ProductEntity productStandard = new ProductEntity(null, null, true, 4, 'D', "", "", "Standard", productGroupStandard, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productErmaessigt1 = new ProductEntity(null, null, true, 4, 'D', "", "", "Ermaessigt1", productGroupErmaessigt1, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productErmaessigt2 = new ProductEntity(null, null, true, 4, 'D', "", "", "Ermaessigt2", productGroupErmaessigt2, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productNull = new ProductEntity(null, null, true, 4, 'D', "", "", "Null", productGroupNull, new HashSet<>(), new BigDecimal("0.00"), false);
+        ProductEntity productBesonders = new ProductEntity(null, null, true, 4, 'D', "", "", "Besonders", productGroupBesonders, new HashSet<>(), new BigDecimal("0.00"), false);
+        productGroupStandard.getProducts().add(productStandard);
+        productGroupErmaessigt1.getProducts().add(productErmaessigt1);
+        productGroupErmaessigt2.getProducts().add(productErmaessigt2);
+        productGroupNull.getProducts().add(productNull);
+        productGroupBesonders.getProducts().add(productBesonders);
+
+        em.persist(productGroupStandard);
+        em.persist(productGroupErmaessigt1);
+        em.persist(productGroupErmaessigt2);
+        em.persist(productGroupNull);
+        em.persist(productGroupBesonders);
+        em.persist(productStandard);
+        em.persist(productErmaessigt1);
+        em.persist(productErmaessigt2);
+        em.persist(productNull);
+        em.persist(productBesonders);
+
+        /*
+         * company eppel
+         */
+
         AddressEntity addressEppel = new AddressEntity(null, null, "Wagramerstraße 48a", "1220", "Wien", "Österreich", new HashSet<>());
         UserEntity userEppel = new UserEntity(null, null, true, 1, "", "", "Eppel", DigestUtils.sha1Hex("test123"), null);
         CashBoxEntity cashBoxEppelBootsvermietung = new CashBoxEntity(null, null, true, 1, "", "", "RegKasEppelBV", "", null, "192.168.0.11", "ONRcz49yLDIo2FgwNhe9Q5fSiZFEies97uRMzeAAPkI=", 1300L, "AT0", "u123456789", "123456789");

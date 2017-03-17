@@ -120,19 +120,7 @@ public class DepExporterCore implements DepExporter {
             addBelegeKompakt(
                 period,
                 zos,
-                (currentDay) -> receiptRepository
-                    .loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period.day(currentDay), cashBoxContext.get()));
-            if (receiptRepository.loadLastWithSignatureDeviceNotAvailable(cashBoxContext.get()).isPresent()) {
-                writeLine(zos, "    },");
-                writeLine(zos, "    {");
-                writeLine(zos, "      \"Signaturzertifikat\": " + "\"\",");
-                writeLine(zos, "      \"Zertifizierungsstellen\": [],");
-                addBelegeKompakt(
-                    period,
-                    zos,
-                    (currentDay) -> receiptRepository
-                        .loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period.day(currentDay), cashBoxContext.get()));
-            }
+                (currentDay) -> receiptRepository.loadCompactJWSRepresentations(Period.day(currentDay), cashBoxContext.get()));
             writeLine(zos, "    }");
             writeLine(zos, "  ]");
             writeLine(zos, "}");
@@ -152,21 +140,23 @@ public class DepExporterCore implements DepExporter {
         return zipFile;
     }
 
-    private void addBelegeKompakt(Period period, ZipOutputStream zos, Function<LocalDate, List<String>> loadCompactKwsRepresentationsForDay)
+    private void addBelegeKompakt(Period period, ZipOutputStream zos, Function<LocalDate, List<String>> loadCompactJwsRepresentationsForDay)
             throws IOException {
         writeLine(zos, "      \"Belege-kompakt\": [");
         LocalDate currentDay = period.getStartDay().toLocalDate();
+        boolean first = true;
         while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
-            List<String> compactJwsRepresentations = loadCompactKwsRepresentationsForDay.apply(currentDay);
+            List<String> compactJwsRepresentations = loadCompactJwsRepresentationsForDay.apply(currentDay);
             for (int i = 0; i < compactJwsRepresentations.size(); i++ ) {
-                String jwsCompactRepresentation = "          \"" + compactJwsRepresentations.get(i) + "\"";
-                if (i != (compactJwsRepresentations.size() - 1)) {
-                    jwsCompactRepresentation += ",";
+                if (!first) {
+                    writeLine(zos, ",");
                 }
-                writeLine(zos, jwsCompactRepresentation);
+                write(zos, "          \"" + compactJwsRepresentations.get(i) + "\"");
+                first = false;
             }
             currentDay = currentDay.plus(1, ChronoUnit.DAYS);
         }
+        writeLine(zos, "");
         writeLine(zos, "      ]");
     }
 
@@ -190,5 +180,9 @@ public class DepExporterCore implements DepExporter {
 
     private void writeLine(ZipOutputStream zos, String string) throws IOException {
         zos.write((string + "\n").getBytes());
+    }
+
+    private void write(ZipOutputStream zos, String string) throws IOException {
+        zos.write(string.getBytes());
     }
 }

@@ -93,7 +93,7 @@ public class RkOnlineSessionHandling {
 
         public boolean isOlderThan30Minutes(LocalDateTime dateTime) {
             boolean isOlderThan30Minutes = dateTime.until(dateTimeHelper.currentTime(), ChronoUnit.MINUTES) > 30;
-            log.info("is older than 30 minutes: " + isOlderThan30Minutes);
+            log.info("is older than 30 minutes: " + isOlderThan30Minutes + " (" + dateTime + " - " + dateTimeHelper.currentTime() + ")");
             return isOlderThan30Minutes;
         }
 

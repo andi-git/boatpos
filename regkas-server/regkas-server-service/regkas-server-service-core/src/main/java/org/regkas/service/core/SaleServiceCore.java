@@ -39,11 +39,13 @@ public class SaleServiceCore implements SaleService {
         Optional<Receipt> lastReceiptOptional = receiptRepository.loadLastReceipt(cashBox);
         Receipt receipt = receiptCreator.createReceipt(sale);
         BillBean billBean = receipt.asBillBean();
-        Optional<HandleSignatureDeviceAvailability> handleSignatureDeviceAvailability = getHandleSignatureDeviceAvailability(
-            receipt,
-            lastReceiptOptional);
-        if (handleSignatureDeviceAvailability.isPresent()) {
-            billBean = handleSignatureDeviceAvailability.get().handle(billBean);
+        if ("false".equalsIgnoreCase(System.getProperty("boatpos.ignore.handling.of.signature.device.availability", "false"))) {
+            Optional<HandleSignatureDeviceAvailability> handleSignatureDeviceAvailability = getHandleSignatureDeviceAvailability(
+                    receipt,
+                    lastReceiptOptional);
+            if (handleSignatureDeviceAvailability.isPresent()) {
+                billBean = handleSignatureDeviceAvailability.get().handle(billBean);
+            }
         }
         return billBean;
     }

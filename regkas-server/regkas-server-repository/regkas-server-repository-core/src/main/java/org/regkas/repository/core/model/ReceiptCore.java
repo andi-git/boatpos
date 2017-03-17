@@ -71,8 +71,6 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
         checkNotNull(receiptDate, "'receiptDate' must not be null");
-        checkNotNull(encryptedTurnoverValue, "'encryptedTurnoverValue' must not be null");
-        checkNotNull(signatureValuePreviousReceipt, "'signatureValuePreviousReceipt' must not be null");
         checkNotNull(company, "'company' must not be null");
         checkNotNull(user, "'user' must not be null");
         checkNotNull(receiptType, "'receiptType' must not be null");

@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -236,5 +237,23 @@ public class BillBean extends AbstractBean {
 
     public void setSammelBeleg(BillBean sammelBeleg) {
         this.sammelBeleg = sammelBeleg;
+    }
+
+    public static BillBean fromJwsCompact(String jwsCompact) {
+        BillBean billBean = new BillBean();
+        String[] jwsCompatElement = jwsCompact.split("_");
+        billBean.setCashBoxID(jwsCompatElement[2]);
+        billBean.setReceiptIdentifier(jwsCompatElement[3]);
+        billBean.setReceiptDateAndTime(LocalDateTime.parse(jwsCompatElement[4]));
+        billBean.setSumTaxSetNormal(new BigDecimal(jwsCompatElement[5].replace(",", ".")));
+        billBean.setSumTaxSetErmaessigt1(new BigDecimal(jwsCompatElement[6].replace(",", ".")));
+        billBean.setSumTaxSetErmaessigt2(new BigDecimal(jwsCompatElement[7].replace(",", ".")));
+        billBean.setSumTaxSetNull(new BigDecimal(jwsCompatElement[8].replace(",", ".")));
+        billBean.setSumTaxSetBesonders(new BigDecimal(jwsCompatElement[9].replace(",", ".")));
+        billBean.setEncryptedTurnoverValue(jwsCompatElement[10]);
+        billBean.setSignatureCertificateSerialNumber(jwsCompatElement[11]);
+        billBean.setSignatureValuePreviousReceipt(jwsCompatElement[12]);
+        billBean.setJwsCompact(jwsCompact);
+        return billBean;
     }
 }

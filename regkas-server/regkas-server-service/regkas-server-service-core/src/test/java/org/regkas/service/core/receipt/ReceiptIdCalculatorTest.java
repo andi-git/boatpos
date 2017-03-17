@@ -1,5 +1,11 @@
 package org.regkas.service.core.receipt;
 
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
@@ -11,17 +17,11 @@ import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.core.DateTimeHelperMock;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-import javax.inject.Inject;
-
-import java.time.LocalDate;
-
-import static org.junit.Assert.assertEquals;
-
 @RunWith(Arquillian.class)
 public class ReceiptIdCalculatorTest extends EntityManagerProviderForRegkas {
 
     @Inject
-    private ReceiptIdCalculator receiptIdCalculator;
+    private ReceiptIdCalculatorFactory receiptIdCalculatorFactory;
 
     @Inject
     private CashBoxContext cashBoxContext;
@@ -37,9 +37,9 @@ public class ReceiptIdCalculatorTest extends EntityManagerProviderForRegkas {
     public void testGetNextReceiptId() throws Exception {
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         dateTimeHelperMock.setDate(LocalDate.of(2016, 1, 1));
-        assertEquals("2016-0000001", receiptIdCalculator.getNextReceiptId().get());
+        assertEquals("2016-0000001", receiptIdCalculatorFactory.get().getNextReceiptId().get());
         dateTimeHelperMock.resetDate();
-        assertEquals("2015-0000003", receiptIdCalculator.getNextReceiptId().get());
+        assertEquals("2015-0000003", receiptIdCalculatorFactory.get().getNextReceiptId().get());
         cashBoxContext.clear();
     }
 

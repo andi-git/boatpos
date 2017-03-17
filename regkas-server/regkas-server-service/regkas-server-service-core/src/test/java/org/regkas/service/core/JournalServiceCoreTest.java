@@ -236,13 +236,9 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         while (entries.hasMoreElements()) {
             String content = new String(ByteStreams.toByteArray(zipFile.getInputStream(entries.nextElement())));
             DepExportRKSV depExport = serializer.deserialize(content, DepExportRKSV.class);
-            assertTrue(depExport.getBelegeGruppe().get(0).getSignaturzertifikat().length() > 1);
+            assertEquals(1, depExport.getBelegeGruppe().size());
             assertEquals(2, depExport.getBelegeGruppe().get(0).getZertifizierungsstellen().size());
-            assertEquals(5, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
-            assertEquals("", depExport.getBelegeGruppe().get(1).getSignaturzertifikat());
-            assertEquals(0, depExport.getBelegeGruppe().get(1).getZertifizierungsstellen().size());
-            assertEquals(2, depExport.getBelegeGruppe().get(1).getBelegeKompakt().size());
-
+            assertEquals(7, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
         }
     }
 }

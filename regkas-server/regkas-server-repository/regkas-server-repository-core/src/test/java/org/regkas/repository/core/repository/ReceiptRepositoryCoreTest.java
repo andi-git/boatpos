@@ -188,4 +188,13 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         assertFalse(receiptRepository.loadLastWithSignatureDeviceNotAvailable(cashBox).isPresent());
     }
+
+    @Test
+    @Transactional
+    public void testLoadCompactJWSRepresentations() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        List<String> compactJwsRepresentations = receiptRepository.loadCompactJWSRepresentations(Period.untilNow(), cashBox);
+        assertEquals(2, compactJwsRepresentations.size());
+    }
+
 }

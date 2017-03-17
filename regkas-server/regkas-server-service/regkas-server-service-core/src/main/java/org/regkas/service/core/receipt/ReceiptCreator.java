@@ -38,7 +38,7 @@ public class ReceiptCreator {
     private ReceiptRepository receiptRepository;
 
     @Inject
-    private ReceiptIdCalculator receiptIdCalculator;
+    private ReceiptIdCalculatorFactory receiptIdCalculatorFactory;
 
     @Inject
     private ReceiptElementRepository receiptElementRepository;
@@ -84,10 +84,8 @@ public class ReceiptCreator {
     private Receipt buildReceiptBasedOnSaleBean(SaleBean sale, ReceiptType receiptType) {
         ReceiptBuilder receiptBuilder = receiptRepository
             .builder()
-            .add(receiptIdCalculator.getNextReceiptId())
+            .add(receiptIdCalculatorFactory.get().getNextReceiptId())
             .add(new ReceiptDate(dateTimeHelper.currentTime()))
-            .add(new EncryptedTurnoverValue(""))
-            .add(new SignatureValuePreviousReceipt(""))
             .add(PaymentMethod.get(sale.getPaymentMethod()))
             .add(receiptType)
             .add(cashBox)
@@ -132,5 +130,4 @@ public class ReceiptCreator {
         receipt.setCompactJWSRepresentation(
             rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned(), receipt.getReceiptType()));
     }
-
 }

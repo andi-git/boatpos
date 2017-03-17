@@ -4,9 +4,8 @@ import org.regkas.model.ReceiptTypeStornoEntity;
 import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.turnovercounter.EncryptTurnoverCounter;
 import org.regkas.repository.api.turnovercounter.UpdateTurnoverCounter;
-import org.regkas.repository.core.turnovercounter.EncryptTurnoverCounterDefault;
 import org.regkas.repository.core.turnovercounter.EncryptTurnoverCounterStorno;
-import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterSubtract;
+import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterAdd;
 
 public class ReceiptTypeStornoCore extends ReceiptTypeCore<ReceiptType, ReceiptTypeStornoEntity> {
 
@@ -16,7 +15,7 @@ public class ReceiptTypeStornoCore extends ReceiptTypeCore<ReceiptType, ReceiptT
 
     @Override
     public UpdateTurnoverCounter getUpdateTurnoverCounter() {
-        return fromCDI(UpdateTurnoverCounterSubtract.class);
+        return fromCDI(UpdateTurnoverCounterAdd.class);
     }
 
     @Override

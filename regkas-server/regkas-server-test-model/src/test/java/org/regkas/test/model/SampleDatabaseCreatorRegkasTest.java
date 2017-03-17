@@ -31,7 +31,7 @@ public class SampleDatabaseCreatorRegkasTest {
     public void testFillDatabase() throws Exception {
         assertEquals(new BigInteger("0"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
         sampleDatabaseCreator.fillDatabase(entityManager);
-        assertEquals(new BigInteger("2"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
+        assertEquals(new BigInteger("3"), entityManager.createNativeQuery("SELECT COUNT(*) FROM company").getSingleResult());
         System.out.println(entityManager.createQuery("FROM ReceiptTypeEntity r WHERE name='Standard-Beleg'", ReceiptTypeEntity.class).getSingleResult().getClass().getName());
         System.out.println(entityManager.createQuery("FROM ReceiptEntity r WHERE r.receiptId='2015-0000001'", ReceiptEntity.class).getSingleResult().getReceiptType().getClass().getName());
         sampleDatabaseCreator.clearDatabase(entityManager);

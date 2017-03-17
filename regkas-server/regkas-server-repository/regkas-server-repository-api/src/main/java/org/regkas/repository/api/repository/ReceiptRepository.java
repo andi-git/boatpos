@@ -80,6 +80,8 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
      */
     Optional<Receipt> loadLatestWithReceiptTypeJahr(CashBox cashBox);
 
+    List<String> loadCompactJWSRepresentations(Period period, CashBox cashBox);
+
     List<String> loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period period, CashBox cashBox);
 
     List<String> loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period period, CashBox cashBox);

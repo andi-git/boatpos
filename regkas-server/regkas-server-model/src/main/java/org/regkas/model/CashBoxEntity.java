@@ -45,14 +45,13 @@ public class CashBoxEntity extends AbstractMasterDataEntity {
     @Expose
     private String aesKeyBase64;
 
-    @Min(0)
     @NotNull
     @Expose
     private Long turnoverCountCent;
 
     // TODO is specific for company, not for cashbox
     @NotNull
-    @Size(min = 3, max = 3)
+    @Size(min = 3, max = 5)
     @Expose
     private String certificationServiceProvider;
 

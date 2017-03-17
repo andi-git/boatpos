@@ -1,5 +1,9 @@
 package org.regkas.repository.core.model;
 
+import static org.junit.Assert.assertEquals;
+
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
@@ -8,12 +12,8 @@ import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.ReceiptTypeRepository;
 import org.regkas.repository.api.values.Name;
-import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterSubtract;
+import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterAdd;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
-
-import javax.inject.Inject;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class ReceiptTypeStornoCoreTest extends EntityManagerProviderForRegkas {
@@ -38,6 +38,6 @@ public class ReceiptTypeStornoCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void getGetUpdateTurnoverCounter() {
-        assertEquals(UpdateTurnoverCounterSubtract.class, receiptType.getUpdateTurnoverCounter().getClass().getSuperclass());
+        assertEquals(UpdateTurnoverCounterAdd.class, receiptType.getUpdateTurnoverCounter().getClass().getSuperclass());
     }
 }

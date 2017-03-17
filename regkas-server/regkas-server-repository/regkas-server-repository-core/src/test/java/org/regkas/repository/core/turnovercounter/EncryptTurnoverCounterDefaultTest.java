@@ -2,6 +2,8 @@ package org.regkas.repository.core.turnovercounter;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.CashBox;
@@ -23,6 +25,16 @@ public class EncryptTurnoverCounterDefaultTest extends EntityManagerProviderForR
 
     @Inject
     private CashBoxRepository cashBoxRepository;
+
+    @Before
+    public void before() {
+        System.setProperty("boatpos.crypto.complement.rep.bytes", "8");
+    }
+
+    @After
+    public void after() {
+        System.clearProperty("boatpos.crypto.complement.rep.bytes");
+    }
 
     @Test
     @Transactional

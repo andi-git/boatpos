@@ -60,6 +60,7 @@ public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
     @SuppressWarnings("Duplicates")
     @Before
     public void before() {
+        System.setProperty("boatpos.crypto.complement.rep.bytes", "8");
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
         rkOnlineResourceFactory.resetRkOnlineResourceSignature();
         rkOnlineContext.setEnvironment(Environment.TEST);
@@ -74,6 +75,7 @@ public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
         companyContext.clear();
         userContext.clear();
         cashBoxContext.clear();
+        System.clearProperty("boatpos.crypto.complement.rep.bytes");
     }
 
     @Test

@@ -31,7 +31,6 @@ public class ReceiptElementEntity extends AbstractEntity {
     private Integer amount;
 
     @NotNull
-    @Min(0)
     @Expose
     private BigDecimal totalPrice;
 

@@ -1,5 +1,19 @@
 package org.regkas.repository.core.crypto;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
+
+import javax.annotation.PostConstruct;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -8,18 +22,6 @@ import org.regkas.repository.api.values.IVToEncryptTurnoverCounter;
 import org.regkas.repository.api.values.InputForChainCalculation;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 import org.regkas.repository.api.values.TotalPriceCent;
-
-import javax.annotation.PostConstruct;
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Security;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 @ApplicationScoped
 public class Crypto {
@@ -52,7 +54,10 @@ public class Crypto {
         return false;
     }
 
-    public EncryptedTurnoverValue encryptCTR(IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter, TotalPriceCent turnoverCounter, AES.AESKey aesKey) {
+    public EncryptedTurnoverValue encryptCTR(
+            IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter,
+            TotalPriceCent turnoverCounter,
+            AES.AESKey aesKey) {
 
         // extract bytes 0-15 from hash value
         final ByteBuffer byteBufferIV = ByteBuffer.allocate(16);
@@ -63,16 +68,16 @@ public class Crypto {
         // block size for AES is 128 bit (16 bytes)
         // thus, the turnover counter needs to be inserted into an array of length 16
 
-        //initialisation of the data which should be encrypted
+        // initialisation of the data which should be encrypted
         final ByteBuffer byteBufferData = ByteBuffer.allocate(16);
         byteBufferData.putLong(turnoverCounter.get());
         final byte[] data = byteBufferData.array();
 
-        //now the turnover counter is represented in two's-complement representation (negative values are possible)
-        //length is defined by the respective implementation (min. 5 bytes)
+        // now the turnover counter is represented in two's-complement representation (negative values are possible)
+        // length is defined by the respective implementation (min. 5 bytes)
         byte[] turnOverCounterByteRep = get2ComplementRepForLong(turnoverCounter.get());
 
-        //two's-complement representation is copied to the data array, and inserted at index 0
+        // two's-complement representation is copied to the data array, and inserted at index 0
         System.arraycopy(turnOverCounterByteRep, 0, data, 0, turnOverCounterByteRep.length);
 
         // prepare AES cipher with CTR/ICM mode, NoPadding is essential for the
@@ -111,22 +116,47 @@ public class Crypto {
         return new EncryptedTurnoverValue(encoding.base64Encode(encryptedTurnOverValue, false));
     }
 
+    public TotalPriceCent decryptCTR(IVToEncryptTurnoverCounter ivToEncryptTurnoverCounter, String base64EncryptedTurnOverValue, AES.AESKey aesKey) {
+
+        // extract bytes 0-15 from hash value
+        final ByteBuffer byteBufferIV = ByteBuffer.allocate(16);
+        byteBufferIV.put(createConcatenatedHashValue(ivToEncryptTurnoverCounter));
+        final byte[] IV = byteBufferIV.array();
+
+        final byte[] encryptedTurnOverValue = encoding.base64Decode(base64EncryptedTurnOverValue, false);
+
+        // prepare AES cipher with CTR/ICM mode
+        final IvParameterSpec ivSpec = new IvParameterSpec(IV);
+
+        byte[] testPlainTurnOverValueComplete;
+        try {
+            Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding", "BC");
+            cipher.init(Cipher.DECRYPT_MODE, aesKey.asSecretKey(), ivSpec);
+            testPlainTurnOverValueComplete = cipher.doFinal(encryptedTurnOverValue);
+        } catch (Exception e) {
+            log.error(e);
+            throw new RuntimeException(e);
+        }
+
+        return new TotalPriceCent(new BigInteger(testPlainTurnOverValueComplete).longValue());
+    }
+
     public byte[] get2ComplementRepForLong(long value) {
-        //create byte buffer, max length 8 bytes (equal to long representation)
+        // create byte buffer, max length 8 bytes (equal to long representation)
         ByteBuffer byteBuffer = ByteBuffer.allocate(8);
         byteBuffer.putLong(value);
         byte[] longRep = byteBuffer.array();
 
-        //if given length for encoding is equal to 8, we are done
+        // if given length for encoding is equal to 8, we are done
         if (turnoverCounterLengthInBytes.get() == 8) {
             return longRep;
         }
 
-        //if given length of encoding is less than 8 bytes, we truncate the representation (of course one needs to be sure
-        //that the given long value is not larger than the created byte array
+        // if given length of encoding is less than 8 bytes, we truncate the representation (of course one needs to be sure
+        // that the given long value is not larger than the created byte array
         byte[] byteRep = new byte[turnoverCounterLengthInBytes.get()];
 
-        //truncating the 8-bytes long representation
+        // truncating the 8-bytes long representation
         System.arraycopy(longRep, 8 - turnoverCounterLengthInBytes.get(), byteRep, 0, turnoverCounterLengthInBytes.get());
         return byteRep;
     }
@@ -140,33 +170,33 @@ public class Crypto {
     }
 
     public SignatureValuePreviousReceipt calculateChainValue(InputForChainCalculation inputForChainCalculation) {
-        //Detailspezifikation Abs 4 "Sig-Voriger-Beleg"
-        //if the first receipt is stored, then the cashbox-identifier is hashed and is used as chaining value
-        //otherwise the complete last receipt is hased and the result is used as chaining value
+        // Detailspezifikation Abs 4 "Sig-Voriger-Beleg"
+        // if the first receipt is stored, then the cashbox-identifier is hashed and is used as chaining value
+        // otherwise the complete last receipt is hased and the result is used as chaining value
 
         MessageDigest md = messageDigestSHA256.get();
         md.update(inputForChainCalculation.get().getBytes());
         byte[] digest = md.digest();
 
-        //extract number of bytes (N, defined in RKsuite) from hash value
-        int bytesToExtract = turnoverCounterLengthInBytes.get();
+        // extract number of bytes (N, defined in RKsuite) from hash value
+        int bytesToExtract = 8; // see page 31 - always 8 bytes
         byte[] conDigest = new byte[bytesToExtract];
         System.arraycopy(digest, 0, conDigest, 0, bytesToExtract);
 
-        //encode value as BASE64 String ==> chainValue
+        // encode value as BASE64 String ==> chainValue
         return new SignatureValuePreviousReceipt(encoding.base64Encode(conDigest, false));
     }
 
     @ApplicationScoped
     public static class TurnoverCounterLengthInBytes {
 
-        private static final int NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION = 8;
-
         public int get() {
-            //noinspection ConstantConditions
-            checkArgument(NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION >= 1 && (NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION <= 8),
-                    "numberOfBytesFor2ComplementRepresentation should be >= 1 and <= 8: " + NUMBER_OF_BYTES_FOR_2_COMPLEMENT_REPRESENTATION);
-            return 8;
+            int numberOfBytesFor2ComplementRepresentation = Integer.valueOf(System.getProperty("boatpos.crypto.complement.rep.bytes", "8"));
+            // noinspection ConstantConditions
+            checkArgument(
+                numberOfBytesFor2ComplementRepresentation >= 1 && (numberOfBytesFor2ComplementRepresentation <= 8),
+                "numberOfBytesFor2ComplementRepresentation should be >= 1 and <= 8: " + numberOfBytesFor2ComplementRepresentation);
+            return numberOfBytesFor2ComplementRepresentation;
         }
     }
 

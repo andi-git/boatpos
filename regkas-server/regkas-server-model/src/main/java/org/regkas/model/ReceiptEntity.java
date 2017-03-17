@@ -80,7 +80,7 @@ public class ReceiptEntity extends AbstractEntity {
     private BigDecimal totalPrice;
 
     @NotNull
-    @Size(min = 5, max = 6)
+    @Size(min = 5, max = 8)
     @Expose
     private String suiteId;
 

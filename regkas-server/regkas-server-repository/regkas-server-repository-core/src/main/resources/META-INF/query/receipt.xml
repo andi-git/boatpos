@@ -43,7 +43,16 @@
             ORDER BY r.receiptDate DESC
         </query>
     </named-query>
-    <named-query name="receipt.getCompactJWSRepresentationWhereSignatureDeviceIsAvailableBetweenByCashBox">
+    <named-query name="receipt.getCompactJWSRepresentationsBetweenByCashBox">
+        <query>
+            SELECT r.compactJwsRepresentation
+            FROM ReceiptEntity r
+            WHERE r.receiptDate BETWEEN :start AND :end
+            AND r.cashBox.id = :cashBoxId
+            ORDER BY id
+        </query>
+    </named-query>
+    <named-query name="receipt.getCompactJWSRepresentationsWhereSignatureDeviceIsAvailableBetweenByCashBox">
         <query>
             SELECT r.compactJwsRepresentation
             FROM ReceiptEntity r
@@ -53,7 +62,7 @@
             ORDER BY id
         </query>
     </named-query>
-    <named-query name="receipt.getCompactJWSRepresentationWhereSignatureDeviceIsNotAvailableBetweenByCashBox">
+    <named-query name="receipt.getCompactJWSRepresentationsWhereSignatureDeviceIsNotAvailableBetweenByCashBox">
         <query>
             SELECT r.compactJwsRepresentation
             FROM ReceiptEntity r

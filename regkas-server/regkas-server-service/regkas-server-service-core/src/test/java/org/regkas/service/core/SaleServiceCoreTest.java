@@ -81,13 +81,14 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
     @Inject
     private FinancialOfficeSenderFactory financialOfficeSenderFactory;
 
-    protected MailSenderMock mailSenderMock = new MailSenderMock();
+    private MailSenderMock mailSenderMock = new MailSenderMock();
 
-    protected FinancialOfficeSenderMock financialOfficeSenderMock = new FinancialOfficeSenderMock();
+    private FinancialOfficeSenderMock financialOfficeSenderMock = new FinancialOfficeSenderMock();
 
     @SuppressWarnings("Duplicates")
     @Before
     public void before() {
+        System.setProperty("boatpos.crypto.complement.rep.bytes", "8");
         mailSenderMock.reset();
         mailSenderFactory.setMailSender(mailSenderMock);
         financialOfficeSenderMock.reset();
@@ -108,6 +109,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         companyContext.clear();
         userContext.clear();
         cashBoxContext.clear();
+        System.clearProperty("boatpos.crypto.complement.rep.bytes");
     }
 
     @Test

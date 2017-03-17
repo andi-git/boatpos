@@ -2,6 +2,8 @@ package org.regkas.repository.core.crypto;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.repository.api.model.CashBox;
@@ -39,6 +41,16 @@ public class CryptoTest extends EntityManagerProviderForRegkas {
     @Inject
     private ReceiptTypeRepository receiptTypeRepository;
 
+    @Before
+    public void before() {
+        System.setProperty("boatpos.crypto.complement.rep.bytes", "8");
+    }
+
+    @After
+    public void after() {
+        System.clearProperty("boatpos.crypto.complement.rep.bytes");
+    }
+
     @Test
     @Transactional
     public void testIsUnlimitedStrengthPolicyAvailable() throws Exception {
@@ -58,6 +70,17 @@ public class CryptoTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
+    public void testDecryptCTR() {
+        assertEquals(8733L,
+                crypto.decryptCTR(
+                        new IVToEncryptTurnoverCounter(new Name("DEMO-CASH-BOX817"), new ReceiptId("83470")),
+                        "vXvqlWy0zcM=",
+                        new AES.AESKey(new AESKeyBase64("RCsRmHn5tkLQrRpiZq2ucwPpwvHJLiMgLvwrwEImddI="))
+                ).get().longValue());
+    }
+
+    @Test
+    @Transactional
     public void testGet2ComplementRepForLong() {
         byte[] expected = new byte[] {
                 0,
@@ -69,6 +92,7 @@ public class CryptoTest extends EntityManagerProviderForRegkas {
                 34,
                 29
         };
+        System.out.println(new String(crypto.get2ComplementRepForLong(8733L)));
         assertTrue(Arrays.equals(expected, crypto.get2ComplementRepForLong(8733L)));
     }
 
