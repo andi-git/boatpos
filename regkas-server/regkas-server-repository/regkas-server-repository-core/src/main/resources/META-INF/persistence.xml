@@ -4,6 +4,7 @@
     <persistence-unit name="regkas" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/regkas</jta-data-source>
         <mapping-file>META-INF/query/cashbox.xml</mapping-file>
+        <mapping-file>META-INF/query/cashboxjournal.xml</mapping-file>
         <mapping-file>META-INF/query/company.xml</mapping-file>
         <mapping-file>META-INF/query/taxset.xml</mapping-file>
         <mapping-file>META-INF/query/product.xml</mapping-file>
@@ -11,9 +12,11 @@
         <mapping-file>META-INF/query/receipt.xml</mapping-file>
         <mapping-file>META-INF/query/receiptelement.xml</mapping-file>
         <mapping-file>META-INF/query/receipttype.xml</mapping-file>
+        <mapping-file>META-INF/query/systemjournal.xml</mapping-file>
         <mapping-file>META-INF/query/user.xml</mapping-file>
         <class>org.regkas.model.AddressEntity</class>
         <class>org.regkas.model.CashBoxEntity</class>
+        <class>org.regkas.model.CashboxJournalEntity</class>
         <class>org.regkas.model.CompanyEntity</class>
         <class>org.regkas.model.ProductEntity</class>
         <class>org.regkas.model.ProductGroupEntity</class>
@@ -32,6 +35,7 @@
         <class>org.regkas.model.TaxSetErmaessigt2Entity</class>
         <class>org.regkas.model.TaxSetNullEntity</class>
         <class>org.regkas.model.TaxSetBesondersEntity</class>
+        <class>org.regkas.model.SystemJournalEntity</class>
         <class>org.regkas.model.UserEntity</class>
         <class>org.boatpos.common.model.LocalDateConverter</class>
         <class>org.boatpos.common.model.LocalDateTimeConverter</class>

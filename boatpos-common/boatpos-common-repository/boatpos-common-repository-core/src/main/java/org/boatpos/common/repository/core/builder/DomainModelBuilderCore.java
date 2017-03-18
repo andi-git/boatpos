@@ -1,5 +1,7 @@
 package org.boatpos.common.repository.core.builder;
 
+import java.lang.reflect.ParameterizedType;
+
 import org.boatpos.common.model.AbstractEntity;
 import org.boatpos.common.repository.api.builder.DomainModelBuilder;
 import org.boatpos.common.repository.api.model.DomainModel;
@@ -7,11 +9,11 @@ import org.boatpos.common.repository.api.values.DomainId;
 import org.boatpos.common.repository.api.values.Version;
 import org.boatpos.common.repository.core.model.DomainModelCore;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder, MODEL extends DomainModel, MODELCORE extends DomainModelCore, ENTITY extends AbstractEntity>
-        implements DomainModelBuilder<BUILDER, MODEL, ENTITY> {
+        extends
+            ModelBuilderCore<MODEL>
+        implements
+            DomainModelBuilder<BUILDER, MODEL, ENTITY> {
 
     protected DomainId id;
     protected Version version;
@@ -19,7 +21,7 @@ public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder,
     @Override
     public MODEL from(ENTITY entity) {
         try {
-            //noinspection unchecked
+            // noinspection unchecked
             return (MODEL) getDomainModelCoreClass().getDeclaredConstructor(entity.getClass()).newInstance(entity);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -39,14 +41,14 @@ public abstract class DomainModelBuilderCore<BUILDER extends DomainModelBuilder,
     @Override
     public BUILDER add(DomainId id) {
         this.id = id;
-        //noinspection unchecked
+        // noinspection unchecked
         return (BUILDER) this;
     }
 
     @Override
     public BUILDER add(Version version) {
         this.version = version;
-        //noinspection unchecked
+        // noinspection unchecked
         return (BUILDER) this;
     }
 }

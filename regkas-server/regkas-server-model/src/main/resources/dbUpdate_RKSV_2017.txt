@@ -26,9 +26,12 @@
   - TODO
 - add signatureMandatory to ReceiptType
   - TODO
+- add table for CashboxJournal
+  - TODO
+- add table for SystemJournal
+  - TODO
 
-
-
+- add data for system- and cashbox-journal
 
 - add system-properties for e-mail
 - add system-property for daily dep-export
