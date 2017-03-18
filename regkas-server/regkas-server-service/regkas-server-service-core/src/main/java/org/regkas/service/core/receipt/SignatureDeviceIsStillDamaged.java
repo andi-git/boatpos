@@ -3,19 +3,20 @@ package org.regkas.service.core.receipt;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.core.email.BillBeanToMailContentConverter;
-import org.regkas.service.core.email.MailSenderFactory;
+import org.regkas.service.core.email.SendMailEvent;
 
 @ApplicationScoped
 public class SignatureDeviceIsStillDamaged implements HandleSignatureDeviceAvailability {
 
     @Inject
-    private MailSenderFactory mailSenderFactory;
+    private Event<SendMailEvent> sendMailEvent;
 
     @Inject
     private BillBeanToMailContentConverter billBeanToMailContentConverter;
@@ -34,8 +35,9 @@ public class SignatureDeviceIsStillDamaged implements HandleSignatureDeviceAvail
     }
 
     private void notifyCompany(BillBean billBean) {
-        mailSenderFactory.getMailSender().send(
-            billBean.getCashBoxID() + ": signature-device is still no available",
-            billBeanToMailContentConverter.convertToMailContent(billBean));
+        sendMailEvent.fire(
+            new SendMailEvent(
+                billBean.getCashBoxID() + ": signature-device is still no available",
+                billBeanToMailContentConverter.convertToMailContent(billBean)));
     }
 }

@@ -3,26 +3,27 @@ package org.regkas.service.core.receipt;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.boatpos.common.repository.api.values.SimpleValueObject;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.core.email.BillBeanToMailContentConverter;
-import org.regkas.service.core.email.MailSenderFactory;
-import org.regkas.service.core.financialoffice.FinancialOfficeSenderFactory;
+import org.regkas.service.core.email.SendMailEvent;
+import org.regkas.service.core.financialoffice.SignatureDeviceDamagedEvent;
 
 @ApplicationScoped
 public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceAvailability {
 
     @Inject
-    private MailSenderFactory mailSenderFactory;
+    private Event<SendMailEvent> sendMailEvent;
 
     @Inject
     private BillBeanToMailContentConverter billBeanToMailContentConverter;
 
     @Inject
-    private FinancialOfficeSenderFactory financialOfficeSenderFactory;
+    private Event<SignatureDeviceDamagedEvent> signatureDeviceDamagedEvent;
 
     @Override
     public boolean canHandle(Receipt currentReceipt, Receipt lastReceipt) {
@@ -34,17 +35,18 @@ public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceA
     public BillBean handle(BillBean billBean) {
         checkNotNull(billBean, "'billBean' must not be null");
         notifyCompany(billBean);
-        notifyFinancialOffice(billBean);
+        notifyFinancialOffice();
         return billBean;
     }
 
     private void notifyCompany(BillBean billBean) {
-        mailSenderFactory.getMailSender().send(
-            billBean.getCashBoxID() + ": signature-device is not available",
-            billBeanToMailContentConverter.convertToMailContent(billBean));
+        sendMailEvent.fire(
+            new SendMailEvent(
+                billBean.getCashBoxID() + ": signature-device is not available",
+                billBeanToMailContentConverter.convertToMailContent(billBean)));
     }
 
-    private void notifyFinancialOffice(BillBean billBean) {
-        financialOfficeSenderFactory.getFinancialOfficeSender().signatureDeviceDamaged();
+    private void notifyFinancialOffice() {
+        signatureDeviceDamagedEvent.fire(new SignatureDeviceDamagedEvent());
     }
 }
