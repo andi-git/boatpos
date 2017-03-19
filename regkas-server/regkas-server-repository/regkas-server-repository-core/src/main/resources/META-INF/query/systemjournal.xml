@@ -6,4 +6,11 @@
     <named-query name="systemjournal.getAll">
         <query>FROM SystemJournalEntity s ORDER BY s.id</query>
     </named-query>
+    <named-query name="systemjournal.getAllWithinPeriod">
+        <query>
+            FROM SystemJournalEntity s
+            WHERE s.messageDate BETWEEN :start AND :end
+            ORDER BY s.id
+        </query>
+    </named-query>
 </entity-mappings>

@@ -16,6 +16,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.repository.api.builder.CashboxJournalBuilder;
+import org.regkas.repository.api.builder.SystemJournalBuilder;
 import org.regkas.repository.api.context.CashBoxContext;
 import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.context.UserContext;
@@ -28,6 +30,8 @@ import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
 import org.regkas.repository.api.serializer.Serializer;
 import org.regkas.repository.api.signature.Environment;
 import org.regkas.repository.api.signature.RkOnlineContext;
+import org.regkas.repository.api.values.JournalDate;
+import org.regkas.repository.api.values.JournalMessage;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.DateTimeHelperMock;
 import org.regkas.service.api.bean.Period;
@@ -72,6 +76,12 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
     @Inject
     private RkOnlineContext rkOnlineContext;
 
+    @Inject
+    private CashboxJournalBuilder cashboxJournalBuilder;
+
+    @Inject
+    private SystemJournalBuilder systemJournalBuilder;
+
     @Before
     public void before() {
         rkOnlineContext.resetSessions();
@@ -89,6 +99,27 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+
+        cashboxJournalBuilder
+            .reset()
+            .add(new JournalDate(dateTimeHelper.currentTime()))
+            .add(new JournalMessage("message1"))
+            .add(cashBoxContext.get())
+            .build()
+            .persist();
+        cashboxJournalBuilder
+            .reset()
+            .add(new JournalDate(dateTimeHelper.currentTime()))
+            .add(new JournalMessage("message2"))
+            .add(cashBoxContext.get())
+            .build()
+            .persist();
+        systemJournalBuilder
+            .reset()
+            .add(new JournalDate(dateTimeHelper.currentTime()))
+            .add(new JournalMessage("message3"))
+            .build()
+            .persist();
 
         // if there is no dep-string, add it
         // for (Receipt receipt : receiptRepository.loadBy(Period.year(dateTimeHelper.currentTime()), cashBoxContext.get())) {
@@ -150,6 +181,12 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
             assertEquals(new BigDecimal("10.00"), depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getPricePreTax());
             assertEquals(new BigDecimal("1.00"), depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getPriceTax());
             assertEquals(new BigDecimal("11.00"), depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getPriceAfterTax());
+
+            assertEquals(2, depExport.getCashboxEvents().size());
+            assertEquals("message1", depExport.getCashboxEvents().get(0).getMessage());
+            assertEquals("message2", depExport.getCashboxEvents().get(1).getMessage());
+            assertEquals(1, depExport.getSystemEvents().size());
+            assertEquals("message3", depExport.getSystemEvents().get(0).getMessage());
         }
 
         companyContext.clear();

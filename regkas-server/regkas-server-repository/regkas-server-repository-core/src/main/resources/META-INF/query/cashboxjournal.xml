@@ -9,4 +9,12 @@
     <named-query name="cashboxjournal.getAllByCashbox">
         <query>FROM CashboxJournalEntity c WHERE c.cashBox.id = :id ORDER BY c.id</query>
     </named-query>
+    <named-query name="cashboxjournal.getAllByCashboxWithinPeriod">
+        <query>
+            FROM CashboxJournalEntity c
+            WHERE c.cashBox.id = :id
+            AND c.messageDate BETWEEN :start AND :end
+            ORDER BY c.id
+        </query>
+    </named-query>
 </entity-mappings>

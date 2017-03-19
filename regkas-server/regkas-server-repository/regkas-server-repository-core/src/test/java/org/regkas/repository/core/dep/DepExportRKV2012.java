@@ -35,8 +35,13 @@ public class DepExportRKV2012 {
     @Expose
     private List<BillBean> cashBoxInstructionList = new ArrayList<>();
 
-    public DepExportRKV2012() {
-    }
+    @Expose
+    private List<JournalBean> cashboxEvents = new ArrayList<>();
+
+    @Expose
+    private List<JournalBean> systemEvents = new ArrayList<>();
+
+    public DepExportRKV2012() {}
 
     public String getCompany() {
         return company;
@@ -92,5 +97,46 @@ public class DepExportRKV2012 {
 
     public void setCashBoxInstructionList(List<BillBean> cashBoxInstructionList) {
         this.cashBoxInstructionList = cashBoxInstructionList;
+    }
+
+    public List<JournalBean> getCashboxEvents() {
+        return cashboxEvents;
+    }
+
+    public void setCashboxEvents(List<JournalBean> cashboxEvents) {
+        this.cashboxEvents = cashboxEvents;
+    }
+
+    public List<JournalBean> getSystemEvents() {
+        return systemEvents;
+    }
+
+    public void setSystemEvents(List<JournalBean> systemEvents) {
+        this.systemEvents = systemEvents;
+    }
+
+    public static class JournalBean {
+
+        @Expose
+        private LocalDateTime date;
+
+        @Expose
+        private String message;
+
+        public LocalDateTime getDate() {
+            return date;
+        }
+
+        public void setDate(LocalDateTime date) {
+            this.date = date;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 }

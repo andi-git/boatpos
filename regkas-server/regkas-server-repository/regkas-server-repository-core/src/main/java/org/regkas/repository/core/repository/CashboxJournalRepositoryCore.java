@@ -14,6 +14,7 @@ import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.CashboxJournal;
 import org.regkas.repository.api.repository.CashboxJournalRepository;
 import org.regkas.repository.core.model.CashboxJournalCore;
+import org.regkas.service.api.bean.Period;
 
 @Dependent
 public class CashboxJournalRepositoryCore implements CashboxJournalRepository {
@@ -37,6 +38,21 @@ public class CashboxJournalRepositoryCore implements CashboxJournalRepository {
         return jpaHelper
             .createNamedQuery("cashboxjournal.getAllByCashbox", CashboxJournalEntity.class)
             .setParameter("id", cashBox.getId().get())
+            .getResultList()
+            .stream()
+            .map(CashboxJournalCore::new)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CashboxJournal> loadBy(CashBox cashBox, Period period) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        checkNotNull(period, "'period' must not be null");
+        return jpaHelper
+            .createNamedQuery("cashboxjournal.getAllByCashboxWithinPeriod", CashboxJournalEntity.class)
+            .setParameter("id", cashBox.getId().get())
+            .setParameter("start", period.getStartDay())
+            .setParameter("end", period.getEndDay())
             .getResultList()
             .stream()
             .map(CashboxJournalCore::new)

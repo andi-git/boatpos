@@ -21,9 +21,15 @@ import org.boatpos.common.util.log.SLF4J;
 import org.regkas.repository.api.context.CashBoxContext;
 import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.dep.DepExporter;
+import org.regkas.repository.api.model.CashboxJournal;
+import org.regkas.repository.api.model.SystemJournal;
+import org.regkas.repository.api.repository.CashboxJournalRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
+import org.regkas.repository.api.repository.SystemJournalRepository;
 import org.regkas.repository.api.signature.RkOnlineResourceCertificate;
 import org.regkas.repository.api.values.Certificate;
+import org.regkas.repository.api.values.JournalDate;
+import org.regkas.repository.api.values.JournalMessage;
 import org.regkas.service.api.bean.Period;
 
 @Dependent
@@ -50,6 +56,12 @@ public class DepExporterCore implements DepExporter {
     @Inject
     private CompanyContext companyContext;
 
+    @Inject
+    private CashboxJournalRepository cashboxJournalRepository;
+
+    @Inject
+    private SystemJournalRepository systemJournalRepository;
+
     @Override
     public File exportBasedOnRKV2012(Period period) {
         String fileName = createFileName("depRKV2012", period);
@@ -66,18 +78,40 @@ public class DepExporterCore implements DepExporter {
             writeLine(zos, "  \"created\": \"" + dateTimeHelper.currentTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
             writeLine(zos, "  \"from\": \"" + period.getStartDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
             writeLine(zos, "  \"to\": \"" + period.getEndDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\",");
-            writeLine(zos, "  \"cashBoxInstructionList\": [");
 
+            writeLine(zos, "  \"cashBoxInstructionList\": [");
             LocalDate currentDay = period.getStartDay().toLocalDate();
             while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
                 List<String> deps = receiptRepository.loadDEPFor(Period.day(currentDay), cashBoxContext.get());
                 for (int i = 0; i < deps.size(); i++ ) {
-                    writeLine(zos, "    " + deps.get(i) + (i < (deps.size() - 1) ? "," : ""));
+                    writeLine(zos, "    " + deps.get(i) + (hasNextElement(deps, i) ? "," : ""));
                 }
                 currentDay = currentDay.plus(1, ChronoUnit.DAYS);
             }
+            writeLine(zos, "  ],");
 
+            writeLine(zos, "  \"cashboxEvents\": [");
+            List<CashboxJournal> cashboxJournals = cashboxJournalRepository.loadBy(cashBoxContext.get(), period);
+            for (int i = 0; i < cashboxJournals.size(); i++ ) {
+                writeJournalElement(
+                        zos,
+                        cashboxJournals.get(i).getJournalDate(),
+                        cashboxJournals.get(i).getJournalMessage(),
+                        hasNextElement(cashboxJournals, i));
+            }
+            writeLine(zos, "  ],");
+
+            writeLine(zos, "  \"systemEvents\": [");
+            List<SystemJournal> systemJournals = systemJournalRepository.loadBy(period);
+            for (int i = 0; i < systemJournals.size(); i++ ) {
+                writeJournalElement(
+                    zos,
+                    systemJournals.get(i).getJournalDate(),
+                    systemJournals.get(i).getJournalMessage(),
+                    hasNextElement(systemJournals, i));
+            }
             writeLine(zos, "  ]");
+
             writeLine(zos, "}");
             zos.closeEntry();
         } catch (IOException e) {
@@ -93,6 +127,18 @@ public class DepExporterCore implements DepExporter {
             }
         }
         return zipFile;
+    }
+
+    private void writeJournalElement(ZipOutputStream zos, JournalDate journalDate, JournalMessage journalMessage, boolean nextElement)
+            throws IOException {
+        writeLine(zos, "    {");
+        writeLine(zos, "      \"date\": \"" + journalDate.asStringToBeSigned() + "\",");
+        writeLine(zos, "      \"message\": \"" + journalMessage.get() + "\"");
+        writeLine(zos, "    }" + (nextElement ? "," : ""));
+    }
+
+    private boolean hasNextElement(List<?> list, int currentPosition) {
+        return currentPosition < (list.size() - 1);
     }
 
     @Override
@@ -148,7 +194,7 @@ public class DepExporterCore implements DepExporter {
         while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
             List<String> compactJwsRepresentations = loadCompactJwsRepresentationsForDay.apply(currentDay);
             for (int i = 0; i < compactJwsRepresentations.size(); i++ ) {
-                if (!first) {
+                if ( !first) {
                     writeLine(zos, ",");
                 }
                 write(zos, "          \"" + compactJwsRepresentations.get(i) + "\"");
