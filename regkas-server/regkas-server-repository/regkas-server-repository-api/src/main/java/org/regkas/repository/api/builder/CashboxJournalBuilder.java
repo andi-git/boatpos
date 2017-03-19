@@ -13,4 +13,6 @@ public interface CashboxJournalBuilder extends ModelBuilder<CashboxJournal> {
     CashboxJournalBuilder add(JournalDate journalDate);
 
     CashboxJournalBuilder add(CashBox cashBox);
+
+    CashboxJournalBuilder reset();
 }

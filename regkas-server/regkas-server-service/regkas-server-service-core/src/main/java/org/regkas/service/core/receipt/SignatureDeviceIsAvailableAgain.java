@@ -7,11 +7,14 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.boatpos.common.repository.api.values.SimpleValueObject;
+import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.core.email.BillBeanToMailContentConverter;
 import org.regkas.service.core.email.SendMailEvent;
 import org.regkas.service.core.financialoffice.SignatureDeviceAvailableAgainEvent;
+import org.regkas.service.core.journal.CashboxJournalEvent;
 
 @ApplicationScoped
 public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAvailability {
@@ -31,6 +34,13 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
     @Inject
     private Event<SignatureDeviceAvailableAgainEvent> signatureDeviceAvailableAgainEvent;
 
+    @Inject
+    private Event<CashboxJournalEvent> cashboxJournalEvent;
+
+    @Inject
+    @Current
+    private CashBox cashBox;
+
     @Override
     public boolean canHandle(Receipt currentReceipt, Receipt lastReceipt) {
         return SimpleValueObject.nullSafe(currentReceipt.getSignatureDeviceAvailable()) &&
@@ -42,8 +52,10 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
         checkNotNull(billBean, "'billBean' must not be null");
         notifyCompany(billBean);
         notifyFinancialOffice();
-        Receipt nullReceipt = createNullReceipt();
-        billBean.setSammelBeleg(nullReceipt.asBillBean());
+        notifyJournal();
+        Receipt sammelReceipt = createNullReceipt();
+        billBean.setSammelBeleg(sammelReceipt.asBillBean());
+        notifyJournalBecauseOfSammelReceipt(sammelReceipt);
         return billBean;
     }
 
@@ -60,5 +72,18 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
 
     private void notifyFinancialOffice() {
         signatureDeviceAvailableAgainEvent.fire(new SignatureDeviceAvailableAgainEvent());
+    }
+
+    private void notifyJournal() {
+        cashboxJournalEvent
+            .fire(new CashboxJournalEvent("signature-device " + cashBox.getSignatureCertificateSerialNumber().get() + " is available again", cashBox));
+    }
+
+    private void notifyJournalBecauseOfSammelReceipt(Receipt receipt) {
+        cashboxJournalEvent.fire(
+            new CashboxJournalEvent(
+                "create receipt " + receipt.getReceiptId().get() + ", " + receipt.getReceiptType().getName().get(),
+                receipt.getCashBox(),
+                receipt.getReceiptDate().get()));
     }
 }

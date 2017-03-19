@@ -7,11 +7,14 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.boatpos.common.repository.api.values.SimpleValueObject;
+import org.boatpos.common.util.qualifiers.Current;
+import org.regkas.repository.api.model.CashBox;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.core.email.BillBeanToMailContentConverter;
 import org.regkas.service.core.email.SendMailEvent;
 import org.regkas.service.core.financialoffice.SignatureDeviceDamagedEvent;
+import org.regkas.service.core.journal.CashboxJournalEvent;
 
 @ApplicationScoped
 public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceAvailability {
@@ -25,6 +28,13 @@ public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceA
     @Inject
     private Event<SignatureDeviceDamagedEvent> signatureDeviceDamagedEvent;
 
+    @Inject
+    private Event<CashboxJournalEvent> cashboxJournalEvent;
+
+    @Inject
+    @Current
+    private CashBox cashBox;
+
     @Override
     public boolean canHandle(Receipt currentReceipt, Receipt lastReceipt) {
         return !SimpleValueObject.nullSafe(currentReceipt.getSignatureDeviceAvailable()) &&
@@ -36,6 +46,7 @@ public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceA
         checkNotNull(billBean, "'billBean' must not be null");
         notifyCompany(billBean);
         notifyFinancialOffice();
+        notifyJournal();
         return billBean;
     }
 
@@ -48,5 +59,10 @@ public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceA
 
     private void notifyFinancialOffice() {
         signatureDeviceDamagedEvent.fire(new SignatureDeviceDamagedEvent());
+    }
+
+    private void notifyJournal() {
+        cashboxJournalEvent
+            .fire(new CashboxJournalEvent("signature-device " + cashBox.getSignatureCertificateSerialNumber().get() + " is damaged", cashBox));
     }
 }

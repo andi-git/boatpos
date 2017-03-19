@@ -4,9 +4,9 @@
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
     <named-query name="cashboxjournal.getAll">
-        <query>FROM CashboxJournalEntity c ORDER BY c.messageDate</query>
+        <query>FROM CashboxJournalEntity c ORDER BY c.id</query>
     </named-query>
     <named-query name="cashboxjournal.getAllByCashbox">
-        <query>FROM CashboxJournalEntity c WHERE c.cashBox.id = :id ORDER BY c.messageDate</query>
+        <query>FROM CashboxJournalEntity c WHERE c.cashBox.id = :id ORDER BY c.id</query>
     </named-query>
 </entity-mappings>

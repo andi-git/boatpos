@@ -12,10 +12,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.google.gson.annotations.Expose;
+import org.boatpos.common.model.AbstractEntity;
 
 @Entity
 @Table(name = "cashboxJournal")
-public class CashboxJournalEntity {
+public class CashboxJournalEntity extends AbstractEntity{
 
     @NotNull
     @Size(min = 3)
@@ -24,7 +25,6 @@ public class CashboxJournalEntity {
 
     @NotNull
     @Expose
-    @Id
     private LocalDateTime messageDate;
 
     @NotNull
@@ -35,7 +35,8 @@ public class CashboxJournalEntity {
 
     public CashboxJournalEntity() {}
 
-    public CashboxJournalEntity(String message, LocalDateTime messageDate, CashBoxEntity cashBox) {
+    public CashboxJournalEntity(Long id, Integer version, String message, LocalDateTime messageDate, CashBoxEntity cashBox) {
+        super(id, version);
         this.message = message;
         this.messageDate = messageDate;
         this.cashBox = cashBox;

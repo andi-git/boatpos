@@ -1,7 +1,5 @@
 package org.regkas.repository.core.builder;
 
-import javax.enterprise.context.Dependent;
-
 import org.boatpos.common.repository.core.builder.ModelBuilderCore;
 import org.regkas.repository.api.builder.CashboxJournalBuilder;
 import org.regkas.repository.api.model.CashBox;
@@ -9,6 +7,8 @@ import org.regkas.repository.api.model.CashboxJournal;
 import org.regkas.repository.api.values.JournalDate;
 import org.regkas.repository.api.values.JournalMessage;
 import org.regkas.repository.core.model.CashboxJournalCore;
+
+import javax.enterprise.context.Dependent;
 
 @Dependent
 public class CashboxJournalBuilderCore extends ModelBuilderCore<CashboxJournal> implements CashboxJournalBuilder {
@@ -40,5 +40,10 @@ public class CashboxJournalBuilderCore extends ModelBuilderCore<CashboxJournal> 
     public CashboxJournalBuilder add(JournalMessage journalMessage) {
         this.journalMessage = journalMessage;
         return this;
+    }
+
+    @Override
+    public CashboxJournalBuilder reset() {
+        return new CashboxJournalBuilderCore();
     }
 }

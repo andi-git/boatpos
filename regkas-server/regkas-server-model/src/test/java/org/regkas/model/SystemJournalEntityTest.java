@@ -12,6 +12,6 @@ public class SystemJournalEntityTest extends JavaBeanTest<SystemJournalEntity> {
 
     @Test
     public void testConstructor() {
-        new SystemJournalEntity("", LocalDateTime.now());
+        new SystemJournalEntity(0L, 0, "", LocalDateTime.now());
     }
 }

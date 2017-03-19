@@ -12,6 +12,6 @@ public class CashboxJournalEntityTest extends JavaBeanTest<CashboxJournalEntity>
 
     @Test
     public void testConstructor() {
-        new CashboxJournalEntity("", LocalDateTime.now(), null);
+        new CashboxJournalEntity(0L, 0, "", LocalDateTime.now(), null);
     }
 }

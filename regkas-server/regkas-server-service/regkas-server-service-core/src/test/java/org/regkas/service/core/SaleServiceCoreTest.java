@@ -18,8 +18,10 @@ import org.junit.runner.RunWith;
 import org.regkas.repository.api.context.CashBoxContext;
 import org.regkas.repository.api.context.CompanyContext;
 import org.regkas.repository.api.context.UserContext;
+import org.regkas.repository.api.model.CashboxJournal;
 import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.repository.api.repository.CashboxJournalRepository;
 import org.regkas.repository.api.repository.CompanyRepository;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.repository.UserRepository;
@@ -37,6 +39,8 @@ import org.regkas.service.core.financialoffice.FinancialOfficeSenderMock;
 import org.regkas.service.core.receipt.FirstSale;
 import org.regkas.service.core.receipt.RkOnlineResourceSessionThrowingException;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
+
+import java.util.List;
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal"})
 @RunWith(Arquillian.class)
@@ -84,6 +88,9 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
     private MailSenderMock mailSenderMock = new MailSenderMock();
 
     private FinancialOfficeSenderMock financialOfficeSenderMock = new FinancialOfficeSenderMock();
+
+    @Inject
+    private CashboxJournalRepository cashboxJournalRepository;
 
     @SuppressWarnings("Duplicates")
     @Before
@@ -142,6 +149,11 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertTrue(mailSenderMock.isSendCalled());
         assertTrue(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
+
+        List<CashboxJournal> cashboxJournals = cashboxJournalRepository.loadBy(cashBoxContext.get());
+        assertEquals(2, cashboxJournals.size());
+        assertEquals("create receipt 2015-0000003, Standard-Beleg", cashboxJournals.get(0).getJournalMessage().get());
+        assertEquals("signature-device 123 is damaged", cashboxJournals.get(1).getJournalMessage().get());
 
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
     }

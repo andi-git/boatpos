@@ -3,16 +3,17 @@ package org.regkas.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.boatpos.common.model.AbstractEntity;
 
 import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "systemJournal")
-public class SystemJournalEntity {
+public class SystemJournalEntity extends AbstractEntity {
 
     @NotNull
     @Size(min = 3)
@@ -21,12 +22,12 @@ public class SystemJournalEntity {
 
     @NotNull
     @Expose
-    @Id
     private LocalDateTime messageDate;
 
     public SystemJournalEntity() {}
 
-    public SystemJournalEntity(String message, LocalDateTime messageDate) {
+    public SystemJournalEntity(Long id, Integer version, String message, LocalDateTime messageDate) {
+        super(id, version);
         this.message = message;
         this.messageDate = messageDate;
     }

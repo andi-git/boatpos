@@ -10,4 +10,6 @@ public interface SystemJournalBuilder extends ModelBuilder<SystemJournal> {
     SystemJournalBuilder add(JournalMessage journalMessage);
 
     SystemJournalBuilder add(JournalDate journalDate);
+
+    SystemJournalBuilder reset();
 }
