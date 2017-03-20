@@ -7,6 +7,7 @@ import org.regkas.repository.api.model.Receipt;
 import org.regkas.repository.api.model.ReceiptType;
 import org.regkas.repository.api.repository.ReceiptRepository;
 import org.regkas.repository.api.values.InputForChainCalculation;
+import org.regkas.repository.api.values.LastReceiptMandatory;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureMandatory;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
@@ -47,5 +48,10 @@ public abstract class ReceiptTypeCore<MODEL extends ReceiptType, ENTITY extends 
         } else {
             throw new RuntimeException("no last receipt available to get the input for chain-calculation");
         }
+    }
+
+    @Override
+    public LastReceiptMandatory isLastReceiptMandatory() {
+        return LastReceiptMandatory.TRUE;
     }
 }

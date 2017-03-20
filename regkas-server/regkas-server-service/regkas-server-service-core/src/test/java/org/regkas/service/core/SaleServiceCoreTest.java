@@ -32,6 +32,7 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
+import org.regkas.service.api.bean.Period;
 import org.regkas.service.core.email.MailSenderFactory;
 import org.regkas.service.core.email.MailSenderMock;
 import org.regkas.service.core.financialoffice.FinancialOfficeSenderFactory;
