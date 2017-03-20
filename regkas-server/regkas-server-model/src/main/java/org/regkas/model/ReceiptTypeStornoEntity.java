@@ -3,9 +3,6 @@ package org.regkas.model;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-/**
- * Representation of an element of a receipt: Storno-Beleg.
- */
 @Entity
 @DiscriminatorValue("Storno-Beleg")
 public class ReceiptTypeStornoEntity extends ReceiptTypeEntity {

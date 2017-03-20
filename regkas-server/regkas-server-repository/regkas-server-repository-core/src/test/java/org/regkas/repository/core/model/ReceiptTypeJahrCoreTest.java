@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeJahrCoreTest extends EntityManagerProviderForRegkas {
 
@@ -30,7 +31,7 @@ public class ReceiptTypeJahrCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testGetStartBelegFromDatabase() {
+    public void testGetJahresBelegFromDatabase() {
         assertEquals(ReceiptTypeJahrCore.class, receiptType.getClass());
         assertEquals("Jahres-Beleg", receiptType.getName().get());
     }

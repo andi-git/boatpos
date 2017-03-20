@@ -84,6 +84,7 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         ReceiptTypeEntity receiptType7 = new ReceiptTypeJahrEntity(null, null, true, 7, "", "", "Jahres-Beleg", true);
         ReceiptTypeEntity receiptType8 = new ReceiptTypeSammelEntity(null, null, true, 8, "", "", "Sammel-Beleg", true);
         ReceiptTypeEntity receiptType9 = new ReceiptTypeSchlussEntity(null, null, true, 9, "", "", "Schluss-Beleg", false);
+        ReceiptTypeEntity receiptType10 = new ReceiptTypeTagEntity(null, null, true, 10, "", "", "Tages-Beleg", false);
         ReceiptEntity receipt1 = new ReceiptEntity(null, null, "2015-0000001", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, new ArrayList<>(), "{\"Kassen-ID\":\"RegKas1\",\"Belegnummer\":\"2015-0000001\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T12:00:13\",\"Betrag-Satz-Normal\":5.00,\"Betrag-Satz-Ermaessigt-1\":6.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":0.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Cola\",\"Steuersatz\":20,\"Anzahl\":2,\"Netto\":4.17,\"Brutto\":5.00,\"Steuer\":0.83},{\"Produkt\":\"Cornetto\",\"Steuersatz\":10,\"Anzahl\":3,\"Netto\":5.45,\"Brutto\":6.00,\"Steuer\":0.55}],\"Gesamtbetrag\":11.00,\"Beleg-Art\":\"Standard-Beleg\"}", new BigDecimal("11.00"), "R1-AT0", "jws123", "xxx.jws123.sss", true);
         ReceiptEntity receipt2 = new ReceiptEntity(null, null, "2015-0000002", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptType2, PaymentMethod.CASH, new ArrayList<>(), "{\"Kassen-ID\":\"RegKas1\",\"Belegnummer\":\"2015-0000002\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T12:00:13\",\"Betrag-Satz-Normal\":0.00,\"Betrag-Satz-Ermaessigt-1\":11.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":0.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Wurstsemmel\",\"Steuersatz\":10,\"Anzahl\":5,\"Netto\":10.00,\"Brutto\":11.00,\"Steuer\":1.00}],\"Gesamtbetrag\":11.00,\"Beleg-Art\":\"Standard-Beleg\"}", new BigDecimal("11.00"), "R1-AT0", "jws456", "xxx.jws456.sss", true);
         ReceiptElementEntity receiptElement11 = new ReceiptElementEntity(null, null, product2, receipt1, new BigDecimal("5.00"), 2);
@@ -124,6 +125,7 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.persist(receiptType7);
         em.persist(receiptType8);
         em.persist(receiptType9);
+        em.persist(receiptType10);
         em.persist(receipt1);
         em.persist(receipt2);
         em.persist(receiptElement11);
@@ -353,6 +355,8 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
             em.createNativeQuery("DELETE FROM taxset").executeUpdate();
             em.createNativeQuery("DELETE FROM taxset_productgroup").executeUpdate();
             em.createNativeQuery("DELETE FROM user").executeUpdate();
+            em.createNativeQuery("DELETE FROM cashbox_journal").executeUpdate();
+            em.createNativeQuery("DELETE FROM system_journal").executeUpdate();
             em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
             // reset sequence for ids and clear cache
             em.createNativeQuery("ALTER SEQUENCE hibernate_sequence RESTART WITH 1").executeUpdate();

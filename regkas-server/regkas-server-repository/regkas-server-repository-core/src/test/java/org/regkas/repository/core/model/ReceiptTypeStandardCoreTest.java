@@ -49,6 +49,7 @@ public class ReceiptTypeStandardCoreTest extends EntityManagerProviderForRegkas 
     @Transactional
     public void testGetStandardBelegFromDatabaseIllegalArgument() {
         Name name = null;
+        //noinspection ConstantConditions
         receiptTypeRepository.loadBy(name).get();
     }
 

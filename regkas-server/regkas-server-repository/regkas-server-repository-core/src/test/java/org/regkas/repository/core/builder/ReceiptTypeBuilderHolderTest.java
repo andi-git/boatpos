@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeBuilderHolderTest extends EntityManagerProviderForRegkas {
 
@@ -21,7 +22,7 @@ public class ReceiptTypeBuilderHolderTest extends EntityManagerProviderForRegkas
     @Test
     @Transactional
     public void getAvaiableBuilders() throws Exception {
-        assertEquals(9, receiptTypeBuilderHolder.getAvaiableBuilders().size());
+        assertEquals(10, receiptTypeBuilderHolder.getAvaiableBuilders().size());
     }
 
     @Test
@@ -36,5 +37,6 @@ public class ReceiptTypeBuilderHolderTest extends EntityManagerProviderForRegkas
         assertEquals(ReceiptTypeTrainingCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeTrainingEntity()).get().getClass());
         assertEquals(ReceiptTypeSchlussCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeSchlussEntity()).get().getClass());
         assertEquals(ReceiptTypeSammelCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeSammelEntity()).get().getClass());
+        assertEquals(ReceiptTypeTagCore.class, receiptTypeBuilderHolder.getReceiptTypeFor(new ReceiptTypeTagEntity()).get().getClass());
     }
 }

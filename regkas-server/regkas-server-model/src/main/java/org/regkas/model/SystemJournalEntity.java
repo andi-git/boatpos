@@ -12,7 +12,7 @@ import org.boatpos.common.model.AbstractEntity;
 import com.google.gson.annotations.Expose;
 
 @Entity
-@Table(name = "systemJournal")
+@Table(name = "system_journal")
 public class SystemJournalEntity extends AbstractEntity {
 
     @NotNull

@@ -1,5 +1,9 @@
 package org.regkas.repository.core.model;
 
+import static org.junit.Assert.assertEquals;
+
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
@@ -11,10 +15,7 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterNothing;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-import javax.inject.Inject;
-
-import static org.junit.Assert.assertEquals;
-
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeTrainingCoreTest extends EntityManagerProviderForRegkas {
 
@@ -30,7 +31,7 @@ public class ReceiptTypeTrainingCoreTest extends EntityManagerProviderForRegkas 
 
     @Test
     @Transactional
-    public void testGetStartBelegFromDatabase() {
+    public void testGetTrainingBelegFromDatabase() {
         assertEquals(ReceiptTypeTrainingCore.class, receiptType.getClass());
         assertEquals("Training-Beleg", receiptType.getName().get());
     }

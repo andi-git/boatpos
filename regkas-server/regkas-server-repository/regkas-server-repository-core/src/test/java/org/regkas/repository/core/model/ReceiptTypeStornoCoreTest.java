@@ -15,6 +15,7 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterAdd;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeStornoCoreTest extends EntityManagerProviderForRegkas {
 
@@ -30,7 +31,7 @@ public class ReceiptTypeStornoCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testGetStartBelegFromDatabase() {
+    public void testGetStornoBelegFromDatabase() {
         assertEquals(ReceiptTypeStornoCore.class, receiptType.getClass());
         assertEquals("Storno-Beleg", receiptType.getName().get());
     }

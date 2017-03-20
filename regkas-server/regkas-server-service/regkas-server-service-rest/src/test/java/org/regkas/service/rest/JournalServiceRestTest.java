@@ -74,7 +74,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
     public void testDEPYear() throws Exception {
         assertDEP(
             helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015")), new MediaType("application", "zip")).get(),
-            605);
+                643);
     }
 
     @Test
@@ -86,14 +86,14 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
                     (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7")),
                     new MediaType("application", "zip"))
                 .get(),
-            602);
+            638);
     }
 
     @Test
     public void testDEPDay() throws Exception {
         assertDEP(
             helper.createRestCall(url, (wt) -> addQueryParamCredentials(wt.path("journal/dep/2015/7/1")), new MediaType("application", "zip")).get(),
-            599);
+                636);
     }
 
     @Test
@@ -123,6 +123,6 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outputStream.write(buffer, 0, bytesRead);
         }
-        assertTrue(file.length() >= (length - 30) && file.length() <= (length + 30));
+        assertTrue("length should be " + length + " but is " + file.length(), file.length() >= (length - 30) && file.length() <= (length + 30));
     }
 }

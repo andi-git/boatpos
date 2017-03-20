@@ -8,9 +8,6 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.SignatureMandatory;
 import org.regkas.repository.api.values.SignatureValuePreviousReceipt;
 
-/**
- * The domain model for a receipt-type.
- */
 public interface ReceiptType<MODEL extends ReceiptType, ENTITY extends ReceiptTypeEntity> extends MasterData<MODEL, ENTITY> {
 
     Name getName();

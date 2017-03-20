@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeRepositoryCoreTest extends EntityManagerProviderForRegkas {
 
@@ -34,13 +35,13 @@ public class ReceiptTypeRepositoryCoreTest extends EntityManagerProviderForRegka
     @Test
     @Transactional
     public void testLoadAll() {
-        assertEquals(9, receiptTypeRepository.loadAll().size());
+        assertEquals(10, receiptTypeRepository.loadAll().size());
     }
 
     @Test
     @Transactional
     public void testLoadAllEnabledDisable() {
-        assertEquals(9, receiptTypeRepository.loadAll(Enabled.TRUE).size());
+        assertEquals(10, receiptTypeRepository.loadAll(Enabled.TRUE).size());
         assertEquals(0, receiptTypeRepository.loadAll(Enabled.FALSE).size());
     }
 }

@@ -15,6 +15,7 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterNothing;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptTypeSchlussCoreTest extends EntityManagerProviderForRegkas {
 

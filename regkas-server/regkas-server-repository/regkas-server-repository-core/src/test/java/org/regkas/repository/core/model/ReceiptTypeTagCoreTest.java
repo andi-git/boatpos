@@ -17,7 +17,7 @@ import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
-public class ReceiptTypeNullCoreTest extends EntityManagerProviderForRegkas {
+public class ReceiptTypeTagCoreTest extends EntityManagerProviderForRegkas {
 
     @Inject
     private ReceiptTypeRepository receiptTypeRepository;
@@ -26,14 +26,14 @@ public class ReceiptTypeNullCoreTest extends EntityManagerProviderForRegkas {
 
     @Before
     public void before() {
-        receiptType = receiptTypeRepository.loadBy(new Name("Null-Beleg")).get();
+        receiptType = receiptTypeRepository.loadBy(new Name("Tages-Beleg")).get();
     }
 
     @Test
     @Transactional
-    public void testGetNullBelegFromDatabase() {
-        assertEquals(ReceiptTypeNullCore.class, receiptType.getClass());
-        assertEquals("Null-Beleg", receiptType.getName().get());
+    public void testGetTagesBelegFromDatabase() {
+        assertEquals(ReceiptTypeTagCore.class, receiptType.getClass());
+        assertEquals("Tages-Beleg", receiptType.getName().get());
     }
 
     @Test

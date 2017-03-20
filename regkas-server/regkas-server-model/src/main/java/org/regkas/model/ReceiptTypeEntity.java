@@ -12,9 +12,6 @@ import org.boatpos.common.model.AbstractMasterDataEntity;
 
 import com.google.gson.annotations.Expose;
 
-/**
- * Representation of an element of a receipt.
- */
 @SuppressWarnings({"unused", "JpaDataSourceORMInspection"})
 @Entity
 @Table(name = "receiptType")

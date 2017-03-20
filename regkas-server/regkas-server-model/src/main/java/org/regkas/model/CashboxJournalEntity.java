@@ -15,7 +15,7 @@ import com.google.gson.annotations.Expose;
 import org.boatpos.common.model.AbstractEntity;
 
 @Entity
-@Table(name = "cashboxJournal")
+@Table(name = "cashbox_journal")
 public class CashboxJournalEntity extends AbstractEntity{
 
     @NotNull
