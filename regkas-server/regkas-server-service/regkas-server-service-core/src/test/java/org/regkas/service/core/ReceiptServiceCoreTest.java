@@ -68,11 +68,6 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
-        ReceiptType receiptTypeStart = receiptTypeRepository.loadBy(new Name("Start-Beleg")).get();
-
-        assertFalse(receiptService.isStartReceiptCreated());
-
-        insertReceipt(receiptTypeStart, new ReceiptId("2015-0000000"), new ReceiptDate(LocalDateTime.of(2015, 6, 1, 12, 0, 0)));
         assertTrue(receiptService.isStartReceiptCreated());
     }
 

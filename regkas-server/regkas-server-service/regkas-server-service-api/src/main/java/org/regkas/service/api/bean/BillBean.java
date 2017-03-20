@@ -1,16 +1,17 @@
 package org.regkas.service.api.bean;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import org.boatpos.common.service.api.bean.AbstractBean;
-import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
-
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.boatpos.common.service.api.bean.AbstractBean;
+import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Representation of a bill / payment.
@@ -18,7 +19,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class BillBean extends AbstractBean {
 
-    //REF TO SPECIFICATION: Detailspezifikation/Abs 4, Abs 5
+    // REF TO SPECIFICATION: Detailspezifikation/Abs 4, Abs 5
     @SerializedName("Kassen-ID")
     @Expose
     private String cashBoxID;
@@ -84,10 +85,24 @@ public class BillBean extends AbstractBean {
 
     private BillBean sammelBeleg;
 
-    public BillBean() {
-    }
+    private IncomeBean incomeBean;
 
-    public BillBean(CompanyBean company, String cashBoxID, String receiptIdentifier, LocalDateTime receiptDateAndTime, BigDecimal sumTaxSetNormal, BigDecimal sumTaxSetErmaessigt1, BigDecimal sumTaxSetErmaessigt2, BigDecimal sumTaxSetBesonderes, BigDecimal sumTaxSetNull, List<BillTaxSetElementBean> billTaxSetElements, BigDecimal sumTotal, String receiptType, String jwsCompact) {
+    public BillBean() {}
+
+    public BillBean(
+            CompanyBean company,
+            String cashBoxID,
+            String receiptIdentifier,
+            LocalDateTime receiptDateAndTime,
+            BigDecimal sumTaxSetNormal,
+            BigDecimal sumTaxSetErmaessigt1,
+            BigDecimal sumTaxSetErmaessigt2,
+            BigDecimal sumTaxSetBesonderes,
+            BigDecimal sumTaxSetNull,
+            List<BillTaxSetElementBean> billTaxSetElements,
+            BigDecimal sumTotal,
+            String receiptType,
+            String jwsCompact) {
         this.cashBoxID = cashBoxID;
         this.receiptIdentifier = receiptIdentifier;
         this.receiptDateAndTime = receiptDateAndTime;
@@ -237,6 +252,14 @@ public class BillBean extends AbstractBean {
 
     public void setSammelBeleg(BillBean sammelBeleg) {
         this.sammelBeleg = sammelBeleg;
+    }
+
+    public IncomeBean getIncomeBean() {
+        return incomeBean;
+    }
+
+    public void setIncomeBean(IncomeBean incomeBean) {
+        this.incomeBean = incomeBean;
     }
 
     public static BillBean fromJwsCompact(String jwsCompact) {

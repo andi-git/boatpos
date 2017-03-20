@@ -7,6 +7,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -32,7 +35,7 @@ import org.regkas.repository.api.values.Name;
 import org.regkas.repository.api.values.ReceiptId;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
-import org.regkas.service.api.bean.Period;
+import org.regkas.service.api.bean.SaleBean;
 import org.regkas.service.core.email.MailSenderFactory;
 import org.regkas.service.core.email.MailSenderMock;
 import org.regkas.service.core.financialoffice.FinancialOfficeSenderFactory;
@@ -40,8 +43,6 @@ import org.regkas.service.core.financialoffice.FinancialOfficeSenderMock;
 import org.regkas.service.core.receipt.FirstSale;
 import org.regkas.service.core.receipt.RkOnlineResourceSessionThrowingException;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
-
-import java.util.List;
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal"})
 @RunWith(Arquillian.class)
@@ -233,6 +234,68 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertFalse(mailSenderMock.isSendCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testSaleWithoutLastReceipt() throws Exception {
+        userContext.set(userRepository.loadBy(new Name("Max Mustermann")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas2")));
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Standard-Beleg");
+        saleService.sale(sale);
+    }
+
+    @Test
+    @Transactional
+    public void testSaleStartReceipt() throws Exception {
+        userContext.set(userRepository.loadBy(new Name("Max Mustermann")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas2")));
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Start-Beleg");
+        BillBean billBean = saleService.sale(sale);
+        assertEquals(new BigDecimal("0.00"), billBean.getSumTotal());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testSaleStartReceiptWhenStartWasAlreadyCreated() throws Exception {
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Start-Beleg");
+        saleService.sale(sale);
+    }
+
+    @Test
+    @Transactional
+    public void testSaleTagesReceipt() throws Exception {
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Tages-Beleg");
+        BillBean billBean = saleService.sale(sale);
+        assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
+    }
+
+    @Test
+    @Transactional
+    public void testSaleMonatsReceipt() throws Exception {
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Monats-Beleg");
+        BillBean billBean = saleService.sale(sale);
+        assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
+    }
+
+    @Test
+    @Transactional
+    public void testSaleJahresReceipt() throws Exception {
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Jahres-Beleg");
+        BillBean billBean = saleService.sale(sale);
+        assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
     }
 
 }

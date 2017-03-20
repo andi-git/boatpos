@@ -34,6 +34,7 @@ import org.regkas.repository.api.values.JournalDate;
 import org.regkas.repository.api.values.JournalMessage;
 import org.regkas.repository.api.values.Name;
 import org.regkas.repository.core.DateTimeHelperMock;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.Period;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
@@ -141,46 +142,48 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
             assertEquals(dateTimeHelper.currentTime(), depExport.getCreated());
             assertEquals(period.getStartDay(), depExport.getFrom());
             assertEquals(period.getEndDay(), depExport.getTo());
-            // element 0
-            assertEquals("RegKas1", depExport.getCashBoxInstructionList().get(0).getCashBoxID());
-            assertEquals("2015-0000001", depExport.getCashBoxInstructionList().get(0).getReceiptIdentifier());
-            assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), depExport.getCashBoxInstructionList().get(0).getReceiptDateAndTime());
-            assertEquals(new BigDecimal("11.00"), depExport.getCashBoxInstructionList().get(0).getSumTotal());
-            assertEquals("Standard-Beleg", depExport.getCashBoxInstructionList().get(0).getReceiptType());
-            assertEquals(new BigDecimal("5.00"), depExport.getCashBoxInstructionList().get(0).getSumTaxSetNormal());
-            assertEquals(new BigDecimal("6.00"), depExport.getCashBoxInstructionList().get(0).getSumTaxSetErmaessigt1());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(0).getSumTaxSetErmaessigt2());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(0).getSumTaxSetNull());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(0).getSumTaxSetBesonders());
-            assertEquals("Cola", depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(0).getName());
-            assertEquals(20, depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(0).getTaxPercent().longValue());
-            assertEquals(2, depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(0).getAmount().longValue());
-            assertEquals(new BigDecimal("4.17"), depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(0).getPricePreTax());
-            assertEquals(new BigDecimal("0.83"), depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(0).getPriceTax());
-            assertEquals(new BigDecimal("5.00"), depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(0).getPriceAfterTax());
-            assertEquals("Cornetto", depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(1).getName());
-            assertEquals(10, depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(1).getTaxPercent().longValue());
-            assertEquals(3, depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(1).getAmount().longValue());
-            assertEquals(new BigDecimal("5.45"), depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(1).getPricePreTax());
-            assertEquals(new BigDecimal("0.55"), depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(1).getPriceTax());
-            assertEquals(new BigDecimal("6.00"), depExport.getCashBoxInstructionList().get(0).getBillTaxSetElements().get(1).getPriceAfterTax());
             // element 1
-            assertEquals("RegKas1", depExport.getCashBoxInstructionList().get(1).getCashBoxID());
-            assertEquals("2015-0000002", depExport.getCashBoxInstructionList().get(1).getReceiptIdentifier());
-            assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), depExport.getCashBoxInstructionList().get(1).getReceiptDateAndTime());
-            assertEquals(new BigDecimal("11.00"), depExport.getCashBoxInstructionList().get(1).getSumTotal());
-            assertEquals("Standard-Beleg", depExport.getCashBoxInstructionList().get(1).getReceiptType());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(1).getSumTaxSetNormal());
-            assertEquals(new BigDecimal("11.00"), depExport.getCashBoxInstructionList().get(1).getSumTaxSetErmaessigt1());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(1).getSumTaxSetErmaessigt2());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(1).getSumTaxSetNull());
-            assertEquals(new BigDecimal("0.00"), depExport.getCashBoxInstructionList().get(1).getSumTaxSetBesonders());
-            assertEquals("Wurstsemmel", depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getName());
-            assertEquals(10, depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getTaxPercent().longValue());
-            assertEquals(5, depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getAmount().longValue());
-            assertEquals(new BigDecimal("10.00"), depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getPricePreTax());
-            assertEquals(new BigDecimal("1.00"), depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getPriceTax());
-            assertEquals(new BigDecimal("11.00"), depExport.getCashBoxInstructionList().get(1).getBillTaxSetElements().get(0).getPriceAfterTax());
+            BillBean billBean = depExport.getCashBoxInstructionList().get(1);
+            assertEquals("RegKas1", billBean.getCashBoxID());
+            assertEquals("2015-0000001", billBean.getReceiptIdentifier());
+            assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), billBean.getReceiptDateAndTime());
+            assertEquals(new BigDecimal("11.00"), billBean.getSumTotal());
+            assertEquals("Standard-Beleg", billBean.getReceiptType());
+            assertEquals(new BigDecimal("5.00"), billBean.getSumTaxSetNormal());
+            assertEquals(new BigDecimal("6.00"), billBean.getSumTaxSetErmaessigt1());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetErmaessigt2());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetNull());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetBesonders());
+            assertEquals("Cola", billBean.getBillTaxSetElements().get(0).getName());
+            assertEquals(20, billBean.getBillTaxSetElements().get(0).getTaxPercent().longValue());
+            assertEquals(2, billBean.getBillTaxSetElements().get(0).getAmount().longValue());
+            assertEquals(new BigDecimal("4.17"), billBean.getBillTaxSetElements().get(0).getPricePreTax());
+            assertEquals(new BigDecimal("0.83"), billBean.getBillTaxSetElements().get(0).getPriceTax());
+            assertEquals(new BigDecimal("5.00"), billBean.getBillTaxSetElements().get(0).getPriceAfterTax());
+            assertEquals("Cornetto", billBean.getBillTaxSetElements().get(1).getName());
+            assertEquals(10, billBean.getBillTaxSetElements().get(1).getTaxPercent().longValue());
+            assertEquals(3, billBean.getBillTaxSetElements().get(1).getAmount().longValue());
+            assertEquals(new BigDecimal("5.45"), billBean.getBillTaxSetElements().get(1).getPricePreTax());
+            assertEquals(new BigDecimal("0.55"), billBean.getBillTaxSetElements().get(1).getPriceTax());
+            assertEquals(new BigDecimal("6.00"), billBean.getBillTaxSetElements().get(1).getPriceAfterTax());
+            // element 2
+            billBean = depExport.getCashBoxInstructionList().get(2);
+            assertEquals("RegKas1", billBean.getCashBoxID());
+            assertEquals("2015-0000002", billBean.getReceiptIdentifier());
+            assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), billBean.getReceiptDateAndTime());
+            assertEquals(new BigDecimal("11.00"), billBean.getSumTotal());
+            assertEquals("Standard-Beleg", billBean.getReceiptType());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetNormal());
+            assertEquals(new BigDecimal("11.00"), billBean.getSumTaxSetErmaessigt1());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetErmaessigt2());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetNull());
+            assertEquals(new BigDecimal("0.00"), billBean.getSumTaxSetBesonders());
+            assertEquals("Wurstsemmel", billBean.getBillTaxSetElements().get(0).getName());
+            assertEquals(10, billBean.getBillTaxSetElements().get(0).getTaxPercent().longValue());
+            assertEquals(5, billBean.getBillTaxSetElements().get(0).getAmount().longValue());
+            assertEquals(new BigDecimal("10.00"), billBean.getBillTaxSetElements().get(0).getPricePreTax());
+            assertEquals(new BigDecimal("1.00"), billBean.getBillTaxSetElements().get(0).getPriceTax());
+            assertEquals(new BigDecimal("11.00"), billBean.getBillTaxSetElements().get(0).getPriceAfterTax());
 
             assertEquals(2, depExport.getCashboxEvents().size());
             assertEquals("message1", depExport.getCashboxEvents().get(0).getMessage());
@@ -218,7 +221,8 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
                 "MIID4DCCAsigAwIBAgIEOWntvzANBgkqhkiG9w0BAQUFADCBlTELMAkGA1UEBhMCQVQxSDBGBgNVBAoMP0EtVHJ1c3QgR2VzLiBmLiBTaWNoZXJoZWl0c3N5c3RlbWUgaW0gZWxla3RyLiBEYXRlbnZlcmtlaHIgR21iSDEdMBsGA1UECwwUQS1UcnVzdC1UZXN0LVF1YWwtMDIxHTAbBgNVBAMMFEEtVHJ1c3QtVGVzdC1RdWFsLTAyMB4XDTE0MTEyNDE0NDc0N1oXDTI0MTExODEzNDc0N1owgZUxCzAJBgNVBAYTAkFUMUgwRgYDVQQKDD9BLVRydXN0IEdlcy4gZi4gU2ljaGVyaGVpdHNzeXN0ZW1lIGltIGVsZWt0ci4gRGF0ZW52ZXJrZWhyIEdtYkgxHTAbBgNVBAsMFEEtVHJ1c3QtVGVzdC1RdWFsLTAyMR0wGwYDVQQDDBRBLVRydXN0LVRlc3QtUXVhbC0wMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANMBok2fNNtIEcf7Sw47vprkUeti6Y64Rc5rrAjh7cGwo4Jp5LyfvEVdv9AMNiuOX7ywd1xW99UZWtZ8MzXvWM5M6trLkeBYnCukwc9DqawXcuXXCYwgTuisFTmYO6GVJNr1iE/LJdSKbu5AVDS3FwXixqyJkjv/xWIwU4q86oATW8++8wb6Lu+fQlhBbn3Kqpavt6K+lwWSCb+8vIhB47IlKhJZwGqXfGV9l9dDgKYUbZiv3BBa+MRBUTvIcahEKz8hG2E8W4EgCwzISMpeStJtRHo/tJnA90KfSBTcz0txrxpHwqFgKwJvgW6nIjY1Sv5MfY5YJiEWv0d7UUkvlScCAwEAAaM2MDQwDwYDVR0TAQH/BAUwAwEB/zARBgNVHQ4ECgQIQg8xWXA9iecwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBBQUAA4IBAQApqSvkQyfbO2yDWewHwo1Zl32uGz41KMP5FYtA3BIcqh89paHwrW9KfcrybdUIneVz4iSnpyrDrS4LavfP8h/Hl1kRmVZRUBsOJRvqc1fiC2B6IJRHrmayb/DbXuyoOsk7Sr8M9xtAD3SzJCRkBrtjz/U/xQdU9TfV9SQyPN3qI+SR25/LRZDhOKcIFJduVpTYzbnKTIkl3OUrHXVq5xddxX6XP8bUjT+SqGiDf15H6N5flNBsvolMSo0OoQXFiDuY33frQSrSbHbA2p/MptwxA8JgGh4lrbgZZxjTvpO1wATBLDc3wGZkNuy+tNrrHAmE08B7fiExULHxzfaZEWSF",
                 depExport.getBelegeGruppe().get(0).getZertifizierungsstellen().get(1));
             assertEquals("xxx.jws123.sss", depExport.getBelegeGruppe().get(0).getBelegeKompakt().get(0));
-            assertEquals("xxx.jws456.sss", depExport.getBelegeGruppe().get(0).getBelegeKompakt().get(1));
+            assertEquals("xxx.jws123.sss", depExport.getBelegeGruppe().get(0).getBelegeKompakt().get(1));
+            assertEquals("xxx.jws456.sss", depExport.getBelegeGruppe().get(0).getBelegeKompakt().get(2));
         }
 
         companyContext.clear();

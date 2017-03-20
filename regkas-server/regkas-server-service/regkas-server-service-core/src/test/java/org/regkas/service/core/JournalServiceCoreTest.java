@@ -186,17 +186,17 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
             journalService.datenErfassungsProtokollRKV2012(2015),
             LocalDateTime.of(2015, 1, 1, 0, 0, 0),
             LocalDateTime.of(2015, 12, 31, 23, 59, 59, 999999999),
-            2);
+            3);
         assertDEP(
             journalService.datenErfassungsProtokollRKV2012(2015, 7),
             LocalDateTime.of(2015, 7, 1, 0, 0, 0),
             LocalDateTime.of(2015, 7, 31, 23, 59, 59, 999999999),
-            2);
+            3);
         assertDEP(
             journalService.datenErfassungsProtokollRKV2012(2015, 7, 1),
             LocalDateTime.of(2015, 7, 1, 0, 0, 0),
             LocalDateTime.of(2015, 7, 1, 23, 59, 59, 999999999),
-            2);
+            3);
         assertDEP(
             journalService.datenErfassungsProtokollRKV2012(2015, 7, 2),
             LocalDateTime.of(2015, 7, 2, 0, 0, 0),
@@ -238,7 +238,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
             DepExportRKSV depExport = serializer.deserialize(content, DepExportRKSV.class);
             assertEquals(1, depExport.getBelegeGruppe().size());
             assertEquals(2, depExport.getBelegeGruppe().get(0).getZertifizierungsstellen().size());
-            assertEquals(7, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
+            assertEquals(8, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
         }
     }
 }

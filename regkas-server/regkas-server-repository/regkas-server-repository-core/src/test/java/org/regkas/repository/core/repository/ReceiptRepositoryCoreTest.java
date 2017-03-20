@@ -67,8 +67,8 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testLoadByPeriod() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
-        assertEquals(2, receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime()), cashBox).size());
-        assertEquals(2, receiptRepository.loadBy(Period.month(dateTimeHelper.currentTime()), cashBox).size());
+        assertEquals(3, receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime()), cashBox).size());
+        assertEquals(3, receiptRepository.loadBy(Period.month(dateTimeHelper.currentTime()), cashBox).size());
         assertEquals(0, receiptRepository.loadBy(Period.day(LocalDateTime.of(1970, 1, 1, 0, 0)), cashBox).size());
     }
 
@@ -90,31 +90,27 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void tesLoadDEPFor() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
-        assertEquals(2, receiptRepository.loadDEPFor(Period.day(dateTimeHelper.currentTime()), cashBox).size());
+        assertEquals(3, receiptRepository.loadDEPFor(Period.day(dateTimeHelper.currentTime()), cashBox).size());
     }
 
     @Test
     @Transactional
     public void testLoadAllWithoutDEP() {
-        assertEquals(0, receiptRepository.loadAllWithoutDEP().size());
+        assertEquals(1, receiptRepository.loadAllWithoutDEP().size());
 
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         Optional<Receipt> receipt = receiptRepository.loadBy(new ReceiptId("2015-0000002"), cashBox);
         receipt.get().setDEP(new DEPString("")).persistWithoutCreatingDEP();
-        assertEquals(1, receiptRepository.loadAllWithoutDEP().size());
+        assertEquals(2, receiptRepository.loadAllWithoutDEP().size());
 
         receipt.get().setDEP(null).persistWithoutCreatingDEP();
-        assertEquals(1, receiptRepository.loadAllWithoutDEP().size());
+        assertEquals(2, receiptRepository.loadAllWithoutDEP().size());
     }
 
     @Test
     @Transactional
     public void testLoadLatestByReceiptTypeStart() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
-        assertFalse(receiptRepository.loadLatestWithReceiptTypeStart(cashBox).isPresent());
-
-        ReceiptType receiptTypeStart = receiptTypeRepository.loadBy(new Name("Start-Beleg")).get();
-        insertReceipt(receiptTypeStart, new ReceiptId("2015-0000000"), new ReceiptDate(LocalDateTime.of(2015, 6, 1, 12, 0, 0)));
         assertTrue(receiptRepository.loadLatestWithReceiptTypeStart(cashBox).isPresent());
     }
 
@@ -169,9 +165,9 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     public void testLoadCompactJWSRepresentationsWithSignatureDeviceAvailable() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         List<String> compactJwsRepresentations = receiptRepository.loadCompactJWSRepresentationsWithSignatureDeviceAvailable(Period.untilNow(), cashBox);
-        assertEquals(2, compactJwsRepresentations.size());
-        assertEquals("xxx.jws123.sss", compactJwsRepresentations.get(0));
-        assertEquals("xxx.jws456.sss", compactJwsRepresentations.get(1));
+        assertEquals(3, compactJwsRepresentations.size());
+        assertEquals("xxx.jws123.sss", compactJwsRepresentations.get(1));
+        assertEquals("xxx.jws456.sss", compactJwsRepresentations.get(2));
     }
 
     @Test
@@ -194,7 +190,7 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     public void testLoadCompactJWSRepresentations() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         List<String> compactJwsRepresentations = receiptRepository.loadCompactJWSRepresentations(Period.untilNow(), cashBox);
-        assertEquals(2, compactJwsRepresentations.size());
+        assertEquals(3, compactJwsRepresentations.size());
     }
 
 }

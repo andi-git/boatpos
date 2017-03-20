@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
 public class ReceiptMappingTest extends EntityManagerProviderForRegkas {
 
@@ -47,7 +48,7 @@ public class ReceiptMappingTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testMappingEntityToDto() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
-        Receipt receipt = receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime()), cashBox).get(0);
+        Receipt receipt = receiptRepository.loadBy(Period.day(dateTimeHelper.currentTime()), cashBox).get(1);
         assertEquals("2015-0000001", receipt.getReceiptId().get());
         assertEquals(LocalDateTime.of(2015, 7, 1, 12, 0, 13), receipt.getReceiptDate().get());
         assertEquals("RegKas1", receipt.getCashBox().getName().get());

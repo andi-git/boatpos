@@ -1,7 +1,7 @@
 package org.regkas.repository.api.model;
 
-import org.regkas.model.ReceiptTypeMonatEntity;
+import org.regkas.model.ReceiptTypeTagEntity;
 
-public interface ReceiptTypeTag extends ReceiptType<ReceiptTypeTag, ReceiptTypeMonatEntity> {
+public interface ReceiptTypeTag extends ReceiptType<ReceiptTypeTag, ReceiptTypeTagEntity> {
 
 }

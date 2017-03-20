@@ -2,7 +2,7 @@ package org.regkas.repository.core.model;
 
 import org.regkas.model.ReceiptTypeStartEntity;
 import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.ReceiptType;
+import org.regkas.repository.api.model.ReceiptTypeStart;
 import org.regkas.repository.api.turnovercounter.EncryptTurnoverCounter;
 import org.regkas.repository.api.turnovercounter.UpdateTurnoverCounter;
 import org.regkas.repository.api.values.InputForChainCalculation;
@@ -10,7 +10,7 @@ import org.regkas.repository.api.values.LastReceiptMandatory;
 import org.regkas.repository.core.turnovercounter.EncryptTurnoverCounterDefault;
 import org.regkas.repository.core.turnovercounter.UpdateTurnoverCounterNothing;
 
-public class ReceiptTypeStartCore extends ReceiptTypeCore<ReceiptType, ReceiptTypeStartEntity> {
+public class ReceiptTypeStartCore extends ReceiptTypeCore<ReceiptTypeStart, ReceiptTypeStartEntity> implements ReceiptTypeStart {
 
     public ReceiptTypeStartCore(ReceiptTypeStartEntity receiptType) {
         super(receiptType);

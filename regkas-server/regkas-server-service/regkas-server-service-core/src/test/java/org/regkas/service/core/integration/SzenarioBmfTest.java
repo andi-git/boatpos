@@ -68,7 +68,6 @@ import com.google.common.collect.Lists;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @RunWith(Arquillian.class)
-@Ignore
 public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
 
     @Inject
