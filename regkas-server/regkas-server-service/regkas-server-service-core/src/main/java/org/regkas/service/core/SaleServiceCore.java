@@ -84,7 +84,6 @@ public class SaleServiceCore implements SaleService {
         boolean signatureDeviceAvailable = true;
         Optional<Receipt> receipt = receiptRepository.loadLastReceipt(cashBox);
         if (receipt.isPresent()) {
-            System.out.println(receipt.get().getSignatureDeviceAvailable());
             signatureDeviceAvailable = receipt.get().getSignatureDeviceAvailable().get();
         }
         return signatureDeviceAvailable;

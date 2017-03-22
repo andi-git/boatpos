@@ -10,6 +10,7 @@ import org.regkas.domain.api.model.ReceiptTypeStart;
 import org.regkas.domain.api.values.ReceiptId;
 import org.regkas.service.api.bean.Period;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,4 +92,8 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
     List<String> loadCompactJWSRepresentationsWithSignatureDeviceNotAvailable(Period period, CashBox cashBox);
 
     Optional<Receipt> loadLastWithSignatureDeviceNotAvailable(CashBox cashBox);
+
+    Optional<Receipt> loadLastWithSignatureDeviceAvailable(CashBox cashBox);
+
+    Optional<Receipt> loadFirstWhereSignatureDeviceIsNotAvailableAfter(LocalDateTime timeStamp, CashBox cashBox);
 }

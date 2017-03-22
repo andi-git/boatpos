@@ -38,7 +38,7 @@ import org.regkas.domain.core.DateTimeHelperMock;
 import org.regkas.service.api.bean.Period;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
 
@@ -183,6 +183,20 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     public void testLoadLastWithSignatureDeviceNotAvailable() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
         assertFalse(receiptRepository.loadLastWithSignatureDeviceNotAvailable(cashBox).isPresent());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadLastWithSignatureDeviceAvailable() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertEquals(new ReceiptId("2015-0000002"), receiptRepository.loadLastWithSignatureDeviceAvailable(cashBox).get().getReceiptId());
+    }
+
+    @Test
+    @Transactional
+    public void testLoadFirstWhereSignatureDeviceIsNotAvailableAfter() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
+        assertFalse(receiptRepository.loadFirstWhereSignatureDeviceIsNotAvailableAfter(dateTimeHelper.currentTime(), cashBox).isPresent());
     }
 
     @Test

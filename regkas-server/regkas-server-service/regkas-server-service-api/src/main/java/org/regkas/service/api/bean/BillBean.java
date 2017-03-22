@@ -17,8 +17,7 @@ import com.google.gson.annotations.SerializedName;
  * Representation of a bill / payment.
  */
 @SuppressWarnings("unused")
-public class
-BillBean extends AbstractBean {
+public class BillBean extends AbstractBean {
 
     // REF TO SPECIFICATION: Detailspezifikation/Abs 4, Abs 5
     @SerializedName("Kassen-ID")
@@ -85,6 +84,10 @@ BillBean extends AbstractBean {
     private String jwsCompact;
 
     private BillBean sammelBeleg;
+
+    private LocalDateTime sammelBelegStart;
+
+    private LocalDateTime sammelBelegEnd;
 
     private IncomeBean incomeBean;
 
@@ -261,6 +264,22 @@ BillBean extends AbstractBean {
 
     public void setIncomeBean(IncomeBean incomeBean) {
         this.incomeBean = incomeBean;
+    }
+
+    public LocalDateTime getSammelBelegStart() {
+        return sammelBelegStart;
+    }
+
+    public void setSammelBelegStart(LocalDateTime sammelBelegStart) {
+        this.sammelBelegStart = sammelBelegStart;
+    }
+
+    public LocalDateTime getSammelBelegEnd() {
+        return sammelBelegEnd;
+    }
+
+    public void setSammelBelegEnd(LocalDateTime sammelBelegEnd) {
+        this.sammelBelegEnd = sammelBelegEnd;
     }
 
     public static BillBean fromJwsCompact(String jwsCompact) {

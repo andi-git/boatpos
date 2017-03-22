@@ -30,6 +30,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.domain.api.context.CashBoxContext;
@@ -67,6 +68,7 @@ import com.google.common.collect.Lists;
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 @RunWith(Arquillian.class)
+@Ignore
 public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
 
     @Inject

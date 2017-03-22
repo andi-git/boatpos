@@ -82,4 +82,22 @@
             AND r2.cashBox.id = :cashBoxId)
         </query>
     </named-query>
+    <named-query name="receipt.getLastWhereSignatureDeviceIsAvailable">
+        <query>
+            FROM ReceiptEntity r
+            WHERE r.id IN
+            (SELECT MAX(r2.id)
+            FROM ReceiptEntity r2
+            WHERE r2.signatureDeviceAvailable = TRUE
+            AND r2.cashBox.id = :cashBoxId)
+        </query>
+    </named-query>
+    <named-query name="receipt.getFirstWhereSignatureDeviceIsNotAvailableAfter">
+        <query>
+            FROM ReceiptEntity r
+            WHERE (r.signatureDeviceAvailable = FALSE OR r.signatureDeviceAvailable IS NULL)
+            AND r.cashBox.id = :cashBoxId
+            AND r.receiptDate >= :timestamp
+        </query>
+    </named-query>
 </entity-mappings>

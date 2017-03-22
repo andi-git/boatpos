@@ -2,6 +2,8 @@ package org.regkas.service.core.receipt;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -10,6 +12,7 @@ import org.boatpos.common.domain.api.values.SimpleValueObject;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.Receipt;
+import org.regkas.domain.api.repository.ReceiptRepository;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.core.email.BillBeanToMailContentConverter;
 import org.regkas.service.core.email.SendMailEvent;
@@ -41,6 +44,9 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
     @Current
     private CashBox cashBox;
 
+    @Inject
+    private ReceiptRepository receiptRepository;
+
     @Override
     public boolean canHandle(Receipt currentReceipt, Receipt lastReceipt) {
         return SimpleValueObject.nullSafe(currentReceipt.getSignatureDeviceAvailable()) &&
@@ -50,13 +56,28 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
     @Override
     public BillBean handle(BillBean billBean) {
         checkNotNull(billBean, "'billBean' must not be null");
-        notifyCompany(billBean);
-        notifyFinancialOffice();
-        notifyJournal();
-        Receipt sammelReceipt = createNullReceipt();
-        billBean.setSammelBeleg(sammelReceipt.asBillBean());
-        notifyJournalBecauseOfSammelReceipt(sammelReceipt);
-        return billBean;
+        Optional<Receipt> lastReceiptWhereSignatureDeviceWasAvailable = receiptRepository.loadLastWithSignatureDeviceAvailable(cashBox);
+        if (lastReceiptWhereSignatureDeviceWasAvailable.isPresent()) {
+            Optional<Receipt> firstWhereSignatureDeviceIsNotAvailable = receiptRepository
+                .loadFirstWhereSignatureDeviceIsNotAvailableAfter(lastReceiptWhereSignatureDeviceWasAvailable.get().getReceiptDate().get(), cashBox);
+            if (firstWhereSignatureDeviceIsNotAvailable.isPresent()) {
+                notifyCompany(billBean);
+                notifyFinancialOffice();
+                notifyJournal();
+                Receipt sammelReceipt = createNullReceipt();
+                billBean.setSammelBeleg(sammelReceipt.asBillBean());
+                billBean.setSammelBelegStart(firstWhereSignatureDeviceIsNotAvailable.get().getReceiptDate().get());
+                billBean.setSammelBelegEnd(sammelReceipt.getReceiptDate().get());
+                notifyJournalBecauseOfSammelReceipt(sammelReceipt);
+                return billBean;
+            } else {
+                throw new RuntimeException(
+                    "first receipt where signature device was damaged not present, after " +
+                        lastReceiptWhereSignatureDeviceWasAvailable.get().getReceiptDate().get());
+            }
+        } else {
+            throw new RuntimeException("last receipt where signature device was available not present");
+        }
     }
 
     private Receipt createNullReceipt() {
@@ -75,8 +96,8 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
     }
 
     private void notifyJournal() {
-        cashboxJournalEvent
-            .fire(new CashboxJournalEvent("signature-device " + cashBox.getSignatureCertificateSerialNumber().get() + " is available again", cashBox));
+        cashboxJournalEvent.fire(
+            new CashboxJournalEvent("signature-device " + cashBox.getSignatureCertificateSerialNumber().get() + " is available again", cashBox));
     }
 
     private void notifyJournalBecauseOfSammelReceipt(Receipt receipt) {

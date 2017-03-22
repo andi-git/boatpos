@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -203,6 +204,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
         assertNotEquals(FirstSale.expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
         assertNotNull(bill.getSammelBeleg());
+        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), bill.getSammelBelegStart());
+        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), bill.getSammelBelegEnd());
         storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getSammelBeleg().getReceiptIdentifier()), cashBoxContext.get()).get();
         assertEquals(
             "_R1-AT0_RegKas1_2015-0000006_2015-07-01T15:00:00_0,00_0,00_0,00_0,00_0,00_bsH02gJiJH4=_123",
