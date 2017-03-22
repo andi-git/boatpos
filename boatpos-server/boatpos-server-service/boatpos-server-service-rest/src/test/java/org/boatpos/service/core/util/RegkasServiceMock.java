@@ -58,10 +58,16 @@ public class RegkasServiceMock extends RegkasService {
     private File createFile(String fileName) {
         File file = new File(System.getProperty("java.io.tmpdir"), fileName);
         try {
+            //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return file;
+    }
+
+    @Override
+    public Boolean isSignatureDeviceAvailable() {
+        return true;
     }
 }

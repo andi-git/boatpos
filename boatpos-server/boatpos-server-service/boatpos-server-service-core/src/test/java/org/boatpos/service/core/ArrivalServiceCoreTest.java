@@ -1,12 +1,28 @@
 package org.boatpos.service.core;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import javax.inject.Inject;
+
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.domain.api.repository.PromotionAfterRepository;
 import org.boatpos.domain.api.values.Name;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.RentalService;
-import org.boatpos.service.api.bean.*;
+import org.boatpos.service.api.bean.AddPromotionBean;
+import org.boatpos.service.api.bean.ArrivalBean;
+import org.boatpos.service.api.bean.PaymentBean;
+import org.boatpos.service.api.bean.RemovePromotionsAfterBean;
+import org.boatpos.service.api.bean.RentalBean;
+import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -14,13 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.service.api.bean.BillBean;
 
-import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import static org.junit.Assert.*;
-
-@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
+@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
 
@@ -79,7 +89,8 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertNull(rental.getPromotionAfterBean());
         assertNull(rental.getPricePaidAfter());
 
-        rental = arrivalService.addPromotion(new AddPromotionBean(rental.getDayId(), promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
+        rental = arrivalService
+            .addPromotion(new AddPromotionBean(rental.getDayId(), promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
         assertEquals(new BigDecimal("22.40"), rental.getPriceCalculatedAfter());
         assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
         assertNull(rental.getPricePaidAfter());
@@ -88,12 +99,25 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("22.40"), bill.getSumTaxSetNormal());
     }
 
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testAddPromotionWhereRentalIsNotAvailable() {
+        arrivalService.addPromotion(new AddPromotionBean(999, promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testAddPromotionWherePromotionIsNotAvailable() {
+        arrivalService.addPromotion(new AddPromotionBean(3, 999L));
+    }
+
     @Test
     @Transactional
     public void testRemovePromotionAndPay() {
         RentalBean rental = arrivalService.arrive(new ArrivalBean(3));
 
-        rental = arrivalService.addPromotion(new AddPromotionBean(rental.getDayId(), promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
+        rental = arrivalService
+            .addPromotion(new AddPromotionBean(rental.getDayId(), promotionAfterRepository.loadBy(new Name("HolliKnolli")).get().getId().get()));
         assertEquals(new BigDecimal("22.40"), rental.getPriceCalculatedAfter());
         assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
         assertNull(rental.getPricePaidAfter());
@@ -102,5 +126,17 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("44.80"), rental.getPriceCalculatedAfter());
         assertNull(rental.getPromotionAfterBean());
         assertNull(rental.getPricePaidAfter());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testRemovePromotionWhereRentalIsNotAvailable() {
+        arrivalService.removePromotionsAfter(new RemovePromotionsAfterBean(999));
+    }
+
+    @Test
+    @Transactional
+    public void testSignatureDeviceAvailable() {
+        assertTrue(arrivalService.isSignatureDeviceAvailable());
     }
 }

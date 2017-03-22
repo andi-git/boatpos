@@ -56,4 +56,10 @@ public class ArrivalServiceRest {
         checkNotNull(paymentBean, "'paymentBean' must not be null");
         return Response.ok(arrivalService.pay(paymentBean)).build();
     }
+
+    @GET
+    @Path("/signatureDeviceAvailable")
+    public Response signatureDeviceAvailable() {
+        return Response.ok(arrivalService.isSignatureDeviceAvailable()).build();
+    }
 }

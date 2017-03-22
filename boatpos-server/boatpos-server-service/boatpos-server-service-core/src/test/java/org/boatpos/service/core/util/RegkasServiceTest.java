@@ -107,4 +107,9 @@ public class RegkasServiceTest {
     private Response callRESTService() throws Exception {
         return ClientBuilder.newClient().target(url.toURI()).path("rest/regkas/zip").request().accept(MediaType.APPLICATION_JSON).get();
     }
+
+    @Test
+    public void testSignatureDeviceAvailable() {
+
+    }
 }

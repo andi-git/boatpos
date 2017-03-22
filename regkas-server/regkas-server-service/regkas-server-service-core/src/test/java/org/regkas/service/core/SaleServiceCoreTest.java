@@ -44,7 +44,7 @@ import org.regkas.service.core.receipt.FirstSale;
 import org.regkas.service.core.receipt.RkOnlineResourceSessionThrowingException;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal"})
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
@@ -298,4 +298,17 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
     }
 
+    @Test
+    @Transactional
+    public void testIsSignatureDeviceDamaged() {
+        assertTrue(saleService.isSignatureDeviceAvailable());
+
+        rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
+        saleService.sale(firstSale.createDefaultSale());
+        assertFalse(saleService.isSignatureDeviceAvailable());
+
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
+        saleService.sale(firstSale.createDefaultSale());
+        assertTrue(saleService.isSignatureDeviceAvailable());
+    }
 }

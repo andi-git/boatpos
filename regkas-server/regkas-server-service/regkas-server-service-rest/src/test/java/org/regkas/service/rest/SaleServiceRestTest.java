@@ -1,6 +1,15 @@
 package org.regkas.service.rest;
 
-import com.google.common.collect.Lists;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
+import java.net.URL;
+
+import javax.inject.Inject;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
+
 import org.boatpos.common.test.rest.FillDatabaseInOtherTransactionTest;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -14,13 +23,7 @@ import org.regkas.service.api.bean.ProductBean;
 import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 
-import javax.inject.Inject;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
-import java.math.BigDecimal;
-import java.net.URL;
-
-import static org.junit.Assert.assertEquals;
+import com.google.common.collect.Lists;
 
 @RunWith(Arquillian.class)
 public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
@@ -46,20 +49,32 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testSale() throws Exception {
-        ProductBean snack = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Snack")).get().readEntity(ProductBean.class);
-        ProductBean cola = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cola")).get().readEntity(ProductBean.class);
-        ProductBean cornetto1 = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto")).get().readEntity(ProductBean.class);
-        ProductBean cornetto2 = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto")).get().readEntity(ProductBean.class);
+        ProductBean snack = helper
+            .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Snack"))
+            .get()
+            .readEntity(ProductBean.class);
+        ProductBean cola = helper
+            .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cola"))
+            .get()
+            .readEntity(ProductBean.class);
+        ProductBean cornetto1 = helper
+            .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto"))
+            .get()
+            .readEntity(ProductBean.class);
+        ProductBean cornetto2 = helper
+            .createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("product/Cornetto"))
+            .get()
+            .readEntity(ProductBean.class);
 
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
         sale.setReceiptType("Standard-Beleg");
-        sale.setSaleElements(Lists.newArrayList(
+        sale.setSaleElements(
+            Lists.newArrayList(
                 new ReceiptElementBean(snack, 2, new BigDecimal("2.50")),
                 new ReceiptElementBean(cola, 3, new BigDecimal("7.50")),
                 new ReceiptElementBean(cornetto1, 1, new BigDecimal("2.00")),
-                new ReceiptElementBean(cornetto2, 1, new BigDecimal("2.50")))
-        );
+                new ReceiptElementBean(cornetto2, 1, new BigDecimal("2.50"))));
 
         Response response = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("sale")).post(Entity.json(sale));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -96,7 +111,16 @@ public class SaleServiceRestTest extends FillDatabaseInOtherTransactionTest {
         assertEquals(new BigDecimal("2.50"), bill.getBillTaxSetElements().get(3).getPriceAfterTax());
         assertEquals(new BigDecimal("2.27"), bill.getBillTaxSetElements().get(3).getPricePreTax());
         assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(3).getPriceTax());
-        assertEquals("_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_dpzooBjO1F4=_", bill.getJwsCompact().substring(0, bill.getJwsCompact().lastIndexOf('_') + 1));
+        assertEquals(
+            "_R1-AT0_RegKas1_2015-0000003_2015-07-01T15:00:00_7,50_7,00_0,00_0,00_0,00_GFcSnbVWfIw=_123_dpzooBjO1F4=_",
+            bill.getJwsCompact().substring(0, bill.getJwsCompact().lastIndexOf('_') + 1));
         assertEquals(88, bill.getJwsCompact().substring(bill.getJwsCompact().lastIndexOf('_') + 1).length());
+    }
+
+    @Test
+    public void testSignatureDeviceAvailable() throws Exception {
+        Response response = helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("sale/signatureDeviceAvailable")).get();
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertTrue(response.readEntity(Boolean.class));
     }
 }

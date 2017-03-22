@@ -17,7 +17,8 @@ import com.google.gson.annotations.SerializedName;
  * Representation of a bill / payment.
  */
 @SuppressWarnings("unused")
-public class BillBean extends AbstractBean {
+public class
+BillBean extends AbstractBean {
 
     // REF TO SPECIFICATION: Detailspezifikation/Abs 4, Abs 5
     @SerializedName("Kassen-ID")

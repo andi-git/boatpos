@@ -72,7 +72,6 @@ public class ArrivalServiceCore implements ArrivalService {
     public RentalBean addPromotion(AddPromotionBean addPromotionBean) {
         checkNotNull(addPromotionBean, "'addPromotionBean' must not be null");
         DayId dayId = new DayId(addPromotionBean.getDayNumber());
-        rentalLoader.checkIfRentalIsActive(dayId);
         Optional<Rental> rentalOptional = rentalRepository.loadBy(day, dayId);
         if (rentalOptional.isPresent()) {
             Optional<PromotionAfter> promotionAfterOptional = promotionAfterRepository.loadBy(new DomainId(addPromotionBean.getPromotionId()));
@@ -93,7 +92,6 @@ public class ArrivalServiceCore implements ArrivalService {
     public RentalBean removePromotionsAfter(RemovePromotionsAfterBean removePromotionsAfterBean) {
         checkNotNull(removePromotionsAfterBean);
         DayId dayId = new DayId(removePromotionsAfterBean.getDayNumber());
-        rentalLoader.checkIfRentalIsActive(dayId);
         Optional<Rental> rentalOptional = rentalRepository.loadBy(day, dayId);
         if (rentalOptional.isPresent()) {
             Rental rental = rentalOptional.get();
@@ -127,5 +125,10 @@ public class ArrivalServiceCore implements ArrivalService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Boolean isSignatureDeviceAvailable() {
+        return regkasService.isSignatureDeviceAvailable();
     }
 }

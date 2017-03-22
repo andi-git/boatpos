@@ -73,4 +73,9 @@ public class ArrivalServiceRestTest extends FillDatabaseInOtherTransactionTest {
         rentalBean = response.readEntity(RentalBean.class);
         assertEquals(new BigDecimal("44.80"), rentalBean.getPriceCalculatedAfter());
     }
+
+    @Test
+    public void testSignatureDeviceAvailable() throws Exception {
+        assertTrue(helper.createRestCall(url, (webTarget) -> webTarget.path("arrival/signatureDeviceAvailable")).get().readEntity(Boolean.class));
+    }
 }

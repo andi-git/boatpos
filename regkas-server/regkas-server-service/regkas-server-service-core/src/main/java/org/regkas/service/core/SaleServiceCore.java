@@ -79,6 +79,17 @@ public class SaleServiceCore implements SaleService {
         }
     }
 
+    @Override
+    public boolean isSignatureDeviceAvailable() {
+        boolean signatureDeviceAvailable = true;
+        Optional<Receipt> receipt = receiptRepository.loadLastReceipt(cashBox);
+        if (receipt.isPresent()) {
+            System.out.println(receipt.get().getSignatureDeviceAvailable());
+            signatureDeviceAvailable = receipt.get().getSignatureDeviceAvailable().get();
+        }
+        return signatureDeviceAvailable;
+    }
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private BillBean handleDeviceAvailability(Optional<Receipt> lastReceiptOptional, Receipt receipt, BillBean billBean) {
         if ("false".equalsIgnoreCase(System.getProperty("boatpos.ignore.handling.of.signature.device.availability", "false"))) {

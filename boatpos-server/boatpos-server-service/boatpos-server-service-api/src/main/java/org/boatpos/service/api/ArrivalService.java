@@ -39,4 +39,6 @@ public interface ArrivalService {
      * @return the current rental
      */
     BillBean pay(PaymentBean paymentBean);
+
+    Boolean isSignatureDeviceAvailable();
 }

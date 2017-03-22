@@ -1,16 +1,24 @@
 package org.boatpos.service.core.util;
 
-import com.google.common.io.Files;
-import org.boatpos.common.util.log.LogWrapper;
-import org.boatpos.common.util.log.SLF4J;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.*;
+
+import org.boatpos.common.util.log.LogWrapper;
+import org.boatpos.common.util.log.SLF4J;
+
+import com.google.common.io.Files;
 
 @Stateless
 @Path("/regkas")
@@ -36,17 +44,16 @@ public class RegkasServiceRestMock {
         return createZipOutput(file);
     }
 
-    public Response createZipOutput(File file) {
+    private Response createZipOutput(File file) {
         try {
             return Response
-                    .ok(Files.toByteArray(file))
-                    .type("application/zip")
-                    .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"")
-                    .build();
+                .ok(Files.toByteArray(file))
+                .type("application/zip")
+                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"")
+                .build();
         } catch (IOException e) {
             log.error(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 }

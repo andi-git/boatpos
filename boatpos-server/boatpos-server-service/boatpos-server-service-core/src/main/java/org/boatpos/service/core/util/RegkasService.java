@@ -30,6 +30,7 @@ import java.util.function.Function;
 public class RegkasService {
 
     private static final MediaType MEDIA_TYPE_ZIP = new MediaType("application", "zip");
+
     @Inject
     private RentalLoader rentalLoader;
 
@@ -37,7 +38,7 @@ public class RegkasService {
     @SLF4J
     private LogWrapper log;
 
-    public ProductBean getProduct(Boat boat) throws Exception {
+    private ProductBean getProduct(Boat boat) throws Exception {
         return readEntity(createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get()), MediaType.APPLICATION_JSON_TYPE).get(), ProductBean.class);
     }
 
@@ -126,5 +127,9 @@ public class RegkasService {
             throw new RuntimeException("unable to get system-property-value for key: '" + key + "'");
         }
         return value;
+    }
+
+    public Boolean isSignatureDeviceAvailable() {
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/sale/signatureDeviceAvailable"), MediaType.APPLICATION_JSON_TYPE).get(), Boolean.class);
     }
 }
