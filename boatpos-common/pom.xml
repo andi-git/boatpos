@@ -5,7 +5,7 @@
     <parent>
         <artifactId>boatpos</artifactId>
         <groupId>org.boatpos</groupId>
-        <version>1.4.2-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
         <module>boatpos-common-test</module>
         <module>boatpos-common-util</module>
         <module>boatpos-common-model</module>
-        <module>boatpos-common-repository</module>
+        <module>boatpos-common-domain</module>
         <module>boatpos-common-service</module>
         <module>boatpos-common-test-rest</module>
     </modules>

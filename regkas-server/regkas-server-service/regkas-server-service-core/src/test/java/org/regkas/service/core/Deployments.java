@@ -13,13 +13,13 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 @ArquillianSuiteDeployment
 public class Deployments {
 
-    private static final String FILE_PERSISTENCE_XML_SOURCE = "../../regkas-server-repository/regkas-server-repository-core/src/test/resources/persistence-test.xml";
+    private static final String FILE_PERSISTENCE_XML_SOURCE = "../../regkas-server-domain/regkas-server-domain-core/src/test/resources/persistence-test.xml";
     private static final String FILE_PERSISTENCE_XML_TARGET = "META-INF/persistence.xml";
-    private static final String FOLDER_ORM_XML_SOURCE = "../../regkas-server-repository/regkas-server-repository-core/src/main/resources/META-INF/query";
+    private static final String FOLDER_ORM_XML_SOURCE = "../../regkas-server-domain/regkas-server-domain-core/src/main/resources/META-INF/query";
     private static final String FOLDER_ORM_XML_TARGET = "META-INF/query/";
     private static final String FILE_ARQUILLIAN_EXTENSION_SOURCE = "../../../boatpos-common/boatpos-common-test/src/main/resources/META-INF/services/org.jboss.arquillian.container.test.spi.RemoteLoadableExtension";
     private static final String FILE_ARQUILLIAN_EXTENSION_TARGET = "META-INF/services/org.jboss.arquillian.container.test.spi.RemoteLoadableExtension";
-    private static final String FILE_DOZER_SOURCE = "../../regkas-server-repository/regkas-server-repository-core/src/main/resources/dozerBeanMapping.xml";
+    private static final String FILE_DOZER_SOURCE = "../../regkas-server-domain/regkas-server-domain-core/src/main/resources/dozerBeanMapping.xml";
 
     @Deployment
     public static WebArchive deploy() throws Exception {
