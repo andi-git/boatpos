@@ -30,24 +30,25 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.context.CashBoxContext;
-import org.regkas.repository.api.context.CompanyContext;
-import org.regkas.repository.api.context.UserContext;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.repository.CashBoxRepository;
-import org.regkas.repository.api.repository.ProductRepository;
-import org.regkas.repository.api.serializer.NonPrettyPrintingGson;
-import org.regkas.repository.api.serializer.Serializer;
-import org.regkas.repository.api.signature.Environment;
-import org.regkas.repository.api.signature.RkOnlineContext;
-import org.regkas.repository.api.signature.RkOnlineResourceFactory;
-import org.regkas.repository.api.values.IVToEncryptTurnoverCounter;
-import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.ReceiptId;
-import org.regkas.repository.core.crypto.AES;
-import org.regkas.repository.core.crypto.Crypto;
+import org.regkas.domain.api.context.CashBoxContext;
+import org.regkas.domain.api.context.CompanyContext;
+import org.regkas.domain.api.context.UserContext;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.repository.CashBoxRepository;
+import org.regkas.domain.api.repository.ProductRepository;
+import org.regkas.domain.api.serializer.NonPrettyPrintingGson;
+import org.regkas.domain.api.serializer.Serializer;
+import org.regkas.domain.api.signature.Environment;
+import org.regkas.domain.api.signature.RkOnlineContext;
+import org.regkas.domain.api.signature.RkOnlineResourceFactory;
+import org.regkas.domain.api.values.IVToEncryptTurnoverCounter;
+import org.regkas.domain.api.values.Name;
+import org.regkas.domain.api.values.ReceiptId;
+import org.regkas.domain.core.crypto.AES;
+import org.regkas.domain.core.crypto.Crypto;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
@@ -198,12 +199,11 @@ public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
     }
 
     private void testSzenario(String fileNameTestSuite, String fileNameQrCodeRep) throws Exception {
-        TestSuiteSzenario testSuiteSzenario = serializer
-                .deserialize(loadContentFromFile(fileNameTestSuite), TestSuiteSzenario.class);
+        TestSuiteSzenario testSuiteSzenario = serializer.deserialize(loadContentFromFile(fileNameTestSuite), TestSuiteSzenario.class);
         List<BillBean> billBeansExpected = Arrays
-                .stream(serializer.deserialize(loadContentFromFile(fileNameQrCodeRep), String[].class))
-                .map(BillBean::fromJwsCompact)
-                .collect(Collectors.toList());
+            .stream(serializer.deserialize(loadContentFromFile(fileNameQrCodeRep), String[].class))
+            .map(BillBean::fromJwsCompact)
+            .collect(Collectors.toList());
 
         CashBox cashBox = initContext(testSuiteSzenario);
         List<String> qrs = new ArrayList<>();

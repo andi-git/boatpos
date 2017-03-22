@@ -2,7 +2,7 @@ package org.regkas.service.core.integration;
 
 import javax.enterprise.inject.Alternative;
 
-import org.regkas.repository.api.values.ReceiptId;
+import org.regkas.domain.api.values.ReceiptId;
 import org.regkas.service.core.receipt.ReceiptIdCalculator;
 
 @Alternative

@@ -1,8 +1,8 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.values.Day;
-import org.boatpos.repository.api.values.DayId;
-import org.boatpos.repository.core.model.RentalCore;
+import org.boatpos.domain.api.values.Day;
+import org.boatpos.domain.api.values.DayId;
+import org.boatpos.domain.core.model.RentalCore;
 import org.boatpos.service.api.bean.RentalBean;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;

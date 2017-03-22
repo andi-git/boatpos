@@ -1,10 +1,10 @@
 package org.boatpos.common.service.core;
 
 import com.google.common.collect.Lists;
-import org.boatpos.common.repository.api.repository.MasterDataRepository;
-import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
-import org.boatpos.common.repository.api.values.DomainId;
-import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.domain.api.repository.MasterDataRepository;
+import org.boatpos.common.domain.api.repository.MasterDataRepositoryWithDto;
+import org.boatpos.common.domain.api.values.DomainId;
+import org.boatpos.common.domain.api.values.Enabled;
 import org.boatpos.common.service.api.EnabledState;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;

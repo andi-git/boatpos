@@ -1,15 +1,15 @@
 package org.boatpos.service.core;
 
 import org.boatpos.common.model.PaymentMethod;
-import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.domain.api.values.Enabled;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
-import org.boatpos.repository.api.model.Boat;
-import org.boatpos.repository.api.repository.BoatRepository;
-import org.boatpos.repository.api.repository.JournalRepository;
-import org.boatpos.repository.api.values.BoatCountResult;
-import org.boatpos.repository.api.values.IncomeResult;
-import org.boatpos.repository.api.values.Period;
+import org.boatpos.domain.api.model.Boat;
+import org.boatpos.domain.api.repository.BoatRepository;
+import org.boatpos.domain.api.repository.JournalRepository;
+import org.boatpos.domain.api.values.BoatCountResult;
+import org.boatpos.domain.api.values.IncomeResult;
+import org.boatpos.domain.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;

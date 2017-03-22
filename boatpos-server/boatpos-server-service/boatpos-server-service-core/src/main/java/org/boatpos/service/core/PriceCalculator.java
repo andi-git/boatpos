@@ -1,7 +1,17 @@
 package org.boatpos.service.core;
 
-import org.boatpos.repository.api.model.*;
-import org.boatpos.repository.api.values.*;
+import org.boatpos.domain.api.model.Boat;
+import org.boatpos.domain.api.model.Promotion;
+import org.boatpos.domain.api.model.PromotionAfter;
+import org.boatpos.domain.api.model.PromotionBefore;
+import org.boatpos.domain.api.model.Rental;
+import org.boatpos.domain.api.values.ArrivalTime;
+import org.boatpos.domain.api.values.DepartureTime;
+import org.boatpos.domain.api.values.PriceCalculatedAfter;
+import org.boatpos.domain.api.values.PriceCalculatedBefore;
+import org.boatpos.domain.api.values.PriceFortyFiveMinutes;
+import org.boatpos.domain.api.values.PriceOneHour;
+import org.boatpos.domain.api.values.PriceThirtyMinutes;
 import org.nfunk.jep.JEP;
 
 import javax.enterprise.context.ApplicationScoped;

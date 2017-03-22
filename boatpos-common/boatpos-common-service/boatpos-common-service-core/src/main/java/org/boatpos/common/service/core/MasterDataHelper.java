@@ -1,13 +1,13 @@
 package org.boatpos.common.service.core;
 
-import org.boatpos.common.repository.api.builder.MasterDataBuilder;
-import org.boatpos.common.repository.api.builder.MasterDataBuilderWithDto;
-import org.boatpos.common.repository.api.model.MasterData;
-import org.boatpos.common.repository.api.model.MasterDataWithDto;
-import org.boatpos.common.repository.api.repository.MasterDataRepository;
-import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
-import org.boatpos.common.repository.api.values.DomainId;
-import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.domain.api.builder.MasterDataBuilder;
+import org.boatpos.common.domain.api.builder.MasterDataBuilderWithDto;
+import org.boatpos.common.domain.api.model.MasterData;
+import org.boatpos.common.domain.api.model.MasterDataWithDto;
+import org.boatpos.common.domain.api.repository.MasterDataRepository;
+import org.boatpos.common.domain.api.repository.MasterDataRepositoryWithDto;
+import org.boatpos.common.domain.api.values.DomainId;
+import org.boatpos.common.domain.api.values.Enabled;
 import org.boatpos.common.service.api.EnabledState;
 
 import javax.enterprise.context.Dependent;

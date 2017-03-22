@@ -13,7 +13,7 @@
     </named-query>
     <named-query name="receiptElement.getSumGroupedByProductGroupForPeriodByCashBox">
         <query>
-            SELECT new org.regkas.repository.api.values.ProductGroupIncomeResult(r.product.productGroup.id, r.product.productGroup.name, sum(r.totalPrice))
+            SELECT new org.regkas.domain.api.values.ProductGroupIncomeResult(r.product.productGroup.id, r.product.productGroup.name, sum(r.totalPrice))
             FROM ReceiptElementEntity r
             WHERE r.receipt.receiptDate BETWEEN :start AND :end
             AND   r.receipt.cashBox.id = :cashBoxId

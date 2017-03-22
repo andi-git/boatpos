@@ -2,8 +2,8 @@ package org.boatpos.service.core;
 
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.datetime.DateTimeHelper;
-import org.boatpos.repository.api.repository.PromotionAfterRepository;
-import org.boatpos.repository.api.values.Name;
+import org.boatpos.domain.api.repository.PromotionAfterRepository;
+import org.boatpos.domain.api.values.Name;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.RentalService;
 import org.boatpos.service.api.bean.*;

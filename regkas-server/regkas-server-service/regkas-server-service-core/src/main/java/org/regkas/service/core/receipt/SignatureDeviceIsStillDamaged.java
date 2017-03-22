@@ -6,8 +6,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.boatpos.common.repository.api.values.SimpleValueObject;
-import org.regkas.repository.api.model.Receipt;
+import org.boatpos.common.domain.api.values.SimpleValueObject;
+import org.regkas.domain.api.model.Receipt;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.core.email.BillBeanToMailContentConverter;
 import org.regkas.service.core.email.SendMailEvent;

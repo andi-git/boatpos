@@ -1,8 +1,8 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.values.ArrivalTime;
-import org.boatpos.repository.api.values.Day;
-import org.boatpos.repository.api.values.DepartureTime;
+import org.boatpos.domain.api.values.ArrivalTime;
+import org.boatpos.domain.api.values.Day;
+import org.boatpos.domain.api.values.DepartureTime;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
 

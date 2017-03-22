@@ -10,10 +10,10 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.context.CashBoxContext;
-import org.regkas.repository.api.repository.CashBoxRepository;
-import org.regkas.repository.api.values.Name;
-import org.regkas.repository.api.values.ReceiptId;
+import org.regkas.domain.api.context.CashBoxContext;
+import org.regkas.domain.api.repository.CashBoxRepository;
+import org.regkas.domain.api.values.Name;
+import org.regkas.domain.api.values.ReceiptId;
 import org.regkas.service.core.DateTimeHelperMock;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 

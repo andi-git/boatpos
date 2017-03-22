@@ -1,7 +1,7 @@
 package org.regkas.service.core.receipt;
 
-import org.regkas.repository.api.signature.RkOnlineResourceSession;
-import org.regkas.repository.api.signature.SignatureDeviceNotAvailableException;
+import org.regkas.domain.api.signature.RkOnlineResourceSession;
+import org.regkas.domain.api.signature.SignatureDeviceNotAvailableException;
 
 public class RkOnlineResourceSessionThrowingException implements RkOnlineResourceSession {
 

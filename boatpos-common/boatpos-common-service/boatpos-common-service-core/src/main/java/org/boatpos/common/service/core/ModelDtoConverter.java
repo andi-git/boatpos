@@ -1,7 +1,7 @@
 package org.boatpos.common.service.core;
 
-import org.boatpos.common.repository.api.model.DomainModel;
-import org.boatpos.common.repository.api.model.DomainModelWithDto;
+import org.boatpos.common.domain.api.model.DomainModel;
+import org.boatpos.common.domain.api.model.DomainModelWithDto;
 import org.boatpos.common.service.api.bean.AbstractBeanBasedOnEntity;
 
 import javax.enterprise.context.Dependent;

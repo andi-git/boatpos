@@ -1,7 +1,7 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.repository.HolidayRepository;
-import org.boatpos.repository.api.values.Day;
+import org.boatpos.domain.api.repository.HolidayRepository;
+import org.boatpos.domain.api.values.Day;
 import org.boatpos.service.api.bean.PromotionBeforeBean;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 

@@ -1,10 +1,10 @@
 package org.boatpos.service.core;
 
-import org.boatpos.common.repository.api.values.DomainId;
+import org.boatpos.common.domain.api.values.DomainId;
 import org.boatpos.common.service.core.MasterDataHelper;
 import org.boatpos.common.service.core.ModelDtoConverter;
-import org.boatpos.repository.api.repository.PromotionBeforeRepository;
-import org.boatpos.repository.api.values.Name;
+import org.boatpos.domain.api.repository.PromotionBeforeRepository;
+import org.boatpos.domain.api.values.Name;
 import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.service.api.PromotionBeforeService;
 import org.boatpos.service.api.bean.PromotionBeforeBean;

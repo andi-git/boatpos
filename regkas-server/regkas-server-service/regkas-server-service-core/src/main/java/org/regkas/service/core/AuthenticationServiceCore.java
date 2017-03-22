@@ -1,8 +1,10 @@
 package org.regkas.service.core;
 
-import org.regkas.repository.api.model.User;
-import org.regkas.repository.api.repository.*;
-import org.regkas.repository.api.values.*;
+import org.regkas.domain.api.model.User;
+import org.regkas.domain.api.repository.CashBoxRepository;
+import org.regkas.domain.api.repository.UserRepository;
+import org.regkas.domain.api.values.Name;
+import org.regkas.domain.api.values.PasswordPlain;
 import org.regkas.service.api.AuthenticationService;
 import org.regkas.service.api.bean.CredentialsBean;
 

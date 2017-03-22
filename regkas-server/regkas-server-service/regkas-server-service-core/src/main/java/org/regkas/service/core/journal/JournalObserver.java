@@ -5,10 +5,10 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.boatpos.common.util.datetime.DateTimeHelper;
-import org.regkas.repository.api.builder.CashboxJournalBuilder;
-import org.regkas.repository.api.builder.SystemJournalBuilder;
-import org.regkas.repository.api.values.JournalDate;
-import org.regkas.repository.api.values.JournalMessage;
+import org.regkas.domain.api.builder.CashboxJournalBuilder;
+import org.regkas.domain.api.builder.SystemJournalBuilder;
+import org.regkas.domain.api.values.JournalDate;
+import org.regkas.domain.api.values.JournalMessage;
 
 @ApplicationScoped
 public class JournalObserver {

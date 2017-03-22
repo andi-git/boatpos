@@ -4,8 +4,14 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.values.Name;
-import org.regkas.repository.core.model.*;
+import org.regkas.domain.api.values.Name;
+import org.regkas.domain.core.model.ReceiptTypeJahrCore;
+import org.regkas.domain.core.model.ReceiptTypeMonatCore;
+import org.regkas.domain.core.model.ReceiptTypeNullCore;
+import org.regkas.domain.core.model.ReceiptTypeStandardCore;
+import org.regkas.domain.core.model.ReceiptTypeStartCore;
+import org.regkas.domain.core.model.ReceiptTypeStornoCore;
+import org.regkas.domain.core.model.ReceiptTypeTrainingCore;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;

@@ -2,11 +2,11 @@ package org.regkas.service.core;
 
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Receipt;
-import org.regkas.repository.api.repository.ReceiptRepository;
-import org.regkas.repository.api.signature.Environment;
-import org.regkas.repository.api.signature.RkOnlineContext;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.model.Receipt;
+import org.regkas.domain.api.repository.ReceiptRepository;
+import org.regkas.domain.api.signature.Environment;
+import org.regkas.domain.api.signature.RkOnlineContext;
 import org.regkas.service.api.ReceiptService;
 
 import javax.enterprise.context.RequestScoped;

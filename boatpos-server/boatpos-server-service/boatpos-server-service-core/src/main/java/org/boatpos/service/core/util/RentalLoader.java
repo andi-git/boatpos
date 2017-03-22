@@ -1,9 +1,9 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.model.Rental;
-import org.boatpos.repository.api.repository.RentalRepository;
-import org.boatpos.repository.api.values.Day;
-import org.boatpos.repository.api.values.DayId;
+import org.boatpos.domain.api.model.Rental;
+import org.boatpos.domain.api.repository.RentalRepository;
+import org.boatpos.domain.api.values.Day;
+import org.boatpos.domain.api.values.DayId;
 import org.boatpos.common.util.qualifiers.Current;
 
 import javax.enterprise.context.Dependent;

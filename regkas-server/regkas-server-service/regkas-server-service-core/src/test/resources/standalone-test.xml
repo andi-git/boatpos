@@ -112,7 +112,7 @@
             <logger category="jacorb.config">
                 <level name="ERROR"/>
             </logger>
-            <logger category="org.regkas.repository.core.signature">
+            <logger category="org.regkas.domain.core.signature">
                 <level name="OFF"/>
             </logger>
             <root-logger>

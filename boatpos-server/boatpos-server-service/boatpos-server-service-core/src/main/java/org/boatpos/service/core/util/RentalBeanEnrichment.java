@@ -1,7 +1,7 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.model.Rental;
-import org.boatpos.repository.api.values.ArrivalTime;
+import org.boatpos.domain.api.model.Rental;
+import org.boatpos.domain.api.values.ArrivalTime;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.core.PriceCalculator;
 import org.boatpos.common.util.datetime.DateTimeHelper;

@@ -1,6 +1,6 @@
 package org.boatpos.service.core;
 
-import org.boatpos.repository.api.model.Promotion;
+import org.boatpos.domain.api.model.Promotion;
 
 import javax.enterprise.context.ApplicationScoped;
 

@@ -3,7 +3,7 @@ package org.regkas.service.core.journal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.regkas.repository.api.model.CashBox;
+import org.regkas.domain.api.model.CashBox;
 
 public class CashboxJournalEvent {
 

@@ -1,6 +1,6 @@
 package org.boatpos.service.core.util;
 
-import org.boatpos.repository.api.values.DayId;
+import org.boatpos.domain.api.values.DayId;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;

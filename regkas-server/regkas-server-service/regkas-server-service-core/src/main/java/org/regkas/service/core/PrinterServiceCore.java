@@ -1,8 +1,8 @@
 package org.regkas.service.core;
 
 import org.boatpos.common.util.qualifiers.Current;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.values.IpAddress;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.values.IpAddress;
 import org.regkas.service.api.PrinterService;
 import org.regkas.service.api.bean.IpAddressBean;
 

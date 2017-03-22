@@ -1,6 +1,6 @@
 package org.regkas.service.core.receipt;
 
-import org.regkas.repository.api.model.Receipt;
+import org.regkas.domain.api.model.Receipt;
 import org.regkas.service.api.bean.BillBean;
 
 public interface HandleSignatureDeviceAvailability {

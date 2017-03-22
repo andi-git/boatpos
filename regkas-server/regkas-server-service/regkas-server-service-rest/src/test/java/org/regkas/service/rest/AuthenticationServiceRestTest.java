@@ -7,7 +7,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.regkas.repository.api.repository.UserRepository;
+import org.regkas.domain.api.repository.UserRepository;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

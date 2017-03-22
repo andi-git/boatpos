@@ -13,11 +13,11 @@ import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
-import org.regkas.repository.api.context.CashBoxContext;
-import org.regkas.repository.api.context.CompanyContext;
-import org.regkas.repository.api.dep.DepExporter;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.repository.CashBoxRepository;
+import org.regkas.domain.api.context.CashBoxContext;
+import org.regkas.domain.api.context.CompanyContext;
+import org.regkas.domain.api.dep.DepExporter;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.repository.CashBoxRepository;
 import org.regkas.service.api.bean.Period;
 
 @Singleton

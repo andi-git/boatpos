@@ -1,7 +1,13 @@
 package org.boatpos.common.service.core;
 
-import org.boatpos.common.repository.api.values.*;
-import org.boatpos.common.repository.core.model.MasterDataCore;
+import org.boatpos.common.domain.api.values.DomainId;
+import org.boatpos.common.domain.api.values.Enabled;
+import org.boatpos.common.domain.api.values.KeyBinding;
+import org.boatpos.common.domain.api.values.PictureUrl;
+import org.boatpos.common.domain.api.values.PictureUrlThumb;
+import org.boatpos.common.domain.api.values.Priority;
+import org.boatpos.common.domain.api.values.Version;
+import org.boatpos.common.domain.core.model.MasterDataCore;
 
 public class FooCore extends MasterDataCore<Foo, FooEntity> implements Foo {
 

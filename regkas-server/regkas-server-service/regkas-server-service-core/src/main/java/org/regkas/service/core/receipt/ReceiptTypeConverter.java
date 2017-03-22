@@ -1,8 +1,8 @@
 package org.regkas.service.core.receipt;
 
-import org.regkas.repository.api.model.ReceiptType;
-import org.regkas.repository.api.repository.ReceiptTypeRepository;
-import org.regkas.repository.api.values.Name;
+import org.regkas.domain.api.model.ReceiptType;
+import org.regkas.domain.api.repository.ReceiptTypeRepository;
+import org.regkas.domain.api.values.Name;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;

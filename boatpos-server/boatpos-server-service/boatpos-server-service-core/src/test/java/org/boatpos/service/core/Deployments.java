@@ -36,14 +36,14 @@ public class Deployments {
                 .addPackages(true, "org.boatpos.common.util")
                 .addPackages(true, "org.boatpos.common.test")
                 .addPackages(true, "org.boatpos.common.model")
-                .addPackages(true, "org.boatpos.common.repository.api")
-                .addPackages(true, "org.boatpos.common.repository.core")
+                .addPackages(true, "org.boatpos.common.domain.api")
+                .addPackages(true, "org.boatpos.common.domain.core")
                 .addPackages(true, "org.boatpos.common.service.api")
                 .addPackages(true, "org.boatpos.common.service.core")
                 .addPackages(true, "org.boatpos.model")
                 .addPackages(true, "org.boatpos.test.model")
-                .addPackages(true, "org.boatpos.repository.api")
-                .addPackages(true, "org.boatpos.repository.core")
+                .addPackages(true, "org.boatpos.domain.api")
+                .addPackages(true, "org.boatpos.domain.core")
                 .addPackages(true, "org.boatpos.service.api")
                 .addPackages(true, "org.boatpos.service.core");
     }

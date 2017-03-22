@@ -1,13 +1,13 @@
 package org.regkas.service.core.context;
 
-import org.regkas.repository.api.context.CashBoxContext;
-import org.regkas.repository.api.context.CompanyContext;
-import org.regkas.repository.api.context.UserContext;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.User;
-import org.regkas.repository.api.repository.CashBoxRepository;
-import org.regkas.repository.api.repository.UserRepository;
-import org.regkas.repository.api.values.Name;
+import org.regkas.domain.api.context.CashBoxContext;
+import org.regkas.domain.api.context.CompanyContext;
+import org.regkas.domain.api.context.UserContext;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.model.User;
+import org.regkas.domain.api.repository.CashBoxRepository;
+import org.regkas.domain.api.repository.UserRepository;
+import org.regkas.domain.api.values.Name;
 import org.regkas.service.api.context.ContextService;
 
 import javax.enterprise.context.RequestScoped;

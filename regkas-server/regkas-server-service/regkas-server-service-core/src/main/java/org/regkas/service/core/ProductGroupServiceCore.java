@@ -1,17 +1,17 @@
 package org.regkas.service.core;
 
-import org.boatpos.common.repository.api.repository.MasterDataRepositoryWithDto;
-import org.boatpos.common.repository.api.values.Enabled;
+import org.boatpos.common.domain.api.repository.MasterDataRepositoryWithDto;
+import org.boatpos.common.domain.api.values.Enabled;
 import org.boatpos.common.service.api.EnabledState;
 import org.boatpos.common.service.core.MasterDataServiceCore;
 import org.boatpos.common.service.core.ModelDtoConverter;
 import org.boatpos.common.util.qualifiers.Current;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Product;
-import org.regkas.repository.api.model.ProductGroup;
-import org.regkas.repository.api.repository.ProductGroupRepository;
-import org.regkas.repository.api.repository.ProductRepository;
-import org.regkas.repository.api.values.Name;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.model.Product;
+import org.regkas.domain.api.model.ProductGroup;
+import org.regkas.domain.api.repository.ProductGroupRepository;
+import org.regkas.domain.api.repository.ProductRepository;
+import org.regkas.domain.api.values.Name;
 import org.regkas.service.api.ProductGroupService;
 import org.regkas.service.api.bean.ProductBean;
 import org.regkas.service.api.bean.ProductGroupBean;

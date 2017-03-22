@@ -7,10 +7,10 @@ import javax.inject.Inject;
 
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.qualifiers.Current;
-import org.regkas.repository.api.model.CashBox;
-import org.regkas.repository.api.model.Receipt;
-import org.regkas.repository.api.repository.ReceiptRepository;
-import org.regkas.repository.api.values.ReceiptId;
+import org.regkas.domain.api.model.CashBox;
+import org.regkas.domain.api.model.Receipt;
+import org.regkas.domain.api.repository.ReceiptRepository;
+import org.regkas.domain.api.values.ReceiptId;
 
 @ApplicationScoped
 public class ReceiptIdCalculatorCore implements ReceiptIdCalculator {

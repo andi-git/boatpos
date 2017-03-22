@@ -5,7 +5,7 @@
                  version="2.1">
     <named-query name="journal.incomeBoatPeriodBefore">
         <query>
-                SELECT new org.boatpos.repository.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidBefore))
+                SELECT new org.boatpos.domain.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidBefore))
                 FROM   RentalEntity r
                 WHERE  r.day BETWEEN :start AND :end
                   AND  r.paymentMethodBefore = :paymentMethod AND r.finished = true AND (r.deleted = false OR r.deleted IS NULL)
@@ -14,7 +14,7 @@
     </named-query>
     <named-query name="journal.incomeBoatPeriodAfter">
         <query>
-                SELECT new org.boatpos.repository.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidAfter))
+                SELECT new org.boatpos.domain.api.values.IncomeResult(r.boat.name, SUM(r.pricePaidAfter))
                 FROM   RentalEntity r
                 WHERE  r.day BETWEEN :start AND :end
                   AND  r.paymentMethodAfter = :paymentMethod AND r.finished = true AND (r.deleted = false OR r.deleted IS NULL)
@@ -23,7 +23,7 @@
     </named-query>
     <named-query name="journal.countBoatPeriod">
         <query>
-                SELECT new org.boatpos.repository.api.values.BoatCountResult(r.boat.name, COUNT(r.boat.id))
+                SELECT new org.boatpos.domain.api.values.BoatCountResult(r.boat.name, COUNT(r.boat.id))
                 FROM   RentalEntity r
                 WHERE  r.day BETWEEN :start AND :end
                   AND  r.finished = true
