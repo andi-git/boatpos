@@ -1,7 +1,12 @@
 package org.regkas.service.core.receipt;
 
-import org.boatpos.common.model.PaymentMethod;
+import java.util.Optional;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
 import org.boatpos.common.domain.api.values.SimpleBigDecimalObject;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -25,9 +30,7 @@ import org.regkas.domain.api.values.TotalPrice;
 import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import java.util.Optional;
+import com.google.common.collect.Lists;
 
 @Dependent
 public class ReceiptCreator {
@@ -128,4 +131,21 @@ public class ReceiptCreator {
         receipt.setCompactJWSRepresentation(
             rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned(), receipt.getReceiptType()));
     }
+
+    public Receipt createNullReceipt() {
+        return createReceipt(new SaleBean("cash", "Null-Beleg", Lists.newArrayList()));
+    }
+
+    public Receipt createDayReceipt() {
+        return createReceipt(new SaleBean("cash", "Tages-Beleg", Lists.newArrayList()));
+    }
+
+    public Receipt createMonthReceipt() {
+        return createReceipt(new SaleBean("cash", "Monats-Beleg", Lists.newArrayList()));
+    }
+
+    public Receipt createYearReceipt() {
+        return createReceipt(new SaleBean("cash", "Jahres-Beleg", Lists.newArrayList()));
+    }
+
 }

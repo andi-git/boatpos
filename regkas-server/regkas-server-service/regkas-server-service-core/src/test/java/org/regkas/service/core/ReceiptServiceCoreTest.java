@@ -35,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
 
@@ -99,6 +99,30 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
         assertFalse(receiptService.shouldCreateMonthReceipt());
         dateTimeHelper.setTime(LocalDateTime.of(2015, 9, 1, 12, 0, 0));
         assertTrue(receiptService.shouldCreateMonthReceipt());
+        dateTimeHelper.resetTime();
+    }
+
+    @Test
+    @Transactional
+    public void testShouldCreateDayReceipt() throws Exception {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        ReceiptType receiptTypeTag = receiptTypeRepository.loadBy(new Name("Tages-Beleg")).get();
+
+        assertFalse(receiptService.shouldCreateDayReceipt());
+
+        insertReceipt(receiptTypeTag, new ReceiptId("2015-0000003"), new ReceiptDate(LocalDateTime.of(2015, 7, 2, 12, 0, 0)));
+        dateTimeHelper.setTime(LocalDateTime.of(2015, 7, 3, 12, 0, 0));
+        assertTrue(receiptService.shouldCreateDayReceipt());
+        dateTimeHelper.setTime(LocalDateTime.of(2015, 7, 4, 12, 0, 0));
+        assertTrue(receiptService.shouldCreateDayReceipt());
+
+        insertReceipt(receiptTypeTag, new ReceiptId("2015-0000004"), new ReceiptDate(LocalDateTime.of(2015, 7, 5, 12, 0, 0)));
+        dateTimeHelper.setTime(LocalDateTime.of(2015, 7, 5, 12, 0, 0));
+        assertFalse(receiptService.shouldCreateDayReceipt());
+        dateTimeHelper.setTime(LocalDateTime.of(2015, 7, 6, 12, 0, 0));
+        assertTrue(receiptService.shouldCreateDayReceipt());
         dateTimeHelper.resetTime();
     }
 

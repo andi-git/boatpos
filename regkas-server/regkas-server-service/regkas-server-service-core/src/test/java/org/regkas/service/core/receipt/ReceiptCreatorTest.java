@@ -1,6 +1,7 @@
 package org.regkas.service.core.receipt;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import javax.inject.Inject;
 
@@ -14,6 +15,10 @@ import org.regkas.domain.api.context.CashBoxContext;
 import org.regkas.domain.api.context.CompanyContext;
 import org.regkas.domain.api.context.UserContext;
 import org.regkas.domain.api.model.Receipt;
+import org.regkas.domain.api.model.ReceiptTypeJahr;
+import org.regkas.domain.api.model.ReceiptTypeMonat;
+import org.regkas.domain.api.model.ReceiptTypeNull;
+import org.regkas.domain.api.model.ReceiptTypeTag;
 import org.regkas.domain.api.repository.CashBoxRepository;
 import org.regkas.domain.api.repository.CompanyRepository;
 import org.regkas.domain.api.repository.UserRepository;
@@ -23,7 +28,7 @@ import org.regkas.domain.api.signature.RkOnlineResourceFactory;
 import org.regkas.domain.api.values.Name;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal"})
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
 
@@ -101,4 +106,29 @@ public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
 
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
     }
+
+    @Test
+    @Transactional
+    public void testCreateNullSale() {
+        assertTrue(receiptCreator.createNullReceipt().getReceiptType() instanceof ReceiptTypeNull);
+    }
+
+    @Test
+    @Transactional
+    public void testCreateDaySale() {
+        assertTrue(receiptCreator.createDayReceipt().getReceiptType() instanceof ReceiptTypeTag);
+    }
+
+    @Test
+    @Transactional
+    public void testCreateMonthSale() {
+        assertTrue(receiptCreator.createMonthReceipt().getReceiptType() instanceof ReceiptTypeMonat);
+    }
+
+    @Test
+    @Transactional
+    public void testCreateYearSale() {
+        assertTrue(receiptCreator.createYearReceipt().getReceiptType() instanceof ReceiptTypeJahr);
+    }
+
 }

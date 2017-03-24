@@ -91,6 +91,12 @@ public class BillBean extends AbstractBean {
 
     private IncomeBean incomeBean;
 
+    private BillBean tagesBeleg;
+
+    private BillBean monatsBeleg;
+
+    private BillBean jahresBeleg;
+
     public BillBean() {}
 
     public BillBean(
@@ -280,6 +286,30 @@ public class BillBean extends AbstractBean {
 
     public void setSammelBelegEnd(LocalDateTime sammelBelegEnd) {
         this.sammelBelegEnd = sammelBelegEnd;
+    }
+
+    public BillBean getTagesBeleg() {
+        return tagesBeleg;
+    }
+
+    public void setTagesBeleg(BillBean tagesBeleg) {
+        this.tagesBeleg = tagesBeleg;
+    }
+
+    public BillBean getMonatsBeleg() {
+        return monatsBeleg;
+    }
+
+    public void setMonatsBeleg(BillBean monatsBeleg) {
+        this.monatsBeleg = monatsBeleg;
+    }
+
+    public BillBean getJahresBeleg() {
+        return jahresBeleg;
+    }
+
+    public void setJahresBeleg(BillBean jahresBeleg) {
+        this.jahresBeleg = jahresBeleg;
     }
 
     public static BillBean fromJwsCompact(String jwsCompact) {

@@ -1,22 +1,24 @@
 package org.regkas.domain.core.model;
 
+import java.util.Optional;
+
+import javax.enterprise.inject.spi.CDI;
+
 import org.boatpos.common.domain.core.model.MasterDataCore;
-import org.regkas.domain.core.crypto.Crypto;
-import org.regkas.model.ReceiptTypeEntity;
 import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.Receipt;
 import org.regkas.domain.api.model.ReceiptType;
 import org.regkas.domain.api.repository.ReceiptRepository;
 import org.regkas.domain.api.values.InputForChainCalculation;
-import org.regkas.domain.api.values.LastReceiptMandatory;
 import org.regkas.domain.api.values.Name;
 import org.regkas.domain.api.values.SignatureMandatory;
 import org.regkas.domain.api.values.SignatureValuePreviousReceipt;
+import org.regkas.domain.core.crypto.Crypto;
+import org.regkas.model.ReceiptTypeEntity;
 
-import javax.enterprise.inject.spi.CDI;
-import java.util.Optional;
-
-public abstract class ReceiptTypeCore<MODEL extends ReceiptType, ENTITY extends ReceiptTypeEntity> extends MasterDataCore<MODEL, ENTITY> implements ReceiptType<MODEL, ENTITY> {
+public abstract class ReceiptTypeCore<MODEL extends ReceiptType, ENTITY extends ReceiptTypeEntity> extends MasterDataCore<MODEL, ENTITY>
+        implements
+            ReceiptType<MODEL, ENTITY> {
 
     public ReceiptTypeCore(ENTITY receiptType) {
         super(receiptType);
@@ -48,10 +50,5 @@ public abstract class ReceiptTypeCore<MODEL extends ReceiptType, ENTITY extends 
         } else {
             throw new RuntimeException("no last receipt available to get the input for chain-calculation");
         }
-    }
-
-    @Override
-    public LastReceiptMandatory isLastReceiptMandatory() {
-        return LastReceiptMandatory.TRUE;
     }
 }

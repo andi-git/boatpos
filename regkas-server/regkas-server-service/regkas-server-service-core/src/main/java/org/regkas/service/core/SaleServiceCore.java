@@ -14,12 +14,12 @@ import org.regkas.domain.api.model.Receipt;
 import org.regkas.domain.api.model.ReceiptType;
 import org.regkas.domain.api.model.ReceiptTypeJahr;
 import org.regkas.domain.api.model.ReceiptTypeMonat;
-import org.regkas.domain.api.model.ReceiptTypeStart;
 import org.regkas.domain.api.model.ReceiptTypeTag;
+import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
+import org.regkas.domain.api.receipt.precondition.StartReceiptNotAvailable;
 import org.regkas.domain.api.repository.ReceiptRepository;
 import org.regkas.domain.api.values.Name;
 import org.regkas.service.api.JournalService;
-import org.regkas.service.api.ReceiptService;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.SaleBean;
@@ -27,6 +27,7 @@ import org.regkas.service.core.journal.CashboxJournalEvent;
 import org.regkas.service.core.receipt.HandleSignatureDeviceAvailability;
 import org.regkas.service.core.receipt.ReceiptCreator;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
+import org.regkas.service.core.receipt.precondition.PreconditionChecker;
 
 @RequestScoped
 public class SaleServiceCore implements SaleService {
@@ -52,18 +53,18 @@ public class SaleServiceCore implements SaleService {
     private ReceiptTypeConverter receiptTypeConverter;
 
     @Inject
-    private ReceiptService receiptService;
+    private JournalService journalService;
 
     @Inject
-    private JournalService journalService;
+    private PreconditionChecker preconditionChecker;
 
     @Override
     public BillBean sale(SaleBean sale) {
         Optional<Receipt> lastReceiptOptional = receiptRepository.loadLastReceipt(cashBox);
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
-        if (lastReicptNeededButNotAvailable(receiptType, lastReceiptOptional)) {
-            throw new RuntimeException("no last-receipt available");
-        } else if (isStartReceiptButThisWasAlreadyCreated(receiptType)) {
+        if ( !preconditionChecker.isFulfilled(receiptType, cashBox, StartReceiptAvailable.class)) {
+            throw new RuntimeException("no start-receipt available");
+        } else if ( !preconditionChecker.isFulfilled(receiptType, cashBox, StartReceiptNotAvailable.class)) {
             throw new RuntimeException("start-receipt was already created");
         } else {
             Receipt receipt = receiptCreator.createReceipt(sale);
@@ -100,15 +101,6 @@ public class SaleServiceCore implements SaleService {
             }
         }
         return billBean;
-    }
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private boolean lastReicptNeededButNotAvailable(ReceiptType receiptType, Optional<Receipt> lastReceiptOptional) {
-        return receiptType.isLastReceiptMandatory().get() && !lastReceiptOptional.isPresent();
-    }
-
-    private boolean isStartReceiptButThisWasAlreadyCreated(ReceiptType receiptType) {
-        return receiptType instanceof ReceiptTypeStart && receiptService.isStartReceiptCreated();
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")

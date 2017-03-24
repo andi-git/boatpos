@@ -1,5 +1,12 @@
 package org.regkas.domain.core.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import javax.inject.Inject;
+
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
@@ -7,20 +14,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.ReceiptType;
+import org.regkas.domain.api.receipt.precondition.DayChangedAndDayReceiptPrinted;
+import org.regkas.domain.api.receipt.precondition.MonthChangedAndMonthReceiptPrinted;
+import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
 import org.regkas.domain.api.repository.CashBoxRepository;
 import org.regkas.domain.api.repository.ReceiptTypeRepository;
 import org.regkas.domain.api.values.Name;
 import org.regkas.domain.core.turnovercounter.UpdateTurnoverCounterAdd;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
-import javax.inject.Inject;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-@SuppressWarnings("OptionalGetWithoutIsPresent")
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class ReceiptTypeStandardCoreTest extends EntityManagerProviderForRegkas {
 
@@ -49,7 +52,7 @@ public class ReceiptTypeStandardCoreTest extends EntityManagerProviderForRegkas 
     @Transactional
     public void testGetStandardBelegFromDatabaseIllegalArgument() {
         Name name = null;
-        //noinspection ConstantConditions
+        // noinspection ConstantConditions
         receiptTypeRepository.loadBy(name).get();
     }
 
@@ -77,4 +80,11 @@ public class ReceiptTypeStandardCoreTest extends EntityManagerProviderForRegkas 
         assertEquals("dpzooBjO1F4=", receiptType.calculateChainValue(cashBox).get());
     }
 
+    @Test
+    @Transactional
+    public void testPreconditions() throws Exception {
+        assertTrue(receiptType.getPreconditions().contains(StartReceiptAvailable.class));
+        assertTrue(receiptType.getPreconditions().contains(MonthChangedAndMonthReceiptPrinted.class));
+        assertTrue(receiptType.getPreconditions().contains(DayChangedAndDayReceiptPrinted.class));
+    }
 }

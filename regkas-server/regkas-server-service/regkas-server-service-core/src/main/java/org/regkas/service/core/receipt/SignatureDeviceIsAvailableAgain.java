@@ -23,9 +23,6 @@ import org.regkas.service.core.journal.CashboxJournalEvent;
 public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAvailability {
 
     @Inject
-    private NullReceiptCreator nullReceiptCreator;
-
-    @Inject
     private ReceiptCreator receiptCreator;
 
     @Inject
@@ -64,7 +61,7 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
                 notifyCompany(billBean);
                 notifyFinancialOffice();
                 notifyJournal();
-                Receipt sammelReceipt = createNullReceipt();
+                Receipt sammelReceipt = receiptCreator.createNullReceipt();
                 billBean.setSammelBeleg(sammelReceipt.asBillBean());
                 billBean.setSammelBelegStart(firstWhereSignatureDeviceIsNotAvailable.get().getReceiptDate().get());
                 billBean.setSammelBelegEnd(sammelReceipt.getReceiptDate().get());
@@ -78,10 +75,6 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
         } else {
             throw new RuntimeException("last receipt where signature device was available not present");
         }
-    }
-
-    private Receipt createNullReceipt() {
-        return receiptCreator.createReceipt(nullReceiptCreator.createNullSale());
     }
 
     private void notifyCompany(BillBean billBean) {
