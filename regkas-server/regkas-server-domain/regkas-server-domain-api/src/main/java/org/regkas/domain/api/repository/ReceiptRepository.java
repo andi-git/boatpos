@@ -93,7 +93,7 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
 
     Optional<Receipt> loadLastWithSignatureDeviceNotAvailable(CashBox cashBox);
 
-    Optional<Receipt> loadLastWithSignatureDeviceAvailable(CashBox cashBox);
-
     Optional<Receipt> loadFirstWhereSignatureDeviceIsNotAvailableAfter(LocalDateTime timeStamp, CashBox cashBox);
+
+    Optional<Receipt> loadLastWithSignatureDeviceAvailableBefore(LocalDateTime localDateTime, CashBox cashBox);
 }

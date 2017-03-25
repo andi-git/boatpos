@@ -132,8 +132,8 @@ public class ReceiptCreator {
             rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned(), receipt.getReceiptType()));
     }
 
-    public Receipt createNullReceipt() {
-        return createReceipt(new SaleBean("cash", "Null-Beleg", Lists.newArrayList()));
+    public Receipt createSammelReceipt() {
+        return createReceipt(new SaleBean("cash", "Sammel-Beleg", Lists.newArrayList()));
     }
 
     public Receipt createDayReceipt() {

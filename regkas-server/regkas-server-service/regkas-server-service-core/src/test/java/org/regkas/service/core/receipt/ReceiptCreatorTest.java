@@ -17,7 +17,7 @@ import org.regkas.domain.api.context.UserContext;
 import org.regkas.domain.api.model.Receipt;
 import org.regkas.domain.api.model.ReceiptTypeJahr;
 import org.regkas.domain.api.model.ReceiptTypeMonat;
-import org.regkas.domain.api.model.ReceiptTypeNull;
+import org.regkas.domain.api.model.ReceiptTypeSammel;
 import org.regkas.domain.api.model.ReceiptTypeTag;
 import org.regkas.domain.api.repository.CashBoxRepository;
 import org.regkas.domain.api.repository.CompanyRepository;
@@ -109,8 +109,8 @@ public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testCreateNullSale() {
-        assertTrue(receiptCreator.createNullReceipt().getReceiptType() instanceof ReceiptTypeNull);
+    public void testCreateSammelSale() {
+        assertTrue(receiptCreator.createSammelReceipt().getReceiptType() instanceof ReceiptTypeSammel);
     }
 
     @Test

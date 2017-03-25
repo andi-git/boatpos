@@ -7,5 +7,5 @@ public interface HandleSignatureDeviceAvailability {
 
     boolean canHandle(Receipt currentReceipt, Receipt lastReceipt);
 
-    BillBean handle(BillBean billBean);
+    Receipt handle(Receipt receipt);
 }

@@ -10,8 +10,7 @@ import org.boatpos.common.domain.api.values.SimpleValueObject;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.Receipt;
-import org.regkas.service.api.bean.BillBean;
-import org.regkas.service.core.email.BillBeanToMailContentConverter;
+import org.regkas.service.core.email.ReceiptToMailContentConverter;
 import org.regkas.service.core.email.SendMailEvent;
 import org.regkas.service.core.financialoffice.SignatureDeviceDamagedEvent;
 import org.regkas.service.core.journal.CashboxJournalEvent;
@@ -23,7 +22,7 @@ public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceA
     private Event<SendMailEvent> sendMailEvent;
 
     @Inject
-    private BillBeanToMailContentConverter billBeanToMailContentConverter;
+    private ReceiptToMailContentConverter receiptToMailContentConverter;
 
     @Inject
     private Event<SignatureDeviceDamagedEvent> signatureDeviceDamagedEvent;
@@ -42,19 +41,19 @@ public class SignatureDeviceIsDamagedFirstTime implements HandleSignatureDeviceA
     }
 
     @Override
-    public BillBean handle(BillBean billBean) {
-        checkNotNull(billBean, "'billBean' must not be null");
-        notifyCompany(billBean);
+    public Receipt handle(Receipt receipt) {
+        checkNotNull(receipt, "'receipt' must not be null");
+        notifyCompany(receipt);
         notifyFinancialOffice();
         notifyJournal();
-        return billBean;
+        return receipt;
     }
 
-    private void notifyCompany(BillBean billBean) {
+    private void notifyCompany(Receipt receipt) {
         sendMailEvent.fire(
             new SendMailEvent(
-                billBean.getCashBoxID() + ": signature-device is not available",
-                billBeanToMailContentConverter.convertToMailContent(billBean)));
+                receipt.getCashBox().getName().get() + ": signature-device is not available",
+                receiptToMailContentConverter.convertToMailContent(receipt)));
     }
 
     private void notifyFinancialOffice() {

@@ -29,7 +29,7 @@ import org.regkas.service.core.DateTimeHelperMock;
 
 import com.google.common.collect.Lists;
 
-@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal", "WeakerAccess"})
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal", "WeakerAccess", "ConstantConditions"})
 @ApplicationScoped
 public class FirstSale {
 

@@ -52,22 +52,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> implements Receipt {
 
-    public ReceiptCore(DomainId id,
-                       Version version,
-                       ReceiptId receiptId,
-                       ReceiptDate receiptDate,
-                       EncryptedTurnoverValue encryptedTurnoverValue,
-                       SignatureValuePreviousReceipt signatureValuePreviousReceipt,
-                       Company company,
-                       User user,
-                       ReceiptType receiptType,
-                       CashBox cashBox,
-                       PaymentMethod paymentMethod,
-                       DEPString dep,
-                       TotalPrice totalPrice,
-                       SuiteId suiteId,
-                       CompactJWSRepresentation compactJwsRepresentation,
-                       List<ReceiptElement> receiptElements) {
+    private Receipt sammelBeleg;
+
+    private LocalDateTime sammelBelegStart;
+
+    private LocalDateTime sammelBelegEnd;
+
+    public ReceiptCore(
+            DomainId id,
+            Version version,
+            ReceiptId receiptId,
+            ReceiptDate receiptDate,
+            EncryptedTurnoverValue encryptedTurnoverValue,
+            SignatureValuePreviousReceipt signatureValuePreviousReceipt,
+            Company company,
+            User user,
+            ReceiptType receiptType,
+            CashBox cashBox,
+            PaymentMethod paymentMethod,
+            DEPString dep,
+            TotalPrice totalPrice,
+            SuiteId suiteId,
+            CompactJWSRepresentation compactJwsRepresentation,
+            List<ReceiptElement> receiptElements) {
         super(id, version);
         checkNotNull(receiptId, "'receiptId' must not be null");
         checkNotNull(receiptDate, "'receiptDate' must not be null");
@@ -168,9 +175,8 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @SuppressWarnings("unchecked")
     @Override
     public ReceiptType getReceiptType() {
-        return CDI.current().select(ReceiptTypeBuilderHolder.class).get()
-                .getReceiptTypeFor(getEntity().getReceiptType())
-                .orElseThrow(() -> new RuntimeException("no builder available for " + getEntity().getReceiptType().getClass().getName()));
+        return CDI.current().select(ReceiptTypeBuilderHolder.class).get().getReceiptTypeFor(getEntity().getReceiptType()).orElseThrow(
+            () -> new RuntimeException("no builder available for " + getEntity().getReceiptType().getClass().getName()));
     }
 
     @Override
@@ -271,9 +277,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     public Receipt addReceiptElements(List<ReceiptElement> receiptElements) {
         if (receiptElements != null) {
             receiptElements.stream().map(DomainModel::asEntity).forEach((re) -> re.setReceipt(getEntity()));
-            getEntity().setReceiptElements(receiptElements.stream()
-                    .map(DomainModel::asEntity)
-                    .collect(Collectors.toList()));
+            getEntity().setReceiptElements(receiptElements.stream().map(DomainModel::asEntity).collect(Collectors.toList()));
         }
         return this;
     }
@@ -295,19 +299,19 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public JWSPayload getDataToBeSigned() {
         return new JWSPayload.Builder()
-                .addSuiteId(getSuiteId())
-                .addCashBoxName(getCashBox().getName())
-                .addReceiptId(getReceiptId())
-                .addReceiptDate(getReceiptDate())
-                .addTotalPriceTaxNormal(getTotalPriceAfterTaxOf(TaxSetNormal.class))
-                .addTotalPriceTaxErmaessigt1(getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class))
-                .addTotalPriceTaxErmaessigt2(getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class))
-                .addTotalPriceTaxNull(getTotalPriceAfterTaxOf(TaxSetNull.class))
-                .addTotalPriceTaxBesonders(getTotalPriceAfterTaxOf(TaxSetBesonders.class))
-                .addEncryptedTurnoverValue(getEncryptedTurnoverValue())
-                .addSignatureCertificateSerialNumber(getCashBox().getSignatureCertificateSerialNumber())
-                .addSignatureValuePreviousReceipt(getSignatureValuePreviousReceipt())
-                .build();
+            .addSuiteId(getSuiteId())
+            .addCashBoxName(getCashBox().getName())
+            .addReceiptId(getReceiptId())
+            .addReceiptDate(getReceiptDate())
+            .addTotalPriceTaxNormal(getTotalPriceAfterTaxOf(TaxSetNormal.class))
+            .addTotalPriceTaxErmaessigt1(getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class))
+            .addTotalPriceTaxErmaessigt2(getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class))
+            .addTotalPriceTaxNull(getTotalPriceAfterTaxOf(TaxSetNull.class))
+            .addTotalPriceTaxBesonders(getTotalPriceAfterTaxOf(TaxSetBesonders.class))
+            .addEncryptedTurnoverValue(getEncryptedTurnoverValue())
+            .addSignatureCertificateSerialNumber(getCashBox().getSignatureCertificateSerialNumber())
+            .addSignatureValuePreviousReceipt(getSignatureValuePreviousReceipt())
+            .build();
     }
 
     @Override
@@ -334,6 +338,11 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         if (getCompactJwsRepresentation() != null) {
             bill.setJwsCompact(getCompactJwsRepresentation().getMachineReadableRepresentation());
         }
+        if (sammelBeleg != null) {
+            bill.setSammelBeleg(sammelBeleg.asBillBean());
+        }
+        bill.setSammelBelegStart(sammelBelegStart);
+        bill.setSammelBelegEnd(sammelBelegEnd);
         return bill;
     }
 
@@ -349,7 +358,8 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
 
     @Override
     public CompactJWSRepresentation getCompactJwsRepresentation() {
-        return CompactJWSRepresentationCore.fromRealCompactJwsRepresentation(getEntity().getCompactJwsRepresentation(), CDI.current().select(Encoding.class).get());
+        return CompactJWSRepresentationCore
+            .fromRealCompactJwsRepresentation(getEntity().getCompactJwsRepresentation(), CDI.current().select(Encoding.class).get());
     }
 
     @Override
@@ -369,7 +379,7 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
 
     @Override
     public Receipt persist() {
-        if (!getDEP().isPresent() || "".equals(getDEP().get())) {
+        if ( !getDEP().isPresent() || "".equals(getDEP().get())) {
             setDEP(new DEPString(getSerializer().serialize(asBillBean())));
         }
         return super.persist();
@@ -378,6 +388,29 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
     @Override
     public Receipt persistWithoutCreatingDEP() {
         return super.persist();
+    }
+
+    @Override
+    public Receipt setSammelBeleg(Receipt sammelBeleg) {
+        this.sammelBeleg = sammelBeleg;
+        return this;
+    }
+
+    @Override
+    public Receipt setSammelBelegStart(LocalDateTime sammelBelegStart) {
+        this.sammelBelegStart = sammelBelegStart;
+        return this;
+    }
+
+    @Override
+    public Receipt setSammelBelegEnd(LocalDateTime sammelBelegEnd) {
+        this.sammelBelegEnd = sammelBelegEnd;
+        return this;
+    }
+
+    @Override
+    public Receipt getSammelBeleg() {
+        return sammelBeleg;
     }
 
     private Serializer getSerializer() {

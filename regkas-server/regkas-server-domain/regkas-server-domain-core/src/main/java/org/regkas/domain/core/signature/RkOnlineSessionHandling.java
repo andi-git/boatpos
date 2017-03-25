@@ -25,9 +25,6 @@ public class RkOnlineSessionHandling {
     private SessionActiveChecker sessionActiveChecker;
 
     @Inject
-    private RkOnlineContext rkOnlineContext;
-
-    @Inject
     private RkOnlineResourceFactory rkOnlineResourceFactory;
 
     @Inject

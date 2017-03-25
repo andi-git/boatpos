@@ -73,9 +73,9 @@ public class SaleServiceCore implements SaleService {
                     "create receipt " + receipt.getReceiptId().get() + ", " + receipt.getReceiptType().getName().get(),
                     cashBox,
                     receipt.getReceiptDate().get()));
+            receipt = handleDeviceAvailability(lastReceiptOptional, receipt);
             BillBean billBean = receipt.asBillBean();
             billBean = addJournal(billBean, receiptType);
-            billBean = handleDeviceAvailability(lastReceiptOptional, receipt, billBean);
             return billBean;
         }
     }
@@ -91,16 +91,16 @@ public class SaleServiceCore implements SaleService {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private BillBean handleDeviceAvailability(Optional<Receipt> lastReceiptOptional, Receipt receipt, BillBean billBean) {
+    private Receipt handleDeviceAvailability(Optional<Receipt> lastReceiptOptional, Receipt receipt) {
         if ("false".equalsIgnoreCase(System.getProperty("boatpos.ignore.handling.of.signature.device.availability", "false"))) {
             Optional<HandleSignatureDeviceAvailability> handleSignatureDeviceAvailability = getHandleSignatureDeviceAvailability(
                 receipt,
                 lastReceiptOptional);
             if (handleSignatureDeviceAvailability.isPresent()) {
-                billBean = handleSignatureDeviceAvailability.get().handle(billBean);
+                receipt = handleSignatureDeviceAvailability.get().handle(receipt);
             }
         }
-        return billBean;
+        return receipt;
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")

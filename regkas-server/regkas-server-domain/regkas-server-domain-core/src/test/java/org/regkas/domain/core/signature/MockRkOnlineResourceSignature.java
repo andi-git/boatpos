@@ -14,4 +14,9 @@ public class MockRkOnlineResourceSignature implements RkOnlineResourceSignature 
     public CompactJWSRepresentation sign(JWSPayload jwsPayload, ReceiptType receiptType) {
         return null;
     }
+
+    @Override
+    public CompactJWSRepresentation signWhenSignatureIsNotAvailable(JWSPayload jwsPayload, ReceiptType receiptType) {
+        return null;
+    }
 }

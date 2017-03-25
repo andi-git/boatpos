@@ -131,9 +131,11 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
     }
 
     @Override
-    public Optional<Receipt> loadLastWithSignatureDeviceAvailable(CashBox cashBox) {
+    public Optional<Receipt> loadLastWithSignatureDeviceAvailableBefore(LocalDateTime timeStamp, CashBox cashBox) {
         checkNotNull(cashBox, "'cashBox' must not be null");
-        return loadByParameter("receipt.getLastWhereSignatureDeviceIsAvailable", (query) -> query.setParameter("cashBoxId", cashBox.getId().get()));
+        return loadByParameter(
+            "receipt.getLastWhereSignatureDeviceIsAvailableBefore",
+            (query) -> query.setParameter("cashBoxId", cashBox.getId().get()).setParameter("timestamp", timeStamp));
     }
 
     @Override

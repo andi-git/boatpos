@@ -40,6 +40,7 @@ import org.regkas.service.core.financialoffice.FinancialOfficeSenderMock;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public abstract class HandleSignatureDeviceAvailabilityTest extends EntityManagerProviderForRegkas {
@@ -321,6 +322,26 @@ public abstract class HandleSignatureDeviceAvailabilityTest extends EntityManage
 
         @Override
         public Receipt persistWithoutCreatingDEP() {
+            return null;
+        }
+
+        @Override
+        public Receipt setSammelBeleg(Receipt sammelBeleg) {
+            return null;
+        }
+
+        @Override
+        public Receipt setSammelBelegStart(LocalDateTime localDateTime) {
+            return null;
+        }
+
+        @Override
+        public Receipt setSammelBelegEnd(LocalDateTime localDateTime) {
+            return null;
+        }
+
+        @Override
+        public Receipt getSammelBeleg() {
             return null;
         }
     }

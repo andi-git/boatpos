@@ -189,7 +189,7 @@ public class ReceiptRepositoryCoreTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testLoadLastWithSignatureDeviceAvailable() {
         CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas1")).get();
-        assertEquals(new ReceiptId("2015-0000002"), receiptRepository.loadLastWithSignatureDeviceAvailable(cashBox).get().getReceiptId());
+        assertEquals(new ReceiptId("2015-0000002"), receiptRepository.loadLastWithSignatureDeviceAvailableBefore(dateTimeHelper.currentTime(), cashBox).get().getReceiptId());
     }
 
     @Test

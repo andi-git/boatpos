@@ -8,8 +8,7 @@ import javax.inject.Inject;
 
 import org.boatpos.common.domain.api.values.SimpleValueObject;
 import org.regkas.domain.api.model.Receipt;
-import org.regkas.service.api.bean.BillBean;
-import org.regkas.service.core.email.BillBeanToMailContentConverter;
+import org.regkas.service.core.email.ReceiptToMailContentConverter;
 import org.regkas.service.core.email.SendMailEvent;
 
 @ApplicationScoped
@@ -19,7 +18,7 @@ public class SignatureDeviceIsStillDamaged implements HandleSignatureDeviceAvail
     private Event<SendMailEvent> sendMailEvent;
 
     @Inject
-    private BillBeanToMailContentConverter billBeanToMailContentConverter;
+    private ReceiptToMailContentConverter receiptToMailContentConverter;
 
     @Override
     public boolean canHandle(Receipt currentReceipt, Receipt lastReceipt) {
@@ -28,16 +27,16 @@ public class SignatureDeviceIsStillDamaged implements HandleSignatureDeviceAvail
     }
 
     @Override
-    public BillBean handle(BillBean billBean) {
-        checkNotNull(billBean, "'billBean' must not be null");
-        notifyCompany(billBean);
-        return billBean;
+    public Receipt handle(Receipt receipt) {
+        checkNotNull(receipt, "'receipt' must not be null");
+        notifyCompany(receipt);
+        return receipt;
     }
 
-    private void notifyCompany(BillBean billBean) {
+    private void notifyCompany(Receipt receipt) {
         sendMailEvent.fire(
             new SendMailEvent(
-                billBean.getCashBoxID() + ": signature-device is still no available",
-                billBeanToMailContentConverter.convertToMailContent(billBean)));
+                receipt.getCashBox().getName().get() + ": signature-device is still no available",
+                receiptToMailContentConverter.convertToMailContent(receipt)));
     }
 }

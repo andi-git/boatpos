@@ -17,6 +17,7 @@ import org.regkas.domain.api.values.SuiteId;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ReceiptBean;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -99,4 +100,12 @@ public interface Receipt extends DomainModelWithDto<Receipt, ReceiptEntity, Rece
     ReceiptMachineReadableRepresentation getReceiptMachineReadableRepresentation();
 
     Receipt persistWithoutCreatingDEP();
+
+    Receipt setSammelBeleg(Receipt sammelBeleg);
+
+    Receipt setSammelBelegStart(LocalDateTime localDateTime);
+
+    Receipt setSammelBelegEnd(LocalDateTime localDateTime);
+
+    Receipt getSammelBeleg();
 }

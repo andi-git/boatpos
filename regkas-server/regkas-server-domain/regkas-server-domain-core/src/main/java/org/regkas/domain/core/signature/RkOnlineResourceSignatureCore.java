@@ -20,12 +20,13 @@ import org.regkas.domain.api.serializer.Serializer;
 import org.regkas.domain.api.signature.CompactJWSRepresentation;
 import org.regkas.domain.api.signature.RkOnlineContext;
 import org.regkas.domain.api.signature.RkOnlineResourceSignature;
+import org.regkas.domain.api.signature.SignatureDeviceMandatoryException;
 import org.regkas.domain.api.signature.SignatureDeviceNotAvailableException;
 import org.regkas.domain.api.values.JWSPayload;
 import org.regkas.domain.api.values.RkOnlineSession;
 import org.regkas.domain.core.crypto.Encoding;
-import org.regkas.domain.core.signature.entity.SignJWSPostResponse;
 import org.regkas.domain.core.signature.entity.SignJWSPostRequest;
+import org.regkas.domain.core.signature.entity.SignJWSPostResponse;
 
 @ApplicationScoped
 public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature {
@@ -87,10 +88,19 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
             log.error(e);
             rkOnlineContext.resetSessions();
             if (SimpleValueObject.nullSafe(receiptType.getSignatureMandatory())) {
-                throw new RuntimeException("signature is mandatory for " + receiptType.getName().get(), e);
+                throw new SignatureDeviceMandatoryException("signature is mandatory for " + receiptType.getName().get(), e);
             } else {
-                return CompactJWSRepresentationCore.whenSignatureDeviceIsNotAvailable(jwsPayload, encoding);
+                return signWhenSignatureIsNotAvailable(jwsPayload, receiptType);
             }
+        }
+    }
+
+    @Override
+    public CompactJWSRepresentation signWhenSignatureIsNotAvailable(JWSPayload jwsPayload, ReceiptType receiptType) {
+        if (SimpleValueObject.nullSafe(receiptType.getSignatureMandatory())) {
+            throw new SignatureDeviceMandatoryException("signature is mandatory for " + receiptType.getName().get());
+        } else {
+            return CompactJWSRepresentationCore.whenSignatureDeviceIsNotAvailable(jwsPayload, encoding);
         }
     }
 }
