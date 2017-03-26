@@ -117,7 +117,6 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
-
     }
 
     @After

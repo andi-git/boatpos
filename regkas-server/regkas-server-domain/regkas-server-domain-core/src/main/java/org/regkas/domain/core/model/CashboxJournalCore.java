@@ -52,4 +52,9 @@ public class CashboxJournalCore extends ModelCore<CashboxJournal, CashboxJournal
         if (cashBox != null) getEntity().setCashBox(cashBox.asEntity());
         return this;
     }
+
+    @Override
+    public String toString() {
+        return getJournalDate().get() + " " + getJournalMessage().get();
+    }
 }

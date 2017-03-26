@@ -1,35 +1,28 @@
 package org.regkas.service.core.integration;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.inject.Inject;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.domain.api.context.CashBoxContext;
@@ -43,10 +36,8 @@ import org.regkas.domain.api.serializer.Serializer;
 import org.regkas.domain.api.signature.Environment;
 import org.regkas.domain.api.signature.RkOnlineContext;
 import org.regkas.domain.api.signature.RkOnlineResourceFactory;
-import org.regkas.domain.api.values.IVToEncryptTurnoverCounter;
 import org.regkas.domain.api.values.Name;
 import org.regkas.domain.api.values.ReceiptId;
-import org.regkas.domain.core.crypto.AES;
 import org.regkas.domain.core.crypto.Crypto;
 import org.regkas.service.api.JournalService;
 import org.regkas.service.api.SaleService;
@@ -67,6 +58,7 @@ import com.google.common.collect.Lists;
 
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "ConstantConditions"})
 @RunWith(Arquillian.class)
+@Ignore
 public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
 
     @Inject
@@ -124,6 +116,12 @@ public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
     @Inject
     @SLF4J
     private LogWrapper log;
+
+    @Inject
+    private Assertion assertion;
+
+    @Inject
+    private QRCodesCreator qrCodesCreator;
 
     @Before
     public void before() {
@@ -214,114 +212,11 @@ public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
             if (i == 0) {
                 assertEquals(billBeanExpected.getSignatureValuePreviousReceipt(), billBean.getSignatureValuePreviousReceipt());
             }
-            assertBillBean(billBeanExpected, billBean, cashBox);
+            assertion.assertBillBean(billBeanExpected, billBean, cashBox);
         }
         ZipFile depExportZipFile = new ZipFile(journalService.datenErfassungsProtokollRKSV());
-        File qrExportFile = exportQRs(qrs);
-        assertBmfVerification(depExportZipFile, qrExportFile);
-    }
-
-    private void assertBmfVerification(ZipFile depExportZipFile, File qrExportFile) throws Exception {
-        File regkassenVerificationDepformatJar = new File(System.getProperty("java.io.tmpdir") + "/regkassen-verification-depformat-1.0.0.jar");
-        File regkassenVerificationReceiptsJar = new File(System.getProperty("java.io.tmpdir") + "/regkassen-verification-receipts-1.0.0.jar");
-        assertVerification(regkassenVerificationReceiptsJar, qrExportFile);
-        Enumeration<? extends ZipEntry> entries = depExportZipFile.entries();
-        while (entries.hasMoreElements()) {
-            InputStream inputStream = depExportZipFile.getInputStream(entries.nextElement());
-            File unzippedFile = new File(System.getProperty("java.io.tmpdir") + "/dep.json");
-            FileUtils.copyInputStreamToFile(inputStream, unzippedFile);
-            assertVerification(regkassenVerificationDepformatJar, unzippedFile);
-        }
-    }
-
-    private void assertVerification(File jarForVerification, File fileToVerify) throws Exception {
-        File cryptographicMaterialContainer = new File(System.getProperty("java.io.tmpdir") + "/cryptographicMaterialContainer.json");
-        File outputDir = new File(System.getProperty("java.io.tmpdir") + "/output");
-        String command = "java -jar " +
-            jarForVerification +
-            " -v -f -i " +
-            fileToVerify +
-            " -c " +
-            cryptographicMaterialContainer +
-            " -o " +
-            outputDir;
-        log.info("command: " + command);
-        Process proc = Runtime.getRuntime().exec(command);
-        InputStream errorStream = proc.getErrorStream();
-        InputStream inputStream = proc.getInputStream();
-        StringWriter inputWriter = new StringWriter();
-        StringWriter errorWriter = new StringWriter();
-        IOUtils.copy(inputStream, inputWriter, "UTF-8");
-        IOUtils.copy(errorStream, errorWriter, "UTF-8");
-        String outputConsole = inputWriter.toString();
-        String errorConsole = errorWriter.toString();
-        assertFalse(StringUtils.containsIgnoreCase(outputConsole, "failure") || StringUtils.containsIgnoreCase(errorConsole, "failure"));
-    }
-
-    private File exportQRs(List<String> qrs) {
-        File qrFile = createFileForQRs();
-        try {
-            FileOutputStream fos = new FileOutputStream(qrFile);
-            writeLine(fos, "[");
-            for (int i = 0; i < qrs.size(); i++ ) {
-                String comma = "";
-                if (i < (qrs.size() - 1)) {
-                    comma = ",";
-                }
-                writeLine(fos, "\"" + qrs.get(i) + "\"" + comma);
-            }
-            writeLine(fos, "]");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return qrFile;
-    }
-
-    private File createFileForQRs() {
-        return new File(
-            System.getProperty("java.io.tmpdir"),
-            "qrRKSV_" +
-                companyContext.get().getName().get().replaceAll(" ", "") +
-                "_" +
-                cashBoxContext.get().getName().get() +
-                "_" +
-                LocalDateTime.now().format(DateTimeFormatter.ISO_DATE) +
-                ".json");
-    }
-
-    private void writeLine(FileOutputStream zos, String string) throws IOException {
-        zos.write((string + "\n").getBytes());
-    }
-
-    private void assertBillBean(BillBean billBeanExpected, BillBean billBeanActual, CashBox cashBox) {
-        System.out.println("assert bill-beans:");
-        System.out.println("  expected: " + billBeanExpected.getJwsCompact());
-        System.out.println("  actual:   " + billBeanActual.getJwsCompact());
-        assertEquals(billBeanExpected.getCashBoxID(), billBeanActual.getCashBoxID());
-        assertEquals(billBeanExpected.getReceiptIdentifier(), billBeanActual.getReceiptIdentifier());
-        assertEquals(billBeanExpected.getReceiptDateAndTime(), billBeanActual.getReceiptDateAndTime());
-        assertEquals(billBeanExpected.getSumTaxSetNormal(), billBeanActual.getSumTaxSetNormal());
-        assertEquals(billBeanExpected.getSumTaxSetErmaessigt1(), billBeanActual.getSumTaxSetErmaessigt1());
-        assertEquals(billBeanExpected.getSumTaxSetErmaessigt2(), billBeanActual.getSumTaxSetErmaessigt2());
-        assertEquals(billBeanExpected.getSumTaxSetNull(), billBeanActual.getSumTaxSetNull());
-        assertEquals(billBeanExpected.getSumTaxSetBesonders(), billBeanActual.getSumTaxSetBesonders());
-        assertEquals(
-            "turnover doesn't match: expected: " +
-                decryptTurnover(billBeanExpected, cashBox) +
-                ", actual: " +
-                decryptTurnover(billBeanActual, cashBox),
-            billBeanExpected.getEncryptedTurnoverValue(),
-            billBeanActual.getEncryptedTurnoverValue());
-    }
-
-    private long decryptTurnover(BillBean billBean, CashBox cashBox) {
-        return crypto
-            .decryptCTR(getIVToEncryptTurnoverCounter(billBean), billBean.getEncryptedTurnoverValue(), new AES.AESKey(cashBox.getAesKeyBase64()))
-            .get();
-    }
-
-    private IVToEncryptTurnoverCounter getIVToEncryptTurnoverCounter(BillBean billBean) {
-        return new IVToEncryptTurnoverCounter(new Name(billBean.getCashBoxID()), new ReceiptId(billBean.getReceiptIdentifier()));
+        File qrExportFile = qrCodesCreator.exportQRs(qrs);
+        assertion.assertBmfVerification(depExportZipFile, qrExportFile);
     }
 
     private BillBean createNextSale(TestSuiteSzenario.CashBoxInstruction cashBoxInstruction) {

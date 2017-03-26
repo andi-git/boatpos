@@ -53,4 +53,9 @@ public class DateTimeHelperMock extends DateTimeHelper {
         time = DEFAULT_TIME;
         dateTimeSupplier = Optional.empty();
     }
+
+    public void reset() {
+        resetTime();
+        resetDate();
+    }
 }

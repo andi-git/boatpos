@@ -23,6 +23,7 @@ import org.regkas.service.api.JournalService;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.SaleBean;
+import org.regkas.service.core.email.SendMailEvent;
 import org.regkas.service.core.journal.CashboxJournalEvent;
 import org.regkas.service.core.receipt.HandleSignatureDeviceAvailability;
 import org.regkas.service.core.receipt.ReceiptCreator;
@@ -48,6 +49,9 @@ public class SaleServiceCore implements SaleService {
 
     @Inject
     private Event<CashboxJournalEvent> cashboxJournalEvent;
+
+    @Inject
+    private Event<SendMailEvent> sendMailEvent;
 
     @Inject
     private ReceiptTypeConverter receiptTypeConverter;
@@ -122,11 +126,14 @@ public class SaleServiceCore implements SaleService {
                     billBean.getReceiptDateAndTime().getYear(),
                     billBean.getReceiptDateAndTime().getMonthValue(),
                     billBean.getReceiptDateAndTime().getDayOfMonth()));
+            sendMailEvent.fire(new SendMailEvent("day-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
         } else if (receiptType instanceof ReceiptTypeMonat) {
             billBean.setIncomeBean(
                 journalService.totalIncomeFor(billBean.getReceiptDateAndTime().getYear(), billBean.getReceiptDateAndTime().getMonthValue()));
+            sendMailEvent.fire(new SendMailEvent("month-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
         } else if (receiptType instanceof ReceiptTypeJahr) {
             billBean.setIncomeBean(journalService.totalIncomeFor(billBean.getReceiptDateAndTime().getYear()));
+            sendMailEvent.fire(new SendMailEvent("jear-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
         }
         return billBean;
     }
