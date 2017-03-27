@@ -16,7 +16,7 @@ import org.boatpos.common.model.AbstractEntity;
 
 @Entity
 @Table(name = "cashbox_journal")
-public class CashboxJournalEntity extends AbstractEntity{
+public class CashboxJournalEntity extends AbstractEntity {
 
     @NotNull
     @Size(min = 3)

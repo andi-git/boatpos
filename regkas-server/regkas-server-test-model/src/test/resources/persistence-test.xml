@@ -24,6 +24,8 @@
         <class>org.regkas.model.TaxSetNullEntity</class>
         <class>org.regkas.model.TaxSetBesondersEntity</class>
         <class>org.regkas.model.UserEntity</class>
+        <class>org.regkas.model.CashboxJournalEntity</class>
+        <class>org.regkas.model.SystemJournalEntity</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.show_sql" value="false"/>

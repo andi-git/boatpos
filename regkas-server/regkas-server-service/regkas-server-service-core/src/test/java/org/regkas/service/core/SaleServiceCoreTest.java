@@ -154,9 +154,8 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
 
         List<CashboxJournal> cashboxJournals = cashboxJournalRepository.loadBy(cashBoxContext.get());
-        assertEquals(2, cashboxJournals.size());
-        assertEquals("create receipt 2015-0000003, Standard-Beleg", cashboxJournals.get(0).getJournalMessage().get());
-        assertEquals("signature-device 123 is damaged", cashboxJournals.get(1).getJournalMessage().get());
+        assertEquals(1, cashboxJournals.size());
+        assertEquals("signature-device 123 is damaged", cashboxJournals.get(0).getJournalMessage().get());
 
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
     }

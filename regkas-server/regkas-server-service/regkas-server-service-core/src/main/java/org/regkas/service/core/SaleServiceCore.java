@@ -24,7 +24,6 @@ import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.SaleBean;
 import org.regkas.service.core.email.SendMailEvent;
-import org.regkas.service.core.journal.CashboxJournalEvent;
 import org.regkas.service.core.receipt.HandleSignatureDeviceAvailability;
 import org.regkas.service.core.receipt.ReceiptCreator;
 import org.regkas.service.core.receipt.ReceiptTypeConverter;
@@ -48,9 +47,6 @@ public class SaleServiceCore implements SaleService {
     private Instance<HandleSignatureDeviceAvailability> handleSignatureDeviceAvailabilities;
 
     @Inject
-    private Event<CashboxJournalEvent> cashboxJournalEvent;
-
-    @Inject
     private Event<SendMailEvent> sendMailEvent;
 
     @Inject
@@ -72,11 +68,6 @@ public class SaleServiceCore implements SaleService {
             throw new RuntimeException("start-receipt was already created");
         } else {
             Receipt receipt = receiptCreator.createReceipt(sale);
-            cashboxJournalEvent.fire(
-                new CashboxJournalEvent(
-                    "create receipt " + receipt.getReceiptId().get() + ", " + receipt.getReceiptType().getName().get(),
-                    cashBox,
-                    receipt.getReceiptDate().get()));
             receipt = handleDeviceAvailability(lastReceiptOptional, receipt);
             BillBean billBean = receipt.asBillBean();
             billBean = addJournal(billBean, receiptType);

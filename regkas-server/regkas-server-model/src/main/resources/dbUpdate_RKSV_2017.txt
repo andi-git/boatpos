@@ -1,37 +1,131 @@
-- add receipt-types: jahr, monat, schluss, sammel WITH signatureMadatory
-  - insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 6, 'Monats-Beleg')
-  - insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 7, 'Jahres-Beleg')
-  - TODO
-- drop column timetype from receipt:
-  - alter table receipt drop column timetype
-- add aesKeyBase64 to CashBox
-  - TODO
-- add turnoverCountCent to CashBox
-  - TODO
-- add totalPrice to Receipt
-  - TODO
-- remove timeType from Receipt
-  - TODO
-- add certificationServiceProvider to CashBox
-  - TODO
-- add suiteId to Receipt
-  - TODO
-- add rkOnlineUsername to CashBox
-  - TODO
-- add rkOnlinePassword to CashBox
-  - TODO
-- add machineReadableRepresentation to Receipt
-  - TODO
-- add compactJwsRepresentation to Receipt
-  - TODO
-- add signatureMandatory to ReceiptType
-  - TODO
-- add table for CashboxJournal
-  - TODO
-- add table for SystemJournal
-  - TODO
-
-- add data for system- and cashbox-journal
-
 - add system-properties for e-mail
 - add system-property for daily dep-export
+
+- add/update receipt-types: jahr, monat, schluss, sammel, tag / WITH signatureMadatory
+insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 6, 'Monats-Beleg');
+insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 7, 'Jahres-Beleg');
+insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 8, 'Tages-Beleg');
+insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 9, 'Schluss-Beleg');
+insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 10, 'Sammel-Beleg');
+alter table receipttype add column signatureMandatory boolean;
+update receipttype set signaturemandatory = true where id in (6, 62917, 62920);
+update receipttype set signaturemandatory = false where id not in (6, 62917, 62920);
+
+- add/drop columns to/from receipt:
+alter table receipt drop column timetype;
+alter table receipt add column totalPrice number;
+alter table receipt add column suiteId varchar(10);
+alter table receipt add column machineReadableRepresentation varchar(512);
+alter table receipt add column compactJwsRepresentation varchar(1024);
+alter table receipt add column signatureDeviceAvailable boolean;
+
+- add columns to CashBox
+alter table cashbox add column aesKeyBase64 varchar(44);
+alter table cashbox add column turnoverCountCent number;
+alter table cashbox add column certificationServiceProvider varchar(10);
+alter table cashbox add column rkOnlineUsername varchar(30);
+alter table cashbox add column rkOnlinePassword varchar(30);
+--> see insert-statements in KPX
+
+- add table for CashboxJournal
+create table cashbox_journal (id bigint not null check (id>=0), version integer not null check (version>=0), message varchar(1024) not null, messageDate timestamp not null, cashBox_id bigint not null, primary key (id));
+alter table cashbox_journal add constraint FK66osj4vfpi926kvro1xgos6s4 foreign key (cashBox_id) references cashbox;
+
+- add table for SystemJournal
+create table system_journal (id bigint not null check (id>=0), version integer not null check (version>=0), message varchar(255) not null, messageDate timestamp not null, primary key (id) );
+
+- add data for system- and cashbox-journal
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-04-16 00:00:00', 'deploy version 1.0.0');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-04-17 00:00:00', 'deploy version 1.0.1');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-04-20 00:00:00', 'deploy version 1.0.2');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-04-23 00:00:00', 'deploy version 1.1.0');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-05-06 00:00:00', 'deploy version 1.1.1');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-05-17 00:00:00', 'deploy version 1.2.0');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-05-30 00:00:00', 'deploy version 1.2.1');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-05-31 00:00:00', 'deploy version 1.2.2');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-06-07 00:00:00', 'deploy version 1.3.0');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-07-04 00:00:00', 'deploy version 1.4.0');
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, '2016-07-13 00:00:00', 'deploy version 1.4.1');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Eskimoeis');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group alkoholfreies Getränk');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Kaffee');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Bier');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Wein');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Warme Speisen');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Belegtes Gebäck');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Kuchen');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Snack');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product-group Eismischgetränk');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Bier groß');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Bier klein');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Cafemio');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Capri');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Cola');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Eistee');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Großer Brauner');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Kleiner Brauner');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Kuchen');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Melange');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Mineral');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product RedBull');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Stifterl');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add product Wein gespritzt');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Alkoholfrei');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Belegtes Gebäck');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Bier');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Eis');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Eismischgetränk');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Kaffee');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Kuchen');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Snack');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Warme Speisen');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'add generic product PG: Wein');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Bier groß to 2.60');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Bier klein to 2.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Cafemio to 3.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Capri to 1.60');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Cola to 2.50');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Eistee to 2.70');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Großer Brauner to 3.60');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Kleiner Brauner to 2.40');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Kuchen to 2.80');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Melange to 3.20');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Mineral to 2.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product RedBull to 3.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Stifterl to 3.60');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of product Wein gespritzt to 2.70');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Alkoholfrei to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Belegtes Gebäck to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Bier to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Eis to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Eismischgetränk to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Kaffee to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Kuchen to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Snack to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Warme Speisen to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, '2016-04-16 00:00:00', 'set price of generic product PG: Wein to 0.00');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product-group Liegeboot');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product-group Elektroboot');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product-group Treetboot');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product E-Boot');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product Liegeboot');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product Tretboot Rutsche');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product Tretboot groß');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add product Tretboot klein');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add generic product PG: Elektroboot');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add generic product PG: Ruderboot');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'add generic product PG: Tretboot');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of product E-Boot to 18.00 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of product Liegeboot to 12.00 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of product Tretboot Rutsche to 16.00 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of product Tretboot groß to 14.00 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of product Tretboot klein to 14.00 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of generic product PG: Elektroboot to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of generic product PG: Ruderboot to 0.00');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of generic product PG: Tretboot to 0.00');
