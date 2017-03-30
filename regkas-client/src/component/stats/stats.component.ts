@@ -88,6 +88,11 @@ export class StatsComponent {
             + this.datePickerDep.getCurrentYear() + "?"));
     }
 
+    depRKSV() {
+        this.info.event().emit("DatenErfassungsProtokoll RKSV wird erstellt.");
+        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv?"));
+    }
+
     printStartBeleg() {
         this.saleService.startBeleg();
         this.startbelegMustBePrinted = false;
