@@ -7,6 +7,7 @@ import {DatePicker} from "../../model/datePicker";
 import {ModalIncome, ModalIncomeContext} from "./modalIncome";
 import {PrettyPrinter} from "../../prettyprinter";
 import {ModalHandler} from "../../modalHandler";
+import {SaleService} from "../../service/sale.service";
 
 @Component({
     selector: 'stats',
@@ -17,9 +18,11 @@ export class StatsComponent {
 
     private datePickerIncome = new DatePicker();
     private datePickerDep = new DatePicker();
+    private startbelegMustBePrinted: boolean = false;
 
-    constructor(private journalService:JournalService, private printer:Printer, private infoService:InfoService, private config:ConfigService, private info:InfoService, private pp:PrettyPrinter, private modalHandler:ModalHandler) {
+    constructor(private journalService:JournalService, private printer:Printer, private infoService:InfoService, private config:ConfigService, private info:InfoService, private pp:PrettyPrinter, private modalHandler:ModalHandler, private saleService:SaleService) {
         console.log("constructor of StatsComponent");
+        this.checkIfStartbelegMustBePrinted();
     }
 
     dayIncomeChange(day:any) {
@@ -83,5 +86,16 @@ export class StatsComponent {
         this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
         window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
             + this.datePickerDep.getCurrentYear() + "?"));
+    }
+
+    printStartbeleg() {
+        this.saleService.startBeleg();
+        this.startbelegMustBePrinted = false;
+    }
+
+    checkIfStartbelegMustBePrinted() {
+        this.saleService.checkIfStarbelegMustBePrinted().subscribe(check => {
+            this.startbelegMustBePrinted = check;
+        });
     }
 }

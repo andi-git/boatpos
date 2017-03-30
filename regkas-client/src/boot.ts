@@ -1,4 +1,4 @@
-import {bootstrap}      from 'angular2/platform/browser'
+ import {bootstrap}      from 'angular2/platform/browser'
 import {AppComponent}   from './component/app.component'
 import {ConfigService} from "./service/config.service";
 import {provide} from "angular2/core";

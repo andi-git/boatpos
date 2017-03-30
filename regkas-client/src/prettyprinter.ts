@@ -4,8 +4,9 @@ import {isPresent, isNumber} from "angular2/src/facade/lang";
 @Injectable()
 export class PrettyPrinter {
 
-    pp2Pos(number:number):string {
-        let result:string = "";
+    //noinspection JSMethodCanBeStatic
+    pp2Pos(number: number): string {
+        let result: string = "";
         if (number < 10) {
             result += "0";
         }
@@ -13,8 +14,8 @@ export class PrettyPrinter {
         return result;
     }
 
-    pp3Pos(number:number):string {
-        let result:string = "";
+    pp3Pos(number: number): string {
+        let result: string = "";
         if (number < 100) {
             result += "0";
         }
@@ -22,8 +23,9 @@ export class PrettyPrinter {
         return result;
     }
 
-    ppPrice(price:number, prefix:string):string {
-        let result:string = isPresent(prefix) ? prefix : "€ ";
+    //noinspection JSMethodCanBeStatic
+    ppPrice(price: number, prefix?: string): string {
+        let result: string = isPresent(prefix) ? prefix : "€ ";
         if (isPresent(price) && isNumber(price) && !isNaN(price)) {
             result += price.toFixed(2);
         } else {
@@ -32,33 +34,38 @@ export class PrettyPrinter {
         return result;
     }
 
-    printTime(date:Date):string {
-        let timeString:string = "";
+    printTime(date: Date): string {
+        let timeString: string = "";
         if (isPresent(date) && date.getUTCFullYear() > 1970) {
-            return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + " Uhr";
+            return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + ":" + this.pp2Pos(date.getUTCSeconds());
         }
         return timeString;
     }
 
-    printDate(date:Date):string {
-        let dateString:string = "";
+    printDate(date: Date): string {
+        let dateString: string = "";
         if (isPresent(date) && date.getFullYear() > 1970) {
-            return this.pp2Pos(date.getDate()) + ". " + this.pp2Pos(date.getMonth() + 1) + ". " + date.getFullYear();
+            return this.pp2Pos(date.getDate()) + "." + this.pp2Pos(date.getMonth() + 1) + "." + date.getFullYear();
         }
         return dateString;
     }
 
-    ppFixLength(string:String, length:Number, align:Align):void {
-        let result:string = string;
-        if (string.length > length) {
-            result = string.substr(0, length);
+    printDateAndTime(date: Date): string {
+        return this.printDate(date) + " " + this.printTime(date);
+    }
+
+    //noinspection JSMethodCanBeStatic
+    ppFixLength(text: string, length: number, align: Align): string {
+        let result: string = text;
+        if (text.length > length) {
+            result = text.substr(0, length);
         } else {
             if (align === Align.LEFT || align === Align.CENTER) {
-                for (let i:number = string.length; i < length; i++) {
+                for (let i: number = text.length; i < length; i++) {
                     result += " ";
                 }
             } else {
-                for (let i:number = string.length; i < length; i++) {
+                for (let i: number = text.length; i < length; i++) {
                     result = " " + result;
                 }
             }

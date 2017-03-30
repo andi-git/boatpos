@@ -32,32 +32,36 @@ export class JournalService {
         return this.http.get(this.configService.getBackendUrl() + 'rest/journal/income/' + args, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((incomeBean:any) => {
-                let incomeProductGroups:Array<IncomeProductGroup> = [];
-                incomeBean.incomeElements.forEach(
-                    pg => incomeProductGroups.push(new IncomeProductGroup(
-                        pg.name,
-                        pg.income,
-                        pg.taxPercent,
-                        pg.priority
-                    ))
-                );
-                let taxElements:Array<TaxElement> = [];
-                incomeBean.taxElements.forEach(
-                    te => taxElements.push(new TaxElement(
-                        te.taxPercent,
-                        te.priority,
-                        te.price,
-                        te.priceBeforeTax,
-                        te.priceTax
-                    ))
-                );
-                return new Income(
-                    JournalService.createDate(incomeBean.start),
-                    JournalService.createDate(incomeBean.end),
-                    incomeBean.totalIncome,
-                    incomeProductGroups,
-                    taxElements);
+                return JournalService.convertToIncome(incomeBean);
             });
+    }
+
+    public static convertToIncome(incomeBean: any): Income {
+        let incomeProductGroups:Array<IncomeProductGroup> = [];
+        incomeBean.incomeElements.forEach(
+            pg => incomeProductGroups.push(new IncomeProductGroup(
+                pg.name,
+                pg.income,
+                pg.taxPercent,
+                pg.priority
+            ))
+        );
+        let taxElements:Array<TaxElement> = [];
+        incomeBean.taxElements.forEach(
+            te => taxElements.push(new TaxElement(
+                te.taxPercent,
+                te.priority,
+                te.price,
+                te.priceBeforeTax,
+                te.priceTax
+            ))
+        );
+        return new Income(
+            JournalService.createDate(incomeBean.start),
+            JournalService.createDate(incomeBean.end),
+            incomeBean.totalIncome,
+            incomeProductGroups,
+            taxElements);
     }
 
     public static createDate(jsonDate:string):Date {

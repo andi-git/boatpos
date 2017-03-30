@@ -19,6 +19,7 @@ import {ProductService} from "../service/product.service";
 import {ProductComponent} from "./sale/products.component";
 import {ReceiptComponent} from "./sale/receipt.component";
 import {JournalService} from "../service/journal.service";
+import {ErrorService} from "../service/error.service";
 import {StatsComponent} from "./stats/stats.component";
 import {ConfigComponent} from "./config/config.component";
 
@@ -29,7 +30,7 @@ enableProdMode();
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
     directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent, ReceiptComponent, StatsComponent, ConfigComponent],
-    providers: [InfoService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService, JournalService]
+    providers: [InfoService, ErrorService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService, JournalService]
 })
 export class AppComponent implements OnInit {
 

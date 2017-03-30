@@ -6,25 +6,29 @@ import {Product} from "../model/product";
 import {Http} from "angular2/http";
 import {ConfigService} from "./config.service";
 import {Sale} from "../model/sale";
-import {Company, TaxSetElement, Bill} from "../model/bill";
+import {Bill, Company, TaxSetElement} from "../model/bill";
 import {Printer} from "../printer";
+import {ErrorService} from "./error.service";
+import {Observable} from "rxjs";
+import {JournalService} from "./journal.service";
+import {Income} from "../model/income";
 
 @Injectable()
 export class SaleService {
 
-    private numberInput:string = "";
+    private numberInput: string = "";
 
-    private receiptElements:Array<ReceiptElement> = [];
+    private receiptElements: Array<ReceiptElement> = [];
 
-    constructor(private http:Http, private infoService:InfoService, private configService:ConfigService, private printer:Printer) {
+    constructor(private http: Http, private infoService: InfoService, private errorService: ErrorService, private configService: ConfigService, private printer: Printer) {
 
     }
 
-    getNumberInput():string {
+    getNumberInput(): string {
         return this.numberInput;
     }
 
-    setNumberInput(numberInput:string) {
+    setNumberInput(numberInput: string) {
         if ('<' === numberInput) {
             if (isPresent(this.numberInput) && this.numberInput.length > 0) {
                 this.numberInput = this.numberInput.substr(0, this.numberInput.length - 1);
@@ -48,22 +52,39 @@ export class SaleService {
 
     bill() {
         if (isPresent(this.receiptElements) && this.receiptElements.length > 0) {
-            this.http.post(
-                    this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale("CASH", "Standard-Beleg", this.receiptElements)), {headers: this.configService.getDefaultHeader()}
-                )
-                .map(res => res.json())
-                .map((billBean) => {
-                    return this.convertBillBeanToBill(billBean);
-                }).subscribe((bill:Bill) => {
-                    console.log("print bill");
-                    this.printer.printBill(bill, this.configService.getPrinterIp());
-                    this.reset();
-                    this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
-                }
-            );
+            this.sale("Standard-Beleg", this.receiptElements);
         } else {
-            this.infoService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
+            this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
         }
+    }
+
+    private sale(receiptType: string, receiptElements?: Array<ReceiptElement>) {
+        this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale("CASH", receiptType, receiptElements)), {headers: this.configService.getDefaultHeader()})
+            .map(res => {
+                console.log(res.json());
+                return res.json();
+            })
+            .map((billBean) => {
+                console.log("billBean: " + billBean);
+                return this.convertBillBeanToBill(billBean);
+            }).subscribe((bill: Bill) => {
+                this.printer.printBill(bill, this.configService.getPrinterIp());
+                this.reset();
+                this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+            }
+            , error => {
+                this.reset();
+                console.log("error: " + JSON.stringify(error));
+                this.errorService.event().emit("Rechnung konnte NICHT erstellt werden - Vorgang wurde abgebrochen!");
+            });
+    }
+
+    startBeleg() {
+        this.checkIfStarbelegMustBePrinted().subscribe(check => {
+            if (check === true) {
+                this.sale("Start-Beleg");
+            }
+        });
     }
 
     reset() {
@@ -71,7 +92,7 @@ export class SaleService {
         this.cancelAllElements();
     }
 
-    getReceiptElements():Array<ReceiptElement> {
+    getReceiptElements(): Array<ReceiptElement> {
         return this.receiptElements;
     }
 
@@ -80,7 +101,7 @@ export class SaleService {
         this.infoService.event().emit("Eingabe gelöscht.");
     }
 
-    chooseProduct(product:Product) {
+    chooseProduct(product: Product) {
         if (isPresent(product)) {
             if (product.generic === true) {
                 if (isPresent(this.numberInput) && this.numberInput != "") {
@@ -104,14 +125,20 @@ export class SaleService {
         }
     }
 
-    getSum():number {
-        let sum:number = 0;
+    getSum(): number {
+        let sum: number = 0;
         this.receiptElements.forEach(re => sum += re.totalPrice);
         return sum;
     }
 
-    private convertBillBeanToBill(billBean):Bill {
-        let taxSetElements:Array<TaxSetElement> = [];
+    public checkIfStarbelegMustBePrinted(): Observable<boolean> {
+        // call the rest-service
+        return this.http.get(this.configService.getBackendUrl() + 'rest/receipt/start/check', {headers: this.configService.getDefaultHeader()})
+            .map(res => res.text() === 'true');
+    }
+
+    private convertBillBeanToBill(billBean): Bill {
+        let taxSetElements: Array<TaxSetElement> = [];
         billBean.billTaxSetElements.forEach(tse => {
             taxSetElements.push(new TaxSetElement(
                 tse.name,
@@ -122,6 +149,26 @@ export class SaleService {
                 tse.priceTax
             ))
         });
+        let sammelBeleg: Bill = null;
+        let tagesBeleg: Bill = null;
+        let monatsBeleg: Bill = null;
+        let jahresBeleg: Bill = null;
+        let income: Income = null;
+        if (billBean.sammelBeleg != null) {
+            sammelBeleg = this.convertBillBeanToBill(billBean.sammelBeleg);
+        }
+        if (billBean.tagesBeleg != null) {
+            tagesBeleg = this.convertBillBeanToBill(billBean.tagesBeleg);
+        }
+        if (billBean.monatsBeleg != null) {
+            monatsBeleg = this.convertBillBeanToBill(billBean.monatsBeleg);
+        }
+        if (billBean.jahresBeleg != null) {
+            jahresBeleg = this.convertBillBeanToBill(billBean.jahresBeleg);
+        }
+        if (billBean.income != null) {
+            income = JournalService.convertToIncome(billBean.incomeBean);
+        }
         return new Bill(
             billBean.cashBoxID,
             billBean.receiptIdentifier,
@@ -145,7 +192,17 @@ export class SaleService {
                 billBean.company.atu
             ),
             billBean.sumTotal,
-            taxSetElements
+            taxSetElements,
+            sammelBeleg,
+            new Date(billBean.sammelBelegStart),
+            new Date(billBean.sammelBelegEnd),
+            income,
+            tagesBeleg,
+            monatsBeleg,
+            jahresBeleg,
+            billBean.receiptType,
+            billBean.jwsCompact,
+            billBean.signatureDeviceAvailable
         );
     };
 }
