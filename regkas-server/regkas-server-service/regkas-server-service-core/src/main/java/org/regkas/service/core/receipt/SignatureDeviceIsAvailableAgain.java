@@ -14,6 +14,7 @@ import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.common.util.qualifiers.Current;
 import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.Receipt;
+import org.regkas.domain.api.model.ReceiptTypeStart;
 import org.regkas.domain.api.repository.ReceiptRepository;
 import org.regkas.domain.api.signature.RkOnlineResourceFactory;
 import org.regkas.domain.api.signature.SignatureDeviceMandatoryException;
@@ -57,7 +58,8 @@ public class SignatureDeviceIsAvailableAgain implements HandleSignatureDeviceAva
     @Override
     public boolean canHandle(Receipt currentReceipt, Receipt lastReceipt) {
         return SimpleValueObject.nullSafe(currentReceipt.getSignatureDeviceAvailable()) &&
-            !SimpleValueObject.nullSafe(lastReceipt.getSignatureDeviceAvailable());
+            !SimpleValueObject.nullSafe(lastReceipt.getSignatureDeviceAvailable()) &&
+            !(currentReceipt.getReceiptType() instanceof ReceiptTypeStart);
     }
 
     @Override

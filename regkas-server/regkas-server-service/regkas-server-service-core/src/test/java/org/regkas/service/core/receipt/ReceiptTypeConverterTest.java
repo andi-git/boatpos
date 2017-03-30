@@ -8,9 +8,12 @@ import org.regkas.domain.api.values.Name;
 import org.regkas.domain.core.model.ReceiptTypeJahrCore;
 import org.regkas.domain.core.model.ReceiptTypeMonatCore;
 import org.regkas.domain.core.model.ReceiptTypeNullCore;
+import org.regkas.domain.core.model.ReceiptTypeSammelCore;
+import org.regkas.domain.core.model.ReceiptTypeSchlussCore;
 import org.regkas.domain.core.model.ReceiptTypeStandardCore;
 import org.regkas.domain.core.model.ReceiptTypeStartCore;
 import org.regkas.domain.core.model.ReceiptTypeStornoCore;
+import org.regkas.domain.core.model.ReceiptTypeTagCore;
 import org.regkas.domain.core.model.ReceiptTypeTrainingCore;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
@@ -34,6 +37,9 @@ public class ReceiptTypeConverterTest extends EntityManagerProviderForRegkas {
         assertEquals(ReceiptTypeStartCore.class, receiptTypeConverter.convertToReceiptType(new Name("Start-Beleg")).getClass());
         assertEquals(ReceiptTypeStornoCore.class, receiptTypeConverter.convertToReceiptType(new Name("Storno-Beleg")).getClass());
         assertEquals(ReceiptTypeTrainingCore.class, receiptTypeConverter.convertToReceiptType(new Name("Training-Beleg")).getClass());
+        assertEquals(ReceiptTypeTagCore.class, receiptTypeConverter.convertToReceiptType(new Name("Tages-Beleg")).getClass());
+        assertEquals(ReceiptTypeSchlussCore.class, receiptTypeConverter.convertToReceiptType(new Name("Schluss-Beleg")).getClass());
+        assertEquals(ReceiptTypeSammelCore.class, receiptTypeConverter.convertToReceiptType(new Name("Sammel-Beleg")).getClass());
     }
 
     @Test(expected = NullPointerException.class)

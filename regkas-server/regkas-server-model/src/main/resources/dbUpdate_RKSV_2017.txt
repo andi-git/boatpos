@@ -129,3 +129,15 @@ insert into cashbox_journal (id, version, cashbox_id, messagedate, message) valu
 insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of generic product PG: Elektroboot to 0.00');
 insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of generic product PG: Ruderboot to 0.00');
 insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, '2016-04-16 00:00:00', 'set price of generic product PG: Tretboot to 0.00');
+
+- update column names because of new version of or-mapper --> really ugly, but atm i've no time to fix this!!!
+ALTER TABLE ADDRESS_COMPANY  ALTER COLUMN ADDRESS_ID  RENAME TO ADDRESSENTITY_ID;
+ALTER TABLE COMPANY_CASHBOX  ALTER COLUMN COMPANY_ID  RENAME TO COMPANYENTITY_ID;
+ALTER TABLE COMPANY_PRODUCTGROUP  ALTER COLUMN COMPANY_ID  RENAME TO COMPANYENTITY_ID;
+ALTER TABLE COMPANY_USER ALTER COLUMN COMPANY_ID  RENAME TO COMPANYENTITY_ID;
+ALTER TABLE PRODUCTGROUP_PRODUCT  ALTER COLUMN PRODUCTGROUP_ID  RENAME TO PRODUCTGROUPENTITY_ID;
+ALTER TABLE PRODUCT_RECEIPTELEMENT  ALTER COLUMN PRODUCT_ID  RENAME TO PRODUCTENTITY_ID;
+ALTER TABLE RECEIPT_RECEIPTELEMENT  ALTER COLUMN RECEIPT_ID  RENAME TO RECEIPTENTITY_ID;
+ALTER TABLE TAXSET_PRODUCTGROUP  ALTER COLUMN TAXSET_ID  RENAME TO TAXSETENTITY_ID;
+
+TODO: for boatpos!

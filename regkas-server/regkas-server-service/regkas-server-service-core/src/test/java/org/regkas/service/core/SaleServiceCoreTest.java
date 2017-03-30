@@ -133,6 +133,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         Receipt storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
         firstSale.assertEqualsWhenSignatureDeviceIsAvailable(storedReceipt);
         assertEquals(2750, cashBoxRepository.loadBy(new Name("RegKas1")).get().getTurnoverCountCent().get().intValue());
+        assertTrue(bill.getSignatureDeviceAvailable());
         assertFalse(mailSenderMock.isSendCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
         assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
@@ -203,8 +204,10 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(88, storedReceipt.getCompactJwsRepresentation().getSignature().length());
         assertNotEquals(FirstSale.expectedSignatureWhenDeviceIsNotAvailable, storedReceipt.getCompactJwsRepresentation().getSignature());
         assertNotNull(bill.getSammelBeleg());
-        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), bill.getSammelBelegStart());
-        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), bill.getSammelBelegEnd());
+        assertNull(bill.getSammelBelegStart());
+        assertNull(bill.getSammelBelegEnd());
+        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), bill.getSammelBeleg().getSammelBelegStart());
+        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), bill.getSammelBeleg().getSammelBelegEnd());
         storedReceipt = receiptRepository.loadBy(new ReceiptId(bill.getSammelBeleg().getReceiptIdentifier()), cashBoxContext.get()).get();
         assertEquals(
             "_R1-AT0_RegKas1_2015-0000006_2015-07-01T15:00:00_0,00_0,00_0,00_0,00_0,00_bsH02gJiJH4=_123",
@@ -306,11 +309,21 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertTrue(saleService.isSignatureDeviceAvailable());
 
         rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
-        saleService.sale(firstSale.createDefaultSale());
+        BillBean billBean = saleService.sale(firstSale.createDefaultSale());
+        assertFalse(billBean.getSignatureDeviceAvailable());
         assertFalse(saleService.isSignatureDeviceAvailable());
 
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
         saleService.sale(firstSale.createDefaultSale());
         assertTrue(saleService.isSignatureDeviceAvailable());
+    }
+
+    @Test
+    @Transactional
+    public void testWithElementsThatHaveTooManyPositionsBehindTheComma() {
+        SaleBean saleBean = firstSale.createDefaultSale();
+        saleBean.getSaleElements().get(0).setTotalPrice(new BigDecimal("2.500001"));
+        BillBean bill = saleService.sale(saleBean);
+        assertEquals(new BigDecimal("14.50"), bill.getSumTotal());
     }
 }

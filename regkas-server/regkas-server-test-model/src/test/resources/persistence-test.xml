@@ -18,6 +18,9 @@
         <class>org.regkas.model.ReceiptTypeStartEntity</class>
         <class>org.regkas.model.ReceiptTypeStornoEntity</class>
         <class>org.regkas.model.ReceiptTypeTrainingEntity</class>
+        <class>org.regkas.model.ReceiptTypeTagEntity</class>
+        <class>org.regkas.model.ReceiptTypeSchlussEntity</class>
+        <class>org.regkas.model.ReceiptTypeSammelEntity</class>
         <class>org.regkas.model.TaxSetNormalEntity</class>
         <class>org.regkas.model.TaxSetErmaessigt1Entity</class>
         <class>org.regkas.model.TaxSetErmaessigt2Entity</class>

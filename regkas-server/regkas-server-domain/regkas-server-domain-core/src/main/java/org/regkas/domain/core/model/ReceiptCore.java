@@ -340,9 +340,10 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
         }
         if (sammelBeleg != null) {
             bill.setSammelBeleg(sammelBeleg.asBillBean());
+            bill.getSammelBeleg().setSammelBelegStart(sammelBelegStart);
+            bill.getSammelBeleg().setSammelBelegEnd(sammelBelegEnd);
         }
-        bill.setSammelBelegStart(sammelBelegStart);
-        bill.setSammelBelegEnd(sammelBelegEnd);
+        bill.setSignatureDeviceAvailable(SimpleValueObject.nullSafe(getSignatureDeviceAvailable()));
         return bill;
     }
 

@@ -83,19 +83,31 @@ public class BillBean extends AbstractBean {
     @Expose
     private String jwsCompact;
 
+    @Expose
     private BillBean sammelBeleg;
 
+    @Expose
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime sammelBelegStart;
 
+    @Expose
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime sammelBelegEnd;
 
+    @Expose
     private IncomeBean incomeBean;
 
+    @Expose
     private BillBean tagesBeleg;
 
+    @Expose
     private BillBean monatsBeleg;
 
+    @Expose
     private BillBean jahresBeleg;
+
+    @Expose
+    private Boolean signatureDeviceAvailable;
 
     public BillBean() {}
 
@@ -112,7 +124,8 @@ public class BillBean extends AbstractBean {
             List<BillTaxSetElementBean> billTaxSetElements,
             BigDecimal sumTotal,
             String receiptType,
-            String jwsCompact) {
+            String jwsCompact,
+            Boolean signatureDeviceAvailable) {
         this.cashBoxID = cashBoxID;
         this.receiptIdentifier = receiptIdentifier;
         this.receiptDateAndTime = receiptDateAndTime;
@@ -126,6 +139,7 @@ public class BillBean extends AbstractBean {
         this.sumTotal = sumTotal;
         this.receiptType = receiptType;
         this.jwsCompact = jwsCompact;
+        this.signatureDeviceAvailable = signatureDeviceAvailable;
     }
 
     public String getCashBoxID() {
@@ -310,6 +324,14 @@ public class BillBean extends AbstractBean {
 
     public void setJahresBeleg(BillBean jahresBeleg) {
         this.jahresBeleg = jahresBeleg;
+    }
+
+    public Boolean getSignatureDeviceAvailable() {
+        return signatureDeviceAvailable;
+    }
+
+    public void setSignatureDeviceAvailable(Boolean signatureDeviceAvailable) {
+        this.signatureDeviceAvailable = signatureDeviceAvailable;
     }
 
     public static BillBean fromJwsCompact(String jwsCompact) {

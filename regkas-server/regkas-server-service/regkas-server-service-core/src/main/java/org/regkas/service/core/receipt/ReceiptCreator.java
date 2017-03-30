@@ -1,5 +1,6 @@
 package org.regkas.service.core.receipt;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.enterprise.context.Dependent;
@@ -100,7 +101,7 @@ public class ReceiptCreator {
                 throw new RuntimeException(
                     "unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
-                TotalPrice totalPriceForElement = new TotalPrice(receiptElementBean.getTotalPrice());
+                TotalPrice totalPriceForElement = new TotalPrice(round(receiptElementBean.getTotalPrice()));
                 totalPrice = totalPrice.add(totalPriceForElement);
                 receiptBuilder.add(
                     receiptElementRepository
@@ -132,6 +133,7 @@ public class ReceiptCreator {
             rkOnlineResourceFactory.getRkOnlineResourceSignature().sign(receipt.getDataToBeSigned(), receipt.getReceiptType()));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public Receipt createSammelReceipt() {
         return createReceipt(new SaleBean("cash", "Sammel-Beleg", Lists.newArrayList()));
     }
@@ -140,12 +142,21 @@ public class ReceiptCreator {
         return createReceipt(new SaleBean("cash", "Tages-Beleg", Lists.newArrayList()));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public Receipt createMonthReceipt() {
         return createReceipt(new SaleBean("cash", "Monats-Beleg", Lists.newArrayList()));
     }
 
+    @SuppressWarnings("WeakerAccess")
     public Receipt createYearReceipt() {
         return createReceipt(new SaleBean("cash", "Jahres-Beleg", Lists.newArrayList()));
     }
 
+    private BigDecimal round(BigDecimal price) {
+        return scalePrice(price.setScale(1, BigDecimal.ROUND_HALF_UP));
+    }
+
+    private BigDecimal scalePrice(BigDecimal price) {
+        return price.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
 }
