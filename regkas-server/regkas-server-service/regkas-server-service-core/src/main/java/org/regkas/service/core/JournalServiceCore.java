@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import org.boatpos.common.domain.api.values.DomainId;
 import org.boatpos.common.domain.api.values.Enabled;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.common.util.qualifiers.Current;
@@ -57,6 +58,9 @@ public class JournalServiceCore implements JournalService {
     @Inject
     private DepExporter depExporter;
 
+    @Inject
+    private DateTimeHelper dateTimeHelper;
+
     @Override
     public IncomeBean totalIncomeFor(Integer year) {
         return totalIncomeFor(Period.year(LocalDateTime.of(year, 1, 1, 0, 0)));
@@ -89,7 +93,7 @@ public class JournalServiceCore implements JournalService {
 
     @Override
     public File datenErfassungsProtokollRKSV() {
-        return depExporter.exportBasedOnRKSV(Period.untilNow());
+        return depExporter.exportBasedOnRKSV(new Period(LocalDateTime.of(2017, 1, 1, 0, 0, 0), dateTimeHelper.currentTime()));
     }
 
     private IncomeBean totalIncomeFor(Period period) {
