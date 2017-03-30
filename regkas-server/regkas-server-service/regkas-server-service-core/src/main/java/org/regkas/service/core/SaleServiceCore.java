@@ -124,7 +124,7 @@ public class SaleServiceCore implements SaleService {
             sendMailEvent.fire(new SendMailEvent("month-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
         } else if (receiptType instanceof ReceiptTypeJahr) {
             billBean.setIncomeBean(journalService.totalIncomeFor(billBean.getReceiptDateAndTime().getYear()));
-            sendMailEvent.fire(new SendMailEvent("jear-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
+            sendMailEvent.fire(new SendMailEvent("year-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
         }
         return billBean;
     }
