@@ -39,7 +39,6 @@ export class Printer {
             request = this.printCompleteBill(bill.yearReceipt, builder, request);
         }
         if (bill != null && bill.income != null) {
-            request += builder.createCutPaperElement({feed: true});
             request = this.blankLine(builder, request);
             request = this.printCompleteIncome(bill.income, builder, request);
         }
@@ -202,13 +201,13 @@ export class Printer {
             // noinspection TypeScriptUnresolvedFunction
             let builder = new StarWebPrintBuilder();
             let request = builder.createInitializationElement();
-            request += this.printCompleteIncome(income, builder, request);
+            request = this.addLogo(builder, request);
+            request = this.printCompleteIncome(income, builder, request);
             this.printPaper(builder, request, printerIp);
         }
     }
 
     private printCompleteIncome(income: Income, builder: any, request: any): any {
-        request = this.addLogo(builder, request);
         request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Buffet");
         request = this.blankLine(builder, request);
         if (this.pp.printDate(income.start) === this.pp.printDate(income.end)) {

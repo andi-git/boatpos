@@ -91,6 +91,18 @@ export class SaleService {
         this.sale("Null-Beleg");
     }
 
+    tagesBeleg() {
+        this.sale("Tages-Beleg");
+    }
+
+    monatsBeleg() {
+        this.sale("Monats-Beleg");
+    }
+
+    jahresBeleg() {
+        this.sale("Jahres-Beleg");
+    }
+
     reset() {
         this.deleteNumberInput();
         this.cancelAllElements();
@@ -170,7 +182,7 @@ export class SaleService {
         if (billBean.jahresBeleg != null) {
             jahresBeleg = this.convertBillBeanToBill(billBean.jahresBeleg);
         }
-        if (billBean.income != null) {
+        if (billBean.incomeBean != null) {
             income = JournalService.convertToIncome(billBean.incomeBean);
         }
         return new Bill(

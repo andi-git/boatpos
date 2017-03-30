@@ -107,4 +107,16 @@ export class StatsComponent {
     printNullBeleg() {
         this.saleService.nullBeleg();
     }
+
+    printTagesBeleg() {
+        this.saleService.tagesBeleg();
+    }
+
+    printMonatsBeleg() {
+        this.saleService.monatsBeleg();
+    }
+
+    printJahresBeleg() {
+        this.saleService.jahresBeleg();
+    }
 }
