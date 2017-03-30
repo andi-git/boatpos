@@ -22,6 +22,7 @@ import {JournalService} from "../service/journal.service";
 import {ErrorService} from "../service/error.service";
 import {StatsComponent} from "./stats/stats.component";
 import {ConfigComponent} from "./config/config.component";
+import {SignatureDeviceComponent} from "./signatureDevice.component";
 
 enableProdMode();
 
@@ -29,7 +30,7 @@ enableProdMode();
     selector: 'my-app',
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
-    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent, ReceiptComponent, StatsComponent, ConfigComponent],
+    directives: [InfoComponent, MenuComponent, VersionComponent, NumbersComponent, ActionsComponent, ProductComponent, ReceiptComponent, StatsComponent, ConfigComponent, SignatureDeviceComponent],
     providers: [InfoService, ErrorService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, ModeService, SaleService, ProductService, ConfigService, JournalService]
 })
 export class AppComponent implements OnInit {

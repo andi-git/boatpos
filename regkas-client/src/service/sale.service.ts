@@ -12,6 +12,7 @@ import {ErrorService} from "./error.service";
 import {Observable} from "rxjs";
 import {JournalService} from "./journal.service";
 import {Income} from "../model/income";
+import {PrettyPrinter} from "../prettyprinter";
 
 @Injectable()
 export class SaleService {
@@ -20,7 +21,9 @@ export class SaleService {
 
     private receiptElements: Array<ReceiptElement> = [];
 
-    constructor(private http: Http, private infoService: InfoService, private errorService: ErrorService, private configService: ConfigService, private printer: Printer) {
+    private signatureDeviceAvailableText: string = "";
+
+    constructor(private http: Http, private infoService: InfoService, private errorService: ErrorService, private configService: ConfigService, private printer: Printer, private pp: PrettyPrinter) {
 
     }
 
@@ -32,7 +35,7 @@ export class SaleService {
         if ('<' === numberInput) {
             if (isPresent(this.numberInput) && this.numberInput.length > 0) {
                 this.numberInput = this.numberInput.substr(0, this.numberInput.length - 1);
-                this.infoService.event().emit("Letzte Einfabe gelöscht.");
+                this.infoService.event().emit("Letzte Eingabe gelöscht.");
             }
         } else {
             this.numberInput = (this.numberInput == null ? "" : this.numberInput) + numberInput;
@@ -48,6 +51,18 @@ export class SaleService {
     cancelAllElements() {
         this.receiptElements = [];
         this.infoService.event().emit("Alle Elemente gelöscht.");
+    }
+
+    public getSignatureDeviceAvailableText(): string {
+        return this.signatureDeviceAvailableText;
+    }
+
+    private setSignatureDeviceAvailableText(available: boolean, date: Date): void {
+        if (available === false) {
+            this.signatureDeviceAvailableText = this.pp.printDateAndTime(date) + ' Signatureinrichtung ist ausgefallen - Meldung an BMF wenn länger als 48 Stunden!';
+        } else {
+            this.signatureDeviceAvailableText = "";
+        }
     }
 
     bill() {
@@ -68,6 +83,7 @@ export class SaleService {
                 console.log("billBean: " + billBean);
                 return this.convertBillBeanToBill(billBean);
             }).subscribe((bill: Bill) => {
+                this.setSignatureDeviceAvailableText(bill.signatureDeviceAvailable, bill.receiptDateAndTime);
                 this.printer.printBill(bill, this.configService.getPrinterIp());
                 this.reset();
                 this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
