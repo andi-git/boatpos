@@ -87,6 +87,10 @@ export class SaleService {
         });
     }
 
+    nullBeleg() {
+        this.sale("Null-Beleg");
+    }
+
     reset() {
         this.deleteNumberInput();
         this.cancelAllElements();

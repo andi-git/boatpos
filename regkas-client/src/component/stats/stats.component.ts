@@ -22,7 +22,7 @@ export class StatsComponent {
 
     constructor(private journalService:JournalService, private printer:Printer, private infoService:InfoService, private config:ConfigService, private info:InfoService, private pp:PrettyPrinter, private modalHandler:ModalHandler, private saleService:SaleService) {
         console.log("constructor of StatsComponent");
-        this.checkIfStartbelegMustBePrinted();
+        this.checkIfStartBelegMustBePrinted();
     }
 
     dayIncomeChange(day:any) {
@@ -88,14 +88,18 @@ export class StatsComponent {
             + this.datePickerDep.getCurrentYear() + "?"));
     }
 
-    printStartbeleg() {
+    printStartBeleg() {
         this.saleService.startBeleg();
         this.startbelegMustBePrinted = false;
     }
 
-    checkIfStartbelegMustBePrinted() {
+    checkIfStartBelegMustBePrinted() {
         this.saleService.checkIfStarbelegMustBePrinted().subscribe(check => {
             this.startbelegMustBePrinted = check;
         });
+    }
+
+    printNullBeleg() {
+        this.saleService.nullBeleg();
     }
 }
