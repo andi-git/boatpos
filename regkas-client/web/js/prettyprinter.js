@@ -24,6 +24,7 @@ System.register(["angular2/core", "angular2/src/facade/lang"], function(exports_
             PrettyPrinter = (function () {
                 function PrettyPrinter() {
                 }
+                //noinspection JSMethodCanBeStatic
                 PrettyPrinter.prototype.pp2Pos = function (number) {
                     var result = "";
                     if (number < 10) {
@@ -40,6 +41,7 @@ System.register(["angular2/core", "angular2/src/facade/lang"], function(exports_
                     result += this.pp2Pos(number);
                     return result;
                 };
+                //noinspection JSMethodCanBeStatic
                 PrettyPrinter.prototype.ppPrice = function (price, prefix) {
                     var result = lang_1.isPresent(prefix) ? prefix : "€ ";
                     if (lang_1.isPresent(price) && lang_1.isNumber(price) && !isNaN(price)) {
@@ -53,30 +55,34 @@ System.register(["angular2/core", "angular2/src/facade/lang"], function(exports_
                 PrettyPrinter.prototype.printTime = function (date) {
                     var timeString = "";
                     if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
-                        return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + " Uhr";
+                        return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + ":" + this.pp2Pos(date.getUTCSeconds());
                     }
                     return timeString;
                 };
                 PrettyPrinter.prototype.printDate = function (date) {
                     var dateString = "";
                     if (lang_1.isPresent(date) && date.getFullYear() > 1970) {
-                        return this.pp2Pos(date.getDate()) + ". " + this.pp2Pos(date.getMonth() + 1) + ". " + date.getFullYear();
+                        return this.pp2Pos(date.getDate()) + "." + this.pp2Pos(date.getMonth() + 1) + "." + date.getFullYear();
                     }
                     return dateString;
                 };
-                PrettyPrinter.prototype.ppFixLength = function (string, length, align) {
-                    var result = string;
-                    if (string.length > length) {
-                        result = string.substr(0, length);
+                PrettyPrinter.prototype.printDateAndTime = function (date) {
+                    return this.printDate(date) + " " + this.printTime(date);
+                };
+                //noinspection JSMethodCanBeStatic
+                PrettyPrinter.prototype.ppFixLength = function (text, length, align) {
+                    var result = text;
+                    if (text.length > length) {
+                        result = text.substr(0, length);
                     }
                     else {
                         if (align === Align.LEFT || align === Align.CENTER) {
-                            for (var i = string.length; i < length; i++) {
+                            for (var i = text.length; i < length; i++) {
                                 result += " ";
                             }
                         }
                         else {
-                            for (var i = string.length; i < length; i++) {
+                            for (var i = text.length; i < length; i++) {
                                 result = " " + result;
                             }
                         }

@@ -10,3 +10,16 @@
     border-radius: 20px 20px 20px 20px;
     border: 3px solid #E6E6E6;
 }
+
+.error-container {
+    font-size: 1.5em;
+    font-weight: normal;
+    color: white;
+    vertical-align: middle;
+    text-align: left;
+    padding: 0.5em 1em 0.5em 1em;
+    margin: 0.3em 0.3em 0.3em 0.3em;
+    background-color: red;
+    border-radius: 20px 20px 20px 20px;
+    border: 3px solid #E6E6E6;
+}

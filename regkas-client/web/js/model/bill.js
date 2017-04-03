@@ -6,7 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Bill = (function () {
-                function Bill(cashBoxId, receiptIdentifier, receiptDateAndTime, sumTaxSetNormal, sumTaxSetErmaessigt1, sumTaxSetErmaessigt2, sumTaxSetNull, sumTaxSetBesonders, encryptedTurnoverValue, signatureCertificateSerialNumber, signatureValuePreviousReceipt, company, sumTotal, taxSetElements) {
+                function Bill(cashBoxId, receiptIdentifier, receiptDateAndTime, sumTaxSetNormal, sumTaxSetErmaessigt1, sumTaxSetErmaessigt2, sumTaxSetNull, sumTaxSetBesonders, encryptedTurnoverValue, signatureCertificateSerialNumber, signatureValuePreviousReceipt, company, sumTotal, taxSetElements, sammelBeleg, sammelBelegStart, sammelBelegEnd, income, dayReceipt, monthReceipt, yearReceipt, receiptType, jwsCompact, signatureDeviceAvailable) {
                     var _this = this;
                     this.taxSetElements = [];
                     this.cashBoxId = cashBoxId;
@@ -25,6 +25,16 @@ System.register([], function(exports_1, context_1) {
                     if (taxSetElements != null) {
                         taxSetElements.forEach(function (taxSetElement) { return _this.taxSetElements.push(taxSetElement); });
                     }
+                    this.sammelBeleg = sammelBeleg;
+                    this.sammelBelegStart = sammelBelegStart;
+                    this.sammelBelegEnd = sammelBelegEnd;
+                    this.income = income;
+                    this.dayReceipt = dayReceipt;
+                    this.monthReceipt = monthReceipt;
+                    this.yearReceipt = yearReceipt;
+                    this.receiptType = receiptType;
+                    this.jwsCompact = jwsCompact;
+                    this.signatureDeviceAvailable = signatureDeviceAvailable;
                 }
                 Bill.prototype.toString = function () {
                     return JSON.stringify(this);

@@ -1,4 +1,4 @@
-System.register(["angular2/core", "./info.service", "../model/receiptElement", "angular2/src/facade/lang", "angular2/http", "./config.service", "../model/sale", "../model/bill", "../printer"], function(exports_1, context_1) {
+System.register(["angular2/core", "./info.service", "../model/receiptElement", "angular2/src/facade/lang", "angular2/http", "./config.service", "../model/sale", "../model/bill", "../printer", "./error.service", "./journal.service", "../prettyprinter"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, info_service_1, receiptElement_1, lang_1, http_1, config_service_1, sale_1, bill_1, printer_1;
+    var core_1, info_service_1, receiptElement_1, lang_1, http_1, config_service_1, sale_1, bill_1, printer_1, error_service_1, journal_service_1, prettyprinter_1;
     var SaleService;
     return {
         setters:[
@@ -40,16 +40,28 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
             },
             function (printer_1_1) {
                 printer_1 = printer_1_1;
+            },
+            function (error_service_1_1) {
+                error_service_1 = error_service_1_1;
+            },
+            function (journal_service_1_1) {
+                journal_service_1 = journal_service_1_1;
+            },
+            function (prettyprinter_1_1) {
+                prettyprinter_1 = prettyprinter_1_1;
             }],
         execute: function() {
             SaleService = (function () {
-                function SaleService(http, infoService, configService, printer) {
+                function SaleService(http, infoService, errorService, configService, printer, pp) {
                     this.http = http;
                     this.infoService = infoService;
+                    this.errorService = errorService;
                     this.configService = configService;
                     this.printer = printer;
+                    this.pp = pp;
                     this.numberInput = "";
                     this.receiptElements = [];
+                    this.signatureDeviceAvailableText = "";
                 }
                 SaleService.prototype.getNumberInput = function () {
                     return this.numberInput;
@@ -58,7 +70,7 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                     if ('<' === numberInput) {
                         if (lang_1.isPresent(this.numberInput) && this.numberInput.length > 0) {
                             this.numberInput = this.numberInput.substr(0, this.numberInput.length - 1);
-                            this.infoService.event().emit("Letzte Einfabe gelöscht.");
+                            this.infoService.event().emit("Letzte Eingabe gelöscht.");
                         }
                     }
                     else {
@@ -74,23 +86,65 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                     this.receiptElements = [];
                     this.infoService.event().emit("Alle Elemente gelöscht.");
                 };
-                SaleService.prototype.bill = function () {
-                    var _this = this;
-                    if (lang_1.isPresent(this.receiptElements) && this.receiptElements.length > 0) {
-                        this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale("CASH", "Standard-Beleg", this.receiptElements)), { headers: this.configService.getDefaultHeader() })
-                            .map(function (res) { return res.json(); })
-                            .map(function (billBean) {
-                            return _this.convertBillBeanToBill(billBean);
-                        }).subscribe(function (bill) {
-                            console.log("print bill");
-                            _this.printer.printBill(bill, _this.configService.getPrinterIp());
-                            _this.reset();
-                            _this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
-                        });
+                SaleService.prototype.getSignatureDeviceAvailableText = function () {
+                    return this.signatureDeviceAvailableText;
+                };
+                SaleService.prototype.setSignatureDeviceAvailableText = function (available, date) {
+                    if (available === false) {
+                        this.signatureDeviceAvailableText = this.pp.printDateAndTime(date) + ' Signatureinrichtung ist ausgefallen - Meldung an BMF wenn länger als 48 Stunden!';
                     }
                     else {
-                        this.infoService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
+                        this.signatureDeviceAvailableText = "";
                     }
+                };
+                SaleService.prototype.bill = function () {
+                    if (lang_1.isPresent(this.receiptElements) && this.receiptElements.length > 0) {
+                        this.sale("Standard-Beleg", this.receiptElements);
+                    }
+                    else {
+                        this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
+                    }
+                };
+                SaleService.prototype.sale = function (receiptType, receiptElements) {
+                    var _this = this;
+                    this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale("CASH", receiptType, receiptElements)), { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) {
+                        console.log(res.json());
+                        return res.json();
+                    })
+                        .map(function (billBean) {
+                        console.log("billBean: " + billBean);
+                        return _this.convertBillBeanToBill(billBean);
+                    }).subscribe(function (bill) {
+                        _this.setSignatureDeviceAvailableText(bill.signatureDeviceAvailable, bill.receiptDateAndTime);
+                        _this.printer.printBill(bill, _this.configService.getPrinterIp());
+                        _this.reset();
+                        _this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+                    }, function (error) {
+                        _this.reset();
+                        console.log("error: " + JSON.stringify(error));
+                        _this.errorService.event().emit("Rechnung konnte NICHT erstellt werden - Vorgang wurde abgebrochen!");
+                    });
+                };
+                SaleService.prototype.startBeleg = function () {
+                    var _this = this;
+                    this.checkIfStarbelegMustBePrinted().subscribe(function (check) {
+                        if (check === true) {
+                            _this.sale("Start-Beleg");
+                        }
+                    });
+                };
+                SaleService.prototype.nullBeleg = function () {
+                    this.sale("Null-Beleg");
+                };
+                SaleService.prototype.tagesBeleg = function () {
+                    this.sale("Tages-Beleg");
+                };
+                SaleService.prototype.monatsBeleg = function () {
+                    this.sale("Monats-Beleg");
+                };
+                SaleService.prototype.jahresBeleg = function () {
+                    this.sale("Jahres-Beleg");
                 };
                 SaleService.prototype.reset = function () {
                     this.deleteNumberInput();
@@ -134,17 +188,42 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                     this.receiptElements.forEach(function (re) { return sum += re.totalPrice; });
                     return sum;
                 };
+                SaleService.prototype.checkIfStarbelegMustBePrinted = function () {
+                    // call the rest-service
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/receipt/start/check', { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) { return res.text() === 'true'; });
+                };
                 SaleService.prototype.convertBillBeanToBill = function (billBean) {
                     var taxSetElements = [];
                     billBean.billTaxSetElements.forEach(function (tse) {
                         taxSetElements.push(new bill_1.TaxSetElement(tse.name, tse.taxPercent, tse.amount, tse.pricePreTax, tse.priceAfterTax, tse.priceTax));
                     });
-                    return new bill_1.Bill(billBean.cashBoxID, billBean.receiptIdentifier, new Date(billBean.receiptDateAndTime), billBean.sumTaxSetNormal, billBean.sumTaxSetErmaessigt1, billBean.sumTaxSetErmaessigt2, billBean.sumTaxSetNull, billBean.sumTaxSetBesonders, billBean.encryptedTurnoverValue, billBean.signatureCertificateSerialNumber, billBean.signatureValuePreviousReceipt, new bill_1.Company(billBean.company.name, billBean.company.street, billBean.company.zip, billBean.company.city, billBean.company.country, billBean.company.phone, billBean.company.mail, billBean.company.atu), billBean.sumTotal, taxSetElements);
+                    var sammelBeleg = null;
+                    var tagesBeleg = null;
+                    var monatsBeleg = null;
+                    var jahresBeleg = null;
+                    var income = null;
+                    if (billBean.sammelBeleg != null) {
+                        sammelBeleg = this.convertBillBeanToBill(billBean.sammelBeleg);
+                    }
+                    if (billBean.tagesBeleg != null) {
+                        tagesBeleg = this.convertBillBeanToBill(billBean.tagesBeleg);
+                    }
+                    if (billBean.monatsBeleg != null) {
+                        monatsBeleg = this.convertBillBeanToBill(billBean.monatsBeleg);
+                    }
+                    if (billBean.jahresBeleg != null) {
+                        jahresBeleg = this.convertBillBeanToBill(billBean.jahresBeleg);
+                    }
+                    if (billBean.incomeBean != null) {
+                        income = journal_service_1.JournalService.convertToIncome(billBean.incomeBean);
+                    }
+                    return new bill_1.Bill(billBean.cashBoxID, billBean.receiptIdentifier, new Date(billBean.receiptDateAndTime), billBean.sumTaxSetNormal, billBean.sumTaxSetErmaessigt1, billBean.sumTaxSetErmaessigt2, billBean.sumTaxSetNull, billBean.sumTaxSetBesonders, billBean.encryptedTurnoverValue, billBean.signatureCertificateSerialNumber, billBean.signatureValuePreviousReceipt, new bill_1.Company(billBean.company.name, billBean.company.street, billBean.company.zip, billBean.company.city, billBean.company.country, billBean.company.phone, billBean.company.mail, billBean.company.atu), billBean.sumTotal, taxSetElements, sammelBeleg, new Date(billBean.sammelBelegStart), new Date(billBean.sammelBelegEnd), income, tagesBeleg, monatsBeleg, jahresBeleg, billBean.receiptType, billBean.jwsCompact, billBean.signatureDeviceAvailable);
                 };
                 ;
                 SaleService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http, info_service_1.InfoService, config_service_1.ConfigService, printer_1.Printer])
+                    __metadata('design:paramtypes', [http_1.Http, info_service_1.InfoService, error_service_1.ErrorService, config_service_1.ConfigService, printer_1.Printer, prettyprinter_1.PrettyPrinter])
                 ], SaleService);
                 return SaleService;
             }());

@@ -33,5 +33,25 @@
         <button class="buttonSmall button-ok" (click)="depDay()">Tag</button>
         <button class="buttonSmall button-ok" (click)="depMonth()">Monat</button>
         <button class="buttonSmall button-ok" (click)="depYear()">Jahr</button>
+        <button class="buttonSmall button-ok" (click)="depRKSV()">RKSV</button>
+    </div>
+    <div class="container-default startbeleg-container">
+        <h2 class="header startbeleg-header">Start-Beleg</h2>
+        <div *ngIf="startbelegMustBePrinted === true">
+            <button class="buttonSmall button-ok" (click)="printStartBeleg()">StartBeleg drucken</button>
+        </div>
+        <div *ngIf="startbelegMustBePrinted === false">
+            <p>Starbeleg wurde bereits gedruckt.</p>
+        </div>
+    </div>
+    <div class="container-default nullbeleg-container">
+        <h2 class="header nullbeleg-header">Null-Beleg</h2>
+        <button class="buttonSmall button-ok" (click)="printNullBeleg()">NullBeleg</button>
+    </div>
+    <div class="container-default abschlussbeleg-container">
+        <h2 class="header abschlussbeleg-header">Abschluss-Belege</h2>
+        <button class="buttonSmall button-ok" (click)="printTagesBeleg()">Tag</button>
+        <button class="buttonSmall button-ok" (click)="printMonatsBeleg()">Monat</button>
+        <button class="buttonSmall button-ok" (click)="printJahresBeleg()">Jahr</button>
     </div>
 </div>

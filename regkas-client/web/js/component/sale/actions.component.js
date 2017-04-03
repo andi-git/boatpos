@@ -1,4 +1,4 @@
-System.register(["angular2/core", "../../service/keybinding.service", "../../service/sale.service", "../../service/journal.service", "../../printer", "../../service/config.service"], function(exports_1, context_1) {
+System.register(["angular2/core", "../../service/keybinding.service", "../../service/sale.service", "../../printer", "../../service/config.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, keybinding_service_1, sale_service_1, journal_service_1, printer_1, config_service_1;
+    var core_1, keybinding_service_1, sale_service_1, printer_1, config_service_1;
     var ActionsComponent;
     return {
         setters:[
@@ -23,9 +23,6 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
             function (sale_service_1_1) {
                 sale_service_1 = sale_service_1_1;
             },
-            function (journal_service_1_1) {
-                journal_service_1 = journal_service_1_1;
-            },
             function (printer_1_1) {
                 printer_1 = printer_1_1;
             },
@@ -34,11 +31,10 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
             }],
         execute: function() {
             ActionsComponent = (function () {
-                function ActionsComponent(saleService, keyBinding, journalService, printer, config) {
+                function ActionsComponent(saleService, keyBinding, printer, config) {
                     var _this = this;
                     this.saleService = saleService;
                     this.keyBinding = keyBinding;
-                    this.journalService = journalService;
                     this.printer = printer;
                     this.config = config;
                     var map = {
@@ -52,7 +48,7 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                             _this.cancelAllElements();
                         },
                         '~': function () {
-                            _this.journalService.incomeCurrentDay().subscribe(function (income) { return _this.printer.printIncome(income, _this.config.getPrinterIp()); });
+                            _this.saleService.tagesBeleg();
                         }
                     };
                     this.keyBinding.addBindingForMain(map);
@@ -72,7 +68,7 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                         templateUrl: "html/component/sale/actions.component.html",
                         styleUrls: ["css/component/sale/actions.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [sale_service_1.SaleService, keybinding_service_1.KeyBindingService, journal_service_1.JournalService, printer_1.Printer, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [sale_service_1.SaleService, keybinding_service_1.KeyBindingService, printer_1.Printer, config_service_1.ConfigService])
                 ], ActionsComponent);
                 return ActionsComponent;
             }());
