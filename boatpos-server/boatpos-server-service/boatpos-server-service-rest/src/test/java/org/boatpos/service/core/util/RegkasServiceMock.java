@@ -32,7 +32,8 @@ public class RegkasServiceMock extends RegkasService {
             new ArrayList<>(),
             paymentBean.getValue(),
             "Standard-Beleg",
-            "");
+            "",
+            false);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class RegkasServiceMock extends RegkasService {
     private File createFile(String fileName) {
         File file = new File(System.getProperty("java.io.tmpdir"), fileName);
         try {
-            //noinspection ResultOfMethodCallIgnored
+            // noinspection ResultOfMethodCallIgnored
             file.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);

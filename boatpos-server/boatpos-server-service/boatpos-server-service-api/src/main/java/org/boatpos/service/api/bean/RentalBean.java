@@ -6,6 +6,8 @@ import org.boatpos.common.service.api.bean.LocalDateAdapter;
 import org.boatpos.common.service.api.bean.LocalDateTimeAdapter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -43,7 +45,6 @@ public class RentalBean extends AbstractBeanBasedOnEntity {
      */
     @NotNull
     @Valid
-    @ManyToOne(cascade = CascadeType.ALL)
     @Expose
     private BoatBean boatBean;
 
