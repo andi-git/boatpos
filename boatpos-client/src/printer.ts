@@ -58,8 +58,6 @@ export class Printer {
 
     public printBill(bill: Bill, printerIp: string, journalReport?: JournalReport) {
         console.log("print bill on " + printerIp);
-        console.log(bill.toString());
-        console.log(bill.income.toString());
         //noinspection TypeScriptUnresolvedFunction
         let builder = new StarWebPrintBuilder();
         let request = builder.createInitializationElement();
