@@ -79,7 +79,7 @@ export class PrettyPrinter {
     printDate(date: Date): string {
         let dateString: string = "";
         if (isPresent(date) && date.getFullYear() > 1970) {
-            return this.pp2Pos(date.getDate()) + ". " + this.pp2Pos(date.getMonth() + 1) + ". " + date.getFullYear();
+            return this.pp2Pos(date.getDate()) + "." + this.pp2Pos(date.getMonth() + 1) + "." + date.getFullYear();
         }
         return dateString;
     }

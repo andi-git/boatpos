@@ -70,11 +70,11 @@ export class ModalPromotionPay implements ICustomModalComponent {
     }
 
     private payCash():void {
-        this.pay(new Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "cash"));
+        this.pay(new Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "cash", "Standard-Beleg"));
     }
 
     private payCard():void {
-        this.pay(new Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "card"));
+        this.pay(new Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "card", "Standard-Beleg"));
     }
 
     private pay(payment:Payment) {

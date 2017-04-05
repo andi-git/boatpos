@@ -347,11 +347,11 @@ export class ModalArrival implements ICustomModalComponent {
     }
 
     private payCash():void {
-        this.pay(new Payment(this.rentalNumber, Number.parseFloat(this.price), "cash"));
+        this.pay(new Payment(this.rentalNumber, Number.parseFloat(this.price), "cash", "Standard-Beleg"));
     }
 
     private payCard():void {
-        this.pay(new Payment(this.rentalNumber, Number.parseFloat(this.price), "card"));
+        this.pay(new Payment(this.rentalNumber, Number.parseFloat(this.price), "card", "Standard-Beleg"));
     }
 
     private pay(payment:Payment) {

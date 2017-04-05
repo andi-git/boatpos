@@ -105,10 +105,11 @@ export class RentalService {
     }
 
     payAfter(payment: Payment): Observable<Bill> {
-        return this.http.post(
-            this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
-        )
-            .map(res => res.json())
+        return this.http.post(this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()})
+            .map(res => {
+                console.log(res.json());
+                return res.json();
+            })
             .map((billBean) => {
                 console.log("billBean: " + billBean);
                 return this.convertBillBeanToBill(billBean);

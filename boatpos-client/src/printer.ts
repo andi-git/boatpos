@@ -249,9 +249,9 @@ export class Printer {
 
     private addMyRental(builder: any, request: any, rental: Rental): any {
         request = this.blankLine(builder, request);
-        request = this.printLine(builder, request, 1, 1, 'center', false, false, '*** NEU *** NEU *** NEU *** NEU *** NEU *** NEU *** NEU ***');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, '*** NEU *** NEU *** NEU *** NEU *** NEU ***');
         request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Alle Infos zu deiner Bootsfahrt jetzt online!');
-        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'QR-Code am Smartphone einscannen und dem Link folgen!');
+        request = this.printLine(builder, request, 1, 1, 'center', false, false, 'QR-Code am Smartphone scannen und Link öffnen!');
         let myRentalUrl: string = 'https://www.eppel-boote.at/myrental/index.php?id=' + rental.myRentalId;
         console.log("myRentalUrl: " + myRentalUrl);
         request += builder.createQrCodeElement({
