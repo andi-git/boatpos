@@ -71,4 +71,5 @@ public class RegkasServiceMock extends RegkasService {
     public Boolean isSignatureDeviceAvailable() {
         return true;
     }
+    
 }

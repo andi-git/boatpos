@@ -109,11 +109,9 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                     var _this = this;
                     this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale("CASH", receiptType, receiptElements)), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) {
-                        console.log(res.json());
                         return res.json();
                     })
                         .map(function (billBean) {
-                        console.log("billBean: " + billBean);
                         return _this.convertBillBeanToBill(billBean);
                     }).subscribe(function (bill) {
                         _this.setSignatureDeviceAvailableText(bill.signatureDeviceAvailable, bill.receiptDateAndTime);

@@ -1,22 +1,28 @@
 package org.boatpos.service.core.util;
 
-import com.google.common.io.Files;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.net.URL;
+import java.nio.charset.Charset;
+
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.boatpos.domain.api.values.PricePaidComplete;
+import org.boatpos.service.api.bean.PaymentBean;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.service.api.bean.ProductBean;
 
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.net.URL;
-import java.nio.charset.Charset;
-
-import static org.junit.Assert.assertEquals;
+import com.google.common.io.Files;
 
 @RunWith(Arquillian.class)
 public class RegkasServiceTest {
@@ -51,6 +57,14 @@ public class RegkasServiceTest {
     @Test
     public void sale() throws Exception {
 
+    }
+
+    @Test
+    public void testCreateSaleBean() {
+        PaymentBean paymentBean = new PaymentBean();
+        paymentBean.setPaymentMethod("cash");
+        paymentBean.setReceiptType("Standard-Beleg");
+        assertNotNull(regkasService.createSaleBean(paymentBean, new PricePaidComplete("10.00"), new ProductBean()));
     }
 
     @Test

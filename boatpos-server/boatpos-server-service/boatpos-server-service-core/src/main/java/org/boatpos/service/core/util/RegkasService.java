@@ -21,6 +21,7 @@ import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.domain.api.model.Boat;
 import org.boatpos.domain.api.model.Rental;
 import org.boatpos.domain.api.values.DayId;
+import org.boatpos.domain.api.values.PricePaidComplete;
 import org.boatpos.service.api.bean.PaymentBean;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.ProductBean;
@@ -44,7 +45,7 @@ public class RegkasService {
     @SLF4J
     private LogWrapper log;
 
-    private ProductBean getProduct(Boat boat) throws Exception {
+    protected ProductBean getProduct(Boat boat) throws Exception {
         return readEntity(
             createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get()), MediaType.APPLICATION_JSON_TYPE).get(),
             ProductBean.class);
@@ -53,11 +54,15 @@ public class RegkasService {
     public BillBean sale(PaymentBean paymentBean) throws Exception {
         Rental rental = rentalLoader.loadOnCurrentDayBy(new DayId(paymentBean.getDayNumber()));
         ProductBean productBean = getProduct(rental.getBoat());
+        return receipt(createSaleBean(paymentBean, rental.getPricePaidComplete(), productBean));
+    }
+
+    public SaleBean createSaleBean(PaymentBean paymentBean, PricePaidComplete pricePaidComplete, ProductBean productBean) {
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod(paymentBean.getPaymentMethod());
         sale.setReceiptType(paymentBean.getReceiptType());
-        sale.setSaleElements(Lists.newArrayList(new ReceiptElementBean(productBean, 1, rental.getPricePaidComplete().get())));
-        return receipt(sale);
+        sale.setSaleElements(Lists.newArrayList(new ReceiptElementBean(productBean, 1, pricePaidComplete.get())));
+        return sale;
     }
 
     public BillBean receipt(SaleBean sale) {

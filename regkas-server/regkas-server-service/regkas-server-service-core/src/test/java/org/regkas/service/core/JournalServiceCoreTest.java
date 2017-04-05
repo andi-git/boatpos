@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -127,6 +128,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         cashBoxContext.clear();
         companyContext.clear();
         userContext.clear();
+        dateTimeHelper.reset();
     }
 
     @Test
@@ -222,9 +224,13 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testDatenErfassungsProtokollRKSV() throws Exception {
+        dateTimeHelper.setDate(LocalDate.of(2017, 3, 1));
+        dateTimeHelper.setTime(LocalDateTime.of(2017, 3, 1, 12, 0, 5));
+
         rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
         saleService.sale(firstSale.createDefaultSale());
         saleService.sale(firstSale.createDefaultSale());
+
         rkOnlineResourceFactory.resetRkOnlineResourceSession();
         saleService.sale(firstSale.createDefaultSale());
         saleService.sale(firstSale.createDefaultSale());
@@ -237,7 +243,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
             DepExportRKSV depExport = serializer.deserialize(content, DepExportRKSV.class);
             assertEquals(1, depExport.getBelegeGruppe().size());
             assertEquals(2, depExport.getBelegeGruppe().get(0).getZertifizierungsstellen().size());
-            assertEquals(8, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
+            assertEquals(5, depExport.getBelegeGruppe().get(0).getBelegeKompakt().size());
         }
     }
 }

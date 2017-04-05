@@ -127,6 +127,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${version.maven-jacoco-plugin}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*RegkasService.*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
