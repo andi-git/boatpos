@@ -14,11 +14,14 @@ import {Income, IncomeProductGroup, TaxElement} from "../model/income";
 import {InfoService} from "./info.service";
 import {ErrorService} from "./error.service";
 import {Printer} from "../printer";
+import {PrettyPrinter} from "../prettyprinter";
 
 @Injectable()
 export class RentalService {
 
-    constructor(private http: Http, private configService: ConfigService, private promotionService: PromotionService, private errorService: ErrorService, private infoService: InfoService, private printer: Printer) {
+    private signatureDeviceAvailableText: string = "";
+
+    constructor(private http: Http, private configService: ConfigService, private promotionService: PromotionService, private errorService: ErrorService, private infoService: InfoService, private printer: Printer, private pp: PrettyPrinter) {
     }
 
     depart(depart: Departure): Observable<Rental> {
@@ -307,5 +310,20 @@ export class RentalService {
 
     public static createDateTime(jsonDateTime: string): Date {
         return new Date(jsonDateTime);
+    }
+
+    public getSignatureDeviceAvailableText(): string {
+        return this.signatureDeviceAvailableText;
+    }
+
+    public setSignatureDeviceAvailableText(available: boolean, date: Date): void {
+        console.log('setSignatureDeviceAvailableText: ' + available + ', ' + date);
+        if (available === false) {
+            console.log('    1');
+            this.signatureDeviceAvailableText = this.pp.printDateAndTime(date) + ' Signatureinrichtung ist ausgefallen - Meldung an BMF wenn länger als 48 Stunden!';
+        } else {
+            console.log('    2');
+            this.signatureDeviceAvailableText = "";
+        }
     }
 }

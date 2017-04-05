@@ -356,6 +356,7 @@ export class ModalArrival implements ICustomModalComponent {
 
     private pay(payment:Payment) {
         this.rentalService.payAfter(payment).subscribe((bill:Bill) => {
+                this.rentalService.setSignatureDeviceAvailableText(bill.signatureDeviceAvailable, bill.receiptDateAndTime);
                 this.printer.printBill(bill, this.printerIp);
                 //noinspection TypeScriptUnresolvedFunction
                 this.dialog.close("ok");
