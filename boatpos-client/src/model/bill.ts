@@ -1,34 +1,55 @@
+import {Income} from "./income";
 export class Bill {
 
-    cashBoxId:string;
-    receiptIdentifier:string;
-    receiptDateAndTime:Date;
-    sumTaxSetNormal:number;
-    sumTaxSetErmaessigt1:number;
-    sumTaxSetErmaessigt2:number;
-    sumTaxSetNull:number;
-    sumTaxSetBesonders:number;
-    encryptedTurnoverValue:string;
-    signatureCertificateSerialNumber:string;
-    signatureValuePreviousReceipt:string;
-    company:Company;
-    sumTotal:number;
-    taxSetElements:Array<TaxSetElement> = [];
+    cashBoxId: string;
+    receiptIdentifier: string;
+    receiptDateAndTime: Date;
+    sumTaxSetNormal: number;
+    sumTaxSetErmaessigt1: number;
+    sumTaxSetErmaessigt2: number;
+    sumTaxSetNull: number;
+    sumTaxSetBesonders: number;
+    encryptedTurnoverValue: string;
+    signatureCertificateSerialNumber: string;
+    signatureValuePreviousReceipt: string;
+    company: Company;
+    sumTotal: number;
+    taxSetElements: Array<TaxSetElement> = [];
+    sammelBeleg: Bill;
+    sammelBelegStart: Date;
+    sammelBelegEnd: Date;
+    income: Income;
+    dayReceipt: Bill;
+    monthReceipt: Bill;
+    yearReceipt: Bill;
+    receiptType: string;
+    jwsCompact: string;
+    signatureDeviceAvailable: boolean;
 
-    constructor(cashBoxId:string,
-                receiptIdentifier:string,
-                receiptDateAndTime:Date,
-                sumTaxSetNormal:number,
-                sumTaxSetErmaessigt1:number,
-                sumTaxSetErmaessigt2:number,
-                sumTaxSetNull:number,
-                sumTaxSetBesonders:number,
-                encryptedTurnoverValue:string,
-                signatureCertificateSerialNumber:string,
-                signatureValuePreviousReceipt:string,
-                company:Company,
-                sumTotal:number,
-                taxSetElements:Array<TaxSetElement>) {
+    constructor(cashBoxId: string,
+                receiptIdentifier: string,
+                receiptDateAndTime: Date,
+                sumTaxSetNormal: number,
+                sumTaxSetErmaessigt1: number,
+                sumTaxSetErmaessigt2: number,
+                sumTaxSetNull: number,
+                sumTaxSetBesonders: number,
+                encryptedTurnoverValue: string,
+                signatureCertificateSerialNumber: string,
+                signatureValuePreviousReceipt: string,
+                company: Company,
+                sumTotal: number,
+                taxSetElements: Array<TaxSetElement>,
+                sammelBeleg: Bill,
+                sammelBelegStart: Date,
+                sammelBelegEnd: Date,
+                income: Income,
+                dayReceipt: Bill,
+                monthReceipt: Bill,
+                yearReceipt: Bill,
+                receiptType: string,
+                jwsCompact: string,
+                signatureDeviceAvailable: boolean) {
         this.cashBoxId = cashBoxId;
         this.receiptIdentifier = receiptIdentifier;
         this.receiptDateAndTime = receiptDateAndTime;
@@ -45,32 +66,42 @@ export class Bill {
         if (taxSetElements != null) {
             taxSetElements.forEach(taxSetElement => this.taxSetElements.push(taxSetElement));
         }
+        this.sammelBeleg = sammelBeleg;
+        this.sammelBelegStart = sammelBelegStart;
+        this.sammelBelegEnd = sammelBelegEnd;
+        this.income = income;
+        this.dayReceipt = dayReceipt;
+        this.monthReceipt = monthReceipt;
+        this.yearReceipt = yearReceipt;
+        this.receiptType = receiptType;
+        this.jwsCompact = jwsCompact;
+        this.signatureDeviceAvailable = signatureDeviceAvailable;
     }
 
-    toString():string {
+    toString(): string {
         return JSON.stringify(this);
     }
 }
 
 export class Company {
 
-    name:string;
-    street:string;
-    zip:string;
-    city:string;
-    country:string;
-    phone:string;
-    mail:string;
-    atu:string;
+    name: string;
+    street: string;
+    zip: string;
+    city: string;
+    country: string;
+    phone: string;
+    mail: string;
+    atu: string;
 
-    constructor(name:string,
-                street:string,
-                zip:string,
-                city:string,
-                country:string,
-                phone:string,
-                mail:string,
-                atu:string) {
+    constructor(name: string,
+                street: string,
+                zip: string,
+                city: string,
+                country: string,
+                phone: string,
+                mail: string,
+                atu: string) {
         this.name = name;
         this.street = street;
         this.zip = zip;
@@ -81,26 +112,26 @@ export class Company {
         this.atu = atu;
     }
 
-    toString():string {
+    toString(): string {
         return JSON.stringify(this);
     }
 }
 
 export class TaxSetElement {
 
-    name:string;
-    taxPercent:number;
-    amount:number;
-    pricePreTax:number;
-    priceAfterTax:number;
-    priceTax:number;
+    name: string;
+    taxPercent: number;
+    amount: number;
+    pricePreTax: number;
+    priceAfterTax: number;
+    priceTax: number;
 
-    constructor(name:string,
-                taxPercent:number,
-                amount:number,
-                pricePreTax:number,
-                priceAfterTax:number,
-                priceTax:number) {
+    constructor(name: string,
+                taxPercent: number,
+                amount: number,
+                pricePreTax: number,
+                priceAfterTax: number,
+                priceTax: number) {
         this.name = name;
         this.taxPercent = taxPercent;
         this.amount = amount;
@@ -109,7 +140,7 @@ export class TaxSetElement {
         this.priceTax = priceTax;
     }
 
-    toString():string {
+    toString(): string {
         return JSON.stringify(this);
     }
 }

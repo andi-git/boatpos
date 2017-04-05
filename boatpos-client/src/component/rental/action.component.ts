@@ -21,6 +21,7 @@ import {ModalArrival, ModalArrivalContext} from "./modalArrival";
 import {ConfigService} from "../../service/config.service";
 import {Printer} from "../../printer";
 import {JournalService} from "../../service/journal.service";
+import {ErrorService} from "../../service/error.service";
 
 @Component({
     selector: 'action',
@@ -37,6 +38,7 @@ export class ActionComponent {
                 private commitmentService:CommitmentService,
                 private promotionService:PromotionService,
                 private infoService:InfoService,
+                private errorService:ErrorService,
                 private rentalService:RentalService,
                 private journalService:JournalService,
                 private keyBinding:KeyBindingService,
@@ -73,7 +75,7 @@ export class ActionComponent {
                 this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
             }
         };
-        for (var i = 0; i <= 9; i++) {
+        for (let i = 0; i <= 9; i++) {
             map[i] = (e) => {
                 this.addToNumber(String.fromCharCode(e.charCode));
             };
@@ -118,7 +120,7 @@ export class ActionComponent {
                                 this.boatService.updateStats();
                                 this.resetUi();
                                 this.keyBinding.focusMain();
-                                this.infoService.event().emit("Vermietung abgebrochen, Aktion wurde nicht bezahlt.");
+                                this.errorService.event().emit("Vermietung abgebrochen, Aktion wurde nicht bezahlt.");
                             });
                         });
                     } else {
@@ -149,11 +151,11 @@ export class ActionComponent {
                     this.infoService.event().emit(deletedInfo);
                 },
                 () => {
-                    var deletedInfo = "Keine Vermietung mit Nummer  " + this.rentalNumber + " gefunden.";
+                    let deletedInfo = "Keine Vermietung mit Nummer  " + this.rentalNumber + " gefunden.";
                     this.showDialogDeleted(deletedInfo);
                     this.boatService.updateStats();
                     this.resetUi();
-                    this.infoService.event().emit(deletedInfo);
+                    this.errorService.event().emit(deletedInfo);
                 }
             );
         } else {
@@ -176,6 +178,7 @@ export class ActionComponent {
         });
     }
 
+    //noinspection JSMethodCanBeStatic
     private createStringForPromotion(promotion:PromotionBefore):string {
         return promotion != null ? ("(" + promotion.name + ")") : "";
     }
@@ -238,7 +241,7 @@ export class ActionComponent {
                     this.keyBinding.focusMain();
                 }, () => {
                     this.lastModalResult = 'Rejected!';
-                    this.infoService.event().emit("Abrechnung der Nummer " + this.rentalNumber + " wurde abgebrochen.");
+                    this.errorService.event().emit("Abrechnung der Nummer " + this.rentalNumber + " wurde abgebrochen.");
                     this.resetUi();
                     this.keyBinding.focusMain();
                 });

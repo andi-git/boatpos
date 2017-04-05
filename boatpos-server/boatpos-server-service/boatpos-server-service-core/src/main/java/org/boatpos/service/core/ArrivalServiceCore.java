@@ -1,5 +1,6 @@
 package org.boatpos.service.core;
 
+import com.google.common.collect.Lists;
 import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.domain.api.values.DomainId;
 import org.boatpos.common.util.qualifiers.Current;
@@ -20,6 +21,7 @@ import org.boatpos.service.core.util.RegkasService;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
 import org.regkas.service.api.bean.BillBean;
+import org.regkas.service.api.bean.SaleBean;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -128,7 +130,21 @@ public class ArrivalServiceCore implements ArrivalService {
     }
 
     @Override
+    public BillBean receipt(String receiptType) {
+        try {
+            return regkasService.receipt(new SaleBean("CASH", receiptType, Lists.newArrayList()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Boolean isSignatureDeviceAvailable() {
         return regkasService.isSignatureDeviceAvailable();
+    }
+
+    @Override
+    public Boolean checkIfStartbelegMustBePrinted() {
+        return regkasService.checkIfStartreceiptMustBePrinted();
     }
 }

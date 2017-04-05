@@ -360,7 +360,7 @@ export class ModalArrival implements ICustomModalComponent {
                 //noinspection TypeScriptUnresolvedFunction
                 this.dialog.close("ok");
             },
-            () => {
+            err => {
                 this.cancel();
             });
     }

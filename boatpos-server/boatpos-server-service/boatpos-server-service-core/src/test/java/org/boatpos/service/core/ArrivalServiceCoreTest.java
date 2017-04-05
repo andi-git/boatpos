@@ -66,14 +66,14 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals(new BigDecimal("44.80"), rental.getPriceCalculatedAfter());
         assertNull(rental.getPricePaidAfter());
 
-        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "card"));
+        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "card", "Standard-Beleg"));
         assertEquals(new BigDecimal("44.80"), bill.getSumTaxSetNormal());
         rental = rentalService.get(new RentalDayNumberWrapper(3));
         assertTrue(rental.isFinished());
         assertEquals(PaymentMethod.CARD.toString(), rental.getPaymentMethodAfter());
 
         try {
-            arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "cash"));
+            arrivalService.pay(new PaymentBean(3, new BigDecimal("44.80"), "cash", "Standard-Beleg"));
             fail("rental 3 is already finished");
         } catch (Exception e) {
             // ok
@@ -95,7 +95,7 @@ public class ArrivalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals("HolliKnolli", rental.getPromotionAfterBean().getName());
         assertNull(rental.getPricePaidAfter());
 
-        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("22.40"), "card"));
+        BillBean bill = arrivalService.pay(new PaymentBean(3, new BigDecimal("22.40"), "card", "Standard-Beleg"));
         assertEquals(new BigDecimal("22.40"), bill.getSumTaxSetNormal());
     }
 

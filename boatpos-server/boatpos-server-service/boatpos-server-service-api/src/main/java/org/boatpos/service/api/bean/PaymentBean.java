@@ -1,11 +1,13 @@
 package org.boatpos.service.api.bean;
 
-import com.google.common.base.Objects;
-import org.boatpos.common.service.api.bean.AbstractBean;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
+
+import org.boatpos.common.service.api.bean.AbstractBean;
+
+import com.google.common.base.Objects;
 
 /**
  * The payment of a rental.
@@ -24,13 +26,16 @@ public class PaymentBean extends AbstractBean {
     @NotNull
     private String paymentMethod;
 
-    public PaymentBean() {
-    }
+    @NotNull
+    private String receiptType;
 
-    public PaymentBean(Integer dayNumber, BigDecimal value, String paymentMethod) {
+    public PaymentBean() {}
+
+    public PaymentBean(Integer dayNumber, BigDecimal value, String paymentMethod, String receiptType) {
         this.dayNumber = dayNumber;
         this.value = value;
         this.paymentMethod = paymentMethod;
+        this.receiptType = receiptType;
     }
 
     public Integer getDayNumber() {
@@ -57,14 +62,20 @@ public class PaymentBean extends AbstractBean {
         this.paymentMethod = paymentMethod;
     }
 
+    public String getReceiptType() {
+        return receiptType;
+    }
+
+    public void setReceiptType(String receiptType) {
+        this.receiptType = receiptType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PaymentBean that = (PaymentBean) o;
-        return Objects.equal(dayNumber, that.dayNumber) &&
-                Objects.equal(value, that.value) &&
-                Objects.equal(paymentMethod, that.paymentMethod);
+        return Objects.equal(dayNumber, that.dayNumber) && Objects.equal(value, that.value) && Objects.equal(paymentMethod, that.paymentMethod);
     }
 
     @Override

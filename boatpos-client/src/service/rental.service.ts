@@ -10,17 +10,21 @@ import {Arrival} from "../model/arrival";
 import {Bill, Company, TaxSetElement} from "../model/bill";
 import {PromotionService} from "./promotion.service";
 import {AddPromotion, RemovePromotionsAfter} from "../model/promotion";
+import {Income, IncomeProductGroup, TaxElement} from "../model/income";
+import {InfoService} from "./info.service";
+import {ErrorService} from "./error.service";
+import {Printer} from "../printer";
 
 @Injectable()
 export class RentalService {
 
-    constructor(private http:Http, private configService:ConfigService, private promotionService:PromotionService) {
+    constructor(private http: Http, private configService: ConfigService, private promotionService: PromotionService, private errorService: ErrorService, private infoService: InfoService, private printer: Printer) {
     }
 
-    depart(depart:Departure):Observable<Rental> {
+    depart(depart: Departure): Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers: this.configService.getDefaultHeader()}
-            )
+            this.configService.getBackendUrl() + 'rest/departure/depart', JSON.stringify(depart), {headers: this.configService.getDefaultHeader()}
+        )
             .map(res => res.json())
             .map((rentalBean) => {
                 return Rental.fromDepart(
@@ -36,53 +40,53 @@ export class RentalService {
             });
     }
 
-    payBefore(payment:Payment):Observable<Rental> {
+    payBefore(payment: Payment): Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
-            )
+            this.configService.getBackendUrl() + 'rest/departure/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
+        )
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
-    deleteRental(dayNumber:number):Observable<Rental> {
+    deleteRental(dayNumber: number): Observable<Rental> {
         return this.http.delete(
-                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.configService.getDefaultHeader()})
+            this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
-    undoDeleteRental(dayNumber:number):Observable<Rental> {
+    undoDeleteRental(dayNumber: number): Observable<Rental> {
         return this.http.get(
-                this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers: this.configService.getDefaultHeader()})
+            this.configService.getBackendUrl() + 'rest/rental/undoDelete/' + dayNumber, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
-    getRental(dayNumber:number):Observable<Rental> {
+    getRental(dayNumber: number): Observable<Rental> {
         return this.http.get(
-                this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.configService.getDefaultHeader()})
+            this.configService.getBackendUrl() + 'rest/rental/' + dayNumber, {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
-    arrive(dayNumber:number):Observable<Rental> {
+    arrive(dayNumber: number): Observable<Rental> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.configService.getDefaultHeader()})
+            this.configService.getBackendUrl() + 'rest/arrival/arrive', JSON.stringify(new Arrival(dayNumber)), {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
             .map((rentalBean) => {
                 return this.convertRentalBeanToRental(rentalBean);
             });
     }
 
-    addHolliKnolli(rental:Rental):Observable<Rental> {
+    addHolliKnolli(rental: Rental): Observable<Rental> {
         return this.http.post(
             this.configService.getBackendUrl() + 'rest/arrival/promotion', JSON.stringify(new AddPromotion(rental.dayId, this.promotionService.getHolliKnolli().id)), {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
@@ -91,7 +95,7 @@ export class RentalService {
             });
     }
 
-    removeHolliKnolli(rental:Rental):Observable<Rental> {
+    removeHolliKnolli(rental: Rental): Observable<Rental> {
         return this.http.put(
             this.configService.getBackendUrl() + 'rest/arrival/promotion', JSON.stringify(new RemovePromotionsAfter(rental.dayId)), {headers: this.configService.getDefaultHeader()})
             .map(res => res.json())
@@ -100,23 +104,56 @@ export class RentalService {
             });
     }
 
-    payAfter(payment:Payment):Observable<Bill> {
+    payAfter(payment: Payment): Observable<Bill> {
         return this.http.post(
-                this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
-            )
+            this.configService.getBackendUrl() + 'rest/arrival/pay', JSON.stringify(payment), {headers: this.configService.getDefaultHeader()}
+        )
             .map(res => res.json())
             .map((billBean) => {
+                console.log("billBean: " + billBean);
                 return this.convertBillBeanToBill(billBean);
             });
     }
 
-    loadAllForCurrentDay():Observable<Array<Rental>> {
+    startBeleg() {
+        this.checkIfStarbelegMustBePrinted().subscribe(check => {
+            if (check === true) {
+                this.receipt("Start-Beleg");
+            }
+        });
+    }
+
+    receipt(receiptType: string): void {
+        this.http.post(
+            this.configService.getBackendUrl() + 'rest/arrival/receipt', receiptType, {headers: this.configService.getDefaultHeader()}
+        )
+            .map(res => res.json())
+            .map((billBean) => {
+                console.log("billBean: " + billBean);
+                return this.convertBillBeanToBill(billBean);
+            }).subscribe((bill: Bill) => {
+                this.printer.printBill(bill, this.configService.getPrinterIp());
+                this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+            }
+            , error => {
+                console.log("error: " + JSON.stringify(error));
+                this.errorService.event().emit("Rechnung konnte NICHT erstellt werden - Vorgang wurde abgebrochen!");
+            });
+    }
+
+    public checkIfStarbelegMustBePrinted(): Observable<boolean> {
+        // call the rest-service
+        return this.http.get(this.configService.getBackendUrl() + 'rest/arrival/start/check', {headers: this.configService.getDefaultHeader()})
+            .map(res => res.text() === 'true');
+    }
+
+    loadAllForCurrentDay(): Observable<Array<Rental>> {
         return this.http.get(this.configService.getBackendUrl() + 'rest/rental/currentDay', {headers: this.configService.getDefaultHeader()})
-            // map the result to json
+        // map the result to json
             .map(res => res.json())
             // map the result to Boat
-            .map((rentals:Array<any>) => {
-                let result:Array<Rental> = [];
+            .map((rentals: Array<any>) => {
+                let result: Array<Rental> = [];
                 if (rentals) {
                     rentals.forEach((rental) => {
                         result.push(this.convertRentalBeanToRental(rental));
@@ -126,13 +163,13 @@ export class RentalService {
             })
     }
 
-    loadAllFor(year:number, month:number, day:number):Observable<Array<Rental>> {
+    loadAllFor(year: number, month: number, day: number): Observable<Array<Rental>> {
         return this.http.get(this.configService.getBackendUrl() + 'rest/rental/' + year + '/' + month + '/' + day, {headers: this.configService.getDefaultHeader()})
-            // map the result to json
+        // map the result to json
             .map(res => res.json())
             // map the result to Boat
-            .map((rentals:Array<any>) => {
-                let result:Array<Rental> = [];
+            .map((rentals: Array<any>) => {
+                let result: Array<Rental> = [];
                 if (rentals) {
                     rentals.forEach((rental) => {
                         result.push(this.convertRentalBeanToRental(rental));
@@ -142,7 +179,8 @@ export class RentalService {
             })
     }
 
-    private convertRentalBeanToRental(rentalBean):Rental {
+    //noinspection JSMethodCanBeStatic
+    private convertRentalBeanToRental(rentalBean): Rental {
         return new Rental(
             rentalBean.dayId,
             RentalService.createDate(rentalBean.day),
@@ -165,18 +203,38 @@ export class RentalService {
             rentalBean.myRentalId);
     };
 
-    private convertBillBeanToBill(billBean):Bill {
-        let taxSetElements:Array<TaxSetElement> = [];
+    private convertBillBeanToBill(billBean): Bill {
+        let taxSetElements: Array<TaxSetElement> = [];
         billBean.billTaxSetElements.forEach(tse => {
-           taxSetElements.push(new TaxSetElement(
-               tse.name,
-               tse.taxPercent,
-               tse.amount,
-               tse.pricePreTax,
-               tse.priceAfterTax,
-               tse.priceTax
-           ))
+            taxSetElements.push(new TaxSetElement(
+                tse.name,
+                tse.taxPercent,
+                tse.amount,
+                tse.pricePreTax,
+                tse.priceAfterTax,
+                tse.priceTax
+            ))
         });
+        let sammelBeleg: Bill = null;
+        let tagesBeleg: Bill = null;
+        let monatsBeleg: Bill = null;
+        let jahresBeleg: Bill = null;
+        let income: Income = null;
+        if (billBean.sammelBeleg != null) {
+            sammelBeleg = this.convertBillBeanToBill(billBean.sammelBeleg);
+        }
+        if (billBean.tagesBeleg != null) {
+            tagesBeleg = this.convertBillBeanToBill(billBean.tagesBeleg);
+        }
+        if (billBean.monatsBeleg != null) {
+            monatsBeleg = this.convertBillBeanToBill(billBean.monatsBeleg);
+        }
+        if (billBean.jahresBeleg != null) {
+            jahresBeleg = this.convertBillBeanToBill(billBean.jahresBeleg);
+        }
+        if (billBean.income != null) {
+            income = this.convertToIncome(billBean.incomeBean);
+        }
         return new Bill(
             billBean.cashBoxID,
             billBean.receiptIdentifier,
@@ -200,15 +258,53 @@ export class RentalService {
                 billBean.company.atu
             ),
             billBean.sumTotal,
-            taxSetElements
+            taxSetElements,
+            sammelBeleg,
+            new Date(billBean.sammelBelegStart),
+            new Date(billBean.sammelBelegEnd),
+            income,
+            tagesBeleg,
+            monatsBeleg,
+            jahresBeleg,
+            billBean.receiptType,
+            billBean.jwsCompact,
+            billBean.signatureDeviceAvailable
         );
     };
 
-    public static createDate(jsonDate:string):Date {
+    public convertToIncome(incomeBean: any): Income {
+        let incomeProductGroups: Array<IncomeProductGroup> = [];
+        incomeBean.incomeElements.forEach(
+            pg => incomeProductGroups.push(new IncomeProductGroup(
+                pg.name,
+                pg.income,
+                pg.taxPercent,
+                pg.priority
+            ))
+        );
+        let taxElements: Array<TaxElement> = [];
+        incomeBean.taxElements.forEach(
+            te => taxElements.push(new TaxElement(
+                te.taxPercent,
+                te.priority,
+                te.price,
+                te.priceBeforeTax,
+                te.priceTax
+            ))
+        );
+        return new Income(
+            RentalService.createDate(incomeBean.start),
+            RentalService.createDate(incomeBean.end),
+            incomeBean.totalIncome,
+            incomeProductGroups,
+            taxElements);
+    }
+
+    public static createDate(jsonDate: string): Date {
         return new Date(jsonDate + "T00:00:00.000Z");
     }
 
-    public static createDateTime(jsonDateTime:string):Date {
+    public static createDateTime(jsonDateTime: string): Date {
         return new Date(jsonDateTime);
     }
 }

@@ -57,9 +57,22 @@ public class ArrivalServiceRest {
         return Response.ok(arrivalService.pay(paymentBean)).build();
     }
 
+    @POST
+    @Path("/receipt")
+    public Response receipt(String receiptType) {
+        checkNotNull(receiptType, "'receiptType' must not be null");
+        return Response.ok(arrivalService.receipt(receiptType)).build();
+    }
+
     @GET
     @Path("/signatureDeviceAvailable")
     public Response signatureDeviceAvailable() {
         return Response.ok(arrivalService.isSignatureDeviceAvailable()).build();
+    }
+
+    @GET
+    @Path("/start/check")
+    public Response checkIfStartbelegMustBePrinted() {
+        return Response.ok(arrivalService.checkIfStartbelegMustBePrinted()).build();
     }
 }

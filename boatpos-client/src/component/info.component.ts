@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {InfoService} from "../service/info.service";
+import {ErrorService} from "../service/error.service";
 
 @Component({
     selector: 'info',
@@ -8,11 +9,19 @@ import {InfoService} from "../service/info.service";
 })
 export class InfoComponent {
 
-    private info:string;
+    private info:string = "Info: ";
 
-    constructor(private infoService:InfoService) {
+    private containerClass: string = "info-container";
+
+    constructor(private infoService:InfoService, private errorService:ErrorService) {
         infoService.event().subscribe((info) => {
-            this.info = info;
+            this.info = "Info: " + info;
+            this.containerClass = "info-container";
+            console.log("info: " + this.info);
+        });
+        errorService.event().subscribe((error) => {
+            this.info = "Fehler: " + error;
+            this.containerClass = "error-container";
             console.log("info: " + this.info);
         });
     }

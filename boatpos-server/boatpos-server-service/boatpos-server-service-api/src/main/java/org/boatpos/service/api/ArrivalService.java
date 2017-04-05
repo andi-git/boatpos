@@ -41,4 +41,8 @@ public interface ArrivalService {
     BillBean pay(PaymentBean paymentBean);
 
     Boolean isSignatureDeviceAvailable();
+
+    BillBean receipt(String receiptType);
+
+    Boolean checkIfStartbelegMustBePrinted();
 }

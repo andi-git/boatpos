@@ -26,6 +26,7 @@ import {RentalsComponent} from "./rentals/rentals.component";
 import {StatsComponent} from "./stats/stats.component";
 import {VersionComponent} from "./version.component";
 import {ConfigComponent} from "./config/config.component";
+import {ErrorService} from "../service/error.service";
 
 enableProdMode();
 
@@ -34,7 +35,7 @@ enableProdMode();
     templateUrl: "html/component/app.component.html",
     styleUrls: ["css/component/app.component.css"],
     directives: [BoatsComponent, CommitmentsComponent, PromotionsBeforeComponent, BoatCountComponent, InfoComponent, MenuComponent, ActionComponent, StatistikComponent, RentalsComponent, StatsComponent, VersionComponent, ConfigComponent],
-    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, JournalService, ModeService]
+    providers: [BoatService, CommitmentService, PromotionService, ConfigService, InfoService, RentalService, HTTP_PROVIDERS, Modal, KeyBindingService, ModalHandler, PrettyPrinter, Printer, JournalService, ModeService, ErrorService]
 })
 export class AppComponent implements OnInit {
 
