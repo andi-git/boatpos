@@ -102,4 +102,16 @@ export class StatsComponent {
     printNullBeleg() {
         this.rentalService.nullBeleg();
     }
+
+    printTagesBeleg() {
+        this.rentalService.tagesBeleg();
+    }
+
+    printMonatsBeleg() {
+        this.rentalService.monatsBeleg();
+    }
+
+    printJahresBeleg() {
+        this.rentalService.jahresBeleg();
+    }
 }

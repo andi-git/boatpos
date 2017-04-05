@@ -57,3 +57,15 @@
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
+
+.abschlussbeleg-header {
+    background-color: #F3F781;
+}
+
+.abschlussbeleg-container {
+    display: block;
+    width: 50%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}

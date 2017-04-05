@@ -15,13 +15,16 @@ import {InfoService} from "./info.service";
 import {ErrorService} from "./error.service";
 import {Printer} from "../printer";
 import {PrettyPrinter} from "../prettyprinter";
+import {isPresent} from "angular2/src/facade/lang";
+import {JournalService} from "./journal.service";
+import {JournalReport} from "../model/journalReport";
 
 @Injectable()
 export class RentalService {
 
     private signatureDeviceAvailableText: string = "";
 
-    constructor(private http: Http, private configService: ConfigService, private promotionService: PromotionService, private errorService: ErrorService, private infoService: InfoService, private printer: Printer, private pp: PrettyPrinter) {
+    constructor(private http: Http, private configService: ConfigService, private promotionService: PromotionService, private errorService: ErrorService, private infoService: InfoService, private printer: Printer, private pp: PrettyPrinter, private journalService: JournalService) {
     }
 
     depart(depart: Departure): Observable<Rental> {
@@ -131,16 +134,50 @@ export class RentalService {
         this.receipt("Null-Beleg");
     }
 
-    receipt(receiptType: string): void {
-        this.http.post(
-            this.configService.getBackendUrl() + 'rest/arrival/receipt', receiptType, {headers: this.configService.getDefaultHeader()}
-        )
-            .map(res => res.json())
+    tagesBeleg() {
+        this.receipt("Tages-Beleg", this.currentYear(), this.currentMonth(), this.currentDay());
+    }
+
+    monatsBeleg() {
+        this.receipt("Monats-Beleg", this.currentYear(), this.currentMonth());
+    }
+
+    jahresBeleg() {
+        this.receipt("Jahres-Beleg", this.currentYear());
+    }
+
+    //noinspection JSMethodCanBeStatic
+    private currentDay(): number {
+        return new Date(Date.now()).getDate();
+    }
+
+    //noinspection JSMethodCanBeStatic
+    private currentMonth(): number {
+        return new Date(Date.now()).getMonth() + 1;
+    }
+
+    //noinspection JSMethodCanBeStatic
+    private currentYear(): number {
+        return new Date(Date.now()).getFullYear();
+    }
+
+    private receipt(receiptType: string, withJournalYear?: number, withJournalMonth?: number, withJournalDay?: number): void {
+        this.http.post(this.configService.getBackendUrl() + 'rest/arrival/receipt', receiptType, {headers: this.configService.getDefaultHeader()})
+            .map(res => {
+                return res.json();
+            })
             .map((billBean) => {
-                console.log("billBean: " + billBean);
                 return this.convertBillBeanToBill(billBean);
             }).subscribe((bill: Bill) => {
-                this.printer.printBill(bill, this.configService.getPrinterIp());
+                if (isPresent(withJournalYear)) {
+                    this.journalService.income(withJournalYear, withJournalMonth, withJournalDay).subscribe(
+                        (journalReport: JournalReport) => {
+                            this.printer.printBill(bill, this.configService.getPrinterIp(), journalReport);
+                        }
+                    )
+                } else {
+                    this.printer.printBill(bill, this.configService.getPrinterIp());
+                }
                 this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
             }
             , error => {
@@ -240,7 +277,7 @@ export class RentalService {
         if (billBean.jahresBeleg != null) {
             jahresBeleg = this.convertBillBeanToBill(billBean.jahresBeleg);
         }
-        if (billBean.income != null) {
+        if (billBean.incomeBean != null) {
             income = this.convertToIncome(billBean.incomeBean);
         }
         return new Bill(

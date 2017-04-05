@@ -72,7 +72,8 @@ export class ActionComponent {
                 this.depart(this.boatService.getBoatByShortName('T4'), [this.commitmentService.getCommitmentByName('Ausweis')], null);
             },
             'W': () => {
-                this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
+                this.rentalService.tagesBeleg();
+                // this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
             }
         };
         for (let i = 0; i <= 9; i++) {

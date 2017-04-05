@@ -56,8 +56,10 @@ export class Printer {
         }
     }
 
-    public printBill(bill: Bill, printerIp: string) {
+    public printBill(bill: Bill, printerIp: string, journalReport?: JournalReport) {
         console.log("print bill on " + printerIp);
+        console.log(bill.toString());
+        console.log(bill.income.toString());
         //noinspection TypeScriptUnresolvedFunction
         let builder = new StarWebPrintBuilder();
         let request = builder.createInitializationElement();
@@ -83,9 +85,13 @@ export class Printer {
             request = this.printCompleteBill(bill.yearReceipt, builder, request);
         }
         if (bill != null && bill.income != null) {
-            request += builder.createCutPaperElement({feed: true});
             request = this.blankLine(builder, request);
             request = this.printCompleteIncome(bill.income, builder, request);
+            if (isPresent(journalReport)) {
+                request = this.blankLine(builder, request);
+                request = this.printCompleteJournal(journalReport, builder, request);
+            }
+            request = this.printLogo(builder, request, '13', 'center');
         }
         this.printPaper(builder, request, printerIp);
     }
@@ -318,13 +324,14 @@ export class Printer {
             //noinspection TypeScriptUnresolvedFunction
             let builder = new StarWebPrintBuilder();
             let request = builder.createInitializationElement();
-            request += this.printCompleteJournal(journalReport, builder, request);
+            request = this.addLogo(builder, request);
+            request = this.printCompleteJournal(journalReport, builder, request);
+            request = this.printLogo(builder, request, '13', 'center');
             this.printPaper(builder, request, printerIp);
         }
     }
 
     private printCompleteJournal(journalReport: JournalReport, builder: any, request: any): any {
-        request = this.addLogo(builder, request);
         request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Bootsverm.");
         request = this.blankLine(builder, request);
         if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
@@ -384,7 +391,6 @@ export class Printer {
             this.pp.ppFixLength(this.pp.ppPrice(sumCashTax + sumCardTax), 9, Align.RIGHT) + " / " +
             this.pp.ppFixLength(this.pp.ppPrice(sumCashBeforeTax + sumCardBeforeTax), 10, Align.RIGHT)
         );
-        request = this.printLogo(builder, request, 13, 'center');
         return request;
     }
 
@@ -419,7 +425,6 @@ export class Printer {
                 }
             });
         }
-        request = this.printLogo(builder, request, 13, 'center');
         return request;
     }
 

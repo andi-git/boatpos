@@ -44,7 +44,7 @@ export class JournalService {
             });
     }
 
-    public income(year:number, month:number, day:number):Observable<JournalReport> {
+    public income(year:number, month?:number, day?:number):Observable<JournalReport> {
         let args:string = year;
         if (isPresent(month)) {
             args += "/";

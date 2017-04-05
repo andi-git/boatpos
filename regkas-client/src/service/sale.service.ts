@@ -76,11 +76,9 @@ export class SaleService {
     private sale(receiptType: string, receiptElements?: Array<ReceiptElement>) {
         this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale("CASH", receiptType, receiptElements)), {headers: this.configService.getDefaultHeader()})
             .map(res => {
-                console.log(res.json());
                 return res.json();
             })
             .map((billBean) => {
-                console.log("billBean: " + billBean);
                 return this.convertBillBeanToBill(billBean);
             }).subscribe((bill: Bill) => {
                 this.setSignatureDeviceAvailableText(bill.signatureDeviceAvailable, bill.receiptDateAndTime);
