@@ -1,4 +1,6 @@
-System.register(['angular2/core', "../../service/promotion.service", "../../service/info.service", "../../service/keybinding.service"], function(exports_1) {
+System.register(['angular2/core', "../../service/promotion.service", "../../service/info.service", "../../service/keybinding.service"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -73,7 +75,7 @@ System.register(['angular2/core', "../../service/promotion.service", "../../serv
                     __metadata('design:paramtypes', [promotion_service_1.PromotionService, info_service_1.InfoService, core_1.NgZone, keybinding_service_1.KeyBindingService])
                 ], PromotionsBeforeComponent);
                 return PromotionsBeforeComponent;
-            })();
+            }());
             exports_1("PromotionsBeforeComponent", PromotionsBeforeComponent);
         }
     }

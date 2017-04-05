@@ -1,4 +1,6 @@
-System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angular2/src/facade/lang", "../../model/payment"], function(exports_1) {
+System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angular2/src/facade/lang", "../../model/payment"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -39,7 +41,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     this.printerIp = printerIp;
                 }
                 return ModalArrivalContext;
-            })();
+            }());
             exports_1("ModalArrivalContext", ModalArrivalContext);
             ModalArrival = (function () {
                 function ModalArrival(dialog, modelContentData) {
@@ -218,18 +220,19 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     this.getMoney = "";
                 };
                 ModalArrival.prototype.payCash = function () {
-                    this.pay(new payment_1.Payment(this.rentalNumber, Number.parseFloat(this.price), "cash"));
+                    this.pay(new payment_1.Payment(this.rentalNumber, Number.parseFloat(this.price), "cash", "Standard-Beleg"));
                 };
                 ModalArrival.prototype.payCard = function () {
-                    this.pay(new payment_1.Payment(this.rentalNumber, Number.parseFloat(this.price), "card"));
+                    this.pay(new payment_1.Payment(this.rentalNumber, Number.parseFloat(this.price), "card", "Standard-Beleg"));
                 };
                 ModalArrival.prototype.pay = function (payment) {
                     var _this = this;
                     this.rentalService.payAfter(payment).subscribe(function (bill) {
+                        _this.rentalService.setSignatureDeviceAvailableText(bill.signatureDeviceAvailable, bill.receiptDateAndTime);
                         _this.printer.printBill(bill, _this.printerIp);
                         //noinspection TypeScriptUnresolvedFunction
                         _this.dialog.close("ok");
-                    }, function () {
+                    }, function (err) {
                         _this.cancel();
                     });
                 };
@@ -273,7 +276,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                 ], ModalArrival);
                 return ModalArrival;
                 var _a, _b;
-            })();
+            }());
             exports_1("ModalArrival", ModalArrival);
             (function (InputMethod) {
                 InputMethod[InputMethod["PriceToPay"] = 0] = "PriceToPay";

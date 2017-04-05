@@ -1,4 +1,6 @@
-System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "../../model/payment"], function(exports_1) {
+System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "../../model/payment"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -33,7 +35,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "../.
                     this.keyBinding = keyBinding;
                 }
                 return ModalPromotionPayContext;
-            })();
+            }());
             exports_1("ModalPromotionPayContext", ModalPromotionPayContext);
             ModalPromotionPay = (function () {
                 function ModalPromotionPay(dialog, context) {
@@ -69,10 +71,10 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "../.
                     });
                 };
                 ModalPromotionPay.prototype.payCash = function () {
-                    this.pay(new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "cash"));
+                    this.pay(new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "cash", "Standard-Beleg"));
                 };
                 ModalPromotionPay.prototype.payCard = function () {
-                    this.pay(new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "card"));
+                    this.pay(new payment_1.Payment(this.rental.dayId, this.rental.priceCalculatedBefore, "card", "Standard-Beleg"));
                 };
                 ModalPromotionPay.prototype.pay = function (payment) {
                     var _this = this;
@@ -113,7 +115,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "../.
                 ], ModalPromotionPay);
                 return ModalPromotionPay;
                 var _a, _b;
-            })();
+            }());
             exports_1("ModalPromotionPay", ModalPromotionPay);
         }
     }

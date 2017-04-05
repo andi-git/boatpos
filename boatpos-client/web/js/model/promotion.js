@@ -1,4 +1,6 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var PromotionBefore, PromotionAfter, AddPromotion, RemovePromotionsAfter;
     return {
         setters:[],
@@ -22,7 +24,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return PromotionBefore;
-            })();
+            }());
             exports_1("PromotionBefore", PromotionBefore);
             PromotionAfter = (function () {
                 function PromotionAfter(id, name, enabled, priority, keyBinding, pictureUrl, pictureUrlThumb) {
@@ -38,7 +40,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return PromotionAfter;
-            })();
+            }());
             exports_1("PromotionAfter", PromotionAfter);
             AddPromotion = (function () {
                 function AddPromotion(dayNumber, promotionId) {
@@ -49,7 +51,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return AddPromotion;
-            })();
+            }());
             exports_1("AddPromotion", AddPromotion);
             RemovePromotionsAfter = (function () {
                 function RemovePromotionsAfter(dayNumber) {
@@ -59,7 +61,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return RemovePromotionsAfter;
-            })();
+            }());
             exports_1("RemovePromotionsAfter", RemovePromotionsAfter);
         }
     }

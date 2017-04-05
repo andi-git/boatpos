@@ -1,4 +1,6 @@
-System.register(["../prettyprinter", "angular2/src/facade/lang"], function(exports_1) {
+System.register(["../prettyprinter", "angular2/src/facade/lang"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var prettyprinter_1, lang_1;
     var Rental;
     return {
@@ -98,7 +100,7 @@ System.register(["../prettyprinter", "angular2/src/facade/lang"], function(expor
                     return result;
                 };
                 return Rental;
-            })();
+            }());
             exports_1("Rental", Rental);
         }
     }

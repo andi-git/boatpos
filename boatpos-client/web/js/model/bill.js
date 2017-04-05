@@ -1,10 +1,12 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var Bill, Company, TaxSetElement;
     return {
         setters:[],
         execute: function() {
             Bill = (function () {
-                function Bill(cashBoxId, receiptIdentifier, receiptDateAndTime, sumTaxSetNormal, sumTaxSetErmaessigt1, sumTaxSetErmaessigt2, sumTaxSetNull, sumTaxSetBesonders, encryptedTurnoverValue, signatureCertificateSerialNumber, signatureValuePreviousReceipt, company, sumTotal, taxSetElements) {
+                function Bill(cashBoxId, receiptIdentifier, receiptDateAndTime, sumTaxSetNormal, sumTaxSetErmaessigt1, sumTaxSetErmaessigt2, sumTaxSetNull, sumTaxSetBesonders, encryptedTurnoverValue, signatureCertificateSerialNumber, signatureValuePreviousReceipt, company, sumTotal, taxSetElements, sammelBeleg, sammelBelegStart, sammelBelegEnd, income, dayReceipt, monthReceipt, yearReceipt, receiptType, jwsCompact, signatureDeviceAvailable) {
                     var _this = this;
                     this.taxSetElements = [];
                     this.cashBoxId = cashBoxId;
@@ -23,12 +25,22 @@ System.register([], function(exports_1) {
                     if (taxSetElements != null) {
                         taxSetElements.forEach(function (taxSetElement) { return _this.taxSetElements.push(taxSetElement); });
                     }
+                    this.sammelBeleg = sammelBeleg;
+                    this.sammelBelegStart = sammelBelegStart;
+                    this.sammelBelegEnd = sammelBelegEnd;
+                    this.income = income;
+                    this.dayReceipt = dayReceipt;
+                    this.monthReceipt = monthReceipt;
+                    this.yearReceipt = yearReceipt;
+                    this.receiptType = receiptType;
+                    this.jwsCompact = jwsCompact;
+                    this.signatureDeviceAvailable = signatureDeviceAvailable;
                 }
                 Bill.prototype.toString = function () {
                     return JSON.stringify(this);
                 };
                 return Bill;
-            })();
+            }());
             exports_1("Bill", Bill);
             Company = (function () {
                 function Company(name, street, zip, city, country, phone, mail, atu) {
@@ -45,7 +57,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return Company;
-            })();
+            }());
             exports_1("Company", Company);
             TaxSetElement = (function () {
                 function TaxSetElement(name, taxPercent, amount, pricePreTax, priceAfterTax, priceTax) {
@@ -60,7 +72,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return TaxSetElement;
-            })();
+            }());
             exports_1("TaxSetElement", TaxSetElement);
         }
     }

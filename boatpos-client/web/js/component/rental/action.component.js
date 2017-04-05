@@ -1,4 +1,6 @@
-System.register(["angular2/core", "../../service/boat.service", "../../service/info.service", "../../service/commitment.service", "../../service/promotion.service", "../../model/departure", "../../service/rental.service", "./modalInfo", "angular2/src/facade/lang", "../../service/keybinding.service", "../../modalHandler", "./modalDeleted", "../../prettyprinter", "./modalPromotionPay", "./modalArrival", "../../service/config.service", "../../printer", "../../service/journal.service"], function(exports_1) {
+System.register(["angular2/core", "../../service/boat.service", "../../service/info.service", "../../service/commitment.service", "../../service/promotion.service", "../../model/departure", "../../service/rental.service", "./modalInfo", "angular2/src/facade/lang", "../../service/keybinding.service", "../../modalHandler", "./modalDeleted", "../../prettyprinter", "./modalPromotionPay", "./modalArrival", "../../service/config.service", "../../printer", "../../service/journal.service", "../../service/error.service"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +10,7 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, prettyprinter_1, modalPromotionPay_1, modalArrival_1, config_service_1, printer_1, journal_service_1;
+    var core_1, boat_service_1, info_service_1, commitment_service_1, promotion_service_1, departure_1, rental_service_1, modalInfo_1, lang_1, keybinding_service_1, modalHandler_1, modalDeleted_1, prettyprinter_1, modalPromotionPay_1, modalArrival_1, config_service_1, printer_1, journal_service_1, error_service_1;
     var ActionComponent;
     return {
         setters:[
@@ -65,15 +67,19 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
             },
             function (journal_service_1_1) {
                 journal_service_1 = journal_service_1_1;
+            },
+            function (error_service_1_1) {
+                error_service_1 = error_service_1_1;
             }],
         execute: function() {
             ActionComponent = (function () {
-                function ActionComponent(boatService, commitmentService, promotionService, infoService, rentalService, journalService, keyBinding, modalHandler, pp, printer, config) {
+                function ActionComponent(boatService, commitmentService, promotionService, infoService, errorService, rentalService, journalService, keyBinding, modalHandler, pp, printer, config) {
                     var _this = this;
                     this.boatService = boatService;
                     this.commitmentService = commitmentService;
                     this.promotionService = promotionService;
                     this.infoService = infoService;
+                    this.errorService = errorService;
                     this.rentalService = rentalService;
                     this.journalService = journalService;
                     this.keyBinding = keyBinding;
@@ -107,7 +113,8 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                             _this.depart(_this.boatService.getBoatByShortName('T4'), [_this.commitmentService.getCommitmentByName('Ausweis')], null);
                         },
                         'W': function () {
-                            _this.journalService.incomeCurrentDay().subscribe(function (journalReport) { return _this.printer.printJournal(journalReport, _this.config.getPrinterIp()); });
+                            _this.rentalService.tagesBeleg();
+                            // this.journalService.incomeCurrentDay().subscribe((journalReport) => this.printer.printJournal(journalReport, this.config.getPrinterIp()));
                         }
                     };
                     for (var i = 0; i <= 9; i++) {
@@ -153,7 +160,7 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                                         _this.boatService.updateStats();
                                         _this.resetUi();
                                         _this.keyBinding.focusMain();
-                                        _this.infoService.event().emit("Vermietung abgebrochen, Aktion wurde nicht bezahlt.");
+                                        _this.errorService.event().emit("Vermietung abgebrochen, Aktion wurde nicht bezahlt.");
                                     });
                                 });
                             }
@@ -186,7 +193,7 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                             _this.showDialogDeleted(deletedInfo);
                             _this.boatService.updateStats();
                             _this.resetUi();
-                            _this.infoService.event().emit(deletedInfo);
+                            _this.errorService.event().emit(deletedInfo);
                         });
                     }
                     else {
@@ -208,6 +215,7 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                         });
                     });
                 };
+                //noinspection JSMethodCanBeStatic
                 ActionComponent.prototype.createStringForPromotion = function (promotion) {
                     return promotion != null ? ("(" + promotion.name + ")") : "";
                 };
@@ -215,13 +223,13 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                     var result = "";
                     if (commitments != null && commitments.length > 0) {
                         result += "(";
-                        var first = true;
+                        var first_1 = true;
                         commitments.forEach(function (c) {
-                            if (first === false) {
+                            if (first_1 === false) {
                                 result += ", ";
                             }
-                            if (first === true) {
-                                first = false;
+                            if (first_1 === true) {
+                                first_1 = false;
                             }
                             result += c.name;
                         });
@@ -271,7 +279,7 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                                 _this.keyBinding.focusMain();
                             }, function () {
                                 _this.lastModalResult = 'Rejected!';
-                                _this.infoService.event().emit("Abrechnung der Nummer " + _this.rentalNumber + " wurde abgebrochen.");
+                                _this.errorService.event().emit("Abrechnung der Nummer " + _this.rentalNumber + " wurde abgebrochen.");
                                 _this.resetUi();
                                 _this.keyBinding.focusMain();
                             });
@@ -284,10 +292,10 @@ System.register(["angular2/core", "../../service/boat.service", "../../service/i
                         templateUrl: "html/component/rental/action.component.html",
                         styleUrls: ["css/component/rental/action.component.css"],
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, rental_service_1.RentalService, journal_service_1.JournalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, promotion_service_1.PromotionService, info_service_1.InfoService, error_service_1.ErrorService, rental_service_1.RentalService, journal_service_1.JournalService, keybinding_service_1.KeyBindingService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, printer_1.Printer, config_service_1.ConfigService])
                 ], ActionComponent);
                 return ActionComponent;
-            })();
+            }());
             exports_1("ActionComponent", ActionComponent);
         }
     }

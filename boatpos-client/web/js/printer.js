@@ -1,4 +1,6 @@
-System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"], function(exports_1) {
+System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -34,7 +36,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         var builder = new StarWebPrintBuilder();
                         var request = builder.createInitializationElement();
                         request = this.addLogo(builder, request);
-                        request = this.printCompanyData(builder, request, rental);
+                        request = this.printCompanyData(builder, request);
                         request = this.addBoat(builder, request, rental);
                         request = this.addCommitmentReturnInfo(builder, request);
                         request = this.add5MinuteInfo(builder, request);
@@ -45,13 +47,13 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 };
                 Printer.prototype.printNumberForCommitment = function (rental, printerIp) {
                     if (lang_1.isPresent(rental) && lang_1.isPresent(rental.commitments)) {
-                        var needPaper = false;
+                        var needPaper_1 = false;
                         rental.commitments.forEach(function (commitment) {
                             if (commitment.paper) {
-                                needPaper = true;
+                                needPaper_1 = true;
                             }
                         });
-                        if (needPaper === true) {
+                        if (needPaper_1 === true) {
                             var dayIdString = this.pp.pp3Pos(rental.dayId);
                             //noinspection TypeScriptUnresolvedFunction
                             var builder = new StarWebPrintBuilder();
@@ -66,30 +68,67 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         }
                     }
                 };
-                Printer.prototype.printBill = function (bill, printerIp) {
+                Printer.prototype.printBill = function (bill, printerIp, journalReport) {
                     console.log("print bill on " + printerIp);
                     //noinspection TypeScriptUnresolvedFunction
                     var builder = new StarWebPrintBuilder();
                     var request = builder.createInitializationElement();
+                    request += this.printCompleteBill(bill, builder, request);
+                    if (bill != null && bill.sammelBeleg != null) {
+                        request += builder.createCutPaperElement({ feed: true });
+                        request = this.blankLine(builder, request);
+                        request = this.printCompleteBill(bill.sammelBeleg, builder, request);
+                    }
+                    if (bill != null && bill.dayReceipt != null) {
+                        request += builder.createCutPaperElement({ feed: true });
+                        request = this.blankLine(builder, request);
+                        request = this.printCompleteBill(bill.dayReceipt, builder, request);
+                    }
+                    if (bill != null && bill.monthReceipt != null) {
+                        request += builder.createCutPaperElement({ feed: true });
+                        request = this.blankLine(builder, request);
+                        request = this.printCompleteBill(bill.monthReceipt, builder, request);
+                    }
+                    if (bill != null && bill.yearReceipt != null) {
+                        request += builder.createCutPaperElement({ feed: true });
+                        request = this.blankLine(builder, request);
+                        request = this.printCompleteBill(bill.yearReceipt, builder, request);
+                    }
+                    if (bill != null && bill.income != null) {
+                        request = this.blankLine(builder, request);
+                        request = this.printCompleteIncome(bill.income, builder, request);
+                        if (lang_1.isPresent(journalReport)) {
+                            request = this.blankLine(builder, request);
+                            request = this.printCompleteJournal(journalReport, builder, request);
+                        }
+                        request = this.printLogo(builder, request, '13', 'center');
+                    }
+                    this.printPaper(builder, request, printerIp);
+                };
+                Printer.prototype.printCompleteBill = function (bill, builder, request) {
                     request = this.addLogo(builder, request);
                     request = this.printLine(builder, request, 2, 2, 'center', true, false, 'Rechnung');
                     request = this.printLine(builder, request, 1, 1, 'center', true, false, 'ID: ' + bill.receiptIdentifier + ", " + 'Kassa: ' + bill.cashBoxId);
-                    request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Datum: ' + this.pp.printDate(bill.receiptDateAndTime) + ", " + this.pp.printTime(bill.receiptDateAndTime));
+                    request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Datum: ' + this.pp.printDateAndTime(bill.receiptDateAndTime));
                     request = this.blankLine(builder, request);
                     request = this.printCompanyDataBill(bill, builder, request);
+                    request = this.blankLine(builder, request);
+                    request = this.printReceiptType(bill, builder, request);
                     request = this.blankLine(builder, request);
                     request = this.printTaxSetElements(bill, builder, request);
                     request = this.printSumTaxes(bill, builder, request);
                     request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Vielen Dank für Ihren Besuch!');
+                    request = this.printSignatureDeviceDamaged(bill, builder, request);
                     request += builder.createQrCodeElement({
                         model: 'model2',
                         level: 'level_l',
                         cell: 3,
-                        data: 'https://www.eppel-boote.at'
+                        data: bill.jwsCompact
                     });
-                    this.printPaper(builder, request, printerIp);
+                    return request;
                 };
+                //noinspection JSMethodCanBeStatic
                 Printer.prototype.convertFromNumberToLogoName = function (logoNumber) {
                     if (logoNumber === "0") {
                         return "99";
@@ -100,7 +139,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 };
                 Printer.prototype.addLogo = function (builder, request) {
                     // logo and company-info
-                    request = this.printLogo(builder, request, 10, 'center');
+                    request = this.printLogo(builder, request, '10', 'center');
                     request = this.blankLine(builder, request);
                     return request;
                 };
@@ -119,21 +158,34 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'mail: ' + bill.company.mail);
                     return request;
                 };
+                Printer.prototype.printReceiptType = function (bill, builder, request) {
+                    request = this.printLine(builder, request, 1, 1, 'center', true, false, '***** ' + bill.receiptType + ' *****');
+                    if ('Sammel-Beleg' === bill.receiptType) {
+                        request = this.printLine(builder, request, 1, 1, 'center', false, false, this.pp.printDateAndTime(bill.sammelBelegStart) + ' - ' + this.pp.printDateAndTime(bill.sammelBelegEnd));
+                    }
+                    return request;
+                };
+                Printer.prototype.printSignatureDeviceDamaged = function (bill, builder, request) {
+                    if (bill.signatureDeviceAvailable === false) {
+                        request = this.printLine(builder, request, 1, 1, 'center', true, false, 'Signatureinrichtung ausgefallen!');
+                    }
+                    return request;
+                };
                 Printer.prototype.printTaxSetElements = function (bill, builder, request) {
                     var _this = this;
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('     ', 4, 'left'));
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produkt', 16, 'left'));
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 4, 'left'));
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Netto', 8, 'right'));
-                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('MWST', 6, 'right'));
-                    request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 8, 'right'));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('     ', 4, prettyprinter_1.Align.LEFT));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Produkt', 16, prettyprinter_1.Align.LEFT));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(' ', 4, prettyprinter_1.Align.LEFT));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('Netto', 8, prettyprinter_1.Align.RIGHT));
+                    request = this.printText(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength('MWST', 6, prettyprinter_1.Align.RIGHT));
+                    request = this.printLine(builder, request, 1, 1, 'left', true, false, this.pp.ppFixLength('Brutto', 8, prettyprinter_1.Align.RIGHT));
                     bill.taxSetElements.forEach(function (tse) {
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.amount + ' ', 4, 'left'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.name, 16, 'left'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.taxPercent + '%', 4, 'right'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.pricePreTax), 8, 'right'));
-                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceTax), 6, 'right'));
-                        request = _this.printLine(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 8, 'right'));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.amount + ' ', 4, prettyprinter_1.Align.LEFT));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.name, 16, prettyprinter_1.Align.LEFT));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(tse.taxPercent + '%', 4, prettyprinter_1.Align.RIGHT));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.pricePreTax), 8, prettyprinter_1.Align.RIGHT));
+                        request = _this.printText(builder, request, 1, 1, 'left', false, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceTax), 6, prettyprinter_1.Align.RIGHT));
+                        request = _this.printLine(builder, request, 1, 1, 'left', true, false, _this.pp.ppFixLength(_this.pp.ppPrice(tse.priceAfterTax), 8, prettyprinter_1.Align.RIGHT));
                     });
                     request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                     request = this.printLine(builder, request, 2, 1, 'left', true, false, "          Summe " + this.pp.ppPrice(bill.sumTotal));
@@ -149,7 +201,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 };
                 Printer.prototype.printSumTax = function (taxPercent, sum, builder, request) {
                     if (lang_1.isPresent(sum) && sum > 0) {
-                        request = this.printLine(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(taxPercent + '% MWST: ' + this.pp.ppPrice(sum), 40, 'right'));
+                        request = this.printLine(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(taxPercent + '% MWST: ' + this.pp.ppPrice(sum), 40, prettyprinter_1.Align.RIGHT));
                     }
                     return request;
                 };
@@ -177,6 +229,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     }
                     return request;
                 };
+                //noinspection JSMethodCanBeStatic
                 Printer.prototype.mapBoatToLogoName = function (boat) {
                     if (boat.shortName === "E") {
                         return "20";
@@ -205,9 +258,10 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                 };
                 Printer.prototype.addMyRental = function (builder, request, rental) {
                     request = this.blankLine(builder, request);
-                    request = this.printLine(builder, request, 1, 1, 'center', false, false, '*** NEU *** NEU *** NEU *** NEU *** NEU *** NEU *** NEU ***');
+                    request = this.printLine(builder, request, 2, 2, 'center', false, false, '*** *** NEU *** ***');
+                    request = this.blankLine(builder, request);
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Alle Infos zu deiner Bootsfahrt jetzt online!');
-                    request = this.printLine(builder, request, 1, 1, 'center', false, false, 'QR-Code am Smartphone einscannen und dem Link folgen!');
+                    request = this.printLine(builder, request, 1, 1, 'center', false, false, 'QR-Code am Smartphone scannen und Link öffnen!');
                     var myRentalUrl = 'https://www.eppel-boote.at/myrental/index.php?id=' + rental.myRentalId;
                     console.log("myRentalUrl: " + myRentalUrl);
                     request += builder.createQrCodeElement({
@@ -224,6 +278,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     request = this.printLine(builder, request, 1, 1, 'center', false, false, 'Vorlage dieses Belegs retourniert werden!');
                     return request;
                 };
+                //noinspection JSMethodCanBeStatic
                 Printer.prototype.printLogo = function (builder, request, logo, align) {
                     request += builder.createAlignmentElement({ position: align });
                     request += builder.createLogoElement({ number: logo, width: 'single', height: 'single' });
@@ -237,6 +292,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     request = this.printText(builder, request, width, height, align, emphasis, underline, data + "\n");
                     return request;
                 };
+                //noinspection JSMethodCanBeStatic
                 Printer.prototype.printText = function (builder, request, width, height, align, emphasis, underline, data) {
                     request += builder.createAlignmentElement({ position: align });
                     request += builder.createTextElement({
@@ -258,7 +314,6 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     trader.sendMessage({ request: request });
                 };
                 Printer.prototype.printJournal = function (journalReport, printerIp) {
-                    var _this = this;
                     console.log("print journal on " + printerIp);
                     if (lang_1.isPresent(journalReport)) {
                         console.log("print journal between " + this.pp.printDate(journalReport.start) + " and " + this.pp.printDate(journalReport.end) + " on " + printerIp);
@@ -266,63 +321,101 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                         var builder = new StarWebPrintBuilder();
                         var request = builder.createInitializationElement();
                         request = this.addLogo(builder, request);
-                        request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Bootsverm.");
-                        request = this.blankLine(builder, request);
-                        if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
-                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
-                        }
-                        else {
-                            request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
-                        }
-                        request = this.blankLine(builder, request);
-                        var sumBoat = 0;
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
-                        journalReport.journalReportItems.forEach(function (jri) {
-                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
-                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(String(jri.count), 10, prettyprinter_1.Align.RIGHT));
-                            sumBoat += jri.count;
-                        });
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(String(sumBoat), 10, prettyprinter_1.Align.RIGHT));
-                        request = this.blankLine(builder, request);
-                        var sumCash = 0;
-                        var sumCashBeforeTax = 0;
-                        var sumCashTax = 0;
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
-                        journalReport.journalReportItems.forEach(function (jri) {
-                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
-                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, prettyprinter_1.Align.RIGHT));
-                            sumCash += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
-                            sumCashBeforeTax += (jri.pricePaidBeforeCashBeforeTax + jri.pricePaidAfterCashBeforeTax);
-                            sumCashTax += (jri.pricePaidBeforeCashTax + jri.pricePaidAfterCashTax);
-                        });
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 8, prettyprinter_1.Align.LEFT) +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCash), 10, prettyprinter_1.Align.RIGHT) + " / " +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCashTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCashBeforeTax), 10, prettyprinter_1.Align.RIGHT));
-                        request = this.blankLine(builder, request);
-                        var sumCard = 0;
-                        var sumCardBeforeTax = 0;
-                        var sumCardTax = 0;
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
-                        journalReport.journalReportItems.forEach(function (jri) {
-                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
-                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, prettyprinter_1.Align.RIGHT));
-                            sumCard += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
-                            sumCardBeforeTax += (jri.pricePaidBeforeCardBeforeTax + jri.pricePaidAfterCardBeforeTax);
-                            sumCardTax += (jri.pricePaidBeforeCardTax + jri.pricePaidAfterCardTax);
-                        });
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 8, prettyprinter_1.Align.LEFT) +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCard), 10, prettyprinter_1.Align.RIGHT) + " / " +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCardTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCardBeforeTax), 10, prettyprinter_1.Align.RIGHT));
-                        request = this.blankLine(builder, request);
-                        request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("TOTAL:", 8, prettyprinter_1.Align.LEFT) +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCash + sumCard), 10, prettyprinter_1.Align.RIGHT) + " / " +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCashTax + sumCardTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
-                            this.pp.ppFixLength(this.pp.ppPrice(sumCashBeforeTax + sumCardBeforeTax), 10, prettyprinter_1.Align.RIGHT));
-                        request = this.printLogo(builder, request, 13, 'center');
+                        request = this.printCompleteJournal(journalReport, builder, request);
+                        request = this.printLogo(builder, request, '13', 'center');
                         this.printPaper(builder, request, printerIp);
                     }
+                };
+                Printer.prototype.printCompleteJournal = function (journalReport, builder, request) {
+                    var _this = this;
+                    request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Bootsverm.");
+                    request = this.blankLine(builder, request);
+                    if (this.pp.printDate(journalReport.start) === this.pp.printDate(journalReport.end)) {
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(journalReport.start));
+                    }
+                    else {
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(journalReport.start) + " - " + this.pp.printDate(journalReport.end));
+                    }
+                    request = this.blankLine(builder, request);
+                    var sumBoat = 0;
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, "Anzahl Vermietungen");
+                    journalReport.journalReportItems.forEach(function (jri) {
+                        request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
+                        request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(String(jri.count), 10, prettyprinter_1.Align.RIGHT));
+                        sumBoat += jri.count;
+                    });
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 18, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(String(sumBoat), 10, prettyprinter_1.Align.RIGHT));
+                    request = this.blankLine(builder, request);
+                    var sumCash = 0;
+                    var sumCashBeforeTax = 0;
+                    var sumCashTax = 0;
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, "Bargeld");
+                    journalReport.journalReportItems.forEach(function (jri) {
+                        request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
+                        request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCash + jri.pricePaidAfterCash), 10, prettyprinter_1.Align.RIGHT));
+                        sumCash += (jri.pricePaidBeforeCash + jri.pricePaidAfterCash);
+                        sumCashBeforeTax += (jri.pricePaidBeforeCashBeforeTax + jri.pricePaidAfterCashBeforeTax);
+                        sumCashTax += (jri.pricePaidBeforeCashTax + jri.pricePaidAfterCashTax);
+                    });
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 8, prettyprinter_1.Align.LEFT) +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCash), 10, prettyprinter_1.Align.RIGHT) + " / " +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCashTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCashBeforeTax), 10, prettyprinter_1.Align.RIGHT));
+                    request = this.blankLine(builder, request);
+                    var sumCard = 0;
+                    var sumCardBeforeTax = 0;
+                    var sumCardTax = 0;
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, "Karte");
+                    journalReport.journalReportItems.forEach(function (jri) {
+                        request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(jri.boatName + ":", 18, prettyprinter_1.Align.LEFT));
+                        request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(_this.pp.ppPrice(jri.pricePaidBeforeCard + jri.pricePaidAfterCard), 10, prettyprinter_1.Align.RIGHT));
+                        sumCard += (jri.pricePaidBeforeCard + jri.pricePaidAfterCard);
+                        sumCardBeforeTax += (jri.pricePaidBeforeCardBeforeTax + jri.pricePaidAfterCardBeforeTax);
+                        sumCardTax += (jri.pricePaidBeforeCardTax + jri.pricePaidAfterCardTax);
+                    });
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 8, prettyprinter_1.Align.LEFT) +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCard), 10, prettyprinter_1.Align.RIGHT) + " / " +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCardTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCardBeforeTax), 10, prettyprinter_1.Align.RIGHT));
+                    request = this.blankLine(builder, request);
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("TOTAL:", 8, prettyprinter_1.Align.LEFT) +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCash + sumCard), 10, prettyprinter_1.Align.RIGHT) + " / " +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCashTax + sumCardTax), 9, prettyprinter_1.Align.RIGHT) + " / " +
+                        this.pp.ppFixLength(this.pp.ppPrice(sumCashBeforeTax + sumCardBeforeTax), 10, prettyprinter_1.Align.RIGHT));
+                    return request;
+                };
+                Printer.prototype.printCompleteIncome = function (income, builder, request) {
+                    var _this = this;
+                    request = this.printLine(builder, request, 2, 2, "center", true, false, "Einnahmen Bootsverm.");
+                    request = this.blankLine(builder, request);
+                    if (this.pp.printDate(income.start) === this.pp.printDate(income.end)) {
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Datum: " + this.pp.printDate(income.start));
+                    }
+                    else {
+                        request = this.printLine(builder, request, 1, 1, "left", true, false, "Zeitraum: " + this.pp.printDate(income.start) + " - " + this.pp.printDate(income.end));
+                    }
+                    if (lang_1.isPresent(income.incomeProductGroups)) {
+                        request = this.blankLine(builder, request);
+                        income.incomeProductGroups.forEach(function (ipg) {
+                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(ipg.name, 26, prettyprinter_1.Align.LEFT));
+                            request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + ipg.taxPercent + "%", 6, prettyprinter_1.Align.LEFT));
+                            request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + _this.pp.ppPrice(ipg.income), 10, prettyprinter_1.Align.RIGHT));
+                        });
+                    }
+                    request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, prettyprinter_1.Align.RIGHT));
+                    if (lang_1.isPresent(income.taxElements)) {
+                        request = this.blankLine(builder, request);
+                        income.taxElements.forEach(function (te) {
+                            if (te.price > 0) {
+                                request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(te.taxPercent + "%", 6, prettyprinter_1.Align.LEFT));
+                                request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength("  " + _this.pp.ppPrice(te.price), 12, prettyprinter_1.Align.RIGHT));
+                                request = _this.printText(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceTax), 14, prettyprinter_1.Align.RIGHT));
+                                request = _this.printLine(builder, request, 1, 1, "left", false, false, _this.pp.ppFixLength(" /  " + _this.pp.ppPrice(te.priceBeforeTax), 14, prettyprinter_1.Align.RIGHT));
+                            }
+                        });
+                    }
+                    return request;
                 };
                 Printer.prototype.printTest = function (printerIp) {
                     console.log("test printer on " + printerIp);
@@ -345,7 +438,7 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     __metadata('design:paramtypes', [prettyprinter_1.PrettyPrinter])
                 ], Printer);
                 return Printer;
-            })();
+            }());
             exports_1("Printer", Printer);
         }
     }

@@ -1,4 +1,6 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var JournalReport, JournalReportItem;
     return {
         setters:[],
@@ -14,7 +16,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return JournalReport;
-            })();
+            }());
             exports_1("JournalReport", JournalReport);
             JournalReportItem = (function () {
                 function JournalReportItem(boatName, pricePaidBeforeCash, pricePaidBeforeCashBeforeTax, pricePaidBeforeCashTax, pricePaidBeforeCard, pricePaidBeforeCardBeforeTax, pricePaidBeforeCardTax, pricePaidAfterCash, pricePaidAfterCashBeforeTax, pricePaidAfterCashTax, pricePaidAfterCard, pricePaidAfterCardBeforeTax, pricePaidAfterCardTax, count) {
@@ -37,7 +39,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return JournalReportItem;
-            })();
+            }());
             exports_1("JournalReportItem", JournalReportItem);
         }
     }

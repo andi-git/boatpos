@@ -1,4 +1,6 @@
-System.register(["angular2/core", "../../service/journal.service", "../../printer", "../../service/config.service", "../../model/datePicker", "../../service/info.service", "../../modalHandler", "./modalIncome", "../../prettyprinter"], function(exports_1) {
+System.register(["angular2/core", "../../service/journal.service", "../../printer", "../../service/config.service", "../../model/datePicker", "../../service/info.service", "../../modalHandler", "./modalIncome", "../../prettyprinter", "../../service/rental.service"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +10,7 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, journal_service_1, printer_1, config_service_1, datePicker_1, info_service_1, modalHandler_1, modalIncome_1, prettyprinter_1;
+    var core_1, journal_service_1, printer_1, config_service_1, datePicker_1, info_service_1, modalHandler_1, modalIncome_1, prettyprinter_1, rental_service_1;
     var StatsComponent;
     return {
         setters:[
@@ -38,19 +40,25 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
             },
             function (prettyprinter_1_1) {
                 prettyprinter_1 = prettyprinter_1_1;
+            },
+            function (rental_service_1_1) {
+                rental_service_1 = rental_service_1_1;
             }],
         execute: function() {
             StatsComponent = (function () {
-                function StatsComponent(journalService, printer, config, info, modalHandler, pp) {
+                function StatsComponent(journalService, printer, config, info, modalHandler, pp, rentalService) {
                     this.journalService = journalService;
                     this.printer = printer;
                     this.config = config;
                     this.info = info;
                     this.modalHandler = modalHandler;
                     this.pp = pp;
+                    this.rentalService = rentalService;
                     this.datePickerIncome = new datePicker_1.DatePicker();
                     this.datePickerDep = new datePicker_1.DatePicker();
+                    this.startbelegMustBePrinted = false;
                     console.log("constructor of StatsComponent");
+                    this.checkIfStartbelegMustBePrinted();
                 }
                 StatsComponent.prototype.dayIncomeChange = function (day) {
                     this.datePickerIncome.setCurrentDay(day);
@@ -103,16 +111,42 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                     window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
                         + this.datePickerDep.getCurrentYear() + "?"));
                 };
+                StatsComponent.prototype.printStartbeleg = function () {
+                    this.rentalService.startBeleg();
+                    this.startbelegMustBePrinted = false;
+                };
+                StatsComponent.prototype.checkIfStartbelegMustBePrinted = function () {
+                    var _this = this;
+                    this.rentalService.checkIfStarbelegMustBePrinted().subscribe(function (check) {
+                        _this.startbelegMustBePrinted = check;
+                    });
+                };
+                StatsComponent.prototype.printNullBeleg = function () {
+                    this.rentalService.nullBeleg();
+                };
+                StatsComponent.prototype.printTagesBeleg = function () {
+                    this.rentalService.tagesBeleg();
+                };
+                StatsComponent.prototype.printMonatsBeleg = function () {
+                    this.rentalService.monatsBeleg();
+                };
+                StatsComponent.prototype.printJahresBeleg = function () {
+                    this.rentalService.jahresBeleg();
+                };
+                StatsComponent.prototype.depRKSV = function () {
+                    this.info.event().emit("DatenErfassungsProtokoll RKSV wird erstellt.");
+                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv?"));
+                };
                 StatsComponent = __decorate([
                     core_1.Component({
                         selector: 'stats',
                         templateUrl: "html/component/stats/stats.component.html",
                         styleUrls: ["css/component/stats/stats.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [journal_service_1.JournalService, printer_1.Printer, config_service_1.ConfigService, info_service_1.InfoService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter])
+                    __metadata('design:paramtypes', [journal_service_1.JournalService, printer_1.Printer, config_service_1.ConfigService, info_service_1.InfoService, modalHandler_1.ModalHandler, prettyprinter_1.PrettyPrinter, rental_service_1.RentalService])
                 ], StatsComponent);
                 return StatsComponent;
-            })();
+            }());
             exports_1("StatsComponent", StatsComponent);
         }
     }

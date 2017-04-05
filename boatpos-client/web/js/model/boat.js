@@ -1,4 +1,6 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var Boat, BoatCount;
     return {
         setters:[],
@@ -24,7 +26,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return Boat;
-            })();
+            }());
             exports_1("Boat", Boat);
             BoatCount = (function () {
                 function BoatCount(id, name, shortName, count, max) {
@@ -41,7 +43,7 @@ System.register([], function(exports_1) {
                     return JSON.stringify(this);
                 };
                 return BoatCount;
-            })();
+            }());
             exports_1("BoatCount", BoatCount);
         }
     }

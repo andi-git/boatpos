@@ -1,4 +1,6 @@
-System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angular2/src/facade/lang"], function(exports_1) {
+System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angular2/src/facade/lang"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -36,7 +38,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                     this.day = day;
                 }
                 return ModalIncomeContext;
-            })();
+            }());
             exports_1("ModalIncomeContext", ModalIncomeContext);
             // this class is ugly because of a bug in angluar2-beta-0: https://github.com/angular/angular/issues/4330
             ModalIncome = (function () {
@@ -243,7 +245,7 @@ System.register(["angular2/core", "angular2/common", "lib/angular2-modal", "angu
                 ], ModalIncome);
                 return ModalIncome;
                 var _a, _b;
-            })();
+            }());
             exports_1("ModalIncome", ModalIncome);
         }
     }
