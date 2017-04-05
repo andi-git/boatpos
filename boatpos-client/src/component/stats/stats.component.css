@@ -45,3 +45,15 @@
     padding: 0 0 0 0;
     margin: 0 0 0 0;
 }
+
+.nullbeleg-header {
+    background-color: #F3F781;
+}
+
+.nullbeleg-container {
+    display: block;
+    width: 50%;
+    border: 0 solid black;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}

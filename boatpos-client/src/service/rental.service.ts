@@ -127,6 +127,10 @@ export class RentalService {
         });
     }
 
+    nullBeleg() {
+        this.receipt("Null-Beleg");
+    }
+
     receipt(receiptType: string): void {
         this.http.post(
             this.configService.getBackendUrl() + 'rest/arrival/receipt', receiptType, {headers: this.configService.getDefaultHeader()}

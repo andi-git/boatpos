@@ -98,4 +98,8 @@ export class StatsComponent {
             this.startbelegMustBePrinted = check;
         });
     }
+
+    printNullBeleg() {
+        this.rentalService.nullBeleg();
+    }
 }
