@@ -281,6 +281,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         sale.setReceiptType("Tages-Beleg");
         BillBean billBean = saleService.sale(sale);
         assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
+        assertEquals("create receipt 2015-0000003, Tages-Beleg", cashboxJournalRepository.loadBy(cashBoxContext.get()).get(0).getJournalMessage().get());
     }
 
     @Test
@@ -291,6 +292,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         sale.setReceiptType("Monats-Beleg");
         BillBean billBean = saleService.sale(sale);
         assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
+        assertEquals("create receipt 2015-0000003, Monats-Beleg", cashboxJournalRepository.loadBy(cashBoxContext.get()).get(0).getJournalMessage().get());
     }
 
     @Test
@@ -301,6 +303,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         sale.setReceiptType("Jahres-Beleg");
         BillBean billBean = saleService.sale(sale);
         assertEquals(new BigDecimal("22.00"), billBean.getIncomeBean().getTotalIncome());
+        assertEquals("create receipt 2015-0000003, Jahres-Beleg", cashboxJournalRepository.loadBy(cashBoxContext.get()).get(0).getJournalMessage().get());
     }
 
     @Test
