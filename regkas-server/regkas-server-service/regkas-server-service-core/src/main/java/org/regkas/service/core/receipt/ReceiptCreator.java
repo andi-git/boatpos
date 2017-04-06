@@ -3,6 +3,7 @@ package org.regkas.service.core.receipt;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
@@ -73,6 +74,9 @@ public class ReceiptCreator {
     @Inject
     private RkOnlineResourceFactory rkOnlineResourceFactory;
 
+    @Inject
+    private Rounder rounder;
+
     public Receipt createReceipt(SaleBean sale) {
         ReceiptType receiptType = receiptTypeConverter.convertToReceiptType(new Name(sale.getReceiptType()));
         Receipt receipt = buildReceiptBasedOnSaleBean(sale, receiptType);
@@ -101,7 +105,7 @@ public class ReceiptCreator {
                 throw new RuntimeException(
                     "unable to get " + Product.class.getName() + " with name '" + receiptElementBean.getProduct().getName() + "'");
             } else {
-                TotalPrice totalPriceForElement = new TotalPrice(round(receiptElementBean.getTotalPrice()));
+                TotalPrice totalPriceForElement = new TotalPrice(rounder.round(receiptElementBean.getTotalPrice()));
                 totalPrice = totalPrice.add(totalPriceForElement);
                 receiptBuilder.add(
                     receiptElementRepository
@@ -152,11 +156,16 @@ public class ReceiptCreator {
         return createReceipt(new SaleBean("cash", "Jahres-Beleg", Lists.newArrayList()));
     }
 
-    private BigDecimal round(BigDecimal price) {
-        return scalePrice(price.setScale(1, BigDecimal.ROUND_HALF_UP));
-    }
+    @ApplicationScoped
+    public static class Rounder {
 
-    private BigDecimal scalePrice(BigDecimal price) {
-        return price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        @SuppressWarnings("WeakerAccess")
+        public BigDecimal round(BigDecimal price) {
+            return scalePrice(price.setScale(2, BigDecimal.ROUND_HALF_UP));
+        }
+
+        private BigDecimal scalePrice(BigDecimal price) {
+            return price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
     }
 }

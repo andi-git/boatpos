@@ -28,6 +28,8 @@ import org.regkas.domain.api.signature.RkOnlineResourceFactory;
 import org.regkas.domain.api.values.Name;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
+import java.math.BigDecimal;
+
 @SuppressWarnings({"OptionalGetWithoutIsPresent", "FieldCanBeLocal", "ConstantConditions"})
 @RunWith(Arquillian.class)
 public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
@@ -61,6 +63,9 @@ public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
 
     @Inject
     private FirstSale firstSale;
+
+    @Inject
+    private ReceiptCreator.Rounder rounder;
 
     @SuppressWarnings("Duplicates")
     @Before
@@ -129,6 +134,12 @@ public class ReceiptCreatorTest extends EntityManagerProviderForRegkas {
     @Transactional
     public void testCreateYearSale() {
         assertTrue(receiptCreator.createYearReceipt().getReceiptType() instanceof ReceiptTypeJahr);
+    }
+
+    @Test
+    @Transactional
+    public void testRounder() {
+        assertEquals(new BigDecimal("15.35"), rounder.round(new BigDecimal("15.345")));
     }
 
 }
