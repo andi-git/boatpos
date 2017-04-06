@@ -14,6 +14,7 @@ import org.regkas.domain.api.model.Receipt;
 import org.regkas.domain.api.model.ReceiptType;
 import org.regkas.domain.api.model.ReceiptTypeJahr;
 import org.regkas.domain.api.model.ReceiptTypeMonat;
+import org.regkas.domain.api.model.ReceiptTypeStart;
 import org.regkas.domain.api.model.ReceiptTypeTag;
 import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
 import org.regkas.domain.api.receipt.precondition.StartReceiptNotAvailable;
@@ -75,6 +76,10 @@ public class SaleServiceCore implements SaleService {
             receipt = handleDeviceAvailability(lastReceiptOptional, receipt);
             BillBean billBean = receipt.asBillBean();
             billBean = addJournal(billBean, receiptType, cashBox);
+            if (receiptType instanceof ReceiptTypeStart) {
+                cashboxJournalEvent.fire(createCashboxJournalEvent(billBean, cashBox));
+                sendMailEvent.fire(new SendMailEvent("start-receipt created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
+            }
             return billBean;
         }
     }
@@ -122,21 +127,21 @@ public class SaleServiceCore implements SaleService {
                     billBean.getReceiptDateAndTime().getMonthValue(),
                     billBean.getReceiptDateAndTime().getDayOfMonth()));
             sendMailEvent.fire(new SendMailEvent("day-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
-            cashboxJournalEvent.fire(createCashboxJournalEventForJournal(billBean, cashBox));
+            cashboxJournalEvent.fire(createCashboxJournalEvent(billBean, cashBox));
         } else if (receiptType instanceof ReceiptTypeMonat) {
             billBean.setIncomeBean(
                 journalService.totalIncomeFor(billBean.getReceiptDateAndTime().getYear(), billBean.getReceiptDateAndTime().getMonthValue()));
             sendMailEvent.fire(new SendMailEvent("month-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
-            cashboxJournalEvent.fire(createCashboxJournalEventForJournal(billBean, cashBox));
+            cashboxJournalEvent.fire(createCashboxJournalEvent(billBean, cashBox));
         } else if (receiptType instanceof ReceiptTypeJahr) {
             billBean.setIncomeBean(journalService.totalIncomeFor(billBean.getReceiptDateAndTime().getYear()));
             sendMailEvent.fire(new SendMailEvent("year-journal created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
-            cashboxJournalEvent.fire(createCashboxJournalEventForJournal(billBean, cashBox));
+            cashboxJournalEvent.fire(createCashboxJournalEvent(billBean, cashBox));
         }
         return billBean;
     }
 
-    private CashboxJournalEvent createCashboxJournalEventForJournal(BillBean billBean, CashBox cashBox) {
+    private CashboxJournalEvent createCashboxJournalEvent(BillBean billBean, CashBox cashBox) {
         return new CashboxJournalEvent(
             "create receipt " + billBean.getReceiptIdentifier() + ", " + billBean.getReceiptType(),
             cashBox,
