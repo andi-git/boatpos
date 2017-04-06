@@ -262,6 +262,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         sale.setReceiptType("Start-Beleg");
         BillBean billBean = saleService.sale(sale);
         assertEquals(new BigDecimal("0.00"), billBean.getSumTotal());
+        assertEquals("create receipt 2015-0000001, Start-Beleg", cashboxJournalRepository.loadBy(cashBoxContext.get()).get(0).getJournalMessage().get());
     }
 
     @Test(expected = RuntimeException.class)

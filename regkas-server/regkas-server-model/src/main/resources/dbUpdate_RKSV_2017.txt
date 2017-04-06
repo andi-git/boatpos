@@ -8,8 +8,8 @@ insert into receipttype (id, version, enabled, keybinding, priority, name) value
 insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 9, 'Schluss-Beleg');
 insert into receipttype (id, version, enabled, keybinding, priority, name) values (nextval('hibernate_sequence'), 0, 1, '#', 10, 'Sammel-Beleg');
 alter table receipttype add column signatureMandatory boolean;
-update receipttype set signaturemandatory = true where id in (6, 62917, 62920);
-update receipttype set signaturemandatory = false where id not in (6, 62917, 62920);
+update receipttype set signaturemandatory = true where name in ('Start-Beleg', 'Jahres-Beleg', 'Sammel-Beleg');
+update receipttype set signaturemandatory = false where name not in ('Start-Beleg', 'Jahres-Beleg', 'Sammel-Beleg');
 
 - add/drop columns to/from receipt:
 alter table receipt drop column timetype;
