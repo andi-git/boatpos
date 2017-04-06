@@ -145,4 +145,59 @@ ALTER TABLE PROMOTION_RENTAL ALTER COLUMN PROMOTION_ID RENAME TO PROMOTIONENTITY
 -- ALTER TABLE RENTAL_COMMITMENT ALTER COLUMN RENTAL_ID RENAME TO RENTALENTITY_ID;
 
 
-- insert new prices
+- update prices BOATPOS
+update boat set priceonehour = 18.50, pricefortyfiveminutes = 15.50, pricethirtyminutes = 10.30 where shortname = 'E';
+update boat set priceonehour = 14.50, pricefortyfiveminutes = 12.50, pricethirtyminutes = 8.30 where shortname in ('T2', 'T4');
+update boat set priceonehour = 16.50, pricefortyfiveminutes = 14.00, pricethirtyminutes = 9.30 where shortname = 'TR';
+update boat set priceonehour = 14.00, pricefortyfiveminutes = 14.00, pricethirtyminutes = 14.00 where shortname in ('P', 'L');
+
+- insert holidays BOATPOS
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-04-09', 'Palmsonntag');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-04-16', 'Ostersonntag');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-04-17', 'Ostermontag');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-05-01', 'Staatsfeiertag');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-05-25', 'Christi Himmelfahrt');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-06-04', 'Pfingstsonntag');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-06-05', 'Pfingstmontag');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-06-15', 'Fronleichnam');
+insert into holiday (id, version, day, name) values (nextval('hibernate_sequence'), 0, '2017-08-17', 'Maria Himmelfahrt');
+
+- update prices regkas
+update product set price = 2.10 where name = 'Mineral';
+update product set price = 2.70 where name = 'Bier groß';
+update product set price = 2.10 where name = 'Bier klein';
+update product set price = 2.60 where name = 'Cola';
+update product set price = 2.80 where name = 'Wein gespritzt';
+update product set price = 3.70 where name = 'Stifterl';
+update product set price = 2.80 where name = 'Kuchen';
+update product set price = 2.80 where name = 'Eistee';
+update product set price = 1.70 where name = 'Capri';
+update product set price = 3.50 where name = 'RedBull';
+update product set price = 3.10 where name = 'Cafemio';
+update product set price = 3.30 where name = 'Melange';
+update product set price = 3.70 where name = 'Großer Brauner';
+update product set price = 2.50 where name = 'Kleiner Brauner';
+
+- update journal
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, CURRENT_TIMESTAMP(), 'set price of product E-Boot to 18.50 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, CURRENT_TIMESTAMP(), 'set price of product Liegeboot to 14.00 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, CURRENT_TIMESTAMP(), 'set price of product Tretboot Rutsche to 16.50 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, CURRENT_TIMESTAMP(), 'set price of product Tretboot groß to 14.50 per hour');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 15, CURRENT_TIMESTAMP(), 'set price of product Tretboot klein to 14.50 per hour');
+
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Bier groß to 2.70');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Bier klein to 2.10');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Cafemio to 3.10');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Capri to 1.70');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Cola to 2.60');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Eistee to 2.80');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Großer Brauner to 3.70');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Kleiner Brauner to 2.50');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Kuchen to 2.80');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Melange to 3.30');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Mineral to 2.10');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product RedBull to 3.50');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Stifterl to 3.70');
+insert into cashbox_journal (id, version, cashbox_id, messagedate, message) values (nextval('hibernate_sequence'), 0, 14, CURRENT_TIMESTAMP(), 'set price of product Wein gespritzt to 2.80');
+
+insert into system_journal (id, version, messagedate, message) values (nextval('hibernate_sequence'), 0, CURRENT_TIMESTAMP(), 'deploy version 2.0.0');
