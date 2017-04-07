@@ -3,3 +3,7 @@
 
 # boatpos
 A point-of-sail-system to rent boats
+
+## system architecture
+
+![system architecture](https://github.com/andi-git/boatpos/blob/master/boatpos-system-architecture.png)
