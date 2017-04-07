@@ -165,9 +165,9 @@ public class SzenarioOwn01Test extends EntityManagerProviderForRegkas {
         assertion.assertReceiptCount(21);
         assertion.assertTurnover(11100);
         assertEquals(19, billBeans.size());
-        assertEquals(11, mailSenderMock.getMailSendList().size());
+        assertEquals(12, mailSenderMock.getMailSendList().size());
         assertEquals(0, systemJournalRepository.loadAll().size());
-        assertEquals(6, cashboxJournalRepository.loadBy(cashBoxContext.get()).size());
+        assertEquals(11, cashboxJournalRepository.loadBy(cashBoxContext.get()).size());
         billBeans.forEach(b -> System.out.println(b.getJwsCompact()));
         mailSenderMock.getMailSendList().forEach(System.out::println);
         cashboxJournalRepository.loadBy(cashBoxContext.get()).forEach(System.out::println);
