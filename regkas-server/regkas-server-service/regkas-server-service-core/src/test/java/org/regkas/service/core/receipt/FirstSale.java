@@ -103,6 +103,7 @@ public class FirstSale {
         assertEquals(new BigDecimal("2.50"), bill.getBillTaxSetElements().get(3).getPriceAfterTax());
         assertEquals(new BigDecimal("2.27"), bill.getBillTaxSetElements().get(3).getPricePreTax());
         assertEquals(new BigDecimal("0.23"), bill.getBillTaxSetElements().get(3).getPriceTax());
+        assertTrue(bill.getJwsCompact().contains("_2015-07-01T15:00:00_"));
     }
 
     public void assertEqualsWhenSignatureDeviceIsAvailable(Receipt receipt) {

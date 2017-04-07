@@ -95,6 +95,9 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
     @Inject
     private CashboxJournalRepository cashboxJournalRepository;
 
+    @Inject
+    private DateTimeHelperMock dateTimeHelper;
+
     @SuppressWarnings("Duplicates")
     @Before
     public void before() {
@@ -120,6 +123,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         userContext.clear();
         cashBoxContext.clear();
         System.clearProperty("boatpos.crypto.complement.rep.bytes");
+        dateTimeHelper.reset();
     }
 
     @Test

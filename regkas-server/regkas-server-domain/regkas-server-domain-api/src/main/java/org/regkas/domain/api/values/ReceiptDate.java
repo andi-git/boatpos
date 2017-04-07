@@ -1,9 +1,10 @@
 package org.regkas.domain.api.values;
 
-import org.boatpos.common.domain.api.values.SimpleValueObject;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+import org.boatpos.common.domain.api.values.SimpleValueObject;
 
 /**
  * The date of a receipt.
@@ -20,7 +21,7 @@ public class ReceiptDate extends SimpleValueObject<ReceiptDate, LocalDateTime> {
 
     @Override
     public String asStringToBeSigned() {
-        return String.valueOf(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(value));
+        return value.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
 }

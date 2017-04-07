@@ -22,6 +22,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.domain.api.context.CashBoxContext;
@@ -153,42 +154,49 @@ public class SzenarioBmfTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario02() throws Exception {
         testSzenario("testdata/szenario02/TESTSUITE_TEST_SZENARIO_2.json", "testdata/szenario02/qr-code-rep.json");
     }
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario03() throws Exception {
         testSzenario("testdata/szenario03/TESTSUITE_TEST_SZENARIO_3.json", "testdata/szenario03/qr-code-rep.json");
     }
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario04() throws Exception {
         testSzenario("testdata/szenario04/TESTSUITE_TEST_SZENARIO_4.json", "testdata/szenario04/qr-code-rep.json");
     }
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario05() throws Exception {
         testSzenario("testdata/szenario05/TESTSUITE_TEST_SZENARIO_5.json", "testdata/szenario05/qr-code-rep.json");
     }
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario06() throws Exception {
         testSzenario("testdata/szenario06/TESTSUITE_TEST_SZENARIO_6.json", "testdata/szenario06/qr-code-rep.json");
     }
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario07() throws Exception {
         testSzenario("testdata/szenario07/TESTSUITE_TEST_SZENARIO_7.json", "testdata/szenario07/qr-code-rep.json");
     }
 
     @Test
     @Transactional
+    @Ignore
     public void testSzenario08() throws Exception {
         testSzenario("testdata/szenario08/TESTSUITE_TEST_SZENARIO_8.json", "testdata/szenario08/qr-code-rep.json");
     }
