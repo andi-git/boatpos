@@ -105,6 +105,17 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                         this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
                     }
                 };
+                SaleService.prototype.cancelBill = function () {
+                    if (lang_1.isPresent(this.receiptElements) && this.receiptElements.length > 0) {
+                        this.receiptElements.forEach(function (re) {
+                            re.totalPrice = (-1) * re.totalPrice;
+                        });
+                        this.sale("Storno-Beleg", this.receiptElements);
+                    }
+                    else {
+                        this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
+                    }
+                };
                 SaleService.prototype.sale = function (receiptType, receiptElements) {
                     var _this = this;
                     this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale("CASH", receiptType, receiptElements)), { headers: this.configService.getDefaultHeader() })

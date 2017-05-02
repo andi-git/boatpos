@@ -26,12 +26,12 @@ export class Income {
 
 export class IncomeProductGroup {
 
-    name:String;
+    name:string;
     income:number;
     taxPercent:number;
     priority:number;
 
-    constructor(name:String, income:number, taxPercent:number, priority:number) {
+    constructor(name:string, income:number, taxPercent:number, priority:number) {
         this.name = name;
         this.income = income;
         this.taxPercent = taxPercent;

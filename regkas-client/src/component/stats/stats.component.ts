@@ -8,6 +8,8 @@ import {ModalIncome, ModalIncomeContext} from "./modalIncome";
 import {PrettyPrinter} from "../../prettyprinter";
 import {ModalHandler} from "../../modalHandler";
 import {SaleService} from "../../service/sale.service";
+import {ModalCheckPrint, ModalCheckPrintContext} from "./modalCheckPrint";
+import {ErrorService} from "../../service/error.service";
 
 @Component({
     selector: 'stats',
@@ -20,35 +22,35 @@ export class StatsComponent {
     private datePickerDep = new DatePicker();
     private startbelegMustBePrinted: boolean = false;
 
-    constructor(private journalService:JournalService, private printer:Printer, private infoService:InfoService, private config:ConfigService, private info:InfoService, private pp:PrettyPrinter, private modalHandler:ModalHandler, private saleService:SaleService) {
+    constructor(private journalService: JournalService, private printer: Printer, private infoService: InfoService, private errorService: ErrorService, private config: ConfigService, private info: InfoService, private pp: PrettyPrinter, private modalHandler: ModalHandler, private saleService: SaleService) {
         console.log("constructor of StatsComponent");
         this.checkIfStartBelegMustBePrinted();
     }
 
-    dayIncomeChange(day:any) {
+    dayIncomeChange(day: any) {
         this.datePickerIncome.setCurrentDay(day);
     }
 
-    monthIncomeChange(month:any) {
+    monthIncomeChange(month: any) {
         this.datePickerIncome.setCurrentMonth(month);
     }
 
-    yearIncomeChange(year:any) {
+    yearIncomeChange(year: any) {
         this.datePickerIncome.setCurrentYear(year);
     }
 
-    dayDepChange(day:any) {
+    dayDepChange(day: any) {
         this.datePickerDep.setCurrentDay(day);
     }
 
-    monthDepChange(month:any) {
+    monthDepChange(month: any) {
         this.datePickerDep.setCurrentMonth(month);
     }
 
-    yearDepChange(year:any) {
+    yearDepChange(year: any) {
         this.datePickerDep.setCurrentYear(year);
     }
-    
+
     incomeDay() {
         this.info.event().emit("Einnahmen für " + this.datePickerIncome.getCurrentDay() + ". " + this.datePickerIncome.getCurrentMonthAsString() + " " + this.datePickerIncome.getCurrentYear() + " werden angezeigt.");
         this.modalHandler.open(ModalIncome, new ModalIncomeContext(this.journalService, this.pp, this.printer, this.config, this.datePickerIncome.getCurrentYear(), this.datePickerIncome.getCurrentMonthAsNumber(), this.datePickerIncome.getCurrentDay())).then((resultPromise) => {
@@ -109,14 +111,38 @@ export class StatsComponent {
     }
 
     printTagesBeleg() {
-        this.saleService.tagesBeleg();
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Tagesbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.saleService.tagesBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Tages-Belegs wurde abgebrochen!');
+                });
+            });
+        });
     }
 
     printMonatsBeleg() {
-        this.saleService.monatsBeleg();
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Monatsbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.saleService.monatsBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Monats-Belegs wurde abgebrochen!');
+                });
+            });
+        });
     }
 
     printJahresBeleg() {
-        this.saleService.jahresBeleg();
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Jahresbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.saleService.jahresBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Jahres-Belegs wurde abgebrochen');
+                });
+            });
+        });
     }
 }

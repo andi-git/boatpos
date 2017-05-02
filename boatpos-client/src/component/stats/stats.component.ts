@@ -8,6 +8,8 @@ import {ModalHandler} from "../../modalHandler";
 import {ModalIncome, ModalIncomeContext} from "./modalIncome";
 import {PrettyPrinter} from "../../prettyprinter";
 import {RentalService} from "../../service/rental.service";
+import {ModalCheckPrint, ModalCheckPrintContext} from "./modalCheckPrint";
+import {ErrorService} from "../../service/error.service";
 
 @Component({
     selector: 'stats',
@@ -20,7 +22,7 @@ export class StatsComponent {
     private datePickerDep = new DatePicker();
     private startbelegMustBePrinted: boolean = false;
 
-    constructor(private journalService:JournalService, private printer:Printer, private config:ConfigService, private info:InfoService, private modalHandler:ModalHandler, private pp:PrettyPrinter, private rentalService:RentalService) {
+    constructor(private journalService:JournalService, private printer:Printer, private config:ConfigService, private info:InfoService, private errorService:ErrorService, private modalHandler:ModalHandler, private pp:PrettyPrinter, private rentalService:RentalService) {
         console.log("constructor of StatsComponent");
         this.checkIfStartbelegMustBePrinted();
     }
@@ -104,15 +106,39 @@ export class StatsComponent {
     }
 
     printTagesBeleg() {
-        this.rentalService.tagesBeleg();
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Tagesbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.rentalService.tagesBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Tages-Belegs wurde abgebrochen!');
+                });
+            });
+        });
     }
 
     printMonatsBeleg() {
-        this.rentalService.monatsBeleg();
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Monatsbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.rentalService.monatsBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Monats-Belegs wurde abgebrochen!');
+                });
+            });
+        });
     }
 
     printJahresBeleg() {
-        this.rentalService.jahresBeleg();
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Jahresbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.rentalService.jahresBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Jahres-Belegs wurde abgebrochen');
+                });
+            });
+        });
     }
 
     depRKSV() {

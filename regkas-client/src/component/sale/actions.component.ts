@@ -24,6 +24,9 @@ export class ActionsComponent {
             },
             '~': () => {
                 this.saleService.tagesBeleg();
+            },
+            '=': () => {
+                this.cancelBill();
             }
         };
         this.keyBinding.addBindingForMain(map);
@@ -39,5 +42,9 @@ export class ActionsComponent {
 
     bill() {
         this.saleService.bill();
+    }
+
+    cancelBill() {
+        this.saleService.cancelBill();
     }
 }

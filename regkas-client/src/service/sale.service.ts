@@ -73,6 +73,17 @@ export class SaleService {
         }
     }
 
+    cancelBill() {
+        if (isPresent(this.receiptElements) && this.receiptElements.length > 0) {
+            this.receiptElements.forEach(re => {
+                re.totalPrice = (-1) * re.totalPrice;
+            });
+            this.sale("Storno-Beleg", this.receiptElements);
+        } else {
+            this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
+        }
+    }
+
     private sale(receiptType: string, receiptElements?: Array<ReceiptElement>) {
         this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale("CASH", receiptType, receiptElements)), {headers: this.configService.getDefaultHeader()})
             .map(res => {

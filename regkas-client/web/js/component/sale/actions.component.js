@@ -49,6 +49,9 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                         },
                         '~': function () {
                             _this.saleService.tagesBeleg();
+                        },
+                        '=': function () {
+                            _this.cancelBill();
                         }
                     };
                     this.keyBinding.addBindingForMain(map);
@@ -61,6 +64,9 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                 };
                 ActionsComponent.prototype.bill = function () {
                     this.saleService.bill();
+                };
+                ActionsComponent.prototype.cancelBill = function () {
+                    this.saleService.cancelBill();
                 };
                 ActionsComponent = __decorate([
                     core_1.Component({
