@@ -35,13 +35,11 @@ System.register(["angular2/core", 'lib/angular2-modal'], function(exports_1, con
                     this.type = modelContentData.type;
                 }
                 ModalCheckPrint.prototype.ok = function ($event) {
-                    console.log('ok');
                     $event.stopPropagation();
                     //noinspection TypeScriptUnresolvedFunction
                     this.dialog.close(true);
                 };
                 ModalCheckPrint.prototype.cancel = function ($event) {
-                    console.log('cancel');
                     $event.stopPropagation();
                     //noinspection TypeScriptUnresolvedFunction
                     this.dialog.dismiss();
