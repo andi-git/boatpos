@@ -2,6 +2,7 @@ package org.regkas.service.core.dep;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import org.apache.commons.io.FileUtils;
+import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 import org.regkas.domain.api.context.CashBoxContext;
@@ -40,14 +42,17 @@ public class DepExporterTimer {
     @Inject
     private CompanyContext companyContext;
 
+    @Inject
+    private DateTimeHelper dateTimeHelper;
+
     @Schedule(hour = "1", minute = "30", persistent = false)
     public List<File> exportDep() {
         List<File> deps = new ArrayList<>();
         for (CashBox cashBox : cashBoxRepository.loadAll()) {
             cashBoxContext.set(cashBox);
             companyContext.set(cashBox.getCompany());
-            String folder = System.getProperty("boatpos.data.folder", System.getProperty("java.io.tmpdir")) + "/dep/rksv/";
-            File file = depExporter.exportBasedOnRKSV(Period.untilNow());
+            String folder = System.getProperty("boatpos.data.folder", System.getProperty("java.io.tmpdir") + "/dep/rksv/");
+            File file = depExporter.exportBasedOnRKSV(new Period(LocalDateTime.of(2017, 1, 1, 0, 0, 0), dateTimeHelper.currentTime()));
             try {
                 File destFile = new File(folder, file.getName());
                 log.debug("create DEP-RKSV for " + cashBox.getName().get() + " in " + destFile);
