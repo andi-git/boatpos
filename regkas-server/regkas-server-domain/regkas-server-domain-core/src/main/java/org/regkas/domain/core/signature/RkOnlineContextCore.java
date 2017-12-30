@@ -41,7 +41,12 @@ public class RkOnlineContextCore implements RkOnlineContext {
 
     @Override
     public Environment getEnvironment() {
-        return environment;
+        String property = System.getProperty("boatpos.regkas.environment");
+        if (property != null && !"".equals(property)) {
+            return Environment.get(property);
+        } else {
+            return environment;
+        }
     }
 
     @Override

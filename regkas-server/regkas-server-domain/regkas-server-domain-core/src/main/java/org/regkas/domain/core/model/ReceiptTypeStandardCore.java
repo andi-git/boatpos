@@ -6,6 +6,7 @@ import org.regkas.domain.api.model.ReceiptTypeStandard;
 import org.regkas.domain.api.receipt.precondition.DayChangedAndDayReceiptPrinted;
 import org.regkas.domain.api.receipt.precondition.MonthChangedAndMonthReceiptPrinted;
 import org.regkas.domain.api.receipt.precondition.Precondition;
+import org.regkas.domain.api.receipt.precondition.SchlussReceiptNotAvailable;
 import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
 import org.regkas.domain.api.turnovercounter.EncryptTurnoverCounter;
 import org.regkas.domain.api.turnovercounter.UpdateTurnoverCounter;
@@ -23,7 +24,7 @@ public class ReceiptTypeStandardCore extends ReceiptTypeCore<ReceiptTypeStandard
 
     @Override
     public List<Class<? extends Precondition>> getPreconditions() {
-        return Lists.newArrayList(StartReceiptAvailable.class, MonthChangedAndMonthReceiptPrinted.class, DayChangedAndDayReceiptPrinted.class);
+        return Lists.newArrayList(StartReceiptAvailable.class, MonthChangedAndMonthReceiptPrinted.class, DayChangedAndDayReceiptPrinted.class, SchlussReceiptNotAvailable.class);
     }
 
     @Override

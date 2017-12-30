@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.regkas.domain.api.model.ReceiptTypeTag;
 import org.regkas.domain.api.receipt.precondition.Precondition;
+import org.regkas.domain.api.receipt.precondition.SchlussReceiptNotAvailable;
 import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
 import org.regkas.domain.api.turnovercounter.EncryptTurnoverCounter;
 import org.regkas.domain.api.turnovercounter.UpdateTurnoverCounter;
@@ -21,7 +22,7 @@ public class ReceiptTypeTagCore extends ReceiptTypeCore<ReceiptTypeTag, ReceiptT
 
     @Override
     public List<Class<? extends Precondition>> getPreconditions() {
-        return Lists.newArrayList(StartReceiptAvailable.class);
+        return Lists.newArrayList(StartReceiptAvailable.class, SchlussReceiptNotAvailable.class);
     }
 
     @Override

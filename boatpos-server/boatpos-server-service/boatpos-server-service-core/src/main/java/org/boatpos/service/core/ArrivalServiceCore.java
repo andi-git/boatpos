@@ -147,4 +147,9 @@ public class ArrivalServiceCore implements ArrivalService {
     public Boolean checkIfStartbelegMustBePrinted() {
         return regkasService.checkIfStartreceiptMustBePrinted();
     }
+
+    @Override
+    public Boolean checkIfSchlussbelegCanBePrinted() {
+        return regkasService.checkIfSchlussreceiptCanBePrinted();
+    }
 }

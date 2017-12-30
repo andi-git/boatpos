@@ -80,6 +80,15 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
+    public void testIsSchlussReceiptCreated() throws Exception {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        assertFalse(receiptService.isSchlussReceiptCreated());
+    }
+
+    @Test
+    @Transactional
     public void testShouldCreateMonthReceipt() throws Exception {
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));

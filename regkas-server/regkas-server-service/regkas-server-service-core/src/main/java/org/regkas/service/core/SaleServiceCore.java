@@ -14,8 +14,10 @@ import org.regkas.domain.api.model.Receipt;
 import org.regkas.domain.api.model.ReceiptType;
 import org.regkas.domain.api.model.ReceiptTypeJahr;
 import org.regkas.domain.api.model.ReceiptTypeMonat;
+import org.regkas.domain.api.model.ReceiptTypeSchluss;
 import org.regkas.domain.api.model.ReceiptTypeStart;
 import org.regkas.domain.api.model.ReceiptTypeTag;
+import org.regkas.domain.api.receipt.precondition.SchlussReceiptNotAvailable;
 import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
 import org.regkas.domain.api.receipt.precondition.StartReceiptNotAvailable;
 import org.regkas.domain.api.repository.ReceiptRepository;
@@ -71,6 +73,8 @@ public class SaleServiceCore implements SaleService {
             throw new RuntimeException("no start-receipt available");
         } else if ( !preconditionChecker.isFulfilled(receiptType, cashBox, StartReceiptNotAvailable.class)) {
             throw new RuntimeException("start-receipt was already created");
+        } else if ( !preconditionChecker.isFulfilled(receiptType, cashBox, SchlussReceiptNotAvailable.class)) {
+            throw new RuntimeException("schluss-receipt was already created");
         } else {
             Receipt receipt = receiptCreator.createReceipt(sale);
             receipt = handleDeviceAvailability(lastReceiptOptional, receipt);
@@ -79,6 +83,9 @@ public class SaleServiceCore implements SaleService {
             if (receiptType instanceof ReceiptTypeStart) {
                 cashboxJournalEvent.fire(createCashboxJournalEvent(billBean, cashBox));
                 sendMailEvent.fire(new SendMailEvent("start-receipt created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
+            } else if (receiptType instanceof ReceiptTypeSchluss) {
+                cashboxJournalEvent.fire(createCashboxJournalEvent(billBean, cashBox));
+                sendMailEvent.fire(new SendMailEvent("schluss-receipt created", billBean.getReceiptDateAndTime() + ", " + cashBox.getName().get()));
             }
             return billBean;
         }

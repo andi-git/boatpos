@@ -122,6 +122,18 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                     this.rentalService.startBeleg();
                     this.startbelegMustBePrinted = false;
                 };
+                StatsComponent.prototype.printSchlussbeleg = function () {
+                    var _this = this;
+                    this.modalHandler.open(modalCheckPrint_1.ModalCheckPrint, new modalCheckPrint_1.ModalCheckPrintContext('Schlussbeleg')).then(function (resultPromise) {
+                        resultPromise.result.then(function (result) {
+                            return resultPromise.result.then(function (result) {
+                                _this.rentalService.schlussBeleg();
+                            }, function () {
+                                _this.errorService.event().emit('Erstellen des Schluss-Belegs wurde abgebrochen!');
+                            });
+                        });
+                    });
+                };
                 StatsComponent.prototype.checkIfStartbelegMustBePrinted = function () {
                     var _this = this;
                     this.rentalService.checkIfStarbelegMustBePrinted().subscribe(function (check) {

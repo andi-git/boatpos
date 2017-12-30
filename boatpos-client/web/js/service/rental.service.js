@@ -156,6 +156,9 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                         }
                     });
                 };
+                RentalService.prototype.schlussBeleg = function () {
+                    this.receipt("Schluss-Beleg");
+                };
                 RentalService.prototype.nullBeleg = function () {
                     this.receipt("Null-Beleg");
                 };

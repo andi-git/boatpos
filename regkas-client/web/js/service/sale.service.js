@@ -143,6 +143,9 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                         }
                     });
                 };
+                SaleService.prototype.schlussBeleg = function () {
+                    this.sale("Schluss-Beleg");
+                };
                 SaleService.prototype.nullBeleg = function () {
                     this.sale("Null-Beleg");
                 };

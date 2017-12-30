@@ -75,4 +75,10 @@ public class ArrivalServiceRest {
     public Response checkIfStartbelegMustBePrinted() {
         return Response.ok(arrivalService.checkIfStartbelegMustBePrinted()).build();
     }
+
+    @GET
+    @Path("/schluss/check")
+    public Response checkIfSchlussbelegCanBePrinted() {
+        return Response.ok(arrivalService.checkIfSchlussbelegCanBePrinted()).build();
+    }
 }

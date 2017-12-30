@@ -45,7 +45,7 @@ public class RegkasService {
     @SLF4J
     private LogWrapper log;
 
-    protected ProductBean getProduct(Boat boat) throws Exception {
+    private ProductBean getProduct(Boat boat) {
         return readEntity(
             createRestCall(webTarget -> webTarget.path("rest/product").path(boat.getName().get()), MediaType.APPLICATION_JSON_TYPE).get(),
             ProductBean.class);
@@ -157,6 +157,12 @@ public class RegkasService {
     public Boolean checkIfStartreceiptMustBePrinted() {
         return readEntity(
             createRestCall(webTarget -> webTarget.path("rest/receipt/start/check"), MediaType.APPLICATION_JSON_TYPE).get(),
+            Boolean.class);
+    }
+
+    public Boolean checkIfSchlussreceiptCanBePrinted() {
+        return readEntity(
+            createRestCall(webTarget -> webTarget.path("rest/receipt/schluss/check"), MediaType.APPLICATION_JSON_TYPE).get(),
             Boolean.class);
     }
 }

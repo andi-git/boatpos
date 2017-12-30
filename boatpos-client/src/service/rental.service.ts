@@ -130,6 +130,10 @@ export class RentalService {
         });
     }
 
+    schlussBeleg() {
+        this.receipt("Schluss-Beleg");
+    }
+
     nullBeleg() {
         this.receipt("Null-Beleg");
     }

@@ -2,6 +2,7 @@ package org.regkas.domain.core.model;
 
 import com.google.common.collect.Lists;
 import org.regkas.domain.api.receipt.precondition.Precondition;
+import org.regkas.domain.api.receipt.precondition.SchlussReceiptNotAvailable;
 import org.regkas.domain.api.receipt.precondition.SignatureDeviceAvailable;
 import org.regkas.domain.api.receipt.precondition.StartReceiptAvailable;
 import org.regkas.domain.core.turnovercounter.EncryptTurnoverCounterDefault;
@@ -21,7 +22,7 @@ public class ReceiptTypeSchlussCore extends ReceiptTypeCore<ReceiptTypeSchluss, 
 
     @Override
     public List<Class<? extends Precondition>> getPreconditions() {
-        return Lists.newArrayList(StartReceiptAvailable.class, SignatureDeviceAvailable.class);
+        return Lists.newArrayList(StartReceiptAvailable.class, SignatureDeviceAvailable.class, SchlussReceiptNotAvailable.class);
     }
 
     @Override

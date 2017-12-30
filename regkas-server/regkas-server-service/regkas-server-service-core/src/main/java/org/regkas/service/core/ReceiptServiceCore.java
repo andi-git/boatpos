@@ -41,6 +41,11 @@ public class ReceiptServiceCore implements ReceiptService {
     }
 
     @Override
+    public Boolean isSchlussReceiptCreated() {
+        return receiptRepository.loadLatestWithReceiptTypeSchluss(cashBox).isPresent();
+    }
+
+    @Override
     public Boolean shouldCreateMonthReceipt() {
         boolean shouldCreateMonthReceipt = false;
         Optional<Receipt> receipt = receiptRepository.loadLastReceipt(cashBox);

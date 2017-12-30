@@ -44,28 +44,36 @@ public class RkOnlineContextCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testEnvironment() throws Exception {
+    public void testEnvironment() {
         RkOnlineContext rkOnlineContext = new RkOnlineContextCore();
         assertEquals(Environment.PROD, rkOnlineContext.getEnvironment());
         rkOnlineContext.setEnvironment(Environment.TEST);
         assertEquals(Environment.TEST, rkOnlineContext.getEnvironment());
+
+        System.setProperty("boatpos.regkas.environment", "xyz");
+        assertEquals(Environment.TEST, rkOnlineContext.getEnvironment());
+        System.setProperty("boatpos.regkas.environment", "prod");
+        assertEquals(Environment.PROD, rkOnlineContext.getEnvironment());
+        System.setProperty("boatpos.regkas.environment", "test");
+        assertEquals(Environment.TEST, rkOnlineContext.getEnvironment());
+        System.clearProperty("boatpos.regkas.environment");
     }
 
     @Test
     @Transactional
-    public void testGetRkOnlineUsername() throws Exception {
+    public void testGetRkOnlineUsername() {
         assertEquals("u123456789", rkOnlineContext.getRkOnlineUsername().get());
     }
 
     @Test
     @Transactional
-    public void testGetRkOnlinePassword() throws Exception {
+    public void testGetRkOnlinePassword() {
         assertEquals("123456789", rkOnlineContext.getRkOnlinePassword().get());
     }
 
     @Test
     @Transactional
-    public void testRkOnlineSession() throws Exception {
+    public void testRkOnlineSession() {
         assertFalse(rkOnlineContext.getRkOnlineSessionId().isPresent());
         assertFalse(rkOnlineContext.getRkOnlineSessionKey().isPresent());
         assertFalse(rkOnlineContext.getLastAction().isPresent());
@@ -84,7 +92,7 @@ public class RkOnlineContextCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testAction() throws Exception {
+    public void testAction() {
         assertFalse(rkOnlineContext.getLastAction().isPresent());
         rkOnlineContext.action();
 

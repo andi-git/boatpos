@@ -37,6 +37,12 @@ public class ReceiptServiceRestTest extends FillDatabaseInOtherTransactionTest {
     }
 
     @Test
+    public void testPrintSchluss() throws Exception {
+        assertTrue(
+            helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/schluss/check")).get().readEntity(Boolean.class));
+    }
+
+    @Test
     public void testPrintMonth() throws Exception {
         assertFalse(
             helper.createRestCallWithHeaderCredentialsForTestUser(url, (wt) -> wt.path("receipt/month/check")).get().readEntity(Boolean.class));

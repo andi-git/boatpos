@@ -100,6 +100,18 @@ export class StatsComponent {
         this.startbelegMustBePrinted = false;
     }
 
+    printSchlussBeleg() {
+        this.modalHandler.open(ModalCheckPrint, new ModalCheckPrintContext('Schlussbeleg')).then((resultPromise) => {
+            resultPromise.result.then((result) => {
+                return resultPromise.result.then((result) => {
+                    this.saleService.schlussBeleg();
+                }, () => {
+                    this.errorService.event().emit('Erstellen des Schluss-Belegs wurde abgebrochen!');
+                });
+            });
+        });
+    }
+
     checkIfStartBelegMustBePrinted() {
         this.saleService.checkIfStarbelegMustBePrinted().subscribe(check => {
             this.startbelegMustBePrinted = check;

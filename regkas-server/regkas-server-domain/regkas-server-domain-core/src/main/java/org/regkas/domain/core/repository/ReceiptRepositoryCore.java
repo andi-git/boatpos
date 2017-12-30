@@ -75,6 +75,12 @@ public class ReceiptRepositoryCore extends DomainModelRepositoryCore<Receipt, Re
     }
 
     @Override
+    public Optional<Receipt> loadLatestWithReceiptTypeSchluss(CashBox cashBox) {
+        checkNotNull(cashBox, "'cashBox' must not be null");
+        return loadLatestWithReceiptType(new Name("Schluss-Beleg"), cashBox);
+    }
+
+    @Override
     public Optional<Receipt> loadLatestWithReceiptTypeMonat(CashBox cashBox) {
         checkNotNull(cashBox, "'cashBox' must not be null");
         return loadLatestWithReceiptType(new Name("Monats-Beleg"), cashBox);

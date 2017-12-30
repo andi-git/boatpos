@@ -128,7 +128,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSale() throws Exception {
+    public void testSale() {
         assertEquals(1300, cashBoxContext.get().getTurnoverCountCent().get().intValue());
 
         BillBean bill = saleService.sale(firstSale.createDefaultSale());
@@ -147,7 +147,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSaleWhenSignatureDeviceIsNotAvailable() throws Exception {
+    public void testSaleWhenSignatureDeviceIsNotAvailable() {
         rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
 
         BillBean bill = saleService.sale(firstSale.createDefaultSale());
@@ -167,7 +167,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSaleWithNullReceipt() throws Exception {
+    public void testSaleWithNullReceipt() {
         rkOnlineResourceFactory.setRkOnlineResourceSession(new RkOnlineResourceSessionThrowingException());
 
         BillBean bill = saleService.sale(firstSale.createDefaultSale());
@@ -247,7 +247,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test(expected = RuntimeException.class)
     @Transactional
-    public void testSaleWithoutLastReceipt() throws Exception {
+    public void testSaleWithoutLastReceipt() {
         userContext.set(userRepository.loadBy(new Name("Max Mustermann")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas2")));
         SaleBean sale = new SaleBean();
@@ -258,7 +258,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSaleStartReceipt() throws Exception {
+    public void testSaleStartReceipt() {
         userContext.set(userRepository.loadBy(new Name("Max Mustermann")));
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas2")));
         SaleBean sale = new SaleBean();
@@ -271,7 +271,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test(expected = RuntimeException.class)
     @Transactional
-    public void testSaleStartReceiptWhenStartWasAlreadyCreated() throws Exception {
+    public void testSaleStartReceiptWhenStartWasAlreadyCreated() {
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
         sale.setReceiptType("Start-Beleg");
@@ -280,7 +280,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSaleTagesReceipt() throws Exception {
+    public void testSaleTagesReceipt() {
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
         sale.setReceiptType("Tages-Beleg");
@@ -291,7 +291,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSaleMonatsReceipt() throws Exception {
+    public void testSaleMonatsReceipt() {
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
         sale.setReceiptType("Monats-Beleg");
@@ -302,7 +302,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
-    public void testSaleJahresReceipt() throws Exception {
+    public void testSaleJahresReceipt() {
         SaleBean sale = new SaleBean();
         sale.setPaymentMethod("cash");
         sale.setReceiptType("Jahres-Beleg");
@@ -333,5 +333,36 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         saleBean.getSaleElements().get(0).setTotalPrice(new BigDecimal("2.500001"));
         BillBean bill = saleService.sale(saleBean);
         assertEquals(new BigDecimal("14.50"), bill.getSumTotal());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testSchlussReceiptWhenStartReceiptNotAvailable() {
+        userContext.set(userRepository.loadBy(new Name("Max Mustermann")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas2")));
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Schluss-Beleg");
+        saleService.sale(sale);
+    }
+
+    @Test
+    @Transactional
+    public void testSchlussReceipt() {
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Schluss-Beleg");
+        BillBean billBean = saleService.sale(sale);
+        assertEquals("Schluss-Beleg", billBean.getReceiptType());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testReceiptAfterSchlussReceiptWasCreated() {
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Schluss-Beleg");
+        saleService.sale(sale);
+        saleService.sale(firstSale.createDefaultSale());
     }
 }

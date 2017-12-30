@@ -36,12 +36,13 @@
         <button class="buttonSmall button-ok" (click)="depRKSV()">RKSV</button>
     </div>
     <div class="container-default startbeleg-container">
-        <h2 class="header startbeleg-header">Start-Beleg</h2>
+        <h2 class="header startbeleg-header">Start-/Schluss-Beleg</h2>
         <div *ngIf="startbelegMustBePrinted === true">
             <button class="buttonSmall button-ok" (click)="printStartBeleg()">StartBeleg drucken</button>
         </div>
         <div *ngIf="startbelegMustBePrinted === false">
-            <p>Starbeleg wurde bereits gedruckt.</p>
+            <p>Startbeleg wurde bereits gedruckt.</p>
+            <button class="buttonSmall button-ok" (click)="printSchlussBeleg()">Registrierkasse abschließen</button>
         </div>
     </div>
     <div class="container-default nullbeleg-container">

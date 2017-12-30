@@ -112,6 +112,10 @@ export class SaleService {
         });
     }
 
+    schlussBeleg() {
+        this.sale("Schluss-Beleg");
+    }
+
     nullBeleg() {
         this.sale("Null-Beleg");
     }

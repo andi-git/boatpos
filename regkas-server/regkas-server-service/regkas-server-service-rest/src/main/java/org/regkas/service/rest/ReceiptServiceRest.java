@@ -34,6 +34,12 @@ public class ReceiptServiceRest {
     }
 
     @GET
+    @Path("/schluss/check")
+    public Response printSchluss() {
+        return Response.ok(!receiptService.isSchlussReceiptCreated()).build();
+    }
+
+    @GET
     @Path("/month/check")
     public Response printMonth() {
         return Response.ok(receiptService.shouldCreateMonthReceipt()).build();

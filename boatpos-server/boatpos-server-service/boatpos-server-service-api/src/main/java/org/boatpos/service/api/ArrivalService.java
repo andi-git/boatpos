@@ -45,4 +45,6 @@ public interface ArrivalService {
     BillBean receipt(String receiptType);
 
     Boolean checkIfStartbelegMustBePrinted();
+
+    Boolean checkIfSchlussbelegCanBePrinted();
 }

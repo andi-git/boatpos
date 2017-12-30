@@ -4,6 +4,8 @@ public interface ReceiptService {
 
     Boolean isStartReceiptCreated();
 
+    Boolean isSchlussReceiptCreated();
+
     Boolean shouldCreateMonthReceipt();
 
     String getCurrentRkOnlineEnvironment();

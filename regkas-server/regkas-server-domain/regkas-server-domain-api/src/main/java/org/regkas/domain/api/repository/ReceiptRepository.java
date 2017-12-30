@@ -6,6 +6,7 @@ import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.Receipt;
 import org.regkas.domain.api.model.ReceiptTypeJahr;
 import org.regkas.domain.api.model.ReceiptTypeMonat;
+import org.regkas.domain.api.model.ReceiptTypeSchluss;
 import org.regkas.domain.api.model.ReceiptTypeStart;
 import org.regkas.domain.api.values.ReceiptId;
 import org.regkas.service.api.bean.Period;
@@ -68,6 +69,14 @@ public interface ReceiptRepository extends DomainModelRepository<Receipt, Receip
      * @return the latest {@link Receipt} with {@link ReceiptTypeStart}
      */
     Optional<Receipt> loadLatestWithReceiptTypeStart(CashBox cashBox);
+
+    /**
+     * Load the latest {@link Receipt} with {@link ReceiptTypeSchluss}.
+     *
+     * @param cashBox the current {@link CashBox}
+     * @return the latest {@link Receipt} with {@link ReceiptTypeSchluss}
+     */
+    Optional<Receipt> loadLatestWithReceiptTypeSchluss(CashBox cashBox);
 
     /**
      * Load the latest {@link Receipt} with {@link ReceiptTypeMonat}.
