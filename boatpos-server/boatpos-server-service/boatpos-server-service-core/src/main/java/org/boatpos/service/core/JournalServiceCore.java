@@ -1,7 +1,7 @@
 package org.boatpos.service.core;
 
-import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.domain.api.values.Enabled;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
 import org.boatpos.domain.api.model.Boat;
@@ -13,9 +13,12 @@ import org.boatpos.domain.api.values.Period;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;
+import org.boatpos.service.core.mail.SendMailEvent;
 import org.boatpos.service.core.util.RegkasService;
+import org.regkas.service.api.bean.IncomeBean;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import java.io.File;
 import java.math.BigDecimal;
@@ -40,19 +43,55 @@ public class JournalServiceCore implements JournalService {
     @Inject
     private RegkasService regkasService;
 
+    @Inject
+    private Event<SendMailEvent> sendMailEvent;
+
     @Override
     public JournalReportBean totalIncomeFor(Integer year) {
-        return totalIncomeFor(Period.year(LocalDate.of(year, 1, 1)));
+        Period period = Period.year(LocalDate.of(year, 1, 1));
+        JournalReportBean journalReportBean = totalIncomeFor(period);
+        IncomeBean incomeBean = regkasService.totalIncome(year);
+        checkTotalIncomeBetweenBoatposAndRegkas(journalReportBean, incomeBean, period);
+        return journalReportBean;
     }
 
     @Override
     public JournalReportBean totalIncomeFor(Integer year, Integer month) {
-        return totalIncomeFor(Period.month(LocalDate.of(year, month, 1)));
+        Period period = Period.month(LocalDate.of(year, month, 1));
+        JournalReportBean journalReportBean = totalIncomeFor(period);
+        IncomeBean incomeBean = regkasService.totalIncome(year, month);
+        checkTotalIncomeBetweenBoatposAndRegkas(journalReportBean, incomeBean, period);
+        return journalReportBean;
     }
 
     @Override
     public JournalReportBean totalIncomeFor(Integer year, Integer month, Integer dayOfMonth) {
-        return totalIncomeFor(Period.day(LocalDate.of(year, month, dayOfMonth)));
+        Period period = Period.day(LocalDate.of(year, month, dayOfMonth));
+        JournalReportBean journalReportBean = totalIncomeFor(period);
+        IncomeBean incomeBean = regkasService.totalIncome(year, month, dayOfMonth);
+        checkTotalIncomeBetweenBoatposAndRegkas(journalReportBean, incomeBean, period);
+        return journalReportBean;
+    }
+
+    private void checkTotalIncomeBetweenBoatposAndRegkas(JournalReportBean incomeBoatpos, IncomeBean incomeRegkas, Period period) {
+        BigDecimal incomeBoatposSum = incomeBoatpos.getJournalReportItemBeans().stream()
+                .map(item -> item.getPricePaidBeforeCash()
+                        .add(item.getPricePaidAfterCash())
+                        .add(item.getPricePaidBeforeCard())
+                        .add(item.getPricePaidAfterCard()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (incomeBoatposSum == null) {
+            incomeBoatposSum = BigDecimal.ZERO;
+        }
+        BigDecimal incomeRegkasSum = BigDecimal.ZERO;
+        if (incomeRegkas != null && incomeRegkas.getTotalIncome() != null) {
+            incomeRegkasSum = incomeRegkas.getTotalIncome();
+        }
+        if (incomeBoatposSum.compareTo(incomeRegkasSum) != 0) {
+            String message = "Difference between boatpos-income " + incomeBoatposSum + " and regkas-income " + incomeRegkasSum + " for " + period + "!";
+            log.error(message);
+            sendMailEvent.fire(new SendMailEvent("different income", message));
+        }
     }
 
     @Override

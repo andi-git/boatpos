@@ -6,16 +6,20 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Specializes;
 
 import org.boatpos.service.api.bean.PaymentBean;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.CompanyBean;
+import org.regkas.service.api.bean.IncomeBean;
 
-@Dependent
+@ApplicationScoped
 @Specializes
 public class RegkasServiceMock extends RegkasService {
+
+    private IncomeBean mockIncomeBean = new IncomeBean();
 
     @Override
     public BillBean sale(PaymentBean paymentBean) throws Exception {
@@ -34,6 +38,29 @@ public class RegkasServiceMock extends RegkasService {
             "Standard-Beleg",
             "",
             false);
+    }
+
+    public void setMockIncomeBean(IncomeBean mockIncomeBean) {
+        this.mockIncomeBean = mockIncomeBean;
+    }
+
+    public void resetMockIncomeBean() {
+        this.mockIncomeBean = new IncomeBean();
+    }
+
+    @Override
+    public IncomeBean totalIncome(int year) {
+        return mockIncomeBean;
+    }
+
+    @Override
+    public IncomeBean totalIncome(int year, int month) {
+        return mockIncomeBean;
+    }
+
+    @Override
+    public IncomeBean totalIncome(int year, int month, int day) {
+        return mockIncomeBean;
     }
 
     @Override

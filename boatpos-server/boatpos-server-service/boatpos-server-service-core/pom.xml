@@ -28,7 +28,7 @@
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/arquillian-libs</outputDirectory>
-                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,regkas-server-service-api,mockito-core,byte-buddy,objenesis,commons-codec</includeArtifactIds>
+                            <includeArtifactIds>guava,gson,dozer,dozer-jdk8-support,commons-beanutils,commons-lang3,jep,regkas-server-service-api,mockito-core,byte-buddy,objenesis,commons-codec,commons-email</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -73,6 +73,10 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
         </dependency>
 
         <!-- test -->

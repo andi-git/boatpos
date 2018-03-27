@@ -23,10 +23,7 @@ import org.boatpos.domain.api.model.Rental;
 import org.boatpos.domain.api.values.DayId;
 import org.boatpos.domain.api.values.PricePaidComplete;
 import org.boatpos.service.api.bean.PaymentBean;
-import org.regkas.service.api.bean.BillBean;
-import org.regkas.service.api.bean.ProductBean;
-import org.regkas.service.api.bean.ReceiptElementBean;
-import org.regkas.service.api.bean.SaleBean;
+import org.regkas.service.api.bean.*;
 
 import com.google.common.collect.Lists;
 
@@ -71,6 +68,18 @@ public class RegkasService {
             BillBean.class);
     }
 
+    public IncomeBean totalIncome(int year) {
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/journal/income/" + year),  MediaType.APPLICATION_JSON_TYPE).get(), IncomeBean.class);
+    }
+
+    public IncomeBean totalIncome(int year, int month) {
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/journal/income/" + year + "/" + month),  MediaType.APPLICATION_JSON_TYPE).get(), IncomeBean.class);
+    }
+
+    public IncomeBean totalIncome(int year, int month, int day) {
+        return readEntity(createRestCall(webTarget -> webTarget.path("rest/journal/income/" + year + "/" + month + "/" + day),  MediaType.APPLICATION_JSON_TYPE).get(), IncomeBean.class);
+    }
+
     public File getDEP(int year) {
         return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/" + year), MEDIA_TYPE_ZIP).get());
     }
@@ -99,8 +108,7 @@ public class RegkasService {
     }
 
     File writeToFile(InputStream inputStream, File file) {
-        try {
-            OutputStream outputStream = new FileOutputStream(file);
+        try (OutputStream outputStream = new FileOutputStream(file)) {
             byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {

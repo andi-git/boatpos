@@ -39,4 +39,12 @@ public class Period {
                 LocalDate.from(date).withMonth(1).withDayOfMonth(1),
                 LocalDate.from(date).withMonth(12).withDayOfMonth(date.lengthOfMonth()));
     }
+
+    @Override
+    public String toString() {
+        return "Period{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }
