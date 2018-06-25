@@ -155,6 +155,6 @@ export class StatsComponent {
 
     depRKSV() {
         this.info.event().emit("DatenErfassungsProtokoll RKSV wird erstellt.");
-        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv?"));
+        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv/latest?"));
     }
 }

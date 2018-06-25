@@ -121,7 +121,7 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                 };
                 StatsComponent.prototype.depRKSV = function () {
                     this.info.event().emit("DatenErfassungsProtokoll RKSV wird erstellt.");
-                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv?"));
+                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv/latest?"));
                 };
                 StatsComponent.prototype.printStartBeleg = function () {
                     this.saleService.startBeleg();

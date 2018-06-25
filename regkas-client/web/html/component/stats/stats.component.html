@@ -1,5 +1,5 @@
 <div class="container-default stats-container">
-    <h2 class="header stats-header">Statistiken</h2>
+    <!--h2 class="header stats-header">Statistiken</h2-->
     <div class="container-default income-container">
         <h2 class="header income-header">Einnahmen</h2>
         <select [ngModel]="datePickerIncome.getCurrentDay()" (ngModelChange)="dayIncomeChange($event)">
@@ -11,8 +11,8 @@
         <select [ngModel]="datePickerIncome.getCurrentYear()" (ngModelChange)="yearIncomeChange($event)">
             <option *ngFor="#year of datePickerIncome.getYears()">{{year}}</option>
         </select>
-        <button class="buttonSmall button-cancel" (click)="datePickerIncome.reset()">Zur&uuml;cksetzen</button>
-        <br/>
+        <!--button class="buttonSmall button-cancel" (click)="datePickerIncome.reset()">Zur&uuml;cksetzen</button-->
+        <!--br/-->
         <button class="buttonSmall button-ok" (click)="incomeDay()">Tag</button>
         <button class="buttonSmall button-ok" (click)="incomeMonth()">Monat</button>
         <button class="buttonSmall button-ok" (click)="incomeYear()">Jahr</button>
@@ -28,8 +28,8 @@
         <select [ngModel]="datePickerDep.getCurrentYear()" (ngModelChange)="yearDepChange($event)">
             <option *ngFor="#year of datePickerDep.getYears()">{{year}}</option>
         </select>
-        <button class="buttonSmall button-cancel" (click)="datePickerDep.reset()">Zur&uuml;cksetzen</button>
-        <br/>
+        <!--button class="buttonSmall button-cancel" (click)="datePickerDep.reset()">Zur&uuml;cksetzen</button-->
+        <!--br/-->
         <button class="buttonSmall button-ok" (click)="depDay()">Tag</button>
         <button class="buttonSmall button-ok" (click)="depMonth()">Monat</button>
         <button class="buttonSmall button-ok" (click)="depYear()">Jahr</button>

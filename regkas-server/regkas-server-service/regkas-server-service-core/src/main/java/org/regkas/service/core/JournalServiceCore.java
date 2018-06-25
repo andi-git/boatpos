@@ -96,6 +96,12 @@ public class JournalServiceCore implements JournalService {
         return depExporter.exportBasedOnRKSV(new Period(LocalDateTime.of(2017, 1, 1, 0, 0, 0), dateTimeHelper.currentTime()));
     }
 
+    @Override
+    public File latestDatenErfassungsProtokollRKSV() {
+        File folder = new File(System.getProperty("boatpos.data.folder", System.getProperty("java.io.tmpdir") + "/dep/rksv/"));
+        return depExporter.getLatestExportBasedOnRKSV(folder).orElse(new File("notAvailable.zip"));
+    }
+
     private IncomeBean totalIncomeFor(Period period) {
         checkNotNull(period, "'period' must not be null");
         log.info("calculate total income for {} - {}", period.getStartDay(), period.getEndDay());

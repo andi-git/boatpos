@@ -1,20 +1,5 @@
 package org.regkas.domain.core.dep;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.function.Function;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -31,6 +16,20 @@ import org.regkas.domain.api.values.Certificate;
 import org.regkas.domain.api.values.JournalDate;
 import org.regkas.domain.api.values.JournalMessage;
 import org.regkas.service.api.bean.Period;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.function.Function;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Dependent
 public class DepExporterCore implements DepExporter {
@@ -143,6 +142,7 @@ public class DepExporterCore implements DepExporter {
 
     @Override
     public File exportBasedOnRKSV(Period period) {
+        log.info("create dep for " + period);
         String fileName = createFileName("depRKSV", period);
         File zipFile = createZipFile(fileName);
         ZipOutputStream zos = null;
@@ -186,12 +186,23 @@ public class DepExporterCore implements DepExporter {
         return zipFile;
     }
 
+    @Override
+    public Optional<File> getLatestExportBasedOnRKSV(File folder) {
+        if (folder != null && folder.listFiles() != null) {
+            return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
+                    .filter(file -> file.getName().contains(periodIndependentPartOfFile("depRKSV")))
+                    .min(Comparator.comparingLong(File::lastModified));
+        }
+        return Optional.empty();
+    }
+
     private void addBelegeKompakt(Period period, ZipOutputStream zos, Function<LocalDate, List<String>> loadCompactJwsRepresentationsForDay)
             throws IOException {
         writeLine(zos, "      \"Belege-kompakt\": [");
         LocalDate currentDay = period.getStartDay().toLocalDate();
         boolean first = true;
         while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
+            log.info("create compactJwsRepresentation for day " + currentDay);
             List<String> compactJwsRepresentations = loadCompactJwsRepresentationsForDay.apply(currentDay);
             for (int i = 0; i < compactJwsRepresentations.size(); i++ ) {
                 if ( !first) {
@@ -206,12 +217,18 @@ public class DepExporterCore implements DepExporter {
         writeLine(zos, "      ]");
     }
 
+    private String periodIndependentPartOfFile(String prefix) {
+        return prefix + "_" + fileNamePartForCashbox();
+    }
+
+    private String fileNamePartForCashbox() {
+        return companyContext.get().getName().get().replaceAll(" ", "") +
+                "_" +
+                cashBoxContext.get().getName().get();
+    }
+
     private String createFileName(String prefix, Period period) {
-        return prefix +
-            "_" +
-            companyContext.get().getName().get().replaceAll(" ", "") +
-            "_" +
-            cashBoxContext.get().getName().get() +
+        return periodIndependentPartOfFile(prefix) +
             "_" +
             period.getStartDay().format(DateTimeFormatter.ISO_DATE) +
             "_" +

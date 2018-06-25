@@ -1,7 +1,10 @@
 package org.regkas.domain.core.dep;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Enumeration;
@@ -224,6 +227,29 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
             assertEquals("xxx.jws123.sss", depExport.getBelegeGruppe().get(0).getBelegeKompakt().get(1));
             assertEquals("xxx.jws456.sss", depExport.getBelegeGruppe().get(0).getBelegeKompakt().get(2));
         }
+
+        companyContext.clear();
+        userContext.clear();
+        cashBoxContext.clear();
+    }
+
+    @Test
+    @Transactional
+    public void testGetLatestExportBasedOnRKSV() throws Exception {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+
+        assertFalse(depExporter.getLatestExportBasedOnRKSV(new File(System.getProperty("java.io.tmpdir") + "/whatsoever")).isPresent());
+
+        Period period = Period.year(dateTimeHelper.currentTime());
+        depExporter.exportBasedOnRKSV(period);
+        depExporter.exportBasedOnRKSV(period);
+        File depLastExpected = depExporter.exportBasedOnRKSV(period);
+        assertTrue(depExporter.getLatestExportBasedOnRKSV(new File(System.getProperty("java.io.tmpdir"))).isPresent());
+        File depLastActual = depExporter.getLatestExportBasedOnRKSV(new File(System.getProperty("java.io.tmpdir"))).get();
+        assertEquals(depLastExpected.getName(), depLastActual.getName());
+        assertEquals(depLastExpected.lastModified(), depLastActual.lastModified());
 
         companyContext.clear();
         userContext.clear();

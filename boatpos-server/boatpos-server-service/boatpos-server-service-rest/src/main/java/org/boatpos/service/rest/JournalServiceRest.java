@@ -100,4 +100,12 @@ public class JournalServiceRest {
     public Response datenErfassungsProtokollRKSV() {
         return restHelper.createZipOutput(journalService.datenErfassungsProtokollRKSV());
     }
+
+    @GET
+    @Path("/dep/rksv/latest")
+    @QueryParamAuthenticated
+    @Produces("application/zip")
+    public Response latestDatenErfassungsProtokollRKSV() {
+        return restHelper.createZipOutput(journalService.latestDatenErfassungsProtokollRKSV());
+    }
 }

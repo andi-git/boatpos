@@ -74,4 +74,12 @@ public class Period {
     public static Period untilNow() {
         return new Period(LocalDateTime.of(2015, 1, 1, 0, 0, 0, 0), LocalDateTime.now());
     }
+
+    @Override
+    public String toString() {
+        return "Period{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }

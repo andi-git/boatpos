@@ -96,6 +96,10 @@ public class RegkasService {
         return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/rksv"), MEDIA_TYPE_ZIP).get());
     }
 
+    public File getLatestDEPRKSV() {
+        return convert(createRestCall(webTarget -> webTarget.path("rest/journal/dep/rksv/latest"), MEDIA_TYPE_ZIP).get());
+    }
+
     File convert(Response response) {
         return writeToFile(
             readEntity(response, InputStream.class),

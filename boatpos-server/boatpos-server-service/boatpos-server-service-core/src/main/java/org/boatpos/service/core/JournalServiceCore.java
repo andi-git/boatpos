@@ -114,6 +114,11 @@ public class JournalServiceCore implements JournalService {
         return regkasService.getDEPRKSV();
     }
 
+    @Override
+    public File latestDatenErfassungsProtokollRKSV() {
+        return regkasService.getLatestDEPRKSV();
+    }
+
     private JournalReportBean totalIncomeFor(Period period) {
         checkNotNull(period, "'period' must not be null");
         log.info("calculate total income for {} - {}", period.getStart(), period.getEnd());

@@ -66,6 +66,7 @@
         <version.commons-io>2.5</version.commons-io>
         <version.bcpkix-jdk15on>1.52</version.bcpkix-jdk15on> <!-- version of wildfly-modules -->
         <version.bcprov-jdk15on>1.52</version.bcprov-jdk15on> <!-- version of wildfly-modules -->
+        <version.jboss-ejb3-ext-api>2.2.0.Final</version.jboss-ejb3-ext-api>
         <!-- test -->
         <version.junit>4.11</version.junit>
         <version.arquillian-bom>1.1.11.Final</version.arquillian-bom>
@@ -254,6 +255,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${version.commons-io}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.ejb3</groupId>
+                <artifactId>jboss-ejb3-ext-api</artifactId>
+                <version>${version.jboss-ejb3-ext-api}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

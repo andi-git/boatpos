@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -15,6 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
+import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.regkas.domain.api.context.CashBoxContext;
 import org.regkas.domain.api.context.CompanyContext;
 import org.regkas.domain.api.dep.DepExporter;
@@ -46,6 +48,7 @@ public class DepExporterTimer {
     private DateTimeHelper dateTimeHelper;
 
     @Schedule(hour = "1", minute = "30", persistent = false)
+    @TransactionTimeout(value = 30, unit = TimeUnit.MINUTES)
     public List<File> exportDep() {
         List<File> deps = new ArrayList<>();
         for (CashBox cashBox : cashBoxRepository.loadAll()) {

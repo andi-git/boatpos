@@ -19,4 +19,6 @@ public interface JournalService {
     File datenErfassungsProtokollRKV2012(Integer year, Integer month, Integer dayOfMonth);
 
     File datenErfassungsProtokollRKSV();
+
+    File latestDatenErfassungsProtokollRKSV();
 }
