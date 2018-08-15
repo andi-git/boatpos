@@ -110,6 +110,11 @@ public class JournalServiceCore implements JournalService {
     }
 
     @Override
+    public File latestDatenErfassungsProtokollRKV2012() {
+        return regkasService.getLatestDEPRKSV2012();
+    }
+
+    @Override
     public File datenErfassungsProtokollRKSV() {
         return regkasService.getDEPRKSV();
     }

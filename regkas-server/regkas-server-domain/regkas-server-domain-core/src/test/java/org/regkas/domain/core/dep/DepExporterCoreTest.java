@@ -235,6 +235,29 @@ public class DepExporterCoreTest extends EntityManagerProviderForRegkas {
 
     @Test
     @Transactional
+    public void testGetLatestExportBasedOnRKV2012() throws Exception {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+
+        assertFalse(depExporter.getLatestExportBasedOnRKV2012(new File(System.getProperty("java.io.tmpdir") + "/whatsoever")).isPresent());
+
+        Period period = Period.year(dateTimeHelper.currentTime());
+        depExporter.exportBasedOnRKV2012(period);
+        depExporter.exportBasedOnRKV2012(period);
+        File depLastExpected = depExporter.exportBasedOnRKV2012(period);
+        assertTrue(depExporter.getLatestExportBasedOnRKV2012(new File(System.getProperty("java.io.tmpdir"))).isPresent());
+        File depLastActual = depExporter.getLatestExportBasedOnRKV2012(new File(System.getProperty("java.io.tmpdir"))).get();
+        assertEquals(depLastExpected.getName(), depLastActual.getName());
+        assertEquals(depLastExpected.lastModified(), depLastActual.lastModified());
+
+        companyContext.clear();
+        userContext.clear();
+        cashBoxContext.clear();
+    }
+
+    @Test
+    @Transactional
     public void testGetLatestExportBasedOnRKSV() throws Exception {
         companyContext.set(companyRepository.loadBy(new Name("company")));
         userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));

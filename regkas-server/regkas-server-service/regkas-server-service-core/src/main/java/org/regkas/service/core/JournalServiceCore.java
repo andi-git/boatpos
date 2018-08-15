@@ -92,6 +92,12 @@ public class JournalServiceCore implements JournalService {
     }
 
     @Override
+    public File latestDatenErfassungsProtokollRKV2012() {
+        File folder = new File(System.getProperty("boatpos.data.folder", System.getProperty("java.io.tmpdir") + "/dep/rksv/"));
+        return depExporter.getLatestExportBasedOnRKV2012(folder).orElse(new File("notAvailable.zip"));
+    }
+
+    @Override
     public File datenErfassungsProtokollRKSV() {
         return depExporter.exportBasedOnRKSV(new Period(LocalDateTime.of(2017, 1, 1, 0, 0, 0), dateTimeHelper.currentTime()));
     }

@@ -69,6 +69,6 @@ public class DepExporterTimerTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testExportDep() throws Exception {
-        assertEquals(7, depExporterTimer.exportDep().size());
+        assertEquals(14, depExporterTimer.exportDep().size());
     }
 }

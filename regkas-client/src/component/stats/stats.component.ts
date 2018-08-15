@@ -69,29 +69,13 @@ export class StatsComponent {
         });
     }
 
-    depDay() {
-        this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentDay() + ". " + this.datePickerDep.getCurrentMonthAsString() + " " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
-        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-            + this.datePickerDep.getCurrentYear() + "/"
-            + this.datePickerDep.getCurrentMonthAsNumber() + "/"
-            + this.datePickerDep.getCurrentDay() + "?"));
+    depRKV2012() {
+        this.info.event().emit("DatenErfassungsProtokoll RKV 2012 wird erstellt.");
+        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/latest?"));
     }
 
-    depMonth() {
-        this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentMonthAsString() + " " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
-        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-            + this.datePickerDep.getCurrentYear() + "/"
-            + this.datePickerDep.getCurrentMonthAsNumber() + "?"));
-    }
-
-    depYear() {
-        this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
-        window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-            + this.datePickerDep.getCurrentYear() + "?"));
-    }
-
-    depRKSV() {
-        this.info.event().emit("DatenErfassungsProtokoll RKSV wird erstellt.");
+    depRKSV2017() {
+        this.info.event().emit("DatenErfassungsProtokoll RKSV 2017 wird erstellt.");
         window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv/latest?"));
     }
 

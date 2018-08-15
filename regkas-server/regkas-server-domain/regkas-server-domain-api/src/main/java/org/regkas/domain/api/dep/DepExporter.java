@@ -9,6 +9,8 @@ public interface DepExporter {
 
     File exportBasedOnRKV2012(Period period);
 
+    Optional<File> getLatestExportBasedOnRKV2012(File folder);
+
     File exportBasedOnRKSV(Period period);
 
     Optional<File> getLatestExportBasedOnRKSV(File folder);

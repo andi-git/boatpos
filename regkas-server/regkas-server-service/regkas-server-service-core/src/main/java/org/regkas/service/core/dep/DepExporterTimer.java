@@ -55,16 +55,42 @@ public class DepExporterTimer {
             cashBoxContext.set(cashBox);
             companyContext.set(cashBox.getCompany());
             String folder = System.getProperty("boatpos.data.folder", System.getProperty("java.io.tmpdir") + "/dep/rksv/");
-            File file = depExporter.exportBasedOnRKSV(new Period(LocalDateTime.of(2017, 1, 1, 0, 0, 0), dateTimeHelper.currentTime()));
+            DepType.RSV2012.export(depExporter, dateTimeHelper, log, folder, deps, cashBox);
+            DepType.RKSV2017.export(depExporter, dateTimeHelper, log, folder, deps, cashBox);
+        }
+        return deps;
+    }
+
+    private enum DepType {
+        RSV2012{
+            @Override
+            public File doExport(DepExporter depExporter, DateTimeHelper dateTimeHelper) {
+                return depExporter.exportBasedOnRKV2012(getPeriod(dateTimeHelper));
+            }
+        },
+        RKSV2017 {
+            @Override
+            public File doExport(DepExporter depExporter, DateTimeHelper dateTimeHelper) {
+                return depExporter.exportBasedOnRKSV(getPeriod(dateTimeHelper));
+            }
+        };
+
+        public abstract File doExport(DepExporter depExporter, DateTimeHelper dateTimeHelper);
+
+        public void export(DepExporter depExporter, DateTimeHelper dateTimeHelper, LogWrapper log, String folder, List<File> deps, CashBox cashBox) {
+            File file = doExport(depExporter, dateTimeHelper);
             try {
                 File destFile = new File(folder, file.getName());
-                log.debug("create DEP-RKSV for " + cashBox.getName().get() + " in " + destFile);
+                log.debug("create DEP-" + name() + " for " + cashBox.getName().get() + " in " + destFile);
                 FileUtils.copyFile(file, destFile);
                 deps.add(destFile);
             } catch (IOException e) {
                 log.error(e);
             }
         }
-        return deps;
+
+        private static Period getPeriod(DateTimeHelper dateTimeHelper) {
+            return new Period(LocalDateTime.of(2017, 1, 1, 0, 0, 0), dateTimeHelper.currentTime());
+        }
     }
 }

@@ -141,6 +141,16 @@ public class DepExporterCore implements DepExporter {
     }
 
     @Override
+    public Optional<File> getLatestExportBasedOnRKV2012(File folder) {
+        if (folder != null && folder.listFiles() != null) {
+            return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
+                    .filter(file -> file.getName().contains(periodIndependentPartOfFile("depRKV2012")))
+                    .max(Comparator.comparingLong(File::lastModified));
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public File exportBasedOnRKSV(Period period) {
         log.info("create dep for " + period);
         String fileName = createFileName("depRKSV", period);
@@ -191,7 +201,7 @@ public class DepExporterCore implements DepExporter {
         if (folder != null && folder.listFiles() != null) {
             return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
                     .filter(file -> file.getName().contains(periodIndependentPartOfFile("depRKSV")))
-                    .min(Comparator.comparingLong(File::lastModified));
+                    .max(Comparator.comparingLong(File::lastModified));
         }
         return Optional.empty();
     }

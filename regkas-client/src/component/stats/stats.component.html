@@ -18,22 +18,8 @@
         <button class="buttonSmall button-ok" (click)="incomeYear()">Jahr</button>
     </div>
     <div class="container-default dep-container">
-        <h2 class="header dep-header">DatenErfassungsProtokoll</h2>
-        <select [ngModel]="datePickerDep.getCurrentDay()" (ngModelChange)="dayDepChange($event)">
-            <option *ngFor="#day of datePickerDep.getDays()">{{day}}</option>
-        </select>
-        <select [ngModel]="datePickerDep.getCurrentMonthAsString()" (ngModelChange)="monthDepChange($event)">
-            <option *ngFor="#month of datePickerDep.getMonthsAsString()">{{month}}</option>
-        </select>
-        <select [ngModel]="datePickerDep.getCurrentYear()" (ngModelChange)="yearDepChange($event)">
-            <option *ngFor="#year of datePickerDep.getYears()">{{year}}</option>
-        </select>
-        <!--button class="buttonSmall button-cancel" (click)="datePickerDep.reset()">Zur&uuml;cksetzen</button-->
-        <!--br/-->
-        <button class="buttonSmall button-ok" (click)="depDay()">Tag</button>
-        <button class="buttonSmall button-ok" (click)="depMonth()">Monat</button>
-        <button class="buttonSmall button-ok" (click)="depYear()">Jahr</button>
-        <button class="buttonSmall button-ok" (click)="depRKSV()">RKSV</button>
+        <button class="buttonSmall button-ok" (click)="depRKV2012()">RKV 2012</button>
+        <button class="buttonSmall button-ok" (click)="depRKSV2017()">RKSV 2017</button>
     </div>
     <div class="container-default startbeleg-container">
         <h2 class="header startbeleg-header">Start-/Schluss-Beleg</h2>

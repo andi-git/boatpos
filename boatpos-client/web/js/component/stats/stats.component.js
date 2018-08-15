@@ -100,24 +100,6 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                     this.modalHandler.open(modalIncome_1.ModalIncome, new modalIncome_1.ModalIncomeContext(this.journalService, this.pp, this.printer, this.config, this.datePickerIncome.getCurrentYear())).then(function (resultPromise) {
                     });
                 };
-                StatsComponent.prototype.depDay = function () {
-                    this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentDay() + ". " + this.datePickerDep.getCurrentMonthAsString() + " " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
-                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-                        + this.datePickerDep.getCurrentYear() + "/"
-                        + this.datePickerDep.getCurrentMonthAsNumber() + "/"
-                        + this.datePickerDep.getCurrentDay() + "?"));
-                };
-                StatsComponent.prototype.depMonth = function () {
-                    this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentMonthAsString() + " " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
-                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-                        + this.datePickerDep.getCurrentYear() + "/"
-                        + this.datePickerDep.getCurrentMonthAsNumber() + "?"));
-                };
-                StatsComponent.prototype.depYear = function () {
-                    this.info.event().emit("DatenErfassungsProtokoll für " + this.datePickerDep.getCurrentYear() + " wird erstellt.");
-                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/"
-                        + this.datePickerDep.getCurrentYear() + "?"));
-                };
                 StatsComponent.prototype.printStartbeleg = function () {
                     this.rentalService.startBeleg();
                     this.startbelegMustBePrinted = false;
@@ -179,8 +161,12 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                         });
                     });
                 };
-                StatsComponent.prototype.depRKSV = function () {
-                    this.info.event().emit("DatenErfassungsProtokoll RKSV wird erstellt.");
+                StatsComponent.prototype.depRKV2012 = function () {
+                    this.info.event().emit("DatenErfassungsProtokoll RKV 2012 wird erstellt.");
+                    window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/latest?"));
+                };
+                StatsComponent.prototype.depRKSV2017 = function () {
+                    this.info.event().emit("DatenErfassungsProtokoll RKSV 2017 wird erstellt.");
                     window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv/latest?"));
                 };
                 StatsComponent = __decorate([

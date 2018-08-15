@@ -94,6 +94,14 @@ public class JournalServiceRest {
     }
 
     @GET
+    @Path("/dep/latest")
+    @QueryParamAuthenticated
+    @Produces("application/zip")
+    public Response latestDatenErfassungsProtokollRKV2012() {
+        return restHelper.createZipOutput(journalService.latestDatenErfassungsProtokollRKV2012());
+    }
+
+    @GET
     @Path("/dep/rksv")
     @QueryParamAuthenticated
     @Produces("application/zip")
