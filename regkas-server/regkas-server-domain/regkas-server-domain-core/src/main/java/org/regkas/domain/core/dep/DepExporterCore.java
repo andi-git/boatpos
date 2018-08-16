@@ -83,6 +83,7 @@ public class DepExporterCore implements DepExporter {
             while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
                 List<String> deps = receiptRepository.loadDEPFor(Period.day(currentDay), cashBoxContext.get());
                 for (int i = 0; i < deps.size(); i++ ) {
+                    log.info("write cashBoxInstruction for day " + currentDay);
                     writeLine(zos, "    " + deps.get(i) + (hasNextElement(deps, i) ? "," : ""));
                 }
                 currentDay = currentDay.plus(1, ChronoUnit.DAYS);
@@ -91,6 +92,7 @@ public class DepExporterCore implements DepExporter {
 
             writeLine(zos, "  \"cashboxEvents\": [");
             List<CashboxJournal> cashboxJournals = cashboxJournalRepository.loadBy(cashBoxContext.get(), period);
+            log.info("write cashbox events");
             for (int i = 0; i < cashboxJournals.size(); i++ ) {
                 writeJournalElement(
                         zos,
@@ -101,6 +103,7 @@ public class DepExporterCore implements DepExporter {
             writeLine(zos, "  ],");
 
             writeLine(zos, "  \"systemEvents\": [");
+            log.info("write system events");
             List<SystemJournal> systemJournals = systemJournalRepository.loadBy(period);
             for (int i = 0; i < systemJournals.size(); i++ ) {
                 writeJournalElement(
@@ -212,7 +215,7 @@ public class DepExporterCore implements DepExporter {
         LocalDate currentDay = period.getStartDay().toLocalDate();
         boolean first = true;
         while (currentDay.isBefore(period.getEndDay().toLocalDate()) || currentDay.isEqual(period.getEndDay().toLocalDate())) {
-            log.info("create compactJwsRepresentation for day " + currentDay);
+            log.info("write compactJwsRepresentation for day " + currentDay);
             List<String> compactJwsRepresentations = loadCompactJwsRepresentationsForDay.apply(currentDay);
             for (int i = 0; i < compactJwsRepresentations.size(); i++ ) {
                 if ( !first) {

@@ -12,9 +12,13 @@ import javax.ws.rs.core.Response;
 
 import org.boatpos.common.service.rest.RestHelper;
 import org.boatpos.common.util.datetime.DateTimeHelper;
+import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.regkas.service.api.JournalService;
+import org.regkas.service.api.dep.DepFullExport;
 import org.regkas.service.rest.filter.HeaderAuthenticated;
 import org.regkas.service.rest.filter.QueryParamAuthenticated;
+
+import java.util.concurrent.TimeUnit;
 
 @Stateless
 @Path("/journal")
@@ -30,6 +34,9 @@ public class JournalServiceRest {
 
     @Inject
     private RestHelper restHelper;
+
+    @Inject
+    private DepFullExport depFullExport;
 
     @GET
     @Path("/income/year")
@@ -111,6 +118,16 @@ public class JournalServiceRest {
     @QueryParamAuthenticated
     public Response latestDatenErfassungsProtokollRKV2012() {
         return restHelper.createZipOutput(journalService.latestDatenErfassungsProtokollRKV2012());
+    }
+
+    @GET
+    @Path("/dep/export")
+    @Produces("text/plain")
+    @QueryParamAuthenticated
+    @TransactionTimeout(value = 2, unit = TimeUnit.HOURS)
+    public Response exportComleteDatenErfassungsProtokoll() {
+        depFullExport.exportDep();
+        return Response.ok().build();
     }
 
     @GET

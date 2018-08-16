@@ -1,8 +1,5 @@
 package org.regkas.service.core.dep;
 
-import javax.ejb.EJB;
-import javax.inject.Inject;
-
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
@@ -20,13 +17,15 @@ import org.regkas.domain.api.signature.RkOnlineContext;
 import org.regkas.domain.api.values.Name;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
+import javax.inject.Inject;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class DepExporterTimerTest extends EntityManagerProviderForRegkas {
+public class DepFullExportCoreTest extends EntityManagerProviderForRegkas {
 
-    @EJB
-    private DepExporterTimer depExporterTimer;
+    @Inject
+    private DepFullExportCore depFullExport;
 
     @Inject
     private CompanyRepository companyRepository;
@@ -69,6 +68,6 @@ public class DepExporterTimerTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testExportDep() throws Exception {
-        assertEquals(14, depExporterTimer.exportDep().size());
+        assertEquals(14, depFullExport.exportDep().size());
     }
 }
