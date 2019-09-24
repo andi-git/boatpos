@@ -116,4 +116,12 @@ public class JournalServiceRest {
     public Response latestDatenErfassungsProtokollRKSV() {
         return restHelper.createZipOutput(journalService.latestDatenErfassungsProtokollRKSV());
     }
+
+    @GET
+    @Path("/receipt/id/{receiptId}")
+    @HeaderAuthenticated
+    public Response getReceiptById(@PathParam("receiptId") String receiptId) {
+        return Response.ok(journalService.getReceiptById(receiptId)).build();
+    }
+
 }

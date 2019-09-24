@@ -17,7 +17,9 @@ import org.regkas.domain.api.model.ReceiptTypeTag;
 import org.regkas.domain.api.repository.ReceiptRepository;
 import org.regkas.domain.api.signature.Environment;
 import org.regkas.domain.api.signature.RkOnlineContext;
+import org.regkas.domain.api.values.ReceiptId;
 import org.regkas.service.api.ReceiptService;
+import org.regkas.service.api.bean.BillBean;
 
 @RequestScoped
 public class ReceiptServiceCore implements ReceiptService {
@@ -77,6 +79,16 @@ public class ReceiptServiceCore implements ReceiptService {
             shouldCreateDayReceipt = true;
         }
         return shouldCreateDayReceipt;
+    }
+
+    @Override
+    public BillBean getReceiptById(String receiptId) {
+        Optional<Receipt> receipt = receiptRepository.loadBy(new ReceiptId(receiptId), cashBox);
+        if (receipt.isPresent()) {
+            return receipt.get().asBillBean();
+        } else {
+            throw new RuntimeException("no receipt available for " + cashBox.getName() + ", " + receiptId);
+        }
     }
 
     private boolean isANewDay(LocalDateTime currentDateTime, Receipt lastReceipt) {

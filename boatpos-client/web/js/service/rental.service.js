@@ -299,6 +299,22 @@ System.register(["angular2/core", "angular2/http", "rxjs/add/operator/map", "./c
                         this.signatureDeviceAvailableText = "";
                     }
                 };
+                RentalService.prototype.printReceipt = function (receiptId) {
+                    var _this = this;
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/journal/receipt/id/' + receiptId, { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) {
+                        return res.json();
+                    })
+                        .map(function (billBean) {
+                        return _this.convertBillBeanToBill(billBean);
+                    }).subscribe(function (bill) {
+                        _this.printer.printBill(bill, _this.configService.getPrinterIp());
+                        _this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+                    }, function (error) {
+                        console.log("error: " + JSON.stringify(error));
+                        _this.errorService.event().emit("Rechnung konnte NICHT gedruckt werden - Vorgang wurde abgebrochen!");
+                    });
+                };
                 RentalService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService, promotion_service_1.PromotionService, error_service_1.ErrorService, info_service_1.InfoService, printer_1.Printer, prettyprinter_1.PrettyPrinter, journal_service_1.JournalService])

@@ -1,6 +1,7 @@
 package org.boatpos.service.api;
 
 import org.boatpos.service.api.bean.JournalReportBean;
+import org.regkas.service.api.bean.BillBean;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -69,4 +70,6 @@ public interface JournalService {
     File datenErfassungsProtokollRKSV();
 
     File latestDatenErfassungsProtokollRKSV();
+
+    BillBean getReceiptById(String receiptId);
 }

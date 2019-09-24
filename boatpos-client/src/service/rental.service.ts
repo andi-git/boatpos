@@ -371,4 +371,22 @@ export class RentalService {
             this.signatureDeviceAvailableText = "";
         }
     }
+
+    public printReceipt(receiptId: String) {
+        return this.http.get(
+            this.configService.getBackendUrl() + 'rest/journal/receipt/id/' + receiptId, {headers: this.configService.getDefaultHeader()})
+            .map(res => {
+                return res.json();
+            })
+            .map((billBean) => {
+                return this.convertBillBeanToBill(billBean);
+            }).subscribe((bill: Bill) => {
+                    this.printer.printBill(bill, this.configService.getPrinterIp());
+                    this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+                }
+                , error => {
+                    console.log("error: " + JSON.stringify(error));
+                    this.errorService.event().emit("Rechnung konnte NICHT gedruckt werden - Vorgang wurde abgebrochen!");
+                });
+    }
 }

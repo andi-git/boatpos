@@ -13,6 +13,7 @@ import {Observable} from "rxjs";
 import {JournalService} from "./journal.service";
 import {Income} from "../model/income";
 import {PrettyPrinter} from "../prettyprinter";
+import {ProductGroup} from "../model/productGroup";
 
 @Injectable()
 export class SaleService {
@@ -250,4 +251,24 @@ export class SaleService {
             billBean.signatureDeviceAvailable
         );
     };
+
+    public printReceipt(receiptId: String) {
+        // call the rest-service
+        return this.http.get(this.configService.getBackendUrl() + 'rest/receipt/id/' + receiptId, {headers: this.configService.getDefaultHeader()})
+            .map(res => {
+                return res.json();
+            })
+            .map((billBean) => {
+                return this.convertBillBeanToBill(billBean);
+            }).subscribe((bill: Bill) => {
+                    this.printer.printBill(bill, this.configService.getPrinterIp());
+                    this.reset();
+                    this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+                }
+                , error => {
+                    this.reset();
+                    console.log("error: " + JSON.stringify(error));
+                    this.errorService.event().emit("Rechnung konnte NICHT gedruckt werden - Vorgang wurde abgebrochen!");
+                });
+    }
 }

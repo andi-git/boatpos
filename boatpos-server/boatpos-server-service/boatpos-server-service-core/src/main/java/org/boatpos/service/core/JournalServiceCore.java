@@ -10,11 +10,13 @@ import org.boatpos.domain.api.repository.JournalRepository;
 import org.boatpos.domain.api.values.BoatCountResult;
 import org.boatpos.domain.api.values.IncomeResult;
 import org.boatpos.domain.api.values.Period;
+import org.boatpos.domain.api.values.ReceiptId;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.api.bean.JournalReportItemBean;
 import org.boatpos.service.core.mail.SendMailEvent;
 import org.boatpos.service.core.util.RegkasService;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.IncomeBean;
 
 import javax.enterprise.context.RequestScoped;
@@ -122,6 +124,11 @@ public class JournalServiceCore implements JournalService {
     @Override
     public File latestDatenErfassungsProtokollRKSV() {
         return regkasService.getLatestDEPRKSV();
+    }
+
+    @Override
+    public BillBean getReceiptById(String receiptId) {
+        return regkasService.receiptById(new ReceiptId(receiptId));
     }
 
     private JournalReportBean totalIncomeFor(Period period) {

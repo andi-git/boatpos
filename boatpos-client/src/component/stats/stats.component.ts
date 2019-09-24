@@ -21,6 +21,7 @@ export class StatsComponent {
     private datePickerIncome = new DatePicker();
     private datePickerDep = new DatePicker();
     private startbelegMustBePrinted: boolean = false;
+    private receiptId: String = null;
 
     constructor(private journalService:JournalService, private printer:Printer, private config:ConfigService, private info:InfoService, private errorService:ErrorService, private modalHandler:ModalHandler, private pp:PrettyPrinter, private rentalService:RentalService) {
         console.log("constructor of StatsComponent");
@@ -141,4 +142,17 @@ export class StatsComponent {
         this.info.event().emit("DatenErfassungsProtokoll RKSV 2017 wird erstellt.");
         window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv/latest?"));
     }
+
+
+    printReceipt() {
+        if (this.receiptId != null && this.receiptId != "") {
+            this.rentalService.printReceipt(this.receiptId);
+            this.deleteReceiptId();
+        }
+    }
+
+    deleteReceiptId() {
+        this.receiptId = null;
+    }
+
 }

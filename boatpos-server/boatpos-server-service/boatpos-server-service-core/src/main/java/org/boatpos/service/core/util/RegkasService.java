@@ -22,6 +22,7 @@ import org.boatpos.domain.api.model.Boat;
 import org.boatpos.domain.api.model.Rental;
 import org.boatpos.domain.api.values.DayId;
 import org.boatpos.domain.api.values.PricePaidComplete;
+import org.boatpos.domain.api.values.ReceiptId;
 import org.boatpos.service.api.bean.PaymentBean;
 import org.regkas.service.api.bean.*;
 
@@ -65,6 +66,12 @@ public class RegkasService {
     public BillBean receipt(SaleBean sale) {
         return readEntity(
             createRestCall(webTarget -> webTarget.path("rest/sale"), MediaType.APPLICATION_JSON_TYPE).post(Entity.json(sale)),
+            BillBean.class);
+    }
+
+    public BillBean receiptById(ReceiptId receiptId) {
+        return readEntity(
+            createRestCall(webTarget -> webTarget.path("rest/receipt/id/" + receiptId.get()), MediaType.APPLICATION_JSON_TYPE).get(),
             BillBean.class);
     }
 

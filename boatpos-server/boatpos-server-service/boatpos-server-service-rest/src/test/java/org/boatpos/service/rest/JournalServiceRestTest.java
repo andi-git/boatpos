@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.IncomeBean;
 
 @RunWith(Arquillian.class)
@@ -197,4 +198,16 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
                 .get()
                 .getStatusInfo());
     }
+
+    @Test
+    public void getGetReceiptById() throws Exception {
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new ArrayList<>()));
+        BillBean billBean = helper
+                .createRestCall(url, (wt) -> wt.path("journal/receipt/id/2015-0000002"))
+                .get()
+                .readEntity(BillBean.class);
+        assertEquals(BigDecimal.ONE, billBean.getSumTotal());
+        assertEquals("cashboxId", billBean.getCashBoxID());
+    }
+
 }

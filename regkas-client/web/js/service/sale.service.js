@@ -233,6 +233,25 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                     return new bill_1.Bill(billBean.cashBoxID, billBean.receiptIdentifier, new Date(billBean.receiptDateAndTime), billBean.sumTaxSetNormal, billBean.sumTaxSetErmaessigt1, billBean.sumTaxSetErmaessigt2, billBean.sumTaxSetNull, billBean.sumTaxSetBesonders, billBean.encryptedTurnoverValue, billBean.signatureCertificateSerialNumber, billBean.signatureValuePreviousReceipt, new bill_1.Company(billBean.company.name, billBean.company.street, billBean.company.zip, billBean.company.city, billBean.company.country, billBean.company.phone, billBean.company.mail, billBean.company.atu), billBean.sumTotal, taxSetElements, sammelBeleg, new Date(billBean.sammelBelegStart), new Date(billBean.sammelBelegEnd), income, tagesBeleg, monatsBeleg, jahresBeleg, billBean.receiptType, billBean.jwsCompact, billBean.signatureDeviceAvailable);
                 };
                 ;
+                SaleService.prototype.printReceipt = function (receiptId) {
+                    var _this = this;
+                    // call the rest-service
+                    return this.http.get(this.configService.getBackendUrl() + 'rest/receipt/id/' + receiptId, { headers: this.configService.getDefaultHeader() })
+                        .map(function (res) {
+                        return res.json();
+                    })
+                        .map(function (billBean) {
+                        return _this.convertBillBeanToBill(billBean);
+                    }).subscribe(function (bill) {
+                        _this.printer.printBill(bill, _this.configService.getPrinterIp());
+                        _this.reset();
+                        _this.infoService.event().emit("Rechnung '" + bill.receiptIdentifier + "' wurde gedruckt.");
+                    }, function (error) {
+                        _this.reset();
+                        console.log("error: " + JSON.stringify(error));
+                        _this.errorService.event().emit("Rechnung konnte NICHT gedruckt werden - Vorgang wurde abgebrochen!");
+                    });
+                };
                 SaleService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, info_service_1.InfoService, error_service_1.ErrorService, config_service_1.ConfigService, printer_1.Printer, prettyprinter_1.PrettyPrinter])

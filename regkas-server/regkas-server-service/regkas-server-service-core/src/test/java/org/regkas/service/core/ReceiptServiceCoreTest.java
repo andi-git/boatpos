@@ -26,6 +26,7 @@ import org.regkas.domain.api.values.SignatureValuePreviousReceipt;
 import org.regkas.domain.api.values.SuiteId;
 import org.regkas.domain.api.values.TotalPrice;
 import org.regkas.service.api.ReceiptService;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
 
 import javax.inject.Inject;
@@ -163,5 +164,25 @@ public class ReceiptServiceCoreTest extends EntityManagerProviderForRegkas {
                 .add(new SuiteId("R1-AT0"))
                 .build()
                 .persist();
+    }
+
+    @Test
+    @Transactional
+    public void testGetReceiptById() {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        BillBean billBean = receiptService.getReceiptById("2015-0000002");
+        assertEquals("2015-0000002", billBean.getReceiptIdentifier());
+        assertEquals("RegKas1", billBean.getCashBoxID());
+    }
+
+    @Test(expected = RuntimeException.class)
+    @Transactional
+    public void testGetReceiptByIdNotAvailable() {
+        companyContext.set(companyRepository.loadBy(new Name("company")));
+        userContext.set(userRepository.loadBy(new Name("Maria Musterfrau")));
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        receiptService.getReceiptById("2999-0000000");
     }
 }

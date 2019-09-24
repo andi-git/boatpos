@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Specializes;
 
+import org.boatpos.domain.api.values.ReceiptId;
 import org.boatpos.service.api.bean.PaymentBean;
 import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.CompanyBean;
@@ -23,21 +23,25 @@ public class RegkasServiceMock extends RegkasService {
 
     @Override
     public BillBean sale(PaymentBean paymentBean) throws Exception {
+        return mockBillBean(paymentBean.getValue());
+    }
+
+    private BillBean mockBillBean(BigDecimal value) {
         return new BillBean(
-            new CompanyBean(),
-            "cashboxId",
-            "receipt-id",
-            LocalDateTime.now(),
-            paymentBean.getValue(),
-            BigDecimal.ZERO,
-            BigDecimal.ZERO,
-            BigDecimal.ZERO,
-            BigDecimal.ZERO,
-            new ArrayList<>(),
-            paymentBean.getValue(),
-            "Standard-Beleg",
-            "",
-            false);
+                new CompanyBean(),
+                "cashboxId",
+                "receipt-id",
+                LocalDateTime.now(),
+                value,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                new ArrayList<>(),
+                value,
+                "Standard-Beleg",
+                "",
+                false);
     }
 
     public void setMockIncomeBean(IncomeBean mockIncomeBean) {
@@ -97,5 +101,10 @@ public class RegkasServiceMock extends RegkasService {
     @Override
     public Boolean isSignatureDeviceAvailable() {
         return true;
+    }
+
+    @Override
+    public BillBean receiptById(ReceiptId receiptId) {
+        return mockBillBean(BigDecimal.ONE);
     }
 }

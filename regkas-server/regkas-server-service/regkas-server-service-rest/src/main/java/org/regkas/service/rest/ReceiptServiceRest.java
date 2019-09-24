@@ -6,11 +6,7 @@ import org.regkas.service.rest.filter.HeaderAuthenticated;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -63,5 +59,11 @@ public class ReceiptServiceRest {
     public Response setEnvironmentProd() {
         receiptService.setRkOnlineEnvironment("prod");
         return Response.ok(receiptService.getCurrentRkOnlineEnvironment()).build();
+    }
+
+    @GET
+    @Path("/id/{receiptId}")
+    public Response getReceiptById(@PathParam("receiptId") String receiptId) {
+        return Response.ok(receiptService.getReceiptById(receiptId)).build();
     }
 }

@@ -64,6 +64,7 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                     this.datePickerIncome = new datePicker_1.DatePicker();
                     this.datePickerDep = new datePicker_1.DatePicker();
                     this.startbelegMustBePrinted = false;
+                    this.receiptId = null;
                     console.log("constructor of StatsComponent");
                     this.checkIfStartbelegMustBePrinted();
                 }
@@ -168,6 +169,15 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                 StatsComponent.prototype.depRKSV2017 = function () {
                     this.info.event().emit("DatenErfassungsProtokoll RKSV 2017 wird erstellt.");
                     window.open(this.config.addQueryParamCredentials(this.config.getBackendUrl() + "rest/journal/dep/rksv/latest?"));
+                };
+                StatsComponent.prototype.printReceipt = function () {
+                    if (this.receiptId != null && this.receiptId != "") {
+                        this.rentalService.printReceipt(this.receiptId);
+                        this.deleteReceiptId();
+                    }
+                };
+                StatsComponent.prototype.deleteReceiptId = function () {
+                    this.receiptId = null;
                 };
                 StatsComponent = __decorate([
                     core_1.Component({

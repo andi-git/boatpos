@@ -1,5 +1,6 @@
 package org.boatpos.service.core;
 
+import org.boatpos.domain.api.values.ReceiptId;
 import org.boatpos.service.api.JournalService;
 import org.boatpos.service.api.bean.JournalReportBean;
 import org.boatpos.service.core.mail.MailSenderFactory;
@@ -12,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.regkas.service.api.bean.BillBean;
 import org.regkas.service.api.bean.IncomeBean;
 
 import javax.inject.Inject;
@@ -123,5 +125,13 @@ public class JournalServiceCoreTest extends EntityManagerProviderForBoatpos {
         assertEquals("depYear", journalService.datenErfassungsProtokoll(2015).getName());
         assertEquals("depYearMonth", journalService.datenErfassungsProtokoll(2015, 7).getName());
         assertEquals("depYearMonthDay", journalService.datenErfassungsProtokoll(2015, 7, 1).getName());
+    }
+
+    @Test
+    @Transactional
+    public void getReceiptById(String receiptId) {
+        BillBean billBean = journalService.getReceiptById("2015-0000002");
+        assertEquals(BigDecimal.ONE, billBean.getSumTotal());
+        assertEquals("cashboxId", billBean.getCashBoxID());
     }
 }

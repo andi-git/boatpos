@@ -21,6 +21,7 @@ export class StatsComponent {
     private datePickerIncome = new DatePicker();
     private datePickerDep = new DatePicker();
     private startbelegMustBePrinted: boolean = false;
+    private receiptId: String = null;
 
     constructor(private journalService: JournalService, private printer: Printer, private infoService: InfoService, private errorService: ErrorService, private config: ConfigService, private info: InfoService, private pp: PrettyPrinter, private modalHandler: ModalHandler, private saleService: SaleService) {
         console.log("constructor of StatsComponent");
@@ -140,5 +141,16 @@ export class StatsComponent {
                 });
             });
         });
+    }
+
+    printReceipt() {
+        if (this.receiptId != null && this.receiptId != "") {
+            this.saleService.printReceipt(this.receiptId);
+            this.deleteReceiptId();
+        }
+    }
+
+    deleteReceiptId() {
+        this.receiptId = null;
     }
 }
