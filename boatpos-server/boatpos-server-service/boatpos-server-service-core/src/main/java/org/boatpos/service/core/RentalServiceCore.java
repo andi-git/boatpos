@@ -15,6 +15,7 @@ import org.boatpos.service.api.bean.ArrivalBean;
 import org.boatpos.service.api.bean.RentalBean;
 import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
+import org.boatpos.service.core.util.RentalLoader;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -46,6 +47,9 @@ public class RentalServiceCore implements RentalService {
     @Inject
     private DateTimeHelper dateTimeHelper;
 
+    @Inject
+    private RentalLoader rentalLoader;
+
     @Override
     public RentalBean get(RentalDayNumberWrapper rentalDayNumberWrapper) {
         DayId dayId = new DayId(rentalDayNumberWrapper.getDayNumber());
@@ -59,6 +63,7 @@ public class RentalServiceCore implements RentalService {
     @Override
     public RentalBean delete(RentalDayNumberWrapper rentalDayNumberWrapper) {
         DayId dayId = new DayId(rentalDayNumberWrapper.getDayNumber());
+        rentalLoader.checkIfRentalIsActive(dayId);
         return rentalBeanEnrichment.asDto(rentalRepository.delete(day, dayId)
                 .orElseGet(new ThrowExceptionRentalNotAvailable(dayId)));
     }
@@ -66,6 +71,7 @@ public class RentalServiceCore implements RentalService {
     @Override
     public RentalBean undoDelete(RentalDayNumberWrapper rentalDayNumberWrapper) {
         DayId dayId = new DayId(rentalDayNumberWrapper.getDayNumber());
+        rentalLoader.checkIfRentalIsDeleted(dayId);
         return rentalBeanEnrichment.asDto(rentalRepository.undoDelete(day, dayId)
                 .orElseGet(new ThrowExceptionRentalNotAvailable(dayId)));
     }

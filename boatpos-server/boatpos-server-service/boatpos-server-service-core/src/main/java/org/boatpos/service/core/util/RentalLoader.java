@@ -52,4 +52,11 @@ public class RentalLoader {
             throw new IllegalStateException("rental " + dayId.get() + " is deleted");
         }
     }
+
+    public void checkIfRentalIsDeleted(DayId dayId) {
+        Rental rental = loadOnCurrentDayBy(dayId);
+        if (rental.isDeleted() == null || !rental.isDeleted().get()) {
+            throw new IllegalStateException("rental " + dayId.get() + " is NOT deleted");
+        }
+    }
 }

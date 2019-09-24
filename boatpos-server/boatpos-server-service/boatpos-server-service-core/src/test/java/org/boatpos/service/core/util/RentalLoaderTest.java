@@ -23,26 +23,38 @@ public class RentalLoaderTest extends EntityManagerProviderForBoatpos {
 
     @Test(expected = RuntimeException.class)
     @Transactional
-    public void testLoadOnCurrentDayBy_Exception() throws Exception {
+    public void testLoadOnCurrentDayBy_Exception() {
         rentalLoader.loadOnCurrentDayBy(new DayId(999));
     }
 
     @Test
     @Transactional
-    public void testCheckIfRentalIsActive_Ok() throws Exception {
+    public void testCheckIfRentalIsActive_Ok() {
         rentalLoader.checkIfRentalIsActive(new DayId(3));
         rentalLoader.checkIfRentalIsActive(new DayId(4));
     }
 
     @Test(expected = IllegalStateException.class)
     @Transactional
-    public void testCheckIfRentalIsActive_Deleted() throws Exception {
+    public void testCheckIfRentalIsActive_Deleted() {
         rentalLoader.checkIfRentalIsActive(new DayId(2));
     }
 
     @Test(expected = IllegalStateException.class)
     @Transactional
-    public void testCheckIfRentalIsActive_AlreadyFinished() throws Exception {
+    public void testCheckIfRentalIsActive_AlreadyFinished() {
         rentalLoader.checkIfRentalIsActive(new DayId(1));
+    }
+
+    @Test
+    @Transactional
+    public void testCheckIfRentalIsDeleted_Ok() {
+        rentalLoader.checkIfRentalIsDeleted(new DayId(2));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    @Transactional
+    public void testCheckIfRentalIsDeleted_NotDeleted() {
+        rentalLoader.checkIfRentalIsDeleted(new DayId(1));
     }
 }

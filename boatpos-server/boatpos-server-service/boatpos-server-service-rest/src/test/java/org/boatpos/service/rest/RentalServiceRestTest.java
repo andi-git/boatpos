@@ -42,9 +42,9 @@ public class RentalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testDelete() throws Exception {
-        RentalBean rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/1")).get().readEntity(RentalBean.class);
+        RentalBean rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/3")).get().readEntity(RentalBean.class);
         assertFalse(rentalBean.isDeleted());
-        rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/1")).delete().readEntity(RentalBean.class);
+        rentalBean = helper.createRestCall(url, (webTarget) -> webTarget.path("rental/3")).delete().readEntity(RentalBean.class);
         assertTrue(rentalBean.isDeleted());
     }
 

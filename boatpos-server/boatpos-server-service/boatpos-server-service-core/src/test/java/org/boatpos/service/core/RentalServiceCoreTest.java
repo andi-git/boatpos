@@ -29,7 +29,7 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
 
     @Test
     @Transactional
-    public void testGet() throws Exception {
+    public void testGet() {
         RentalBean rentalBean = rentalService.get(new RentalDayNumberWrapper(1));
         assertEquals("E-Boot", rentalBean.getBoatBean().getName());
         assertEquals("Fahr 3 zahl 2", rentalBean.getPromotionBeforeBean().getName());
@@ -48,18 +48,36 @@ public class RentalServiceCoreTest extends EntityManagerProviderForBoatpos {
 
     @Test
     @Transactional
-    public void testDelete() throws Exception {
-        assertFalse(rentalService.get(new RentalDayNumberWrapper(1)).isDeleted());
+    public void testDelete() {
+        assertFalse(rentalService.get(new RentalDayNumberWrapper(3)).isDeleted());
+        rentalService.delete(new RentalDayNumberWrapper(3));
+        assertTrue(rentalService.get(new RentalDayNumberWrapper(3)).isDeleted());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    @Transactional
+    public void testDeleteWhenRentalIsAlreadyFinished() {
         rentalService.delete(new RentalDayNumberWrapper(1));
-        assertTrue(rentalService.get(new RentalDayNumberWrapper(1)).isDeleted());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    @Transactional
+    public void testDeleteWhenRentalIsAlreadyDeleted() {
+        rentalService.delete(new RentalDayNumberWrapper(2));
     }
 
     @Test
     @Transactional
-    public void testUndoDelete() throws Exception {
+    public void testUndoDelete() {
         assertTrue(rentalService.get(new RentalDayNumberWrapper(2)).isDeleted());
         rentalService.undoDelete(new RentalDayNumberWrapper(2));
         assertFalse(rentalService.get(new RentalDayNumberWrapper(2)).isDeleted());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    @Transactional
+    public void testUndoDeleteWhenRentalIsNotDeleted() {
+        rentalService.undoDelete(new RentalDayNumberWrapper(1));
     }
 
     @Test
