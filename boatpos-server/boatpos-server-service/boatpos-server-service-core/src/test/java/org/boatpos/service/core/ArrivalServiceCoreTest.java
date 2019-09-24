@@ -26,6 +26,7 @@ import org.boatpos.service.api.bean.RentalDayNumberWrapper;
 import org.boatpos.test.model.EntityManagerProviderForBoatpos;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.regkas.service.api.bean.BillBean;

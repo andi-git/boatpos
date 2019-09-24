@@ -1,22 +1,17 @@
 package org.boatpos.service.core;
 
 import com.google.common.collect.Lists;
-import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.domain.api.values.DomainId;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.qualifiers.Current;
 import org.boatpos.domain.api.model.PromotionAfter;
 import org.boatpos.domain.api.model.Rental;
 import org.boatpos.domain.api.repository.PromotionAfterRepository;
 import org.boatpos.domain.api.repository.RentalRepository;
-import org.boatpos.domain.api.values.ArrivalTime;
-import org.boatpos.domain.api.values.Day;
-import org.boatpos.domain.api.values.DayId;
-import org.boatpos.domain.api.values.Finished;
-import org.boatpos.domain.api.values.PriceCalculatedAfter;
-import org.boatpos.domain.api.values.PricePaidAfter;
-import org.boatpos.domain.api.values.ReceiptId;
+import org.boatpos.domain.api.values.*;
 import org.boatpos.service.api.ArrivalService;
 import org.boatpos.service.api.bean.*;
+import org.boatpos.service.core.util.DayIdLocker;
 import org.boatpos.service.core.util.RegkasService;
 import org.boatpos.service.core.util.RentalBeanEnrichment;
 import org.boatpos.service.core.util.RentalLoader;
@@ -57,6 +52,9 @@ public class ArrivalServiceCore implements ArrivalService {
 
     @Inject
     private RegkasService regkasService;
+
+    @Inject
+    private DayIdLocker dayIdLocker;
 
     @Override
     public RentalBean arrive(ArrivalBean arrivalBean) {
@@ -109,23 +107,31 @@ public class ArrivalServiceCore implements ArrivalService {
     public BillBean pay(PaymentBean paymentBean) {
         // check rental
         DayId dayId = new DayId(paymentBean.getDayNumber());
-        rentalLoader.checkIfRentalIsActive(dayId);
-        Rental rental = rentalLoader.loadOnCurrentDayBy(dayId);
-        if (rental.isFinished() != null && rental.isFinished().get()) {
-            throw new IllegalStateException("Payment not possible - rental is already finished!");
+        if (dayIdLocker.isLocked(dayId)) {
+            throw new IllegalStateException("Payment not possible - day-id " + dayId.toString() + " is locked");
         }
-        // update rental
-        rental.setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
-                .setFinished(Finished.TRUE)
-                .setPaymentMethodAfter(PaymentMethod.get(paymentBean.getPaymentMethod()))
-                .persist();
-        // create bill via regkas
         try {
-            BillBean billBean = regkasService.sale(paymentBean);
-            rental.setReceiptId(new ReceiptId(billBean.getReceiptIdentifier())).persist();
-            return billBean;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            dayIdLocker.lock(dayId);
+            rentalLoader.checkIfRentalIsActive(dayId);
+            Rental rental = rentalLoader.loadOnCurrentDayBy(dayId);
+            if (rental.isFinished() != null && rental.isFinished().get()) {
+                throw new IllegalStateException("Payment not possible - rental is already finished!");
+            }
+            // update rental
+            rental.setPricePaidAfter(new PricePaidAfter(paymentBean.getValue()))
+                    .setFinished(Finished.TRUE)
+                    .setPaymentMethodAfter(PaymentMethod.get(paymentBean.getPaymentMethod()))
+                    .persist();
+            // create bill via regkas
+            try {
+                BillBean billBean = regkasService.sale(paymentBean);
+                rental.setReceiptId(new ReceiptId(billBean.getReceiptIdentifier())).persist();
+                return billBean;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } finally {
+            dayIdLocker.release(dayId);
         }
     }
 
