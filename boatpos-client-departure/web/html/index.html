@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>Bootsvermietung EPPEL - Abrechnungssystem</title>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+    <!-- 1. Load libraries -->
+    <script src="lib/angular2-polyfills.js"></script>
+    <script src="lib/system.src.js"></script>
+    <script src="lib/system.js"></script>
+    <script src="lib/Rx.js"></script>
+    <script src="lib/angular2.dev.js"></script>
+    <script src="lib/http.dev.js"></script>
+    <script src="lib/router.dev.js"></script>
+    <script src="lib/mousetrap.min.js"></script>
+    <script src="lib/StarWebPrintBuilder.js"></script>
+    <script src="lib/StarWebPrintTrader.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+        System.config({
+            defaultJSExtensions: true,
+            packages: {
+                angular2: {
+                    defaultExtension: false
+                },
+                rxjs: {
+                    defaultExtension: false
+                }
+            }
+        });
+        System.import('js/boot')
+                .then(null, console.error.bind(console));
+    </script>
+
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/boatpos.css"/>
+</head>
+
+<!-- 3. Display the application -->
+<body>
+<my-app>
+    <p>Das Abrechnungssystem wird geladen...</p>
+    <img src="https://www.eppel-boote.at/cms2/images/eppel_boote_logo_with_shadow.png" />
+</my-app>
+</body>
+
+</html>

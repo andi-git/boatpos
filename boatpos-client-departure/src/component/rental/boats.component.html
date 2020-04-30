@@ -1,0 +1,10 @@
+<div class="container-default boats-container">
+<!--    <h2 class="header boats-header">Boote</h2>-->
+    <div style="text-align: center">
+        <div *ngFor="#boatCount of getBoatCounts()" style="float: left; width: 19%; margin-right: 3px;">
+            <a (click)="clickWithIdentityCard(boatCount)"><img src={{boatCount.mediumImageWithIdentityCard()}} width="100%"></a>
+            <ul class="list boatCount"><li><span [ngClass]="boatCount.style">{{boatCount.shortName}}: {{boatCount.count}} / {{boatCount.max}}</span></li></ul>
+            <a (click)="click(boatCount)"><img src={{boatCount.mediumImage()}} width="100%"></a>
+        </div>
+    </div>
+</div>

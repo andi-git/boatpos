@@ -1,0 +1,5 @@
+{
+  "backendUrl": "http://home.com:8180/boatpos-server/",
+  "username": "boatpos",
+  "password": "test123"
+}

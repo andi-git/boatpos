@@ -1,0 +1,23 @@
+.boatCount-header {
+    background-color: #F3F781;
+}
+
+.nextNumber {
+    text-align: left;
+    padding: 0 0.3em 0 0.3em;
+    background-color: #F3F781;
+    font-size: 1em;
+}
+
+.spanButton {
+    text-align: left;
+    padding: 0 0.3em 0 0.3em;
+    color: white;
+    background-color: #0101DF;
+    font-size: 1em;
+    text-shadow: none;
+}
+
+li:hover {
+    background: linear-gradient(to right, #F3F781, white) !important;
+}

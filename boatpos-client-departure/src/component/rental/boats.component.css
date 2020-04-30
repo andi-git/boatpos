@@ -1,0 +1,25 @@
+.boats-header {
+    background-color: #81BEF7;
+}
+
+.selected {
+    color: white;
+    background: #0101DF !important;
+}
+
+.boats li {
+    background: linear-gradient(to right, #81BEF7, white);
+}
+.boatCount li {
+    cursor: auto;
+    background: #F3F781;
+    padding: 0 0 0 0em;
+}
+
+li:hover {
+    background: linear-gradient(to right, #F3F781, white) !important;
+}
+
+.max {
+    color: red;
+}
