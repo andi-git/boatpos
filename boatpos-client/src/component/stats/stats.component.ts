@@ -21,7 +21,7 @@ export class StatsComponent {
     private datePickerIncome = new DatePicker();
     private datePickerDep = new DatePicker();
     private startbelegMustBePrinted: boolean = false;
-    private receiptId: String = null;
+    private receiptId: String;
 
     constructor(private journalService:JournalService, private printer:Printer, private config:ConfigService, private info:InfoService, private errorService:ErrorService, private modalHandler:ModalHandler, private pp:PrettyPrinter, private rentalService:RentalService) {
         console.log("constructor of StatsComponent");
@@ -147,12 +147,14 @@ export class StatsComponent {
     printReceipt() {
         if (this.receiptId != null && this.receiptId != "") {
             this.rentalService.printReceipt(this.receiptId);
+            this.info.event().emit("Rechnung für " + this.receiptId + " wurde gedruckt.");
             this.deleteReceiptId();
         }
     }
 
     deleteReceiptId() {
         this.receiptId = null;
+        this.info.event().emit("Aktion abgebrochen, Rechnungsnummer zurückgesetzt.");
     }
 
 }

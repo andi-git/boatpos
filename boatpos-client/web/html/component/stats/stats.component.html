@@ -12,7 +12,6 @@
             <option *ngFor="#year of datePickerIncome.getYears()">{{year}}</option>
         </select>
         <button class="buttonSmall button-cancel" (click)="datePickerIncome.reset()">Zur&uuml;cksetzen</button>
-        <br/>
         <button class="buttonSmall button-ok" (click)="incomeDay()">Tag</button>
         <button class="buttonSmall button-ok" (click)="incomeMonth()">Monat</button>
         <button class="buttonSmall button-ok" (click)="incomeYear()">Jahr</button>
@@ -44,7 +43,7 @@
     </div>
     <div class="container-default receipt-container">
         <h2 class="header receipt-header">Rechnung drucken</h2>
-        <input class="input receipt-id" [ngModel]="receiptId" placeholder="Rechnungsnummer"/>
+        <input class="input input-receipt-id" [(ngModel)]="receiptId" placeholder="Rechnungsnummer"/>
         <button class="buttonSmall button-ok" (click)="printReceipt()">Drucken</button>
         <button class="buttonSmall button-cancel" (click)="deleteReceiptId()">Zur&uuml;cksetzen</button>
     </div>
