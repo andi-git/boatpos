@@ -110,22 +110,9 @@ System.register(["../model/boat", "angular2/core", "angular2/http", "rxjs/add/op
                     });
                     return boat;
                 };
-                BoatService.prototype.resetSelected = function () {
-                    this.getBoats().forEach(function (boat) { return boat.setSelected(false); });
-                };
                 BoatService.prototype.reset = function () {
-                    this.resetSelected();
                     this.loadBoatCount();
                     this.loadNextDayNumber();
-                };
-                BoatService.prototype.getSelectedBoat = function () {
-                    var boatSelected = null;
-                    this.getBoats().forEach(function (boat) {
-                        if (boat.selected === true) {
-                            boatSelected = boat;
-                        }
-                    });
-                    return boatSelected;
                 };
                 BoatService.prototype.loadNextDayNumber = function () {
                     var _this = this;
@@ -146,8 +133,10 @@ System.register(["../model/boat", "angular2/core", "angular2/http", "rxjs/add/op
                     });
                 };
                 BoatService.prototype.updateStats = function () {
+                    var _this = this;
                     this.loadNextDayNumber();
                     this.loadBoatCount();
+                    setTimeout(function () { return _this.updateStats(); }, 10000);
                 };
                 BoatService = __decorate([
                     core_1.Injectable(), 

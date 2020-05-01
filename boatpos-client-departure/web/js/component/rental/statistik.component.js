@@ -63,9 +63,6 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/c
                     console.log("test ip " + this.configService.getPrinterIp());
                     this.printer.printTest(this.configService.getPrinterIp());
                 };
-                StatistikComponent.prototype.testClick = function () {
-                    console.log("Test KLICK");
-                };
                 StatistikComponent = __decorate([
                     core_1.Component({
                         selector: 'statistik',

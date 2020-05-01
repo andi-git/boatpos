@@ -45,8 +45,4 @@ export class StatistikComponent {
         console.log("test ip " + this.configService.getPrinterIp());
         this.printer.printTest(this.configService.getPrinterIp());
     }
-
-    testClick() {
-        console.log("Test KLICK")
-    }
 }

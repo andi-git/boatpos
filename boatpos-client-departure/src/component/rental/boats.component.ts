@@ -1,15 +1,8 @@
 import {Component, NgZone} from 'angular2/core';
 import {Boat, BoatCount} from '../../model/boat';
 import {BoatService} from "../../service/boat.service";
-import {InfoService} from "../../service/info.service";
-import {KeyBindingService} from "../../service/keybinding.service";
 import {Commitment} from "../../model/commitment";
 import {PromotionBefore} from "../../model/promotion";
-import {Departure} from "../../model/departure";
-import {Printer} from "../../printer";
-import {RentalService} from "../../service/rental.service";
-import {ConfigService} from "../../service/config.service";
-import {CommitmentService} from "../../service/commitment.service";
 
 @Component({
     selector: 'boats',
@@ -18,17 +11,9 @@ import {CommitmentService} from "../../service/commitment.service";
 })
 export class BoatsComponent {
 
-    constructor(private boatService: BoatService,
-                private rentalService: RentalService,
-                private commitmentService: CommitmentService,
-                private infoService: InfoService,
-                private printer: Printer,
-                private keyBinding: KeyBindingService,
-                private zone: NgZone,
-                private config: ConfigService) {
-    }
+    private selectedBoat: string = null;
 
-    ngOnInit() {
+    constructor(private boatService: BoatService) {
     }
 
     getBoats(): Array<Boat> {
@@ -36,13 +21,21 @@ export class BoatsComponent {
     }
 
     click(boatCount: BoatCount) {
-        console.info("depart boat " + boatCount.shortName)
-        // this.depart(this.boatService.getBoatByShortName(boatShort), [], null);
+        if (this.selectedBoat == boatCount.shortName) {
+            this.selectedBoat = null
+            // this.depart(this.boatService.getBoatByShortName(boatShort), [], null);
+        } else {
+            this.selectedBoat = boatCount.shortName
+        }
     }
 
     clickWithIdentityCard(boatCount: BoatCount) {
-        console.info("depart boat with idCard " + boatCount.shortName)
-        // this.depart(this.boatService.getBoatByShortName(boatShort), [this.commitmentService.getCommitmentByName('Ausweis')], null);
+        if (this.selectedBoat == (boatCount.shortName + "_id")) {
+            this.selectedBoat = null
+            // this.depart(this.boatService.getBoatByShortName(boatShort), [this.commitmentService.getCommitmentByName('Ausweis')], null);
+        } else {
+            this.selectedBoat = boatCount.shortName + "_id"
+        }
     }
 
     // private depart(boat: Boat, commitments: Array<Commitment>, promotionBefore: PromotionBefore) {
@@ -84,18 +77,8 @@ export class BoatsComponent {
         this.boatService.reset();
     }
 
-    getBoatCounts():Array<BoatCount> {
+    getBoatCounts(): Array<BoatCount> {
         console.log("get boat counts")
-        console.log("  --> " + this.boatService.getBoatCounts())
         return this.boatService.getBoatCounts();
     }
-
-    boatCount(shortName: string): number {
-        return this.boatService.getBoatCounts().filter(boatCount => boatCount.shortName == shortName)[0].count
-    }
-
-    boatMax(shortName: string): number {
-        return this.boatService.getBoatCounts().filter(boatCount => boatCount.shortName == shortName)[0].max
-    }
-
 }

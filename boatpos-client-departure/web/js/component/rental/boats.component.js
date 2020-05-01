@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../../service/boat.service", "../../service/info.service", "../../service/keybinding.service", "../../printer", "../../service/rental.service", "../../service/config.service", "../../service/commitment.service"], function(exports_1, context_1) {
+System.register(['angular2/core', "../../service/boat.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1, info_service_1, keybinding_service_1, printer_1, rental_service_1, config_service_1, commitment_service_1;
+    var core_1, boat_service_1;
     var BoatsComponent;
     return {
         setters:[
@@ -19,49 +19,31 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
             },
             function (boat_service_1_1) {
                 boat_service_1 = boat_service_1_1;
-            },
-            function (info_service_1_1) {
-                info_service_1 = info_service_1_1;
-            },
-            function (keybinding_service_1_1) {
-                keybinding_service_1 = keybinding_service_1_1;
-            },
-            function (printer_1_1) {
-                printer_1 = printer_1_1;
-            },
-            function (rental_service_1_1) {
-                rental_service_1 = rental_service_1_1;
-            },
-            function (config_service_1_1) {
-                config_service_1 = config_service_1_1;
-            },
-            function (commitment_service_1_1) {
-                commitment_service_1 = commitment_service_1_1;
             }],
         execute: function() {
             BoatsComponent = (function () {
-                function BoatsComponent(boatService, rentalService, commitmentService, infoService, printer, keyBinding, zone, config) {
+                function BoatsComponent(boatService) {
                     this.boatService = boatService;
-                    this.rentalService = rentalService;
-                    this.commitmentService = commitmentService;
-                    this.infoService = infoService;
-                    this.printer = printer;
-                    this.keyBinding = keyBinding;
-                    this.zone = zone;
-                    this.config = config;
+                    this.selectedBoat = null;
                 }
-                BoatsComponent.prototype.ngOnInit = function () {
-                };
                 BoatsComponent.prototype.getBoats = function () {
                     return this.boatService.getBoats();
                 };
                 BoatsComponent.prototype.click = function (boatCount) {
-                    console.info("depart boat " + boatCount.shortName);
-                    // this.depart(this.boatService.getBoatByShortName(boatShort), [], null);
+                    if (this.selectedBoat == boatCount.shortName) {
+                        this.selectedBoat = null;
+                    }
+                    else {
+                        this.selectedBoat = boatCount.shortName;
+                    }
                 };
                 BoatsComponent.prototype.clickWithIdentityCard = function (boatCount) {
-                    console.info("depart boat with idCard " + boatCount.shortName);
-                    // this.depart(this.boatService.getBoatByShortName(boatShort), [this.commitmentService.getCommitmentByName('Ausweis')], null);
+                    if (this.selectedBoat == (boatCount.shortName + "_id")) {
+                        this.selectedBoat = null;
+                    }
+                    else {
+                        this.selectedBoat = boatCount.shortName + "_id";
+                    }
                 };
                 // private depart(boat: Boat, commitments: Array<Commitment>, promotionBefore: PromotionBefore) {
                 //     this.rentalService.depart(new Departure(boat, commitments, promotionBefore)).subscribe(
@@ -100,14 +82,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                 };
                 BoatsComponent.prototype.getBoatCounts = function () {
                     console.log("get boat counts");
-                    console.log("  --> " + this.boatService.getBoatCounts());
                     return this.boatService.getBoatCounts();
-                };
-                BoatsComponent.prototype.boatCount = function (shortName) {
-                    return this.boatService.getBoatCounts().filter(function (boatCount) { return boatCount.shortName == shortName; })[0].count;
-                };
-                BoatsComponent.prototype.boatMax = function (shortName) {
-                    return this.boatService.getBoatCounts().filter(function (boatCount) { return boatCount.shortName == shortName; })[0].max;
                 };
                 BoatsComponent = __decorate([
                     core_1.Component({
@@ -115,7 +90,7 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/i
                         templateUrl: "html/component/rental/boats.component.html",
                         styleUrls: ["css/component/rental/boats.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService, rental_service_1.RentalService, commitment_service_1.CommitmentService, info_service_1.InfoService, printer_1.Printer, keybinding_service_1.KeyBindingService, core_1.NgZone, config_service_1.ConfigService])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService])
                 ], BoatsComponent);
                 return BoatsComponent;
             }());

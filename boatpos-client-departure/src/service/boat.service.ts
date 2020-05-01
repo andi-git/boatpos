@@ -115,24 +115,9 @@ export class BoatService {
         return boat;
     }
 
-    resetSelected() {
-        this.getBoats().forEach(boat => boat.setSelected(false));
-    }
-
     reset() {
-        this.resetSelected();
         this.loadBoatCount();
         this.loadNextDayNumber();
-    }
-
-    getSelectedBoat():Boat {
-        var boatSelected:Boat = null;
-        this.getBoats().forEach(boat => {
-            if (boat.selected === true) {
-                boatSelected = boat;
-            }
-        });
-        return boatSelected;
     }
 
     private loadNextDayNumber() {
@@ -156,5 +141,6 @@ export class BoatService {
     updateStats() {
         this.loadNextDayNumber();
         this.loadBoatCount();
+        setTimeout(() => this.updateStats(), 10000);
     }
 }
