@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../../service/boat.service"], function(exports_1, context_1) {
+System.register(['angular2/core', "../../service/boat.service", "../../service/commitment.service", "../../model/departure", "../../service/rental.service", "../../service/info.service", "../../printer", "../../service/config.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../../service/boat.service"], function(export
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, boat_service_1;
+    var core_1, boat_service_1, commitment_service_1, departure_1, rental_service_1, info_service_1, printer_1, config_service_1;
     var BoatsComponent;
     return {
         setters:[
@@ -19,11 +19,34 @@ System.register(['angular2/core', "../../service/boat.service"], function(export
             },
             function (boat_service_1_1) {
                 boat_service_1 = boat_service_1_1;
+            },
+            function (commitment_service_1_1) {
+                commitment_service_1 = commitment_service_1_1;
+            },
+            function (departure_1_1) {
+                departure_1 = departure_1_1;
+            },
+            function (rental_service_1_1) {
+                rental_service_1 = rental_service_1_1;
+            },
+            function (info_service_1_1) {
+                info_service_1 = info_service_1_1;
+            },
+            function (printer_1_1) {
+                printer_1 = printer_1_1;
+            },
+            function (config_service_1_1) {
+                config_service_1 = config_service_1_1;
             }],
         execute: function() {
             BoatsComponent = (function () {
-                function BoatsComponent(boatService) {
+                function BoatsComponent(boatService, commitmentService, rentalService, infoService, configService, printer) {
                     this.boatService = boatService;
+                    this.commitmentService = commitmentService;
+                    this.rentalService = rentalService;
+                    this.infoService = infoService;
+                    this.configService = configService;
+                    this.printer = printer;
                     this.selectedBoat = null;
                 }
                 BoatsComponent.prototype.getBoats = function () {
@@ -32,6 +55,7 @@ System.register(['angular2/core', "../../service/boat.service"], function(export
                 BoatsComponent.prototype.click = function (boatCount) {
                     if (this.selectedBoat == boatCount.shortName) {
                         this.selectedBoat = null;
+                        this.depart(this.boatService.getBoatByShortName(boatCount.shortName), [], null);
                     }
                     else {
                         this.selectedBoat = boatCount.shortName;
@@ -40,21 +64,20 @@ System.register(['angular2/core', "../../service/boat.service"], function(export
                 BoatsComponent.prototype.clickWithIdentityCard = function (boatCount) {
                     if (this.selectedBoat == (boatCount.shortName + "_id")) {
                         this.selectedBoat = null;
+                        this.depart(this.boatService.getBoatByShortName(boatCount.shortName), [this.commitmentService.getCommitmentByName('Ausweis')], null);
                     }
                     else {
                         this.selectedBoat = boatCount.shortName + "_id";
                     }
                 };
-                // private depart(boat: Boat, commitments: Array<Commitment>, promotionBefore: PromotionBefore) {
-                //     this.rentalService.depart(new Departure(boat, commitments, promotionBefore)).subscribe(
-                //         (rental) => {
-                //             this.printer.printDepart(rental, this.config.getPrinterIp());
-                //             this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + this.createStringForCommitments(rental.commitments) + this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
-                //             this.boatService.updateStats();
-                //             this.resetUi();
-                //         }
-                //     );
-                // }
+                BoatsComponent.prototype.depart = function (boat, commitments, promotionBefore) {
+                    var _this = this;
+                    this.rentalService.depart(new departure_1.Departure(boat, commitments, promotionBefore)).subscribe(function (rental) {
+                        _this.printer.printDepart(rental, _this.configService.getPrinterIp());
+                        _this.infoService.event().emit("Nr " + rental.dayId + " " + rental.boat.name + " " + _this.createStringForCommitments(rental.commitments) + _this.createStringForPromotion(rental.promotionBefore) + " wurde vermietet.");
+                        _this.boatService.updateStats();
+                    });
+                };
                 //noinspection JSMethodCanBeStatic
                 BoatsComponent.prototype.createStringForPromotion = function (promotion) {
                     return promotion != null ? ("(" + promotion.name + ")") : "";
@@ -90,7 +113,7 @@ System.register(['angular2/core', "../../service/boat.service"], function(export
                         templateUrl: "html/component/rental/boats.component.html",
                         styleUrls: ["css/component/rental/boats.component.css"]
                     }), 
-                    __metadata('design:paramtypes', [boat_service_1.BoatService])
+                    __metadata('design:paramtypes', [boat_service_1.BoatService, commitment_service_1.CommitmentService, rental_service_1.RentalService, info_service_1.InfoService, config_service_1.ConfigService, printer_1.Printer])
                 ], BoatsComponent);
                 return BoatsComponent;
             }());

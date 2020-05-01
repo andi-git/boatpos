@@ -20,7 +20,7 @@ export class BoatService {
         this.configService.isConfigured().subscribe((config) => {
             console.log("constructor of BoatService");
             this.loadBoats().subscribe(boats => this.boatsCache = boats);
-            this.updateStats();
+            this.updateStatsRegularly();
         });
     }
 
@@ -141,6 +141,11 @@ export class BoatService {
     updateStats() {
         this.loadNextDayNumber();
         this.loadBoatCount();
-        setTimeout(() => this.updateStats(), 10000);
+    }
+
+    updateStatsRegularly() {
+        this.loadNextDayNumber();
+        this.loadBoatCount();
+        setTimeout(() => this.updateStatsRegularly(), 10000);
     }
 }
