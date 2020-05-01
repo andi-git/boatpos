@@ -47,5 +47,6 @@ public class DayIdLockerTest {
         assertFalse(dayIdLocker.isLocked(new DayId(1)));
         assertFalse(dayIdLocker.isLocked(new DayId(2)));
         assertFalse(dayIdLocker.isLocked(new DayId(3)));
+        dateTimeHelper.reset();
     }
 }

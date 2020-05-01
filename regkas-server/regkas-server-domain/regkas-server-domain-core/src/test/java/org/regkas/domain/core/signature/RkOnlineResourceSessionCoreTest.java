@@ -11,6 +11,7 @@ import org.regkas.domain.api.repository.CashBoxRepository;
 import org.regkas.domain.api.signature.Environment;
 import org.regkas.domain.api.signature.RkOnlineContext;
 import org.regkas.domain.api.signature.RkOnlineResourceFactory;
+import org.regkas.domain.api.signature.RkOnlineResourceSession;
 import org.regkas.domain.api.values.Name;
 import org.regkas.domain.core.DateTimeHelperMock;
 import org.regkas.test.model.EntityManagerProviderForRegkas;
@@ -27,6 +28,9 @@ public class RkOnlineResourceSessionCoreTest extends EntityManagerProviderForReg
     private RkOnlineResourceFactory rkOnlineResourceFactory;
 
     @Inject
+    private RkOnlineResourceSessionCore rkOnlineResourceSessionCore;
+
+    @Inject
     private RkOnlineContext rkOnlineContext;
 
     @Inject
@@ -38,12 +42,14 @@ public class RkOnlineResourceSessionCoreTest extends EntityManagerProviderForReg
     @Before
     public void before() {
         cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas1")));
+        rkOnlineResourceFactory.setRkOnlineResourceSession(rkOnlineResourceSessionCore);
         rkOnlineContext.resetSessions();
         rkOnlineContext.setEnvironment(Environment.TEST);
     }
 
     @After
     public void after() {
+        rkOnlineResourceFactory.resetRkOnlineResourceSession();
         rkOnlineContext.resetSessions();
     }
 
