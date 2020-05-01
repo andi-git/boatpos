@@ -100,9 +100,6 @@ System.register(['angular2/core', "../../service/boat.service", "../../service/c
                     }
                     return result;
                 };
-                BoatsComponent.prototype.resetUi = function () {
-                    this.boatService.reset();
-                };
                 BoatsComponent.prototype.getBoatCounts = function () {
                     console.log("get boat counts");
                     return this.boatService.getBoatCounts();
