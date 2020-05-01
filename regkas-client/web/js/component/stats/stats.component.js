@@ -65,7 +65,6 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                     this.datePickerIncome = new datePicker_1.DatePicker();
                     this.datePickerDep = new datePicker_1.DatePicker();
                     this.startbelegMustBePrinted = false;
-                    this.receiptId = null;
                     console.log("constructor of StatsComponent");
                     this.checkIfStartBelegMustBePrinted();
                 }
@@ -174,11 +173,13 @@ System.register(["angular2/core", "../../service/journal.service", "../../printe
                 StatsComponent.prototype.printReceipt = function () {
                     if (this.receiptId != null && this.receiptId != "") {
                         this.saleService.printReceipt(this.receiptId);
+                        this.infoService.event().emit("Rechnung für " + this.receiptId + " wurde gedruckt.");
                         this.deleteReceiptId();
                     }
                 };
                 StatsComponent.prototype.deleteReceiptId = function () {
                     this.receiptId = null;
+                    this.infoService.event().emit("Aktion abgebrochen, Rechnungsnummer zurückgesetzt.");
                 };
                 StatsComponent = __decorate([
                     core_1.Component({
