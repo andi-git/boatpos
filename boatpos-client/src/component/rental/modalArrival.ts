@@ -286,7 +286,7 @@ export class ModalArrival implements ICustomModalComponent {
 
     printArrival():string {
         let result:string = "keine Ankunftszeit vorhanden";
-        if (isPresent(this.rental) && isPresent(this.rental.arrival) && this.rental.arrival.getUTCFullYear() > 1970) {
+        if (isPresent(this.rental) && isPresent(this.rental.arrival) && this.rental.arrival.getFullYear() > 1970) {
             result = this.pp.printTime(this.rental.arrival);
         }
         return result;

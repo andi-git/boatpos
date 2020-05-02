@@ -89,7 +89,7 @@ System.register(['angular2/core', 'angular2/common', "lib/angular2-modal", "angu
                 };
                 ModalDelete.prototype.printArrival = function () {
                     var result = "keine Ankunftszeit vorhanden";
-                    if (lang_1.isPresent(this.rental) && lang_1.isPresent(this.rental.arrival) && this.rental.arrival.getUTCFullYear() > 1970) {
+                    if (lang_1.isPresent(this.rental) && lang_1.isPresent(this.rental.arrival) && this.rental.arrival.getFullYear() > 1970) {
                         result = this.pp.printTime(this.rental.arrival);
                     }
                     return result;

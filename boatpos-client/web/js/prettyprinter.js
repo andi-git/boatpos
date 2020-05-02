@@ -83,8 +83,8 @@ System.register(['angular2/core', "angular2/src/facade/lang"], function(exports_
                 };
                 PrettyPrinter.prototype.printTime = function (date) {
                     var timeString = "";
-                    if (lang_1.isPresent(date) && date.getUTCFullYear() > 1970) {
-                        return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + ":" + this.pp2Pos(date.getUTCSeconds());
+                    if (lang_1.isPresent(date) && date.getFullYear() > 1970) {
+                        return this.pp2Pos(date.getHours()) + ":" + this.pp2Pos(date.getMinutes()) + ":" + this.pp2Pos(date.getSeconds());
                     }
                     return timeString;
                 };

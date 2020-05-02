@@ -36,8 +36,8 @@ export class PrettyPrinter {
 
     printTime(date: Date): string {
         let timeString: string = "";
-        if (isPresent(date) && date.getUTCFullYear() > 1970) {
-            return this.pp2Pos(date.getUTCHours()) + ":" + this.pp2Pos(date.getUTCMinutes()) + ":" + this.pp2Pos(date.getUTCSeconds());
+        if (isPresent(date) && date.getFullYear() > 1970) {
+            return this.pp2Pos(date.getHours()) + ":" + this.pp2Pos(date.getMinutes()) + ":" + this.pp2Pos(date.getSeconds());
         }
         return timeString;
     }
