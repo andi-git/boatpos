@@ -21,6 +21,7 @@ export class BoatService {
             console.log("constructor of BoatService");
             this.loadBoats().subscribe(boats => this.boatsCache = boats);
             this.updateStats();
+            this.updateStatsRegularly();
         });
     }
 
@@ -156,5 +157,11 @@ export class BoatService {
     updateStats() {
         this.loadNextDayNumber();
         this.loadBoatCount();
+    }
+
+    updateStatsRegularly() {
+        this.loadNextDayNumber();
+        this.loadBoatCount();
+        setTimeout(() => this.updateStatsRegularly(), 10000);
     }
 }

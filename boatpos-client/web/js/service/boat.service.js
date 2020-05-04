@@ -39,6 +39,7 @@ System.register(["../model/boat", "angular2/core", "angular2/http", "rxjs/add/op
                         console.log("constructor of BoatService");
                         _this.loadBoats().subscribe(function (boats) { return _this.boatsCache = boats; });
                         _this.updateStats();
+                        _this.updateStatsRegularly();
                     });
                 }
                 BoatService.prototype.loadBoats = function () {
@@ -148,6 +149,12 @@ System.register(["../model/boat", "angular2/core", "angular2/http", "rxjs/add/op
                 BoatService.prototype.updateStats = function () {
                     this.loadNextDayNumber();
                     this.loadBoatCount();
+                };
+                BoatService.prototype.updateStatsRegularly = function () {
+                    var _this = this;
+                    this.loadNextDayNumber();
+                    this.loadBoatCount();
+                    setTimeout(function () { return _this.updateStatsRegularly(); }, 10000);
                 };
                 BoatService = __decorate([
                     core_1.Injectable(), 
