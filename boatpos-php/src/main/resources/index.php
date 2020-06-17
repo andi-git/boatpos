@@ -120,6 +120,8 @@ if ($code != 200) {
             </tr>
         </table>
         <hr/>
+        <p><a href="https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=20008374">Gesamte Rechtsvorschrift für Seen- und Fluss-Verkehrsordnung</a></p>
+        <hr/>
         <div>
             <p class="text-small">Bootsvermietung EPPEL, Christiane Ahammer</p>
             <p class="text-small">Wagramerstr. 48a, 1220 Wien</p>
