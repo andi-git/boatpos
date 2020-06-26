@@ -9,10 +9,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import com.google.common.collect.Lists;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.After;
@@ -22,13 +24,8 @@ import org.junit.runner.RunWith;
 import org.regkas.domain.api.context.CashBoxContext;
 import org.regkas.domain.api.context.CompanyContext;
 import org.regkas.domain.api.context.UserContext;
-import org.regkas.domain.api.model.CashboxJournal;
-import org.regkas.domain.api.model.Receipt;
-import org.regkas.domain.api.repository.CashBoxRepository;
-import org.regkas.domain.api.repository.CashboxJournalRepository;
-import org.regkas.domain.api.repository.CompanyRepository;
-import org.regkas.domain.api.repository.ReceiptRepository;
-import org.regkas.domain.api.repository.UserRepository;
+import org.regkas.domain.api.model.*;
+import org.regkas.domain.api.repository.*;
 import org.regkas.domain.api.signature.Environment;
 import org.regkas.domain.api.signature.RkOnlineContext;
 import org.regkas.domain.api.signature.RkOnlineResourceFactory;
@@ -36,6 +33,8 @@ import org.regkas.domain.api.values.Name;
 import org.regkas.domain.api.values.ReceiptId;
 import org.regkas.service.api.SaleService;
 import org.regkas.service.api.bean.BillBean;
+import org.regkas.service.api.bean.ProductBean;
+import org.regkas.service.api.bean.ReceiptElementBean;
 import org.regkas.service.api.bean.SaleBean;
 import org.regkas.service.core.email.MailSenderFactory;
 import org.regkas.service.core.email.MailSenderMock;
@@ -97,6 +96,9 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
 
     @Inject
     private DateTimeHelperMock dateTimeHelper;
+
+    @Inject
+    private ProductRepository productRepository;
 
     @SuppressWarnings("Duplicates")
     @Before
@@ -365,4 +367,64 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         saleService.sale(sale);
         saleService.sale(firstSale.createDefaultSale());
     }
+
+    @Test
+    @Transactional
+    public void testCorona() {
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas3")));
+
+        assertEquals(1300, cashBoxContext.get().getTurnoverCountCent().get().intValue());
+
+        ProductBean normal = productRepository.loadBy(new Name("Normal"), cashBoxContext.get()).get().asDto();
+        ProductBean corona = productRepository.loadBy(new Name("Corona"), cashBoxContext.get()).get().asDto();
+        SaleBean sale = new SaleBean();
+        sale.setPaymentMethod("cash");
+        sale.setReceiptType("Standard-Beleg");
+        sale.setSaleElements(
+                Lists.newArrayList(
+                        new ReceiptElementBean(normal, 2, new BigDecimal("5.00")),
+                        new ReceiptElementBean(corona, 3, new BigDecimal("6.00"))));
+
+        BillBean bill = saleService.sale(sale);
+
+        assertEquals("RegKas3", bill.getCashBoxID());
+        assertEquals("2015-0000002", bill.getReceiptIdentifier());
+        assertTrue(bill.getReceiptDateAndTime().until(dateTimeHelper.currentTime(), ChronoUnit.SECONDS) < 10);
+        assertEquals("company", bill.getCompany().getName());
+        assertEquals(new BigDecimal("11.00"), bill.getSumTotal());
+        assertEquals(new BigDecimal("5.00"), bill.getSumTaxSetNormal());
+        assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetErmaessigt1());
+        assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetErmaessigt2());
+        assertEquals(new BigDecimal("6.00"), bill.getSumTaxSetNull());
+        assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetBesonders());
+        assertTrue(bill.getJwsCompact().contains("_2015-07-01T15:00:00_"));
+        assertEquals(2, bill.getBillTaxSetElements().size());
+        assertEquals("Normal", bill.getBillTaxSetElements().get(0).getName());
+        assertEquals(new BigDecimal("5.00"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
+        assertEquals(20, bill.getBillTaxSetElements().get(0).getTaxPercent().intValue());
+        assertEquals("Corona", bill.getBillTaxSetElements().get(1).getName());
+        assertEquals(new BigDecimal("6.00"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
+        assertEquals(5, bill.getBillTaxSetElements().get(1).getTaxPercent().intValue());
+
+        Receipt receipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
+
+        assertEquals("RegKas3", receipt.getCashBox().getName().get());
+        assertEquals("2015-0000002", receipt.getReceiptId().get());
+        assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), receipt.getReceiptDate().get());
+        assertEquals(new BigDecimal("5.00"), receipt.getTotalPriceAfterTaxOf(TaxSetNormal.class).get());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class).get());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class).get());
+        assertEquals(new BigDecimal("6.00"), receipt.getTotalPriceAfterTaxOf(TaxSetNull.class).get());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetBesonders.class).get());
+        assertEquals(new BigDecimal("11.00"), receipt.getTotalPrice().get());
+        assertEquals(2400L, receipt.getCashBox().getTurnoverCountCent().get().longValue());
+
+        assertTrue(bill.getSignatureDeviceAvailable());
+        assertFalse(mailSenderMock.isSendCalled());
+        assertFalse(financialOfficeSenderMock.isSignatureDeviceIsNotLongerAvailableCalled());
+        assertFalse(financialOfficeSenderMock.isSignatureDeviceIsAvailableAgainCalled());
+
+        rkOnlineResourceFactory.resetRkOnlineResourceSignature();
+    }
+
 }

@@ -144,7 +144,6 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("0.55"), bill.getBillTaxSetElements().get(1).getPriceTax());
     }
 
-
     @Test
     @Transactional
     public void testGetReceiptString() {
@@ -159,6 +158,57 @@ public class ReceiptCoreTest extends EntityManagerProviderForRegkas {
                 "_6,00" +
                 "_0,00" +
                 "_0,00" +
+                "_0,00" +
+                "_12345" +
+                "_123" +
+                "_sign";
+        assertEquals(expectedReceiptString, receipt.getDataToBeSigned().get());
+    }
+
+
+    @Test
+    @Transactional
+    public void testCorona() {
+        CashBox cashBox = cashBoxRepository.loadBy(new Name("RegKas3")).get();
+        Receipt receipt = receiptRepository.loadBy(new ReceiptId("2015-0000001"), cashBox).get();
+
+        assertEquals(new BigDecimal("10.00"), receipt.getTotalPrice().get());
+        assertEquals(new BigDecimal("6.00"), receipt.getTotalPriceAfterTaxOf(TaxSetNormal.class).get());
+        assertEquals(new BigDecimal("5.00"), receipt.getTotalPriceBeforeTaxOf(TaxSetNormal.class).get());
+        assertEquals(new BigDecimal("1.00"), receipt.getTotalTaxOf(TaxSetNormal.class).get());
+
+        assertEquals(new BigDecimal("4.00"), receipt.getTotalPriceAfterTaxOf(TaxSetNull.class).get());
+        assertEquals(new BigDecimal("3.81"), receipt.getTotalPriceBeforeTaxOf(TaxSetNull.class).get());
+        assertEquals(new BigDecimal("0.19"), receipt.getTotalTaxOf(TaxSetNull.class).get());
+
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class).get());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetErmaessigt2.class).get());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetBesonders.class).get());
+
+        BillBean bill = receipt.asBillBean();
+        assertEquals(new BigDecimal("10.00"), bill.getSumTotal());
+        assertEquals(new BigDecimal("6.00"), bill.getSumTaxSetNormal());
+        assertEquals(new BigDecimal("4.00"), bill.getSumTaxSetNull());
+        assertEquals("Normal", bill.getBillTaxSetElements().get(0).getName());
+        assertEquals(1, bill.getBillTaxSetElements().get(0).getAmount().intValue());
+        assertEquals(new BigDecimal("6.00"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
+        assertEquals(new BigDecimal("5.00"), bill.getBillTaxSetElements().get(0).getPricePreTax());
+        assertEquals(new BigDecimal("1.00"), bill.getBillTaxSetElements().get(0).getPriceTax());
+        assertEquals("Corona", bill.getBillTaxSetElements().get(1).getName());
+        assertEquals(1, bill.getBillTaxSetElements().get(1).getAmount().intValue());
+        assertEquals(new BigDecimal("4.00"), bill.getBillTaxSetElements().get(1).getPriceAfterTax());
+        assertEquals(new BigDecimal("3.81"), bill.getBillTaxSetElements().get(1).getPricePreTax());
+        assertEquals(new BigDecimal("0.19"), bill.getBillTaxSetElements().get(1).getPriceTax());
+
+        String expectedReceiptString = "" +
+                "_R1-AT0" +
+                "_RegKas3" +
+                "_2015-0000001" +
+                "_2015-07-01T12:00:20" +
+                "_6,00" +
+                "_0,00" +
+                "_0,00" +
+                "_4,00" +
                 "_0,00" +
                 "_12345" +
                 "_123" +

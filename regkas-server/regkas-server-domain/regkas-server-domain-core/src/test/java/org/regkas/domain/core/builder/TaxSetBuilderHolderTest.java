@@ -29,7 +29,7 @@ public class TaxSetBuilderHolderTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void getAvaiableBuilders() throws Exception {
-        assertEquals(5, taxSetBuilderHolder.getAvaiableBuilders().size());
+        assertEquals(6, taxSetBuilderHolder.getAvaiableBuilders().size());
     }
 
     @Test

@@ -2,6 +2,7 @@ package org.regkas.domain.core.model;
 
 import org.boatpos.common.domain.api.values.SimpleValueObject;
 import org.boatpos.common.domain.core.model.MasterDataCore;
+import org.regkas.domain.api.values.SpecialTaxSet;
 import org.regkas.domain.core.mapping.TaxSetMapping;
 import org.regkas.model.TaxSetEntity;
 import org.regkas.domain.api.model.TaxSet;
@@ -52,5 +53,10 @@ public abstract class TaxSetCore<MODEL extends TaxSet, ENTITY extends TaxSetEnti
     @Override
     public TaxSetBean asDto() {
         return TaxSetMapping.fromCDI().mapEntity(getEntity());
+    }
+
+    @Override
+    public SpecialTaxSet isSpecialTaxSet() {
+        return SpecialTaxSet.FALSE;
     }
 }

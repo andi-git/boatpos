@@ -44,7 +44,7 @@ public class SampleDatabaseCreatorRegkasTest {
         System.out.println(
             entityManager
                 .createQuery("FROM ReceiptEntity r WHERE r.receiptId='2015-0000001'", ReceiptEntity.class)
-                .getSingleResult()
+                .getResultList().get(0)
                 .getReceiptType()
                 .getClass()
                 .getName());

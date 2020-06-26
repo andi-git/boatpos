@@ -68,6 +68,6 @@ public class DepFullExportCoreTest extends EntityManagerProviderForRegkas {
     @Test
     @Transactional
     public void testExportDep() throws Exception {
-        assertEquals(14, depFullExport.exportDep().size());
+        assertEquals(16, depFullExport.exportDep().size());
     }
 }

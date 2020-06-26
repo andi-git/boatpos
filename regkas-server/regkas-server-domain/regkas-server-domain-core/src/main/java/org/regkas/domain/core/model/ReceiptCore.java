@@ -253,6 +253,9 @@ public class ReceiptCore extends DomainModelCore<Receipt, ReceiptEntity> impleme
             if (taxSet.isAssignableFrom(receiptElement.getProduct().getProductGroup().getTaxSet().getClass())) {
                 totalPrice = totalPrice.add(getTotalPrice.apply(receiptElement));
             }
+            if (taxSet == TaxSetNull.class && Boolean.TRUE.equals(receiptElement.getProduct().getProductGroup().getTaxSet().isSpecialTaxSet().get())) {
+                totalPrice = totalPrice.add(getTotalPrice.apply(receiptElement));
+            }
         }
         return totalPrice;
     }

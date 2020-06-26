@@ -144,7 +144,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         assertIncomeElement(income.getIncomeElements().get(4), "Wein", 20, new BigDecimal("0.00"));
         assertIncomeElement(income.getIncomeElements().get(5), "alkoholfreies Getränk", 20, new BigDecimal("5.00"));
         assertIncomeElement(income.getIncomeElements().get(6), "Kaffee", 20, new BigDecimal("0.00"));
-        assertEquals(5, income.getTaxElements().size());
+        assertEquals(6, income.getTaxElements().size());
         assertTaxElement(income.getTaxElements().get(0), 20, new BigDecimal("5.00"), new BigDecimal("4.17"), new BigDecimal("0.83"));
         assertTaxElement(income.getTaxElements().get(1), 10, new BigDecimal("17.00"), new BigDecimal("15.45"), new BigDecimal("1.55"));
         assertTaxElement(income.getTaxElements().get(2), 13, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));

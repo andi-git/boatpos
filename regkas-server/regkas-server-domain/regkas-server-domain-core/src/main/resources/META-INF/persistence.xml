@@ -38,6 +38,7 @@
         <class>org.regkas.model.TaxSetErmaessigt2Entity</class>
         <class>org.regkas.model.TaxSetNullEntity</class>
         <class>org.regkas.model.TaxSetBesondersEntity</class>
+        <class>org.regkas.model.TaxSetCoronaEntity</class>
         <class>org.regkas.model.SystemJournalEntity</class>
         <class>org.regkas.model.UserEntity</class>
         <class>org.boatpos.common.model.LocalDateConverter</class>
