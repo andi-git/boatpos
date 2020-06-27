@@ -62,8 +62,11 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                 ActionsComponent.prototype.cancelAllElements = function () {
                     this.saleService.cancelAllElements();
                 };
-                ActionsComponent.prototype.bill = function () {
-                    this.saleService.bill();
+                ActionsComponent.prototype.billCash = function () {
+                    this.saleService.bill('CASH');
+                };
+                ActionsComponent.prototype.billCard = function () {
+                    this.saleService.bill('CARD');
                 };
                 ActionsComponent.prototype.cancelBill = function () {
                     this.saleService.cancelBill();

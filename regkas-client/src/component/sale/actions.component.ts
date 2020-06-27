@@ -40,8 +40,12 @@ export class ActionsComponent {
         this.saleService.cancelAllElements();
     }
 
-    bill() {
-        this.saleService.bill();
+    billCash() {
+        this.saleService.bill('CASH');
+    }
+
+    billCard() {
+        this.saleService.bill('CARD');
     }
 
     cancelBill() {

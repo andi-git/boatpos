@@ -97,9 +97,9 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                         this.signatureDeviceAvailableText = "";
                     }
                 };
-                SaleService.prototype.bill = function () {
+                SaleService.prototype.bill = function (paymentMethod) {
                     if (lang_1.isPresent(this.receiptElements) && this.receiptElements.length > 0) {
-                        this.sale("Standard-Beleg", this.receiptElements);
+                        this.saleWithPaymentMethodType("Standard-Beleg", paymentMethod, this.receiptElements);
                     }
                     else {
                         this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
@@ -117,8 +117,11 @@ System.register(["angular2/core", "./info.service", "../model/receiptElement", "
                     }
                 };
                 SaleService.prototype.sale = function (receiptType, receiptElements) {
+                    this.saleWithPaymentMethodType(receiptType, "CASH", receiptElements);
+                };
+                SaleService.prototype.saleWithPaymentMethodType = function (receiptType, paymentMethodType, receiptElements) {
                     var _this = this;
-                    this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale("CASH", receiptType, receiptElements)), { headers: this.configService.getDefaultHeader() })
+                    this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new sale_1.Sale(paymentMethodType, receiptType, receiptElements)), { headers: this.configService.getDefaultHeader() })
                         .map(function (res) {
                         return res.json();
                     })

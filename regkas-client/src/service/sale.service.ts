@@ -66,9 +66,9 @@ export class SaleService {
         }
     }
 
-    bill() {
+    bill(paymentMethod: string) {
         if (isPresent(this.receiptElements) && this.receiptElements.length > 0) {
-            this.sale("Standard-Beleg", this.receiptElements);
+            this.saleWithPaymentMethodType("Standard-Beleg", paymentMethod, this.receiptElements);
         } else {
             this.errorService.event().emit("Rechnung wurde nicht gedruckt - kein Produkt ausgewählt.");
         }
@@ -86,7 +86,11 @@ export class SaleService {
     }
 
     private sale(receiptType: string, receiptElements?: Array<ReceiptElement>) {
-        this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale("CASH", receiptType, receiptElements)), {headers: this.configService.getDefaultHeader()})
+        this.saleWithPaymentMethodType(receiptType, "CASH", receiptElements)
+    }
+
+    private saleWithPaymentMethodType(receiptType: string, paymentMethodType: string, receiptElements?: Array<ReceiptElement>) {
+        this.http.post(this.configService.getBackendUrl() + 'rest/sale', JSON.stringify(new Sale(paymentMethodType, receiptType, receiptElements)), {headers: this.configService.getDefaultHeader()})
             .map(res => {
                 return res.json();
             })
