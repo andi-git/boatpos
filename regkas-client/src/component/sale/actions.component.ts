@@ -14,7 +14,10 @@ export class ActionsComponent {
     constructor(private saleService: SaleService, private keyBinding: KeyBindingService, private printer: Printer, private config: ConfigService) {
         let map: { [key: string]: ((e: ExtendedKeyboardEvent, combo: string) => any) } = {
             '*': () => {
-                this.bill();
+                this.billCash();
+            },
+            '+': () => {
+                this.billCard();
             },
             '-': () => {
                 this.cancelLastElement();
