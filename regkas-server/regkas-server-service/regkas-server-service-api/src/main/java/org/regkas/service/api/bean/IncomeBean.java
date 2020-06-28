@@ -31,14 +31,22 @@ public class IncomeBean extends AbstractBean {
     @Expose
     private BigDecimal totalIncome;
 
+    @Expose
+    private BigDecimal paymentCash;
+
+    @Expose
+    private BigDecimal paymentCard;
+
     public IncomeBean() {
     }
 
-    public IncomeBean(LocalDate start, LocalDate end, List<ProductGroupIncomeBean> incomeElements, BigDecimal totalIncome, List<TaxElementBean> taxElements) {
+    public IncomeBean(LocalDate start, LocalDate end, List<ProductGroupIncomeBean> incomeElements, BigDecimal totalIncome, BigDecimal paymentCash, BigDecimal paymentCard, List<TaxElementBean> taxElements) {
         this.start = start;
         this.end = end;
         this.incomeElements = incomeElements;
         this.totalIncome = totalIncome;
+        this.paymentCash = paymentCash;
+        this.paymentCard = paymentCard;
         this.taxElements = taxElements;
     }
 
@@ -80,5 +88,21 @@ public class IncomeBean extends AbstractBean {
 
     public void setTaxElements(List<TaxElementBean> taxElements) {
         this.taxElements = taxElements;
+    }
+
+    public BigDecimal getPaymentCash() {
+        return paymentCash;
+    }
+
+    public void setPaymentCash(BigDecimal paymentCash) {
+        this.paymentCash = paymentCash;
+    }
+
+    public BigDecimal getPaymentCard() {
+        return paymentCard;
+    }
+
+    public void setPaymentCard(BigDecimal paymentCard) {
+        this.paymentCard = paymentCard;
     }
 }

@@ -100,16 +100,21 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         ReceiptEntity receipt2 = new ReceiptEntity(null, null, "2015-0000002", LocalDateTime.of(2015, 7, 1, 12, 00, 13), "12345", "sign", company, cashBox1, user1, receiptTypeStandard, PaymentMethod.CASH, new ArrayList<>(), "{\"Kassen-ID\":\"RegKas1\",\"Belegnummer\":\"2015-0000002\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T12:00:13\",\"Betrag-Satz-Normal\":0.00,\"Betrag-Satz-Ermaessigt-1\":11.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":0.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Wurstsemmel\",\"Steuersatz\":10,\"Anzahl\":5,\"Netto\":10.00,\"Brutto\":11.00,\"Steuer\":1.00}],\"Gesamtbetrag\":11.00,\"Beleg-Art\":\"Standard-Beleg\"}", new BigDecimal("11.00"), "R1-AT0", "jws456", "xxx.jws456.sss", true);
         ReceiptEntity receipt30 = new ReceiptEntity(null, null, "2015-0000000", LocalDateTime.of(2015, 7, 1, 12, 00, 00), "12345", "sign", company, cashBox3, user1, receiptTypeStart, PaymentMethod.CASH, new ArrayList<>(), "", new BigDecimal("0.00"), "R1-AT0", "jws123", "xxx.jws123.sss", true);
         ReceiptEntity receipt31 = new ReceiptEntity(null, null, "2015-0000001", LocalDateTime.of(2015, 7, 1, 12, 00, 20), "12345", "sign", company, cashBox3, user1, receiptTypeStandard, PaymentMethod.CASH, new ArrayList<>(), "{\"Kassen-ID\":\"RegKas3\",\"Belegnummer\":\"2015-0000001\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T12:00:20\",\"Betrag-Satz-Normal\":6.00,\"Betrag-Satz-Ermaessigt-1\":0.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":4.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Normal\",\"Steuersatz\":20,\"Anzahl\":1,\"Netto\":5.00,\"Brutto\":6.00,\"Steuer\":1.00},{\"Produkt\":\"Corona\",\"Steuersatz\":5,\"Anzahl\":1,\"Netto\":3,81,\"Brutto\":4.00,\"Steuer\":0.19}],\"Gesamtbetrag\":10.00,\"Beleg-Art\":\"Standard-Beleg\"}", new BigDecimal("10.00"), "R1-AT0", "jws456", "xxx.jws456.sss", true);
+        ReceiptEntity receipt32 = new ReceiptEntity(null, null, "2015-0000002", LocalDateTime.of(2015, 7, 1, 12, 00, 21), "12345", "sign", company, cashBox3, user1, receiptTypeStandard, PaymentMethod.CARD, new ArrayList<>(), "{\"Kassen-ID\":\"RegKas3\",\"Belegnummer\":\"2015-0000002\",\"Beleg-Datum-Uhrzeit\":\"2015-07-01T12:00:21\",\"Betrag-Satz-Normal\":6.00,\"Betrag-Satz-Ermaessigt-1\":0.00,\"Betrag-Satz-Ermaessigt-2\":0.00,\"Betrag-Satz-Null\":4.00,\"Betrag-Satz-Besonders\":0.00,\"Belegelemente\":[{\"Produkt\":\"Normal\",\"Steuersatz\":20,\"Anzahl\":1,\"Netto\":5.00,\"Brutto\":6.00,\"Steuer\":1.00},{\"Produkt\":\"Corona\",\"Steuersatz\":5,\"Anzahl\":1,\"Netto\":3,81,\"Brutto\":4.00,\"Steuer\":0.19}],\"Gesamtbetrag\":10.00,\"Beleg-Art\":\"Standard-Beleg\"}", new BigDecimal("10.00"), "R1-AT0", "jws456", "xxx.jws456.sss", true);
         ReceiptElementEntity receiptElement11 = new ReceiptElementEntity(null, null, product2, receipt1, new BigDecimal("5.00"), 2);
         ReceiptElementEntity receiptElement12 = new ReceiptElementEntity(null, null, product3, receipt1, new BigDecimal("6.00"), 3);
         ReceiptElementEntity receiptElement21 = new ReceiptElementEntity(null, null, product4, receipt2, new BigDecimal("11.00"), 5);
         ReceiptElementEntity receiptElement31 = new ReceiptElementEntity(null, null, product6, receipt31, new BigDecimal("6.00"), 1);
         ReceiptElementEntity receiptElement32 = new ReceiptElementEntity(null, null, product5, receipt31, new BigDecimal("4.00"), 1);
+        ReceiptElementEntity receiptElement33 = new ReceiptElementEntity(null, null, product6, receipt32, new BigDecimal("6.00"), 1);
+        ReceiptElementEntity receiptElement34 = new ReceiptElementEntity(null, null, product5, receipt32, new BigDecimal("4.00"), 1);
         receipt1.getReceiptElements().add(receiptElement11);
         receipt1.getReceiptElements().add(receiptElement12);
         receipt2.getReceiptElements().add(receiptElement21);
         receipt31.getReceiptElements().add(receiptElement31);
         receipt31.getReceiptElements().add(receiptElement32);
+        receipt32.getReceiptElements().add(receiptElement33);
+        receipt32.getReceiptElements().add(receiptElement34);
 
         em.persist(company);
         em.persist(cashBox1);
@@ -157,11 +162,14 @@ public class SampleDatabaseCreatorRegkas implements SampleDatabaseCreator {
         em.persist(receipt2);
         em.persist(receipt30);
         em.persist(receipt31);
+        em.persist(receipt32);
         em.persist(receiptElement11);
         em.persist(receiptElement12);
         em.persist(receiptElement21);
         em.persist(receiptElement31);
         em.persist(receiptElement32);
+        em.persist(receiptElement33);
+        em.persist(receiptElement34);
 
         /*
          * Test Suite 01

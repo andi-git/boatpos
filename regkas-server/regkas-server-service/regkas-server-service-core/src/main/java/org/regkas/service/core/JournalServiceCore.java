@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import org.boatpos.common.domain.api.values.DomainId;
 import org.boatpos.common.domain.api.values.Enabled;
+import org.boatpos.common.model.PaymentMethod;
 import org.boatpos.common.util.datetime.DateTimeHelper;
 import org.boatpos.common.util.log.LogWrapper;
 import org.boatpos.common.util.log.SLF4J;
@@ -25,6 +26,7 @@ import org.regkas.domain.api.model.CashBox;
 import org.regkas.domain.api.model.ProductGroup;
 import org.regkas.domain.api.repository.ProductGroupRepository;
 import org.regkas.domain.api.repository.ReceiptElementRepository;
+import org.regkas.domain.api.repository.ReceiptRepository;
 import org.regkas.domain.api.repository.TaxSetRepository;
 import org.regkas.domain.api.values.TaxPercent;
 import org.regkas.service.api.JournalService;
@@ -37,6 +39,9 @@ import org.regkas.service.api.bean.TaxElementBean;
 public class JournalServiceCore implements JournalService {
 
     private static final BigDecimal PRICE_ZERO = new BigDecimal("0.00");
+
+    @Inject
+    private ReceiptRepository receiptRepository;
 
     @Inject
     private ReceiptElementRepository receiptElementRepository;
@@ -126,6 +131,22 @@ public class JournalServiceCore implements JournalService {
             .stream()
             .forEach(e -> productGroupIncomes.get(e.getId()).setIncome(e.getPricePaid().get()));
 
+        // add payment-method
+        List<BigDecimal> paymentsCash = new ArrayList();
+        List<BigDecimal> paymentsCard = new ArrayList();
+        receiptRepository
+            .loadBy(period, cashBox)
+            .stream()
+            .forEach(receipt -> {
+                if (receipt.getPaymentMethod() == PaymentMethod.CASH) {
+                    paymentsCash.add(receipt.getTotalPrice().get());
+                } else {
+                    paymentsCard.add(receipt.getTotalPrice().get());
+                }
+            });
+        BigDecimal paymentCash = paymentsCash.stream().reduce(new BigDecimal("0.00"), BigDecimal::add);
+        BigDecimal paymentCard = paymentsCard.stream().reduce(new BigDecimal("0.00"), BigDecimal::add);
+
         // add total-income
         List<ProductGroupIncomeBean> productGroupIncomeBean = productGroupIncomes
             .values()
@@ -152,7 +173,7 @@ public class JournalServiceCore implements JournalService {
                     getTax(incomeForTaxSet, taxSet.getTaxPercent())));
         });
 
-        return new IncomeBean(period.getStartDay().toLocalDate(), period.getEndDay().toLocalDate(), productGroupIncomeBean, sum, taxElements);
+        return new IncomeBean(period.getStartDay().toLocalDate(), period.getEndDay().toLocalDate(), productGroupIncomeBean, sum, paymentCash, paymentCard, taxElements);
     }
 
     private BigDecimal getTax(BigDecimal price, TaxPercent taxPercent) {

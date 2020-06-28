@@ -51,7 +51,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testTotalIncomeForYear() {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new BigDecimal("126.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = journalService.totalIncomeFor(2015);
         assertEquals("E-Boot", journalReportBean.getJournalReportItemBeans().get(0).getBoatName());
         assertEquals(new BigDecimal("32.00"), journalReportBean.getJournalReportItemBeans().get(0).getPricePaidBeforeCard());
@@ -70,7 +70,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testTotalIncomeForMonth() {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("86.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("86.20"), new BigDecimal("86.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = journalService.totalIncomeFor(2015, 7);
         assertEquals("E-Boot", journalReportBean.getJournalReportItemBeans().get(0).getBoatName());
         assertEquals(new BigDecimal("32.00"), journalReportBean.getJournalReportItemBeans().get(0).getPricePaidBeforeCard());
@@ -89,7 +89,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testTotalIncomeForDay() {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("46.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("46.20"), new BigDecimal("46.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = journalService.totalIncomeFor(2015, 7, 1);
         assertEquals("E-Boot", journalReportBean.getJournalReportItemBeans().get(0).getBoatName());
         assertEquals(new BigDecimal("32.00"), journalReportBean.getJournalReportItemBeans().get(0).getPricePaidBeforeCard());
@@ -108,7 +108,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForBoatpos {
     @Test
     @Transactional
     public void testTotalIncomeForDayWithDifferentRegkasBoatposIncome() {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("12.30"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("12.30"), new BigDecimal("12.30"), new BigDecimal("0.00"), new ArrayList<>()));
         journalService.totalIncomeFor(2015, 7, 1);
         assertFalse(mailSenderMock.getMailSendList().isEmpty());
     }

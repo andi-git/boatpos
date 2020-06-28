@@ -60,6 +60,8 @@ export class JournalService {
             JournalService.createDate(incomeBean.start),
             JournalService.createDate(incomeBean.end),
             incomeBean.totalIncome,
+            incomeBean.paymentCash,
+            incomeBean.paymentCard,
             incomeProductGroups,
             taxElements);
     }

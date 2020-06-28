@@ -10,13 +10,15 @@ System.register(["angular2/src/facade/lang"], function(exports_1, context_1) {
             }],
         execute: function() {
             Income = (function () {
-                function Income(start, end, totalIncome, incomeProductGroups, taxElements) {
+                function Income(start, end, totalIncome, paymentCash, paymentCard, incomeProductGroups, taxElements) {
                     var _this = this;
                     this.incomeProductGroups = [];
                     this.taxElements = [];
                     this.start = start;
                     this.end = end;
                     this.totalIncome = totalIncome;
+                    this.paymentCash = paymentCash;
+                    this.paymentCard = paymentCard;
                     if (lang_1.isPresent(incomeProductGroups)) {
                         incomeProductGroups.forEach(function (p) { return _this.incomeProductGroups.push(p); });
                     }

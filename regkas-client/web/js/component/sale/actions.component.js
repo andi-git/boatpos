@@ -39,7 +39,10 @@ System.register(["angular2/core", "../../service/keybinding.service", "../../ser
                     this.config = config;
                     var map = {
                         '*': function () {
-                            _this.bill();
+                            _this.billCash();
+                        },
+                        '+': function () {
+                            _this.billCard();
                         },
                         '-': function () {
                             _this.cancelLastElement();

@@ -388,7 +388,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         BillBean bill = saleService.sale(sale);
 
         assertEquals("RegKas3", bill.getCashBoxID());
-        assertEquals("2015-0000002", bill.getReceiptIdentifier());
+        assertEquals("2015-0000003", bill.getReceiptIdentifier());
         assertTrue(bill.getReceiptDateAndTime().until(dateTimeHelper.currentTime(), ChronoUnit.SECONDS) < 10);
         assertEquals("company", bill.getCompany().getName());
         assertEquals(new BigDecimal("11.00"), bill.getSumTotal());
@@ -409,7 +409,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         Receipt receipt = receiptRepository.loadBy(new ReceiptId(bill.getReceiptIdentifier()), cashBoxContext.get()).get();
 
         assertEquals("RegKas3", receipt.getCashBox().getName().get());
-        assertEquals("2015-0000002", receipt.getReceiptId().get());
+        assertEquals("2015-0000003", receipt.getReceiptId().get());
         assertEquals(LocalDateTime.of(2015, 7, 1, 15, 0, 0), receipt.getReceiptDate().get());
         assertEquals(new BigDecimal("5.00"), receipt.getTotalPriceAfterTaxOf(TaxSetNormal.class).get());
         assertEquals(new BigDecimal("0.00"), receipt.getTotalPriceAfterTaxOf(TaxSetErmaessigt1.class).get());

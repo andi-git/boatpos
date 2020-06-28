@@ -150,6 +150,7 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         assertTaxElement(income.getTaxElements().get(2), 13, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
         assertTaxElement(income.getTaxElements().get(3), 0, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
         assertTaxElement(income.getTaxElements().get(4), 19, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
+        assertTaxElement(income.getTaxElements().get(5), 5, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
 
         income = journalService.totalIncomeFor(2015, 7);
         assertEquals(7, income.getIncomeElements().size());
@@ -160,6 +161,33 @@ public class JournalServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(7, income.getIncomeElements().size());
         assertEquals(new BigDecimal("11.00"), income.getIncomeElements().get(0).getIncome());
         assertEquals(10, income.getIncomeElements().get(0).getTaxPercent().intValue());
+    }
+
+    @Test
+    @Transactional
+    public void testPaymentMethodChashbox1() throws Exception {
+        IncomeBean income = journalService.totalIncomeFor(2015);
+        assertEquals(new BigDecimal("22.00"), income.getTotalIncome());
+        assertEquals(7, income.getIncomeElements().size());
+        assertEquals(new BigDecimal("22.00"), income.getPaymentCash());
+        assertEquals(new BigDecimal("0.00"), income.getPaymentCard());
+    }
+
+    @Test
+    @Transactional
+    public void testPaymentMethodCashbox3() throws Exception {
+        cashBoxContext.set(cashBoxRepository.loadBy(new Name("RegKas3")));
+        IncomeBean income = journalService.totalIncomeFor(2015);
+        assertEquals(new BigDecimal("20.00"), income.getTotalIncome());
+        assertEquals(2, income.getIncomeElements().size());
+        assertEquals(new BigDecimal("10.00"), income.getPaymentCash());
+        assertEquals(new BigDecimal("10.00"), income.getPaymentCard());
+        assertTaxElement(income.getTaxElements().get(0), 20, new BigDecimal("12.00"), new BigDecimal("10.00"), new BigDecimal("2.00"));
+        assertTaxElement(income.getTaxElements().get(1), 10, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
+        assertTaxElement(income.getTaxElements().get(2), 13, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
+        assertTaxElement(income.getTaxElements().get(3), 0, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
+        assertTaxElement(income.getTaxElements().get(4), 19, new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00"));
+        assertTaxElement(income.getTaxElements().get(5), 5, new BigDecimal("8.00"), new BigDecimal("7.62"), new BigDecimal("0.38"));
     }
 
     private void assertIncomeElement(ProductGroupIncomeBean incomeElement, String expectedName, int expectedTaxPercent, BigDecimal expectedIncome) {

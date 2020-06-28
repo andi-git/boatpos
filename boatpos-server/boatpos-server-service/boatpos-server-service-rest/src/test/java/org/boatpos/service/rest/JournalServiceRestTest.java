@@ -61,7 +61,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForYear() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new BigDecimal("126.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = helper
             .createRestCall(url, (wt) -> wt.path("journal/income/2015"))
             .get()
@@ -72,7 +72,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForCurrentYear() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new BigDecimal("126.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = helper
             .createRestCall(url, (wt) -> wt.path("journal/income/year"))
             .get()
@@ -93,7 +93,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForMonth() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("86.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("86.20"), new BigDecimal("86.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = helper
             .createRestCall(url, (wt) -> wt.path("journal/income/2015/7"))
             .get()
@@ -104,7 +104,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForCurrentMonth() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("86.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("86.20"), new BigDecimal("86.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = helper
             .createRestCall(url, (wt) -> wt.path("journal/income/month"))
             .get()
@@ -125,7 +125,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForDay() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("46.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("46.20"), new BigDecimal("46.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = helper
             .createRestCall(url, (wt) -> wt.path("journal/income/2015/7/1"))
             .get()
@@ -136,7 +136,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void testTotalIncomeForCurrentDay() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("46.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("46.20"), new BigDecimal("46.20"), new BigDecimal("0.00"), new ArrayList<>()));
         JournalReportBean journalReportBean = helper
             .createRestCall(url, (wt) -> wt.path("journal/income/day"))
             .get()
@@ -201,7 +201,7 @@ public class JournalServiceRestTest extends FillDatabaseInOtherTransactionTest {
 
     @Test
     public void getGetReceiptById() throws Exception {
-        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new ArrayList<>()));
+        regkasServiceMock.setMockIncomeBean(new IncomeBean(null, null, new ArrayList<>(), new BigDecimal("126.20"), new BigDecimal("126.20"), new BigDecimal("0.00"), new ArrayList<>()));
         BillBean billBean = helper
                 .createRestCall(url, (wt) -> wt.path("journal/receipt/id/2015-0000002"))
                 .get()

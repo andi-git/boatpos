@@ -4,13 +4,17 @@ export class Income {
     start:Date;
     end:Date;
     totalIncome:number;
+    paymentCash:number;
+    paymentCard:number;
     incomeProductGroups:Array<IncomeProductGroup> = [];
     taxElements:Array<TaxElement> = [];
 
-    constructor(start:Date, end:Date, totalIncome:number, incomeProductGroups:Array<IncomeProductGroup>, taxElements:Array<TaxElement>) {
+    constructor(start:Date, end:Date, totalIncome:number, paymentCash:number, paymentCard:number, incomeProductGroups:Array<IncomeProductGroup>, taxElements:Array<TaxElement>) {
         this.start = start;
         this.end = end;
         this.totalIncome = totalIncome;
+        this.paymentCash = paymentCash;
+        this.paymentCard = paymentCard;
         if (isPresent(incomeProductGroups)) {
             incomeProductGroups.forEach(p => this.incomeProductGroups.push(p));
         }

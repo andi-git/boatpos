@@ -229,6 +229,9 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     }
                     request += builder.createRuledLineElement({ thickness: 'medium', width: 832 });
                     request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("SUMME:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.totalIncome), 16, prettyprinter_1.Align.RIGHT));
+                    request = this.blankLine(builder, request);
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("Cash:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.paymentCash), 16, prettyprinter_1.Align.RIGHT));
+                    request = this.printLine(builder, request, 1, 1, "left", true, false, this.pp.ppFixLength("Card:", 26, prettyprinter_1.Align.LEFT) + this.pp.ppFixLength(this.pp.ppPrice(income.paymentCard), 16, prettyprinter_1.Align.RIGHT));
                     if (lang_1.isPresent(income.taxElements)) {
                         request = this.blankLine(builder, request);
                         income.taxElements.forEach(function (te) {
