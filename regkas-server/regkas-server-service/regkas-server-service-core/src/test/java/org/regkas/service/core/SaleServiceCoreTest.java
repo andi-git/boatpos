@@ -398,6 +398,7 @@ public class SaleServiceCoreTest extends EntityManagerProviderForRegkas {
         assertEquals(new BigDecimal("6.00"), bill.getSumTaxSetNull());
         assertEquals(new BigDecimal("0.00"), bill.getSumTaxSetBesonders());
         assertTrue(bill.getJwsCompact().contains("_2015-07-01T15:00:00_"));
+        assertTrue(bill.getJwsCompact().contains("_5,00_0,00_0,00_6,00_0,00_"));
         assertEquals(2, bill.getBillTaxSetElements().size());
         assertEquals("Normal", bill.getBillTaxSetElements().get(0).getName());
         assertEquals(new BigDecimal("5.00"), bill.getBillTaxSetElements().get(0).getPriceAfterTax());
