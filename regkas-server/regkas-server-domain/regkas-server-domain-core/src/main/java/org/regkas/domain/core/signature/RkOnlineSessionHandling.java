@@ -35,14 +35,19 @@ public class RkOnlineSessionHandling {
     private LogWrapper log;
 
     public Response withinActiveSession(WithinActiveSession withinActiveSession) throws SignatureDeviceNotAvailableException {
+        throw new SignatureDeviceNotAvailableException("a-trust is not available because of data-center move");
+        /*
         checkNotNull(withinActiveSession, "'withinActiveSession' must not be null");
         createSessionIfNotActive();
         Response response = withinActiveSession.run();
         response = retryIfSessionIsMaybeExpired(withinActiveSession, response);
         return response;
+         */
     }
 
     private Response retryIfSessionIsMaybeExpired(WithinActiveSession withinActiveSession, Response oldResponse) throws SignatureDeviceNotAvailableException {
+        throw new SignatureDeviceNotAvailableException("a-trust is not available because of data-center move");
+        /*
         Response response = oldResponse;
         if (sessionActiveChecker.isSessionMaybeExpired(oldResponse)) {
             createNewSession();
@@ -50,6 +55,7 @@ public class RkOnlineSessionHandling {
             checkResponseState.checkResponseState(response);
         }
         return response;
+        */
     }
 
     private void createSessionIfNotActive() throws SignatureDeviceNotAvailableException {

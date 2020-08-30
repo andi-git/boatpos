@@ -58,6 +58,8 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
     public CompactJWSRepresentation sign(JWSPayload jwsPayload, ReceiptType receiptType) {
         checkNotNull(SimpleValueObject.notNull(jwsPayload), "'jwsPayload' must not be null");
         try {
+            throw new SignatureDeviceNotAvailableException("a-trust is not available because of data-center move");
+            /*
             Response response = rkOnlineSessionHandling.withinActiveSession(() -> {
                 Optional<RkOnlineSession.Key> key = rkOnlineContext.getRkOnlineSessionKey();
                 if ( !key.isPresent()) {
@@ -83,7 +85,7 @@ public class RkOnlineResourceSignatureCore implements RkOnlineResourceSignature 
             SignJWSPostResponse signJWSPostResponse = response.readEntity(SignJWSPostResponse.class);
             log.debug("response from rk-online: {}", () -> serializer.serialize(signJWSPostResponse));
             return CompactJWSRepresentationCore.fromRealCompactJwsRepresentation(signJWSPostResponse.getResult(), encoding);
-
+            */
         } catch (SignatureDeviceNotAvailableException e) {
             log.error(e);
             rkOnlineContext.resetSessions();

@@ -48,6 +48,8 @@ public class RkOnlineResourceSessionCore implements RkOnlineResourceSession {
 
     @Override
     public void loginSession() throws SignatureDeviceNotAvailableException {
+        throw new SignatureDeviceNotAvailableException("a-trust is not available because of data-center move");
+        /*
         String url = RkOnlineRestResource.Session.getURL(rkOnlineContext);
         SessionPutRequest request = new SessionPutRequest(rkOnlineContext.getRkOnlinePassword().get());
         log.debug("call {}", url);
@@ -68,5 +70,6 @@ public class RkOnlineResourceSessionCore implements RkOnlineResourceSession {
                         new RkOnlineSession.Id(sessionPutResponse.getSessionid()),
                         new RkOnlineSession.Key(sessionPutResponse.getSessionkey()),
                         new RkOnlineSession.LastAction(dateTimeHelper.currentTime())));
+         */
     }
 }
