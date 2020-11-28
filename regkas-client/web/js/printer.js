@@ -152,13 +152,14 @@ System.register(["angular2/core", "angular2/src/facade/lang", "./prettyprinter"]
                     request = this.printSumTax("20", bill.sumTaxSetNormal, builder, request);
                     request = this.printSumTax("10", bill.sumTaxSetErmaessigt1, builder, request);
                     request = this.printSumTax("13", bill.sumTaxSetErmaessigt2, builder, request);
-                    request = this.printSumTax(" 0", bill.sumTaxSetNull, builder, request);
+                    // TODO revert to 0 after corona
+                    request = this.printSumTax(" 5", bill.sumTaxSetNull, builder, request);
                     request = this.printSumTax("19", bill.sumTaxSetBesonders, builder, request);
                     return request;
                 };
                 Printer.prototype.printSumTax = function (taxPercent, sum, builder, request) {
                     if (lang_1.isPresent(sum) && sum > 0) {
-                        request = this.printLine(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(taxPercent + '% MWST: ' + this.pp.ppPrice(sum), 40, 'right'));
+                        request = this.printLine(builder, request, 1, 1, 'left', false, false, this.pp.ppFixLength(taxPercent + '% MWST: ' + this.pp.ppPrice(sum), 40, prettyprinter_1.Align.RIGHT));
                     }
                     return request;
                 };
