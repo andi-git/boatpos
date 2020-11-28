@@ -35,9 +35,19 @@ export class ModalIncomeContext {
                     <td align="right" valign="top">{{getIncomeProductGroup('Eskimoeis').taxPercent}}%</td>
                 </tr>
                 <tr>
+                    <td valign="top">Eskimoeis (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Eskimoeis (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Eskimoeis (COVID-19)').taxPercent}}%</td>
+                </tr>
+                <tr>
                     <td valign="top">alkoholfreies Getränk</td>
                     <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('alkoholfreies Getränk').income)}}</td>
                     <td align="right" valign="top">{{getIncomeProductGroup('alkoholfreies Getränk').taxPercent}}%</td>
+                </tr>
+                <tr>
+                    <td valign="top">alkoholfreies Getränk (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('alkoholfreies Getränk (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('alkoholfreies Getränk (COVID-19)').taxPercent}}%</td>
                 </tr>
                 <tr>
                     <td valign="top">Kaffee</td>
@@ -45,9 +55,19 @@ export class ModalIncomeContext {
                     <td align="right" valign="top">{{getIncomeProductGroup('Kaffee').taxPercent}}%</td>
                 </tr>
                 <tr>
+                    <td valign="top">Kaffee (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Kaffee (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Kaffee (COVID-19)').taxPercent}}%</td>
+                </tr>
+                <tr>
                     <td valign="top">Bier</td>
                     <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Bier').income)}}</td>
                     <td align="right" valign="top">{{getIncomeProductGroup('Bier').taxPercent}}%</td>
+                </tr>
+                <tr>
+                    <td valign="top">Bier (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Bier (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Bier (COVID-19)').taxPercent}}%</td>
                 </tr>
                 <tr>
                     <td valign="top">Wein</td>
@@ -55,9 +75,19 @@ export class ModalIncomeContext {
                     <td align="right" valign="top">{{getIncomeProductGroup('Wein').taxPercent}}%</td>
                 </tr>
                 <tr>
+                    <td valign="top">Wein (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Wein (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Wein (COVID-19)').taxPercent}}%</td>
+                </tr>
+                <tr>
                     <td valign="top">Warme Speisen</td>
                     <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Warme Speisen').income)}}</td>
                     <td align="right" valign="top">{{getIncomeProductGroup('Warme Speisen').taxPercent}}%</td>
+                </tr>
+                <tr>
+                    <td valign="top">Warme Speisen (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Warme Speisen (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Warme Speisen (COVID-19)').taxPercent}}%</td>
                 </tr>
                 <tr>
                     <td valign="top">Belegtes Gebäck</td>
@@ -65,9 +95,19 @@ export class ModalIncomeContext {
                     <td align="right" valign="top">{{getIncomeProductGroup('Belegtes Gebäck').taxPercent}}%</td>
                 </tr>
                 <tr>
+                    <td valign="top">Belegtes Gebäck (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Belegtes Gebäck (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Belegtes Gebäck (COVID-19)').taxPercent}}%</td>
+                </tr>
+                <tr>
                     <td valign="top">Kuchen</td>
                     <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Kuchen').income)}}</td>
                     <td align="right" valign="top">{{getIncomeProductGroup('Kuchen').taxPercent}}%</td>
+                </tr>
+                <tr>
+                    <td valign="top">Kuchen (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Kuchen (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Kuchen (COVID-19)').taxPercent}}%</td>
                 </tr>
                 <tr>
                     <td valign="top">Snack</td>
@@ -75,9 +115,19 @@ export class ModalIncomeContext {
                     <td align="right" valign="top">{{getIncomeProductGroup('Snack').taxPercent}}%</td>
                 </tr>
                 <tr>
+                    <td valign="top">Snack (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Snack (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Snack (COVID-19)').taxPercent}}%</td>
+                </tr>
+                <tr>
                     <td valign="top">Eismischgetränk</td>
                     <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Eismischgetränk').income)}}</td>
                     <td align="right" valign="top">{{getIncomeProductGroup('Eismischgetränk').taxPercent}}%</td>
+                </tr>
+                <tr>
+                    <td valign="top">Eismischgetränk (COVID-19)</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getIncomeProductGroup('Eismischgetränk (COVID-19)').income)}}</td>
+                    <td align="right" valign="top">{{getIncomeProductGroup('Eismischgetränk (COVID-19)').taxPercent}}%</td>
                 </tr>
             </table>
             <table class="table-no-style">
@@ -86,6 +136,12 @@ export class ModalIncomeContext {
                     <td class="button-ok">Netto</td>
                     <td class="button-ok">Steuer</td>
                     <td class="button-ok">Brutto</td>
+                </tr>
+                <tr>
+                    <td valign="top">5%</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getTaxElement(5).priceBeforeTax)}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getTaxElement(5).priceTax)}}</td>
+                    <td align="right" valign="top">{{pp.ppPrice(getTaxElement(5).price)}}</td>
                 </tr>
                 <tr>
                     <td valign="top">10%</td>
